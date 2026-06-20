@@ -1,0 +1,8 @@
+/* Reset only — portfolio styles are in (portfolio)/portfolio.css */
+/* Layered so Tailwind utilities (e.g. in the (apps)/money subtree) can still
+   override margin/padding — unlayered CSS always beats layered CSS regardless
+   of specificity. Safe for the portfolio: portfolio.css declares this same
+   reset itself, unlayered, so it's unaffected. */
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+}
