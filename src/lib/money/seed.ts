@@ -42,6 +42,7 @@ export function createDefaultCategories(): Category[] {
     make('Du lịch', '✈️', '#0EA5E9', 'expense'),
     make('Gia đình & Con cái', '👶', '#EA580C', 'expense'),
     make('Thú cưng', '🐶', '#92400E', 'expense'),
+    make('Bạn bè & Người yêu', '💑', '#BE185D', 'expense'),
     make('Quà tặng & Từ thiện', '🎁', '#F43F5E', 'expense'),
     make('Tiền nhà', '🏠', '#7C3AED', 'expense'),
     make('Bảo hiểm', '🛡️', '#475569', 'expense'),
