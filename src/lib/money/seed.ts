@@ -44,6 +44,10 @@ export function createDefaultCategories(): Category[] {
     make('Quà tặng & Từ thiện', '🎁', '#F43F5E', 'expense'),
     make('Tiền nhà', '🏠', '#7C3AED', 'expense'),
     make('Bảo hiểm', '🛡️', '#475569', 'expense'),
+    make('Lisence', '🪪', '#0891B2', 'expense'),
+    make('Trả nợ', '💳', '#D97706', 'expense'),
+    make('Xăng dầu', '⛽', '#C2410C', 'expense'),
+    make('Chăm sóc cá nhân', '🧴', '#65A30D', 'expense'),
     make('Khác', '📦', '#71717A', 'expense'),
 
     // Khoản thu
