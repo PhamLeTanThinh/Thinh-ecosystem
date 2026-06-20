@@ -30,6 +30,7 @@ export function createDefaultCategories(): Category[] {
   return [
     // Khoản chi — bộ category mặc định kiểu MoneyLover
     make('Ăn uống', '🍜', '#E5463D', 'expense'),
+    make('Đi chợ', '🛒', '#22C55E', 'expense'),
     make('Cà phê', '☕', '#A9744F', 'expense'),
     make('Hoá đơn & Tiện ích', '🧾', '#F97316', 'expense'),
     make('Di chuyển', '🚗', '#2563EB', 'expense'),
