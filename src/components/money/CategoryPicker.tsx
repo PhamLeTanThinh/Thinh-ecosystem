@@ -29,8 +29,8 @@ export function CategoryPicker({ type, value, onChange }: CategoryPickerProps) {
             <span className="h-8 w-8 rounded-full bg-card-soft" />
           )
         }
-        label="Chọn nhóm"
-        value={selected?.name}
+        label={selected?.name ?? 'Chọn nhóm'}
+        labelClassName={selected ? 'font-medium text-text' : 'text-muted'}
         onClick={() => setOpen(true)}
       />
 

@@ -3,16 +3,17 @@ import type { ReactNode } from 'react'
 interface RowProps {
   icon?: ReactNode
   label: string
+  labelClassName?: string
   value?: ReactNode
   onClick?: () => void
   chevron?: boolean
 }
 
-export function Row({ icon, label, value, onClick, chevron = true }: RowProps) {
+export function Row({ icon, label, labelClassName = 'text-muted', value, onClick, chevron = true }: RowProps) {
   const content = (
     <>
       {icon && <span className="flex h-8 w-8 shrink-0 items-center justify-center">{icon}</span>}
-      <span className="flex-1 text-sm text-muted">{label}</span>
+      <span className={`flex-1 text-sm ${labelClassName}`}>{label}</span>
       {value !== undefined && <span className="text-sm font-medium">{value}</span>}
       {chevron && onClick && <span className="text-muted">›</span>}
     </>
