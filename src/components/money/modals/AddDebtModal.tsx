@@ -108,7 +108,7 @@ function AddDebtForm({ onClose }: { onClose: () => void }) {
           className={`relative h-7 w-12 shrink-0 rounded-pill transition-colors ${hasDueDate ? 'bg-accent' : 'bg-card-soft'}`}
         >
           <span
-            className={`absolute top-0.5 h-6 w-6 rounded-full bg-text transition-transform ${hasDueDate ? 'translate-x-5' : 'translate-x-0.5'}`}
+            className={`absolute left-0.5 top-0.5 h-6 w-6 rounded-full bg-text transition-transform ${hasDueDate ? 'translate-x-5' : 'translate-x-0.5'}`}
           />
         </button>
       </div>
