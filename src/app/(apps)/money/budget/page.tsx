@@ -95,7 +95,7 @@ export default function BudgetPage() {
 
         <button
           type="button"
-          onClick={openAddBudget}
+          onClick={() => openAddBudget()}
           className="mt-5 w-full rounded-pill bg-accent py-3 text-sm font-semibold text-black transition-transform duration-150 active:scale-[0.98]"
         >
           Tạo Ngân sách
@@ -118,6 +118,7 @@ function BudgetItem({ budget, todayMarker }: { budget: Budget; todayMarker: numb
   const categories = useMoneyStore((s) => s.categories)
   const transactions = useMoneyStore((s) => s.transactions)
   const deleteBudget = useMoneyStore((s) => s.deleteBudget)
+  const openAddBudget = useMoneyUIStore((s) => s.openAddBudget)
   const category = categories.find((c) => c.id === budget.categoryId)
   const spent = getBudgetSpent(budget, transactions)
   const progress = getBudgetProgress(budget, transactions)
@@ -132,19 +133,21 @@ function BudgetItem({ budget, todayMarker }: { budget: Budget; todayMarker: numb
   return (
     <div className="rounded-card bg-card p-4">
       <div className="flex items-center gap-3">
-        <span
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg"
-          style={{ backgroundColor: `${category?.color ?? '#9ca3af'}26` }}
-        >
-          {category?.icon ?? '📦'}
-        </span>
-        <div className="flex-1">
-          <p className="text-sm font-medium">{category?.name ?? 'Không xác định'}</p>
-          <p className={`text-xs ${overBudget ? 'text-danger' : 'text-muted'}`}>
-            Còn lại: {formatVND(remaining)}
-          </p>
-        </div>
-        <p className="text-sm font-semibold">{formatVND(budget.amount)}</p>
+        <button type="button" onClick={() => openAddBudget(budget.id)} className="flex flex-1 items-center gap-3 text-left">
+          <span
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-lg"
+            style={{ backgroundColor: `${category?.color ?? '#9ca3af'}26` }}
+          >
+            {category?.icon ?? '📦'}
+          </span>
+          <span className="flex-1">
+            <span className="block text-sm font-medium">{category?.name ?? 'Không xác định'}</span>
+            <span className={`block text-xs ${overBudget ? 'text-danger' : 'text-muted'}`}>
+              Còn lại: {formatVND(remaining)}
+            </span>
+          </span>
+          <span className="text-sm font-semibold">{formatVND(budget.amount)}</span>
+        </button>
         <button
           type="button"
           onClick={handleDelete}

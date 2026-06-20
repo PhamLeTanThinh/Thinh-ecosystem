@@ -5,12 +5,13 @@ interface MoneyUIState {
   addTransactionKey: number
   addBudgetOpen: boolean
   addBudgetKey: number
+  editingBudgetId: string | null
   addDebtOpen: boolean
   addDebtKey: number
   walletPickerOpen: boolean
   openAddTransaction: () => void
   closeAddTransaction: () => void
-  openAddBudget: () => void
+  openAddBudget: (budgetId?: string) => void
   closeAddBudget: () => void
   openAddDebt: () => void
   closeAddDebt: () => void
@@ -25,12 +26,14 @@ export const useMoneyUIStore = create<MoneyUIState>((set) => ({
   addTransactionKey: 0,
   addBudgetOpen: false,
   addBudgetKey: 0,
+  editingBudgetId: null,
   addDebtOpen: false,
   addDebtKey: 0,
   walletPickerOpen: false,
   openAddTransaction: () => set((s) => ({ addTransactionOpen: true, addTransactionKey: s.addTransactionKey + 1 })),
   closeAddTransaction: () => set({ addTransactionOpen: false }),
-  openAddBudget: () => set((s) => ({ addBudgetOpen: true, addBudgetKey: s.addBudgetKey + 1 })),
+  openAddBudget: (budgetId) =>
+    set((s) => ({ addBudgetOpen: true, addBudgetKey: s.addBudgetKey + 1, editingBudgetId: budgetId ?? null })),
   closeAddBudget: () => set({ addBudgetOpen: false }),
   openAddDebt: () => set((s) => ({ addDebtOpen: true, addDebtKey: s.addDebtKey + 1 })),
   closeAddDebt: () => set({ addDebtOpen: false }),

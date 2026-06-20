@@ -3,13 +3,22 @@
 import { useState } from 'react'
 import { useMoneyStore } from '@/lib/money/store'
 import { useMoneyUIStore } from '@/lib/money/uiStore'
-import { formatPeriodRangeLabel, getMonthPeriod, toISODate } from '@/lib/money/calculations'
+import { formatPeriodRangeLabel, getMonthPeriod, parseISODate, toISODate } from '@/lib/money/calculations'
 import type { TransactionType } from '@/lib/money/types'
 import { AmountInput } from '../AmountInput'
 import { BottomSheet } from '../BottomSheet'
 import { CategoryPicker } from '../CategoryPicker'
 import { Row } from '../Row'
 import { SheetHeader } from '../SheetHeader'
+
+// Số chu kỳ (tháng) lệch giữa kỳ của budget đang sửa và kỳ hiện tại (monthOffset = 0).
+function monthOffsetForPeriodStart(periodStart: string, cycleStartDay: number): number {
+  const todayPeriod = getMonthPeriod(0, undefined, cycleStartDay)
+  const start = parseISODate(periodStart)
+  const todayIndex = todayPeriod.start.getFullYear() * 12 + todayPeriod.start.getMonth()
+  const startIndex = start.getFullYear() * 12 + start.getMonth()
+  return startIndex - todayIndex
+}
 
 const BUDGET_TYPE_TABS: { type: TransactionType; label: string }[] = [
   { type: 'expense', label: 'Chi tiêu' },
@@ -26,32 +35,40 @@ export function AddBudgetModal() {
   const open = useMoneyUIStore((s) => s.addBudgetOpen)
   const resetKey = useMoneyUIStore((s) => s.addBudgetKey)
   const close = useMoneyUIStore((s) => s.closeAddBudget)
+  const editingBudgetId = useMoneyUIStore((s) => s.editingBudgetId)
 
   return (
     <BottomSheet open={open} onClose={close}>
-      <AddBudgetForm key={resetKey} onClose={close} />
+      <AddBudgetForm key={resetKey} onClose={close} editingBudgetId={editingBudgetId} />
     </BottomSheet>
   )
 }
 
-function AddBudgetForm({ onClose }: { onClose: () => void }) {
+function AddBudgetForm({ onClose, editingBudgetId }: { onClose: () => void; editingBudgetId: string | null }) {
   const openWalletPicker = useMoneyUIStore((s) => s.openWalletPicker)
 
   const wallets = useMoneyStore((s) => s.wallets)
   const currentWalletId = useMoneyStore((s) => s.currentWalletId)
   const categories = useMoneyStore((s) => s.categories)
+  const budgets = useMoneyStore((s) => s.budgets)
   const addBudget = useMoneyStore((s) => s.addBudget)
+  const updateBudget = useMoneyStore((s) => s.updateBudget)
   const cycleStartDay = useMoneyStore((s) => s.settings.cycleStartDay)
 
-  const [budgetType, setBudgetType] = useState<TransactionType>('expense')
-  const [categoryId, setCategoryId] = useState<string | null>(
-    () => categories.find((c) => c.type === 'expense')?.id ?? null,
-  )
-  const [amount, setAmount] = useState(0)
-  const [monthOffset, setMonthOffset] = useState(0)
-  const [repeatMonthly, setRepeatMonthly] = useState(false)
+  const editingBudget = editingBudgetId ? budgets.find((b) => b.id === editingBudgetId) ?? null : null
+  const editingCategory = editingBudget ? categories.find((c) => c.id === editingBudget.categoryId) : undefined
 
-  const wallet = wallets.find((w) => w.id === currentWalletId) ?? wallets[0]
+  const [budgetType, setBudgetType] = useState<TransactionType>(editingCategory?.type === 'debt' ? 'debt' : 'expense')
+  const [categoryId, setCategoryId] = useState<string | null>(
+    () => editingBudget?.categoryId ?? categories.find((c) => c.type === 'expense')?.id ?? null,
+  )
+  const [amount, setAmount] = useState(editingBudget?.amount ?? 0)
+  const [monthOffset, setMonthOffset] = useState(() =>
+    editingBudget ? monthOffsetForPeriodStart(editingBudget.periodStart, cycleStartDay) : 0,
+  )
+  const [repeatMonthly, setRepeatMonthly] = useState(editingBudget?.repeatMonthly ?? false)
+
+  const wallet = wallets.find((w) => w.id === (editingBudget?.walletId ?? currentWalletId)) ?? wallets[0]
   const period = getMonthPeriod(monthOffset, undefined, cycleStartDay)
 
   function handleBudgetTypeChange(nextType: TransactionType) {
@@ -64,14 +81,19 @@ function AddBudgetForm({ onClose }: { onClose: () => void }) {
 
   function handleSave() {
     if (amount <= 0 || !categoryId || !wallet) return
-    addBudget({
+    const patch = {
       walletId: wallet.id,
       categoryId,
       amount,
       periodStart: toISODate(period.start),
       periodEnd: toISODate(period.end),
       repeatMonthly,
-    })
+    }
+    if (editingBudget) {
+      updateBudget(editingBudget.id, patch)
+    } else {
+      addBudget(patch)
+    }
     onClose()
   }
 
@@ -79,7 +101,7 @@ function AddBudgetForm({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <SheetHeader title="Thêm ngân sách" onCancel={onClose} />
+      <SheetHeader title={editingBudget ? 'Sửa ngân sách' : 'Thêm ngân sách'} onCancel={onClose} />
 
       <div className="flex gap-2 p-4">
         {BUDGET_TYPE_TABS.map((tab) => (
@@ -145,7 +167,7 @@ function AddBudgetForm({ onClose }: { onClose: () => void }) {
           disabled={amount <= 0 || !categoryId}
           className="w-full rounded-pill bg-accent py-3.5 text-sm font-semibold text-black disabled:opacity-40"
         >
-          Lưu
+          {editingBudget ? 'Lưu thay đổi' : 'Lưu'}
         </button>
       </div>
     </>
