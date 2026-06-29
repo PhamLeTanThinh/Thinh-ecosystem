@@ -12,15 +12,14 @@ import { DebtPicker } from '../DebtPicker'
 import { Row } from '../Row'
 import { SheetHeader } from '../SheetHeader'
 
-// Chỉ category "Trả nợ"/"Thu nợ" mới cho liên kết khoản nợ — "Vay"/"Cho vay" không liên kết được
-// vì getDebtPaid() cộng dồn mọi giao dịch theo debtId để TRỪ vào dư nợ, liên kết "Vay" vào sẽ làm
-// sai số dư còn lại. "Trả nợ" có thể là category kiểu 'debt' (mặc định) hoặc 'expense' (tự thêm).
-function isDebtRepaymentCategory(category: Category | undefined): boolean {
-  return category?.name === 'Trả nợ' || category?.name === 'Thu nợ'
+// "Trả nợ"/"Thu nợ" (giảm dư nợ) và "Vay"/"Cho vay" (tăng dư nợ — xem isDebtIncreaseCategory
+// trong calculations.ts) đều cho liên kết tới 1 khoản nợ cụ thể.
+function isDebtLinkableCategory(category: Category | undefined): boolean {
+  return category?.name === 'Trả nợ' || category?.name === 'Thu nợ' || category?.name === 'Vay' || category?.name === 'Cho vay'
 }
 
 function debtDirectionForCategory(category: Category | undefined): DebtDirection {
-  return category?.name === 'Thu nợ' ? 'owed' : 'owe'
+  return category?.name === 'Thu nợ' || category?.name === 'Cho vay' ? 'owed' : 'owe'
 }
 
 const TYPE_TABS: { type: TransactionType; label: string }[] = [
@@ -144,7 +143,7 @@ function AddTransactionForm({ onClose }: { onClose: () => void }) {
 
       <CategoryPicker type={type} value={categoryId} onChange={handleCategoryChange} />
 
-      {isDebtRepaymentCategory(category) && (
+      {isDebtLinkableCategory(category) && (
         <DebtPicker direction={debtDirectionForCategory(category)} value={debtId} onChange={setDebtId} />
       )}
 

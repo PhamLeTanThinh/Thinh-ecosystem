@@ -24,6 +24,7 @@ export default function OverviewPage() {
   const currentWalletId = useMoneyStore((s) => s.currentWalletId)
   const transactions = useMoneyStore((s) => s.transactions)
   const debts = useMoneyStore((s) => s.debts)
+  const categories = useMoneyStore((s) => s.categories)
   const cycleStartDay = useMoneyStore((s) => s.settings.cycleStartDay)
   const balanceHidden = useMoneyStore((s) => s.balanceHidden)
   const toggleBalanceHidden = useMoneyStore((s) => s.toggleBalanceHidden)
@@ -31,7 +32,7 @@ export default function OverviewPage() {
 
   const wallet = wallets.find((w) => w.id === currentWalletId)
   const totalBalance = getTotalBalance(wallets, transactions)
-  const totalDebtOwed = getTotalDebt(debts, transactions, 'owe')
+  const totalDebtOwed = getTotalDebt(debts, transactions, categories, 'owe')
 
   const period = getMonthPeriod(monthOffset, undefined, cycleStartDay)
   const walletTransactions = wallet ? filterByWallet(transactions, wallet.id) : []

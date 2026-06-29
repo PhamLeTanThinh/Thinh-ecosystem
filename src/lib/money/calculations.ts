@@ -263,16 +263,33 @@ export function getActiveBudgetsForPeriod(budgets: Budget[], walletId: string, p
 
 // --- debt --------------------------------------------------------------------------
 
-export function getDebtPaid(debt: Debt, transactions: Transaction[]): number {
-  return transactions.filter((tx) => tx.debtId === debt.id).reduce((total, tx) => total + tx.amount, 0)
+// Category "Trả nợ"/"Thu nợ" giảm dư nợ (đã trả/đã thu); "Vay"/"Cho vay" tăng dư nợ (vay/cho
+// vay thêm vào khoản đang theo dõi).
+function isDebtIncreaseCategory(category: Category | undefined): boolean {
+  return category?.name === 'Vay' || category?.name === 'Cho vay'
 }
 
-export function getDebtRemaining(debt: Debt, transactions: Transaction[]): number {
-  return Math.max(0, debt.principal - getDebtPaid(debt, transactions))
+/** Tổng đã trả/thu trừ tổng vay/cho vay thêm — số dương làm giảm dư nợ, số âm làm tăng. */
+export function getDebtPaid(debt: Debt, transactions: Transaction[], categories: Category[]): number {
+  return transactions
+    .filter((tx) => tx.debtId === debt.id)
+    .reduce((total, tx) => {
+      const category = categories.find((c) => c.id === tx.categoryId)
+      return total + (isDebtIncreaseCategory(category) ? -tx.amount : tx.amount)
+    }, 0)
 }
 
-export function getTotalDebt(debts: Debt[], transactions: Transaction[], direction: DebtDirection): number {
+export function getDebtRemaining(debt: Debt, transactions: Transaction[], categories: Category[]): number {
+  return Math.max(0, debt.principal - getDebtPaid(debt, transactions, categories))
+}
+
+export function getTotalDebt(
+  debts: Debt[],
+  transactions: Transaction[],
+  categories: Category[],
+  direction: DebtDirection,
+): number {
   return debts
     .filter((d) => d.direction === direction)
-    .reduce((total, d) => total + getDebtRemaining(d, transactions), 0)
+    .reduce((total, d) => total + getDebtRemaining(d, transactions, categories), 0)
 }

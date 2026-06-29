@@ -10,17 +10,18 @@ import {
   getTotalDebt,
   parseISODate,
 } from '@/lib/money/calculations'
-import type { Debt, Transaction } from '@/lib/money/types'
+import type { Category, Debt, Transaction } from '@/lib/money/types'
 
 export default function DebtsPage() {
   const debts = useMoneyStore((s) => s.debts)
   const transactions = useMoneyStore((s) => s.transactions)
+  const categories = useMoneyStore((s) => s.categories)
   const openAddDebt = useMoneyUIStore((s) => s.openAddDebt)
 
   const debtsIOwe = debts.filter((d) => d.direction === 'owe')
   const debtsOwedToMe = debts.filter((d) => d.direction === 'owed')
-  const totalOwe = getTotalDebt(debts, transactions, 'owe')
-  const totalOwed = getTotalDebt(debts, transactions, 'owed')
+  const totalOwe = getTotalDebt(debts, transactions, categories, 'owe')
+  const totalOwed = getTotalDebt(debts, transactions, categories, 'owed')
 
   return (
     <div>
@@ -49,11 +50,18 @@ export default function DebtsPage() {
         </button>
       </div>
 
-      <DebtSection title="Tôi nợ" debts={debtsIOwe} transactions={transactions} emptyLabel="Bạn chưa ghi khoản nợ nào." />
+      <DebtSection
+        title="Tôi nợ"
+        debts={debtsIOwe}
+        transactions={transactions}
+        categories={categories}
+        emptyLabel="Bạn chưa ghi khoản nợ nào."
+      />
       <DebtSection
         title="Người ta nợ tôi"
         debts={debtsOwedToMe}
         transactions={transactions}
+        categories={categories}
         emptyLabel="Chưa có ai nợ bạn."
       />
     </div>
@@ -64,11 +72,13 @@ function DebtSection({
   title,
   debts,
   transactions,
+  categories,
   emptyLabel,
 }: {
   title: string
   debts: Debt[]
   transactions: Transaction[]
+  categories: Category[]
   emptyLabel: string
 }) {
   return (
@@ -77,18 +87,26 @@ function DebtSection({
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
         {debts.length === 0 && <p className="col-span-full py-6 text-center text-sm text-muted">{emptyLabel}</p>}
         {debts.map((debt) => (
-          <DebtItem key={debt.id} debt={debt} transactions={transactions} />
+          <DebtItem key={debt.id} debt={debt} transactions={transactions} categories={categories} />
         ))}
       </div>
     </section>
   )
 }
 
-function DebtItem({ debt, transactions }: { debt: Debt; transactions: Transaction[] }) {
+function DebtItem({
+  debt,
+  transactions,
+  categories,
+}: {
+  debt: Debt
+  transactions: Transaction[]
+  categories: Category[]
+}) {
   const deleteDebt = useMoneyStore((s) => s.deleteDebt)
-  const paid = getDebtPaid(debt, transactions)
-  const remaining = getDebtRemaining(debt, transactions)
-  const progress = debt.principal > 0 ? Math.min(1, paid / debt.principal) : 0
+  const paid = getDebtPaid(debt, transactions, categories)
+  const remaining = getDebtRemaining(debt, transactions, categories)
+  const progress = debt.principal > 0 ? Math.max(0, Math.min(1, paid / debt.principal)) : 0
 
   function handleDelete() {
     if (!window.confirm(`Xoá khoản nợ "${debt.name}"? Các giao dịch đã liên kết sẽ được giữ lại nhưng bỏ liên kết.`)) return

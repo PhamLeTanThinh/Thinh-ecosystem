@@ -131,3 +131,11 @@ export const moneyDebts = pgTable('money_debts', {
   closed: boolean('closed').default(false).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+// Bản sao lưu toàn bộ dữ liệu money (snapshot trước mỗi lần ghi đè toàn bộ 1 bảng,
+// hoặc tạo thủ công) — phòng trường hợp 1 lệnh PUT (replace toàn bộ) ghi nhầm dữ liệu.
+export const moneyBackups = pgTable('money_backups', {
+  id: text('id').primaryKey(),
+  data: jsonb('data').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})

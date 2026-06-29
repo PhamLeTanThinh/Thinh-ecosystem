@@ -54,3 +54,17 @@ export interface Debt {
   closed: boolean
   createdAt: string
 }
+
+export interface MoneyBackupData {
+  wallets: Wallet[]
+  categories: Category[]
+  transactions: Transaction[]
+  budgets: Budget[]
+  debts: Debt[]
+  settings: Settings
+}
+
+export interface BackupSummary {
+  id: string
+  createdAt: string
+}

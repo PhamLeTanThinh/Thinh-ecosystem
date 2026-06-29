@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { notInArray } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { moneyBudgets } from '@/db/schema'
+import { createSnapshot } from '@/lib/money/backup'
 import type { Budget } from '@/lib/money/types'
 
 export async function GET() {
@@ -21,6 +22,8 @@ export async function GET() {
 // Replaces the full budget list — mirrors lib/money/storage.ts's bulk save semantics.
 export async function PUT(req: NextRequest) {
   const budgets: Budget[] = await req.json()
+
+  await createSnapshot()
 
   await db.transaction(async (tx) => {
     const ids = budgets.map((b) => b.id)
