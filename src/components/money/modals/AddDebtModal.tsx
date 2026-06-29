@@ -89,7 +89,7 @@ function AddDebtForm({ onClose }: { onClose: () => void }) {
           placeholder={direction === 'owe' ? 'Nợ ai / nơi nào?' : 'Cho ai vay?'}
           aria-label="Tên người/nơi vay"
           autoFocus
-          className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
+          className="flex-1 bg-transparent text-base outline-none placeholder:text-muted"
         />
       </div>
 
@@ -135,7 +135,7 @@ function AddDebtForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setNote(e.target.value)}
           placeholder="Ghi chú"
           aria-label="Ghi chú"
-          className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
+          className="flex-1 bg-transparent text-base outline-none placeholder:text-muted"
         />
       </div>
 

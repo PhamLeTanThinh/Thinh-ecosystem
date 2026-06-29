@@ -82,7 +82,7 @@ export function WalletPickerModal() {
                   value={wallet.name}
                   onChange={(e) => updateWallet(wallet.id, { name: e.target.value })}
                   onClick={(e) => e.stopPropagation()}
-                  className="flex-1 rounded-md bg-card-soft px-2 py-1 text-sm outline-none"
+                  className="flex-1 rounded-md bg-card-soft px-2 py-1 text-base outline-none"
                 />
               ) : (
                 <span className={`flex-1 text-sm ${wallet.id === currentWalletId ? 'font-semibold' : ''}`}>{wallet.name}</span>
@@ -121,7 +121,7 @@ export function WalletPickerModal() {
               onChange={(e) => setNewWalletName(e.target.value)}
               placeholder="Tên ví mới"
               autoFocus
-              className="flex-1 rounded-card bg-card-soft px-3 py-2.5 text-sm outline-none placeholder:text-muted"
+              className="flex-1 rounded-card bg-card-soft px-3 py-2.5 text-base outline-none placeholder:text-muted"
             />
             <button type="button" onClick={handleAddWallet} className="rounded-pill bg-accent px-4 py-2.5 text-sm font-semibold text-black">
               Thêm

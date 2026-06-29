@@ -154,7 +154,7 @@ function AddTransactionForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setNote(e.target.value)}
           placeholder="Ghi chú"
           aria-label="Ghi chú"
-          className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted"
+          className="flex-1 bg-transparent text-base outline-none placeholder:text-muted"
         />
       </div>
 
