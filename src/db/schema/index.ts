@@ -20,34 +20,39 @@ export const shortUrls = pgTable('short_urls', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
-// ── LANGUAGE LEARNING (Chinese / Korean) ─────────────────────────
-export const languages = pgTable('languages', {
-  id: varchar('id', { length: 10 }).primaryKey(), // 'chinese' | 'korean'
-  name: text('name').notNull(),
-})
-
-export const flashcards = pgTable('flashcards', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  languageId: varchar('language_id', { length: 10 }).notNull()
-    .references(() => languages.id),
-  front: text('front').notNull(),     // 你好 / 안녕하세요
-  back: text('back').notNull(),       // Xin chào
-  pinyin: text('pinyin'),             // nǐ hǎo (chỉ Chinese)
-  romanized: text('romanized'),       // annyeonghaseyo (chỉ Korean)
-  level: integer('level').default(1), // HSK level / TOPIK level
-  tags: text('tags').array(),
+// ── CHINESE VOCAB (Học từ vựng tiếng Trung bằng flashcard) ─────────
+// `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với habits/money.
+export const chineseCards = pgTable('chinese_cards', {
+  id: text('id').primaryKey(),
+  hanzi: text('hanzi').notNull(),     // 你好
+  pinyin: text('pinyin').notNull(),   // nǐ hǎo
+  meaning: text('meaning').notNull(), // Xin chào
+  sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
-export const userProgress = pgTable('user_progress', {
-  id: uuid('id').defaultRandom().primaryKey(),
-  sessionId: text('session_id').notNull(), // anonymous session
-  flashcardId: uuid('flashcard_id').notNull()
-    .references(() => flashcards.id),
-  correct: integer('correct').default(0).notNull(),
-  wrong: integer('wrong').default(0).notNull(),
-  lastReviewedAt: timestamp('last_reviewed_at').defaultNow(),
-  nextReviewAt: timestamp('next_review_at'),   // spaced repetition
+// Kết quả ôn tập gần nhất của mỗi thẻ — 1 dòng/thẻ (id = cardId).
+export const chineseProgress = pgTable('chinese_progress', {
+  id: text('id').primaryKey(), // = cardId
+  correctCount: integer('correct_count').default(0).notNull(),
+  wrongCount: integer('wrong_count').default(0).notNull(),
+  lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
+  lastReviewedAt: timestamp('last_reviewed_at'),
+})
+
+// Cài đặt hiển thị của app — 1 dòng duy nhất, id = 'default'.
+export const chineseSettings = pgTable('chinese_settings', {
+  id: text('id').primaryKey(),
+  pinyinPosition: varchar('pinyin_position', { length: 10 }).default('hanzi').notNull(), // 'hanzi' | 'vietnamese'
+  shuffle: boolean('shuffle').default(true).notNull(),
+})
+
+// Bộ học riêng do người dùng tự chọn 1 nhóm từ để ôn tập tách biệt.
+export const chineseDecks = pgTable('chinese_decks', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  cardIds: text('card_ids').array().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
 // ── FAMILY TREE ───────────────────────────────────────────────────
