@@ -3,6 +3,7 @@ import {
   text,
   timestamp,
   integer,
+  real,
   boolean,
   jsonb,
   uuid,
@@ -138,4 +139,32 @@ export const moneyBackups = pgTable('money_backups', {
   id: text('id').primaryKey(),
   data: jsonb('data').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// ── HABIT TRACKER (Theo dõi thói quen) ─────────────────────────────
+// `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với money.
+export const habits = pgTable('habits', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  icon: text('icon').notNull(),
+  color: text('color').notNull(),
+  category: varchar('category', { length: 20 }).default('health').notNull(), // 'health' | 'study'
+  sortOrder: integer('sort_order').default(0).notNull(),
+  archived: boolean('archived').default(false).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// 1 dòng = 1 ngày habit đó đã được tick hoàn thành; không có dòng nghĩa là chưa làm.
+export const habitLogs = pgTable('habit_logs', {
+  id: text('id').primaryKey(),
+  habitId: text('habit_id').notNull().references(() => habits.id),
+  date: varchar('date', { length: 10 }).notNull(), // 'YYYY-MM-DD'
+})
+
+// Mood/giờ ngủ mỗi ngày — `id` = `date` để đảm bảo chỉ 1 dòng/ngày.
+export const wellnessLogs = pgTable('wellness_logs', {
+  id: varchar('id', { length: 10 }).primaryKey(), // = date 'YYYY-MM-DD'
+  date: varchar('date', { length: 10 }).notNull(),
+  mood: integer('mood'), // 1-5, nullable
+  sleepHours: real('sleep_hours'), // nullable
 })
