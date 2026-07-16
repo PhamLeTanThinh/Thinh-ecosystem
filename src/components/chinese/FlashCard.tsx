@@ -18,6 +18,20 @@ const SWIPE_THRESHOLD = 100 // px kéo ngang tối thiểu để tính là quẹ
 const TAP_THRESHOLD = 8 // px di chuyển tối đa để vẫn tính là tap (không phải kéo)
 const FLY_OUT_DISTANCE = 600
 
+// Cỡ chữ co theo độ dài để những cụm từ/câu dài (VD "早吃好，午吃饱，晚吃少") không bị tràn khung.
+function hanziSizeClass(length: number) {
+  if (length <= 4) return 'text-6xl'
+  if (length <= 8) return 'text-4xl'
+  if (length <= 15) return 'text-2xl'
+  return 'text-lg'
+}
+
+function meaningSizeClass(length: number) {
+  if (length <= 15) return 'text-3xl'
+  if (length <= 30) return 'text-xl'
+  return 'text-base'
+}
+
 // Flip 3D bằng CSS transform (backface-visibility:hidden). Kéo ngang quá SWIPE_THRESHOLD rồi thả
 // ra sẽ bay thẻ ra khỏi màn hình và báo kết quả, giống thao tác quẹt Tinder.
 export function FlashCard({ hanzi, pinyin, meaning, pinyinPosition, flipped, onFlip, onSwipe }: FlashCardProps) {
@@ -79,7 +93,9 @@ export function FlashCard({ hanzi, pinyin, meaning, pinyinPosition, flipped, onF
         <div className="absolute inset-0 overflow-hidden rounded-card border border-black/5 bg-linear-to-br from-card to-brand-soft shadow-xl backface-hidden">
           <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full border-8 border-brand/10" />
           <div className="flex h-full flex-col items-center justify-center gap-4 p-6">
-            <span className="text-6xl font-bold text-brand-strong drop-shadow-sm">{hanzi}</span>
+            <span className={`text-center leading-tight font-bold text-brand-strong drop-shadow-sm ${hanziSizeClass(hanzi.length)}`}>
+              {hanzi}
+            </span>
             {pinyinPosition === 'hanzi' && (
               <span className="rounded-pill bg-white/70 px-3 py-1 text-base font-medium text-muted">{pinyin}</span>
             )}
@@ -93,7 +109,9 @@ export function FlashCard({ hanzi, pinyin, meaning, pinyinPosition, flipped, onF
         >
           <div className="pointer-events-none absolute -left-8 -bottom-8 h-28 w-28 rounded-full border-8 border-accent/10" />
           <div className="flex h-full flex-col items-center justify-center gap-4 p-6">
-            <span className="text-center text-3xl font-bold text-accent-strong">{meaning}</span>
+            <span className={`text-center font-bold leading-tight text-accent-strong ${meaningSizeClass(meaning.length)}`}>
+              {meaning}
+            </span>
             {pinyinPosition === 'vietnamese' && (
               <span className="rounded-pill bg-white/70 px-3 py-1 text-base font-medium text-muted">{pinyin}</span>
             )}

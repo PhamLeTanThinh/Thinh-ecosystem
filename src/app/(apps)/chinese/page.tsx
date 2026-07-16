@@ -7,6 +7,8 @@ import { useChineseUIStore } from '@/lib/chinese/uiStore'
 import { SegmentedControl } from '@/components/chinese/SegmentedControl'
 import type { PinyinPosition } from '@/lib/chinese/types'
 
+const PAGE_SIZE = 30
+
 const PINYIN_POSITION_OPTIONS: { value: PinyinPosition; label: string }[] = [
   { value: 'hanzi', label: 'Cùng mặt Hán tự' },
   { value: 'vietnamese', label: 'Cùng mặt tiếng Việt' },
@@ -30,8 +32,19 @@ export default function ChinesePage() {
   const openAddCard = useChineseUIStore((s) => s.openAddCard)
 
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [selecting, setSelecting] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
+
+  // Quay lại trang đầu mỗi khi đổi bộ lọc hoặc từ khoá tìm kiếm — cập nhật state trong lúc
+  // render (không phải effect) để tránh 1 nhịp render thừa, cùng convention với study/page.tsx.
+  const [prevFilterKey, setPrevFilterKey] = useState(`${statusFilter}|${searchQuery}`)
+  const filterKey = `${statusFilter}|${searchQuery}`
+  if (filterKey !== prevFilterKey) {
+    setPrevFilterKey(filterKey)
+    setVisibleCount(PAGE_SIZE)
+  }
 
   const progressByCard = new Map(progress.map((p) => [p.id, p]))
   const isLearned = (cardId: string) => progressByCard.get(cardId)?.lastResult === 'correct'
@@ -41,11 +54,21 @@ export default function ChinesePage() {
   const unlearnedCount = sortedCards.length - learnedCount
   const learnedPercent = sortedCards.length > 0 ? Math.round((learnedCount / sortedCards.length) * 100) : 0
 
+  const normalizedQuery = searchQuery.trim().toLowerCase()
+
   const visibleCards = sortedCards.filter((c) => {
-    if (statusFilter === 'learned') return isLearned(c.id)
-    if (statusFilter === 'unlearned') return !isLearned(c.id)
-    return true
+    if (statusFilter === 'learned' && !isLearned(c.id)) return false
+    if (statusFilter === 'unlearned' && isLearned(c.id)) return false
+    if (!normalizedQuery) return true
+    return (
+      c.hanzi.toLowerCase().includes(normalizedQuery) ||
+      c.pinyin.toLowerCase().includes(normalizedQuery) ||
+      c.meaning.toLowerCase().includes(normalizedQuery)
+    )
   })
+
+  const pagedCards = visibleCards.slice(0, visibleCount)
+  const hasMore = visibleCount < visibleCards.length
 
   function toggleSelecting() {
     setSelecting((s) => !s)
@@ -205,13 +228,27 @@ export default function ChinesePage() {
       )}
 
       <div className="mt-6 flex flex-col gap-2 pb-24">
-        <p className="text-xs font-semibold text-muted">Danh sách từ vựng</p>
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-semibold text-muted">Danh sách từ vựng</p>
+          <p className="text-xs text-muted">
+            {visibleCards.length} từ{normalizedQuery || statusFilter !== 'all' ? ` (đã lọc / ${sortedCards.length} tổng)` : ''}
+          </p>
+        </div>
+
+        <input
+          type="search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="🔍 Tìm theo Hán tự, pinyin hoặc nghĩa..."
+          className="rounded-2xl border border-transparent bg-card-soft px-4 py-3 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
+        />
+
         {visibleCards.length === 0 && (
           <p className="rounded-card bg-card py-10 text-center text-sm text-muted shadow-sm">
-            {sortedCards.length === 0 ? 'Chưa có từ vựng nào. Nhấn "Thêm từ vựng mới" để bắt đầu.' : 'Không có từ nào khớp bộ lọc.'}
+            {sortedCards.length === 0 ? 'Chưa có từ vựng nào. Nhấn "Thêm từ vựng mới" để bắt đầu.' : 'Không có từ nào khớp.'}
           </p>
         )}
-        {visibleCards.map((card) => {
+        {pagedCards.map((card) => {
           const cardProgress = progressByCard.get(card.id)
           const selected = selectedIds.has(card.id)
           const learned = isLearned(card.id)
@@ -234,7 +271,11 @@ export default function ChinesePage() {
                     {selected && '✓'}
                   </span>
                 )}
-                <span className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-soft text-2xl font-bold text-brand">
+                <span
+                  className={`relative flex min-h-14 min-w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-soft px-2 py-1.5 text-center font-bold leading-tight text-brand ${
+                    card.hanzi.length <= 2 ? 'text-2xl' : card.hanzi.length <= 4 ? 'text-lg' : 'text-sm'
+                  }`}
+                >
                   {card.hanzi}
                   {learned && (
                     <span className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-accent text-[10px] text-white ring-2 ring-card">
@@ -260,6 +301,16 @@ export default function ChinesePage() {
             </button>
           )
         })}
+
+        {hasMore && (
+          <button
+            type="button"
+            onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
+            className="rounded-pill bg-card-soft py-3 text-sm font-semibold text-muted shadow-sm"
+          >
+            Xem thêm {Math.min(PAGE_SIZE, visibleCards.length - visibleCount)} từ ↓
+          </button>
+        )}
       </div>
 
       {selecting && selectedIds.size > 0 && (
