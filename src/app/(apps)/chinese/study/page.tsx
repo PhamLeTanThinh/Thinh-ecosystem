@@ -5,16 +5,8 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useChineseStore } from '@/lib/chinese/store'
 import { FlashCard } from '@/components/chinese/FlashCard'
+import { shuffle } from '@/lib/chinese/shuffle'
 import type { ChineseCard } from '@/lib/chinese/types'
-
-function shuffle<T>(items: T[]): T[] {
-  const copy = [...items]
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
-    ;[copy[i], copy[j]] = [copy[j], copy[i]]
-  }
-  return copy
-}
 
 // Xáo trộn nếu bật cài đặt, ngược lại ôn theo đúng thứ tự danh sách (sortOrder).
 function buildOrder(cards: ChineseCard[], shuffleEnabled: boolean): string[] {

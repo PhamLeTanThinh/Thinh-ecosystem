@@ -45,6 +45,8 @@ export const chineseSettings = pgTable('chinese_settings', {
   id: text('id').primaryKey(),
   pinyinPosition: varchar('pinyin_position', { length: 10 }).default('hanzi').notNull(), // 'hanzi' | 'vietnamese'
   shuffle: boolean('shuffle').default(true).notNull(),
+  // 'hanzi-to-pinyin' | 'hanzi-to-meaning' | 'meaning-to-hanzi' — chiều câu hỏi trắc nghiệm kiểu Quizlet.
+  quizMode: varchar('quiz_mode', { length: 20 }).default('hanzi-to-meaning').notNull(),
 })
 
 // Bộ học riêng do người dùng tự chọn 1 nhóm từ để ôn tập tách biệt.

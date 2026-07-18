@@ -19,9 +19,12 @@ export interface ChineseProgress {
   lastReviewedAt: string | null
 }
 
+export type QuizMode = 'hanzi-to-pinyin' | 'hanzi-to-meaning' | 'meaning-to-hanzi'
+
 export interface ChineseSettings {
   pinyinPosition: PinyinPosition
   shuffle: boolean
+  quizMode: QuizMode
 }
 
 export interface ChineseDeck {

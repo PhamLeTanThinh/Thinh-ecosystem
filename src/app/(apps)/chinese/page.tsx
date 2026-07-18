@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useChineseStore } from '@/lib/chinese/store'
 import { useChineseUIStore } from '@/lib/chinese/uiStore'
 import { SegmentedControl } from '@/components/chinese/SegmentedControl'
-import type { PinyinPosition } from '@/lib/chinese/types'
+import type { PinyinPosition, QuizMode } from '@/lib/chinese/types'
 
 const PAGE_SIZE = 30
 
@@ -17,6 +17,12 @@ const PINYIN_POSITION_OPTIONS: { value: PinyinPosition; label: string }[] = [
 const SHUFFLE_OPTIONS: { value: 'on' | 'off'; label: string }[] = [
   { value: 'on', label: '🔀 Ngẫu nhiên' },
   { value: 'off', label: 'Theo danh sách' },
+]
+
+const QUIZ_MODE_OPTIONS: { value: QuizMode; label: string }[] = [
+  { value: 'hanzi-to-pinyin', label: 'Hán tự → Phát âm' },
+  { value: 'hanzi-to-meaning', label: 'Hán tự → Nghĩa' },
+  { value: 'meaning-to-hanzi', label: 'Nghĩa → Hán tự' },
 ]
 
 type StatusFilter = 'all' | 'learned' | 'unlearned'
@@ -144,17 +150,24 @@ export default function ChinesePage() {
         <span className="text-lg leading-none text-accent">＋</span> Thêm từ vựng mới
       </button>
 
-      <Link
-        href="/chinese/study"
-        className="mt-3 flex items-center gap-4 rounded-card bg-linear-to-r from-accent to-accent-strong p-5 text-white shadow-lg transition-transform active:scale-[0.98]"
-      >
-        <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/15 text-2xl">🎴</span>
-        <span className="flex-1">
-          <span className="block text-sm font-semibold">Bắt đầu ôn tập</span>
-          <span className="block text-xs text-white/75">{sortedCards.length} thẻ · toàn bộ từ vựng</span>
-        </span>
-        <span className="text-xl">›</span>
-      </Link>
+      <div className="mt-3 grid grid-cols-2 gap-3">
+        <Link
+          href="/chinese/study"
+          className="flex flex-col items-start gap-2 rounded-card bg-linear-to-br from-accent to-accent-strong p-4 text-white shadow-lg transition-transform active:scale-[0.98]"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-xl">🎴</span>
+          <span className="block text-sm font-semibold">Lật thẻ</span>
+          <span className="block text-xs text-white/75">{sortedCards.length} thẻ</span>
+        </Link>
+        <Link
+          href="/chinese/quiz"
+          className="flex flex-col items-start gap-2 rounded-card bg-linear-to-br from-brand to-brand-strong p-4 text-white shadow-lg transition-transform active:scale-[0.98]"
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-xl">📝</span>
+          <span className="block text-sm font-semibold">Trắc nghiệm</span>
+          <span className="block text-xs text-white/75">Kiểu Quizlet</span>
+        </Link>
+      </div>
 
       <div className="mt-4 flex flex-col gap-4 rounded-card bg-card p-4 shadow-sm">
         <div>
@@ -172,6 +185,16 @@ export default function ChinesePage() {
             options={SHUFFLE_OPTIONS}
             value={settings.shuffle ? 'on' : 'off'}
             onChange={(value) => updateSettings({ shuffle: value === 'on' })}
+          />
+        </div>
+
+        <div>
+          <p className="mb-2 text-xs font-semibold text-muted">Chế độ trắc nghiệm</p>
+          <SegmentedControl
+            dense
+            options={QUIZ_MODE_OPTIONS}
+            value={settings.quizMode}
+            onChange={(value) => updateSettings({ quizMode: value })}
           />
         </div>
 
@@ -210,7 +233,13 @@ export default function ChinesePage() {
                     href={`/chinese/study?deck=${deck.id}`}
                     className="rounded-pill bg-accent-soft px-3 py-1.5 text-xs font-semibold text-accent-strong"
                   >
-                    Ôn tập
+                    🎴 Ôn
+                  </Link>
+                  <Link
+                    href={`/chinese/quiz?deck=${deck.id}`}
+                    className="rounded-pill bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand"
+                  >
+                    📝 Test
                   </Link>
                   <button
                     type="button"

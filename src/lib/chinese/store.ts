@@ -4,7 +4,7 @@ import { createDefaultCards } from './seed'
 import { storage } from './storage'
 import type { ChineseCard, ChineseDeck, ChineseSettings, ChineseProgress, ReviewResult } from './types'
 
-const DEFAULT_SETTINGS: ChineseSettings = { pinyinPosition: 'hanzi', shuffle: true }
+const DEFAULT_SETTINGS: ChineseSettings = { pinyinPosition: 'hanzi', shuffle: true, quizMode: 'hanzi-to-meaning' }
 
 interface ChineseState {
   hydrated: boolean
