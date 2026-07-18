@@ -43,7 +43,7 @@ export default function DebtsPage() {
       <div className="px-4 pt-4">
         <button
           type="button"
-          onClick={openAddDebt}
+          onClick={() => openAddDebt()}
           className="w-full rounded-pill bg-accent py-3 text-sm font-semibold text-black transition-transform duration-150 active:scale-[0.98]"
         >
           + Thêm khoản nợ
@@ -104,6 +104,7 @@ function DebtItem({
   categories: Category[]
 }) {
   const deleteDebt = useMoneyStore((s) => s.deleteDebt)
+  const openAddDebt = useMoneyUIStore((s) => s.openAddDebt)
   const paid = getDebtPaid(debt, transactions, categories)
   const remaining = getDebtRemaining(debt, transactions, categories)
   const progress = debt.principal > 0 ? Math.max(0, Math.min(1, paid / debt.principal)) : 0
@@ -116,17 +117,19 @@ function DebtItem({
   return (
     <div className="rounded-card bg-card p-4">
       <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-soft text-lg">
-          {debt.direction === 'owe' ? '🏦' : '🤝'}
-        </span>
-        <div className="flex-1">
-          <p className="text-sm font-medium">{debt.name}</p>
-          <p className="text-xs text-muted">
-            Còn lại: <span className={remaining > 0 ? 'text-danger' : 'text-income'}>{formatVND(remaining)}</span>
-            {debt.dueDate && ` · Hạn: ${formatFullDate(parseISODate(debt.dueDate))}`}
-          </p>
-        </div>
-        <p className="text-sm font-semibold">{formatVND(debt.principal)}</p>
+        <button type="button" onClick={() => openAddDebt(debt.id)} className="flex flex-1 items-center gap-3 text-left">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent-soft text-lg">
+            {debt.direction === 'owe' ? '🏦' : '🤝'}
+          </span>
+          <span className="flex-1">
+            <span className="block text-sm font-medium">{debt.name}</span>
+            <span className="block text-xs text-muted">
+              Còn lại: <span className={remaining > 0 ? 'text-danger' : 'text-income'}>{formatVND(remaining)}</span>
+              {debt.dueDate && ` · Hạn: ${formatFullDate(parseISODate(debt.dueDate))}`}
+            </span>
+          </span>
+          <span className="text-sm font-semibold">{formatVND(debt.principal)}</span>
+        </button>
         <button type="button" onClick={handleDelete} aria-label={`Xoá khoản nợ ${debt.name}`} className="text-danger">
           🗑
         </button>

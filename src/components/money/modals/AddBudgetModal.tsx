@@ -46,6 +46,8 @@ export function AddBudgetModal() {
 
 function AddBudgetForm({ onClose, editingBudgetId }: { onClose: () => void; editingBudgetId: string | null }) {
   const openWalletPicker = useMoneyUIStore((s) => s.openWalletPicker)
+  const budgetMonthOffset = useMoneyUIStore((s) => s.budgetMonthOffset)
+  const setBudgetMonthOffset = useMoneyUIStore((s) => s.setBudgetMonthOffset)
 
   const wallets = useMoneyStore((s) => s.wallets)
   const currentWalletId = useMoneyStore((s) => s.currentWalletId)
@@ -63,8 +65,10 @@ function AddBudgetForm({ onClose, editingBudgetId }: { onClose: () => void; edit
     () => editingBudget?.categoryId ?? categories.find((c) => c.type === 'expense')?.id ?? null,
   )
   const [amount, setAmount] = useState(editingBudget?.amount ?? 0)
+  // Mặc định vào đúng kỳ đang xem trên trang Ngân sách (budgetMonthOffset) thay vì luôn là 0 —
+  // tránh lưu ngân sách vào 1 kỳ khác kỳ đang xem rồi tưởng nó "biến mất".
   const [monthOffset, setMonthOffset] = useState(() =>
-    editingBudget ? monthOffsetForPeriodStart(editingBudget.periodStart, cycleStartDay) : 0,
+    editingBudget ? monthOffsetForPeriodStart(editingBudget.periodStart, cycleStartDay) : budgetMonthOffset,
   )
   const [repeatMonthly, setRepeatMonthly] = useState(editingBudget?.repeatMonthly ?? false)
 
@@ -94,6 +98,8 @@ function AddBudgetForm({ onClose, editingBudgetId }: { onClose: () => void; edit
     } else {
       addBudget(patch)
     }
+    // Chuyển trang Ngân sách sang đúng kỳ vừa lưu, để ngân sách mới/vừa sửa hiện ra ngay lập tức.
+    setBudgetMonthOffset(monthOffset)
     onClose()
   }
 

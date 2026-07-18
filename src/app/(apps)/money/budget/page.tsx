@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useMoneyStore } from '@/lib/money/store'
 import { useMoneyUIStore } from '@/lib/money/uiStore'
 import { WalletSelector } from '@/components/money/WalletSelector'
@@ -17,7 +16,10 @@ import {
 import type { Budget } from '@/lib/money/types'
 
 export default function BudgetPage() {
-  const [monthOffset, setMonthOffset] = useState(0)
+  // Dùng chung state với AddBudgetModal (thay vì useState cục bộ) — để modal Thêm ngân sách luôn
+  // mặc định đúng kỳ đang xem, và tự chuyển tới kỳ vừa lưu sau khi thêm/sửa ngân sách.
+  const monthOffset = useMoneyUIStore((s) => s.budgetMonthOffset)
+  const setMonthOffset = useMoneyUIStore((s) => s.setBudgetMonthOffset)
   const wallets = useMoneyStore((s) => s.wallets)
   const currentWalletId = useMoneyStore((s) => s.currentWalletId)
   const budgets = useMoneyStore((s) => s.budgets)

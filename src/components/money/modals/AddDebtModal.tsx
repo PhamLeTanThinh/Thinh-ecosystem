@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useMoneyStore } from '@/lib/money/store'
 import { useMoneyUIStore } from '@/lib/money/uiStore'
-import { toISODate } from '@/lib/money/calculations'
+import { parseISODate, toISODate } from '@/lib/money/calculations'
 import type { DebtDirection } from '@/lib/money/types'
 import { AmountInput } from '../AmountInput'
 import { BottomSheet } from '../BottomSheet'
@@ -23,23 +23,29 @@ export function AddDebtModal() {
   const open = useMoneyUIStore((s) => s.addDebtOpen)
   const resetKey = useMoneyUIStore((s) => s.addDebtKey)
   const close = useMoneyUIStore((s) => s.closeAddDebt)
+  const editingDebtId = useMoneyUIStore((s) => s.editingDebtId)
 
   return (
     <BottomSheet open={open} onClose={close}>
-      <AddDebtForm key={resetKey} onClose={close} />
+      <AddDebtForm key={resetKey} onClose={close} editingDebtId={editingDebtId} />
     </BottomSheet>
   )
 }
 
-function AddDebtForm({ onClose }: { onClose: () => void }) {
+function AddDebtForm({ onClose, editingDebtId }: { onClose: () => void; editingDebtId: string | null }) {
+  const debts = useMoneyStore((s) => s.debts)
   const addDebt = useMoneyStore((s) => s.addDebt)
+  const updateDebt = useMoneyStore((s) => s.updateDebt)
+  const deleteDebt = useMoneyStore((s) => s.deleteDebt)
 
-  const [direction, setDirection] = useState<DebtDirection>('owe')
-  const [name, setName] = useState('')
-  const [principal, setPrincipal] = useState(0)
-  const [hasDueDate, setHasDueDate] = useState(false)
-  const [dueDate, setDueDate] = useState(() => new Date())
-  const [note, setNote] = useState('')
+  const editingDebt = editingDebtId ? debts.find((d) => d.id === editingDebtId) ?? null : null
+
+  const [direction, setDirection] = useState<DebtDirection>(editingDebt?.direction ?? 'owe')
+  const [name, setName] = useState(editingDebt?.name ?? '')
+  const [principal, setPrincipal] = useState(editingDebt?.principal ?? 0)
+  const [hasDueDate, setHasDueDate] = useState(Boolean(editingDebt?.dueDate))
+  const [dueDate, setDueDate] = useState(() => (editingDebt?.dueDate ? parseISODate(editingDebt.dueDate) : new Date()))
+  const [note, setNote] = useState(editingDebt?.note ?? '')
 
   function shiftDueDate(deltaDays: number) {
     setDueDate((d) => {
@@ -52,19 +58,31 @@ function AddDebtForm({ onClose }: { onClose: () => void }) {
   function handleSave() {
     const trimmedName = name.trim()
     if (!trimmedName || principal <= 0) return
-    addDebt({
+    const patch = {
       name: trimmedName,
       direction,
       principal,
       dueDate: hasDueDate ? toISODate(dueDate) : undefined,
       note: note.trim() || undefined,
-    })
+    }
+    if (editingDebt) {
+      updateDebt(editingDebt.id, patch)
+    } else {
+      addDebt(patch)
+    }
+    onClose()
+  }
+
+  function handleDelete() {
+    if (!editingDebt) return
+    if (!window.confirm(`Xoá khoản nợ "${editingDebt.name}"? Các giao dịch đã liên kết sẽ được giữ lại nhưng bỏ liên kết.`)) return
+    deleteDebt(editingDebt.id)
     onClose()
   }
 
   return (
     <>
-      <SheetHeader title="Thêm khoản nợ" onCancel={onClose} />
+      <SheetHeader title={editingDebt ? 'Sửa khoản nợ' : 'Thêm khoản nợ'} onCancel={onClose} />
 
       <div className="flex gap-2 p-4">
         {DIRECTION_TABS.map((tab) => (
@@ -139,14 +157,23 @@ function AddDebtForm({ onClose }: { onClose: () => void }) {
         />
       </div>
 
-      <div className="px-4 py-4">
+      <div className="flex gap-3 px-4 py-4">
+        {editingDebt && (
+          <button
+            type="button"
+            onClick={handleDelete}
+            className="rounded-pill border border-danger px-5 py-3.5 text-sm font-semibold text-danger"
+          >
+            Xoá
+          </button>
+        )}
         <button
           type="button"
           onClick={handleSave}
           disabled={!name.trim() || principal <= 0}
-          className="w-full rounded-pill bg-accent py-3.5 text-sm font-semibold text-black disabled:opacity-40"
+          className="flex-1 rounded-pill bg-accent py-3.5 text-sm font-semibold text-black disabled:opacity-40"
         >
-          Lưu
+          {editingDebt ? 'Lưu thay đổi' : 'Lưu'}
         </button>
       </div>
     </>
