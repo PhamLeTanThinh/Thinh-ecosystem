@@ -41,7 +41,7 @@ function periodFromCycleMonth(year: number, monthIndex: number, cycleStartDay: n
 }
 
 /** Cycle period for `monthOffset` cycles relative to `today` (0 = the cycle containing today). */
-export function getMonthPeriod(monthOffset: number, today: Date = new Date(), cycleStartDay: number = 1): Period {
+export function getMonthPeriod(monthOffset: number, today: Date = new Date(), cycleStartDay: number): Period {
   const baseMonth = cycleStartDay <= 1 || today.getDate() >= cycleStartDay ? today.getMonth() : today.getMonth() - 1
   return periodFromCycleMonth(today.getFullYear(), baseMonth + monthOffset, cycleStartDay)
 }

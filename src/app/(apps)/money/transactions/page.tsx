@@ -29,15 +29,20 @@ export default function TransactionsPage() {
   const currentWalletId = useMoneyStore((s) => s.currentWalletId)
   const categories = useMoneyStore((s) => s.categories)
   const transactions = useMoneyStore((s) => s.transactions)
+  const cycleStartDay = useMoneyStore((s) => s.settings.cycleStartDay)
 
   const wallet = wallets.find((w) => w.id === currentWalletId)
 
   const tabs = useMemo(
-    () => [monthOffset - 1, monthOffset, monthOffset + 1].map((offset) => ({ offset, period: getMonthPeriod(offset) })),
-    [monthOffset],
+    () =>
+      [monthOffset - 1, monthOffset, monthOffset + 1].map((offset) => ({
+        offset,
+        period: getMonthPeriod(offset, undefined, cycleStartDay),
+      })),
+    [monthOffset, cycleStartDay],
   )
 
-  const period = getMonthPeriod(monthOffset)
+  const period = getMonthPeriod(monthOffset, undefined, cycleStartDay)
 
   const walletTransactions = wallet ? filterByWallet(transactions, wallet.id) : []
   const periodTransactions = filterByPeriod(walletTransactions, period)

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { BottomNav } from '@/components/money/BottomNav'
 import { MoneyHydrator } from '@/components/money/MoneyHydrator'
+import { PinGate } from '@/components/money/PinGate'
 import { Sidebar } from '@/components/money/Sidebar'
 import { AddBudgetModal } from '@/components/money/modals/AddBudgetModal'
 import { AddDebtModal } from '@/components/money/modals/AddDebtModal'
@@ -15,17 +16,19 @@ export const metadata: Metadata = {
 
 export default function MoneyLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="money-root flex min-h-dvh flex-col md:flex-row">
-      <MoneyHydrator />
-      <Sidebar />
-      <main className="flex-1 pb-28 md:pb-10">
-        <div className="mx-auto w-full max-w-4xl md:px-8 md:py-6">{children}</div>
-      </main>
-      <BottomNav />
-      <AddTransactionModal />
-      <AddBudgetModal />
-      <AddDebtModal />
-      <WalletPickerModal />
-    </div>
+    <PinGate>
+      <div className="money-root flex min-h-dvh flex-col md:flex-row">
+        <MoneyHydrator />
+        <Sidebar />
+        <main className="flex-1 pb-28 md:pb-10">
+          <div className="mx-auto w-full max-w-4xl md:px-8 md:py-6">{children}</div>
+        </main>
+        <BottomNav />
+        <AddTransactionModal />
+        <AddBudgetModal />
+        <AddDebtModal />
+        <WalletPickerModal />
+      </div>
+    </PinGate>
   )
 }
