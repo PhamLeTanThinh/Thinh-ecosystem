@@ -57,6 +57,37 @@ export const chineseDecks = pgTable('chinese_decks', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
+// ── KOREAN VOCAB & GRAMMAR (Học từ vựng + ngữ pháp tiếng Hàn theo bài) ──
+// `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với chinese/habits/money.
+export const koreanCards = pgTable('korean_cards', {
+  id: text('id').primaryKey(),
+  kind: varchar('kind', { length: 10 }).notNull(), // 'vocab' | 'grammar'
+  lesson: integer('lesson').notNull(), // 1-18, tương ứng 제 N 과
+  front: text('front').notNull(), // hangul (vocab) hoặc mẫu ngữ pháp (grammar)
+  meaning: text('meaning').notNull(), // nghĩa tiếng Việt
+  note: text('note').default('').notNull(), // english (vocab) hoặc cách chia/cách dùng (grammar)
+  example: text('example').default('').notNull(), // câu ví dụ, nhiều câu nối bằng '\n'
+  sortOrder: integer('sort_order').default(0).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// Kết quả ôn tập gần nhất của mỗi thẻ — 1 dòng/thẻ (id = cardId).
+export const koreanProgress = pgTable('korean_progress', {
+  id: text('id').primaryKey(), // = cardId
+  correctCount: integer('correct_count').default(0).notNull(),
+  wrongCount: integer('wrong_count').default(0).notNull(),
+  lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
+  lastReviewedAt: timestamp('last_reviewed_at'),
+})
+
+// Cài đặt hiển thị của app — 1 dòng duy nhất, id = 'default'.
+export const koreanSettings = pgTable('korean_settings', {
+  id: text('id').primaryKey(),
+  shuffle: boolean('shuffle').default(true).notNull(),
+  // 'front-to-meaning' | 'meaning-to-front' — chiều câu hỏi trắc nghiệm kiểu Quizlet.
+  quizMode: varchar('quiz_mode', { length: 20 }).default('front-to-meaning').notNull(),
+})
+
 // ── FAMILY TREE ───────────────────────────────────────────────────
 export const familyMembers = pgTable('family_members', {
   id: uuid('id').defaultRandom().primaryKey(),

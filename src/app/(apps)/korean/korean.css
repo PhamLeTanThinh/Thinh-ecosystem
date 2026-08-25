@@ -1,0 +1,40 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #f4f6fb;
+  --color-card: #ffffff;
+  --color-card-soft: #eaeef8;
+  --color-border: #dde3f0;
+  --color-text: #1c2333;
+  --color-muted: #7c869c;
+
+  --color-accent: #d63447;
+  --color-accent-soft: #fbdfe3;
+  --color-accent-strong: #a8283a;
+
+  --color-brand: #1f4fd6;
+  --color-brand-soft: #dde6ff;
+  --color-brand-strong: #163aa3;
+
+  --color-gold: #2f9e6e;
+  --color-gold-soft: #d9f2e6;
+
+  --color-danger: #e11d48;
+  --color-danger-soft: #ffe1e7;
+
+  --radius-card: 24px;
+  --radius-pill: 999px;
+}
+
+.korean-root {
+  /* Bán kính cố định (px) thay vì % — trang có thể rất dài (~650 thẻ) nên bán kính theo %
+     chiều cao container sẽ phóng gradient thành 1 vệt màu lớn giữa trang thay vì chỉ ở khu vực hero. */
+  background:
+    radial-gradient(circle 420px at 10% 0%, color-mix(in srgb, var(--color-brand) 12%, transparent), transparent),
+    radial-gradient(circle 380px at 100% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent),
+    var(--color-bg);
+  color: var(--color-text);
+  min-height: 100dvh;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  overflow-x: hidden;
+}
