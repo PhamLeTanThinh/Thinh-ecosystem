@@ -17,6 +17,8 @@ import { SectionHero } from './extensions/SectionHero'
 import { MarginNote } from './extensions/MarginNote'
 import { TreeOutline } from './extensions/TreeOutline'
 import { DataChart } from './extensions/DataChart'
+import { QuestionBank } from './extensions/QuestionBank'
+import { QuestionBankModal } from './QuestionBankModal'
 import { DocToolbar } from './DocToolbar'
 import { useIeltsAccess } from './AccessContext'
 import { useIeltsStore } from '@/lib/ielts/store'
@@ -42,6 +44,7 @@ const docExtensions = [
   MarginNote,
   TreeOutline,
   DataChart,
+  QuestionBank,
 ]
 
 const docEditorProps: EditorOptions['editorProps'] = {
@@ -51,6 +54,11 @@ const docEditorProps: EditorOptions['editorProps'] = {
 interface TocItem {
   index: number
   text: string
+}
+
+interface BankEntry {
+  title: string
+  data: string
 }
 
 interface Props {
@@ -68,6 +76,8 @@ export function PageEditor({ page }: Props) {
   const [editing, setEditing] = useState(false)
   const [toc, setToc] = useState<TocItem[]>([])
   const [activeIndex, setActiveIndex] = useState(0)
+  const [bankEntry, setBankEntry] = useState<BankEntry | null>(null)
+  const [bankOpen, setBankOpen] = useState<BankEntry | null>(null)
   const contentRef = useRef<HTMLDivElement>(null)
 
   const editor = useEditor({
@@ -99,12 +109,16 @@ export function PageEditor({ page }: Props) {
     const ed = editor
     function computeToc() {
       const items: TocItem[] = []
+      let bank: BankEntry | null = null
       ed.state.doc.forEach((node) => {
         if (node.type.name === 'heading' && node.attrs.level === 2) {
           items.push({ index: items.length, text: node.textContent })
+        } else if (node.type.name === 'questionBank') {
+          bank = { title: node.attrs.title, data: node.attrs.data }
         }
       })
       setToc(items)
+      setBankEntry(bank)
     }
     computeToc()
     editor.on('update', computeToc)
@@ -112,6 +126,17 @@ export function PageEditor({ page }: Props) {
       editor.off('update', computeToc)
     }
   }, [editor])
+
+  // Bấm dòng gợi ý inline (QuestionBankView, 1 cây React riêng ngoài component này) phát sự kiện
+  // window thay vì gọi prop trực tiếp — nghe ở đây để mở đúng 1 modal chung.
+  useEffect(() => {
+    function onOpenBank(e: Event) {
+      const detail = (e as CustomEvent<BankEntry>).detail
+      if (detail) setBankOpen(detail)
+    }
+    window.addEventListener('ih-open-question-bank', onOpenBank)
+    return () => window.removeEventListener('ih-open-question-bank', onOpenBank)
+  }, [])
 
   function scrollToHeading(index: number) {
     const headings = contentRef.current?.querySelectorAll('.ih-editor-content h2')
@@ -174,7 +199,7 @@ export function PageEditor({ page }: Props) {
           <EditorContent editor={editor} onBlur={() => editing && flushPageSave(page.id)} />
         </div>
 
-        {!editing && toc.length > 1 && (
+        {!editing && (toc.length > 1 || bankEntry) && (
           <aside className="ih-side-toc" aria-label="Mục lục">
             <span className="ih-side-toc-label">Đang đọc</span>
             {toc.map((t, i) => (
@@ -188,9 +213,21 @@ export function PageEditor({ page }: Props) {
                 {t.text}
               </button>
             ))}
+            {bankEntry && (
+              <button
+                type="button"
+                title={bankEntry.title}
+                className="ih-side-toc-item ih-side-toc-bank"
+                onClick={() => setBankOpen(bankEntry)}
+              >
+                📚 {bankEntry.title}
+              </button>
+            )}
           </aside>
         )}
       </div>
+
+      {bankOpen && <QuestionBankModal title={bankOpen.title} data={bankOpen.data} onClose={() => setBankOpen(null)} />}
     </div>
   )
 }
