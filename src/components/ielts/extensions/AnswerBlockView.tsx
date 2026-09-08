@@ -12,7 +12,8 @@ export function AnswerBlockView({ editor }: NodeViewProps) {
   return (
     <NodeViewWrapper className={`ih-answer-block${show ? ' ih-answer-open' : ''}`} data-answer-block>
       <button type="button" className="ih-answer-toggle" contentEditable={false} onClick={() => setVisible((v) => !v)}>
-        {show ? '🙈 Ẩn bài làm' : '👁️ Hiện bài làm'}
+        <span className={`ih-answer-toggle-caret${show ? ' open' : ''}`} aria-hidden="true" />
+        {show ? 'Ẩn bài làm' : 'Xem bài làm'}
       </button>
       <NodeViewContent className={`ih-answer-content${show ? '' : ' ih-answer-hidden'}`} />
     </NodeViewWrapper>

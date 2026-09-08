@@ -1137,25 +1137,37 @@ li > .ih-prompt-vi {
 }
 
 .ih-answer-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12.5px;
   font-weight: 600;
   padding: 6px 14px;
   border-radius: 999px;
-  border: 1px solid var(--color-ih-ink);
-  color: var(--color-ih-ink);
-  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid var(--color-ih-border);
+  color: var(--color-ih-ink-soft);
+  background: var(--color-ih-surface);
   cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
 }
 
 .ih-answer-toggle:hover {
   border-color: var(--color-ih-rose);
   color: var(--color-ih-rose);
-  background: rgba(255, 255, 255, 0.95);
 }
 
-.ih-answer-block:not(.ih-answer-open) .ih-answer-toggle {
-  display: inline-flex;
-  align-items: center;
+/* Tam giác vẽ bằng border (không dùng emoji) — thừa hưởng đúng màu chữ của nút, xoay 90° khi mở. */
+.ih-answer-toggle-caret {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 6px;
+  border-color: transparent transparent transparent currentColor;
+  transition: transform 0.15s;
+}
+
+.ih-answer-toggle-caret.open {
+  transform: rotate(90deg);
 }
 
 .ih-answer-block.ih-answer-open .ih-answer-toggle {
