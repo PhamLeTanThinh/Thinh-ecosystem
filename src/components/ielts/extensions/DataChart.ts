@@ -816,8 +816,8 @@ function renderDRSteps(data: DRStepsData, title: string): string {
   body += topBox(badge2X, box2W, topLabels[1])
 
   // đường nét đứt: từ badge lên box chú thích phía trên
-  body += `<line x1="${badge1X}" y1="${cy - 17}" x2="${badge1X}" y2="${topY + topBoxH + 3}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#drArrowUp)"/>`
-  body += `<line x1="${badge2X}" y1="${cy - 33}" x2="${badge2X}" y2="${topY + topBoxH + 3}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#drArrowUp)"/>`
+  body += `<line x1="${badge1X}" y1="${cy - 17}" x2="${badge1X}" y2="${topY + topBoxH + 3}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#drArrowV)"/>`
+  body += `<line x1="${badge2X}" y1="${cy - 33}" x2="${badge2X}" y2="${topY + topBoxH + 3}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#drArrowV)"/>`
 
   // box "?"
   body += `<rect x="${qX}" y="${cy - qH / 2}" width="${qW}" height="${qH}" rx="12" fill="${DR_INK}"/>`
@@ -838,7 +838,10 @@ function renderDRSteps(data: DRStepsData, title: string): string {
 
   body += pill(pill2X, elaborateLabel)
 
-  const defs = `<defs><marker id="drArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker><marker id="drArrowUp" markerWidth="7" markerHeight="7" refX="3" refY="0.5" orient="auto"><path d="M0,6 L3,0 L6,6 Z" fill="${DR_INK_SOFT}"/></marker></defs>`
+  // Marker orient="auto" luôn xoay theo trục +x cục bộ của marker khớp với hướng thật của đường vẽ
+  // — mũi tên phải được vẽ "chĩa theo +x" (giống drArrow) thì mới tự xoay đúng hướng bất kể ngang
+  // hay dọc; vẽ mũi tên "chĩa lên" (theo -y) như trước sẽ bị lệch 90° sau khi auto-rotate.
+  const defs = `<defs><marker id="drArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker><marker id="drArrowV" markerWidth="7" markerHeight="7" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_INK_SOFT}"/></marker></defs>`
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
 }
 
