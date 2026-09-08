@@ -14,7 +14,9 @@ interface KoreanState {
 
   hydrate: () => Promise<void>
 
-  addCard: (input: Pick<KoreanCard, 'kind' | 'lesson' | 'front' | 'meaning' | 'note' | 'example'>) => KoreanCard
+  addCard: (
+    input: Pick<KoreanCard, 'kind' | 'lesson' | 'front' | 'meaning' | 'note' | 'example'> & Partial<Pick<KoreanCard, 'theory' | 'exampleDetail'>>
+  ) => KoreanCard
   updateCard: (id: string, patch: Partial<Omit<KoreanCard, 'id'>>) => void
   deleteCard: (id: string) => void
 
@@ -56,6 +58,8 @@ export const useKoreanStore = create<KoreanState>((set, get) => ({
       meaning: input.meaning,
       note: input.note,
       example: input.example,
+      theory: input.theory ?? '',
+      exampleDetail: input.exampleDetail ?? '[]',
       sortOrder: get().cards.length,
       createdAt: new Date().toISOString(),
     }

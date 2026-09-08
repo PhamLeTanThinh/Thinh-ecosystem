@@ -67,6 +67,8 @@ export const koreanCards = pgTable('korean_cards', {
   meaning: text('meaning').notNull(), // nghĩa tiếng Việt
   note: text('note').default('').notNull(), // english (vocab) hoặc cách chia/cách dùng (grammar)
   example: text('example').default('').notNull(), // câu ví dụ, nhiều câu nối bằng '\n'
+  theory: text('theory').default('').notNull(), // lý thuyết mở rộng (chỉ dùng cho grammar)
+  exampleDetail: text('example_detail').default('[]').notNull(), // JSON chú thích từng câu ví dụ (chỉ grammar)
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
@@ -205,4 +207,63 @@ export const wellnessLogs = pgTable('wellness_logs', {
   date: varchar('date', { length: 10 }).notNull(),
   mood: integer('mood'), // 1-5, nullable
   sleepHours: real('sleep_hours'), // nullable
+})
+
+// ── STICKY NOTES (mỗi ngày là 1 canvas toàn màn hình riêng — click bất kỳ đâu để tạo) ──
+// `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với habits/money.
+export const stickyNotes = pgTable('sticky_notes', {
+  id: text('id').primaryKey(),
+  date: varchar('date', { length: 10 }).notNull(), // 'YYYY-MM-DD' — note thuộc "space" ngày nào
+  x: real('x').notNull(), // toạ độ tự do trên canvas của ngày đó (px, ở zoom 100%)
+  y: real('y').notNull(),
+  width: real('width'), // null = auto (mặc định); có giá trị khi user tự kéo resize
+  height: real('height'), // null = auto theo nội dung; có giá trị khi user tự kéo resize
+  content: text('content').notNull(), // rich text HTML (TipTap)
+  color: varchar('color', { length: 10 }), // accent tuỳ chọn: 'yellow' | 'pink' | 'mint' | 'sky' | 'lavender' | null
+  tags: text('tags').array().default([]).notNull(), // nhãn tự do do user tự đặt, không ép taxonomy
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// ── IELTS KNOWLEDGE HUB (gom kiến thức theo chủ đề/kỹ năng, khác notes theo thời gian) ──
+// `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với các app khác.
+// Trang tài liệu dài (rich text) — 1 dòng/trang con do user tự tạo trong 1 mục kỹ năng.
+export const ieltsPages = pgTable('ielts_pages', {
+  id: text('id').primaryKey(),
+  skill: varchar('skill', { length: 20 }).notNull(), // 'listening' | 'speaking' | 'reading' | 'writing'
+  title: text('title').notNull(),
+  content: text('content').default('').notNull(), // rich text HTML (TipTap, callout/example block riêng)
+  sortOrder: integer('sort_order').default(0).notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+// Danh sách email được mời XEM (không edit) /ielts — chủ nhập email trong /ielts/admin, hệ thống
+// gửi magic link tới đúng email đó. `email` là khoá chính (luôn lưu dạng lowercase) nên thu hồi/mời
+// lại 1 người chỉ cần update đúng 1 dòng, không tạo trùng.
+export const ieltsInvites = pgTable('ielts_invites', {
+  email: text('email').primaryKey(),
+  invitedAt: timestamp('invited_at').defaultNow().notNull(),
+  revokedAt: timestamp('revoked_at'), // null = còn hiệu lực; có giá trị = đã bị thu hồi quyền xem
+})
+
+// Token đăng nhập 1 lần gửi qua email (magic link) — sống ngắn hạn (xem MAGIC_TOKEN_TTL_MS trong
+// access.ts), dùng 1 lần rồi đánh dấu usedAt để không replay lại được link cũ trong email.
+export const ieltsMagicTokens = pgTable('ielts_magic_tokens', {
+  token: text('token').primaryKey(),
+  email: text('email').notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  usedAt: timestamp('used_at'),
+})
+
+// Từ vựng — danh sách có cấu trúc, khác document tự do của các trang kỹ năng.
+export const ieltsVocab = pgTable('ielts_vocab', {
+  id: text('id').primaryKey(),
+  word: text('word').notNull(),
+  partOfSpeech: varchar('part_of_speech', { length: 20 }).default('').notNull(), // tự do: 'danh từ', 'động từ'...
+  meaning: text('meaning').notNull(),
+  example: text('example').default('').notNull(),
+  band: varchar('band', { length: 20 }).default('').notNull(), // vd 'Band 7+', tự do nhập
+  topic: text('topic').default('').notNull(), // tự do nhập
+  linkedPageId: text('linked_page_id').references(() => ieltsPages.id, { onDelete: 'set null' }),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
 })

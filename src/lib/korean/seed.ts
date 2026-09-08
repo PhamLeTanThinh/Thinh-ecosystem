@@ -1,4 +1,6 @@
 import { nanoid } from 'nanoid'
+import { GRAMMAR_THEORY } from './grammarTheory'
+import { EXAMPLE_DETAIL } from './exampleDetail'
 import type { KoreanCard, KoreanCardKind } from './types'
 
 // Toàn bộ nội dung 18 bài "Seoul Korean 2" (Notion) — 73 điểm ngữ pháp + 573 từ vựng.
@@ -663,6 +665,8 @@ export function createDefaultCards(): KoreanCard[] {
     meaning,
     note,
     example,
+    theory: kind === 'grammar' ? GRAMMAR_THEORY[`${lesson}|${front}`] ?? '' : '',
+    exampleDetail: kind === 'grammar' ? JSON.stringify(EXAMPLE_DETAIL[`${lesson}|${front}`] ?? []) : '[]',
     sortOrder: index,
     createdAt: now,
   }))

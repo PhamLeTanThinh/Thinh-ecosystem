@@ -1,0 +1,1356 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ih-bg: #f5f4f0;
+  --color-ih-surface: #ffffff;
+  --color-ih-ink: #2b3a55;
+  --color-ih-ink-soft: #5b6884;
+  --color-ih-rose: #c9667a;
+  --color-ih-border: rgba(43, 58, 85, 0.14);
+}
+
+.ielts-root {
+  min-height: 100dvh;
+  background-color: var(--color-ih-bg);
+  /* Nền "aurora" — vài khối màu lớn được blur, rải rác trên nền trắng ngà. */
+  background-image: radial-gradient(ellipse 620px 520px at 6% 0%, rgba(255, 186, 150, 0.35), transparent 65%),
+    radial-gradient(ellipse 560px 480px at 100% 10%, rgba(196, 181, 253, 0.32), transparent 65%),
+    radial-gradient(ellipse 600px 520px at 30% 100%, rgba(167, 243, 208, 0.3), transparent 65%),
+    radial-gradient(ellipse 520px 460px at 95% 95%, rgba(191, 219, 254, 0.28), transparent 65%);
+  background-attachment: fixed;
+  color: var(--color-ih-ink);
+  font-family: var(--font-ih-body), 'Inter', system-ui, sans-serif;
+}
+
+.ih-font-hand {
+  font-family: var(--font-ih-hand), 'Shantell Sans', cursive;
+}
+
+/* Kính mờ chuẩn dùng cho card/panel nổi trên nền aurora. */
+.ih-glass {
+  background: rgba(255, 255, 255, 0.5);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 30px rgba(60, 50, 90, 0.09);
+  border-radius: 18px;
+}
+
+/* Kính đặc hơn — cho panel chứa nhiều chữ (kết quả tìm kiếm, cần tương phản cao hơn). */
+.ih-glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 20px 48px -18px rgba(60, 50, 90, 0.22);
+  border-radius: 16px;
+}
+
+/* ── Shell layout ─────────────────────────────────────────────── */
+.ih-shell {
+  display: flex;
+  min-height: 100dvh;
+  align-items: stretch;
+}
+
+.ih-sidebar {
+  flex: none;
+  width: 280px;
+  padding: 20px 14px;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border-right: 1px solid rgba(255, 255, 255, 0.6);
+  overflow-y: auto;
+}
+
+.ih-sidebar-title {
+  font-family: var(--font-ih-hand), 'Shantell Sans', cursive;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-ih-ink);
+  padding: 4px 8px 14px;
+}
+
+.ih-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ih-topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 16px 28px;
+  border-bottom: 1px solid rgba(43, 58, 85, 0.1);
+}
+
+.ih-wordmark {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: var(--color-ih-ink);
+  flex-shrink: 0;
+}
+
+/* Hiển thị rõ đang đăng nhập với vai trò nào khi app đã bật chia sẻ (sharingEnabled) — tránh nhầm
+   lẫn giữa việc đang xem với quyền chủ hay chỉ là người được mời xem. */
+.ih-role-badge {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.ih-role-chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: rgba(43, 58, 85, 0.08);
+  color: var(--color-ih-ink-soft);
+  white-space: nowrap;
+}
+
+.ih-role-chip.owner {
+  background: rgba(23, 138, 90, 0.12);
+  color: #178a5a;
+}
+
+.ih-role-logout {
+  font-size: 12px;
+  color: var(--color-ih-ink-soft);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.ih-role-logout:hover {
+  color: var(--color-ih-ink);
+}
+
+.ih-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  /* KHÔNG đặt overflow-y ở đây — .ih-shell chỉ có min-height:100dvh (không phải height cứng) nên
+     trang tự cao ra theo nội dung và cuộn thực tế diễn ra ở window, không phải trong box này. Nếu
+     để overflow-y:auto, riêng việc khai báo đó (dù chưa bao giờ thật sự tràn) đã khiến trình duyệt
+     coi đây là scroll container, làm position:sticky bên trong (menu mục lục) tính offset theo
+     scrollTop của box này (luôn = 0) thay vì theo cuộn window → menu đứng yên, không bám theo. */
+  padding: 28px clamp(20px, 4vw, 56px) 60px;
+}
+
+.ih-empty-state {
+  max-width: 480px;
+  margin: 60px auto 0;
+  text-align: center;
+  color: var(--color-ih-ink-soft);
+  font-size: 14px;
+}
+
+.ih-access-denied {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  padding: 24px;
+  color: var(--color-ih-ink-soft);
+  font-size: 15px;
+}
+
+.ih-access-denied-sub {
+  font-size: 13px;
+}
+
+/* ── Sidebar tree ─────────────────────────────────────────────── */
+.ih-skill-group {
+  margin-bottom: 2px;
+}
+
+.ih-skill-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 8px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ih-ink);
+}
+
+.ih-skill-row:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.ih-skill-row.active {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.ih-skill-toggle {
+  width: 12px;
+  font-size: 10px;
+  color: var(--color-ih-ink-soft);
+  flex-shrink: 0;
+}
+
+.ih-skill-icon {
+  flex-shrink: 0;
+}
+
+.ih-vocab-row {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(43, 58, 85, 0.12);
+}
+
+.ih-page-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-left: 20px;
+  margin-bottom: 4px;
+}
+
+.ih-page-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: 8px;
+}
+
+.ih-page-row:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ih-page-row.active {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.ih-page-row.active .ih-page-row-btn {
+  color: var(--color-ih-rose);
+  font-weight: 600;
+}
+
+.ih-page-row-btn {
+  flex: 1 1 auto;
+  text-align: left;
+  padding: 6px 4px;
+  font-size: 13px;
+  color: var(--color-ih-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ih-page-row-action {
+  flex-shrink: 0;
+  width: 18px;
+  font-size: 11px;
+  color: var(--color-ih-ink-soft);
+  opacity: 0;
+  padding: 4px 2px;
+}
+
+.ih-page-row:hover .ih-page-row-action {
+  opacity: 0.8;
+}
+
+.ih-page-row-action:hover {
+  opacity: 1;
+  color: var(--color-ih-rose);
+}
+
+.ih-page-add-btn {
+  text-align: left;
+  padding: 6px 4px;
+  font-size: 12.5px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-page-add-btn:hover {
+  color: var(--color-ih-rose);
+}
+
+.ih-page-add-input {
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(43, 58, 85, 0.25);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--color-ih-ink);
+  outline: none;
+}
+
+/* ── Search ───────────────────────────────────────────────────── */
+.ih-search {
+  position: relative;
+  flex: 1 1 auto;
+  max-width: 480px;
+}
+
+.ih-search-input {
+  width: 100%;
+  font-size: 13.5px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  color: var(--color-ih-ink);
+  outline: none;
+}
+
+.ih-search-input:focus {
+  border-color: rgba(201, 102, 122, 0.5);
+}
+
+.ih-search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.ih-search-empty {
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+  padding: 10px;
+}
+
+.ih-search-result {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.ih-search-result:hover {
+  background: rgba(43, 58, 85, 0.06);
+}
+
+.ih-search-result-type {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  border-radius: 999px;
+  margin-top: 1px;
+}
+
+.ih-search-result-page {
+  color: var(--color-ih-ink);
+  background: rgba(43, 58, 85, 0.1);
+}
+
+.ih-search-result-vocab {
+  color: var(--color-ih-rose);
+  background: rgba(201, 102, 122, 0.14);
+}
+
+.ih-search-result-body {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.ih-search-result-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ih-ink);
+}
+
+.ih-search-result-snippet {
+  font-size: 12px;
+  color: var(--color-ih-ink-soft);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Page document view ───────────────────────────────────────── */
+.ih-page-view {
+  width: 100%;
+}
+
+.ih-page-view-meta {
+  margin-bottom: 8px;
+}
+
+.ih-page-view-skill {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-ih-rose);
+}
+
+.ih-page-view-title {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--color-ih-ink);
+  margin: 2px 0 18px;
+}
+
+.ih-doc {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 30px rgba(60, 50, 90, 0.08);
+  border-radius: 20px;
+  padding: 20px 24px 36px;
+}
+
+/* ── Doc topline: nút Chỉnh sửa luôn có, toolbar chỉ hiện khi đang edit ── */
+.ih-doc-topline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid rgba(43, 58, 85, 0.12);
+}
+
+.ih-doc-edit-toggle {
+  margin-left: auto;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--color-ih-ink);
+  color: var(--color-ih-ink);
+}
+
+.ih-doc-edit-toggle:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ih-doc-editing .ih-doc-edit-toggle {
+  border-color: var(--color-ih-rose);
+  color: var(--color-ih-rose);
+  background: rgba(201, 102, 122, 0.12);
+}
+
+/* Nội dung bài học giờ full-width, nên mục lục bám cuộn (scrollspy) là 1 cột thật nằm cạnh nội
+   dung (sticky trong luồng) thay vì overlay position:fixed — tránh đè lên chữ full-width, và cũng
+   né được lỗi backdrop-filter trên .ih-doc phá containing block của position:fixed. */
+.ih-doc-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.ih-doc-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Mục lục cuộn theo dõi (scrollspy) — mục đang đọc được tô sáng theo vị trí cuộn thực tế (xem
+   PageEditor.tsx). Ẩn khi màn hẹp để nội dung không bị bóp quá chật. */
+.ih-side-toc {
+  position: sticky;
+  top: 100px;
+  flex: 0 0 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+}
+
+.ih-side-toc-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-ih-ink-soft);
+  margin-bottom: 8px;
+  padding-left: 14px;
+}
+
+.ih-side-toc-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 7px 14px;
+  border-radius: 10px;
+  border-left: 2px solid rgba(43, 58, 85, 0.12);
+  color: var(--color-ih-ink-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.ih-side-toc-item:hover {
+  color: var(--color-ih-ink);
+  background: rgba(43, 58, 85, 0.06);
+}
+
+.ih-side-toc-item.active {
+  color: var(--color-ih-rose);
+  background: rgba(201, 102, 122, 0.12);
+  border-left-color: var(--color-ih-rose);
+}
+
+@media (max-width: 980px) {
+  .ih-side-toc {
+    display: none;
+  }
+}
+
+.ih-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px;
+  flex: 1 1 auto;
+}
+
+.ih-tb-btn {
+  min-width: 26px;
+  height: 26px;
+  padding: 0 6px;
+  font-size: 12px;
+  border-radius: 6px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-tb-btn:hover {
+  background: rgba(43, 58, 85, 0.08);
+  color: var(--color-ih-ink);
+}
+
+.ih-tb-btn.active {
+  background: var(--color-ih-ink);
+  color: #fff;
+}
+
+.ih-tb-sep {
+  width: 1px;
+  height: 16px;
+  background: rgba(43, 58, 85, 0.15);
+  margin: 0 3px;
+}
+
+.ih-tb-swatches {
+  display: flex;
+  gap: 4px;
+}
+
+.ih-tb-swatch {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.ih-tb-block-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(43, 58, 85, 0.2);
+  color: var(--color-ih-ink);
+  white-space: nowrap;
+}
+
+.ih-tb-block-btn:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ih-tb-block-tip {
+  border-color: rgba(52, 179, 122, 0.4);
+  color: #1f7a52;
+}
+
+.ih-tb-block-mistake {
+  border-color: rgba(201, 102, 122, 0.4);
+  color: var(--color-ih-rose);
+}
+
+/* ── Editor content ───────────────────────────────────────────── */
+.ih-editor-content {
+  font-size: 15px;
+  line-height: 1.7;
+  outline: none;
+}
+
+/* Chưa bấm "Chỉnh sửa" — bản visualize thuần, không có cảm giác đang gõ chữ được. */
+.ih-doc:not(.ih-doc-editing) .ih-editor-content {
+  cursor: default;
+}
+
+.ih-editor-content h1 {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  margin: 8px 0 10px;
+}
+
+.ih-editor-content h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 34px 0 12px;
+  padding-top: 18px;
+  border-top: 2px solid rgba(201, 102, 122, 0.25);
+  scroll-margin-top: 90px;
+}
+
+.ih-editor-content > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.ih-editor-content h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 16px 0 6px;
+}
+
+.ih-editor-content p {
+  margin: 0 0 12px;
+}
+
+.ih-editor-content ul,
+.ih-editor-content ol {
+  padding-left: 22px;
+  margin: 0 0 12px;
+}
+
+.ih-editor-content ul {
+  list-style: disc;
+}
+
+.ih-editor-content ol {
+  list-style: decimal;
+}
+
+.ih-editor-content mark {
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+/* Chú thích chân trang kiểu [1] — dùng sup thường thay vì ký tự Unicode số tròn (①), vì nhiều
+   font không có glyph riêng cho khối "Enclosed Alphanumerics" nên hay bị fallback ra icon lạ. */
+.ih-editor-content sup {
+  color: var(--color-ih-rose);
+  font-weight: 700;
+  font-size: 0.72em;
+}
+
+/* Band description — thẻ màu theo thang điểm, thay cho bảng xám lặp lại nhàm chán.
+   Số Band lấy trực tiếp từ attribute data-band qua CSS content: attr(), không cần thêm DOM node. */
+.ih-band {
+  position: relative;
+  border-radius: 12px;
+  padding: 10px 14px 10px 84px;
+  margin: 4px 0;
+  border: 1px solid transparent;
+}
+
+.ih-band p:last-child {
+  margin-bottom: 0;
+}
+
+.ih-band::before {
+  content: 'Band ' attr(data-band);
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 3px 9px;
+  border-radius: 999px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.ih-band[data-band='9'] { background: rgba(31, 122, 82, 0.12); }
+.ih-band[data-band='9']::before { background: #1f7a52; }
+.ih-band[data-band='8'] { background: rgba(52, 179, 122, 0.14); }
+.ih-band[data-band='8']::before { background: #34b37a; }
+.ih-band[data-band='7'] { background: rgba(62, 143, 224, 0.13); }
+.ih-band[data-band='7']::before { background: #3e8fe0; }
+.ih-band[data-band='6'] { background: rgba(224, 166, 42, 0.15); }
+.ih-band[data-band='6']::before { background: #c98a1c; }
+.ih-band[data-band='5'] { background: rgba(217, 119, 62, 0.15); }
+.ih-band[data-band='5']::before { background: #d9773e; }
+
+/* Section hero — "chapter opener" biên tập: số + mã ở góc, tiêu đề to, câu hỏi gợi mở bên dưới.
+   2 block con đầu tiên (do người dùng gõ) đóng vai trò tiêu đề / câu hỏi theo VỊ TRÍ, không phải
+   theo tag — nên style bằng :first-child / :nth-child thay vì chọn theo h1/p cụ thể. */
+.ih-hero {
+  position: relative;
+  margin: 44px 0 22px;
+  padding-top: 30px;
+}
+
+.ih-hero::before {
+  content: attr(data-index) '.';
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-hero::after {
+  content: attr(data-acronym);
+  position: absolute;
+  right: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: var(--color-ih-rose);
+  padding-bottom: 4px;
+  border-bottom: 2px solid var(--color-ih-rose);
+}
+
+.ih-hero > *:first-child {
+  font-size: 30px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+  line-height: 1.15;
+  color: var(--color-ih-ink);
+  margin-bottom: 6px !important;
+}
+
+.ih-hero > *:nth-child(2) {
+  font-size: 16.5px;
+  font-weight: 400;
+  color: var(--color-ih-ink-soft);
+  line-height: 1.5;
+  max-width: 460px;
+  margin-bottom: 0 !important;
+}
+
+/* Margin note — ghi chú kiểu lề sách, đường kẻ dọc bên trái thay cho dấu ngoặc "┌...└" trong bản
+   phác thảo (ký tự vẽ khung không co giãn tốt trên web nên dùng border thay thế). */
+.ih-margin-note {
+  position: relative;
+  margin: 14px 0 18px 8px;
+  padding: 2px 0 2px 18px;
+  border-left: 2px solid var(--color-ih-ink-soft);
+  max-width: 360px;
+}
+
+/* "Ghi chú thêm" là phụ lục dài cuối bài (nhiều gạch đầu dòng), không phải chú thích ngắn bên lề
+   như các margin-note khác — bỏ giới hạn 360px để không bị bó hẹp/khó đọc như ảnh chụp màn hình. */
+.ih-margin-note[data-label='ghi chú thêm'] {
+  max-width: none;
+  border-left-width: 3px;
+}
+
+.ih-margin-note::before {
+  content: attr(data-label);
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-ih-ink-soft);
+  margin-bottom: 4px;
+}
+
+.ih-margin-note p {
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--color-ih-ink);
+  margin-bottom: 4px;
+}
+
+.ih-margin-note p:last-of-type {
+  margin-bottom: 0;
+}
+
+.ih-margin-note[data-ref]:not([data-ref='']):after {
+  content: attr(data-ref);
+  display: block;
+  font-size: 10.5px;
+  color: var(--color-ih-ink-soft);
+  margin-top: 4px;
+}
+
+/* Chú thích cuối mục (footnote) — dùng số tròn Unicode (①②③) chèn thẳng trong chữ, chỉ cần style
+   dòng ngay sau <hr> nhỏ/nhạt hơn bình thường. */
+.ih-editor-content hr {
+  margin: 26px 0 8px;
+  border: none;
+  border-top: 1px solid rgba(43, 58, 85, 0.18);
+}
+
+.ih-editor-content hr + p {
+  font-size: 12px;
+  color: var(--color-ih-ink-soft);
+  margin-bottom: 4px;
+}
+
+/* Ghi chú giải thích thêm (không phải nội dung gốc) — chèn ngay sau mỗi mục để dễ hiểu hơn. */
+.ih-editor-content blockquote {
+  margin: 4px 0 16px;
+  padding: 2px 4px 2px 14px;
+  border-left: 3px solid var(--color-ih-rose);
+  color: var(--color-ih-ink-soft);
+  font-style: italic;
+  font-size: 13.5px;
+}
+
+.ih-editor-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.ih-editor-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 4px 0 16px;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid rgba(43, 58, 85, 0.16);
+}
+
+.ih-editor-content th,
+.ih-editor-content td {
+  border: 1px solid rgba(43, 58, 85, 0.14);
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+  min-width: 90px;
+}
+
+.ih-editor-content th {
+  background: rgba(43, 58, 85, 0.08);
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-editor-content td p,
+.ih-editor-content th p {
+  margin: 0;
+}
+
+.ih-editor-content .selectedCell {
+  background: rgba(201, 102, 122, 0.14);
+}
+
+.ih-editor-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-ih-ink-soft);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Callout — style khác biệt rõ theo variant để dễ nhận ra khi lướt nhanh. Nền/viền mặc định ở đây
+   phòng trường hợp variant rỗng (vd box "Mục tiêu bài học"/"Tổng kết") — trước đây không có fallback
+   nên các box đó không có nền/viền gì, nhìn như chữ thường chứ không phải 1 khối nổi bật. */
+.ih-callout {
+  border-radius: 14px;
+  padding: 12px 16px 12px 42px;
+  margin: 4px 0 14px;
+  position: relative;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(43, 58, 85, 0.16);
+}
+
+.ih-callout p:last-child {
+  margin-bottom: 0;
+}
+
+.ih-callout::before {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  font-size: 16px;
+}
+
+.ih-callout[data-callout='tip'] {
+  background: rgba(167, 243, 208, 0.4);
+  border: 1px solid rgba(52, 179, 122, 0.35);
+}
+
+.ih-callout[data-callout='tip']::before {
+  content: '💡';
+}
+
+.ih-callout[data-callout='mistake'] {
+  background: rgba(201, 102, 122, 0.14);
+  border: 1px solid rgba(201, 102, 122, 0.35);
+}
+
+.ih-callout[data-callout='mistake']::before {
+  content: '⚠️';
+}
+
+/* Đề bài — khung riêng biệt đứng TRƯỚC bài làm/ví dụ, màu xanh dương để không lẫn với tip (xanh lá)
+   hay mistake (hồng), giúp mắt phân biệt ngay "đây là đề" trước khi đọc "đây là bài làm". */
+.ih-callout[data-callout='prompt'] {
+  background: rgba(191, 219, 254, 0.35);
+  border: 1px solid rgba(62, 99, 221, 0.35);
+}
+
+.ih-callout[data-callout='prompt']::before {
+  content: '📌';
+}
+
+/* Bản dịch tiếng Việt đi kèm câu tiếng Anh dài — dùng ở cả Đề bài lẫn bảng lý thuyết. Kiểu chữ
+   thẳng (không nghiêng, tránh giống văn phong "diễn giải thêm" của các blockquote khác), viền
+   trái mảnh + màu nhạt hơn nhiều so với chữ chính để mắt tự nhiên đọc lướt qua, không cạnh tranh
+   với câu tiếng Anh. Dùng chung được cả khi đứng ngoài callout lẫn khi nằm trong ô bảng/<li>. */
+.ih-prompt-vi {
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  color: rgba(43, 58, 85, 0.48);
+  line-height: 1.45;
+  border-left: 2px solid rgba(62, 99, 221, 0.25);
+  padding-left: 8px;
+  margin: 4px 0 10px 2px;
+}
+
+td > .ih-prompt-vi,
+li > .ih-prompt-vi {
+  margin-top: 3px;
+  margin-bottom: 0;
+}
+
+/* Ví dụ — block riêng, nền hơi khác, có nút sao chép. */
+.ih-example-block {
+  position: relative;
+  background: rgba(43, 58, 85, 0.05);
+  border: 1px dashed rgba(43, 58, 85, 0.28);
+  border-radius: 14px;
+  padding: 14px 90px 14px 16px;
+  margin: 4px 0 14px;
+  font-style: italic;
+}
+
+.ih-example-block p:last-child {
+  margin-bottom: 0;
+}
+
+.ih-example-copy {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  font-style: normal;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(43, 58, 85, 0.25);
+  color: var(--color-ih-ink-soft);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ih-example-copy:hover {
+  color: var(--color-ih-ink);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Sơ đồ cây (root → chẻ 2 nhánh → hội tụ) — vẽ đường nối bằng CSS thuần, không cần đo pixel: 2
+   nhánh mỗi cái rộng 48% + gap 4% nên tâm mỗi nhánh luôn nằm đúng ở 24%/76% của toàn khối, khớp
+   thẳng hàng với thanh ngang .ih-tree-bracket (margin 0 24%) mà không cần tính toán riêng. */
+.ih-tree {
+  margin: 24px auto 28px;
+  max-width: 640px;
+}
+
+.ih-tree-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  background: rgba(62, 99, 221, 0.08);
+  border: 1.5px solid rgba(62, 99, 221, 0.4);
+  border-radius: 10px;
+  padding: 10px 18px;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-ih-ink);
+}
+
+/* Số thứ tự tách riêng thành badge tròn — số mấu chốt (có ★ trong dữ liệu gốc) tô đậm màu rose để
+   nổi bật rõ ràng hơn nhiều so với số thường, thay vì chỉ khác nhau 1 dấu ★ nhỏ khó nhận ra. */
+.ih-tree-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  font-size: 11.5px;
+  font-weight: 800;
+  background: rgba(43, 58, 85, 0.08);
+  border: 1.5px solid rgba(43, 58, 85, 0.25);
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-tree-badge-key {
+  background: var(--color-ih-rose);
+  border-color: var(--color-ih-rose);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(201, 102, 122, 0.22);
+}
+
+.ih-tree-vline {
+  width: 2px;
+  height: 16px;
+  background: rgba(43, 58, 85, 0.35);
+  margin: 0 auto;
+}
+
+.ih-tree-bracket {
+  height: 2px;
+  background: rgba(43, 58, 85, 0.35);
+  margin: 0 24%;
+}
+
+.ih-tree-branches {
+  display: flex;
+  gap: 4%;
+  align-items: stretch;
+}
+
+.ih-tree-branch {
+  flex: 1 1 48%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ih-tree-branch-connector {
+  width: 2px;
+  height: 14px;
+  background: rgba(43, 58, 85, 0.35);
+  margin: 0 auto;
+}
+
+/* Biểu đồ dựng lại từ ảnh sách — khung card giống Ví dụ/Bảng, ảnh SVG (data URI) co giãn theo
+   chiều rộng cột nội dung. */
+.ih-chart {
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(43, 58, 85, 0.16);
+  border-radius: 14px;
+  padding: 14px 16px 10px;
+  margin: 4px 0 14px;
+}
+
+.ih-chart-title {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-ih-ink-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px !important;
+}
+
+.ih-chart-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ih-tree-branch-box {
+  background: rgba(43, 58, 85, 0.04);
+  border: 1px solid rgba(43, 58, 85, 0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.ih-tree-branch-label {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--color-ih-ink);
+  margin-bottom: 6px !important;
+}
+
+.ih-tree-step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--color-ih-ink-soft);
+  padding: 5px 0;
+  margin-bottom: 0 !important;
+  border-top: 1px dashed rgba(43, 58, 85, 0.15);
+}
+
+.ih-tree-step .ih-tree-badge {
+  width: 19px;
+  height: 19px;
+  font-size: 10.5px;
+}
+
+.ih-tree-step:first-of-type {
+  border-top: none;
+}
+
+/* Bài làm — cùng nền/viền với Ví dụ nhưng ẩn nội dung mặc định, để người đọc tự thử trả lời Đề
+   bài trước khi bấm nút hiện đáp án. Nút "Hiện bài làm" đứng giữa khi đang ẩn (chiếm hết chỗ nội
+   dung), rồi thu về góc phải khi đã mở, giống vị trí nút Sao chép của Ví dụ. */
+.ih-answer-block {
+  position: relative;
+  background: rgba(43, 58, 85, 0.05);
+  border: 1px dashed rgba(43, 58, 85, 0.28);
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 4px 0 14px;
+}
+
+.ih-answer-toggle {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(43, 58, 85, 0.3);
+  color: var(--color-ih-ink);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.ih-answer-toggle:hover {
+  border-color: var(--color-ih-rose);
+  color: var(--color-ih-rose);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.ih-answer-block:not(.ih-answer-open) .ih-answer-toggle {
+  display: block;
+  margin: 0 auto;
+}
+
+.ih-answer-block.ih-answer-open .ih-answer-toggle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.ih-answer-block.ih-answer-open .ih-answer-content {
+  padding-top: 32px;
+}
+
+.ih-answer-content {
+  font-style: italic;
+}
+
+.ih-answer-content p:last-child {
+  margin-bottom: 0;
+}
+
+.ih-answer-content.ih-answer-hidden {
+  display: none;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────── */
+.ih-btn-outline {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-ih-ink);
+  color: var(--color-ih-ink);
+}
+
+.ih-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ih-btn-solid {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: var(--color-ih-ink);
+  color: #fff;
+}
+
+.ih-btn-solid:hover {
+  background: var(--color-ih-rose);
+}
+
+/* ── Vocabulary view ──────────────────────────────────────────── */
+.ih-vocab {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.ih-vocab-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ih-vocab-title {
+  font-size: 30px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ih-vocab-search {
+  flex: 1 1 auto;
+  font-size: 13.5px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  color: var(--color-ih-ink);
+  outline: none;
+}
+
+.ih-vocab-form {
+  padding: 18px 20px;
+  margin-bottom: 20px;
+}
+
+.ih-vocab-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.ih-vocab-form-example {
+  grid-column: 1 / -1;
+  resize: vertical;
+  min-height: 44px;
+}
+
+.ih-input {
+  font-size: 13.5px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(43, 58, 85, 0.2);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--color-ih-ink);
+  outline: none;
+}
+
+.ih-input:focus {
+  border-color: var(--color-ih-rose);
+}
+
+.ih-vocab-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ih-vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.ih-vocab-card {
+  padding: 16px 18px;
+}
+
+.ih-vocab-card-top {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.ih-vocab-word {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-vocab-tag {
+  font-size: 11px;
+  color: var(--color-ih-ink-soft);
+  font-style: italic;
+}
+
+.ih-vocab-meaning {
+  font-size: 13.5px;
+  color: var(--color-ih-ink);
+  margin-bottom: 6px;
+}
+
+.ih-vocab-example {
+  font-size: 12.5px;
+  color: var(--color-ih-ink-soft);
+  font-style: italic;
+  margin-bottom: 10px;
+}
+
+.ih-vocab-card-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ih-vocab-chip {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(43, 58, 85, 0.08);
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-link {
+  background: rgba(201, 102, 122, 0.14);
+  color: var(--color-ih-rose);
+}
+
+.ih-vocab-card-spacer {
+  flex: 1 1 auto;
+}
+
+.ih-vocab-card-action {
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+  padding: 2px 5px;
+}
+
+.ih-vocab-card-action:hover {
+  color: var(--color-ih-rose);
+}
+
+.ih-vocab-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--color-ih-ink-soft);
+  font-size: 13px;
+  padding: 30px 0;
+}

@@ -27,14 +27,574 @@
 }
 
 .korean-root {
-  /* Bán kính cố định (px) thay vì % — trang có thể rất dài (~650 thẻ) nên bán kính theo %
-     chiều cao container sẽ phóng gradient thành 1 vệt màu lớn giữa trang thay vì chỉ ở khu vực hero. */
-  background:
-    radial-gradient(circle 420px at 10% 0%, color-mix(in srgb, var(--color-brand) 12%, transparent), transparent),
-    radial-gradient(circle 380px at 100% 0%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent),
-    var(--color-bg);
+  /* Nền "aurora" cố định theo viewport (fixed) — cùng convention với .ielts-root — để mảng màu
+     không bị kéo giãn/lặp lại khi trang rất dài (~650 thẻ) như cách làm cũ dùng % chiều cao. */
+  background-color: var(--color-bg);
+  background-image: radial-gradient(ellipse 560px 480px at 4% 0%, color-mix(in srgb, var(--color-brand) 16%, transparent), transparent 65%),
+    radial-gradient(ellipse 520px 440px at 100% 6%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 65%),
+    radial-gradient(ellipse 560px 480px at 30% 100%, color-mix(in srgb, var(--color-gold) 14%, transparent), transparent 65%);
+  background-attachment: fixed;
   color: var(--color-text);
   min-height: 100dvh;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
   overflow-x: hidden;
+}
+
+/* ── Kính mờ (glassmorphism) — cùng hệ với .ih-glass / .ih-glass-strong bên app IELTS ────── */
+.kr-glass {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 30px rgba(31, 79, 214, 0.08);
+  border-radius: var(--radius-card);
+}
+
+.kr-glass-strong {
+  background: rgba(255, 255, 255, 0.85);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 20px 48px -18px rgba(31, 79, 214, 0.22);
+  border-radius: var(--radius-card);
+}
+
+/* ── Shell layout: sidebar bài học + topbar + content — cùng bố cục với .ih-shell ────────── */
+.kr-shell {
+  display: flex;
+  min-height: 100dvh;
+  align-items: stretch;
+}
+
+.kr-sidebar {
+  flex: none;
+  width: 268px;
+  padding: 20px 14px;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border-right: 1px solid rgba(255, 255, 255, 0.6);
+  overflow-y: auto;
+}
+
+.kr-sidebar-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  padding: 4px 8px 16px;
+}
+
+.kr-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kr-topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(28, 35, 51, 0.08);
+  flex-wrap: wrap;
+}
+
+.kr-wordmark {
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+.kr-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 24px clamp(16px, 4vw, 40px) 60px;
+}
+
+@media (max-width: 860px) {
+  .kr-sidebar {
+    display: none;
+  }
+}
+
+/* ── Search (topbar) ──────────────────────────────────────────────────────────────────── */
+.kr-search {
+  flex: 1 1 auto;
+  max-width: 420px;
+  font-size: 13.5px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  color: var(--color-text);
+  outline: none;
+}
+
+.kr-search:focus {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+/* ── Sidebar: nhóm TOPIK (giống ih-skill-group/ih-skill-row bên IELTS) ──────────────────── */
+.kr-topik-group {
+  margin-bottom: 4px;
+}
+
+.kr-topik-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 8px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.kr-topik-header:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.kr-topik-toggle {
+  width: 12px;
+  font-size: 10px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.kr-topik-empty {
+  padding: 6px 14px 10px 30px;
+  font-size: 11.5px;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ── Sidebar: danh sách bài học ───────────────────────────────────────────────────────── */
+.kr-lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.kr-lesson-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: 12px;
+}
+
+.kr-lesson-row:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.kr-lesson-row.active {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.kr-lesson-row.active .kr-lesson-row-title {
+  color: var(--color-accent-strong);
+}
+
+.kr-overview-row {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(28, 35, 51, 0.1);
+}
+
+.kr-lesson-row-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 7px 8px;
+  border-radius: 12px;
+}
+
+.kr-lesson-badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--color-gold-soft);
+  color: var(--color-gold);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.kr-overview-row .kr-lesson-badge {
+  background: var(--color-brand-soft);
+  color: var(--color-brand);
+}
+
+.kr-lesson-row-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.kr-lesson-row-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kr-lesson-row-meta {
+  font-size: 10.5px;
+  color: var(--color-muted);
+}
+
+.kr-lesson-row-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  padding-right: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.kr-lesson-row:hover .kr-lesson-row-actions {
+  opacity: 1;
+}
+
+.kr-lesson-row-action {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  border-radius: 6px;
+}
+
+.kr-lesson-row-action:hover {
+  background: rgba(28, 35, 51, 0.08);
+}
+
+/* ── Content header ───────────────────────────────────────────────────────────────────── */
+.kr-content-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.kr-eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-strong);
+}
+
+.kr-page-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  margin: 2px 0 0;
+}
+
+.kr-content-header-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* ── Stat tiles ───────────────────────────────────────────────────────────────────────── */
+.kr-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+  max-width: 480px;
+}
+
+.kr-stat-tile {
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.kr-stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.kr-stat-value-accent {
+  color: var(--color-gold);
+}
+
+.kr-stat-label {
+  font-size: 10.5px;
+  color: var(--color-muted);
+  margin-top: 1px;
+}
+
+/* ── Filter panel ─────────────────────────────────────────────────────────────────────── */
+.kr-filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.kr-filter-panel > div {
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.kr-filter-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+/* ── Card list ────────────────────────────────────────────────────────────────────────── */
+.kr-card-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.kr-section-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.kr-section-meta {
+  font-size: 11.5px;
+  color: var(--color-muted);
+}
+
+.kr-lesson-group-header {
+  margin: 14px 0 6px;
+  padding-left: 2px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--color-brand);
+}
+
+.kr-lesson-group-header:first-child {
+  margin-top: 0;
+}
+
+.kr-card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 24px;
+}
+
+/* ── Lesson detail view ───────────────────────────────────────────────────────────────── */
+.kr-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 22px 0 10px;
+}
+
+.kr-section-title:first-child {
+  margin-top: 0;
+}
+
+.kr-section-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.kr-vocab-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+/* ── Grammar doc card (giống ih-doc/ih-hero/ih-callout/ih-example-block bên IELTS) ──────── */
+.kr-grammar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.kr-grammar-card {
+  padding: 20px 22px 22px;
+}
+
+.kr-grammar-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent-strong);
+}
+
+.kr-grammar-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 3px 0 4px;
+  line-height: 1.3;
+}
+
+.kr-grammar-meaning {
+  font-size: 14px;
+  color: var(--color-muted);
+  margin-bottom: 14px;
+}
+
+.kr-grammar-structure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: rgba(31, 79, 214, 0.07);
+  border: 1px solid rgba(31, 79, 214, 0.16);
+}
+
+.kr-grammar-structure-label {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-brand);
+}
+
+.kr-grammar-structure-text {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.kr-grammar-theory {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+.kr-grammar-theory p {
+  margin: 0 0 12px;
+}
+
+.kr-grammar-theory p:last-child {
+  margin-bottom: 0;
+}
+
+.kr-grammar-examples {
+  position: relative;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(43, 58, 85, 0.04);
+  border: 1px dashed rgba(43, 58, 85, 0.24);
+}
+
+.kr-grammar-examples-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+.kr-grammar-example {
+  padding: 8px 0;
+}
+
+.kr-grammar-example + .kr-grammar-example {
+  margin-top: 4px;
+  border-top: 1px dashed rgba(43, 58, 85, 0.16);
+}
+
+/* Câu tiếng Hàn là trọng tâm — chữ đậm, không nghiêng, to hơn hẳn bản dịch để mắt luôn bắt vào
+   tiếng Hàn trước; bản dịch tiếng Việt chỉ là chú thích phụ đi kèm (xem .kr-grammar-example-vi). */
+.kr-grammar-example-line {
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.kr-grammar-example-vi {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-top: 3px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(31, 79, 214, 0.22);
+}
+
+.kr-grammar-example-note {
+  font-size: 11.5px;
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
+.kr-grammar-example-note-label {
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-right: 2px;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────────────────── */
+.kr-btn-outline {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.kr-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.kr-btn-solid {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: var(--color-accent);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.kr-btn-solid:hover {
+  background: var(--color-accent-strong);
 }

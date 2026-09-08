@@ -1,0 +1,608 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-nt-bg: #fafaf9;
+  --color-nt-surface: #ffffff;
+  --color-nt-border: #e4e4e1;
+  --color-nt-note-border: #cfcfc8;
+  --color-nt-ink: #18181b;
+  --color-nt-ink-soft: #71717a;
+  --color-nt-accent: #3e63dd;
+}
+
+.notes-root {
+  height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-nt-bg);
+  color: var(--color-nt-ink);
+  font-family: var(--font-nt-body), 'Inter', system-ui, sans-serif;
+}
+
+.nt-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.nt-topbar {
+  flex: none;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  padding: 18px clamp(16px, 4vw, 56px);
+  background: rgba(250, 250, 249, 0.9);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--color-nt-border);
+}
+
+.nt-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.nt-wordmark::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-nt-accent);
+}
+
+.nt-day-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nt-day-nav > button:not(.nt-day-nav-label):not(.nt-day-nav-today) {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid var(--color-nt-border);
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-day-nav > button:not(.nt-day-nav-label):not(.nt-day-nav-today):hover {
+  background: var(--color-nt-surface);
+  color: var(--color-nt-ink);
+}
+
+.nt-day-nav-label {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 3px 4px;
+  border-radius: 6px;
+}
+
+.nt-day-nav-label:hover {
+  background: var(--color-nt-surface);
+}
+
+.nt-day-nav-today {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-nt-accent);
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--color-nt-accent);
+}
+
+.nt-day-nav-input {
+  position: absolute;
+  inset: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nt-tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.nt-tag-filter button {
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--color-nt-border);
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-tag-filter button.active {
+  background: var(--color-nt-ink);
+  color: #fff;
+  border-color: var(--color-nt-ink);
+}
+
+.nt-sidebar-toggle {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--color-nt-border);
+  color: var(--color-nt-ink);
+}
+
+.nt-sidebar-toggle:hover {
+  background: var(--color-nt-surface);
+}
+
+.nt-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: stretch;
+}
+
+.nt-sidebar {
+  flex: none;
+  width: 300px;
+  overflow-y: auto;
+  padding: 20px 16px;
+  border-left: 1px solid var(--color-nt-border);
+  background: var(--color-nt-bg);
+}
+
+.nt-sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-nt-ink-soft);
+  margin-bottom: 12px;
+}
+
+.nt-sidebar-header button {
+  font-size: 15px;
+  line-height: 1;
+  color: var(--color-nt-ink-soft);
+  padding: 2px 4px;
+}
+
+.nt-sidebar-header button:hover {
+  color: var(--color-nt-ink);
+}
+
+/* Cây phân cấp Năm > Mùa > Tháng > Tuần > Ngày — viền trái tô màu theo mùa, chạy suốt xuống
+   từng cấp con để dễ quét mắt theo màu (điểm nhấn thị giác chính của danh sách này). */
+.nt-tree {
+  display: flex;
+  flex-direction: column;
+}
+
+.nt-tree-group-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 6px;
+  border-left: 2px solid var(--color-nt-border);
+  border-radius: 6px;
+}
+
+.nt-tree-group-row:hover {
+  background: var(--color-nt-surface);
+}
+
+.nt-tree-toggle {
+  width: 14px;
+  font-size: 10px;
+  color: var(--color-nt-ink-soft);
+  flex-shrink: 0;
+}
+
+.nt-tree-group-label {
+  flex: 1 1 auto;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-nt-ink);
+}
+
+.nt-tree-count {
+  font-size: 11px;
+  color: var(--color-nt-ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.nt-tree-delete {
+  font-size: 13px;
+  line-height: 1;
+  color: var(--color-nt-ink-soft);
+  padding: 2px 4px;
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.nt-tree-group-row:hover .nt-tree-delete,
+.nt-tree-day:hover .nt-tree-delete {
+  opacity: 1;
+}
+
+.nt-tree-delete:hover {
+  color: #dc2626;
+}
+
+.nt-tree-day {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 8px 5px 6px;
+  border-left: 2px solid var(--color-nt-border);
+  border-radius: 6px;
+}
+
+.nt-tree-day:hover {
+  background: var(--color-nt-surface);
+}
+
+.nt-tree-day.active {
+  background: var(--color-nt-ink);
+}
+
+.nt-tree-day.active .nt-tree-day-btn,
+.nt-tree-day.active .nt-tree-count {
+  color: #fff;
+}
+
+.nt-tree-day-btn {
+  flex: 1 1 auto;
+  text-align: left;
+  font-size: 12.5px;
+  color: var(--color-nt-ink);
+}
+
+.nt-zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.nt-zoom-controls button {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1px solid var(--color-nt-border);
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-zoom-controls button:hover {
+  background: var(--color-nt-surface);
+  color: var(--color-nt-ink);
+}
+
+.nt-zoom-controls span {
+  min-width: 34px;
+  text-align: center;
+}
+
+/* Canvas ghi chú duy nhất, choán trọn phần còn lại của màn hình — click bất kỳ đâu để tạo note.
+   Lưới chấm mờ là điểm nhấn tối giản thay cho nền phẳng trơn 1 màu. */
+.nt-board-outer {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  /* overflow-y: scroll (không phải auto) — canvas bên trong được đo bằng ResizeObserver và set lại
+     kích thước đúng bằng outer; nếu dùng "auto", việc thanh cuộn dọc xuất hiện/biến mất tự thay đổi
+     clientWidth, ResizeObserver bắt lại, canvas resize lại theo — tạo vòng lặp phản hồi khiến layout
+     giật liên tục ở đúng 100% zoom (khi canvas khớp sát outer). Cố định overflow-y: scroll để
+     clientWidth luôn ổn định, không phụ thuộc có cần cuộn hay không. */
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-image: radial-gradient(rgba(24, 24, 27, 0.07) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.nt-board-canvas {
+  position: relative;
+  width: 100%;
+  cursor: crosshair;
+}
+
+.nt-board-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  color: var(--color-nt-ink-soft);
+  pointer-events: none;
+}
+
+/* Sticky note — flat, viền rõ (không quá mờ), không tilt, không nền màu đặc; accent chỉ ở viền trái. */
+.nt-note {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-nt-surface);
+  border: 1.5px solid var(--color-nt-note-border);
+  border-left-width: 3px;
+  border-radius: 8px;
+  padding: 4px 10px 6px;
+  box-shadow: 0 1px 3px rgba(24, 24, 27, 0.07);
+  cursor: text;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.nt-note:hover {
+  box-shadow: 0 8px 20px rgba(24, 24, 27, 0.12);
+  border-color: #a8a8a1;
+}
+
+.nt-note-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 12px;
+  margin: -2px -8px 2px;
+  cursor: grab;
+  opacity: 0.3;
+  touch-action: none;
+}
+
+.nt-note:hover .nt-note-drag-handle {
+  opacity: 0.7;
+}
+
+.nt-note-drag-handle:active {
+  cursor: grabbing;
+}
+
+.nt-note-drag-handle span {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-nt-ink-soft);
+}
+
+.nt-note-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 15px;
+  height: 15px;
+  cursor: nwse-resize;
+  opacity: 0.3;
+  touch-action: none;
+}
+
+.nt-note:hover .nt-note-resize-handle {
+  opacity: 0.8;
+}
+
+.nt-note-resize-handle::before {
+  content: '';
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid var(--color-nt-ink-soft);
+  border-bottom: 2px solid var(--color-nt-ink-soft);
+}
+
+.nt-note-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.nt-note-chrome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.nt-note-delete {
+  font-size: 14px;
+  line-height: 1;
+  color: var(--color-nt-ink-soft);
+  padding: 2px 4px;
+}
+
+.nt-note-delete:hover {
+  color: #dc2626;
+}
+
+.nt-tb-swatches {
+  display: flex;
+  gap: 4px;
+}
+
+.nt-tb-swatch {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nt-tb-swatch.active {
+  outline: 2px solid var(--color-nt-ink);
+  outline-offset: 1px;
+}
+
+/* Editor */
+.nt-editor-content {
+  font-size: 13.5px;
+  line-height: 1.5;
+  outline: none;
+  min-height: 1.4em;
+}
+
+.nt-editor-content p {
+  margin: 0 0 4px;
+}
+
+.nt-editor-content p:last-child {
+  margin-bottom: 0;
+}
+
+.nt-editor-content h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 2px 0 4px;
+}
+
+.nt-editor-content h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 2px 0 4px;
+}
+
+.nt-editor-content ul,
+.nt-editor-content ol {
+  padding-left: 18px;
+  margin: 0 0 4px;
+}
+
+.nt-editor-content ul {
+  list-style: disc;
+}
+
+.nt-editor-content ol {
+  list-style: decimal;
+}
+
+.nt-editor-content a {
+  color: var(--color-nt-accent);
+  text-decoration: underline;
+}
+
+.nt-editor-content mark {
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+.nt-editor-content img {
+  max-width: 100%;
+  display: block;
+  border-radius: 6px;
+  margin: 4px 0;
+}
+
+.nt-editor-content [data-resize-wrapper] {
+  max-width: 100%;
+}
+
+.nt-editor-content [data-resize-container][data-resize-state='true'] img {
+  outline: 2px solid var(--color-nt-accent);
+  outline-offset: 1px;
+}
+
+.nt-editor-content [data-resize-handle] {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-nt-accent);
+  border: 2px solid var(--color-nt-surface);
+  box-shadow: 0 1px 3px rgba(24, 24, 27, 0.3);
+  opacity: 0;
+  transition: opacity 0.1s ease;
+}
+
+.nt-editor-content [data-resize-wrapper]:hover [data-resize-handle] {
+  opacity: 1;
+}
+
+.nt-editor-content [data-resize-handle='bottom-right'] {
+  cursor: nwse-resize;
+  transform: translate(50%, 50%);
+}
+
+.nt-editor-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-nt-ink-soft);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+/* Toolbar */
+.nt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--color-nt-border);
+}
+
+.nt-tb-btn {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 4px;
+  font-size: 11.5px;
+  border-radius: 4px;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-tb-btn:hover {
+  background: var(--color-nt-bg);
+  color: var(--color-nt-ink);
+}
+
+.nt-tb-btn.active {
+  background: var(--color-nt-ink);
+  color: #fff;
+}
+
+.nt-tb-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--color-nt-border);
+  margin: 0 2px;
+}
+
+/* Tags */
+.nt-note-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.nt-tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--color-nt-bg);
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-tag-chip button {
+  font-size: 11px;
+  line-height: 1;
+}
+
+.nt-tag-input {
+  font-size: 11px;
+  width: 64px;
+  outline: none;
+  background: transparent;
+  color: var(--color-nt-ink-soft);
+}

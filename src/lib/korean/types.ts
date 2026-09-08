@@ -8,6 +8,8 @@ export interface KoreanCard {
   meaning: string // nghĩa tiếng Việt
   note: string // english (vocab) hoặc cách chia/cách dùng (grammar)
   example: string // câu ví dụ, nhiều câu nối bằng '\n'
+  theory: string // lý thuyết mở rộng (chỉ dùng cho grammar) — nhiều đoạn nối bằng '\n\n'
+  exampleDetail: string // JSON.stringify({ko,vi,vocab,breakdown}[]) — chú thích cho từng câu ví dụ (chỉ grammar)
   sortOrder: number
   createdAt: string
 }

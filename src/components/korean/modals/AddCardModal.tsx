@@ -36,12 +36,21 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
   const [meaning, setMeaning] = useState(editingCard?.meaning ?? '')
   const [note, setNote] = useState(editingCard?.note ?? '')
   const [example, setExample] = useState(editingCard?.example ?? '')
+  const [theory, setTheory] = useState(editingCard?.theory ?? '')
 
   function handleSave() {
     const trimmedFront = front.trim()
     const trimmedMeaning = meaning.trim()
     if (!trimmedFront || !trimmedMeaning) return
-    const payload = { kind, lesson, front: trimmedFront, meaning: trimmedMeaning, note: note.trim(), example: example.trim() }
+    const payload = {
+      kind,
+      lesson,
+      front: trimmedFront,
+      meaning: trimmedMeaning,
+      note: note.trim(),
+      example: example.trim(),
+      theory: kind === 'grammar' ? theory.trim() : '',
+    }
     if (editingCard) {
       updateCard(editingCard.id, payload)
     } else {
@@ -149,6 +158,22 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
           className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
         />
       </div>
+
+      {kind === 'grammar' && (
+        <div className="px-4 pb-4">
+          <label className="text-xs font-medium text-muted" htmlFor="card-theory">
+            Lý thuyết chi tiết (mỗi đoạn cách nhau 1 dòng trống)
+          </label>
+          <textarea
+            id="card-theory"
+            value={theory}
+            onChange={(e) => setTheory(e.target.value)}
+            placeholder="Giải thích ý nghĩa, cách dùng, lưu ý phân biệt với mẫu ngữ pháp khác..."
+            rows={5}
+            className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
+          />
+        </div>
+      )}
 
       <div className="flex gap-3 px-4 py-4">
         {editingCard && (

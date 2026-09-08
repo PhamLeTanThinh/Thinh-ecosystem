@@ -57,7 +57,7 @@ function requeue(remaining: string[], cardId: string): string[] {
 
 function QuizMessage({ text }: { text: string }) {
   return (
-    <div className="py-16 text-center text-sm text-muted">
+    <div className="mx-auto w-full max-w-xl px-4 py-16 text-center text-sm text-muted">
       <Link href="/korean" className="text-accent">
         ‹ Quay lại
       </Link>
@@ -119,7 +119,7 @@ function QuizSession() {
     const totalAttempts = tally.correct + tally.wrong
     const percent = totalAttempts > 0 ? Math.round((tally.correct / totalAttempts) * 100) : 0
     return (
-      <div className="flex flex-col items-center gap-5 py-16 text-center">
+      <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-5 px-4 py-16 text-center">
         <span className="flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-brand to-brand-strong text-4xl shadow-lg">
           📝
         </span>
@@ -131,31 +131,27 @@ function QuizSession() {
         </div>
 
         <div className="flex w-full max-w-xs gap-3">
-          <div className="flex-1 rounded-card bg-accent-soft p-4">
+          <div className="kr-glass flex-1 p-4">
             <p className="text-2xl font-bold text-accent-strong">{tally.correct}</p>
             <p className="text-xs text-muted">✓ Lượt đúng</p>
           </div>
-          <div className="flex-1 rounded-card bg-danger-soft p-4">
+          <div className="kr-glass flex-1 p-4">
             <p className="text-2xl font-bold text-danger">{tally.wrong}</p>
             <p className="text-xs text-muted">✕ Lượt sai</p>
           </div>
         </div>
 
         <div className="mt-2 flex gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              setQueue(shuffle(cards.map((c) => c.id)))
-              setMasteredIds(new Set())
-              setTally({ correct: 0, wrong: 0 })
-              setOptionsFor(null)
-              setSelectedAnswer(null)
-            }}
-            className="rounded-pill bg-brand px-5 py-3 text-sm font-semibold text-white shadow-sm"
-          >
+          <button type="button" onClick={() => {
+            setQueue(shuffle(cards.map((c) => c.id)))
+            setMasteredIds(new Set())
+            setTally({ correct: 0, wrong: 0 })
+            setOptionsFor(null)
+            setSelectedAnswer(null)
+          }} className="kr-btn-solid">
             🔁 Làm lại
           </button>
-          <Link href="/korean" className="rounded-pill border border-border bg-card px-5 py-3 text-sm font-semibold">
+          <Link href="/korean" className="kr-glass kr-btn-outline">
             Quay lại
           </Link>
         </div>
@@ -195,7 +191,7 @@ function QuizSession() {
   const progressPercent = Math.round((masteredIds.size / totalCards) * 100)
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="mx-auto flex w-full max-w-xl flex-col items-center px-4 py-6">
       <div className="flex w-full max-w-sm items-center justify-between">
         <Link href="/korean" className="text-sm font-medium text-accent">
           ‹ Quay lại
@@ -213,7 +209,7 @@ function QuizSession() {
         />
       </div>
 
-      <div className="mt-6 w-full max-w-sm rounded-card bg-card p-6 text-center shadow-lg">
+      <div className="kr-glass-strong mt-6 w-full max-w-sm p-6 text-center">
         <p className="text-xs font-semibold uppercase tracking-wide text-muted">
           {currentCard.kind === 'grammar' ? '✏️ Ngữ pháp' : '📚 Từ vựng'} · {PROMPT_LABEL[prompt]}
         </p>
@@ -231,12 +227,12 @@ function QuizSession() {
               type="button"
               onClick={() => handleSelect(option)}
               disabled={isAnswered}
-              className={`rounded-card border-2 p-3.5 text-left text-sm font-medium transition-colors ${
+              className={`kr-glass rounded-card border-2 p-3.5 text-left text-sm font-medium transition-colors ${
                 showAsCorrect
                   ? 'border-accent bg-accent-soft text-accent-strong'
                   : showAsWrong
                     ? 'border-danger bg-danger-soft text-danger'
-                    : 'border-transparent bg-card-soft text-text'
+                    : 'border-transparent text-text'
               }`}
             >
               {option}
@@ -248,25 +244,21 @@ function QuizSession() {
       </div>
 
       {isAnswered && currentCard.note && (
-        <div className="mt-3 w-full max-w-sm rounded-2xl bg-card-soft px-4 py-3 text-center">
+        <div className="kr-glass mt-3 w-full max-w-sm px-4 py-3 text-center">
           <p className="text-xs font-semibold text-muted">{currentCard.kind === 'grammar' ? 'Cách dùng' : 'English'}</p>
           <p className="mt-0.5 text-sm font-semibold text-text">{currentCard.note}</p>
         </div>
       )}
 
       {isAnswered && currentCard.example && (
-        <div className="mt-2 w-full max-w-sm rounded-2xl bg-card-soft px-4 py-3 text-center">
+        <div className="kr-glass mt-2 w-full max-w-sm px-4 py-3 text-center">
           <p className="text-xs font-semibold text-muted">Ví dụ</p>
           <p className="mt-0.5 whitespace-pre-line text-sm text-text">{currentCard.example}</p>
         </div>
       )}
 
       {isAnswered && (
-        <button
-          type="button"
-          onClick={handleContinue}
-          className="mt-3 w-full max-w-sm rounded-pill bg-brand py-3.5 text-sm font-semibold text-white shadow-sm"
-        >
+        <button type="button" onClick={handleContinue} className="kr-btn-solid mt-3 w-full max-w-sm">
           Tiếp tục →
         </button>
       )}

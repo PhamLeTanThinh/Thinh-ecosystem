@@ -1,0 +1,646 @@
+@import 'tailwindcss';
+
+.dashboard-root {
+  min-height: 100dvh;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════
+   LIQUID — giọt màu blur "goo" hoà vào nhau trôi phía sau, thẻ kính lỏng (liquid glass) nổi
+   phía trên, gợn sóng bám theo con trỏ khi hover.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+.lq-root {
+  position: relative;
+  min-height: 100dvh;
+  /* KHÔNG đặt overflow ở đây — .lq-root là tổ tiên chung của cả CinematicIntro (chứa
+     position:sticky) lẫn .lq-section; overflow-x:hidden (dù bỏ trống overflow-y) vẫn khiến
+     trình duyệt tự tính overflow-y thành "auto" theo spec CSS, biến .lq-root thành scroll
+     container và phá sticky. Việc clip blob tràn mép được đẩy xuống .lq-section bên dưới —
+     nơi đó không phải tổ tiên của phần tử sticky nên an toàn. */
+  background-color: #f7f5f1;
+  background-image: radial-gradient(ellipse 1100px 760px at 15% -10%, #fff3e6, transparent 60%),
+    radial-gradient(ellipse 1000px 720px at 105% 10%, #eaf2ff, transparent 62%),
+    radial-gradient(ellipse 900px 640px at 40% 115%, #f2ecff, transparent 62%);
+  color: #14151c;
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+.lq-section {
+  position: relative;
+  overflow-x: hidden;
+}
+
+.lq-svg-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Hạt nhiễu (grain) phủ toàn trang, cố định theo viewport — cho nền có chất liệu "giấy mờ"
+   thay vì phẳng lì, thấy rõ nhất ở vùng nền trơn giữa các blob. Một lớp duy nhất dùng chung
+   cho cả CinematicIntro lẫn phần lưới bên dưới (position:fixed nên không cần lặp lại). */
+.lq-grain {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+.lq-blobs {
+  position: absolute;
+  inset: -15%;
+  z-index: 0;
+  filter: url(#lq-goo);
+}
+
+.lq-blob {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: lq-drift 20s ease-in-out infinite;
+}
+
+.lq-blob-1 {
+  width: 360px;
+  height: 360px;
+  left: 2%;
+  top: 4%;
+  background: #ffc2ce;
+  animation-delay: 0s;
+}
+.lq-blob-2 {
+  width: 280px;
+  height: 280px;
+  left: 15%;
+  top: 12%;
+  background: #a6e8f2;
+  animation-delay: -3s;
+}
+.lq-blob-3 {
+  width: 320px;
+  height: 320px;
+  left: 62%;
+  top: 6%;
+  background: #d6cbfb;
+  animation-delay: -7s;
+}
+.lq-blob-4 {
+  width: 260px;
+  height: 260px;
+  left: 76%;
+  top: 20%;
+  background: #bdeece;
+  animation-delay: -11s;
+}
+.lq-blob-5 {
+  width: 280px;
+  height: 280px;
+  left: 22%;
+  top: 56%;
+  background: #ffe1ab;
+  animation-delay: -14s;
+}
+.lq-blob-6 {
+  width: 230px;
+  height: 230px;
+  left: 35%;
+  top: 63%;
+  background: #c1dbfb;
+  animation-delay: -17s;
+}
+
+@keyframes lq-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  25% {
+    transform: translate(40px, -50px) scale(1.12);
+  }
+  50% {
+    transform: translate(-30px, 35px) scale(0.92);
+  }
+  75% {
+    transform: translate(-45px, -25px) scale(1.06);
+  }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════
+   CINEMATIC INTRO — track cao gấp nhiều lần màn hình, khung hình pin (sticky) 100vh bên
+   trong; cuộn qua track = tua animation, giống các trang scrollytelling (Apple, Stripe...).
+   Progress (0→1) được page.tsx tính từ vị trí cuộn rồi set trực tiếp qua ref, không qua React
+   state, nên các phần tử dưới đây chỉ cần khai báo trạng thái NỀN — giá trị runtime do JS ghi
+   đè lên transform/opacity mỗi frame cuộn.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+.ci-track {
+  position: relative;
+  height: 320vh;
+}
+
+@media (max-width: 640px) {
+  .ci-track {
+    height: 240vh;
+  }
+}
+
+.ci-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f5f1;
+  background-image: radial-gradient(ellipse 900px 640px at 50% -10%, #fff3e6, transparent 62%);
+}
+
+.ci-blobs {
+  position: absolute;
+  inset: -20%;
+  z-index: 0;
+  filter: url(#lq-goo);
+  will-change: transform, opacity;
+}
+
+.ci-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 720px;
+  height: 260px;
+  padding: 0 24px;
+}
+
+.ci-headline,
+.ci-tagline,
+.ci-icons {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ci-headline {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 700;
+  font-size: clamp(36px, 7.5vw, 76px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #14151c;
+  text-align: center;
+  /* opacity mặc định = 1 (khác tagline/icon) — đây là nội dung thấy ngay khi vào trang, JS chỉ
+     chỉnh lại khi đã cuộn; nếu để 0 sẽ có 1 khung hình chớp "trắng" trước khi effect kịp chạy. */
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+.ci-tagline {
+  font-size: 16px;
+  color: rgba(20, 21, 28, 0.65);
+  text-align: center;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.ci-icons {
+  flex-wrap: wrap;
+  gap: 16px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.ci-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  color: #fff;
+  box-shadow: 0 12px 28px -10px rgba(20, 21, 28, 0.35);
+  will-change: transform, opacity;
+}
+
+.ci-hint {
+  position: absolute;
+  z-index: 2;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(20, 21, 28, 0.45);
+  animation: ci-hint-bob 1.6s ease-in-out infinite;
+}
+
+@keyframes ci-hint-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+  50% {
+    transform: translate(-50%, 6px);
+  }
+}
+
+.lq-content {
+  position: relative;
+  z-index: 2;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 72px 24px 100px;
+}
+
+/* Chỉ 1 dòng dẫn nhỏ — headline/tagline "chính" đã nằm trong CinematicIntro phía trên rồi,
+   lặp lại ở đây (trước là .lq-hero) sẽ giống bị lỗi hiện lại y hệt màn hình vừa cuộn qua. */
+.lq-kicker {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: rgba(20, 21, 28, 0.45);
+  margin-bottom: 20px;
+}
+
+.lq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 18px;
+}
+
+.lq-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 190px;
+  padding: 24px;
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  box-shadow: 0 10px 40px -14px rgba(20, 21, 28, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-radius 0.3s ease, box-shadow 0.25s ease;
+}
+
+.lq-card:hover {
+  transform: translateY(-4px);
+  border-radius: 36px 20px 36px 20px;
+  box-shadow: 0 20px 50px -14px rgba(20, 21, 28, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.lq-card-ripple {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), color-mix(in srgb, var(--accent) 38%, transparent), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.lq-card:hover .lq-card-ripple {
+  opacity: 1;
+}
+
+.lq-card-icon {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  background: color-mix(in srgb, var(--accent) 20%, white);
+  color: var(--accent);
+}
+
+.lq-card-name {
+  position: relative;
+  font-weight: 700;
+  font-size: 17px;
+  color: #14151c;
+}
+
+.lq-card-desc {
+  position: relative;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: rgba(20, 21, 28, 0.62);
+  flex: 1;
+}
+
+.lq-card-go {
+  position: relative;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════════════
+   TOOL SCENE — 1 cảnh cuộn pin riêng cho mỗi công cụ (cùng kỹ thuật track cao + sticky
+   stage với CinematicIntro), visual bên trái minh hoạ riêng cho app đó, thông tin + nút mở
+   bên phải mờ vào/ra theo % đã cuộn qua track này.
+   ══════════════════════════════════════════════════════════════════════════════════════ */
+.ts-track {
+  position: relative;
+  height: 190vh;
+}
+
+@media (max-width: 640px) {
+  .ts-track {
+    height: 170vh;
+  }
+}
+
+.ts-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7f5f1;
+  background-image: radial-gradient(ellipse 700px 500px at 50% 50%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%);
+}
+
+.ts-visual-wrap {
+  flex: 0 0 auto;
+  width: 260px;
+  height: 260px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 60px;
+}
+
+.ts-info {
+  max-width: 380px;
+  padding: 0 24px;
+}
+
+.ts-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  margin-bottom: 16px;
+}
+
+.ts-info-title {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 700;
+  font-size: clamp(26px, 4vw, 38px);
+  letter-spacing: -0.01em;
+  margin-bottom: 10px;
+  color: #14151c;
+}
+
+.ts-info-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(20, 21, 28, 0.62);
+  margin-bottom: 22px;
+}
+
+.ts-info-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--accent);
+  padding: 10px 20px;
+  border-radius: 999px;
+  opacity: 0;
+  transition: transform 0.15s ease;
+}
+
+.ts-info-cta:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 760px) {
+  .ts-stage {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+  }
+  .ts-visual-wrap {
+    margin-right: 0;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 200px;
+  }
+  .ts-info {
+    max-width: 420px;
+  }
+}
+
+/* ── Tiếng Hàn: âm tiết lần lượt hiện lên ──────────────────────────────────────────────── */
+.ts-korean {
+  display: flex;
+  gap: 14px;
+}
+
+.ts-korean-ch {
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 700;
+  font-size: 64px;
+  color: var(--accent);
+  opacity: 0;
+}
+
+/* ── Tiếng Trung: chữ 中 viết từng nét bằng SVG stroke-dashoffset ──────────────────────── */
+.ts-hanzi {
+  width: 200px;
+  height: 200px;
+}
+
+.ts-hanzi-stroke {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* ── IELTS: các dòng văn bản kéo dài ra + 1 vệt highlight quét qua ─────────────────────── */
+.ts-ielts {
+  position: relative;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ts-ielts-line-track {
+  height: 10px;
+  background: rgba(20, 21, 28, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.ts-ielts-line {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.ts-ielts-highlight {
+  position: absolute;
+  left: 0;
+  top: 24px;
+  width: 100%;
+  height: 10px;
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  border-radius: 999px;
+  transform-origin: left;
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+/* ── Vitrine: khối lập phương 3D xoay, mỗi mặt 1 ngôn ngữ ──────────────────────────────── */
+.ts-cube-scene {
+  width: 220px;
+  height: 220px;
+  perspective: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ts-cube {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  transform-style: preserve-3d;
+}
+
+.ts-cube-face {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  color: #fff;
+  background: color-mix(in srgb, var(--accent) 82%, black 6%);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ts-cube-face-0 {
+  transform: translateZ(55px);
+}
+.ts-cube-face-1 {
+  transform: rotateY(180deg) translateZ(55px);
+}
+.ts-cube-face-2 {
+  transform: rotateY(90deg) translateZ(55px);
+}
+.ts-cube-face-3 {
+  transform: rotateY(-90deg) translateZ(55px);
+}
+.ts-cube-face-4 {
+  transform: rotateX(90deg) translateZ(55px);
+}
+.ts-cube-face-5 {
+  transform: rotateX(-90deg) translateZ(55px);
+}
+
+/* ── Thu Chi: biểu đồ cột mọc dần lên ───────────────────────────────────────────────────── */
+.ts-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  width: 220px;
+  height: 180px;
+}
+
+.ts-chart-track {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  background: rgba(20, 21, 28, 0.06);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ts-chart-bar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 8px;
+  transform-origin: bottom;
+  transform: scaleY(0);
+}
+
+/* ── Thói Quen: 7 ngày trong tuần lần lượt được tích ───────────────────────────────────── */
+.ts-streak {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  max-width: 260px;
+}
+
+.ts-streak-day {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  opacity: 0;
+}
+
+/* ── Ghi Chú: các mẩu sticky-note rơi vào và dán lên ────────────────────────────────────── */
+.ts-notes {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.ts-note {
+  position: absolute;
+  border-radius: 10px;
+  box-shadow: 0 10px 24px -10px rgba(20, 21, 28, 0.35);
+  opacity: 0;
+}
+
+.ts-note:nth-child(1) {
+  inset: 26px 14px 14px 26px;
+}
+.ts-note:nth-child(2) {
+  inset: 14px 26px 26px 14px;
+}
+.ts-note:nth-child(3) {
+  inset: 20px;
+}

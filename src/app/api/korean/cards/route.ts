@@ -19,6 +19,8 @@ export async function GET() {
     meaning: r.meaning,
     note: r.note,
     example: r.example,
+    theory: r.theory,
+    exampleDetail: r.exampleDetail,
     sortOrder: r.sortOrder,
     createdAt: r.createdAt.toISOString(),
   }))
@@ -50,6 +52,8 @@ export async function PUT(req: NextRequest) {
             meaning: c.meaning,
             note: c.note,
             example: c.example,
+            theory: c.theory,
+            exampleDetail: c.exampleDetail,
             sortOrder: c.sortOrder,
           }))
         )
@@ -62,6 +66,8 @@ export async function PUT(req: NextRequest) {
             meaning: sql`excluded.meaning`,
             note: sql`excluded.note`,
             example: sql`excluded.example`,
+            theory: sql`excluded.theory`,
+            exampleDetail: sql`excluded.example_detail`,
             sortOrder: sql`excluded.sort_order`,
           },
         })

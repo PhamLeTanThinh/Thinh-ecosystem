@@ -1,0 +1,75 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-vt-bg: #f5f3ee;
+  --color-vt-bg-deep: #eae6db;
+  --color-vt-surface: #fcfcfa;
+  --color-vt-surface-2: #eeece2;
+  --color-vt-ink: #17241f;
+  --color-vt-ink-soft: #57645b;
+  --color-vt-ink-faint: #8d968a;
+  --color-vt-border: #e2ddcc;
+
+  /* Emerald — đậm/rực hơn bản gốc, mang cảm giác đá quý thay vì màu sage trầm. */
+  --color-vt-teal: #0d9c78;
+  --color-vt-teal-deep: #086b52;
+  --color-vt-teal-soft: #d3f0e5;
+
+  /* Vàng đồng -> vàng sâm banh có ánh kim, dùng cho hotspot/badge. */
+  --color-vt-brass: #c9a227;
+  --color-vt-brass-deep: #96751a;
+  --color-vt-brass-soft: #f6ecc6;
+
+  /* Mận -> ánh tím thạch anh, đậm và sang hơn. */
+  --color-vt-plum: #7c2f56;
+  --color-vt-plum-deep: #5c2140;
+  --color-vt-plum-soft: #f1dde9;
+
+  --color-vt-shadow: rgba(20, 30, 24, 0.18);
+}
+
+.vitrine-root {
+  background-color: var(--color-vt-bg);
+  /* "Mesh" ánh sáng: 3 quầng màu lớn, mờ, chồng lên nền ivory — làm nền cho các mặt
+     kính (.vt-glass) phía trên nổi bật thay vì bị chìm trên nền phẳng 1 màu. */
+  background-image: radial-gradient(ellipse 920px 640px at 6% -12%, rgba(13, 156, 120, 0.18), transparent 62%),
+    radial-gradient(ellipse 760px 580px at 102% -4%, rgba(201, 162, 39, 0.16), transparent 60%),
+    radial-gradient(ellipse 860px 620px at 46% 112%, rgba(124, 47, 86, 0.14), transparent 62%);
+  background-attachment: fixed;
+  color: var(--color-vt-ink);
+  min-height: 100dvh;
+  font-family: var(--font-vt-body), 'Instrument Sans', system-ui, sans-serif;
+}
+
+.vt-font-display {
+  font-family: var(--font-vt-display), 'Bricolage Grotesque', system-ui, sans-serif;
+}
+
+/* Kính mờ chuẩn — dùng cho card/panel nổi trên nền mesh phía trên.
+   Blur radius cố tình vừa phải (không 20-24px) — backdrop-filter phải tính lại mỗi
+   frame khi phần tử (hoặc cha của nó) đang animate opacity/transform, blur càng lớn
+   càng tốn; 10-12px vẫn đủ "kính" mà không gây giật lúc chuyển trang/animate. */
+.vt-glass {
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  backdrop-filter: blur(12px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 16px 40px -16px var(--color-vt-shadow), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+}
+
+/* Kính đặc hơn — cho panel chứa nhiều chữ (cần độ tương phản cao hơn để dễ đọc). */
+.vt-glass-strong {
+  background: rgba(255, 255, 255, 0.78);
+  -webkit-backdrop-filter: blur(14px) saturate(150%);
+  backdrop-filter: blur(14px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 20px 48px -18px var(--color-vt-shadow), 0 1px 0 rgba(255, 255, 255, 0.8) inset;
+}
+
+/* Kính mỏng — cho nút/pill nhỏ (góc màn hình, nav) không cần độ tương phản cao. */
+.vt-glass-soft {
+  background: rgba(255, 255, 255, 0.48);
+  -webkit-backdrop-filter: blur(8px) saturate(150%);
+  backdrop-filter: blur(8px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+}

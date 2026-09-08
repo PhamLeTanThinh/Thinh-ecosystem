@@ -12,7 +12,7 @@ export default function KoreanLayout({ children }: { children: React.ReactNode }
   return (
     <div className="korean-root min-h-dvh">
       <KoreanHydrator />
-      <main className="mx-auto w-full max-w-xl px-4 py-6">{children}</main>
+      {children}
       <AddCardModal />
     </div>
   )
