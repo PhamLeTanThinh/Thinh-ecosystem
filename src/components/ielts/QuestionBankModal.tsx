@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 interface QA {
   q: string
@@ -63,7 +64,11 @@ export function QuestionBankModal({ title, data, onClose }: Props) {
 
   let counter = 0
 
-  return (
+  // Portal thẳng ra document.body — .ih-doc (khung bài học) có backdrop-filter, mà bất kỳ ancestor
+  // nào có backdrop-filter/transform/filter đều biến thành "containing block" mới cho position:fixed,
+  // khiến overlay không còn định vị theo viewport nữa mà theo khung đó (mờ đi nhưng panel lệch/mất
+  // hẳn khỏi màn hình). Portal ra ngoài body tránh hẳn vấn đề này.
+  return createPortal(
     <div className="ih-bank-overlay" onClick={onClose}>
       <div className="ih-bank-panel" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={title}>
         <div className="ih-bank-header">
@@ -101,6 +106,7 @@ export function QuestionBankModal({ title, data, onClose }: Props) {
           ))}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
