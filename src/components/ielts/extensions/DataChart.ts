@@ -94,6 +94,12 @@ type BadgeGroupItem = { badge: '+' | '-'; lines: string[] }
 type BadgeGroup = { label: string; items: BadgeGroupItem[] }
 type BadgeGroupsData = { groups: BadgeGroup[] }
 
+// 1 box duy nhất liệt kê nhiều cách diễn đạt thay thế, ngăn cách bằng gạch mảnh — dùng cho các mục
+// chỉ có 1 danh sách công thức đơn giản, không cột/không badge (vd "Level 2: Familiar Subjects —
+// Description", "Level 1: Society — Reasons"), để có cùng "sức nặng" hình ảnh (tiêu đề rose đậm +
+// khung box) như những sơ đồ Level khác trong bài, thay vì chỉ là 1 đoạn ul chìm nghỉm.
+type FormulaBoxData = { lines: string[] }
+
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
 // không báo lỗi console rõ ràng nào cả.
@@ -1189,6 +1195,37 @@ function renderBadgeGroups(data: BadgeGroupsData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
+// 1 box duy nhất, nhiều dòng công thức ngăn cách bằng gạch mảnh — biến thể tối giản của
+// badgeGroups (không tab, không badge) cho các mục chỉ có 1 danh sách công thức đơn giản.
+function renderFormulaBox(data: FormulaBoxData, title: string): string {
+  const pad = 16
+  const boxW = 360
+  const lineH = 12
+  const boxPadY = 10
+  const dividerGap = 6
+
+  const wrapped = data.lines.map((ln) => wrapLabel(ln, 54))
+  const totalLines = wrapped.reduce((s, ls) => s + ls.length, 0)
+  const h = totalLines * lineH + boxPadY * 2 + (wrapped.length - 1) * dividerGap
+
+  let body = `<rect x="${pad}" y="${pad}" width="${boxW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+  let ly = pad + boxPadY
+  wrapped.forEach((lines, li) => {
+    lines.forEach((l, k) => {
+      body += `<text x="${pad + 16}" y="${ly + k * lineH + 9}" font-size="10" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+    })
+    ly += lines.length * lineH
+    if (li < wrapped.length - 1) {
+      body += `<line x1="${pad + 10}" y1="${ly + 2}" x2="${pad + boxW - 10}" y2="${ly + 2}" stroke="${DR_BORDER}" stroke-width="1"/>`
+      ly += dividerGap
+    }
+  })
+
+  const width = boxW + pad * 2
+  const height = h + pad * 2
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
 export const DataChart = Node.create({
   name: 'dataChart',
   group: 'block',
@@ -1237,6 +1274,7 @@ export const DataChart = Node.create({
       else if (chartType === 'tierList') svg = renderTierList(parsed as TierListData, title)
       else if (chartType === 'badgeColumns') svg = renderBadgeColumns(parsed as BadgeColumnsData, title)
       else if (chartType === 'badgeGroups') svg = renderBadgeGroups(parsed as BadgeGroupsData, title)
+      else if (chartType === 'formulaBox') svg = renderFormulaBox(parsed as FormulaBoxData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML
