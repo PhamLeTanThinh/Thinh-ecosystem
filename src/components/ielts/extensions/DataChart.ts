@@ -56,6 +56,18 @@ type MapDiagramData = { panels: MapPanel[] }
 type FlowNode = { type: 'box'; text: string; arrowLabel?: string } | { type: 'split'; branches: string[]; arrowLabel?: string }
 type FlowChainData = { lanes: FlowNode[][] }
 
+// Sơ đồ "Direct Response" riêng cho Speaking Lesson 1 — sao lại ĐÚNG bảng màu + bố cục trong sách
+// gốc (nền hồng, box "?" đen, pill đỏ mận, badge số viền đen) thay vì bảng màu xanh lá mặc định
+// của flowChain, vì ảnh chụp sách có phong cách riêng cho đúng 2 sơ đồ này.
+type DRStepsData = { qLabel: string; topLabels: [string, string]; answerLabel: string; elaborateLabel: string }
+type DRRow =
+  | { kind: 'desc'; text: string }
+  | { kind: 'plain'; text: string }
+  | { kind: 'labeled'; label: string; text: string }
+  | { kind: 'icon'; icon: 'up' | 'down'; text: string }
+type DRColumn = { title: string; rows: DRRow[] }
+type DRTypesData = { qLabel: string; headerLabel: string; columns: DRColumn[] }
+
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
 // không báo lỗi console rõ ràng nào cả.
@@ -746,6 +758,183 @@ function renderFlowChain(data: FlowChainData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
 }
 
+// Bảng màu riêng cho 2 sơ đồ Direct Response (Speaking Lesson 1) — dùng lại đúng "rose" + "ink" đã
+// có sẵn trong bảng màu app (ielts.css) để nhất quán, không tự chế màu mới, và KHÔNG sao chép màu
+// đỏ mận/nền hồng của sách gốc (thiết kế riêng của NXB) — chỉ giữ đúng cấu trúc/bố cục/nội dung.
+const DR_ROSE = '#c9667a'
+const DR_INK = '#2b3a55'
+const DR_INK_SOFT = '#5b6884'
+const DR_BOX = '#f4f1ea'
+const DR_BORDER = 'rgba(43,58,85,0.22)'
+
+function renderDRSteps(data: DRStepsData, title: string): string {
+  const { qLabel, topLabels, answerLabel, elaborateLabel } = data
+  const pad = 22
+  const qW = 60
+  const qH = 54
+  const pillW = 150
+  const pillH = 50
+  const gap1 = 66
+  const gap2 = 76
+  const topBoxH = 44
+  const topGapY = 30
+
+  const qX = pad
+  const pill1X = qX + qW + gap1
+  const pill2X = pill1X + pillW + gap2
+  const width = pill2X + pillW + pad
+  const topY = pad
+  const cy = topY + topBoxH + topGapY + qH / 2
+  const height = cy + qH / 2 + pad
+
+  const badge1X = qX + qW + gap1 / 2
+  const badge2X = pill1X + pillW + gap2 / 2
+  const box1W = 148
+  const box2W = 190
+
+  function topBox(cx: number, w: number, text: string): string {
+    const x = cx - w / 2
+    const lines = wrapLabel(text, 22)
+    const lh = 13
+    const startY = topY + topBoxH / 2 - ((lines.length - 1) * lh) / 2 + 4
+    let s = `<rect x="${x}" y="${topY}" width="${w}" height="${topBoxH}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.5"/>`
+    s += lines.map((l, k) => `<text x="${cx}" y="${startY + k * lh}" font-size="10.5" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(l)}</text>`).join('')
+    return s
+  }
+
+  function pill(x: number, text: string): string {
+    const lines = wrapLabel(text, 16)
+    const lh = 14
+    const startY = cy - ((lines.length - 1) * lh) / 2 + 4
+    let s = `<rect x="${x}" y="${cy - pillH / 2}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="${DR_ROSE}"/>`
+    s += lines.map((l, k) => `<text x="${x + pillW / 2}" y="${startY + k * lh}" font-size="12.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(l)}</text>`).join('')
+    return s
+  }
+
+  let body = ''
+  body += topBox(badge1X, box1W, topLabels[0])
+  body += topBox(badge2X, box2W, topLabels[1])
+
+  // đường nét đứt: từ badge lên box chú thích phía trên
+  body += `<line x1="${badge1X}" y1="${cy - 17}" x2="${badge1X}" y2="${topY + topBoxH + 3}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#drArrowUp)"/>`
+  body += `<line x1="${badge2X}" y1="${cy - 33}" x2="${badge2X}" y2="${topY + topBoxH + 3}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#drArrowUp)"/>`
+
+  // box "?"
+  body += `<rect x="${qX}" y="${cy - qH / 2}" width="${qW}" height="${qH}" rx="12" fill="${DR_INK}"/>`
+  body += `<text x="${qX + qW / 2}" y="${cy + 7}" font-size="20" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(qLabel)}</text>`
+
+  // mũi tên "?" → pill 1, badge số 1 nằm ngay trên đường mũi tên
+  body += `<line x1="${qX + qW}" y1="${cy}" x2="${pill1X}" y2="${cy}" stroke="${DR_ROSE}" stroke-width="2.2" marker-end="url(#drArrow)"/>`
+  body += `<circle cx="${badge1X}" cy="${cy}" r="10" fill="#fff" stroke="${DR_INK}" stroke-width="1.6"/>`
+  body += `<text x="${badge1X}" y="${cy + 4}" font-size="10.5" text-anchor="middle" fill="${DR_INK}" font-weight="700">1</text>`
+
+  body += pill(pill1X, answerLabel)
+
+  // mũi tên pill1 → pill2, badge số 2 nằm phía trên đường mũi tên (nối bằng 1 đoạn thẳng ngắn)
+  body += `<line x1="${pill1X + pillW}" y1="${cy}" x2="${pill2X}" y2="${cy}" stroke="${DR_ROSE}" stroke-width="2.2" marker-end="url(#drArrow)"/>`
+  body += `<line x1="${badge2X}" y1="${cy - 15}" x2="${badge2X}" y2="${cy - 2}" stroke="${DR_INK}" stroke-width="1.4"/>`
+  body += `<circle cx="${badge2X}" cy="${cy - 25}" r="10" fill="#fff" stroke="${DR_INK}" stroke-width="1.6"/>`
+  body += `<text x="${badge2X}" y="${cy - 21}" font-size="10.5" text-anchor="middle" fill="${DR_INK}" font-weight="700">2</text>`
+
+  body += pill(pill2X, elaborateLabel)
+
+  const defs = `<defs><marker id="drArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker><marker id="drArrowUp" markerWidth="7" markerHeight="7" refX="3" refY="0.5" orient="auto"><path d="M0,6 L3,0 L6,6 Z" fill="${DR_INK_SOFT}"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+function renderDRTypes(data: DRTypesData, title: string): string {
+  const { qLabel, headerLabel, columns } = data
+  const pad = 22
+  const qW = 60
+  const qH = 50
+  const qGap = 34
+  const colW = 202
+  const colGap = 14
+  const headerH = 36
+  const titleH = 30
+  const rowGap = 8
+
+  const gridX = pad + qW + qGap
+  const width = gridX + columns.length * colW + (columns.length - 1) * colGap + pad
+
+  function rowHeight(row: DRRow): number {
+    if (row.kind === 'labeled') return wrapLabel(row.label, 20).length * 12 + 6 + wrapLabel(row.text, 20).length * 12 + 14
+    const lines = wrapLabel(row.text, 20).length
+    return Math.max(34, lines * 13 + 16)
+  }
+  function colHeight(col: DRColumn): number {
+    return titleH + rowGap + col.rows.reduce((sum, r) => sum + rowHeight(r) + rowGap, 0)
+  }
+  const bodyH = Math.max(...columns.map(colHeight))
+  const headerY = pad
+  const gridY = headerY + headerH + 14
+  const height = gridY + bodyH + pad
+
+  let body = ''
+
+  // header đỏ (rose) trải hết chiều rộng khu 3 cột
+  const headerX = gridX
+  const headerW = columns.length * colW + (columns.length - 1) * colGap
+  body += `<rect x="${headerX}" y="${headerY}" width="${headerW}" height="${headerH}" rx="10" fill="${DR_ROSE}"/>`
+  body += `<text x="${headerX + headerW / 2}" y="${headerY + headerH / 2 + 5}" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(headerLabel)}</text>`
+
+  // box "?" bên trái, mũi tên chỉ vào header
+  const qY = headerY + headerH / 2 - qH / 2
+  body += `<rect x="${pad}" y="${qY}" width="${qW}" height="${qH}" rx="12" fill="${DR_INK}"/>`
+  body += `<text x="${pad + qW / 2}" y="${qY + qH / 2 + 6}" font-size="18" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(qLabel)}</text>`
+  body += `<line x1="${pad + qW}" y1="${headerY + headerH / 2}" x2="${headerX}" y2="${headerY + headerH / 2}" stroke="${DR_ROSE}" stroke-width="2.2" marker-end="url(#drArrow2)"/>`
+
+  columns.forEach((col, ci) => {
+    const cx = gridX + ci * (colW + colGap)
+    // tiêu đề cột: nền trắng, viền + chữ rose
+    body += `<rect x="${cx}" y="${gridY}" width="${colW}" height="${titleH}" rx="${titleH / 2}" fill="#fff" stroke="${DR_ROSE}" stroke-width="1.8"/>`
+    body += `<text x="${cx + colW / 2}" y="${gridY + titleH / 2 + 4}" font-size="11.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(col.title)}</text>`
+
+    let ry = gridY + titleH + rowGap
+    for (const row of col.rows) {
+      const h = rowHeight(row)
+      if (row.kind === 'desc' || row.kind === 'plain') {
+        const lines = wrapLabel(row.text, 20)
+        const lh = 12.5
+        const startY = ry + h / 2 - ((lines.length - 1) * lh) / 2 + 4
+        body += `<rect x="${cx}" y="${ry}" width="${colW}" height="${h}" rx="8" fill="${DR_BOX}"/>`
+        body += lines
+          .map((l, k) => `<text x="${cx + colW / 2}" y="${startY + k * lh}" font-size="10" text-anchor="middle" fill="${row.kind === 'desc' ? DR_INK_SOFT : DR_INK}">${escapeXml(l)}</text>`)
+          .join('')
+      } else if (row.kind === 'labeled') {
+        const labelLines = wrapLabel(row.label, 20)
+        const boxLines = wrapLabel(row.text, 20)
+        const labelH = labelLines.length * 12 + 4
+        const boxH = h - labelH - 6
+        body += labelLines
+          .map((l, k) => `<text x="${cx}" y="${ry + 10 + k * 12}" font-size="9.5" text-anchor="start" fill="${DR_INK}" font-weight="600">${escapeXml(l)}</text>`)
+          .join('')
+        const boxY = ry + labelH + 6
+        const startY = boxY + boxH / 2 - ((boxLines.length - 1) * 12) / 2 + 4
+        body += `<rect x="${cx}" y="${boxY}" width="${colW}" height="${boxH}" rx="8" fill="${DR_BOX}"/>`
+        body += boxLines
+          .map((l, k) => `<text x="${cx + colW / 2}" y="${startY + k * 12}" font-size="9.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`)
+          .join('')
+      } else {
+        const icon = row.icon === 'up' ? '↑' : '↓'
+        const iconColor = row.icon === 'up' ? DR_ROSE : DR_INK_SOFT
+        const lines = wrapLabel(row.text, 17)
+        const lh = 12.5
+        const startY = ry + h / 2 - ((lines.length - 1) * lh) / 2 + 4
+        body += `<rect x="${cx}" y="${ry}" width="${colW}" height="${h}" rx="8" fill="${DR_BOX}"/>`
+        body += `<text x="${cx + 16}" y="${ry + h / 2 + 5}" font-size="14" text-anchor="middle" fill="${iconColor}" font-weight="700">${icon}</text>`
+        body += lines
+          .map((l, k) => `<text x="${cx + 16 + (colW - 16) / 2}" y="${startY + k * lh}" font-size="10" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`)
+          .join('')
+      }
+      ry += h + rowGap
+    }
+  })
+
+  const defs = `<defs><marker id="drArrow2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
 export const DataChart = Node.create({
   name: 'dataChart',
   group: 'block',
@@ -788,6 +977,8 @@ export const DataChart = Node.create({
       else if (chartType === 'processCircular') svg = renderProcessCircular(parsed as ProcessCircularData, title)
       else if (chartType === 'mapDiagram') svg = renderMapDiagram(parsed as MapDiagramData, title)
       else if (chartType === 'flowChain') svg = renderFlowChain(parsed as FlowChainData, title)
+      else if (chartType === 'drSteps') svg = renderDRSteps(parsed as DRStepsData, title)
+      else if (chartType === 'drTypes') svg = renderDRTypes(parsed as DRTypesData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML
