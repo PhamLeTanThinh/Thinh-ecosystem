@@ -1123,57 +1123,41 @@ li > .ih-prompt-vi {
 /* Bài làm — cùng nền/viền với Ví dụ nhưng ẩn nội dung mặc định, để người đọc tự thử trả lời Đề
    bài trước khi bấm nút hiện đáp án. Nút "Hiện bài làm" đứng giữa khi đang ẩn (chiếm hết chỗ nội
    dung), rồi thu về góc phải khi đã mở, giống vị trí nút Sao chép của Ví dụ. */
+/* Cả khung là 1 vùng bấm được (không có nút riêng) — bấm vào đâu cũng toggle hiện/ẩn câu trả lời;
+   xem AnswerBlockView.tsx (bỏ qua click nếu đang bôi đen chọn chữ, để không đóng lại ngay lúc copy). */
 .ih-answer-block {
   position: relative;
   margin: 4px 0 14px;
-}
-
-/* Đóng: chỉ 1 nút pill nhỏ gọn, không bọc khung lớn trống rỗng (tránh "ô nét đứt to đùng"). */
-.ih-answer-block.ih-answer-open {
-  background: rgba(43, 58, 85, 0.05);
+  background: rgba(43, 58, 85, 0.04);
   border: 1px solid var(--color-ih-border);
   border-radius: 14px;
-  padding: 34px 16px 14px;
-}
-
-.ih-answer-toggle {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12.5px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 999px;
-  border: 1px solid var(--color-ih-border);
-  color: var(--color-ih-ink-soft);
-  background: var(--color-ih-surface);
+  padding: 14px 16px;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition: border-color 0.15s;
 }
 
-.ih-answer-toggle:hover {
+.ih-answer-block:hover {
   border-color: var(--color-ih-rose);
-  color: var(--color-ih-rose);
 }
 
-/* Tam giác vẽ bằng border (không dùng emoji) — thừa hưởng đúng màu chữ của nút, xoay 90° khi mở. */
-.ih-answer-toggle-caret {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: 4px 0 4px 6px;
-  border-color: transparent transparent transparent currentColor;
-  transition: transform 0.15s;
+/* Chỉ lúc đóng mới canh giữa bằng flex (không phụ thuộc padding/line-height) — lúc mở phải quay về
+   block bình thường để nội dung nhiều dòng chảy tự nhiên từ trên xuống. */
+.ih-answer-block:not(.ih-answer-open) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
 }
 
-.ih-answer-toggle-caret.open {
-  transform: rotate(90deg);
+.ih-doc-editing .ih-answer-block {
+  cursor: text;
 }
 
-.ih-answer-block.ih-answer-open .ih-answer-toggle {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.ih-answer-placeholder {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+  text-align: center;
 }
 
 .ih-answer-content {
