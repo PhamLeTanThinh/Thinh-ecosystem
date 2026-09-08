@@ -49,6 +49,13 @@ type MapPanel = {
 }
 type MapDiagramData = { panels: MapPanel[] }
 
+// Sơ đồ luồng (box → mũi tên → box, có thể rẽ nhánh rồi hội tụ lại) — dùng cho các sơ đồ khái niệm
+// (không phải số liệu) như "quy trình học kỹ năng mới", "cách phân loại câu hỏi rồi chọn cấu trúc
+// trả lời". Nhiều "lane" (hàng) xếp chồng cho các sơ đồ có 2+ luồng song song (vd tiêu chí A ảnh
+// hưởng tiêu chí B, và tiêu chí C ảnh hưởng tiêu chí D, vẽ thành 2 hàng riêng trong cùng 1 hình).
+type FlowNode = { type: 'box'; text: string; arrowLabel?: string } | { type: 'split'; branches: string[]; arrowLabel?: string }
+type FlowChainData = { lanes: FlowNode[][] }
+
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
 // không báo lỗi console rõ ràng nào cả.
@@ -658,6 +665,87 @@ function renderMapDiagram(data: MapDiagramData, title: string): string {
   return `<svg viewBox="0 0 ${totalW} ${totalH}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
+function multilineWrap(text: string, maxChars: number): string[] {
+  return text.split('\n').flatMap((line) => wrapLabel(line, maxChars))
+}
+
+function renderFlowChain(data: FlowChainData, title: string): string {
+  const { lanes } = data
+  const boxW = 176
+  const boxH = 52
+  const gapX = 60
+  const laneGap = 40
+  const miniH = 30
+  const miniGap = 8
+  const pad = { top: 22, left: 20, right: 20, bottom: 16 }
+
+  const maxNodes = Math.max(...lanes.map((l) => l.length), 1)
+  const width = pad.left + maxNodes * boxW + (maxNodes - 1) * gapX + pad.right
+
+  function laneHeight(lane: FlowNode[]): number {
+    const splitSizes = lane.filter((n): n is Extract<FlowNode, { type: 'split' }> => n.type === 'split').map((n) => n.branches.length)
+    const maxBranches = Math.max(1, ...splitSizes)
+    return Math.max(boxH, maxBranches * miniH + (maxBranches - 1) * miniGap)
+  }
+
+  const laneHeights = lanes.map(laneHeight)
+  const laneCenterYs: number[] = []
+  let cursorY = pad.top
+  for (const h of laneHeights) {
+    laneCenterYs.push(cursorY + h / 2)
+    cursorY += h + laneGap
+  }
+  const height = cursorY - laneGap + pad.bottom
+
+  let body = ''
+  lanes.forEach((lane, li) => {
+    const cy = laneCenterYs[li]
+    let x = pad.left
+    lane.forEach((node, ni) => {
+      if (ni > 0) {
+        const prevRight = x - gapX
+        body += `<line x1="${prevRight}" y1="${cy}" x2="${x}" y2="${cy}" stroke="#63A375" stroke-width="2.2" marker-end="url(#fArrow)"/>`
+        if (node.arrowLabel) {
+          const midX = (prevRight + x) / 2
+          const lines = wrapLabel(node.arrowLabel, 22)
+          body += lines
+            .map((l, k) => `<text x="${midX}" y="${cy - 9 - (lines.length - 1 - k) * 11}" font-size="9.5" text-anchor="middle" fill="#5b6884">${escapeXml(l)}</text>`)
+            .join('')
+        }
+      }
+      if (node.type === 'box') {
+        body += `<rect x="${x}" y="${cy - boxH / 2}" width="${boxW}" height="${boxH}" rx="10" fill="#fff" stroke="#178A5A" stroke-width="2"/>`
+        const lines = multilineWrap(node.text, 20)
+        const startY = cy - ((lines.length - 1) * 13) / 2 + 4
+        body += lines
+          .map((l, k) => `<text x="${x + boxW / 2}" y="${startY + k * 13}" font-size="11.5" text-anchor="middle" fill="#2b3a55" font-weight="600">${escapeXml(l)}</text>`)
+          .join('')
+      } else {
+        const n = node.branches.length
+        const totalH = n * miniH + (n - 1) * miniGap
+        const top = cy - totalH / 2
+        const stemX = x + 14
+        body += `<line x1="${x}" y1="${cy}" x2="${stemX}" y2="${cy}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+        node.branches.forEach((b, bi) => {
+          const by = top + bi * (miniH + miniGap)
+          body += `<line x1="${stemX}" y1="${cy}" x2="${stemX}" y2="${by + miniH / 2}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+          body += `<line x1="${stemX}" y1="${by + miniH / 2}" x2="${stemX + 10}" y2="${by + miniH / 2}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+          body += `<rect x="${stemX + 10}" y="${by}" width="${boxW - 24}" height="${miniH}" rx="8" fill="#f4f1ea" stroke="#B45309" stroke-width="1.6"/>`
+          const lines = wrapLabel(b, 18)
+          const sy = by + miniH / 2 - ((lines.length - 1) * 11) / 2 + 4
+          body += lines
+            .map((l, k) => `<text x="${stemX + 10 + (boxW - 24) / 2}" y="${sy + k * 11}" font-size="10" text-anchor="middle" fill="#2b3a55">${escapeXml(l)}</text>`)
+            .join('')
+        })
+      }
+      x += boxW + gapX
+    })
+  })
+
+  const defs = `<defs><marker id="fArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#63A375"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
 export const DataChart = Node.create({
   name: 'dataChart',
   group: 'block',
@@ -699,6 +787,7 @@ export const DataChart = Node.create({
       else if (chartType === 'processLinear') svg = renderProcessLinear(parsed as ProcessLinearData, title)
       else if (chartType === 'processCircular') svg = renderProcessCircular(parsed as ProcessCircularData, title)
       else if (chartType === 'mapDiagram') svg = renderMapDiagram(parsed as MapDiagramData, title)
+      else if (chartType === 'flowChain') svg = renderFlowChain(parsed as FlowChainData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML

@@ -255,6 +255,15 @@ export const ieltsMagicTokens = pgTable('ielts_magic_tokens', {
   usedAt: timestamp('used_at'),
 })
 
+// 1 dòng = 1 lần load trang /ielts thành công (owner hoặc viewer) — dùng để chủ trang xem được
+// ai vào bao nhiêu lần, bằng trình duyệt gì. Ghi ở layout server, không ghi theo mỗi request API.
+export const ieltsAccessLogs = pgTable('ielts_access_logs', {
+  id: text('id').primaryKey(),
+  email: text('email').notNull(), // lowercase; 'owner' nếu chưa bật chia sẻ thì không ghi (xem access.ts)
+  userAgent: text('user_agent').default('').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
 // Từ vựng — danh sách có cấu trúc, khác document tự do của các trang kỹ năng.
 export const ieltsVocab = pgTable('ielts_vocab', {
   id: text('id').primaryKey(),

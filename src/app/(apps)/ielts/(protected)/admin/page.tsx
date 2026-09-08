@@ -9,12 +9,20 @@ interface Invite {
   revokedAt: string | null
 }
 
+interface AccessStat {
+  email: string
+  count: number
+  lastSeenAt: string
+  lastBrowser: string
+}
+
 // Trang quản lý riêng cho chủ — mời/thu hồi quyền xem theo email. Nhập email rồi bấm mời sẽ gửi
 // luôn 1 magic link đăng nhập tới đúng địa chỉ đó. Việc thực thi quyền thật nằm ở API
 // (`requireOwnerApi`) — trang này chỉ ẩn UI cho gọn.
 export default function IeltsAdminPage() {
-  const { isOwner } = useIeltsAccess()
+  const { isOwner, email: ownerEmail } = useIeltsAccess()
   const [invites, setInvites] = useState<Invite[]>([])
+  const [stats, setStats] = useState<AccessStat[]>([])
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
@@ -25,7 +33,14 @@ export default function IeltsAdminPage() {
       .then((r) => r.json())
       .then((data) => setInvites(data))
       .finally(() => setLoading(false))
+    fetch('/api/ielts/access-logs')
+      .then((r) => r.json())
+      .then((data) => setStats(data))
   }, [isOwner])
+
+  function statFor(targetEmail: string) {
+    return stats.find((s) => s.email === targetEmail)
+  }
 
   async function inviteEmail() {
     const trimmed = email.trim().toLowerCase()
@@ -96,24 +111,39 @@ export default function IeltsAdminPage() {
       <div className="ih-vocab-grid" style={{ marginTop: 16, gridTemplateColumns: '1fr' }}>
         {loading && <p className="ih-vocab-empty">Đang tải…</p>}
         {!loading && invites.length === 0 && <p className="ih-vocab-empty">Chưa mời ai.</p>}
-        {invites.map((v) => (
-          <div key={v.email} className="ih-glass ih-vocab-card" style={{ flexDirection: 'row', alignItems: 'center', display: 'flex', gap: 12 }}>
-            <div style={{ flex: 1 }}>
-              <div className="ih-vocab-word">{v.email}</div>
-              <div className="ih-vocab-meaning" style={{ fontSize: 12 }}>
-                Mời lúc {new Date(v.invitedAt).toLocaleString('vi-VN')}
-                {v.revokedAt ? ' · Đã thu hồi' : ''}
+        {invites.map((v) => {
+          const stat = statFor(v.email)
+          return (
+            <div key={v.email} className="ih-glass ih-vocab-card" style={{ flexDirection: 'row', alignItems: 'center', display: 'flex', gap: 12 }}>
+              <div style={{ flex: 1 }}>
+                <div className="ih-vocab-word">{v.email}</div>
+                <div className="ih-vocab-meaning" style={{ fontSize: 12 }}>
+                  Mời lúc {new Date(v.invitedAt).toLocaleString('vi-VN')}
+                  {v.revokedAt ? ' · Đã thu hồi' : ''}
+                </div>
+                <div className="ih-vocab-meaning" style={{ fontSize: 12 }}>
+                  {stat
+                    ? `Đã vào ${stat.count} lần · gần nhất ${new Date(stat.lastSeenAt).toLocaleString('vi-VN')} · ${stat.lastBrowser}`
+                    : 'Chưa từng đăng nhập'}
+                </div>
               </div>
+              <button type="button" className="ih-btn-outline" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
+                {v.revokedAt ? 'Cấp lại quyền' : 'Thu hồi'}
+              </button>
+              <button type="button" className="ih-vocab-card-action" aria-label="Xoá" onClick={() => removeInvite(v.email)}>
+                ×
+              </button>
             </div>
-            <button type="button" className="ih-btn-outline" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
-              {v.revokedAt ? 'Cấp lại quyền' : 'Thu hồi'}
-            </button>
-            <button type="button" className="ih-vocab-card-action" aria-label="Xoá" onClick={() => removeInvite(v.email)}>
-              ×
-            </button>
-          </div>
-        ))}
+          )
+        })}
       </div>
+
+      {ownerEmail && statFor(ownerEmail) && (
+        <p style={{ fontSize: 12, color: 'var(--color-ih-ink-soft)', marginTop: 16 }}>
+          Bạn (chủ trang) đã vào {statFor(ownerEmail)!.count} lần · gần nhất{' '}
+          {new Date(statFor(ownerEmail)!.lastSeenAt).toLocaleString('vi-VN')} · {statFor(ownerEmail)!.lastBrowser}
+        </p>
+      )}
     </div>
   )
 }
