@@ -80,6 +80,20 @@ type DRRowsData = { rows: DRRowItem[] }
 type TierItem = { label: string; items: string[] }
 type TierListData = { tiers: TierItem[] }
 
+// Nhiều cột độc lập cạnh nhau, mỗi cột 1 tiêu đề pill + danh sách box xếp chồng, box có thể gắn
+// badge tròn +/− (xanh lá = tán thành/mức độ cao, rose = phủ định/mức độ thấp) — vd "Level 1:
+// Society — Opinion" (2 cột: DO YOU THINK A? / WHAT DO YOU THINK?, chỉ cột 2 có badge).
+type BadgeColItem = { badge?: '+' | '-'; text: string }
+type BadgeColumn = { header: string; items: BadgeColItem[] }
+type BadgeColumnsData = { columns: BadgeColumn[] }
+
+// Nhiều nhóm xếp CHỒNG, mỗi nhóm có 1 tab nhãn xám (vd FUTURE/PAST) rồi tới các item +/− — mỗi item
+// có thể chứa NHIỀU dòng cách diễn đạt thay thế, ngăn cách bằng 1 gạch mảnh trong cùng 1 box (vd
+// "Level 3: Self — Past and Future").
+type BadgeGroupItem = { badge: '+' | '-'; lines: string[] }
+type BadgeGroup = { label: string; items: BadgeGroupItem[] }
+type BadgeGroupsData = { groups: BadgeGroup[] }
+
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
 // không báo lỗi console rõ ràng nào cả.
@@ -778,6 +792,7 @@ const DR_INK = '#2b3a55'
 const DR_INK_SOFT = '#5b6884'
 const DR_BOX = '#f4f1ea'
 const DR_BORDER = 'rgba(43,58,85,0.22)'
+const DR_GREEN = '#178A5A' // badge "+" — mượn màu xanh lá đã có sẵn trong app (flowChain), báo hiệu tích cực/mức độ cao
 
 function renderDRSteps(data: DRStepsData, title: string): string {
   const { qLabel, topLabels, answerLabel, elaborateLabel } = data
@@ -1061,6 +1076,119 @@ function renderTierList(data: TierListData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${connector}${itemsBody}${dots}</svg>`
 }
 
+// Nhiều cột độc lập cạnh nhau (vd "Level 1: Society — Opinion") — mỗi cột 1 tiêu đề pill rose +
+// danh sách box xếp chồng, box có thể gắn badge tròn +/− (chỉ cột nào có badge mới lùi text vào).
+function renderBadgeColumns(data: BadgeColumnsData, title: string): string {
+  const { columns } = data
+  const pad = 20
+  const colW = 226
+  const colGap = 16
+  const headerH = 28
+  const itemGap = 8
+  const badgeR = 8
+  const badgeIndent = 24
+
+  function itemHeight(it: BadgeColItem): number {
+    const lines = wrapLabel(it.text, it.badge ? 24 : 28)
+    return Math.max(30, lines.length * 13 + 14)
+  }
+  function colHeight(col: BadgeColumn): number {
+    return headerH + itemGap + col.items.reduce((s, it) => s + itemHeight(it) + itemGap, 0)
+  }
+  const bodyH = Math.max(...columns.map(colHeight))
+  const width = pad * 2 + columns.length * colW + (columns.length - 1) * colGap
+  const height = pad + bodyH + pad
+
+  let body = ''
+  columns.forEach((col, ci) => {
+    const cx = pad + ci * (colW + colGap)
+    let y = pad
+    body += `<rect x="${cx}" y="${y}" width="${colW}" height="${headerH}" rx="${headerH / 2}" fill="${DR_ROSE}"/>`
+    body += `<text x="${cx + colW / 2}" y="${y + headerH / 2 + 4}" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(col.header)}</text>`
+    y += headerH + itemGap
+
+    col.items.forEach((it) => {
+      const h = itemHeight(it)
+      const badgeColor = it.badge === '+' ? DR_GREEN : it.badge === '-' ? DR_ROSE : null
+      const lines = wrapLabel(it.text, it.badge ? 24 : 28)
+      const lh = 13
+      const startY = y + h / 2 - ((lines.length - 1) * lh) / 2 + 4
+      const textCx = badgeColor ? cx + badgeIndent + (colW - badgeIndent) / 2 : cx + colW / 2
+      body += `<rect x="${cx}" y="${y}" width="${colW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+      if (badgeColor) {
+        body += `<circle cx="${cx + 15}" cy="${y + h / 2}" r="${badgeR}" fill="${badgeColor}"/>`
+        body += `<text x="${cx + 15}" y="${y + h / 2 + 4}" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">${it.badge}</text>`
+      }
+      body += lines.map((l, k) => `<text x="${textCx}" y="${startY + k * lh}" font-size="10.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+      y += h + itemGap
+    })
+  })
+
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// Nhóm xếp CHỒNG, mỗi nhóm 1 tab nhãn xám (vd FUTURE/PAST) rồi tới các item +/− — 1 item có thể
+// gồm nhiều dòng cách diễn đạt thay thế, ngăn bởi 1 gạch mảnh trong cùng 1 box (vd "Level 3: Self
+// — Past and Future").
+function renderBadgeGroups(data: BadgeGroupsData, title: string): string {
+  const { groups } = data
+  const pad = 18
+  const tabW = 66
+  const tabH = 20
+  const badgeR = 9
+  const boxX0 = pad + badgeR * 2 + 8
+  const boxW = 372
+  const lineH = 13
+  const boxPadY = 9
+  const itemGap = 10
+  const groupGap = 14
+
+  function wrappedLinesFor(it: BadgeGroupItem): string[][] {
+    return it.lines.map((ln) => wrapLabel(ln, 50))
+  }
+  function itemHeight(it: BadgeGroupItem): number {
+    const wrapped = wrappedLinesFor(it)
+    const totalLines = wrapped.reduce((s, ls) => s + ls.length, 0)
+    return totalLines * lineH + boxPadY * 2 + (wrapped.length - 1) * 8
+  }
+
+  let y = pad
+  let body = ''
+  groups.forEach((g) => {
+    body += `<rect x="${pad}" y="${y}" width="${tabW}" height="${tabH}" rx="6" fill="${DR_BOX}"/>`
+    body += `<text x="${pad + tabW / 2}" y="${y + tabH / 2 + 4}" font-size="9" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700" letter-spacing="0.4">${escapeXml(g.label)}</text>`
+    y += tabH + 10
+
+    g.items.forEach((it) => {
+      const wrapped = wrappedLinesFor(it)
+      const h = itemHeight(it)
+      const badgeColor = it.badge === '+' ? DR_GREEN : DR_ROSE
+      body += `<circle cx="${pad + badgeR}" cy="${y + h / 2}" r="${badgeR}" fill="${badgeColor}"/>`
+      body += `<text x="${pad + badgeR}" y="${y + h / 2 + 4}" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">${it.badge}</text>`
+      body += `<rect x="${boxX0}" y="${y}" width="${boxW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+
+      let ly = y + boxPadY
+      wrapped.forEach((lines, li) => {
+        lines.forEach((l, k) => {
+          body += `<text x="${boxX0 + 14}" y="${ly + k * lineH + 10}" font-size="10" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+        })
+        ly += lines.length * lineH
+        if (li < wrapped.length - 1) {
+          body += `<line x1="${boxX0 + 10}" y1="${ly + 3}" x2="${boxX0 + boxW - 10}" y2="${ly + 3}" stroke="${DR_BORDER}" stroke-width="1"/>`
+          ly += 8
+        }
+      })
+
+      y += h + itemGap
+    })
+    y += groupGap
+  })
+  const height = y - groupGap + pad / 2
+  const width = boxX0 + boxW + pad
+
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
 export const DataChart = Node.create({
   name: 'dataChart',
   group: 'block',
@@ -1107,6 +1235,8 @@ export const DataChart = Node.create({
       else if (chartType === 'drTypes') svg = renderDRTypes(parsed as DRTypesData, title)
       else if (chartType === 'drRows') svg = renderDRRows(parsed as DRRowsData, title)
       else if (chartType === 'tierList') svg = renderTierList(parsed as TierListData, title)
+      else if (chartType === 'badgeColumns') svg = renderBadgeColumns(parsed as BadgeColumnsData, title)
+      else if (chartType === 'badgeGroups') svg = renderBadgeGroups(parsed as BadgeGroupsData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML
