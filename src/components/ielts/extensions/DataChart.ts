@@ -1132,50 +1132,50 @@ function renderBadgeColumns(data: BadgeColumnsData, title: string): string {
 // — Past and Future").
 function renderBadgeGroups(data: BadgeGroupsData, title: string): string {
   const { groups } = data
-  const pad = 18
-  const tabW = 66
-  const tabH = 20
-  const badgeR = 9
-  const boxX0 = pad + badgeR * 2 + 8
-  const boxW = 372
-  const lineH = 13
-  const boxPadY = 9
-  const itemGap = 10
-  const groupGap = 14
+  const pad = 14
+  const tabW = 60
+  const tabH = 17
+  const badgeR = 8
+  const boxX0 = pad + badgeR * 2 + 6
+  const boxW = 350
+  const lineH = 11.5
+  const boxPadY = 6
+  const itemGap = 7
+  const groupGap = 9
 
   function wrappedLinesFor(it: BadgeGroupItem): string[][] {
-    return it.lines.map((ln) => wrapLabel(ln, 50))
+    return it.lines.map((ln) => wrapLabel(ln, 52))
   }
   function itemHeight(it: BadgeGroupItem): number {
     const wrapped = wrappedLinesFor(it)
     const totalLines = wrapped.reduce((s, ls) => s + ls.length, 0)
-    return totalLines * lineH + boxPadY * 2 + (wrapped.length - 1) * 8
+    return totalLines * lineH + boxPadY * 2 + (wrapped.length - 1) * 5
   }
 
   let y = pad
   let body = ''
   groups.forEach((g) => {
-    body += `<rect x="${pad}" y="${y}" width="${tabW}" height="${tabH}" rx="6" fill="${DR_BOX}"/>`
-    body += `<text x="${pad + tabW / 2}" y="${y + tabH / 2 + 4}" font-size="9" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700" letter-spacing="0.4">${escapeXml(g.label)}</text>`
-    y += tabH + 10
+    body += `<rect x="${pad}" y="${y}" width="${tabW}" height="${tabH}" rx="5" fill="${DR_BOX}"/>`
+    body += `<text x="${pad + tabW / 2}" y="${y + tabH / 2 + 3.5}" font-size="8.5" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700" letter-spacing="0.4">${escapeXml(g.label)}</text>`
+    y += tabH + 7
 
     g.items.forEach((it) => {
       const wrapped = wrappedLinesFor(it)
       const h = itemHeight(it)
       const badgeColor = it.badge === '+' ? DR_GREEN : DR_ROSE
       body += `<circle cx="${pad + badgeR}" cy="${y + h / 2}" r="${badgeR}" fill="${badgeColor}"/>`
-      body += `<text x="${pad + badgeR}" y="${y + h / 2 + 4}" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">${it.badge}</text>`
-      body += `<rect x="${boxX0}" y="${y}" width="${boxW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+      body += `<text x="${pad + badgeR}" y="${y + h / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">${it.badge}</text>`
+      body += `<rect x="${boxX0}" y="${y}" width="${boxW}" height="${h}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.3"/>`
 
       let ly = y + boxPadY
       wrapped.forEach((lines, li) => {
         lines.forEach((l, k) => {
-          body += `<text x="${boxX0 + 14}" y="${ly + k * lineH + 10}" font-size="10" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+          body += `<text x="${boxX0 + 12}" y="${ly + k * lineH + 9}" font-size="9" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
         })
         ly += lines.length * lineH
         if (li < wrapped.length - 1) {
-          body += `<line x1="${boxX0 + 10}" y1="${ly + 3}" x2="${boxX0 + boxW - 10}" y2="${ly + 3}" stroke="${DR_BORDER}" stroke-width="1"/>`
-          ly += 8
+          body += `<line x1="${boxX0 + 9}" y1="${ly + 2}" x2="${boxX0 + boxW - 9}" y2="${ly + 2}" stroke="${DR_BORDER}" stroke-width="1"/>`
+          ly += 5
         }
       })
 
