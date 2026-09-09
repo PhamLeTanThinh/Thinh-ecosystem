@@ -102,6 +102,13 @@ type BadgeGroupsData = { groups: BadgeGroup[] }
 // dưới đó thụt vào + tiền tố "↳"), thay vì danh sách công thức ngang hàng đơn giản.
 type FormulaBoxData = { root?: string; lines: string[] }
 
+// "Walkthrough" 1 ví dụ áp General/Specific approach (Cause) từng bước — nhóm theo [chủ ngữ], mỗi
+// nhóm có 1+ mẫu câu (stem, vẽ nét đứt vì là khuôn/template) và mỗi mẫu câu có 1+ câu trả lời hoàn
+// chỉnh (vẽ nét liền) — đúng cấu trúc "EXAMPLE" trong sách (vd ví dụ "meditate", "Aodai").
+type ExampleWalkItem = { stem: string; answers: string[] }
+type ExampleWalkGroup = { category: 'self' | 'topic'; subject: string; items: ExampleWalkItem[] }
+type ExampleWalkData = { quote?: string; groups: ExampleWalkGroup[] }
+
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
 // không báo lỗi console rõ ràng nào cả.
@@ -1273,6 +1280,71 @@ function renderFormulaBox(data: FormulaBoxData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
+function renderExampleWalk(data: ExampleWalkData, title: string): string {
+  const pad = 18
+  const boxW = 420
+  const pillH = 20
+  const pillW = 82
+  const lineH = 12
+  const boxPadY = 8
+  const rowGap = 6
+  const groupGap = 14
+
+  function wrapped(text: string, chars: number): string[] {
+    return wrapLabel(text, chars)
+  }
+  function boxHeight(lines: string[]): number {
+    return lines.length * lineH + boxPadY * 2
+  }
+
+  const quoteLines = data.quote ? wrapped(data.quote, 60) : []
+  let y = pad
+  let body = ''
+
+  if (quoteLines.length) {
+    quoteLines.forEach((l, k) => {
+      body += `<text x="${pad}" y="${y + 10 + k * 13}" font-size="11" font-style="italic" text-anchor="start" fill="${DR_INK_SOFT}">${escapeXml(l)}</text>`
+    })
+    y += quoteLines.length * 13 + 12
+  }
+
+  data.groups.forEach((g) => {
+    const pillColor = g.category === 'self' ? DR_ROSE : DR_GREEN
+    const pillLabel = g.category === 'self' ? 'BẢN THÂN' : 'ĐỀ TÀI'
+    body += `<rect x="${pad}" y="${y}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="${pillColor}"/>`
+    body += `<text x="${pad + pillW / 2}" y="${y + pillH / 2 + 3.5}" font-size="9" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(pillLabel)}</text>`
+    body += `<text x="${pad + pillW + 10}" y="${y + pillH / 2 + 4}" font-size="11.5" font-weight="700" text-anchor="start" fill="${DR_INK}">${escapeXml(g.subject)}</text>`
+    y += pillH + 8
+
+    g.items.forEach((item) => {
+      const stemLines = wrapped(item.stem, 52)
+      const stemH = boxHeight(stemLines)
+      body += `<rect x="${pad}" y="${y}" width="${boxW}" height="${stemH}" rx="7" fill="none" stroke="${DR_INK_SOFT}" stroke-width="1.2" stroke-dasharray="4,3"/>`
+      const stemStartY = y + boxPadY + 9
+      stemLines.forEach((l, k) => {
+        body += `<text x="${pad + 12}" y="${stemStartY + k * lineH}" font-size="10" font-style="italic" text-anchor="start" fill="${DR_INK_SOFT}">${escapeXml(l)}</text>`
+      })
+      y += stemH + rowGap
+
+      item.answers.forEach((a) => {
+        const lines = wrapped(a, 50)
+        const h = boxHeight(lines)
+        body += `<rect x="${pad + 16}" y="${y}" width="${boxW - 16}" height="${h}" rx="7" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.3"/>`
+        const sy = y + boxPadY + 9
+        lines.forEach((l, k) => {
+          body += `<text x="${pad + 28}" y="${sy + k * lineH}" font-size="10" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+        })
+        y += h + rowGap
+      })
+    })
+    y += groupGap - rowGap
+  })
+
+  const width = boxW + pad * 2 + 16
+  const height = y - groupGap + rowGap + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
 export const DataChart = Node.create({
   name: 'dataChart',
   group: 'block',
@@ -1326,6 +1398,7 @@ export const DataChart = Node.create({
       else if (chartType === 'badgeColumns') svg = renderBadgeColumns(parsed as BadgeColumnsData, title)
       else if (chartType === 'badgeGroups') svg = renderBadgeGroups(parsed as BadgeGroupsData, title)
       else if (chartType === 'formulaBox') svg = renderFormulaBox(parsed as FormulaBoxData, title)
+      else if (chartType === 'exampleWalk') svg = renderExampleWalk(parsed as ExampleWalkData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML
