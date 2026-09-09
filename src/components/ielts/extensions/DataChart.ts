@@ -68,7 +68,7 @@ type DRRow =
 type DRColumn = { title: string; rows: DRRow[] }
 // headerLabel bỏ trống = không vẽ thanh tiêu đề đỏ phía trên (dùng cho biến thể không có header như
 // "Level 3: Self — Facts and Habits", chỉ có box "A?" trỏ thẳng vào hàng tiêu đề cột).
-type DRTypesData = { qLabel: string; headerLabel?: string; columns: DRColumn[] }
+type DRTypesData = { qLabel?: string; headerLabel?: string; columns: DRColumn[] }
 
 // Mỗi hàng: [nhãn loại câu hỏi] [câu hỏi ví dụ] --(nhãn "Direct response")--> [box viền rose: câu
 // trả lời] — dùng cho "Level 3: Self — Preferences".
@@ -890,7 +890,8 @@ function renderDRTypes(data: DRTypesData, title: string): string {
   const titleH = 30
   const rowGap = 8
 
-  const gridX = pad + qW + qGap
+  const hasQ = Boolean(qLabel)
+  const gridX = hasQ ? pad + qW + qGap : pad
   const width = gridX + columns.length * colW + (columns.length - 1) * colGap + pad
 
   function rowHeight(row: DRRow): number {
@@ -918,10 +919,12 @@ function renderDRTypes(data: DRTypesData, title: string): string {
     body += `<rect x="${headerX}" y="${headerY}" width="${headerW}" height="${headerH}" rx="10" fill="${DR_ROSE}"/>`
     body += `<text x="${headerX + headerW / 2}" y="${headerY + headerH / 2 + 5}" font-size="13" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(headerLabel!)}</text>`
   }
-  const qY = qCenterY - qH / 2
-  body += `<rect x="${pad}" y="${qY}" width="${qW}" height="${qH}" rx="12" fill="${DR_INK}"/>`
-  body += `<text x="${pad + qW / 2}" y="${qY + qH / 2 + 6}" font-size="18" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(qLabel)}</text>`
-  body += `<line x1="${pad + qW}" y1="${qCenterY}" x2="${headerX}" y2="${qCenterY}" stroke="${DR_ROSE}" stroke-width="2.2" marker-end="url(#drArrow2)"/>`
+  if (hasQ) {
+    const qY = qCenterY - qH / 2
+    body += `<rect x="${pad}" y="${qY}" width="${qW}" height="${qH}" rx="12" fill="${DR_INK}"/>`
+    body += `<text x="${pad + qW / 2}" y="${qY + qH / 2 + 6}" font-size="18" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(qLabel!)}</text>`
+    body += `<line x1="${pad + qW}" y1="${qCenterY}" x2="${headerX}" y2="${qCenterY}" stroke="${DR_ROSE}" stroke-width="2.2" marker-end="url(#drArrow2)"/>`
+  }
 
   columns.forEach((col, ci) => {
     const cx = gridX + ci * (colW + colGap)
@@ -994,8 +997,8 @@ function renderDRRows(data: DRRowsData, title: string): string {
   const width = answerX + answerW + pad
 
   function rowH(r: DRRowItem): number {
-    const qLines = wrapLabel(r.question, 22).length
-    const aLines = wrapLabel(r.answer, 24).length
+    const qLines = multilineWrap(r.question, 22).length
+    const aLines = multilineWrap(r.answer, 24).length
     return Math.max(boxMinH, Math.max(qLines, aLines) * 13 + 20)
   }
 
@@ -1008,7 +1011,7 @@ function renderDRRows(data: DRRowsData, title: string): string {
     body += `<rect x="${typeX}" y="${y}" width="${typeW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.5"/>`
     body += `<text x="${typeX + typeW / 2}" y="${cy + 5}" font-size="13" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(r.typeLabel)}</text>`
 
-    const qLines = wrapLabel(r.question, 22)
+    const qLines = multilineWrap(r.question, 22)
     const qLh = 13
     const qStartY = cy - ((qLines.length - 1) * qLh) / 2 + 4
     body += `<rect x="${questionX}" y="${y}" width="${questionW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.5"/>`
@@ -1019,7 +1022,7 @@ function renderDRRows(data: DRRowsData, title: string): string {
     body += `<rect x="${labelCx - 36}" y="${cy - 22}" width="72" height="15" rx="7.5" fill="${DR_BOX}"/>`
     body += `<text x="${labelCx}" y="${cy - 11.5}" font-size="7.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700" letter-spacing="0.3">DIRECT RESPONSE</text>`
 
-    const aLines = wrapLabel(r.answer, 24)
+    const aLines = multilineWrap(r.answer, 24)
     const aLh = 13
     const aStartY = cy - ((aLines.length - 1) * aLh) / 2 + 4
     body += `<rect x="${answerX}" y="${y}" width="${answerW}" height="${h}" rx="9" fill="#fff" stroke="${DR_ROSE}" stroke-width="1.8"/>`
@@ -1093,10 +1096,17 @@ function renderBadgeColumns(data: BadgeColumnsData, title: string): string {
   const itemGap = 8
   const badgeR = 8
   const badgeIndent = 24
+  const textPad = 12
 
+  // Nhóm theo dòng gốc (tách bởi \n) trước khi word-wrap từng dòng — để chỉ chấm bullet ở ĐẦU mỗi
+  // dòng gốc (1 ý = 1 bullet), không phải mỗi dòng đã bị word-wrap xuống do quá dài.
+  function groupedLines(it: BadgeColItem): string[][] {
+    return it.text.split('\n').map((line) => wrapLabel(line, it.badge ? 22 : 26))
+  }
   function itemHeight(it: BadgeColItem): number {
-    const lines = wrapLabel(it.text, it.badge ? 24 : 28)
-    return Math.max(30, lines.length * 13 + 14)
+    const groups = groupedLines(it)
+    const totalLines = groups.reduce((s, g) => s + g.length, 0)
+    return Math.max(30, totalLines * 13 + 14)
   }
   function colHeight(col: BadgeColumn): number {
     return headerH + itemGap + col.items.reduce((s, it) => s + itemHeight(it) + itemGap, 0)
@@ -1116,16 +1126,25 @@ function renderBadgeColumns(data: BadgeColumnsData, title: string): string {
     col.items.forEach((it) => {
       const h = itemHeight(it)
       const badgeColor = it.badge === '+' ? DR_GREEN : it.badge === '-' ? DR_ROSE : null
-      const lines = wrapLabel(it.text, it.badge ? 24 : 28)
+      const groups = groupedLines(it)
+      const totalLines = groups.reduce((s, g) => s + g.length, 0)
+      const bulleted = groups.length > 1
       const lh = 13
-      const startY = y + h / 2 - ((lines.length - 1) * lh) / 2 + 4
-      const textCx = badgeColor ? cx + badgeIndent + (colW - badgeIndent) / 2 : cx + colW / 2
+      const textX = (badgeColor ? cx + badgeIndent : cx) + textPad
       body += `<rect x="${cx}" y="${y}" width="${colW}" height="${h}" rx="9" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
       if (badgeColor) {
         body += `<circle cx="${cx + 15}" cy="${y + h / 2}" r="${badgeR}" fill="${badgeColor}"/>`
         body += `<text x="${cx + 15}" y="${y + h / 2 + 4}" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">${it.badge}</text>`
       }
-      body += lines.map((l, k) => `<text x="${textCx}" y="${startY + k * lh}" font-size="10.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+      let ly = y + h / 2 - ((totalLines - 1) * lh) / 2 + 4
+      groups.forEach((subLines) => {
+        subLines.forEach((l, k) => {
+          const prefix = bulleted && k === 0 ? '• ' : ''
+          const x = k === 0 ? textX : textX + 10
+          body += `<text x="${x}" y="${ly}" font-size="10.5" text-anchor="start" fill="${DR_INK}">${escapeXml(prefix + l)}</text>`
+          ly += lh
+        })
+      })
       y += h + itemGap
     })
   })
