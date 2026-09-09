@@ -1356,19 +1356,19 @@ function renderExampleWalk(data: ExampleWalkData, title: string): string {
 // nhỏ gọn hơn drTypes (không cần title pill từng hàng), đúng bố cục sách cho bảng tra cứu dài.
 function renderStemReference(data: StemReferenceData, title: string): string {
   const pad = 14
-  const headerH = 22
+  const headerH = 20
   const labelW = 76
   const boxW = 260
   const gapLB = 8
-  const lineH = 10.5
-  const boxPadY = 6
+  const lineH = 9.5
+  const boxPadY = 5
   const rowGap = 5
   const sectionGap = 10
   const totalW = labelW + gapLB + boxW
 
   function rowHeight(row: StemRow): number {
-    const lines = multilineWrap(row.text, 34)
-    return Math.max(20, lines.length * lineH + boxPadY * 2)
+    const lines = multilineWrap(row.text, 38)
+    return Math.max(18, lines.length * lineH + boxPadY * 2)
   }
 
   let y = pad
@@ -1376,17 +1376,17 @@ function renderStemReference(data: StemReferenceData, title: string): string {
   data.sections.forEach((section) => {
     const color = section.category === 'self' ? DR_ROSE : DR_GREEN
     body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${headerH}" rx="6" fill="${color}"/>`
-    body += `<text x="${pad + 10}" y="${y + headerH / 2 + 3.5}" font-size="9.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(section.header)}</text>`
+    body += `<text x="${pad + 10}" y="${y + headerH / 2 + 3}" font-size="8.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(section.header)}</text>`
     y += headerH + rowGap
 
     section.rows.forEach((row) => {
       const h = rowHeight(row)
-      const lines = multilineWrap(row.text, 34)
-      body += `<text x="${pad}" y="${y + h / 2 + 3.5}" font-size="9.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(row.label)}</text>`
+      const lines = multilineWrap(row.text, 38)
+      body += `<text x="${pad}" y="${y + h / 2 + 3}" font-size="8.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(row.label)}</text>`
       body += `<rect x="${pad + labelW + gapLB}" y="${y}" width="${boxW}" height="${h}" rx="6" fill="${DR_BOX}"/>`
-      const startY = y + h / 2 - ((lines.length - 1) * lineH) / 2 + 3.5
+      const startY = y + h / 2 - ((lines.length - 1) * lineH) / 2 + 3
       body += lines
-        .map((l, k) => `<text x="${pad + labelW + gapLB + 10}" y="${startY + k * lineH}" font-size="9" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`)
+        .map((l, k) => `<text x="${pad + labelW + gapLB + 10}" y="${startY + k * lineH}" font-size="8" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`)
         .join('')
       y += h + rowGap
     })
