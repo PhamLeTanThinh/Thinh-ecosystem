@@ -13,9 +13,11 @@ export const QuestionBank = Node.create({
   atom: true,
 
   addAttributes() {
+    // rendered: false — xem giải thích trong DataChart.ts (renderHTML tự đổ ra data-title/data-payload,
+    // không tắt auto-render mặc định thì mergeAttributes() chèn thêm 1 bộ title/data trùng lặp).
     return {
-      title: { default: '' },
-      data: { default: '' },
+      title: { default: '', rendered: false },
+      data: { default: '', rendered: false },
     }
   },
 

@@ -28,13 +28,15 @@ export const TreeOutline = Node.create({
   atom: true,
 
   addAttributes() {
+    // rendered: false — xem giải thích trong SectionHero.ts (renderHTML tự đổ ra data-root/data-left-label/…,
+    // không tắt auto-render mặc định thì mergeAttributes() chèn thêm 1 bộ attr trùng lặp).
     return {
-      root: { default: '' },
-      leftLabel: { default: '' },
-      rightLabel: { default: '' },
-      leftSteps: { default: '' },
-      rightSteps: { default: '' },
-      bottom: { default: '' },
+      root: { default: '', rendered: false },
+      leftLabel: { default: '', rendered: false },
+      rightLabel: { default: '', rendered: false },
+      leftSteps: { default: '', rendered: false },
+      rightSteps: { default: '', rendered: false },
+      bottom: { default: '', rendered: false },
     }
   },
 

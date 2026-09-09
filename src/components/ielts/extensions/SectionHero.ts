@@ -10,9 +10,12 @@ export const SectionHero = Node.create({
   defining: true,
 
   addAttributes() {
+    // rendered: false — renderHTML() bên dưới tự đổ ra data-index/data-acronym; không tắt auto-render
+    // mặc định thì mergeAttributes() chèn thêm 1 bộ index="…" acronym="…" trùng lặp mỗi khi
+    // editor.getHTML() chạy lại (vd bấm "Chỉnh sửa" rồi "Xong" dù không sửa gì).
     return {
-      index: { default: '01' },
-      acronym: { default: '' },
+      index: { default: '01', rendered: false },
+      acronym: { default: '', rendered: false },
     }
   },
 

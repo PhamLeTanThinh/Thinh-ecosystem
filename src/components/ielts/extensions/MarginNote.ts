@@ -9,9 +9,11 @@ export const MarginNote = Node.create({
   defining: true,
 
   addAttributes() {
+    // rendered: false — xem giải thích trong SectionHero.ts (renderHTML tự đổ ra data-label/data-ref,
+    // không tắt auto-render mặc định thì mergeAttributes() chèn thêm 1 bộ attr trùng lặp).
     return {
-      label: { default: "examiner's note" },
-      ref: { default: '' },
+      label: { default: "examiner's note", rendered: false },
+      ref: { default: '', rendered: false },
     }
   },
 

@@ -9,8 +9,10 @@ export const BandLevel = Node.create({
   defining: true,
 
   addAttributes() {
+    // rendered: false — xem giải thích trong SectionHero.ts (renderHTML tự đổ ra data-band, không
+    // tắt auto-render mặc định thì mergeAttributes() chèn thêm 1 attr band="…" trùng lặp).
     return {
-      band: { default: '7' },
+      band: { default: '7', rendered: false },
     }
   },
 

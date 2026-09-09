@@ -11,8 +11,11 @@ export const Callout = Node.create({
   defining: true,
 
   addAttributes() {
+    // rendered: false — xem giải thích trong SectionHero.ts (renderHTML tự đổ ra data-callout, không
+    // tắt auto-render mặc định thì mergeAttributes() chèn thêm 1 attr variant="…" trùng lặp — đây
+    // chính là lý do nội dung tay từng viết có `variant=""` thừa trên mọi callout).
     return {
-      variant: { default: 'tip' as CalloutVariant },
+      variant: { default: 'tip' as CalloutVariant, rendered: false },
     }
   },
 
