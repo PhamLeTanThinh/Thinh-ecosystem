@@ -719,17 +719,31 @@ function renderFlowChain(data: FlowChainData, title: string): string {
   const boxH = 52
   const gapX = 60
   const laneGap = 40
-  const miniH = 30
-  const miniGap = 8
+  const miniGap = 10
+  const miniLineH = 12
+  const miniPadY = 12
+  const miniWrapChars = 24
   const pad = { top: 22, left: 20, right: 20, bottom: 16 }
+
+  // Chiều cao mỗi box nhánh phải theo ĐÚNG số dòng chữ của nhánh đó (không cố định) — nhánh dài
+  // hơn thì box cao hơn, tránh chữ tràn ra ngoài đè lên nhánh kế bên (bug từng gặp khi 1 nhánh dài
+  // 3 dòng nhưng box chỉ đủ chỗ cho 1 dòng).
+  function branchLines(b: string): string[] {
+    return wrapLabel(b, miniWrapChars)
+  }
+  function branchHeight(b: string): number {
+    return Math.max(28, branchLines(b).length * miniLineH + miniPadY)
+  }
+  function splitTotalHeight(branches: string[]): number {
+    return branches.reduce((sum, b) => sum + branchHeight(b), 0) + (branches.length - 1) * miniGap
+  }
 
   const maxNodes = Math.max(...lanes.map((l) => l.length), 1)
   const width = pad.left + maxNodes * boxW + (maxNodes - 1) * gapX + pad.right
 
   function laneHeight(lane: FlowNode[]): number {
-    const splitSizes = lane.filter((n): n is Extract<FlowNode, { type: 'split' }> => n.type === 'split').map((n) => n.branches.length)
-    const maxBranches = Math.max(1, ...splitSizes)
-    return Math.max(boxH, maxBranches * miniH + (maxBranches - 1) * miniGap)
+    const splitHeights = lane.filter((n): n is Extract<FlowNode, { type: 'split' }> => n.type === 'split').map((n) => splitTotalHeight(n.branches))
+    return Math.max(boxH, ...splitHeights)
   }
 
   const laneHeights = lanes.map(laneHeight)
@@ -765,21 +779,23 @@ function renderFlowChain(data: FlowChainData, title: string): string {
           .map((l, k) => `<text x="${x + boxW / 2}" y="${startY + k * 13}" font-size="11.5" text-anchor="middle" fill="#2b3a55" font-weight="600">${escapeXml(l)}</text>`)
           .join('')
       } else {
-        const n = node.branches.length
-        const totalH = n * miniH + (n - 1) * miniGap
-        const top = cy - totalH / 2
+        const heights = node.branches.map(branchHeight)
+        const totalH = heights.reduce((s, h) => s + h, 0) + (node.branches.length - 1) * miniGap
         const stemX = x + 14
         body += `<line x1="${x}" y1="${cy}" x2="${stemX}" y2="${cy}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+        let by = cy - totalH / 2
         node.branches.forEach((b, bi) => {
-          const by = top + bi * (miniH + miniGap)
-          body += `<line x1="${stemX}" y1="${cy}" x2="${stemX}" y2="${by + miniH / 2}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
-          body += `<line x1="${stemX}" y1="${by + miniH / 2}" x2="${stemX + 10}" y2="${by + miniH / 2}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
-          body += `<rect x="${stemX + 10}" y="${by}" width="${boxW - 24}" height="${miniH}" rx="8" fill="#f4f1ea" stroke="#B45309" stroke-width="1.6"/>`
-          const lines = wrapLabel(b, 18)
-          const sy = by + miniH / 2 - ((lines.length - 1) * 11) / 2 + 4
+          const h = heights[bi]
+          const boxCenterY = by + h / 2
+          body += `<line x1="${stemX}" y1="${cy}" x2="${stemX}" y2="${boxCenterY}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+          body += `<line x1="${stemX}" y1="${boxCenterY}" x2="${stemX + 10}" y2="${boxCenterY}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+          body += `<rect x="${stemX + 10}" y="${by}" width="${boxW - 24}" height="${h}" rx="8" fill="#f4f1ea" stroke="#B45309" stroke-width="1.6"/>`
+          const lines = branchLines(b)
+          const sy = boxCenterY - ((lines.length - 1) * miniLineH) / 2 + 4
           body += lines
-            .map((l, k) => `<text x="${stemX + 10 + (boxW - 24) / 2}" y="${sy + k * 11}" font-size="10" text-anchor="middle" fill="#2b3a55">${escapeXml(l)}</text>`)
+            .map((l, k) => `<text x="${stemX + 10 + (boxW - 24) / 2}" y="${sy + k * miniLineH}" font-size="10" text-anchor="middle" fill="#2b3a55">${escapeXml(l)}</text>`)
             .join('')
+          by += h + miniGap
         })
       }
       x += boxW + gapX
