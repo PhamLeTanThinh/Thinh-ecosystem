@@ -109,6 +109,13 @@ type ExampleWalkItem = { stem: string; answers: string[] }
 type ExampleWalkGroup = { category: 'self' | 'topic'; subject: string; items: ExampleWalkItem[] }
 type ExampleWalkData = { quote?: string; groups: ExampleWalkGroup[] }
 
+// Bảng tra cứu mẫu câu 1 CỘT duy nhất, mỗi hàng [nhãn bên trái] + [box mẫu câu bên phải] — đúng bố
+// cục sách (không phải nhiều cột song song như drTypes), nhóm theo section có thanh tiêu đề riêng
+// (vd "BẢN THÂN"/"ĐỀ TÀI" cho Specific approach — Cause).
+type StemRow = { label: string; text: string }
+type StemSection = { category: 'self' | 'topic'; header: string; rows: StemRow[] }
+type StemReferenceData = { sections: StemSection[] }
+
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
 // không báo lỗi console rõ ràng nào cả.
@@ -1345,6 +1352,52 @@ function renderExampleWalk(data: ExampleWalkData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
+// 1 cột, mỗi hàng [nhãn trái] + [box mẫu câu phải], nhóm theo section có thanh tiêu đề màu riêng —
+// nhỏ gọn hơn drTypes (không cần title pill từng hàng), đúng bố cục sách cho bảng tra cứu dài.
+function renderStemReference(data: StemReferenceData, title: string): string {
+  const pad = 14
+  const headerH = 22
+  const labelW = 76
+  const boxW = 260
+  const gapLB = 8
+  const lineH = 10.5
+  const boxPadY = 6
+  const rowGap = 5
+  const sectionGap = 10
+  const totalW = labelW + gapLB + boxW
+
+  function rowHeight(row: StemRow): number {
+    const lines = multilineWrap(row.text, 34)
+    return Math.max(20, lines.length * lineH + boxPadY * 2)
+  }
+
+  let y = pad
+  let body = ''
+  data.sections.forEach((section) => {
+    const color = section.category === 'self' ? DR_ROSE : DR_GREEN
+    body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${headerH}" rx="6" fill="${color}"/>`
+    body += `<text x="${pad + 10}" y="${y + headerH / 2 + 3.5}" font-size="9.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(section.header)}</text>`
+    y += headerH + rowGap
+
+    section.rows.forEach((row) => {
+      const h = rowHeight(row)
+      const lines = multilineWrap(row.text, 34)
+      body += `<text x="${pad}" y="${y + h / 2 + 3.5}" font-size="9.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(row.label)}</text>`
+      body += `<rect x="${pad + labelW + gapLB}" y="${y}" width="${boxW}" height="${h}" rx="6" fill="${DR_BOX}"/>`
+      const startY = y + h / 2 - ((lines.length - 1) * lineH) / 2 + 3.5
+      body += lines
+        .map((l, k) => `<text x="${pad + labelW + gapLB + 10}" y="${startY + k * lineH}" font-size="9" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`)
+        .join('')
+      y += h + rowGap
+    })
+    y += sectionGap - rowGap
+  })
+
+  const width = totalW + pad * 2
+  const height = y - sectionGap + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
 export const DataChart = Node.create({
   name: 'dataChart',
   group: 'block',
@@ -1399,6 +1452,7 @@ export const DataChart = Node.create({
       else if (chartType === 'badgeGroups') svg = renderBadgeGroups(parsed as BadgeGroupsData, title)
       else if (chartType === 'formulaBox') svg = renderFormulaBox(parsed as FormulaBoxData, title)
       else if (chartType === 'exampleWalk') svg = renderExampleWalk(parsed as ExampleWalkData, title)
+      else if (chartType === 'stemReference') svg = renderStemReference(parsed as StemReferenceData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML
