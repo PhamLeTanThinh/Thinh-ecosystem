@@ -53,8 +53,39 @@ type MapDiagramData = { panels: MapPanel[] }
 // (không phải số liệu) như "quy trình học kỹ năng mới", "cách phân loại câu hỏi rồi chọn cấu trúc
 // trả lời". Nhiều "lane" (hàng) xếp chồng cho các sơ đồ có 2+ luồng song song (vd tiêu chí A ảnh
 // hưởng tiêu chí B, và tiêu chí C ảnh hưởng tiêu chí D, vẽ thành 2 hàng riêng trong cùng 1 hình).
-type FlowNode = { type: 'box'; text: string; arrowLabel?: string } | { type: 'split'; branches: string[]; arrowLabel?: string }
-type FlowChainData = { lanes: FlowNode[][] }
+// "deepen" — triển khai CHIỀU DỌC: 1 box chính (cùng cỡ/màu box thường, thẳng hàng ngang với các
+// box khác trong lane) + 1 box phụ nhỏ hơn nối bằng mũi tên DỌC nét liền ngay bên dưới — khác với
+// "split" (nét đứt, các nhánh ngang hàng nhau, dùng cho lựa chọn/rẽ nhánh) vì đây là ĐÀO SÂU thêm ý
+// của CÙNG 1 Linear Tool, không phải các lựa chọn khác nhau.
+// highlights/subHighlights (tuỳ chọn) — tô đậm ĐÚNG cụm từ vừa thay/thêm ngay trong câu, giống cách
+// sách tô đỏ (vd "many interesting forms" → "a whole lot of" khi so sánh 2 cách áp dụng idiomatic
+// language) — dùng chung cơ chế tokenize/wrap/render với compareHighlight (xem bên dưới).
+// tag (tuỳ chọn, box) — 1 badge xám nhỏ đè lên góc phải box (vd "suffixing" gắn thêm vào box
+// "Expansion" cuối 1 chuỗi) — khác branchLabel/arrowLabel vì đây là thuộc tính CỦA box đó, không
+// phải chú thích trên mũi tên.
+type FlowNode =
+  | { type: 'box'; text: string; arrowLabel?: string; belowLabel?: string; highlights?: string[]; tag?: string; pill?: string }
+  | { type: 'split'; branches: string[]; arrowLabel?: string }
+  | { type: 'deepen'; text: string; subText: string; arrowLabel?: string; highlights?: string[]; subHighlights?: string[] }
+// laneLabels (tuỳ chọn, song song với lanes) — in 1 dòng tiêu đề (vd "Introduction"/"Main
+// discussion") ngay TRÊN lane đó để phân nhóm — thêm dạng mảng riêng thay vì đổi hẳn cấu trúc lanes
+// thành {label, nodes}[] để KHÔNG phá vỡ mọi chart flowChain cũ đã lưu (chỉ truyền lanes, không có
+// laneLabels vẫn chạy y hệt trước đây).
+// lanePills — bản thay thế "đậm" hơn cho laneLabels (pill nền hồng đặc + badge thời gian phía trên,
+// giống đúng "(30s)"/"(45s)" trong sách Lesson 7 Part 2) — thêm mảng song song riêng thay vì đổi hẳn
+// laneLabels để KHÔNG phá vỡ các chart cũ chỉ dùng laneLabels dạng chữ thường (Lesson 6/7 khác).
+// dashedArrows (tuỳ chọn, áp dụng cho CẢ chart) — sách Lesson 7 Part 2 vẽ mũi tên nét đứt (khác mũi
+// tên liền nét mặc định của Part 1 framework) nên thêm cờ bật riêng cho từng chart thay vì đổi mặc
+// định chung, tránh ảnh hưởng các flowChain khác đã dùng mũi tên liền.
+// laneTrailingNote (song song với lanes) — chú thích ngắn in THẲNG sau box cuối cùng của lane, không
+// nối mũi tên (vd "X2 - X3" sau box "SV | SV" ở lane Short cues).
+type FlowChainData = {
+  lanes: FlowNode[][]
+  laneLabels?: (string | undefined)[]
+  lanePills?: ({ text: string; time?: string } | undefined)[]
+  dashedArrows?: boolean
+  laneTrailingNote?: (string | undefined)[]
+}
 
 // Sơ đồ "Direct Response" riêng cho Speaking Lesson 1 — sao lại ĐÚNG bảng màu + bố cục trong sách
 // gốc (nền hồng, box "?" đen, pill đỏ mận, badge số viền đen) thay vì bảng màu xanh lá mặc định
@@ -87,6 +118,85 @@ type BadgeColItem = { badge?: '+' | '-'; text: string }
 type BadgeColumn = { header: string; items: BadgeColItem[] }
 type BadgeColumnsData = { columns: BadgeColumn[] }
 
+// Sơ đồ "cue card thật" (1 khung duy nhất, các dòng xếp chồng) + pill hồng đặc chú thích từng CỤM
+// dòng bên phải (vd "Topic" / "3 short cues" / "1 main question") nối bằng dấu ngoặc vuông — khác
+// hẳn badgeColumns (nhiều cột ngang bằng nhau) vì sách thật chỉ có 1 cue card, các nhãn chỉ TRỎ VÀO
+// từng phần của cùng 1 khối chữ chứ không phải 3 cột độc lập.
+type CueLine = { text: string; indent?: boolean }
+type CueFormatGroup = { tag: string; lines: CueLine[] }
+type CueFormatTableData = { groups: CueFormatGroup[] }
+
+// Nhiều "row" xếp CHỒNG, mỗi row gồm 2+ CỘT cạnh nhau — mỗi cột là 1 pill nhãn màu (rose/green) +
+// 1 khung nét đứt bên dưới chứa 1 mảnh câu — dùng để so sánh vài CÁCH DIỄN ĐẠT khác nhau cho cùng 1
+// câu, đặt song song để thấy ngay điểm khác biệt (vd "Tư duy cũ vs Tư duy mới": mệnh đề phụ đứng
+// trước hay câu chính đứng trước). Khác exampleWalk ở chỗ đây là so sánh NGANG (cột kề cột), không
+// phải danh sách dọc theo chủ ngữ. verdict (tuỳ chọn) in dưới mỗi row — ✗/✓ kèm lý do ngắn.
+type PairFlowItem = { header: string; text: string; color: 'rose' | 'green' }
+// sectionLabel (tuỳ chọn) — in 1 dòng tiêu đề đậm ngay TRÊN row này, dùng để phân nhóm rõ ràng (vd
+// "TƯ DUY CŨ" cho 2 row đầu, "TƯ DUY MỚI CỦA DOL" cho row cuối) — thiếu label này người xem không
+// biết row nào thuộc nhóm nào (bug đã gặp: 3 row liền nhau trông như cùng 1 nhóm).
+type PairFlowRow = { sectionLabel?: string; items: PairFlowItem[]; verdict?: string; verdictOk?: boolean }
+type PairFlowData = { rows: PairFlowRow[] }
+
+// Sơ đồ "phương pháp tổng quát" riêng cho 1 trang duy nhất (Speaking Lesson 5) — 1 chuỗi ngang N box
+// (nối bằng đường thẳng, KHÔNG mũi tên, đúng kiểu sách vẽ khung công thức), 1 box trong chuỗi (thường
+// là "connector") có nhánh đứt nét đi XUỐNG tới 1 box phụ ("relationships": liệt kê các loại quan hệ
+// có thể chọn), rồi từ box phụ đó có nhánh đứt nét đi tiếp lên 1 box khác trong chuỗi (thường là
+// "suffixing phrase") — thể hiện 1 lựa chọn (loại quan hệ) chi phối CẢ 2 điểm trong câu, không phải
+// chuỗi tuyến tính đơn thuần nên không tái dùng được flowChain.
+type MethodChainBox = { tag?: string; text: string }
+type MethodBranchItem = { text: string; emphasis?: boolean }
+type MethodDiagramData = {
+  chain: MethodChainBox[]
+  branchFromIndex: number
+  branchLabel: string
+  branchItems: MethodBranchItem[]
+  branchToIndex: number
+}
+
+// Bảng lưới 3-4 CỘT (SV chính | connector | SV phụ | suffixing) đúng bố cục sách cho các trang liệt
+// kê nhiều biến thể connector của CÙNG 1 câu chính (vd "Nhóm cấu trúc tăng/giảm Degree" — Contrast,
+// Exception...) — cột "SV (chính)" GỘP thành 1 khung cao xuyên suốt mọi row (vì luôn cùng 1 câu),
+// cột connector/SV phụ mỗi cái 1 khung riêng theo từng row, cột suffixing tự gộp thành 1 khung nếu
+// mọi row cùng chung 1 giá trị (vd Exception: cả 2 row đều "though (of course)") hoặc tách riêng nếu
+// khác nhau (vd Self-correction: mỗi row 1 suffixing khác nhau) — tự động theo dữ liệu, không cần cờ
+// riêng. Cột suffixing cũng tự ẩn hẳn nếu group không có suffixing nào (Contrast/Concession/Outcome).
+// Khác stemReference (label trái + box phải, 1 cột) ở chỗ đây là lưới nhiều cột song song thật sự,
+// cần khi có ≥3 mảnh câu tương ứng theo hàng ngang, không gộp lại thành text 1 cột được vì sẽ mất hẳn
+// cấu trúc "song song" mà sách cố tình trình bày.
+type ConnectorGridRow = { connector: string; svPhu: string; suffixing?: string }
+type ConnectorGridGroup = { title: string; svChinh: string; phuLabel?: string; rows: ConnectorGridRow[] }
+type ConnectorGridData = { groups: ConnectorGridGroup[] }
+
+// Chuỗi box ngang có "umbrella" (label chung, vd "SV chính"/"SV phụ") trùm lên 1 CỤM box liên tiếp,
+// cộng thêm nhãn "CHUNKING" (tuỳ chọn từng box) nối bằng mũi tên đứt nét đi LÊN từ dưới box — đúng
+// bố cục "LINH HOẠT LINEAR TOOLS THEO FRAMEWORK" (Speaking Lesson 6): direct response -- PAUSE -->
+// [SV chính: marker/pattern/idea] --> [SV phụ: connector/SV/suffixing] -- PAUSE. Khác flowChain ở
+// chỗ có thêm 1 tầng umbrella phía trên 1 nhóm box, và annotation CHUNKING phía dưới — flowChain
+// (box/split/deepen) không có khái niệm "nhóm box dùng chung 1 nhãn trên đầu".
+type GroupedChainBox = { text: string; chunking?: boolean; tag?: string }
+type GroupedChainGroup = { label?: string; boxes: GroupedChainBox[]; pauseAfter?: boolean }
+// band (tuỳ chọn) — nền hồng nhạt phủ phía sau 1 dải group liên tiếp (từ groupFrom tới hết) + 1 dòng
+// ghi chú bên dưới cùng, giống sách hay đóng khung cả cụm Expansion trong 1 nền màu riêng kèm ghi
+// chú "linh hoạt dùng các Linear Tools" — khác umbrella (chỉ viền, không nền) vì đây phủ nền LIÊN
+// TỤC qua nhiều group cùng lúc, không phải 1 khung riêng cho từng group.
+type GroupedChainData = { groups: GroupedChainGroup[]; band?: { fromGroupIndex: number; note: string } }
+
+// Khung nhỏ liệt kê vài cặp [nhãn]: [giá trị] trên CÙNG 1 dòng, không header màu, không viền dày —
+// dùng cho các bảng sự thật cực ngắn (vd "Cue card: Personal experiences") mà stemReference (luôn
+// có header bar + padding lớn) vẽ ra to hơn hẳn so với lượng nội dung thật sự có.
+// bullets (tuỳ chọn) — 1 vài hàng cần thêm vài dòng con thụt lề dưới giá trị chính (vd hàng
+// "Questions:" ở Lesson 8 có 2 bullet "Follow up questions.../Clarify questions...") thay vì nhét
+// hết vào 1 dòng value dài.
+type MiniFactRow = { label: string; value: string; bullets?: string[] }
+type MiniFactsData = { rows: MiniFactRow[] }
+
+// N "thẻ" xếp lưới 2 cột (đúng bố cục sách cho cue card mẫu: PLACE/PERSON/OBJECT/EVENT) — mỗi thẻ
+// có pill nhãn xám, đoạn giới thiệu, danh sách bullet, và đoạn kết — khác badgeColumns (mỗi cột 1
+// danh sách item rời) vì đây mỗi Ô là 1 khối văn bản có cấu trúc riêng (intro + bullet + outro).
+type CueCard = { header: string; intro: string; bullets: string[]; outro?: string }
+type CardGridData = { cards: CueCard[]; columns?: number }
+
 // Nhiều nhóm xếp CHỒNG, mỗi nhóm có 1 tab nhãn xám (vd FUTURE/PAST) rồi tới các item +/− — mỗi item
 // có thể chứa NHIỀU dòng cách diễn đạt thay thế, ngăn cách bằng 1 gạch mảnh trong cùng 1 box (vd
 // "Level 3: Self — Past and Future").
@@ -102,6 +212,59 @@ type BadgeGroupsData = { groups: BadgeGroup[] }
 // dưới đó thụt vào + tiền tố "↳"), thay vì danh sách công thức ngang hàng đơn giản.
 type FormulaBoxData = { root?: string; lines: string[] }
 
+// 2 khung outline đặt cạnh nhau + 1 ký hiệu nhỏ ở giữa (mặc định "=") — dùng cho các công thức kiểu
+// "Part 2 Question = Part 1 Question x 4" (Lesson 7), khác formulaBox (phân cấp 1 root nhiều dòng
+// con) vì đây chỉ là 2 cụm ngang hàng nối bằng 1 dấu duy nhất.
+type EquationBoxData = { left: string; right: string; symbol?: string }
+
+// Chuỗi N khung outline nối bằng ký hiệu (mặc định "=" rồi "+" cho các khung sau) — tổng quát hoá
+// equationBox (chỉ 2 khung) cho công thức 3 phần "Topic A = Topic A1 + Topic A2" (Lesson 8), có thể
+// gắn thêm pill nhãn phía trên + ví dụ chữ nhỏ phía dưới mỗi khung (dùng lại 5 lần cho "Tư duy
+// chung" + 4 kiểu specify: Noun/Aspect/Process/Perspectives).
+type EquationChainPart = { text: string; label?: string; example?: string }
+type EquationChainData = { parts: EquationChainPart[]; symbols?: string[] }
+
+// Hàng các box ĐỘC LẬP (không có mũi tên ngang nối chúng — khác flowChain) mỗi box có 1 pill nhãn
+// riêng phía trên (vd Response/Description/Cause/Opinion), 1 vài box có thể rẽ nhánh XUỐNG 1 box con
+// bằng mũi tên nét đứt (vd Cause → Effect) — đúng bố cục "III. Problems in Part 3" (Lesson 8), tái
+// dùng ý tưởng "deepen" của flowChain nhưng KHÔNG có chuỗi ngang nối các box cấp 1 với nhau.
+// label/branchTo.label tuỳ chọn — 1 vài sơ đồ (vd "Tư duy idea" Lesson 9) chỉ có khung trơn, không
+// pill nhãn xám phía trên (khác "Problems in Part 3" Lesson 8 luôn có pill Response/Cause/...).
+type BranchRowItem = { label?: string; text: string; branchTo?: { label?: string; text: string } }
+type BranchRowData = { items: BranchRowItem[] }
+
+// Bảng kiểm tra "từ khoá trong câu hỏi có được trả lời trúng không" — câu hỏi có vài từ được tô đậm
+// (highlights), mỗi hàng idea gắn 1 dấu ✓/✗ cho TỪNG từ tô đậm đó, theo đúng thứ tự — dùng cho ví dụ
+// "Cách đánh giá chất lượng idea" (Lesson 8 IV.1).
+type CheckMatrixData = { question: string; highlights: string[]; rows: { label: string; marks: boolean[] }[] }
+
+// "Quy tắc" — 1 hàng nhãn đậm (topLabel) + N pill cột (columns), nối bằng đường chấm dọc xuống 1
+// hàng nhãn đậm khác (bottomLabel) + N pill cột tương ứng có dấu ✓ — nền hồng nhạt bao quanh toàn bộ
+// (Lesson 8 IV.1 "Quy tắc": Câu hỏi/Aspect 1-3 → Trả lời chất lượng/Aspect 1-3 ✓).
+type SpecifyRuleData = { topLabel: string; bottomLabel: string; columns: string[] }
+
+// Cây phân nhánh 2 tầng: 1 box câu hỏi gốc → nhãn "SPECIFY" → tách thành N nhánh (branches), MỖI
+// nhánh lại có 1 mũi tên nét đứt xuống thêm 1 box con (child) — khác flowChain "split" (chỉ tách 1
+// tầng, không có tầng con thứ 2) — dùng cho ví dụ "Cách generate ideas chất lượng" (Lesson 8 IV.2).
+type SpecifyTreeData = { question: string; branches: { text: string; child: string }[] }
+
+// Bảng dữ liệu N cột đơn giản (header + rows) — dùng cho các bảng tra cứu thẳng (vd TỪ VỰNG/IPA/Ý
+// NGHĨA, QUESTION WORD/CHỨC NĂNG/NOUN CLAUSE, LOẠI IDEA/TIẾNG VIỆT/TIẾNG ANH ở Lesson 9) mà không
+// cần header màu/badge như stemReference hay badgeColumns — chỉ là bảng tra cứu trung tính.
+type SimpleTableData = { headers: string[]; rows: string[][] }
+
+// Khung "Idea → Defining word → Detail" (cốt lõi tư duy Think in English, Lesson 9 mục III) — mỗi
+// group có 1 Idea hiển thị 1 LẦN (dùng cho nhiều defining word khác nhau của cùng 1 idea, vd "cường
+// độ tập" → how / how much / how), mỗi subrow có 1 Defining word (kèm tag đỏ nhỏ tuỳ chọn như
+// "objects"/"mức độ") + 1-2 Detail cell đi kèm (đa số 1, riêng ví dụ "phối màu" ở mục III.1 có 2).
+// definingWord ở CẤP GROUP (tuỳ chọn) — 1 số bảng (vd khung Verb/Adj tổng quát) có Defining word CỐ
+// ĐỊNH giống hệt Idea cho mọi subrow (chỉ Detail mới khác nhau theo objects/manner/context/purpose),
+// khi đó vẽ Defining word 1 LẦN duy nhất (giống idea) thay vì lặp lại ở từng subrow.
+type ThinkCell = { lines: string[]; tag?: string }
+type ThinkSubRow = { definingWord?: ThinkCell; detail: ThinkCell[] }
+type ThinkGroup = { idea: ThinkCell; definingWord?: ThinkCell; rows: ThinkSubRow[] }
+type ThinkTableData = { groups: ThinkGroup[] }
+
 // "Walkthrough" 1 ví dụ áp General/Specific approach (Cause) từng bước — nhóm theo [chủ ngữ], mỗi
 // nhóm có 1+ mẫu câu (stem, vẽ nét đứt vì là khuôn/template) và mỗi mẫu câu có 1+ câu trả lời hoàn
 // chỉnh (vẽ nét liền) — đúng cấu trúc "EXAMPLE" trong sách (vd ví dụ "meditate", "Aodai").
@@ -115,6 +278,18 @@ type ExampleWalkData = { quote?: string; groups: ExampleWalkGroup[] }
 type StemRow = { label: string; text: string }
 type StemSection = { category: 'self' | 'topic'; header: string; rows: StemRow[] }
 type StemReferenceData = { sections: StemSection[] }
+
+// So sánh Trước/Sau (vd thêm idiomatic language vào 1 đoạn có sẵn) — khác stemReference ở chỗ box
+// "Sau" cần bôi đậm/tô màu ĐÚNG những cụm từ vừa thêm vào (so khớp chuỗi con trong `highlights`),
+// giống cách sách tô đỏ phần khác biệt, và có thêm 1 dòng giải thích ngắn bên dưới mỗi cặp. Riêng
+// type này dùng box RỘNG hơn stemReference (label xếp TRÊN thay vì bên trái) vì đoạn Trước/Sau
+// thường dài nhiều câu — xếp label bên trái như stemReference sẽ phí ngang, chữ bị wrap sớm dù còn
+// dư chỗ trong box (bug từng gặp, ảnh chụp có khoảng trắng lớn bên phải mỗi dòng).
+// beforeHighlights (tuỳ chọn) — 1 số so sánh cần tô đậm luôn cả cụm ở câu "Trước" (thành phần SẼ bị
+// thay), không chỉ cụm mới ở câu "Sau" (vd "Two approaches to idiomatic language": tô "many
+// interesting forms" ở câu gốc, "a whole lot of" ở câu đã sửa).
+type CompareSection = { header: string; before: string; after: string; beforeHighlights?: string[]; highlights: string[]; explanation: string }
+type CompareData = { sections: CompareSection[] }
 
 // Tên/label tới từ dữ liệu tuỳ ý (vd "Food & Beverage") — SVG là XML nên "&"/"<"/">" chưa escape
 // sẽ làm trình duyệt coi data:image/svg+xml là XML lỗi và không render (img.naturalWidth = 0),
@@ -730,11 +905,18 @@ function multilineWrap(text: string, maxChars: number): string[] {
 }
 
 function renderFlowChain(data: FlowChainData, title: string): string {
-  const { lanes } = data
+  const { lanes, laneLabels, lanePills, dashedArrows, laneTrailingNote } = data
+  const arrowDash = dashedArrows ? ' stroke-dasharray="4,4"' : ''
   const boxW = 176
   const boxH = 52
   const gapX = 60
   const laneGap = 40
+  const laneLabelH = 18
+  const laneLabelGap = 6
+  const pillH = 17
+  const pillGap = 6
+  const timeH = 12
+  const timeGap = 3
   const miniGap = 10
   const miniLineH = 12
   const miniPadY = 12
@@ -753,72 +935,265 @@ function renderFlowChain(data: FlowChainData, title: string): string {
   function splitTotalHeight(branches: string[]): number {
     return branches.reduce((sum, b) => sum + branchHeight(b), 0) + (branches.length - 1) * miniGap
   }
-
-  const maxNodes = Math.max(...lanes.map((l) => l.length), 1)
-  const width = pad.left + maxNodes * boxW + (maxNodes - 1) * gapX + pad.right
-
-  function laneHeight(lane: FlowNode[]): number {
-    const splitHeights = lane.filter((n): n is Extract<FlowNode, { type: 'split' }> => n.type === 'split').map((n) => splitTotalHeight(n.branches))
-    return Math.max(boxH, ...splitHeights)
+  const deepenGap = 16 // khoảng trống cho mũi tên dọc giữa box chính và box phụ bên dưới
+  function deepenSubHeight(subText: string): number {
+    return Math.max(28, branchLines(subText).length * miniLineH + miniPadY)
   }
 
-  const laneHeights = lanes.map(laneHeight)
+  // Box chính ("box"/"deepen") cũng phải cao theo ĐÚNG số dòng chữ như branch/split — nhãn dạng
+  // "Label:\ncâu dài" ở Lesson 3 dễ wrap ra 4-6 dòng, cao hơn nhiều so với boxH cố định 52, tràn chữ
+  // ra ngoài khung nếu không tính động (bug tương tự split trước đây, nay lặp lại ở box thường).
+  function boxLines(text: string): string[] {
+    return multilineWrap(text, 20)
+  }
+  function boxNodeHeight(text: string): number {
+    return Math.max(boxH, boxLines(text).length * 13 + 26)
+  }
+
+  // Box thường và split đối xứng quanh tâm lane (above = below); riêng "deepen" lệch hẳn xuống dưới
+  // (box phụ chỉ nằm bên dưới box chính) nên phải tính above/below riêng cho từng lane thay vì 1 số
+  // chiều cao duy nhất, để mạch ngang (các box "box" bình thường) luôn thẳng hàng nhau giữa các lane.
+  // Box có `pill` (nhãn umbrella nền đặc, vd "Statement"/"Expansion 1") cần thêm khoảng trống PHÍA
+  // TRÊN box cho pill đó — cộng vào nodeAbove riêng cho box này thay vì đổi boxH chung, vì chỉ 1 vài
+  // box trong lane có pill (không phải tất cả).
+  function nodeAbove(node: FlowNode): number {
+    if (node.type === 'split') return splitTotalHeight(node.branches) / 2
+    const base = boxNodeHeight(node.text) / 2
+    if (node.type === 'box' && node.pill) return base + pillGap + pillH
+    return base
+  }
+  function nodeBelow(node: FlowNode): number {
+    if (node.type === 'split') return splitTotalHeight(node.branches) / 2
+    const ownH = boxNodeHeight(node.text)
+    if (node.type === 'deepen') return ownH / 2 + deepenGap + deepenSubHeight(node.subText)
+    return ownH / 2
+  }
+
+  const maxNodes = Math.max(...lanes.map((l) => l.length), 1)
+  // Mỗi box có tag cộng thêm tagExtra vào khoảng cách TỚI box kế tiếp (xem vòng lặp render bên dưới)
+  // — bề rộng canvas phải cộng dồn ĐÚNG khoản này cho lane rộng nhất, dùng chung 1 giá trị cố định
+  // (như trước: +50) không đủ khi 1 lane có NHIỀU box đều có tag (vd 3 tag "suffixing" liên tiếp).
+  function laneTagExtra(lane: FlowNode[]): number {
+    return lane.reduce((sum, n) => sum + (n.type === 'box' && n.tag ? Math.max(44, n.tag.length * 6 + 14) + 10 : 0), 0)
+  }
+  const maxTagExtra = Math.max(0, ...lanes.map(laneTagExtra))
+  // arrowLabel/belowLabel dài mà KHÔNG có khoảng trắng để wrapLabel tách dòng (vd 1 từ liền
+  // "DESCRIPTION"/"EFFECT") sẽ render nguyên 1 dòng dài hơn cả khoảng trống gapX=60 mặc định giữa 2
+  // box, khiến chữ tràn đè lên mũi tên/box liền kề — phải nới rộng CHÍNH khoảng gap đó thay vì chỉ
+  // ép cỡ chữ nhỏ lại (không giải quyết được vì wrapLabel không tách được từ liền không dấu cách).
+  function labelGapExtra(node: FlowNode): number {
+    if (node.type !== 'box') return 0
+    const texts = [node.arrowLabel, node.belowLabel].filter((t): t is string => Boolean(t))
+    if (texts.length === 0) return 0
+    const maxTextW = Math.max(...texts.map((t) => t.length * 6.5))
+    return Math.max(0, maxTextW - gapX)
+  }
+  function laneLabelGapExtra(lane: FlowNode[]): number {
+    let sum = 0
+    for (let i = 1; i < lane.length; i++) sum += labelGapExtra(lane[i])
+    return sum
+  }
+  const maxLabelGapExtra = Math.max(0, ...lanes.map(laneLabelGapExtra))
+  // laneTrailingNote (vd "X2 - X3") cần thêm chỗ trống ngang sau box cuối cùng của lane đó — tính
+  // riêng thay vì gộp vào maxTagExtra vì đây là text tự do, không phải badge cỡ cố định.
+  const maxTrailingNoteExtra = Math.max(
+    0,
+    ...(laneTrailingNote ?? []).map((n, li) => {
+      if (!n) return 0
+      const lastNode = lanes[li]?.[lanes[li].length - 1]
+      const lastTagW = lastNode?.type === 'box' && lastNode.tag ? Math.max(44, lastNode.tag.length * 6 + 14) + 6 : 0
+      return lastTagW + 18 + n.length * 6.5 + 20
+    }),
+  )
+  const width = pad.left + maxNodes * boxW + (maxNodes - 1) * gapX + pad.right + maxTagExtra + maxTrailingNoteExtra + maxLabelGapExtra
+
+  function laneAbove(lane: FlowNode[]): number {
+    return Math.max(boxH / 2, ...lane.map(nodeAbove))
+  }
+  function laneBelow(lane: FlowNode[]): number {
+    return Math.max(boxH / 2, ...lane.map(nodeBelow))
+  }
+
+  // Khối nhãn phía trên mỗi lane có 2 kiểu: chữ thường (laneLabels, cao cố định laneLabelH) hoặc
+  // pill đặc + badge thời gian tuỳ chọn (lanePills, cao hơn vì có thêm dòng "(30s)/(45s)" phía trên
+  // pill) — tính riêng theo từng lane vì không phải lane nào cũng dùng cùng 1 kiểu.
+  function laneLabelBlockH(li: number): number {
+    const p = lanePills?.[li]
+    if (p) return (p.time ? timeH + timeGap : 0) + pillH
+    if (laneLabels?.[li]) return laneLabelH
+    return 0
+  }
+  const laneAboves = lanes.map(laneAbove)
+  const laneBelows = lanes.map(laneBelow)
   const laneCenterYs: number[] = []
+  const laneLabelTopYs: (number | null)[] = []
   let cursorY = pad.top
-  for (const h of laneHeights) {
-    laneCenterYs.push(cursorY + h / 2)
-    cursorY += h + laneGap
+  for (let li = 0; li < lanes.length; li++) {
+    const lbH = laneLabelBlockH(li)
+    if (lbH > 0) {
+      laneLabelTopYs.push(cursorY)
+      cursorY += lbH + laneLabelGap
+    } else {
+      laneLabelTopYs.push(null)
+    }
+    laneCenterYs.push(cursorY + laneAboves[li])
+    cursorY += laneAboves[li] + laneBelows[li] + laneGap
   }
   const height = cursorY - laneGap + pad.bottom
 
-  let body = ''
+  // 2 layer riêng (arrow vẽ trước, box/tag/pill vẽ SAU đè lên) thay vì 1 chuỗi `body` duy nhất —
+  // trong vòng lặp gốc, tag của box N (vẽ ở lượt N) từng bị mũi tên N→N+1 (vẽ ở lượt N+1, SAU đó)
+  // đè lên vì cả hai đều nằm ở y=cy trong đúng khoảng trống giữa 2 box, khiến chữ tag mờ đi dưới nét
+  // mũi tên xanh. Tách layer đảm bảo box/tag/pill luôn hiện rõ ràng phía trên mọi mũi tên.
+  let arrowLayer = ''
+  let boxLayer = ''
   lanes.forEach((lane, li) => {
     const cy = laneCenterYs[li]
+    const topY = laneLabelTopYs[li]
+    if (topY !== null) {
+      const pill = lanePills?.[li]
+      if (pill) {
+        let py = topY
+        if (pill.time) {
+          boxLayer += `<text x="${pad.left}" y="${py + timeH - 2}" font-size="9.5" text-anchor="start" fill="${DR_INK_SOFT}" font-weight="700">${escapeXml(pill.time)}</text>`
+          py += timeH + timeGap
+        }
+        const pillW = Math.max(56, pill.text.length * 6.2 + 20)
+        boxLayer += `<rect x="${pad.left}" y="${py}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="${DR_ROSE}"/>`
+        boxLayer += `<text x="${pad.left + pillW / 2}" y="${py + pillH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(pill.text)}</text>`
+      } else if (laneLabels?.[li]) {
+        boxLayer += `<text x="${pad.left}" y="${topY + laneLabelH - 5}" font-size="11" text-anchor="start" fill="${DR_ROSE}" font-weight="700">${escapeXml(laneLabels[li]!)}</text>`
+      }
+    }
     let x = pad.left
+    let prevBoxRight = 0
     lane.forEach((node, ni) => {
       if (ni > 0) {
-        const prevRight = x - gapX
-        body += `<line x1="${prevRight}" y1="${cy}" x2="${x}" y2="${cy}" stroke="#63A375" stroke-width="2.2" marker-end="url(#fArrow)"/>`
+        // Dùng prevBoxRight ghi lại từ vòng lặp TRƯỚC thay vì suy ngược "x - gapX" — nếu box trước
+        // có tag thì khoảng cách đã bị giãn thêm (xem tagExtra bên dưới), suy ngược theo gapX cố
+        // định sẽ tính lố vào GIỮA thân box trước, khiến mũi tên vẽ lệch/không chạm box.
+        const prevRight = prevBoxRight
+        arrowLayer += `<line x1="${prevRight}" y1="${cy}" x2="${x}" y2="${cy}" stroke="#63A375" stroke-width="2.2" marker-end="url(#fArrow)"${arrowDash}/>`
         if (node.arrowLabel) {
           const midX = (prevRight + x) / 2
           const lines = wrapLabel(node.arrowLabel, 22)
-          body += lines
+          arrowLayer += lines
             .map((l, k) => `<text x="${midX}" y="${cy - 9 - (lines.length - 1 - k) * 11}" font-size="9.5" text-anchor="middle" fill="#5b6884">${escapeXml(l)}</text>`)
             .join('')
         }
+        // belowLabel — chú thích IN ĐẬM đặt DƯỚI mũi tên (vd "CAUSE / DESCRIPTION"), khác với
+        // arrowLabel luôn nằm TRÊN — sách Lesson 7 Part 2 in các nhãn này bằng chữ đỏ đậm ngay dưới
+        // mũi tên nối Statement → Expansion 1 → Expansion 2.
+        if (node.type === 'box' && node.belowLabel) {
+          const midX = (prevRight + x) / 2
+          const lines = wrapLabel(node.belowLabel, 22)
+          arrowLayer += lines
+            .map((l, k) => `<text x="${midX}" y="${cy + 18 + k * 11}" font-size="9.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(l)}</text>`)
+            .join('')
+        }
       }
-      if (node.type === 'box') {
-        body += `<rect x="${x}" y="${cy - boxH / 2}" width="${boxW}" height="${boxH}" rx="10" fill="#fff" stroke="#178A5A" stroke-width="2"/>`
-        const lines = multilineWrap(node.text, 20)
-        const startY = cy - ((lines.length - 1) * 13) / 2 + 4
-        body += lines
-          .map((l, k) => `<text x="${x + boxW / 2}" y="${startY + k * 13}" font-size="11.5" text-anchor="middle" fill="#2b3a55" font-weight="600">${escapeXml(l)}</text>`)
-          .join('')
-      } else {
+      let ownBoxH = boxH
+      if (node.type === 'box' || node.type === 'deepen') {
+        ownBoxH = boxNodeHeight(node.text)
+        boxLayer += `<rect x="${x}" y="${cy - ownBoxH / 2}" width="${boxW}" height="${ownBoxH}" rx="10" fill="#fff" stroke="#178A5A" stroke-width="2"/>`
+        // highlights (tuỳ chọn) — tô đậm ĐÚNG cụm vừa thay/thêm trong câu, giống cách sách tô đỏ;
+        // dùng chung tokenize/wrap greedy y hệt boxLines() nên số dòng/chiều cao không lệch giữa 2
+        // nhánh render (có/không highlight).
+        if (node.highlights && node.highlights.length > 0) {
+          const hLines = wrapHighlightTokens(tokenizeWithHighlights(node.text, node.highlights), 20)
+          const startY = cy - ((hLines.length - 1) * 13) / 2 + 4
+          boxLayer += hLines
+            .map((line, k) => `<text x="${x + boxW / 2}" y="${startY + k * 13}" font-size="11.5" text-anchor="middle" fill="#2b3a55" font-weight="600">${renderHighlightLine(line)}</text>`)
+            .join('')
+        } else {
+          const lines = boxLines(node.text)
+          const startY = cy - ((lines.length - 1) * 13) / 2 + 4
+          boxLayer += lines
+            .map((l, k) => `<text x="${x + boxW / 2}" y="${startY + k * 13}" font-size="11.5" text-anchor="middle" fill="#2b3a55" font-weight="600">${escapeXml(l)}</text>`)
+            .join('')
+        }
+        if (node.type === 'box' && node.tag) {
+          const tagW = Math.max(44, node.tag.length * 6 + 14)
+          const tagH = 16
+          const tagX = x + boxW - 6
+          const tagY = cy - tagH / 2
+          boxLayer += `<rect x="${tagX}" y="${tagY}" width="${tagW}" height="${tagH}" rx="8" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.2"/>`
+          boxLayer += `<text x="${tagX + tagW / 2}" y="${tagY + tagH / 2 + 3}" font-size="8" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="600">${escapeXml(node.tag)}</text>`
+        }
+        // pill — nhãn umbrella nền hồng đặc phía TRÊN box (vd "Statement"/"Expansion 1"), khác `tag`
+        // (badge xám nhỏ ở mép phải box) — không gian phía trên đã được nodeAbove() cấp riêng.
+        if (node.type === 'box' && node.pill) {
+          const pillW = Math.max(56, node.pill.length * 6.2 + 20)
+          const pillX = x + boxW / 2 - pillW / 2
+          const pillY = cy - ownBoxH / 2 - pillGap - pillH
+          boxLayer += `<rect x="${pillX}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="${DR_ROSE}"/>`
+          boxLayer += `<text x="${x + boxW / 2}" y="${pillY + pillH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(node.pill)}</text>`
+        }
+      }
+      if (node.type === 'deepen') {
+        const subH = deepenSubHeight(node.subText)
+        const subW = boxW - 20
+        const subX = x + 10
+        const subY = cy + ownBoxH / 2 + deepenGap
+        const cx = x + boxW / 2
+        boxLayer += `<line x1="${cx}" y1="${cy + ownBoxH / 2}" x2="${cx}" y2="${subY - 2}" stroke="#B45309" stroke-width="1.8" marker-end="url(#dArrow)"/>`
+        boxLayer += `<rect x="${subX}" y="${subY}" width="${subW}" height="${subH}" rx="8" fill="#f4f1ea" stroke="#B45309" stroke-width="1.6"/>`
+        if (node.subHighlights && node.subHighlights.length > 0) {
+          const hLines = wrapHighlightTokens(tokenizeWithHighlights(node.subText, node.subHighlights), miniWrapChars)
+          const sy = subY + subH / 2 - ((hLines.length - 1) * miniLineH) / 2 + 4
+          boxLayer += hLines
+            .map((line, k) => `<text x="${cx}" y="${sy + k * miniLineH}" font-size="10" text-anchor="middle" fill="#2b3a55">${renderHighlightLine(line)}</text>`)
+            .join('')
+        } else {
+          const lines = branchLines(node.subText)
+          const sy = subY + subH / 2 - ((lines.length - 1) * miniLineH) / 2 + 4
+          boxLayer += lines
+            .map((l, k) => `<text x="${cx}" y="${sy + k * miniLineH}" font-size="10" text-anchor="middle" fill="#2b3a55">${escapeXml(l)}</text>`)
+            .join('')
+        }
+      }
+      if (node.type === 'split') {
         const heights = node.branches.map(branchHeight)
         const totalH = heights.reduce((s, h) => s + h, 0) + (node.branches.length - 1) * miniGap
         const stemX = x + 14
-        body += `<line x1="${x}" y1="${cy}" x2="${stemX}" y2="${cy}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+        boxLayer += `<line x1="${x}" y1="${cy}" x2="${stemX}" y2="${cy}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
         let by = cy - totalH / 2
         node.branches.forEach((b, bi) => {
           const h = heights[bi]
           const boxCenterY = by + h / 2
-          body += `<line x1="${stemX}" y1="${cy}" x2="${stemX}" y2="${boxCenterY}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
-          body += `<line x1="${stemX}" y1="${boxCenterY}" x2="${stemX + 10}" y2="${boxCenterY}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
-          body += `<rect x="${stemX + 10}" y="${by}" width="${boxW - 24}" height="${h}" rx="8" fill="#f4f1ea" stroke="#B45309" stroke-width="1.6"/>`
+          boxLayer += `<line x1="${stemX}" y1="${cy}" x2="${stemX}" y2="${boxCenterY}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+          boxLayer += `<line x1="${stemX}" y1="${boxCenterY}" x2="${stemX + 10}" y2="${boxCenterY}" stroke="#63A375" stroke-width="1.6" stroke-dasharray="3,3"/>`
+          boxLayer += `<rect x="${stemX + 10}" y="${by}" width="${boxW - 24}" height="${h}" rx="8" fill="#f4f1ea" stroke="#B45309" stroke-width="1.6"/>`
           const lines = branchLines(b)
           const sy = boxCenterY - ((lines.length - 1) * miniLineH) / 2 + 4
-          body += lines
+          boxLayer += lines
             .map((l, k) => `<text x="${stemX + 10 + (boxW - 24) / 2}" y="${sy + k * miniLineH}" font-size="10" text-anchor="middle" fill="#2b3a55">${escapeXml(l)}</text>`)
             .join('')
           by += h + miniGap
         })
       }
-      x += boxW + gapX
+      prevBoxRight = x + boxW
+      const tagExtra = node.type === 'box' && node.tag ? Math.max(44, node.tag.length * 6 + 14) + 10 : 0
+      // Nới thêm gap TRƯỚC box kế tiếp nếu chính box đó có arrowLabel/belowLabel quá dài (xem
+      // labelGapExtra ở trên) — phải nhìn TRƯỚC (lane[ni+1]) vì phần mở rộng phục vụ nhãn nằm TRÊN
+      // MŨI TÊN dẫn vào box kế tiếp, không phải box hiện tại.
+      const nextNode = lane[ni + 1]
+      const nextLabelExtra = nextNode ? labelGapExtra(nextNode) : 0
+      x += boxW + gapX + tagExtra + nextLabelExtra
     })
+    const trailingNote = laneTrailingNote?.[li]
+    if (trailingNote) {
+      // Nếu box cuối cùng có tag (badge nhô ra khỏi mép phải box), phải cộng thêm bề rộng tag đó vào
+      // điểm bắt đầu của trailing note — không thì note đè thẳng lên chữ trong tag (bug đã gặp: "X2 -
+      // X3" chồng lên "suffixing" vì prevBoxRight chỉ là mép box, chưa tính phần tag nhô ra).
+      const lastNode = lane[lane.length - 1]
+      const lastTagW = lastNode?.type === 'box' && lastNode.tag ? Math.max(44, lastNode.tag.length * 6 + 14) : 0
+      boxLayer += `<text x="${prevBoxRight + (lastTagW ? lastTagW + 6 : 0) + 18}" y="${cy + 4}" font-size="11.5" text-anchor="start" fill="${DR_INK}" font-weight="600">${escapeXml(trailingNote)}</text>`
+    }
   })
 
-  const defs = `<defs><marker id="fArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#63A375"/></marker></defs>`
+  const body = arrowLayer + boxLayer
+  const defs = `<defs><marker id="fArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#63A375"/></marker><marker id="dArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#B45309"/></marker></defs>`
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
 }
 
@@ -1132,8 +1507,12 @@ function renderBadgeColumns(data: BadgeColumnsData, title: string): string {
 
   // Nhóm theo dòng gốc (tách bởi \n) trước khi word-wrap từng dòng — để chỉ chấm bullet ở ĐẦU mỗi
   // dòng gốc (1 ý = 1 bullet), không phải mỗi dòng đã bị word-wrap xuống do quá dài.
+  // wrapLabel dùng số ký tự cố định để tính xuống dòng — 22/26 từng để hụt khá xa so với colW thật
+  // (item có badge chỉ lấp ~55% bề ngang box), verify trực quan qua nhiều mốc (22/30/34) trước khi
+  // chốt 34/38, cùng nguyên nhân với bug từng gặp ở stemReference (label không wrap) và
+  // compareHighlight (wrap quá hẹp cho box Trước/Sau).
   function groupedLines(it: BadgeColItem): string[][] {
-    return it.text.split('\n').map((line) => wrapLabel(line, it.badge ? 22 : 26))
+    return it.text.split('\n').map((line) => wrapLabel(line, it.badge ? 34 : 38))
   }
   function itemHeight(it: BadgeColItem): number {
     const groups = groupedLines(it)
@@ -1181,6 +1560,583 @@ function renderBadgeColumns(data: BadgeColumnsData, title: string): string {
     })
   })
 
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// "Cue card format" (Lesson 7 III) — 1 khung cue card thật duy nhất (các dòng xếp chồng, dòng bullet
+// thụt lề) + pill hồng đặc chú thích từng CỤM dòng bên phải bằng dấu ngoặc vuông (vd "Topic" / "3
+// short cues" / "1 main question") — trỏ ĐÚNG vào phần chữ tương ứng, khác hẳn bố cục 3-cột-ngang-
+// bằng-nhau ban đầu (badgeColumns) vốn không khớp sách vì sách chỉ có 1 khối chữ duy nhất.
+function renderCueFormatTable(data: CueFormatTableData, title: string): string {
+  const { groups } = data
+  const pad = 16
+  const cardW = 300
+  const lineH = 14
+  const textPad = 12
+  const indentPad = 14
+  const wrapChars = 46
+
+  type FlatLine = { text: string; indent?: boolean; groupIndex: number }
+  const flat: FlatLine[] = []
+  groups.forEach((g, gi) => {
+    g.lines.forEach((ln) => {
+      const wrapped = wrapLabel(ln.text, ln.indent ? wrapChars - 4 : wrapChars)
+      wrapped.forEach((l) => flat.push({ text: l, indent: ln.indent, groupIndex: gi }))
+    })
+  })
+
+  const innerH = flat.length * lineH
+  const cardH = innerH + textPad
+  const height = pad * 2 + cardH
+
+  const groupSpanY: { y1: number; y2: number }[] = groups.map(() => ({ y1: Infinity, y2: -Infinity }))
+  let body = ''
+  body += `<rect x="${pad}" y="${pad}" width="${cardW}" height="${cardH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+  let y = pad + textPad / 2 + lineH / 2 + 3.5
+  flat.forEach((fl) => {
+    const x = pad + textPad + (fl.indent ? indentPad : 0)
+    const prefix = fl.indent ? '• ' : ''
+    body += `<text x="${x}" y="${y}" font-size="9.5" text-anchor="start" fill="${DR_INK}">${escapeXml(prefix + fl.text)}</text>`
+    const span = groupSpanY[fl.groupIndex]
+    span.y1 = Math.min(span.y1, y - lineH / 2)
+    span.y2 = Math.max(span.y2, y + lineH / 2)
+    y += lineH
+  })
+
+  const brX = pad + cardW + 10
+  const pillGapX = 12
+  let maxPillRight = brX + pillGapX
+  groups.forEach((g, gi) => {
+    const { y1, y2 } = groupSpanY[gi]
+    const cy = (y1 + y2) / 2
+    body += `<line x1="${pad + cardW}" y1="${y1}" x2="${brX}" y2="${y1}" stroke="${DR_ROSE}" stroke-width="1.3"/>`
+    body += `<line x1="${pad + cardW}" y1="${y2}" x2="${brX}" y2="${y2}" stroke="${DR_ROSE}" stroke-width="1.3"/>`
+    body += `<line x1="${brX}" y1="${y1}" x2="${brX}" y2="${y2}" stroke="${DR_ROSE}" stroke-width="1.3"/>`
+    body += `<line x1="${brX}" y1="${cy}" x2="${brX + pillGapX}" y2="${cy}" stroke="${DR_ROSE}" stroke-width="1.3"/>`
+    const pillW = Math.max(70, g.tag.length * 6.2 + 20)
+    const pillH = 18
+    const pillX = brX + pillGapX
+    const pillY = cy - pillH / 2
+    body += `<rect x="${pillX}" y="${pillY}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="${DR_ROSE}"/>`
+    body += `<text x="${pillX + pillW / 2}" y="${pillY + pillH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(g.tag)}</text>`
+    maxPillRight = Math.max(maxPillRight, pillX + pillW)
+  })
+
+  const width = maxPillRight + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// So sánh NGANG vài cách diễn đạt cho cùng 1 câu — mỗi row là 2+ cột kề nhau, mỗi cột 1 pill nhãn
+// màu + 1 khung nét đứt bên dưới chứa mảnh câu, verdict (✗/✓ + lý do ngắn) in dưới mỗi row — dựng
+// lại đúng bố cục sách cho "Tư duy cũ vs Tư duy mới của DOL" (khác flowChain ở chỗ không có mũi tên
+// nối, vì đây là 2 mảnh câu ĐỨNG CẠNH NHAU chứ không phải 1 chuỗi tiếp nối). colW=190/wrapChars=30
+// đã verify trực quan (190/200/220) trước khi chốt — nhỏ gọn nhất mà vẫn đọc được.
+function renderPairFlow(data: PairFlowData, title: string): string {
+  const pad = 14
+  const colW = 190
+  const colGap = 14
+  const headerH = 20
+  const boxPadY = 6
+  const lineH = 10.5
+  const rowGap = 10
+  const verdictGap = 4
+  const wrapChars = 30
+
+  const maxCols = Math.max(...data.rows.map((r) => r.items.length), 1)
+  const width = pad * 2 + maxCols * colW + (maxCols - 1) * colGap
+
+  function itemLines(item: PairFlowItem): string[] {
+    return multilineWrap(item.text, wrapChars)
+  }
+  function itemBoxH(item: PairFlowItem): number {
+    return Math.max(24, itemLines(item).length * lineH + boxPadY * 2)
+  }
+  function rowBoxH(row: PairFlowRow): number {
+    return Math.max(...row.items.map(itemBoxH))
+  }
+
+  let y = pad
+  let body = ''
+  data.rows.forEach((row) => {
+    if (row.sectionLabel) {
+      body += `<text x="${pad}" y="${y + 9}" font-size="10.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(row.sectionLabel)}</text>`
+      y += 9 + 8
+    }
+    const boxH = rowBoxH(row)
+    row.items.forEach((item, ci) => {
+      const x = pad + ci * (colW + colGap)
+      const color = item.color === 'rose' ? DR_ROSE : DR_GREEN
+      body += `<rect x="${x}" y="${y}" width="${colW}" height="${headerH}" rx="${headerH / 2}" fill="${color}"/>`
+      body += `<text x="${x + colW / 2}" y="${y + headerH / 2 + 3.5}" font-size="8.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(item.header)}</text>`
+      const boxY = y + headerH + 6
+      body += `<rect x="${x}" y="${boxY}" width="${colW}" height="${boxH}" rx="7" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+      const lines = itemLines(item)
+      const startY = boxY + boxH / 2 - ((lines.length - 1) * lineH) / 2 + 3
+      body += lines
+        .map((l, k) => `<text x="${x + colW / 2}" y="${startY + k * lineH}" font-size="8.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`)
+        .join('')
+    })
+    y += headerH + 6 + boxH
+    if (row.verdict) {
+      const vLines = wrapLabel(row.verdict, 70)
+      const icon = row.verdictOk ? '✓' : '✗'
+      const vColor = row.verdictOk ? DR_GREEN : DR_ROSE
+      y += verdictGap + 4
+      body += vLines
+        .map((l, k) => `<text x="${pad}" y="${y + k * 11}" font-size="8.5" text-anchor="start" fill="${vColor}" font-weight="700">${k === 0 ? icon + ' ' : ''}${escapeXml(l)}</text>`)
+        .join('')
+      y += (vLines.length - 1) * 11
+    }
+    y += rowGap
+  })
+
+  const height = y - rowGap + pad / 2
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// Sơ đồ "phương pháp" (Speaking Lesson 5, mục 3) — chuỗi ngang N box nối bằng đường thẳng KHÔNG mũi
+// tên (đúng kiểu khung công thức của sách), 1 box có nhánh đứt nét xuống box "relationships" rồi từ
+// đó nối tiếp đứt nét lên 1 box khác trong chuỗi — 1 marker orient=auto duy nhất (vẽ theo +x) tự xoay
+// đúng hướng cho cả 2 đoạn (xuống/lên), không cần 2 marker riêng.
+function renderMethodDiagram(data: MethodDiagramData, title: string): string {
+  const pad = 16
+  const boxW = 108
+  const gapX = 34
+  const tagW = 42
+  const tagH = 15
+  const wrapChars = 14
+
+  function boxLines(b: MethodChainBox): string[] {
+    return wrapLabel(b.text, wrapChars)
+  }
+  const boxH = Math.max(30, Math.max(...data.chain.map((b) => boxLines(b).length)) * 12 + 12)
+  const chainY = pad + tagH / 2 + 4
+
+  const n = data.chain.length
+  const boxXs = data.chain.map((_, i) => pad + i * (boxW + gapX))
+  const chainWidth = n * boxW + (n - 1) * gapX
+
+  let body = ''
+  boxXs.forEach((x, i) => {
+    if (i > 0) {
+      const prevRight = boxXs[i - 1] + boxW
+      body += `<line x1="${prevRight}" y1="${chainY + boxH / 2}" x2="${x}" y2="${chainY + boxH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4"/>`
+    }
+  })
+  data.chain.forEach((b, i) => {
+    const x = boxXs[i]
+    const lines = boxLines(b)
+    body += `<rect x="${x}" y="${chainY}" width="${boxW}" height="${boxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    const startY = chainY + boxH / 2 - ((lines.length - 1) * 12) / 2 + 4
+    body += lines
+      .map((l, k) => `<text x="${x + boxW / 2}" y="${startY + k * 12}" font-size="10" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(l)}</text>`)
+      .join('')
+    if (b.tag) {
+      const tagX = x + 6
+      const tagY = chainY - tagH / 2
+      body += `<rect x="${tagX}" y="${tagY}" width="${tagW}" height="${tagH}" rx="${tagH / 2}" fill="${DR_ROSE}"/>`
+      body += `<text x="${tagX + tagW / 2}" y="${tagY + tagH / 2 + 3}" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(b.tag)}</text>`
+    }
+  })
+
+  const fromX = boxXs[data.branchFromIndex] + boxW / 2
+  const branchY = chainY + boxH + 30
+  const branchW = 160
+  const branchX = Math.max(pad, fromX - branchW / 2)
+  const itemLineH = 14
+  const labelPillH = 15
+  const itemPadTop = labelPillH + 14
+  const branchH = itemPadTop + data.branchItems.length * itemLineH + 8
+
+  body += `<line x1="${fromX}" y1="${chainY + boxH}" x2="${fromX}" y2="${branchY - 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#mdArrow)"/>`
+
+  body += `<rect x="${branchX}" y="${branchY}" width="${branchW}" height="${branchH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4" stroke-dasharray="4,3"/>`
+  const labelPillW = Math.max(70, data.branchLabel.length * 6 + 20)
+  body += `<rect x="${branchX + 10}" y="${branchY + 8}" width="${labelPillW}" height="${labelPillH}" rx="${labelPillH / 2}" fill="${DR_ROSE}"/>`
+  body += `<text x="${branchX + 10 + labelPillW / 2}" y="${branchY + 8 + labelPillH / 2 + 3}" font-size="8" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.branchLabel)}</text>`
+  data.branchItems.forEach((item, i) => {
+    const iy = branchY + itemPadTop + i * itemLineH + 10
+    if (item.emphasis) {
+      const w = Math.max(50, item.text.length * 6 + 16)
+      body += `<rect x="${branchX + 10}" y="${iy - 10}" width="${w}" height="14" rx="4" fill="rgba(23,138,90,0.14)" stroke="${DR_GREEN}" stroke-width="1"/>`
+      body += `<text x="${branchX + 10 + w / 2}" y="${iy}" font-size="8.5" text-anchor="middle" fill="${DR_GREEN}" font-weight="700">${escapeXml(item.text)}</text>`
+    } else {
+      body += `<text x="${branchX + 10}" y="${iy}" font-size="8.5" text-anchor="start" fill="${DR_INK}">${escapeXml(item.text)}</text>`
+    }
+  })
+
+  const toX = boxXs[data.branchToIndex] + boxW / 2
+  const branchRightY = branchY + branchH / 2
+  const branchRightX = branchX + branchW
+  body += `<line x1="${branchRightX}" y1="${branchRightY}" x2="${toX}" y2="${branchRightY}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3"/>`
+  body += `<line x1="${toX}" y1="${branchRightY}" x2="${toX}" y2="${chainY + boxH + 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#mdArrow)"/>`
+
+  const width = Math.max(chainWidth + pad * 2, branchRightX + pad, toX + pad)
+  const height = branchY + branchH + pad
+  const defs = `<defs><marker id="mdArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_INK_SOFT}"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// colW=155/wrapChars=20 đã verify trực quan qua 3 mốc (140/155/170) trước khi chốt.
+function renderConnectorGrid(data: ConnectorGridData, title: string): string {
+  const pad = 14
+  const colW = 155
+  const colGap = 8
+  const headerH = 20
+  const boxPadY = 6
+  const lineH = 11
+  const rowGap = 6
+  const groupGap = 16
+  const titleH = 16
+  const wrapChars = 20
+
+  function cellLines(text: string): string[] {
+    return wrapLabel(text, wrapChars)
+  }
+  function cellH(text: string): number {
+    return Math.max(24, cellLines(text).length * lineH + boxPadY * 2)
+  }
+
+  let y = pad
+  let body = ''
+  let maxCols = 3
+  data.groups.forEach((g) => {
+    const hasSuffixing = g.rows.some((r) => r.suffixing)
+    const suffixSet = new Set(g.rows.map((r) => r.suffixing || ''))
+    const suffixMerged = hasSuffixing && suffixSet.size <= 1
+    const nCols = hasSuffixing ? 4 : 3
+    maxCols = Math.max(maxCols, nCols)
+
+    body += `<text x="${pad}" y="${y + titleH - 4}" font-size="10.5" text-anchor="start" fill="${DR_ROSE}" font-weight="700">${escapeXml(g.title)}</text>`
+    y += titleH + 4
+
+    const colX = (i: number) => pad + i * (colW + colGap)
+    const headers = hasSuffixing ? ['SV (chính)', 'connector', g.phuLabel ?? 'SV (phụ)', 'suffixing'] : ['SV (chính)', 'connector', g.phuLabel ?? 'SV (phụ)']
+    headers.forEach((h, i) => {
+      body += `<rect x="${colX(i)}" y="${y}" width="${colW}" height="${headerH}" rx="6" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.3"/>`
+      body += `<text x="${colX(i) + colW / 2}" y="${y + headerH / 2 + 3.5}" font-size="8.5" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(h)}</text>`
+    })
+    y += headerH + 6
+
+    const rowHeights = g.rows.map((r) => Math.max(cellH(r.connector), cellH(r.svPhu)))
+    let totalRowsH = rowHeights.reduce((s, h) => s + h, 0) + (g.rows.length - 1) * rowGap
+    // Cột SV (chính) gộp thành 1 khung cao = totalRowsH, nhưng totalRowsH trên chỉ tính theo
+    // connector/SV phụ — nhóm chỉ có 1 row (Outcome, Exaggeration, Condition, Anti-outcome...) mà
+    // câu SV chính lại dài (thường ~4 dòng) thì totalRowsH quá thấp so với nhu cầu thật của SV
+    // chính, khiến chữ tràn ra ngoài khung (không có dấu hiệu lỗi nào khác ngoài nhìn bằng mắt).
+    // Bù phần thiếu vào row CUỐI để cả box SV chính lẫn box connector/SV phụ của row đó cùng giãn ra
+    // theo, tránh vừa tràn chữ vừa lệch đáy giữa các cột.
+    const svChinhNeeded = cellH(g.svChinh)
+    if (totalRowsH < svChinhNeeded) {
+      rowHeights[rowHeights.length - 1] += svChinhNeeded - totalRowsH
+      totalRowsH = svChinhNeeded
+    }
+
+    body += `<rect x="${colX(0)}" y="${y}" width="${colW}" height="${totalRowsH}" rx="7" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+    const svLines = cellLines(g.svChinh)
+    const svStartY = y + totalRowsH / 2 - ((svLines.length - 1) * lineH) / 2 + 3
+    body += svLines.map((l, k) => `<text x="${colX(0) + colW / 2}" y="${svStartY + k * lineH}" font-size="8.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+
+    // connector/suffixing tô đậm màu rose (đúng tinh thần sách tô đỏ 2 cột này — phần CÔNG THỨC cần
+    // học) — dùng màu rose sẵn có của app thay vì sao chép đỏ của sách; SV (chính)/SV (phụ) giữ màu
+    // mực thường vì chỉ là câu ví dụ minh hoạ, không phải phần cần nhớ.
+    let ry = y
+    g.rows.forEach((r, ri) => {
+      const h = rowHeights[ri]
+      ;[r.connector, r.svPhu].forEach((text, ci) => {
+        const x = colX(ci + 1)
+        const isConnector = ci === 0
+        body += `<rect x="${x}" y="${ry}" width="${colW}" height="${h}" rx="7" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+        const lines = cellLines(text)
+        const sy = ry + h / 2 - ((lines.length - 1) * lineH) / 2 + 3
+        body += lines
+          .map(
+            (l, k) =>
+              `<text x="${x + colW / 2}" y="${sy + k * lineH}" font-size="8.5" text-anchor="middle" fill="${isConnector ? DR_ROSE : DR_INK}"${isConnector ? ' font-weight="700"' : ''}>${escapeXml(l)}</text>`,
+          )
+          .join('')
+      })
+      ry += h + rowGap
+    })
+
+    if (hasSuffixing) {
+      const sx = colX(3)
+      if (suffixMerged) {
+        const val = [...suffixSet].find(Boolean) || ''
+        body += `<rect x="${sx}" y="${y}" width="${colW}" height="${totalRowsH}" rx="7" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+        const lines = cellLines(val)
+        const sy = y + totalRowsH / 2 - ((lines.length - 1) * lineH) / 2 + 3
+        body += lines.map((l, k) => `<text x="${sx + colW / 2}" y="${sy + k * lineH}" font-size="8.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(l)}</text>`).join('')
+      } else {
+        let sry = y
+        g.rows.forEach((r, ri) => {
+          const h = rowHeights[ri]
+          body += `<rect x="${sx}" y="${sry}" width="${colW}" height="${h}" rx="7" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+          const lines = cellLines(r.suffixing || '')
+          const sy = sry + h / 2 - ((lines.length - 1) * lineH) / 2 + 3
+          body += lines.map((l, k) => `<text x="${sx + colW / 2}" y="${sy + k * lineH}" font-size="8.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(l)}</text>`).join('')
+          sry += h + rowGap
+        })
+      }
+    }
+
+    y += totalRowsH + groupGap
+  })
+
+  const width = pad * 2 + maxCols * colW + (maxCols - 1) * colGap
+  const height = y - groupGap + pad / 2
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+function renderGroupedChain(data: GroupedChainData, title: string): string {
+  const pad = 16
+  const boxW = 82
+  const boxH = 30
+  const boxGap = 14
+  const pauseGap = 34
+  const umbrellaH = 22
+  const umbrellaGap = 8
+  const chunkGap = 14
+  const chunkLineH = 10
+
+  // Bước 1: tính x của từng box trước (đi 1 lượt ngang qua mọi group), ghi lại vị trí group để vẽ
+  // umbrella + PAUSE sau — làm 2 lượt vì umbrella cần biết trước x đầu/cuối của cả group.
+  // tagExtra — khoảng cách bù thêm sau 1 box có `tag` (badge nhô ra khỏi mép phải box) để box/group
+  // KẾ TIẾP không đè lên badge đó — thiếu bù này thì mọi tag trừ tag ở box cuối cùng đều bị box sau
+  // che mất nửa (bug đã gặp: chỉ tag "suffixing" ở Expansion cuối hiện được, 2 tag trước bị che).
+  const tagExtra = 36
+  let x = pad
+  const boxXs: number[][] = []
+  const groupSpans: { x1: number; x2: number }[] = []
+  const pausePositions: number[] = []
+  data.groups.forEach((group, gi) => {
+    const xs: number[] = []
+    group.boxes.forEach((box, bi) => {
+      xs.push(x)
+      x += boxW
+      if (bi < group.boxes.length - 1) x += boxGap + (box.tag ? tagExtra : 0)
+    })
+    boxXs.push(xs)
+    groupSpans.push({ x1: xs[0], x2: xs[xs.length - 1] + boxW })
+    const isLast = gi === data.groups.length - 1
+    const lastBoxTagExtra = group.boxes[group.boxes.length - 1]?.tag ? tagExtra : 0
+    if (group.pauseAfter) {
+      pausePositions.push(x + lastBoxTagExtra + (isLast ? boxGap : boxGap + pauseGap) / 2 + (isLast ? 10 : 0))
+      x += lastBoxTagExtra + (isLast ? boxGap + 40 : boxGap + pauseGap)
+    } else if (!isLast) {
+      x += boxGap + lastBoxTagExtra
+    }
+  })
+  const hasTag = data.groups.some((g) => g.boxes.some((b) => b.tag))
+  const width = x + pad + (hasTag ? 40 : 0)
+
+  const hasAnyLabel = data.groups.some((g) => g.label)
+  const boxY = pad + (hasAnyLabel ? umbrellaH + umbrellaGap : 0)
+  const hasAnyChunk = data.groups.some((g) => g.boxes.some((b) => b.chunking))
+
+  const bandPad = 10
+  let band: { x1: number; x2: number; y1: number; noteLines: string[] } | null = null
+  let bandNoteH = 0
+  if (data.band) {
+    const fromSpan = groupSpans[data.band.fromGroupIndex]
+    const bx1 = fromSpan.x1 - bandPad
+    const bx2 = width - pad + bandPad
+    const noteWrapChars = Math.max(20, Math.floor((bx2 - bx1 - 2 * bandPad) / 4.3))
+    const noteLines = wrapLabel(data.band.note, noteWrapChars)
+    bandNoteH = noteLines.length * 10 + 10
+    band = { x1: bx1, x2: bx2, y1: pad - bandPad, noteLines }
+  }
+
+  const height = boxY + boxH + (hasAnyChunk ? chunkGap + chunkLineH + 4 : 0) + bandNoteH + pad
+
+  let body = ''
+  if (band) {
+    body += `<rect x="${band.x1}" y="${band.y1}" width="${band.x2 - band.x1}" height="${height - pad - band.y1 + bandPad}" rx="10" fill="rgba(201,102,122,0.12)"/>`
+  }
+  // Umbrella boxes
+  data.groups.forEach((group, gi) => {
+    if (!group.label) return
+    const { x1, x2 } = groupSpans[gi]
+    body += `<rect x="${x1}" y="${pad}" width="${x2 - x1}" height="${umbrellaH}" rx="6" fill="#fff" stroke="${DR_ROSE}" stroke-width="1.4"/>`
+    body += `<text x="${(x1 + x2) / 2}" y="${pad + umbrellaH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(group.label)}</text>`
+  })
+
+  // Arrows connecting every box in reading order (within a group AND across groups) — 1 continuous
+  // chain visually, chỉ khác nhau ở khoảng cách (rộng hơn khi có PAUSE ở giữa).
+  const allBoxXs: number[] = ([] as number[]).concat(...boxXs)
+  for (let i = 1; i < allBoxXs.length; i++) {
+    const prevRight = allBoxXs[i - 1] + boxW
+    const curX = allBoxXs[i]
+    body += `<line x1="${prevRight}" y1="${boxY + boxH / 2}" x2="${curX}" y2="${boxY + boxH / 2}" stroke="#63A375" stroke-width="1.8" marker-end="url(#gcArrow)"/>`
+  }
+  // Mũi tên "đuôi" sau box cuối cùng nếu group cuối có pauseAfter (giống sách: mũi tên chạy tiếp
+  // vào khoảng trống rồi mới tới chữ PAUSE).
+  const lastGroup = data.groups[data.groups.length - 1]
+  if (lastGroup?.pauseAfter) {
+    const lastX = allBoxXs[allBoxXs.length - 1] + boxW
+    body += `<line x1="${lastX}" y1="${boxY + boxH / 2}" x2="${lastX + boxGap + 16}" y2="${boxY + boxH / 2}" stroke="#63A375" stroke-width="1.8" marker-end="url(#gcArrow)"/>`
+  }
+
+  // PAUSE labels — đặt giữa khoảng trống ngay sau group có pauseAfter.
+  let pauseIdx = 0
+  data.groups.forEach((group) => {
+    if (!group.pauseAfter) return
+    const px = pausePositions[pauseIdx]
+    pauseIdx += 1
+    body += `<text x="${px}" y="${boxY + boxH / 2 - 8}" font-size="8" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">PAUSE</text>`
+  })
+
+  // Boxes + CHUNKING annotations
+  data.groups.forEach((group, gi) => {
+    group.boxes.forEach((box, bi) => {
+      const bx = boxXs[gi][bi]
+      body += `<rect x="${bx}" y="${boxY}" width="${boxW}" height="${boxH}" rx="7" fill="#fff" stroke="#178A5A" stroke-width="1.6"/>`
+      const lines = wrapLabel(box.text, 12)
+      const startY = boxY + boxH / 2 - ((lines.length - 1) * 11) / 2 + 3.5
+      body += lines
+        .map((l, k) => `<text x="${bx + boxW / 2}" y="${startY + k * 11}" font-size="9" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(l)}</text>`)
+        .join('')
+      if (box.tag) {
+        const tagW = Math.max(40, box.tag.length * 5.5 + 12)
+        const tagH = 14
+        const tagX = bx + boxW - 6
+        const tagY = boxY + boxH / 2 - tagH / 2
+        body += `<rect x="${tagX}" y="${tagY}" width="${tagW}" height="${tagH}" rx="7" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.2"/>`
+        body += `<text x="${tagX + tagW / 2}" y="${tagY + tagH / 2 + 2.5}" font-size="7" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="600">${escapeXml(box.tag)}</text>`
+      }
+      if (box.chunking) {
+        const cx = bx + boxW / 2
+        const lineTopY = boxY + boxH + chunkGap
+        body += `<line x1="${cx}" y1="${lineTopY}" x2="${cx}" y2="${boxY + boxH + 2}" stroke="${DR_ROSE}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#gcUpArrow)"/>`
+        body += `<text x="${cx}" y="${lineTopY + chunkLineH}" font-size="7.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">CHUNKING</text>`
+      }
+    })
+  })
+
+  if (band) {
+    const noteY = boxY + boxH + bandPad + 8
+    const noteCx = (band.x1 + band.x2) / 2
+    body += band.noteLines
+      .map((l, k) => `<text x="${noteCx}" y="${noteY + k * 10}" font-size="7.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(l)}</text>`)
+      .join('')
+  }
+
+  const defs = `<defs>
+    <marker id="gcArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#63A375"/></marker>
+    <marker id="gcUpArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker>
+  </defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// Khung nhỏ — mỗi hàng 1 dòng "nhãn: giá trị" (bold + thường), không header/viền dày như
+// stemReference, vì nội dung thực tế chỉ vài chữ (stemReference vẽ ra to hơn hẳn nhu cầu thật).
+function renderMiniFacts(data: MiniFactsData, title: string): string {
+  const pad = 12
+  const lineH = 18
+  const boxPadX = 12
+  const fontSize = 10
+
+  const bulletIndent = 14
+  const bulletLineH = 14
+
+  // width tối thiểu 380 (không chỉ đo khít theo chữ) — canvas quá hẹp so với chiều rộng cột đọc thật
+  // (~500-900px) khiến CSS width:100% phải giãn tỉ lệ lớn, làm chữ/khoảng cách trông to bất thường
+  // dù font-size khai báo nhỏ (bug tương tự đã gặp: canvas quá RỘNG so với chiều cao gây chữ bị ép
+  // dẹt ở flowChain 1 lane 7 box — đây là chiều ngược lại, quá HẸP nên bị phóng to).
+  const widestBullet = Math.max(0, ...data.rows.flatMap((r) => r.bullets?.map((b) => b.length + 3) ?? []))
+  const width = Math.max(380, Math.max(widestBullet, ...data.rows.map((r) => r.label.length + r.value.length + 2)) * 5.4 + boxPadX * 2)
+  const rowH = data.rows.map((r) => lineH + (r.bullets?.length ?? 0) * bulletLineH)
+  const height = pad * 2 + rowH.reduce((s, h) => s + h, 0)
+
+  let body = `<rect x="1" y="1" width="${width - 2}" height="${height - 2}" rx="8" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.3"/>`
+  let y = pad
+  data.rows.forEach((r) => {
+    body += `<text x="${boxPadX}" y="${y + fontSize}" font-size="${fontSize}" text-anchor="start"><tspan fill="${DR_INK}" font-weight="700">${escapeXml(r.label)}:</tspan> <tspan fill="${DR_INK_SOFT}">${escapeXml(r.value)}</tspan></text>`
+    y += lineH
+    r.bullets?.forEach((b) => {
+      body += `<text x="${boxPadX + bulletIndent}" y="${y + fontSize - 3}" font-size="${fontSize - 1}" text-anchor="start" fill="${DR_INK_SOFT}">• ${escapeXml(b)}</text>`
+      y += bulletLineH
+    })
+  })
+
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// Lưới N thẻ (mặc định 2 cột) — mỗi thẻ: pill nhãn xám + đoạn giới thiệu + bullet list + đoạn kết —
+// đúng bố cục "sample cue cards" trong sách (PLACE/PERSON/OBJECT/EVENT xếp 2x2).
+function renderCardGrid(data: CardGridData, title: string): string {
+  const pad = 14
+  const cols = data.columns ?? 2
+  const colW = 260
+  const colGap = 14
+  const cardPad = 10
+  const lineH = 11
+  const headerH = 16
+  const headerGap = 8
+  const introWrap = 48
+  const bulletWrap = 44
+
+  function textLines(t: string): string[] {
+    return wrapLabel(t, introWrap)
+  }
+  function bulletLines(b: string): string[] {
+    return wrapLabel(b, bulletWrap)
+  }
+  function cardHeight(card: CueCard): number {
+    let h = headerH + headerGap
+    h += textLines(card.intro).length * lineH + 4
+    card.bullets.forEach((b) => {
+      h += bulletLines(b).length * lineH
+    })
+    if (card.outro) h += 4 + textLines(card.outro).length * lineH
+    return h + cardPad * 2
+  }
+
+  const rows = Math.ceil(data.cards.length / cols)
+  const rowHeights: number[] = []
+  for (let r = 0; r < rows; r++) {
+    const rowCards = data.cards.slice(r * cols, r * cols + cols)
+    rowHeights.push(Math.max(...rowCards.map(cardHeight)))
+  }
+
+  let body = ''
+  data.cards.forEach((card, i) => {
+    const col = i % cols
+    const row = Math.floor(i / cols)
+    const x = pad + col * (colW + colGap)
+    const cy = pad + rowHeights.slice(0, row).reduce((s, h) => s + h + colGap, 0)
+    const h = rowHeights[row]
+    body += `<rect x="${x}" y="${cy}" width="${colW}" height="${h}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.3"/>`
+
+    let ty = cy + cardPad
+    const headerW = Math.max(50, card.header.length * 6 + 16)
+    body += `<rect x="${x + cardPad}" y="${ty}" width="${headerW}" height="${headerH}" rx="4" fill="${DR_BOX}"/>`
+    body += `<text x="${x + cardPad + headerW / 2}" y="${ty + headerH / 2 + 3}" font-size="8" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700">${escapeXml(card.header)}</text>`
+    ty += headerH + headerGap
+
+    const introLines = textLines(card.intro)
+    body += introLines.map((l, k) => `<text x="${x + cardPad}" y="${ty + k * lineH + 8}" font-size="8.5" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+    ty += introLines.length * lineH + 4
+
+    card.bullets.forEach((b) => {
+      const bl = bulletLines(b)
+      body += bl
+        .map((l, k) => `<text x="${x + cardPad + 10}" y="${ty + k * lineH + 8}" font-size="8.5" text-anchor="start" fill="${DR_INK}">${k === 0 ? '• ' : ''}${escapeXml(l)}</text>`)
+        .join('')
+      ty += bl.length * lineH
+    })
+
+    if (card.outro) {
+      ty += 4
+      const outroLines = textLines(card.outro)
+      body += outroLines
+        .map((l, k) => `<text x="${x + cardPad}" y="${ty + k * lineH + 8}" font-size="8.5" text-anchor="start" fill="${DR_INK}" font-style="italic">${escapeXml(l)}</text>`)
+        .join('')
+    }
+  })
+
+  const width = pad * 2 + cols * colW + (cols - 1) * colGap
+  const height = pad + rowHeights.reduce((s, h) => s + h, 0) + (rows - 1) * colGap + pad
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
@@ -1287,6 +2243,538 @@ function renderFormulaBox(data: FormulaBoxData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
+// "Part 2 Question = Part 1 Question x 4" — 2 khung outline cạnh nhau nối bằng 1 ký hiệu nhỏ ở giữa.
+function renderEquationBox(data: EquationBoxData, title: string): string {
+  const pad = 16
+  const boxH = 44
+  const padX = 18
+
+  function boxWidthFor(text: string): number {
+    return Math.max(140, text.length * 7.2 + padX * 2)
+  }
+  const leftW = boxWidthFor(data.left)
+  const rightW = boxWidthFor(data.right)
+  const symbol = data.symbol ?? '='
+  // gap rộng theo ký hiệu — mặc định "=" chỉ cần 40, nhưng ký hiệu dài hơn (vd "Think in English"
+  // dùng làm nhãn mũi tên) cần nhiều chỗ hơn để không đè lên 2 khung 2 bên.
+  const gap = Math.max(40, symbol.length * 7.2 + 16)
+
+  const leftX = pad
+  const symX = leftX + leftW + gap / 2
+  const rightX = leftX + leftW + gap
+  const cy = pad + boxH / 2
+
+  let body = ''
+  body += `<rect x="${leftX}" y="${pad}" width="${leftW}" height="${boxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+  body += `<text x="${leftX + leftW / 2}" y="${cy + 4}" font-size="11.5" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(data.left)}</text>`
+  body += `<text x="${symX}" y="${cy + 5}" font-size="15" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(symbol)}</text>`
+  body += `<rect x="${rightX}" y="${pad}" width="${rightW}" height="${boxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+  body += `<text x="${rightX + rightW / 2}" y="${cy + 4}" font-size="11.5" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(data.right)}</text>`
+
+  const width = rightX + rightW + pad
+  const height = boxH + pad * 2
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// Chuỗi N khung nối bằng ký hiệu, mỗi khung có thể có pill nhãn phía trên + ví dụ chữ nhỏ phía dưới.
+function renderEquationChain(data: EquationChainData, title: string): string {
+  const pad = 18
+  const boxH = 40
+  const gap = 34
+  const padX = 16
+  const pillH = 16
+  const pillGap = 5
+  const exampleGap = 6
+  const exampleWrap = 22
+
+  const hasAnyPill = data.parts.some((p) => p.label)
+  const hasAnyExample = data.parts.some((p) => p.example)
+  const topPad = hasAnyPill ? pillH + pillGap : 0
+
+  function boxWidthFor(p: EquationChainPart): number {
+    const exLines = p.example ? wrapLabel(p.example, exampleWrap) : []
+    const exW = Math.max(0, ...exLines.map((l) => l.length * 5.6))
+    const pillW = p.label ? p.label.length * 6.2 + 20 : 0
+    return Math.max(120, p.text.length * 7 + padX * 2, exW, pillW)
+  }
+  const widths = data.parts.map(boxWidthFor)
+
+  let x = pad
+  const xs: number[] = []
+  data.parts.forEach((_, i) => {
+    xs.push(x)
+    x += widths[i] + (i < data.parts.length - 1 ? gap : 0)
+  })
+  const boxTop = pad + topPad
+  const cy = boxTop + boxH / 2
+
+  let body = ''
+  data.parts.forEach((p, i) => {
+    const bx = xs[i]
+    const bw = widths[i]
+    if (p.label) {
+      const pillW = Math.max(50, p.label.length * 6.2 + 16)
+      const pillX = bx + bw / 2 - pillW / 2
+      body += `<rect x="${pillX}" y="${pad}" width="${pillW}" height="${pillH}" rx="${pillH / 2}" fill="${DR_ROSE}"/>`
+      body += `<text x="${bx + bw / 2}" y="${pad + pillH / 2 + 3.5}" font-size="9" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(p.label)}</text>`
+    }
+    body += `<rect x="${bx}" y="${boxTop}" width="${bw}" height="${boxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    body += `<text x="${bx + bw / 2}" y="${cy + 4}" font-size="11" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(p.text)}</text>`
+    if (p.example) {
+      const exLines = wrapLabel(p.example, exampleWrap)
+      const exY = boxTop + boxH + exampleGap
+      body += exLines
+        .map((l, k) => `<text x="${bx + bw / 2}" y="${exY + k * 11 + 8}" font-size="9" text-anchor="middle" fill="${DR_INK_SOFT}" font-style="italic">${escapeXml(l)}</text>`)
+        .join('')
+    }
+    if (i < data.parts.length - 1) {
+      const symbol = data.symbols?.[i] ?? (i === 0 ? '=' : '+')
+      const symX = bx + bw + gap / 2
+      body += `<text x="${symX}" y="${cy + 5}" font-size="14" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${escapeXml(symbol)}</text>`
+    }
+  })
+
+  const maxExampleLines = Math.max(0, ...data.parts.map((p) => (p.example ? wrapLabel(p.example, exampleWrap).length : 0)))
+  const width = xs[xs.length - 1] + widths[widths.length - 1] + pad
+  const height = boxTop + boxH + (hasAnyExample ? exampleGap + maxExampleLines * 11 + 6 : 0) + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// Hàng box độc lập (không mũi tên ngang), 1 vài box rẽ nhánh XUỐNG 1 box con bằng mũi tên nét đứt.
+function renderBranchRow(data: BranchRowData, title: string): string {
+  const pad = 18
+  const boxW = 130
+  const boxGap = 20
+  const pillH = 16
+  const pillGap = 6
+  const branchGap = 18
+  const wrapChars = 16
+
+  function linesOf(t: string): string[] {
+    return wrapLabel(t, wrapChars)
+  }
+  function boxHeightOf(t: string): number {
+    return Math.max(40, linesOf(t).length * 13 + 16)
+  }
+
+  const topBoxH = Math.max(...data.items.map((it) => boxHeightOf(it.text)))
+  const hasAnyBranch = data.items.some((it) => it.branchTo)
+  const branchBoxH = hasAnyBranch ? Math.max(40, ...data.items.filter((it) => it.branchTo).map((it) => boxHeightOf(it.branchTo!.text))) : 0
+  const hasAnyLabel = data.items.some((it) => it.label)
+  const hasAnyBranchLabel = data.items.some((it) => it.branchTo?.label)
+
+  const topY = pad + (hasAnyLabel ? pillH + pillGap : 0)
+  const branchY = topY + topBoxH + branchGap + (hasAnyBranchLabel ? pillH + pillGap : 0)
+
+  let body = ''
+  data.items.forEach((it, i) => {
+    const x = pad + i * (boxW + boxGap)
+    if (it.label) {
+      const pillW = Math.max(60, it.label.length * 6.4 + 16)
+      body += `<rect x="${x + boxW / 2 - pillW / 2}" y="${pad}" width="${pillW}" height="${pillH}" rx="6" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.2"/>`
+      body += `<text x="${x + boxW / 2}" y="${pad + pillH / 2 + 3.5}" font-size="9" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700">${escapeXml(it.label.toUpperCase())}</text>`
+    }
+    body += `<rect x="${x}" y="${topY}" width="${boxW}" height="${topBoxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    const lines = linesOf(it.text)
+    const startY = topY + topBoxH / 2 - ((lines.length - 1) * 13) / 2 + 4
+    body += lines.map((l, k) => `<text x="${x + boxW / 2}" y="${startY + k * 13}" font-size="10.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+
+    if (it.branchTo) {
+      const cx = x + boxW / 2
+      const arrowY1 = topY + topBoxH + 3
+      const arrowY2 = topY + topBoxH + branchGap - 3
+      body += `<line x1="${cx}" y1="${arrowY1}" x2="${cx}" y2="${arrowY2}" stroke="${DR_ROSE}" stroke-width="1.6" stroke-dasharray="3,3" marker-end="url(#brArrow)"/>`
+      if (it.branchTo.label) {
+        const bPillW = Math.max(60, it.branchTo.label.length * 6.4 + 16)
+        body += `<rect x="${cx - bPillW / 2}" y="${topY + topBoxH + branchGap}" width="${bPillW}" height="${pillH}" rx="6" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.2"/>`
+        body += `<text x="${cx}" y="${topY + topBoxH + branchGap + pillH / 2 + 3.5}" font-size="9" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700">${escapeXml(it.branchTo.label.toUpperCase())}</text>`
+      }
+      body += `<rect x="${x}" y="${branchY}" width="${boxW}" height="${branchBoxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+      const bLines = linesOf(it.branchTo.text)
+      const bStartY = branchY + branchBoxH / 2 - ((bLines.length - 1) * 13) / 2 + 4
+      body += bLines.map((l, k) => `<text x="${cx}" y="${bStartY + k * 13}" font-size="10.5" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+    }
+  })
+
+  const width = pad + data.items.length * boxW + (data.items.length - 1) * boxGap + pad
+  const height = (hasAnyBranch ? branchY + branchBoxH : topY + topBoxH) + pad
+  const defs = `<defs><marker id="brArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// Câu hỏi có vài từ tô đậm + lưới ✓/✗ theo từng idea cho từng từ đó.
+// Sách vẽ mỗi từ tô đậm trong câu hỏi thành 1 PILL màu (không phải chữ tô màu đơn thuần), và mỗi
+// idea có các pill ✓/✗ riêng (chứa lại đúng từ đó + icon) nằm NGAY BÊN PHẢI nhãn idea — khác thiết
+// kế lưới ban đầu (header cột + hàng vòng tròn bên dưới), vốn tách rời quá xa so với bố cục sách.
+function renderCheckMatrix(data: CheckMatrixData, title: string): string {
+  const pad = 16
+  const pillH = 20
+  const pillGapX = 6
+  const wordGapX = 5
+  const lineH = 26
+  const maxLineW = 460
+  const labelW = 190
+  const rowGap = 12
+
+  const qPalette = [
+    { bg: 'rgba(201,102,122,0.16)', fg: DR_ROSE },
+    { bg: 'rgba(23,138,90,0.14)', fg: DR_GREEN },
+    { bg: DR_BOX, fg: DR_INK_SOFT },
+  ]
+
+  // Tách câu hỏi thành các đoạn text thường / pill highlight theo ĐÚNG thứ tự xuất hiện của từng
+  // cụm trong `highlights` — khác tokenizeWithHighlights (đánh dấu từng TỪ riêng lẻ, "public
+  // transport" sẽ tách thành 2 pill "public" + "transport" thay vì 1 pill liền).
+  type QSeg = { text: string; hi: boolean; hiIndex: number }
+  const segments: QSeg[] = []
+  let rest = data.question
+  data.highlights.forEach((h, hi) => {
+    const idx = rest.indexOf(h)
+    if (idx === -1) return
+    const before = rest.slice(0, idx)
+    if (before) segments.push({ text: before, hi: false, hiIndex: -1 })
+    segments.push({ text: h, hi: true, hiIndex: hi })
+    rest = rest.slice(idx + h.length)
+  })
+  if (rest) segments.push({ text: rest, hi: false, hiIndex: -1 })
+
+  type QTok = { text: string; hi: boolean; hiIndex: number; w: number }
+  const qTokens: QTok[] = []
+  segments.forEach((seg) => {
+    if (seg.hi) {
+      qTokens.push({ text: seg.text, hi: true, hiIndex: seg.hiIndex, w: seg.text.length * 6.4 + 18 })
+    } else {
+      seg.text
+        .split(/\s+/)
+        .filter(Boolean)
+        .forEach((word) => qTokens.push({ text: word, hi: false, hiIndex: -1, w: word.length * 6.6 }))
+    }
+  })
+
+  function wrapTokens(tokens: QTok[], maxW: number): QTok[][] {
+    const lines: QTok[][] = []
+    let cur: QTok[] = []
+    let curW = 0
+    tokens.forEach((tok) => {
+      const gap = tok.hi ? pillGapX : wordGapX
+      const add = (cur.length > 0 ? gap : 0) + tok.w
+      if (curW + add > maxW && cur.length > 0) {
+        lines.push(cur)
+        cur = [tok]
+        curW = tok.w
+      } else {
+        cur.push(tok)
+        curW += add
+      }
+    })
+    if (cur.length > 0) lines.push(cur)
+    return lines
+  }
+  const qLines = wrapTokens(qTokens, maxLineW)
+
+  let body = ''
+  let y = pad
+  let maxRight = 0
+  qLines.forEach((line) => {
+    let x = pad
+    line.forEach((tok) => {
+      if (tok.hi) {
+        const col = qPalette[tok.hiIndex % qPalette.length]
+        body += `<rect x="${x}" y="${y}" width="${tok.w}" height="${pillH}" rx="${pillH / 2}" fill="${col.bg}"/>`
+        body += `<text x="${x + tok.w / 2}" y="${y + pillH / 2 + 4}" font-size="10.5" text-anchor="middle" fill="${col.fg}" font-weight="700">${escapeXml(tok.text)}</text>`
+        x += tok.w + pillGapX
+      } else {
+        body += `<text x="${x}" y="${y + pillH / 2 + 4}" font-size="11" text-anchor="start" font-weight="600" fill="${DR_INK}">${escapeXml(tok.text)}</text>`
+        x += tok.w + wordGapX
+      }
+    })
+    maxRight = Math.max(maxRight, x - wordGapX)
+    y += lineH
+  })
+  y += 8
+
+  data.rows.forEach((row) => {
+    const labelLines = wrapLabel(row.label, 28)
+    const rowH = Math.max(pillH, labelLines.length * 13)
+    const labelStartY = y + rowH / 2 - ((labelLines.length - 1) * 13) / 2 + 4
+    body += labelLines
+      .map((l, k) => `<text x="${pad}" y="${labelStartY + k * 13}" font-size="10.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(l)}</text>`)
+      .join('')
+
+    let mx = pad + labelW
+    row.marks.forEach((ok, ci) => {
+      const word = data.highlights[ci]
+      const col = ok ? { bg: 'rgba(23,138,90,0.14)', fg: DR_GREEN } : { bg: 'rgba(201,102,122,0.14)', fg: DR_ROSE }
+      const pw = word.length * 6.2 + 34
+      const py = y + rowH / 2 - pillH / 2
+      body += `<rect x="${mx}" y="${py}" width="${pw}" height="${pillH}" rx="${pillH / 2}" fill="${col.bg}" stroke="${col.fg}" stroke-width="1.2"/>`
+      body += `<text x="${mx + 9}" y="${y + rowH / 2 + 4}" font-size="9.5" text-anchor="start" fill="${col.fg}" font-weight="600">${escapeXml(word)}</text>`
+      body += `<circle cx="${mx + pw - 13}" cy="${y + rowH / 2}" r="8" fill="${col.fg}"/>`
+      body += `<text x="${mx + pw - 13}" y="${y + rowH / 2 + 3.5}" font-size="9" text-anchor="middle" fill="#fff" font-weight="700">${ok ? '✓' : '✗'}</text>`
+      mx += pw + pillGapX
+    })
+    maxRight = Math.max(maxRight, mx - pillGapX)
+    y += rowH + rowGap
+  })
+
+  const width = Math.max(maxRight, pad + labelW) + pad
+  const height = y - rowGap + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// "Quy tắc" — hàng nhãn đậm + N pill cột, nối chấm dọc xuống hàng nhãn đậm khác + N pill cột ✓,
+// nền hồng nhạt bao quanh.
+function renderSpecifyRule(data: SpecifyRuleData, title: string): string {
+  const pad = 16
+  const labelW = 110
+  const colW = 96
+  const rowH = 30
+  const rowGap = 40
+  const bandPad = 10
+
+  const totalW = labelW + data.columns.length * colW
+  const topY = pad
+  const bottomY = topY + rowH + rowGap
+
+  let body = `<rect x="${pad - bandPad}" y="${pad - bandPad}" width="${totalW + bandPad * 2}" height="${bottomY + rowH - topY + bandPad * 2}" rx="10" fill="rgba(201,102,122,0.12)"/>`
+
+  body += `<rect x="${pad}" y="${topY}" width="${labelW - 8}" height="${rowH}" rx="7" fill="${DR_INK}"/>`
+  body += `<text x="${pad + (labelW - 8) / 2}" y="${topY + rowH / 2 + 4}" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.topLabel)}</text>`
+  body += `<rect x="${pad}" y="${bottomY}" width="${labelW - 8}" height="${rowH}" rx="7" fill="${DR_ROSE}"/>`
+  body += `<text x="${pad + (labelW - 8) / 2}" y="${bottomY + rowH / 2 + 4}" font-size="10" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.bottomLabel)}</text>`
+
+  data.columns.forEach((col, ci) => {
+    const cx = pad + labelW + ci * colW + (colW - 8) / 2
+    const bx = pad + labelW + ci * colW
+    body += `<rect x="${bx}" y="${topY}" width="${colW - 8}" height="${rowH}" rx="7" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.3"/>`
+    body += `<text x="${cx}" y="${topY + rowH / 2 + 4}" font-size="9.5" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(col)}</text>`
+    body += `<line x1="${cx}" y1="${topY + rowH + 4}" x2="${cx}" y2="${bottomY - 4}" stroke="${DR_ROSE}" stroke-width="1.4" stroke-dasharray="3,3" marker-end="url(#srArrow)"/>`
+    body += `<rect x="${bx}" y="${bottomY}" width="${colW - 8}" height="${rowH}" rx="7" fill="#fff" stroke="${DR_GREEN}" stroke-width="1.4"/>`
+    body += `<text x="${cx - 6}" y="${bottomY + rowH / 2 + 4}" font-size="9.5" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(col)}</text>`
+    body += `<circle cx="${bx + colW - 8 - 10}" cy="${bottomY + rowH / 2}" r="7" fill="${DR_GREEN}"/>`
+    body += `<text x="${bx + colW - 8 - 10}" y="${bottomY + rowH / 2 + 3.5}" font-size="9" text-anchor="middle" fill="#fff" font-weight="700">✓</text>`
+  })
+
+  const width = totalW + pad * 2 + bandPad
+  const height = bottomY + rowH + pad + bandPad
+  const defs = `<defs><marker id="srArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// Cây 2 tầng: box câu hỏi gốc → "SPECIFY" → N nhánh (nét đứt xoè ra), mỗi nhánh có thêm 1 box con.
+function renderSpecifyTree(data: SpecifyTreeData, title: string): string {
+  const pad = 18
+  const boxW = 170
+  const boxGap = 30
+  const rootBoxH = 40
+  const childBoxH = 40
+  const stemH = 26
+  const childGap = 24
+  const wrapChars = 24
+
+  function linesOf(t: string): string[] {
+    return wrapLabel(t, wrapChars)
+  }
+  const n = data.branches.length
+  const rowW = n * boxW + (n - 1) * boxGap
+  const rootW = Math.max(160, data.question.length * 6.4 + 32)
+  // Câu hỏi gốc dài (rootW) có thể RỘNG HƠN cả hàng nhánh bên dưới (rowW) — nếu chỉ canh giữa theo
+  // rowW như trước, box câu hỏi sẽ tràn ra ngoài viewBox 2 bên (bị cắt, chỉ còn thấy viền trên/dưới,
+  // không thấy viền trái/phải). Phải lấy contentW = max(rowW, rootW) rồi canh giữa CẢ HAI theo đúng
+  // 1 trục chung, dời cả hàng nhánh sang phải nếu rootW rộng hơn.
+  const contentW = Math.max(rowW, rootW)
+  const rootX = pad + (contentW - rootW) / 2
+  const rowOffsetX = pad + (contentW - rowW) / 2
+  const rootY = pad
+  const stemY = rootY + rootBoxH
+  const branchY = stemY + stemH
+  const childY = branchY + childBoxH + childGap
+
+  let body = ''
+  body += `<rect x="${rootX}" y="${rootY}" width="${rootW}" height="${rootBoxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+  body += `<text x="${rootX + rootW / 2}" y="${rootY + rootBoxH / 2 + 4}" font-size="10.5" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(data.question)}</text>`
+
+  const rootCx = rootX + rootW / 2
+  const stemMidY = stemY + stemH / 2
+  body += `<text x="${rootCx + 8}" y="${stemMidY - 4}" font-size="9" text-anchor="start" fill="${DR_ROSE}" font-weight="700">SPECIFY</text>`
+  body += `<line x1="${rootCx}" y1="${stemY}" x2="${rootCx}" y2="${stemMidY}" stroke="${DR_ROSE}" stroke-width="1.6" stroke-dasharray="3,3"/>`
+
+  data.branches.forEach((br, i) => {
+    const x = rowOffsetX + i * (boxW + boxGap)
+    const cx = x + boxW / 2
+    body += `<line x1="${rootCx}" y1="${stemMidY}" x2="${cx}" y2="${stemMidY}" stroke="${DR_ROSE}" stroke-width="1.6" stroke-dasharray="3,3"/>`
+    body += `<line x1="${cx}" y1="${stemMidY}" x2="${cx}" y2="${branchY}" stroke="${DR_ROSE}" stroke-width="1.6" stroke-dasharray="3,3" marker-end="url(#stArrow)"/>`
+
+    body += `<rect x="${x}" y="${branchY}" width="${boxW}" height="${childBoxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    const lines = linesOf(br.text)
+    const startY = branchY + childBoxH / 2 - ((lines.length - 1) * 12) / 2 + 4
+    body += lines.map((l, k) => `<text x="${cx}" y="${startY + k * 12}" font-size="10" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+
+    body += `<line x1="${cx}" y1="${branchY + childBoxH + 3}" x2="${cx}" y2="${childY - 3}" stroke="${DR_ROSE}" stroke-width="1.6" stroke-dasharray="3,3" marker-end="url(#stArrow)"/>`
+    body += `<rect x="${x}" y="${childY}" width="${boxW}" height="${childBoxH}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    const cLines = linesOf(br.child)
+    const cStartY = childY + childBoxH / 2 - ((cLines.length - 1) * 12) / 2 + 4
+    body += cLines.map((l, k) => `<text x="${cx}" y="${cStartY + k * 12}" font-size="10" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+  })
+
+  const width = pad + contentW + pad
+  const height = childY + childBoxH + pad
+  const defs = `<defs><marker id="stArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_ROSE}"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// Bảng tra cứu N cột trung tính (header xám đậm + rows).
+function renderSimpleTable(data: SimpleTableData, title: string): string {
+  const pad = 14
+  const headerH = 24
+  const rowPadY = 8
+  const lineH = 12
+  const colGap = 10
+  const wrapChars = 26
+
+  const cols = data.headers.length
+  function cellLines(text: string): string[] {
+    return wrapLabel(text, wrapChars)
+  }
+  const colWidths = data.headers.map((h, ci) => {
+    const cellsInCol = data.rows.map((r) => r[ci] ?? '')
+    const maxLen = Math.max(h.length, ...cellsInCol.map((c) => Math.max(...cellLines(c).map((l) => l.length), 0)))
+    return Math.max(70, maxLen * 6.2 + 16)
+  })
+  const colXs: number[] = []
+  let cx = pad
+  colWidths.forEach((w) => {
+    colXs.push(cx)
+    cx += w + colGap
+  })
+  const totalW = cx - colGap
+
+  const rowHeights = data.rows.map((r) => {
+    const lineCounts = r.map((c) => cellLines(c).length)
+    return Math.max(20, Math.max(...lineCounts, 1) * lineH + rowPadY)
+  })
+
+  let body = ''
+  body += `<rect x="${pad}" y="${pad}" width="${totalW}" height="${headerH}" fill="${DR_INK_SOFT}"/>`
+  data.headers.forEach((h, ci) => {
+    body += `<text x="${colXs[ci] + 8}" y="${pad + headerH / 2 + 3.5}" font-size="9.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(h.toUpperCase())}</text>`
+  })
+
+  let y = pad + headerH
+  data.rows.forEach((row, ri) => {
+    const h = rowHeights[ri]
+    if (ri % 2 === 1) body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${h}" fill="${DR_BOX}"/>`
+    row.forEach((cellText, ci) => {
+      const lines = cellLines(cellText)
+      const startY = y + h / 2 - ((lines.length - 1) * lineH) / 2 + 4
+      body += lines.map((l, k) => `<text x="${colXs[ci] + 8}" y="${startY + k * lineH}" font-size="9.5" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+    })
+    y += h
+    body += `<line x1="${pad}" y1="${y}" x2="${pad + totalW}" y2="${y}" stroke="${DR_BORDER}" stroke-width="1"/>`
+  })
+
+  const width = totalW + pad * 2
+  const height = y + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// Khung "Idea → Defining word → Detail" (cốt lõi Think in English) — pill tiêu đề vẽ 1 LẦN phía
+// trên, mỗi group có 1 Idea (khung nét đứt, hiển thị 1 lần, cao bằng TỔNG các subrow của nó) + N
+// subrow Defining word/Detail xếp dọc bên phải.
+function renderThinkTable(data: ThinkTableData, title: string): string {
+  const pad = 16
+  const headerH = 20
+  const headerGap = 8
+  const ideaW = 150
+  const colGap = 14
+  const lineH = 12
+  const tagH = 14
+  const tagGap = 3
+  const cellPadY = 8
+  const rowGap = 6
+  const groupGap = 10
+  const wrapChars = 20
+
+  function cellHeight(cell: ThinkCell): number {
+    return Math.max(28, cell.lines.length * lineH + cellPadY + (cell.tag ? tagH + tagGap : 0))
+  }
+  // subRowHeight KHÔNG tính definingWord riêng của subrow khi group đã có definingWord cố định (vẽ
+  // 1 lần, cao ngang idea) — subrow lúc đó chỉ cần đủ cao cho các Detail cell của chính nó.
+  function subRowHeight(row: ThinkSubRow): number {
+    return Math.max(row.definingWord ? cellHeight(row.definingWord) : 0, ...row.detail.map(cellHeight))
+  }
+  function groupContentHeight(g: ThinkGroup): number {
+    return g.rows.reduce((s, r) => s + subRowHeight(r), 0) + (g.rows.length - 1) * rowGap
+  }
+  function groupHeight(g: ThinkGroup): number {
+    return Math.max(cellHeight(g.idea), g.definingWord ? cellHeight(g.definingWord) : 0, groupContentHeight(g))
+  }
+
+  const maxDetailCols = Math.max(1, ...data.groups.flatMap((g) => g.rows.map((r) => r.detail.length)))
+  const definingW = 150
+  const detailW = 220
+  const totalW = ideaW + colGap + definingW + colGap + maxDetailCols * detailW + (maxDetailCols - 1) * colGap
+
+  function drawCell(x: number, y: number, w: number, h: number, cell: ThinkCell, bold: boolean): string {
+    let s = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+    let ty = y + cellPadY / 2 + lineH - 2
+    if (cell.tag) {
+      const tagW = Math.max(40, cell.tag.length * 5.6 + 12)
+      s += `<rect x="${x + 6}" y="${y + 5}" width="${tagW}" height="${tagH}" rx="4" fill="${DR_ROSE}"/>`
+      s += `<text x="${x + 6 + tagW / 2}" y="${y + 5 + tagH / 2 + 3}" font-size="7.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(cell.tag)}</text>`
+      ty += tagH + tagGap
+    }
+    const startY = cell.tag ? ty : y + h / 2 - ((cell.lines.length - 1) * lineH) / 2 + 4
+    s += cell.lines
+      .map((l, k) => `<text x="${x + w / 2}" y="${startY + k * lineH}" font-size="9.5" text-anchor="middle" fill="${DR_INK}" font-weight="${bold ? 700 : 400}">${escapeXml(l)}</text>`)
+      .join('')
+    return s
+  }
+
+  let body = ''
+  // Header pills (Idea / Defining word / Detail) — vẽ 1 lần, outline đặc (không nét đứt) để phân
+  // biệt với các cell dữ liệu bên dưới.
+  const headerY = pad
+  body += `<rect x="${pad}" y="${headerY}" width="${ideaW}" height="${headerH}" rx="${headerH / 2}" fill="#fff" stroke="${DR_ROSE}" stroke-width="1.4"/>`
+  body += `<text x="${pad + ideaW / 2}" y="${headerY + headerH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">Idea</text>`
+  const definingX = pad + ideaW + colGap
+  body += `<rect x="${definingX}" y="${headerY}" width="${definingW}" height="${headerH}" rx="${headerH / 2}" fill="#fff" stroke="${DR_ROSE}" stroke-width="1.4"/>`
+  body += `<text x="${definingX + definingW / 2}" y="${headerY + headerH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">Defining word</text>`
+  for (let d = 0; d < maxDetailCols; d++) {
+    const detailX = definingX + definingW + colGap + d * (detailW + colGap)
+    body += `<rect x="${detailX}" y="${headerY}" width="${detailW}" height="${headerH}" rx="${headerH / 2}" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    body += `<text x="${detailX + detailW / 2}" y="${headerY + headerH / 2 + 3.5}" font-size="9.5" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="700">Detail</text>`
+  }
+
+  let y = headerY + headerH + headerGap
+  data.groups.forEach((g) => {
+    const gh = groupHeight(g)
+    body += drawCell(pad, y, ideaW, gh, g.idea, true)
+    if (g.definingWord) {
+      // Defining word CỐ ĐỊNH cho cả group — vẽ 1 lần, cao bằng idea, giống hệt cách vẽ idea, thay
+      // vì lặp lại y hệt ở từng subrow (vd khung Verb/Adj: mọi subrow đều là "verb").
+      body += drawCell(definingX, y, definingW, gh, g.definingWord, true)
+    }
+    let ry = y
+    g.rows.forEach((row) => {
+      const rh = subRowHeight(row)
+      if (!g.definingWord && row.definingWord) {
+        body += drawCell(definingX, ry, definingW, rh, row.definingWord, false)
+      }
+      row.detail.forEach((d, di) => {
+        const detailX = definingX + definingW + colGap + di * (detailW + colGap)
+        body += drawCell(detailX, ry, detailW, rh, d, false)
+      })
+      ry += rh + rowGap
+    })
+    y += gh + groupGap
+  })
+
+  const width = totalW + pad * 2
+  const height = y - groupGap + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
 function renderExampleWalk(data: ExampleWalkData, title: string): string {
   const pad = 18
   const boxW = 420
@@ -1366,23 +2854,53 @@ function renderStemReference(data: StemReferenceData, title: string): string {
   const sectionGap = 10
   const totalW = labelW + gapLB + boxW
 
+  // Label bên trái CŨNG phải wrap giống box bên phải — ban đầu chỉ text (box phải) mới wrap vì mọi
+  // label ở Lesson 2/3 đều ngắn (Thói quen, Cause, Effect...); sang Lesson 4 label là cả 1 cụm pattern
+  // dài ("the definition of adj / NOUN / V", "doesn't even come close to being adj") nên bị tràn ra
+  // ngoài cột 76px, chữ chồng lên box bên cạnh mà không có dấu hiệu lỗi rõ ràng nào (SVG không tự xén).
+  function labelLinesOf(label: string): string[] {
+    return multilineWrap(label, 13)
+  }
+  // row.text từng wrap ở 38 ký tự — hụt khá xa so với bề ngang box thật (boxW=260, ~240px khả dụng ở
+  // font-size 8 đủ chỗ cho ~50+ ký tự/dòng), verify trực quan qua nhiều mốc (38/46/52/58) trước khi
+  // chốt 52 — cùng nguyên nhân với bug từng gặp ở badgeColumns/compareHighlight.
   function rowHeight(row: StemRow): number {
-    const lines = multilineWrap(row.text, 38)
-    return Math.max(18, lines.length * lineH + boxPadY * 2)
+    const textLines = multilineWrap(row.text, 52)
+    const labelLines = labelLinesOf(row.label)
+    return Math.max(18, Math.max(textLines.length, labelLines.length) * lineH + boxPadY * 2)
+  }
+
+  // Header cũng phải wrap phòng khi lỡ dài (đã gặp: nhét nguyên 1 câu ví dụ vào header thay vì để
+  // trong đoạn văn phía trên chart) — header vốn chỉ để 1 nhãn ngắn nên headerH cố định trước đây
+  // chưa từng lộ vấn đề, nhưng vẫn nên wrap để không âm thầm tràn chữ nếu có lần sau.
+  function headerLinesOf(header: string): string[] {
+    return multilineWrap(header, 60)
+  }
+  function headerHeightOf(section: StemSection): number {
+    return Math.max(headerH, headerLinesOf(section.header).length * lineH + 8)
   }
 
   let y = pad
   let body = ''
   data.sections.forEach((section) => {
     const color = section.category === 'self' ? DR_ROSE : DR_GREEN
-    body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${headerH}" rx="6" fill="${color}"/>`
-    body += `<text x="${pad + 10}" y="${y + headerH / 2 + 3}" font-size="8.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(section.header)}</text>`
-    y += headerH + rowGap
+    const hh = headerHeightOf(section)
+    const headerLines = headerLinesOf(section.header)
+    body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${hh}" rx="6" fill="${color}"/>`
+    const headerStartY = y + hh / 2 - ((headerLines.length - 1) * lineH) / 2 + 3
+    body += headerLines
+      .map((l, k) => `<text x="${pad + 10}" y="${headerStartY + k * lineH}" font-size="8.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(l)}</text>`)
+      .join('')
+    y += hh + rowGap
 
     section.rows.forEach((row) => {
       const h = rowHeight(row)
-      const lines = multilineWrap(row.text, 38)
-      body += `<text x="${pad}" y="${y + h / 2 + 3}" font-size="8.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(row.label)}</text>`
+      const lines = multilineWrap(row.text, 52)
+      const labelLines = labelLinesOf(row.label)
+      const labelStartY = y + h / 2 - ((labelLines.length - 1) * lineH) / 2 + 3
+      body += labelLines
+        .map((l, k) => `<text x="${pad}" y="${labelStartY + k * lineH}" font-size="8.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(l)}</text>`)
+        .join('')
       body += `<rect x="${pad + labelW + gapLB}" y="${y}" width="${boxW}" height="${h}" rx="6" fill="${DR_BOX}"/>`
       const startY = y + h / 2 - ((lines.length - 1) * lineH) / 2 + 3
       body += lines
@@ -1395,6 +2913,119 @@ function renderStemReference(data: StemReferenceData, title: string): string {
 
   const width = totalW + pad * 2
   const height = y - sectionGap + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+type HighlightToken = { text: string; hi: boolean }
+
+// Đánh dấu index nào thuộc 1 cụm highlight trước, rồi mới tách từ theo index đó — tránh so khớp lại
+// bằng cách split-rồi-tìm-lại (dễ lệch khi 1 từ lặp lại nhiều lần trong đoạn văn).
+function tokenizeWithHighlights(text: string, highlights: string[]): HighlightToken[] {
+  const marks = new Array(text.length).fill(false)
+  highlights.forEach((h) => {
+    if (!h) return
+    let from = 0
+    for (;;) {
+      const idx = text.indexOf(h, from)
+      if (idx === -1) break
+      for (let i = idx; i < idx + h.length; i++) marks[i] = true
+      from = idx + h.length
+    }
+  })
+  const tokens: HighlightToken[] = []
+  let i = 0
+  while (i < text.length) {
+    if (/\s/.test(text[i])) {
+      i += 1
+      continue
+    }
+    let j = i
+    while (j < text.length && !/\s/.test(text[j])) j += 1
+    tokens.push({ text: text.slice(i, j), hi: marks.slice(i, j).some(Boolean) })
+    i = j
+  }
+  return tokens
+}
+
+function wrapHighlightTokens(tokens: HighlightToken[], maxChars: number): HighlightToken[][] {
+  const lines: HighlightToken[][] = []
+  let cur: HighlightToken[] = []
+  let curLen = 0
+  tokens.forEach((tok) => {
+    const addLen = (curLen > 0 ? 1 : 0) + tok.text.length
+    if (curLen + addLen > maxChars && cur.length > 0) {
+      lines.push(cur)
+      cur = [tok]
+      curLen = tok.text.length
+    } else {
+      cur.push(tok)
+      curLen += addLen
+    }
+  })
+  if (cur.length > 0) lines.push(cur)
+  return lines
+}
+
+function renderHighlightLine(line: HighlightToken[]): string {
+  return line
+    .map((tok, idx) => {
+      const content = escapeXml(tok.text) + (idx < line.length - 1 ? ' ' : '')
+      return tok.hi ? `<tspan fill="${DR_ROSE}" font-weight="700">${content}</tspan>` : `<tspan>${content}</tspan>`
+    })
+    .join('')
+}
+
+// So sánh Trước/Sau với highlight — khác stemReference ở chỗ label xếp TRÊN box (không xếp bên
+// trái) vì đoạn Trước/Sau thường dài nhiều câu, xếp bên trái sẽ phí ngang khiến chữ wrap sớm dù còn
+// dư chỗ (bug đã gặp: khoảng trắng lớn bên phải mỗi dòng dù box đã kéo full width). wrapChars=88 đã
+// verify trực quan qua nhiều mốc (62/80/95) trước khi chốt — 62 để trắng ~30% bề ngang box.
+function renderCompareHighlight(data: CompareData, title: string): string {
+  const pad = 14
+  const headerH = 20
+  const boxW = 500
+  const lineH = 12
+  const boxPadY = 8
+  const boxPadX = 12
+  const rowGap = 8
+  const sectionGap = 14
+  const labelH = 14
+  const explLineH = 11
+  const wrapChars = 88
+  const fontSize = 8.5
+
+  let y = pad
+  let body = ''
+  data.sections.forEach((section, si) => {
+    const color = si % 2 === 0 ? DR_ROSE : DR_GREEN
+    body += `<rect x="${pad}" y="${y}" width="${boxW}" height="${headerH}" rx="6" fill="${color}"/>`
+    body += `<text x="${pad + 10}" y="${y + headerH / 2 + 3}" font-size="9" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(section.header)}</text>`
+    y += headerH + rowGap
+
+    function row(label: string, text: string, highlights: string[]) {
+      body += `<text x="${pad}" y="${y + labelH - 3}" font-size="8.5" text-anchor="start" fill="${DR_INK}" font-weight="700" font-style="italic">${escapeXml(label)}</text>`
+      y += labelH + 3
+      const lines = wrapHighlightTokens(tokenizeWithHighlights(text, highlights), wrapChars)
+      const h = Math.max(24, lines.length * lineH + boxPadY * 2)
+      body += `<rect x="${pad}" y="${y}" width="${boxW}" height="${h}" rx="6" fill="${DR_BOX}"/>`
+      const startY = y + boxPadY + 8
+      lines.forEach((line, k) => {
+        body += `<text x="${pad + boxPadX}" y="${startY + k * lineH}" font-size="${fontSize}" text-anchor="start" fill="${DR_INK}">${renderHighlightLine(line)}</text>`
+      })
+      y += h + rowGap
+    }
+
+    row('Trước', section.before, section.beforeHighlights ?? [])
+    row('Sau', section.after, section.highlights)
+
+    const explLines = multilineWrap(section.explanation, 78)
+    body += explLines
+      .map((l, k) => `<text x="${pad}" y="${y + k * explLineH + 8}" font-size="7.8" text-anchor="start" fill="${DR_INK_SOFT}" font-style="italic">${escapeXml(l)}</text>`)
+      .join('')
+    y += explLines.length * explLineH + sectionGap
+  })
+
+  const width = boxW + pad * 2
+  const height = y - sectionGap + pad / 2
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
@@ -1449,10 +3080,26 @@ export const DataChart = Node.create({
       else if (chartType === 'drRows') svg = renderDRRows(parsed as DRRowsData, title)
       else if (chartType === 'tierList') svg = renderTierList(parsed as TierListData, title)
       else if (chartType === 'badgeColumns') svg = renderBadgeColumns(parsed as BadgeColumnsData, title)
+      else if (chartType === 'cueFormatTable') svg = renderCueFormatTable(parsed as CueFormatTableData, title)
+      else if (chartType === 'pairFlow') svg = renderPairFlow(parsed as PairFlowData, title)
+      else if (chartType === 'methodDiagram') svg = renderMethodDiagram(parsed as MethodDiagramData, title)
+      else if (chartType === 'connectorGrid') svg = renderConnectorGrid(parsed as ConnectorGridData, title)
+      else if (chartType === 'groupedChain') svg = renderGroupedChain(parsed as GroupedChainData, title)
+      else if (chartType === 'miniFacts') svg = renderMiniFacts(parsed as MiniFactsData, title)
+      else if (chartType === 'cardGrid') svg = renderCardGrid(parsed as CardGridData, title)
       else if (chartType === 'badgeGroups') svg = renderBadgeGroups(parsed as BadgeGroupsData, title)
       else if (chartType === 'formulaBox') svg = renderFormulaBox(parsed as FormulaBoxData, title)
+      else if (chartType === 'equationBox') svg = renderEquationBox(parsed as EquationBoxData, title)
+      else if (chartType === 'equationChain') svg = renderEquationChain(parsed as EquationChainData, title)
+      else if (chartType === 'branchRow') svg = renderBranchRow(parsed as BranchRowData, title)
+      else if (chartType === 'checkMatrix') svg = renderCheckMatrix(parsed as CheckMatrixData, title)
+      else if (chartType === 'specifyRule') svg = renderSpecifyRule(parsed as SpecifyRuleData, title)
+      else if (chartType === 'specifyTree') svg = renderSpecifyTree(parsed as SpecifyTreeData, title)
+      else if (chartType === 'simpleTable') svg = renderSimpleTable(parsed as SimpleTableData, title)
+      else if (chartType === 'thinkTable') svg = renderThinkTable(parsed as ThinkTableData, title)
       else if (chartType === 'exampleWalk') svg = renderExampleWalk(parsed as ExampleWalkData, title)
       else if (chartType === 'stemReference') svg = renderStemReference(parsed as StemReferenceData, title)
+      else if (chartType === 'compareHighlight') svg = renderCompareHighlight(parsed as CompareData, title)
       else svg = renderLineChart(parsed as LineBarData, title)
     }
     // renderHTML's array format chỉ chèn được text (bị escape) hoặc node con, không chèn được HTML
