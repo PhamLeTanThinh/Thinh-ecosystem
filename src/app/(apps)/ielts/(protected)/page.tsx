@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useIeltsStore } from '@/lib/ielts/store'
 import { Sidebar, type Selection } from '@/components/ielts/Sidebar'
 import { PageEditor } from '@/components/ielts/PageEditor'
@@ -12,9 +12,19 @@ import { skillLabel } from '@/lib/ielts/skills'
 export default function IeltsHomePage() {
   const { isOwner, email, sharingEnabled } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
+  const contentLoaded = useIeltsStore((s) => s.contentLoaded)
   const [selection, setSelection] = useState<Selection | null>(null)
 
   const activePage = selection?.type === 'page' ? pages.find((p) => p.id === selection.id) ?? null : null
+
+  // Cuộn về đầu trang mỗi lần đổi lựa chọn (trang khác hoặc Từ vựng) — thiếu bước này, trang mới sẽ
+  // "thừa hưởng" vị trí cuộn dở dang của trang trước đó, khiến việc chuyển trang cảm giác giật/lỗi
+  // dù nội dung đã đổi đúng. Không dùng behavior:'smooth' vì đây là 2 tài liệu khác nhau (không phải
+  // cuộn tiếp 1 trang dài) — nhảy thẳng lên đầu, còn cảm giác "mượt" đến từ animation fade-in-up của
+  // .ih-page-view (ielts.css) chạy song song ngay sau đó.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [selection?.type, selection?.type === 'page' ? selection.id : null])
 
   return (
     <div className="ih-shell">
@@ -38,12 +48,24 @@ export default function IeltsHomePage() {
           {selection?.type === 'vocab' && <VocabView onNavigateToPage={(id) => setSelection({ type: 'page', id })} />}
 
           {selection?.type === 'page' && activePage && (
-            <div className="ih-page-view">
+            // key theo id ở NGAY div ngoài cùng (không chỉ ở PageEditor) — để cả tiêu đề lẫn nội dung
+            // cùng remount và cùng chạy lại animation fade-in-up mỗi lần đổi trang.
+            <div key={activePage.id} className="ih-page-view">
               <div className="ih-page-view-meta">
                 <span className="ih-page-view-skill">{skillLabel(activePage.skill)}</span>
                 <h1 className="ih-font-hand ih-page-view-title">{activePage.title}</h1>
               </div>
-              <PageEditor key={activePage.id} page={activePage} />
+              {contentLoaded ? (
+                <PageEditor page={activePage} />
+              ) : (
+                // Chưa tải xong nội dung đầy đủ (đang tải nền, xem store.ts) — KHÔNG mount PageEditor
+                // lúc này, vì nó chốt content lúc mount vào state nội bộ; mount sớm với content rỗng
+                // rồi lỡ tay lưu sẽ xoá mất nội dung thật của trang.
+                <div className="ih-loading-state">
+                  <span className="ih-spinner" aria-hidden />
+                  <span>Đang tải nội dung…</span>
+                </div>
+              )}
             </div>
           )}
 

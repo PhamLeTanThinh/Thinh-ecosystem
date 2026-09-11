@@ -44,6 +44,7 @@ function flushPageSave(id: string) {
 
 interface IeltsState {
   hydrated: boolean
+  contentLoaded: boolean
   pages: IeltsPage[]
   vocab: VocabEntry[]
 
@@ -61,13 +62,29 @@ interface IeltsState {
 
 export const useIeltsStore = create<IeltsState>((set, get) => ({
   hydrated: false,
+  contentLoaded: false,
   pages: [],
   vocab: [],
 
+  // 2 pha: (1) tải nhanh id/title/skill/sortOrder (content rỗng) để sidebar hiện ngay, không phải
+  // đợi tải xong nội dung đầy đủ của MỌI trang (mỗi trang có thể 60-100KB+ HTML); (2) tải tiếp nội
+  // dung đầy đủ ở NỀN, merge vào đúng từng trang theo id khi xong (contentLoaded=true) — PageEditor
+  // chỉ mount sau khi contentLoaded để không bao giờ mount với content rỗng rồi lỡ tay ghi đè mất
+  // nội dung thật (xem page.tsx).
   hydrate: async () => {
     if (get().hydrated) return
-    const [pages, vocab] = await Promise.all([storage.getPages(), storage.getVocab()])
-    set({ hydrated: true, pages, vocab })
+    const [meta, vocab] = await Promise.all([storage.getPagesMeta(), storage.getVocab()])
+    set({ hydrated: true, pages: meta, vocab })
+    storage
+      .getPages()
+      .then((full) => {
+        const fullById = new Map(full.map((p) => [p.id, p]))
+        set((state) => ({
+          contentLoaded: true,
+          pages: state.pages.map((p) => fullById.get(p.id) ?? p),
+        }))
+      })
+      .catch(console.error)
   },
 
   addPage: (skill, title) => {

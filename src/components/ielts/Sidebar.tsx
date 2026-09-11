@@ -17,6 +17,7 @@ interface Props {
 export function Sidebar({ selection, onSelect }: Props) {
   const { isOwner } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
+  const hydrated = useIeltsStore((s) => s.hydrated)
   const addPage = useIeltsStore((s) => s.addPage)
   const [expanded, setExpanded] = useState<Set<Skill>>(() => new Set(SKILLS.map((s) => s.key)))
   const [addingTo, setAddingTo] = useState<Skill | null>(null)
@@ -62,9 +63,18 @@ export function Sidebar({ selection, onSelect }: Props) {
 
             {isOpen && (
               <div className="ih-page-list">
-                {skillPages.map((page) => (
-                  <PageRow key={page.id} pageId={page.id} title={page.title} active={selection.type === 'page' && selection.id === page.id} onSelect={() => onSelect({ type: 'page', id: page.id })} isOwner={isOwner} />
-                ))}
+                {!hydrated ? (
+                  // Skeleton trong lúc chờ tải danh sách trang (rất nhanh, chỉ id/title — xem
+                  // store.ts) — tránh hiện danh sách trống trơn 1 nhịp trước khi có dữ liệu thật.
+                  <>
+                    <div className="ih-page-skeleton-row" style={{ width: '70%' }} />
+                    <div className="ih-page-skeleton-row" style={{ width: '55%' }} />
+                  </>
+                ) : (
+                  skillPages.map((page) => (
+                    <PageRow key={page.id} pageId={page.id} title={page.title} active={selection.type === 'page' && selection.id === page.id} onSelect={() => onSelect({ type: 'page', id: page.id })} isOwner={isOwner} />
+                  ))
+                )}
 
                 {isOwner && (addingTo === skill.key ? (
                   <input

@@ -13,6 +13,9 @@ async function req<T>(url: string, init?: RequestInit): Promise<T> {
 // (không bulk-replace toàn bộ như notes/habits), tránh phải gửi lại mọi trang khác mỗi lần lưu 1 trang.
 export const storage = {
   getPages: () => req<IeltsPage[]>('/api/ielts/pages'),
+  // Chỉ id/title/skill/sortOrder (content rỗng) — dùng để vẽ sidebar ngay lập tức, không đợi tải
+  // nội dung đầy đủ của mọi trang (xem store.ts hydrate()).
+  getPagesMeta: () => req<IeltsPage[]>('/api/ielts/pages?meta=1'),
   createPage: (page: IeltsPage) => req<IeltsPage>('/api/ielts/pages', { method: 'POST', body: JSON.stringify(page) }),
   updatePage: (id: string, patch: Partial<Pick<IeltsPage, 'title' | 'content' | 'sortOrder'>>) =>
     req<IeltsPage>(`/api/ielts/pages/${id}`, { method: 'PATCH', body: JSON.stringify(patch) }),
