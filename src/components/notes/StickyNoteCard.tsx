@@ -62,7 +62,10 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   function handleRootBlur(e: React.FocusEvent<HTMLDivElement>) {
     if (e.currentTarget.contains(e.relatedTarget as Node | null)) return
     onStopEdit()
-    if (isEffectivelyEmpty(note.content)) deleteNote(note.id)
+    // Note có nhãn hoặc màu đã gán KHÔNG được coi là rỗng dù chưa có chữ — trước đây chỉ xét
+    // note.content nên 1 note chỉ vừa gắn nhãn (chưa kịp gõ nội dung) bị tự xoá lúc blur (vd bấm
+    // sang ngày khác), khiến nhãn vừa thêm "biến mất" cùng cả note mà người dùng không hay.
+    if (isEffectivelyEmpty(note.content) && note.tags.length === 0 && !note.color) deleteNote(note.id)
     else useNotesStore.getState().flushSave()
   }
 
@@ -134,6 +137,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   return (
     <div
       ref={rootRef}
+      data-note-id={note.id}
       className="nt-note"
       style={{ left: x, top: y, width, height, borderLeftColor: note.color ? COLOR_HEX[note.color] : 'transparent' }}
       onClick={() => !editing && onStartEdit()}

@@ -177,6 +177,67 @@
   color: var(--color-nt-ink);
 }
 
+/* Chuyển đổi "Theo ngày" (cây phân cấp) / "Theo nhãn" (tìm note cũ theo nhãn, xuyên suốt mọi ngày) */
+.nt-sidebar-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 12px;
+  padding: 3px;
+  border-radius: 8px;
+  background: var(--color-nt-surface);
+}
+
+.nt-sidebar-tabs button {
+  flex: 1 1 0;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 0;
+  border-radius: 6px;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-sidebar-tabs button.active {
+  background: var(--color-nt-ink);
+  color: #fff;
+}
+
+.nt-tree-empty {
+  font-size: 12.5px;
+  color: var(--color-nt-ink-soft);
+  padding: 8px 6px;
+}
+
+/* 1 note trong danh sách "theo nhãn" — đoạn trích chữ (đã bỏ HTML) + ngày, bấm để nhảy thẳng tới
+   đúng note đó (đổi ngày + cuộn canvas tới, xem onSelectNote ở page.tsx / NotesBoard.tsx). */
+.nt-tree-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  width: 100%;
+  padding: 6px 8px 6px 26px;
+  border-radius: 6px;
+  text-align: left;
+}
+
+.nt-tree-note:hover {
+  background: var(--color-nt-surface);
+}
+
+.nt-tree-note-snippet {
+  font-size: 12.5px;
+  color: var(--color-nt-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.nt-tree-note-date {
+  font-size: 10.5px;
+  color: var(--color-nt-ink-soft);
+}
+
 /* Cây phân cấp Năm > Mùa > Tháng > Tuần > Ngày — viền trái tô màu theo mùa, chạy suốt xuống
    từng cấp con để dễ quét mắt theo màu (điểm nhấn thị giác chính của danh sách này). */
 .nt-tree {
@@ -537,7 +598,9 @@
   pointer-events: none;
 }
 
-/* Toolbar */
+/* Toolbar — dính lại trên đầu .nt-note-body (container cuộn riêng của từng note, xem overflow-y:auto
+   ở trên) khi nội dung dài và người dùng cuộn xuống, thay vì cuộn mất theo nội dung. Cần nền đặc
+   (không trong suốt) + z-index để che đúng phần chữ cuộn qua bên dưới nó. */
 .nt-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -546,6 +609,10 @@
   padding-bottom: 6px;
   margin-bottom: 6px;
   border-bottom: 1px solid var(--color-nt-border);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--color-nt-surface);
 }
 
 .nt-tb-btn {

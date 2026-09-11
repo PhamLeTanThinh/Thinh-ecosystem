@@ -16,6 +16,7 @@ export default function NotesPage() {
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [zoom, setZoom] = useState(1)
+  const [focusNoteId, setFocusNoteId] = useState<string | null>(null)
   const dateInputRef = useRef<HTMLInputElement>(null)
 
   const notesForDay = useMemo(() => notes.filter((n) => n.date === currentDate), [notes, currentDate])
@@ -47,6 +48,17 @@ export default function NotesPage() {
   function goToDay(date: string) {
     setCurrentDate(date)
     setEditingId(null)
+  }
+
+  // Chọn 1 note cụ thể từ danh sách "theo nhãn" — khác goToDay (chỉ đổi ngày): còn phải bỏ filter
+  // tag của NGÀY đó (effectiveActiveTag) để note chắc chắn hiện ra trên board, và báo cho
+  // NotesBoard cuộn tới đúng vị trí note (toạ độ tự do, có thể đang ngoài vùng nhìn thấy).
+  function handleSelectNote(date: string, noteId: string) {
+    setCurrentDate(date)
+    setActiveTag(null)
+    setEditingId(noteId)
+    setFocusNoteId(noteId)
+    setTimeout(() => setFocusNoteId(null), 1000)
   }
 
   // Nếu ngày đang xem nằm trong nhóm vừa xoá, board tự trống theo (notesForDay lọc lại theo notes mới).
@@ -146,13 +158,16 @@ export default function NotesPage() {
           onZoomChange={setZoom}
           onStartEdit={setEditingId}
           onStopEdit={() => setEditingId(null)}
+          focusNoteId={focusNoteId}
         />
 
         {sidebarOpen && (
           <NotesSidebar
             tree={dateTree}
+            notes={notes}
             currentDate={currentDate}
             onSelectDay={goToDay}
+            onSelectNote={handleSelectNote}
             onDeleteGroup={handleDeleteGroup}
             onClose={() => setSidebarOpen(false)}
           />

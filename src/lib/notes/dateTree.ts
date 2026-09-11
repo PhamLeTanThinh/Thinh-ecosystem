@@ -16,6 +16,16 @@ function seasonKey(year: string, season: string): string {
   return `${year}-${season}`
 }
 
+// Mỗi CẤP (Năm/Mùa/Tháng/Tuần/Ngày) 1 màu riêng, cố định, khác hẳn nhau về tông — không suy ra từ
+// màu mùa nữa (trước đây chỉ đổi độ sáng/tối của 1 màu, nhìn vẫn na ná nhau, khó phân biệt cấp).
+// Giờ nhìn màu là biết ngay đang ở cấp nào, bất kể đang ở mùa nào.
+const LEVEL_COLOR = {
+  year: '#E0648A', // hồng
+  month: '#8B6FE0', // tím
+  week: '#2FAE82', // xanh lá
+  day: '#3E8FE0', // xanh dương
+}
+
 // Xây cây Năm -> Mùa -> Tháng -> Tuần -> Ngày từ danh sách note (dựa trên `date` của từng note).
 // Ngày hôm nay luôn có mặt trong cây dù chưa có note nào (để luôn chọn được), nhưng không có
 // nghĩa là được lưu xuống DB — node ngày trống chỉ tồn tại tạm trong cây hiển thị.
@@ -50,7 +60,7 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
     const noteIds = dayMap.get(dateStr)!
 
     if (year !== prevYear) {
-      curYear = { key: year, label: year, count: 0, noteIds: [], children: [], isDay: false }
+      curYear = { key: year, label: year, color: LEVEL_COLOR.year, count: 0, noteIds: [], children: [], isDay: false }
       years.push(curYear)
       prevYear = year
       prevSeasonKey = ''
@@ -65,7 +75,7 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
       curMonth = {
         key: monthKey,
         label: `Tháng ${d.getMonth() + 1}`,
-        color: season.color,
+        color: LEVEL_COLOR.month,
         count: 0,
         noteIds: [],
         children: [],
@@ -79,7 +89,7 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
       curWeek = {
         key: weekKey,
         label: `Tuần ${weekNum}`,
-        color: season.color,
+        color: LEVEL_COLOR.week,
         count: 0,
         noteIds: [],
         children: [],
@@ -92,7 +102,7 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
     const dayNode: TreeNode = {
       key: dateStr,
       label: formatDayShortLabel(d),
-      color: season.color,
+      color: LEVEL_COLOR.day,
       count: noteIds.length,
       noteIds,
       children: [],
