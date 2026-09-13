@@ -734,6 +734,53 @@
   margin: 0 0 12px;
 }
 
+/* Ảnh minh hoạ nhúng từ URL ngoài (vd Wikimedia Commons) — bo góc + viền mờ nhẹ cho khớp ngôn ngữ
+   thiết kế card mềm mại chung của app, thay vì ảnh vuông thành cạnh chèn thẳng vào giữa văn bản. */
+.ih-editor-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+  border: 1px solid rgba(43, 58, 85, 0.12);
+  box-shadow: 0 8px 24px rgba(60, 50, 90, 0.08);
+  margin: 4px 0 4px;
+}
+
+/* Ảnh minh hoạ đặt trong ô bảng (layout chữ trái/ảnh phải, vd Map — Areas) — chủ động giới hạn nhỏ
+   hơn hẳn so với ảnh đứng riêng ngoài bảng, vì TipTap Image node không giữ lại thuộc tính style/width
+   tuỳ ý (chỉ src/alt sống sót qua parse) nên phải khống chế kích thước bằng CSS theo NGỮ CẢNH (nằm
+   trong ô bảng) thay vì gắn trực tiếp lên từng ảnh. Ép cùng 1 khung width×height cố định (thay vì
+   chỉ max-width) + object-fit:contain — các ảnh minh hoạ khác nhau tỉ lệ khung hình rất nhiều (vd 1
+   ảnh cao/dọc ghép 2 bản đồ, 1 ảnh thấp/ngang ghép 2 ảnh phòng) nên nếu chỉ giới hạn width, ảnh nào
+   càng cao thì hiển thị càng to/chiếm chỗ hơn hẳn ảnh kia — ép cùng khung để 2 cột luôn ĐỒNG ĐỀU kích
+   thước, ảnh tự co theo tỉ lệ gốc bên trong khung đó (không bị bóp méo, không bị cắt mất nội dung). */
+.ih-editor-content td img {
+  width: 460px;
+  height: 380px;
+  max-width: 100%;
+  object-fit: contain;
+  background: rgba(43, 58, 85, 0.03);
+}
+
+/* Ảnh đề thi thật (vd Q2demo.png — exam sheet gốc) — thu nhỏ 30% so với mặc định vì đây là ảnh
+   chụp cả trang đề, để full-width sẽ quá to so với text xung quanh. */
+.ih-editor-content img[src*='Q2demo'] {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Chú thích ảnh — 1 <p><em>...</em></p> thường ngay sau <img> (StarterKit không có node
+   figure/figcaption riêng nên viết div/figure bọc ngoài sẽ bị TipTap "bóc vỏ" mất khi parse lại,
+   chỉ còn lại img + p rời nhau — đã verify trực tiếp trước khi chọn cách này). */
+.ih-editor-content img + p em {
+  display: block;
+  margin-top: -8px;
+  margin-bottom: 12px;
+  font-size: 11.5px;
+  color: var(--color-ih-ink-soft);
+}
+
 .ih-editor-content ul,
 .ih-editor-content ol {
   padding-left: 22px;
@@ -936,6 +983,20 @@
   border: 1px solid rgba(43, 58, 85, 0.16);
 }
 
+/* Bảng layout "chữ trái / ảnh phải" (vd Map — Areas) — mỗi bảng là 1 <table> ĐỘC LẬP, trình duyệt
+   tự tính lại bề rộng cột theo riêng nội dung chữ của TỪNG bảng, nên khi xếp nhiều bảng dạng này
+   chồng lên nhau, cột ảnh mỗi bảng lệch nhau (bảng có chữ dài thì cột ảnh bị đẩy sang phải hơn).
+   Ép cùng 1 tỉ lệ cột cố định để cột ảnh luôn thẳng hàng — CHỈ áp dụng cho bảng có ảnh trong ô (dùng
+   :has() để không đụng tới các bảng dữ liệu thật khác trong app, vốn cần tự do co giãn theo cột).
+*/
+.ih-editor-content table:has(td > img) {
+  table-layout: fixed;
+}
+
+.ih-editor-content table:has(td > img) td:first-child {
+  width: 50%;
+}
+
 .ih-editor-content th,
 .ih-editor-content td {
   border: 1px solid rgba(43, 58, 85, 0.14);
@@ -1018,6 +1079,30 @@
 
 .ih-callout[data-callout='prompt']::before {
   content: '📌';
+}
+
+/* 3 biến thể phẳng, KHÔNG icon (bỏ hẳn padding-left dành cho icon) — dùng riêng cho layout "Task/
+   Options/Questions" của Matching (Listening Lesson 4), tái tạo đúng 3 khối màu xanh dương/cam nhạt/
+   xanh lá của slide gốc để mắt nối được ngay giữa chú thích màu bên trái và khối tương ứng bên phải. */
+.ih-callout[data-callout='task'],
+.ih-callout[data-callout='options'],
+.ih-callout[data-callout='answers'] {
+  padding-left: 16px;
+}
+
+.ih-callout[data-callout='task'] {
+  background: rgba(191, 219, 254, 0.45);
+  border: 1px solid rgba(62, 99, 221, 0.3);
+}
+
+.ih-callout[data-callout='options'] {
+  background: rgba(253, 186, 116, 0.28);
+  border: 1px solid rgba(217, 119, 6, 0.3);
+}
+
+.ih-callout[data-callout='answers'] {
+  background: rgba(134, 239, 172, 0.35);
+  border: 1px solid rgba(22, 163, 74, 0.3);
 }
 
 /* Bản dịch tiếng Việt đi kèm câu tiếng Anh dài — dùng ở cả Đề bài lẫn bảng lý thuyết. Kiểu chữ
@@ -1179,6 +1264,15 @@ li > .ih-prompt-vi {
   display: block;
   width: 100%;
   height: auto;
+}
+
+/* La bàn NESW (Map — Positions) — viewBox vuông nhỏ (200×200) bị kéo giãn full bề ngang cột đọc như
+   mọi chart khác, trông to quá mức cần thiết so với nội dung thật — giảm còn 1 nửa + canh giữa.
+   Scope theo data-chart-type (chỉ 1 chart duy nhất trong app dùng type này) để không ảnh hưởng các
+   chart khác vốn cần full-width để đọc rõ (bảng/sơ đồ nhiều chữ). */
+.ih-chart[data-chart-type='compassRose'] .ih-chart-svg {
+  width: 50%;
+  margin: 0 auto;
 }
 
 .ih-tree-branch-box {

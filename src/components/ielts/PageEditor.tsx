@@ -9,6 +9,7 @@ import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import Placeholder from '@tiptap/extension-placeholder'
 import { TableKit } from '@tiptap/extension-table'
+import Image from '@tiptap/extension-image'
 import { Callout } from './extensions/Callout'
 import { ExampleBlock } from './extensions/ExampleBlock'
 import { AnswerBlock } from './extensions/AnswerBlock'
@@ -36,6 +37,10 @@ const docExtensions = [
   TextAlign.configure({ types: ['heading', 'paragraph'] }),
   Placeholder.configure({ placeholder: 'Viết nội dung…' }),
   TableKit.configure({ table: { resizable: true } }),
+  // Ảnh minh hoạ nhúng từ URL ngoài (vd Wikimedia Commons) cho nội dung Listening — KHÔNG cho phép
+  // base64 vì content mọi trang gộp lại tải 1 lần lúc hydrate (xem lib/ielts/store.ts), ảnh base64
+  // sẽ đội nặng payload đó lên rất nhiều so với chỉ lưu 1 URL.
+  Image.configure({ allowBase64: false }),
   Callout,
   ExampleBlock,
   AnswerBlock,

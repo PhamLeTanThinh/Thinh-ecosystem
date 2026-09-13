@@ -126,6 +126,25 @@ type CueLine = { text: string; indent?: boolean }
 type CueFormatGroup = { tag: string; lines: CueLine[] }
 type CueFormatTableData = { groups: CueFormatGroup[] }
 
+// Chuỗi box XẾP DỌC nối bằng mũi tên xuống (khác mọi chuỗi ngang khác trong file) — dùng cho dạng
+// bài "Flow-chart completion" của Listening (vd tiến trình "Drying-up of Aral Sea"), mỗi bước là 1
+// box, chỗ cần điền chỉ cần viết thẳng "_____ (7)" ngay trong text.
+type VerticalStepItem = { label?: string; text: string }
+type VerticalStepsData = { steps: VerticalStepItem[] }
+
+// Mô phỏng lại đúng 1 TỜ ĐỀ THI THẬT (Listening completion) — trắng đen, tối giản, KHÔNG dùng màu
+// sắc/box bo tròn kiểu app như các chart khác, vì mục đích ở đây khác hẳn: cho người học hình dung
+// ĐÚNG hình dạng đề thi thật sẽ trông như thế nào (form/flow-chart completion), không phải minh hoạ
+// khái niệm theo phong cách riêng của app. Text hỗ trợ chỗ trống inline dạng "_____(7)" — tự động vẽ
+// thành 1 đường gạch ngắn + khoanh tròn số ngay trong dòng chữ, giống hệt cách đề thi thật đánh số.
+type ExamLineKind = 'header' | 'bullet' | 'text'
+type ExamLine = { kind?: ExamLineKind; stepLabel?: string; text: string }
+type ExamSheetData = { title?: string; lines: ExamLine[] }
+
+// La bàn 8 hướng đơn giản — dùng cho từ vựng vị trí trong Map labeling (N/S/E/W chính + NE/SE/SW/NW
+// phụ), không nhận tham số vì hình dạng cố định, chỉ cần chèn đúng chỗ trong bài.
+type CompassRoseData = Record<string, never>
+
 // Nhiều "row" xếp CHỒNG, mỗi row gồm 2+ CỘT cạnh nhau — mỗi cột là 1 pill nhãn màu (rose/green) +
 // 1 khung nét đứt bên dưới chứa 1 mảnh câu — dùng để so sánh vài CÁCH DIỄN ĐẠT khác nhau cho cùng 1
 // câu, đặt song song để thấy ngay điểm khác biệt (vd "Tư duy cũ vs Tư duy mới": mệnh đề phụ đứng
@@ -1626,6 +1645,216 @@ function renderCueFormatTable(data: CueFormatTableData, title: string): string {
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
+// Chuỗi box XẾP DỌC nối bằng mũi tên xuống — dùng cho "Flow-chart completion" (Listening), mỗi
+// bước 1 box, khác mọi chuỗi khác trong file (branchRow/groupedChain/flowChain đều xếp NGANG).
+function renderVerticalSteps(data: VerticalStepsData, title: string): string {
+  const pad = 16
+  const boxW = 360
+  const gapY = 22
+  const lineH = 13
+  const boxPadY = 10
+  const wrapChars = 46
+  const labelH = 15
+
+  function linesOf(text: string): string[] {
+    return wrapLabel(text, wrapChars)
+  }
+  function boxHeightOf(item: VerticalStepItem): number {
+    return Math.max(30, linesOf(item.text).length * lineH + boxPadY) + (item.label ? labelH : 0)
+  }
+
+  let y = pad
+  let body = ''
+  const boxX = pad
+  data.steps.forEach((step, i) => {
+    if (i > 0) {
+      body += `<line x1="${boxX + boxW / 2}" y1="${y - gapY + 4}" x2="${boxX + boxW / 2}" y2="${y - 4}" stroke="#63A375" stroke-width="1.8" marker-end="url(#vsArrow)"/>`
+    }
+    let boxY = y
+    if (step.label) {
+      body += `<text x="${boxX}" y="${boxY + labelH - 4}" font-size="9.5" text-anchor="start" fill="${DR_ROSE}" font-weight="700">${escapeXml(step.label.toUpperCase())}</text>`
+      boxY += labelH
+    }
+    const h = boxHeightOf(step) - (step.label ? labelH : 0)
+    body += `<rect x="${boxX}" y="${boxY}" width="${boxW}" height="${h}" rx="8" fill="#fff" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+    const lines = linesOf(step.text)
+    const startY = boxY + h / 2 - ((lines.length - 1) * lineH) / 2 + 4
+    body += lines.map((l, k) => `<text x="${boxX + boxW / 2}" y="${startY + k * lineH}" font-size="10" text-anchor="middle" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
+    y = boxY + h + gapY
+  })
+
+  const width = boxW + pad * 2
+  const height = y - gapY + pad
+  const defs = `<defs><marker id="vsArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#63A375"/></marker></defs>`
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// Tách 1 dòng text thành các "token" xen kẽ chữ thường / chỗ trống — chỗ trống viết inline trong
+// data dạng "_____(7)" (3+ dấu gạch dưới + số trong ngoặc), tự nhận diện bằng regex thay vì phải
+// khai báo cấu trúc riêng, để việc soạn nội dung (build script) vẫn viết câu tự nhiên như thật.
+type ExamTok = { blank?: string; text?: string; w: number }
+const EXAM_BLANK_RE = /_{3,}\s*\(([^)]+)\)/g
+function tokenizeExamLine(text: string): ExamTok[] {
+  const toks: ExamTok[] = []
+  let last = 0
+  let m: RegExpExecArray | null
+  EXAM_BLANK_RE.lastIndex = 0
+  while ((m = EXAM_BLANK_RE.exec(text))) {
+    const before = text.slice(last, m.index)
+    before
+      .split(/\s+/)
+      .filter(Boolean)
+      .forEach((w) => toks.push({ text: w, w: w.length * 5.8 }))
+    toks.push({ blank: m[1], w: 34 + 18 + 6 })
+    last = EXAM_BLANK_RE.lastIndex
+  }
+  text
+    .slice(last)
+    .split(/\s+/)
+    .filter(Boolean)
+    .forEach((w) => toks.push({ text: w, w: w.length * 5.8 }))
+  return toks
+}
+
+// Mô phỏng đúng hình dạng 1 tờ đề Listening completion thật — xem comment tại ExamSheetData.
+function renderExamSheet(data: ExamSheetData, title: string): string {
+  const pad = 18
+  const maxLineW = 460
+  const lineH = 19
+  const bulletIndent = 14
+  const headerGapTop = 10
+  const stepGapTop = 14
+  const fontSize = 10.5
+
+  function wrapTokens(tokens: ExamTok[], maxW: number, startIndent: number): ExamTok[][] {
+    const lines: ExamTok[][] = []
+    let cur: ExamTok[] = []
+    let curW = startIndent
+    tokens.forEach((tok) => {
+      const gap = cur.length > 0 ? 5 : 0
+      if (curW + gap + tok.w > maxW && cur.length > 0) {
+        lines.push(cur)
+        cur = [tok]
+        curW = startIndent + tok.w
+      } else {
+        cur.push(tok)
+        curW += gap + tok.w
+      }
+    })
+    if (cur.length > 0) lines.push(cur)
+    return lines
+  }
+
+  function drawLineTokens(lines: ExamTok[][], x0: number, y0: number, bold: boolean): { svg: string; height: number } {
+    let s = ''
+    lines.forEach((line, li) => {
+      let x = x0
+      const y = y0 + li * lineH
+      line.forEach((tok, ti) => {
+        if (ti > 0) x += 5
+        if (tok.blank !== undefined) {
+          const lineLen = 26
+          s += `<line x1="${x}" y1="${y}" x2="${x + lineLen}" y2="${y}" stroke="${DR_INK_SOFT}" stroke-width="1.2"/>`
+          const cx = x + lineLen + 11
+          s += `<circle cx="${cx}" cy="${y - 3.5}" r="9" fill="${DR_INK_SOFT}"/>`
+          s += `<text x="${cx}" y="${y - 3.5 + 3}" font-size="8.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(tok.blank)}</text>`
+          x += tok.w
+        } else {
+          s += `<text x="${x}" y="${y}" font-size="${fontSize}" text-anchor="start" fill="${DR_INK}"${bold ? ' font-weight="700"' : ''}>${escapeXml(tok.text!)}</text>`
+          x += tok.w
+        }
+      })
+    })
+    return { svg: s, height: lines.length * lineH }
+  }
+
+  let body = ''
+  let y = pad
+
+  if (data.title) {
+    body += `<text x="${pad}" y="${y + 12}" font-size="12.5" text-anchor="start" fill="${DR_INK}" font-weight="700">${escapeXml(data.title)}</text>`
+    y += 12 + 14
+    body += `<line x1="${pad}" y1="${y - 6}" x2="${pad + maxLineW}" y2="${y - 6}" stroke="${DR_BORDER}" stroke-width="1"/>`
+  }
+
+  data.lines.forEach((line, i) => {
+    const kind = line.kind ?? 'text'
+    if (line.stepLabel) {
+      if (i > 0) y += stepGapTop - 6
+      body += `<text x="${pad}" y="${y}" font-size="8.5" text-anchor="start" fill="${DR_INK_SOFT}" font-weight="700" letter-spacing="0.05em">${escapeXml(line.stepLabel.toUpperCase())}</text>`
+      y += 13
+    } else if (kind === 'header') {
+      y += headerGapTop
+    }
+    const indent = kind === 'bullet' ? bulletIndent : 0
+    const toks = tokenizeExamLine(line.text)
+    const wrapped = wrapTokens(toks, maxLineW - indent, indent)
+    if (kind === 'bullet') {
+      body += `<circle cx="${pad + 3}" cy="${y - 3.5}" r="1.6" fill="${DR_INK}"/>`
+    }
+    const { svg, height } = drawLineTokens(wrapped, pad + indent, y, kind === 'header')
+    body += svg
+    y += height + (kind === 'header' ? 3 : 0)
+  })
+
+  const width = maxLineW + pad * 2
+  const height = y + pad - lineH + 8
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+// La bàn 8 hướng — N/S/E/W chính (đậm, dài hơn) + NE/SE/SW/NW phụ (nhạt, ngắn hơn), tâm là 1 chấm
+// tròn nhỏ. Kích thước cố định, không nhận tham số (xem CompassRoseData).
+function renderCompassRose(_data: CompassRoseData, title: string): string {
+  const size = 200
+  const cx = size / 2
+  const cy = size / 2
+  const rMain = 78
+  const rDiag = 56
+
+  function point(angleDeg: number, r: number): [number, number] {
+    const rad = ((angleDeg - 90) * Math.PI) / 180
+    return [cx + r * Math.cos(rad), cy + r * Math.sin(rad)]
+  }
+
+  let body = ''
+  const mains: [string, number][] = [
+    ['N', 0],
+    ['E', 90],
+    ['S', 180],
+    ['W', 270],
+  ]
+  const diags: [string, number][] = [
+    ['NE', 45],
+    ['SE', 135],
+    ['SW', 225],
+    ['NW', 315],
+  ]
+
+  diags.forEach(([, ang]) => {
+    const [x, y] = point(ang, rDiag)
+    body += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${DR_BORDER}" stroke-width="1.4"/>`
+  })
+  diags.forEach(([label, ang]) => {
+    const [x, y] = point(ang, rDiag + 14)
+    body += `<text x="${x}" y="${y + 3}" font-size="9" text-anchor="middle" fill="${DR_INK_SOFT}" font-weight="600">${label}</text>`
+  })
+
+  mains.forEach(([, ang]) => {
+    const [x, y] = point(ang, rMain)
+    body += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="${DR_ROSE}" stroke-width="2"/>`
+  })
+  mains.forEach(([label, ang]) => {
+    const [x, y] = point(ang, rMain + 16)
+    body += `<text x="${x}" y="${y + 4}" font-size="14" text-anchor="middle" fill="${DR_ROSE}" font-weight="700">${label}</text>`
+  })
+
+  body += `<circle cx="${cx}" cy="${cy}" r="4" fill="${DR_INK}"/>`
+
+  const width = size
+  const height = size
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
 // So sánh NGANG vài cách diễn đạt cho cùng 1 câu — mỗi row là 2+ cột kề nhau, mỗi cột 1 pill nhãn
 // màu + 1 khung nét đứt bên dưới chứa mảnh câu, verdict (✗/✓ + lý do ngắn) in dưới mỗi row — dựng
 // lại đúng bố cục sách cho "Tư duy cũ vs Tư duy mới của DOL" (khác flowChain ở chỗ không có mũi tên
@@ -2630,17 +2859,31 @@ function renderSimpleTable(data: SimpleTableData, title: string): string {
   const rowPadY = 8
   const lineH = 12
   const colGap = 10
-  const wrapChars = 26
+  // wrapChars trước đây = 26 — quá hẹp cho bảng ít cột (2 cột) có ô mô tả dài: chữ bị bẻ xuống quá
+  // nhiều dòng ngắn, khiến bảng cao vọt lên trong khi bề ngang vẫn hẹp. Ảnh SVG dạng "cao-hẹp" này khi
+  // bị CSS width:100% kéo giãn ra full bề ngang cột đọc (~700-900px) thì TOÀN BỘ (kể cả cỡ chữ) bị
+  // phóng to theo đúng tỉ lệ đó — hẹp gốc càng nhiều thì phóng to càng dữ, chữ to bất thường dù code
+  // không hề đổi font-size. Bump lên 42 để chữ wrap thành ít dòng/rộng dòng hơn, đỡ cao vọt.
+  const wrapChars = 42
+  // Ngoài wrapChars, vẫn cần 1 bề ngang tối thiểu cho CẢ bảng — bảng ít cột (vd 2 cột) dù wrap rộng
+  // vẫn có thể hẹp hơn mức cần thiết nếu nội dung mỗi ô ngắn nhưng có NHIỀU hàng (chiều cao lớn, bề
+  // ngang nhỏ = tỉ lệ khung hình quá hẹp-cao, cùng nguyên nhân phóng to ở trên).
+  const MIN_TABLE_W = 520
 
   const cols = data.headers.length
   function cellLines(text: string): string[] {
     return wrapLabel(text, wrapChars)
   }
-  const colWidths = data.headers.map((h, ci) => {
+  let colWidths = data.headers.map((h, ci) => {
     const cellsInCol = data.rows.map((r) => r[ci] ?? '')
     const maxLen = Math.max(h.length, ...cellsInCol.map((c) => Math.max(...cellLines(c).map((l) => l.length), 0)))
     return Math.max(70, maxLen * 6.2 + 16)
   })
+  const rawTotalW = colWidths.reduce((s, w) => s + w, 0) + (cols - 1) * colGap
+  if (rawTotalW < MIN_TABLE_W) {
+    const scale = MIN_TABLE_W / rawTotalW
+    colWidths = colWidths.map((w) => w * scale)
+  }
   const colXs: number[] = []
   let cx = pad
   colWidths.forEach((w) => {
@@ -2654,27 +2897,32 @@ function renderSimpleTable(data: SimpleTableData, title: string): string {
     return Math.max(20, Math.max(...lineCounts, 1) * lineH + rowPadY)
   })
 
+  // Bo tròn header + xếp mỗi hàng thành 1 khối cream bo tròn RIÊNG (cách nhau 1 khoảng hở), thay vì
+  // 1 khối bảng vuông thành sắc cạnh + zebra-stripe + hairline phân cách — khớp đúng ngôn ngữ thiết
+  // kế "card bo tròn mềm mại" mà mọi chart khác trong app đã dùng (stemReference/badgeColumns...),
+  // trước đây simpleTable là chart DUY NHẤT còn vuông thành sắc cạnh nên nhìn lạc quẻ/"xấu" hẳn.
+  const rowGap = 4
+
   let body = ''
-  body += `<rect x="${pad}" y="${pad}" width="${totalW}" height="${headerH}" fill="${DR_INK_SOFT}"/>`
+  body += `<rect x="${pad}" y="${pad}" width="${totalW}" height="${headerH}" rx="8" fill="${DR_INK_SOFT}"/>`
   data.headers.forEach((h, ci) => {
     body += `<text x="${colXs[ci] + 8}" y="${pad + headerH / 2 + 3.5}" font-size="9.5" text-anchor="start" fill="#fff" font-weight="700">${escapeXml(h.toUpperCase())}</text>`
   })
 
-  let y = pad + headerH
+  let y = pad + headerH + rowGap
   data.rows.forEach((row, ri) => {
     const h = rowHeights[ri]
-    if (ri % 2 === 1) body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${h}" fill="${DR_BOX}"/>`
+    body += `<rect x="${pad}" y="${y}" width="${totalW}" height="${h}" rx="7" fill="${DR_BOX}"/>`
     row.forEach((cellText, ci) => {
       const lines = cellLines(cellText)
       const startY = y + h / 2 - ((lines.length - 1) * lineH) / 2 + 4
       body += lines.map((l, k) => `<text x="${colXs[ci] + 8}" y="${startY + k * lineH}" font-size="9.5" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`).join('')
     })
-    y += h
-    body += `<line x1="${pad}" y1="${y}" x2="${pad + totalW}" y2="${y}" stroke="${DR_BORDER}" stroke-width="1"/>`
+    y += h + rowGap
   })
 
   const width = totalW + pad * 2
-  const height = y + pad
+  const height = y - rowGap + pad
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
 }
 
@@ -3081,6 +3329,9 @@ export const DataChart = Node.create({
       else if (chartType === 'tierList') svg = renderTierList(parsed as TierListData, title)
       else if (chartType === 'badgeColumns') svg = renderBadgeColumns(parsed as BadgeColumnsData, title)
       else if (chartType === 'cueFormatTable') svg = renderCueFormatTable(parsed as CueFormatTableData, title)
+      else if (chartType === 'verticalSteps') svg = renderVerticalSteps(parsed as VerticalStepsData, title)
+      else if (chartType === 'examSheet') svg = renderExamSheet(parsed as ExamSheetData, title)
+      else if (chartType === 'compassRose') svg = renderCompassRose(parsed as CompassRoseData, title)
       else if (chartType === 'pairFlow') svg = renderPairFlow(parsed as PairFlowData, title)
       else if (chartType === 'methodDiagram') svg = renderMethodDiagram(parsed as MethodDiagramData, title)
       else if (chartType === 'connectorGrid') svg = renderConnectorGrid(parsed as ConnectorGridData, title)
