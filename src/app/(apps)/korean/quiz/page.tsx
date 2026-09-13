@@ -5,13 +5,21 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
 import { shuffle } from '@/lib/korean/shuffle'
-import { LESSON_TITLES } from '@/lib/korean/lessons'
-import type { KoreanCard, QuizMode } from '@/lib/korean/types'
+import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LessonPicker } from '@/components/korean/LessonPicker'
+import { SegmentedControl } from '@/components/korean/SegmentedControl'
+import type { KoreanCard, KoreanCardKind, QuizMode } from '@/lib/korean/types'
 
 const MIN_CARDS = 4
 const OPTION_COUNT = 4
 const REQUEUE_MIN_GAP = 2
 const REQUEUE_MAX_GAP = 3
+
+const KIND_OPTIONS: { value: 'all' | KoreanCardKind; label: string }[] = [
+  { value: 'all', label: 'Tất cả' },
+  { value: 'vocab', label: '📚 Từ vựng' },
+  { value: 'grammar', label: '✏️ Ngữ pháp' },
+]
 
 type QuizField = 'front' | 'meaning'
 
@@ -92,10 +100,80 @@ function QuizSession() {
   const [optionsFor, setOptionsFor] = useState<{ cardId: string; options: string[] } | null>(null)
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
 
+  // Setup quiz nhiều bài: chỉ áp dụng khi vào thẳng /korean/quiz không kèm ?lesson= (từ nút
+  // "📝 Tạo quiz" ở trang tổng quan) — bấm 📝 ở từng bài trong sidebar/trang bài học vẫn vào
+  // thẳng quiz của riêng bài đó như cũ, không qua bước tạo quiz này.
+  const [kindFilter, setKindFilter] = useState<'all' | KoreanCardKind>('all')
+  const [selectedLessons, setSelectedLessons] = useState<Set<number> | null>(null)
+  const [started, setStarted] = useState(lesson !== null)
+
   if (!hydrated) return <QuizMessage text="Đang tải..." />
 
-  const cards = lesson ? allCards.filter((c) => c.lesson === lesson) : allCards
-  const label = lesson ? `제${lesson}과 · ${LESSON_TITLES[lesson] ?? ''}` : 'Toàn bộ'
+  if (lesson === null && !started) {
+    const cardCountByLesson = new Map<number, number>()
+    for (const c of allCards) cardCountByLesson.set(c.lesson, (cardCountByLesson.get(c.lesson) ?? 0) + 1)
+    const selectableLessons = LESSON_NUMBERS.filter((n) => (cardCountByLesson.get(n) ?? 0) > 0)
+
+    if (selectedLessons === null) {
+      setSelectedLessons(new Set(selectableLessons))
+      return <QuizMessage text="Đang tải..." />
+    }
+
+    const matchCount = allCards.filter(
+      (c) => selectedLessons.has(c.lesson) && (kindFilter === 'all' || c.kind === kindFilter)
+    ).length
+
+    return (
+      <div className="mx-auto w-full max-w-xl px-4 py-6">
+        <div className="kr-setup">
+          <Link href="/korean" className="text-sm font-medium text-accent">
+            ‹ Quay lại
+          </Link>
+          <p className="kr-eyebrow mt-4">한국어 공부 · 📝 Tạo quiz</p>
+          <h1 className="kr-page-title">Chọn nội dung làm quiz</h1>
+
+          <div className="kr-glass kr-setup-panel">
+            <p className="kr-filter-label">LOẠI THẺ</p>
+            <SegmentedControl dense options={KIND_OPTIONS} value={kindFilter} onChange={setKindFilter} />
+
+            <LessonPicker
+              cardCountByLesson={cardCountByLesson}
+              selected={selectedLessons}
+              onToggle={(n) =>
+                setSelectedLessons((prev) => {
+                  const next = new Set(prev)
+                  if (next.has(n)) next.delete(n)
+                  else next.add(n)
+                  return next
+                })
+              }
+              onSelectAll={() => setSelectedLessons(new Set(selectableLessons))}
+              onClearAll={() => setSelectedLessons(new Set())}
+            />
+          </div>
+
+          {matchCount > 0 && matchCount < MIN_CARDS && (
+            <p className="kr-setup-warning">Cần ít nhất {MIN_CARDS} thẻ để làm trắc nghiệm — hãy chọn thêm bài.</p>
+          )}
+
+          <button
+            type="button"
+            disabled={matchCount < MIN_CARDS}
+            onClick={() => setStarted(true)}
+            className="kr-btn-solid kr-setup-start"
+          >
+            📝 Tạo quiz ({matchCount} thẻ)
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  const cards =
+    lesson !== null
+      ? allCards.filter((c) => c.lesson === lesson)
+      : allCards.filter((c) => (selectedLessons?.has(c.lesson) ?? true) && (kindFilter === 'all' || c.kind === kindFilter))
+  const label = lesson !== null ? `제${lesson}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
 
   if (cards.length < MIN_CARDS) {
     return <QuizMessage text={`Cần ít nhất ${MIN_CARDS} thẻ để làm trắc nghiệm (hiện có ${cards.length}).`} />
@@ -193,9 +271,27 @@ function QuizSession() {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col items-center px-4 py-6">
       <div className="flex w-full max-w-sm items-center justify-between">
-        <Link href="/korean" className="text-sm font-medium text-accent">
-          ‹ Quay lại
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/korean" className="text-sm font-medium text-accent">
+            ‹ Quay lại
+          </Link>
+          {lesson === null && (
+            <button
+              type="button"
+              onClick={() => {
+                setStarted(false)
+                setQueue(null)
+                setMasteredIds(new Set())
+                setTally({ correct: 0, wrong: 0 })
+                setOptionsFor(null)
+                setSelectedAnswer(null)
+              }}
+              className="text-sm font-medium text-accent"
+            >
+              ⚙️ Đổi bộ lọc
+            </button>
+          )}
+        </div>
         <p className="text-sm font-medium text-muted">
           {lesson ? `제${lesson}과 · ` : ''}
           {masteredIds.size} / {totalCards} thuộc
@@ -229,7 +325,7 @@ function QuizSession() {
               disabled={isAnswered}
               className={`kr-glass rounded-card border-2 p-3.5 text-left text-sm font-medium transition-colors ${
                 showAsCorrect
-                  ? 'border-accent bg-accent-soft text-accent-strong'
+                  ? 'border-gold bg-gold-soft text-gold'
                   : showAsWrong
                     ? 'border-danger bg-danger-soft text-danger'
                     : 'border-transparent text-text'

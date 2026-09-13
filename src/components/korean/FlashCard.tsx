@@ -121,7 +121,7 @@ export function FlashCard({ kind, front, meaning, note, example, flipped, onFlip
 
       {dragX > 20 && (
         <div
-          className="absolute right-4 top-4 rotate-12 rounded-xl border-4 border-accent bg-accent-soft/90 px-3 py-1 text-lg font-black tracking-wide text-accent-strong"
+          className="absolute right-4 top-4 rotate-12 rounded-xl border-4 border-gold bg-gold-soft/90 px-3 py-1 text-lg font-black tracking-wide text-gold"
           style={{ opacity: swipeProgress }}
         >
           ĐÃ THUỘC

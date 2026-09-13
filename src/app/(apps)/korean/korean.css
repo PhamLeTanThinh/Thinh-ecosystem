@@ -37,7 +37,10 @@
   color: var(--color-text);
   min-height: 100dvh;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
-  overflow-x: hidden;
+  /* KHÔNG đặt overflow-x ở đây (dù chỉ để chặn tràn ngang): khai 1 trục overflow mà bỏ trống trục
+     kia khiến trình duyệt tự suy ra overflow-y:auto, biến .korean-root thành 1 scroll container
+     và làm hỏng hoàn toàn position:sticky của mục lục "Đang đọc" bên trong (.kr-side-toc) — cùng
+     lỗi đã gặp với .lq-root ở dashboard. .ielts-root cũng không đặt overflow-x vì lý do này. */
 }
 
 /* ── Kính mờ (glassmorphism) — cùng hệ với .ih-glass / .ih-glass-strong bên app IELTS ────── */
@@ -114,6 +117,75 @@
   flex: 1 1 auto;
   min-height: 0;
   padding: 24px clamp(16px, 4vw, 40px) 60px;
+}
+
+/* Trang bài học đặt cạnh 1 cột mục lục bám cuộn (scrollspy) — cùng bố cục với .ih-doc-body /
+   .ih-side-toc bên app IELTS. KHÔNG đặt overflow-y ở .kr-content/.kr-main: cuộn thực tế phải
+   diễn ra ở window để position:sticky bên dưới bám đúng, và để scrollspy (đo getBoundingClientRect
+   so với viewport) tính đúng — xem ghi chú tương tự trong ielts.css. */
+.kr-doc-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.kr-doc-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.kr-side-toc {
+  position: sticky;
+  top: 24px;
+  flex: 0 0 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+}
+
+.kr-side-toc-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+  padding-left: 14px;
+}
+
+.kr-side-toc-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 7px 14px;
+  border-radius: 10px;
+  border-left: 2px solid rgba(31, 79, 214, 0.14);
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.kr-side-toc-item:hover {
+  color: var(--color-text);
+  background: rgba(31, 79, 214, 0.06);
+}
+
+.kr-side-toc-item.active {
+  color: var(--color-brand);
+  background: rgba(31, 79, 214, 0.1);
+  border-left-color: var(--color-brand);
+}
+
+@media (max-width: 980px) {
+  .kr-side-toc {
+    display: none;
+  }
 }
 
 @media (max-width: 860px) {
@@ -369,6 +441,136 @@
   margin-bottom: 6px;
 }
 
+/* ── Setup ôn tập / tạo quiz nhiều bài ────────────────────────────────────────────────── */
+.kr-setup {
+  max-width: 640px;
+  margin: 0 auto;
+  padding-bottom: 40px;
+}
+
+.kr-setup-panel {
+  margin-top: 18px;
+  padding: 18px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.kr-setup-warning {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--color-danger);
+  text-align: center;
+}
+
+.kr-setup-start {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  padding: 13px;
+  text-align: center;
+  font-size: 14px;
+  border-radius: var(--radius-pill);
+}
+
+.kr-setup-start:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.kr-picker-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kr-picker-toggle-all {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.kr-picker-toggle-all:hover {
+  text-decoration: underline;
+}
+
+.kr-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+  margin-top: 4px;
+  max-height: 420px;
+  overflow-y: auto;
+  padding-right: 2px;
+}
+
+.kr-picker-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-card);
+  text-align: left;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.kr-picker-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.kr-picker-item.active {
+  border-color: var(--color-brand);
+  background: var(--color-brand-soft);
+}
+
+.kr-picker-item-badge {
+  flex-shrink: 0;
+  min-width: 30px;
+  padding: 3px 7px;
+  border-radius: 8px;
+  background: var(--color-card-soft);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--color-brand);
+  text-align: center;
+}
+
+.kr-picker-item.active .kr-picker-item-badge {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.kr-picker-item-body {
+  min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.kr-picker-item-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.kr-picker-item-count {
+  font-size: 10.5px;
+  color: var(--color-muted);
+}
+
+.kr-picker-item-check {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--color-brand);
+}
+
 /* ── Card list ────────────────────────────────────────────────────────────────────────── */
 .kr-card-list-header {
   display: flex;
@@ -494,6 +696,126 @@
   line-height: 1.6;
 }
 
+.kr-structure-diagram {
+  padding: 14px 16px 14px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: rgba(31, 79, 214, 0.06);
+  border: 1px solid rgba(31, 79, 214, 0.14);
+}
+
+.kr-structure-tree {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+/* Node gốc — điểm xuất phát chung mà các nhánh điều kiện toả ra, giữ chính giữa theo chiều
+   cao của cụm nhánh bên phải để trông giống 1 node cây thật. */
+.kr-structure-root {
+  position: relative;
+  flex-shrink: 0;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.kr-structure-root::after {
+  content: '';
+  position: absolute;
+  right: -16px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: rgba(31, 79, 214, 0.3);
+}
+
+.kr-structure-branches {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-left: 16px;
+  border-left: 2px solid rgba(31, 79, 214, 0.28);
+}
+
+.kr-structure-branch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 1px solid rgba(31, 79, 214, 0.18);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.kr-structure-branch::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: rgba(31, 79, 214, 0.28);
+}
+
+.kr-structure-condition {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+/* Màu theo loại 받침: xanh lá = có patchim (받침O), cam = không patchim (받침X),
+   tím = phụ âm đặc biệt của động từ/tính từ bất quy tắc (받침ㄹ/ㅅ/ㅎ...). Trường hợp
+   trung tính (không nhắc 받침, hoặc "받침O/X" mơ hồ) giữ nguyên màu xám mặc định ở trên. */
+.kr-structure-condition--patchim-o {
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: #2b8a3e;
+  background: rgba(43, 138, 62, 0.13);
+}
+
+.kr-structure-condition--patchim-x {
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: #d9480f;
+  background: rgba(217, 72, 15, 0.13);
+}
+
+.kr-structure-condition--special {
+  padding: 1px 7px;
+  border-radius: 999px;
+  color: #9c36b5;
+  background: rgba(156, 54, 181, 0.13);
+}
+
+.kr-structure-arrow {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: rgba(31, 79, 214, 0.45);
+}
+
+.kr-structure-result {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-brand);
+  white-space: nowrap;
+}
+
 .kr-grammar-theory {
   font-size: 13.5px;
   line-height: 1.75;
@@ -568,6 +890,145 @@
   font-weight: 700;
   color: var(--color-brand);
   margin-right: 2px;
+}
+
+/* ── Luyện nói (Speaking practice) ──────────────────────────────────────────────────────── */
+.kr-speaking-intro {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--color-muted);
+  margin: -4px 0 12px;
+  line-height: 1.6;
+}
+
+.kr-speaking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.kr-speaking-card {
+  padding: 16px 18px 18px;
+}
+
+.kr-speaking-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.kr-speaking-index {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--color-brand);
+}
+
+.kr-speaking-level {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+/* Câu hỏi/trả lời tiếng Hàn là trọng tâm — đậm, to, không nghiêng; bản dịch tiếng Việt nhỏ hơn,
+   nghiêng, màu nhạt, thụt vào — cùng nguyên tắc với .kr-grammar-example-line / -vi. */
+.kr-speaking-q {
+  font-size: 15px;
+  font-weight: 700;
+  font-style: normal;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.kr-speaking-q-vi {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-top: 3px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(31, 79, 214, 0.22);
+}
+
+.kr-speaking-answer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(43, 58, 85, 0.04);
+  border: 1px dashed rgba(43, 58, 85, 0.24);
+}
+
+.kr-speaking-answer-label {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+.kr-speaking-a {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.kr-speaking-a-vi {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.kr-speaking-grammar-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-style: normal;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(31, 79, 214, 0.1);
+  color: var(--color-brand);
+  vertical-align: middle;
+}
+
+.kr-speaking-summary {
+  margin-top: 14px;
+  padding: 16px 18px;
+}
+
+.kr-speaking-summary-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.kr-speaking-summary-grammar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.kr-speaking-summary-vocab {
+  font-size: 12.5px;
+  color: var(--color-muted);
+  line-height: 1.7;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────────────────── */

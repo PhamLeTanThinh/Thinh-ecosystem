@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useKoreanStore } from '@/lib/korean/store'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
@@ -8,6 +8,7 @@ import { LESSON_TITLES } from '@/lib/korean/lessons'
 import { Sidebar, type Selection } from '@/components/korean/Sidebar'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { ExampleDetail } from '@/lib/korean/exampleDetail'
+import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speakingPractice'
 import type { KoreanCard, KoreanCardKind, KoreanProgress, QuizMode } from '@/lib/korean/types'
 
 const PAGE_SIZE = 30
@@ -161,6 +162,14 @@ function OverviewContent({
           <p className="kr-eyebrow">한국어 공부</p>
           <h1 className="kr-page-title">Tất cả bài học</h1>
         </div>
+        <div className="kr-content-header-actions">
+          <Link href="/korean/study" className="kr-btn-outline">
+            🎴 Ôn tập
+          </Link>
+          <Link href="/korean/quiz" className="kr-btn-solid">
+            📝 Tạo quiz
+          </Link>
+        </div>
       </div>
 
       <div className="kr-stats-row">
@@ -261,6 +270,19 @@ function LessonContent({
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
   const grammarCards = lessonCards.filter((c) => c.kind === 'grammar')
+  const speaking = SPEAKING_PRACTICE[lesson]
+
+  // Mục lục "Đang đọc" bên phải — mỗi mục là 1 điểm ngữ pháp cụ thể (không chỉ tiêu đề mục lớn)
+  // để nhảy thẳng tới đúng thẻ đang cần xem, giống cách .ih-side-toc sinh từ H2 bên app IELTS.
+  const tocItems = useMemo(() => {
+    const items: { id: string; label: string }[] = []
+    if (vocabCards.length > 0) items.push({ id: 'kr-section-vocab', label: '📚 Từ vựng' })
+    grammarCards.forEach((c) => items.push({ id: `kr-grammar-${c.id}`, label: c.front }))
+    if (speaking) items.push({ id: 'kr-section-speaking', label: '🗣️ Luyện nói' })
+    return items
+  }, [vocabCards.length, grammarCards, speaking])
+
+  const activeTocId = useSectionScrollspy(tocItems)
 
   return (
     <div className="kr-content">
@@ -279,32 +301,140 @@ function LessonContent({
         </div>
       </div>
 
-      <p className="kr-section-title">
-        📚 Từ vựng <span className="kr-section-count">({vocabCards.length})</span>
-      </p>
-      {vocabCards.length === 0 ? (
-        <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có từ vựng nào trong bài này.</p>
-      ) : (
-        <div className="kr-vocab-tile-grid">
-          {vocabCards.map((card) => (
-            <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
-          ))}
-        </div>
-      )}
+      <div className="kr-doc-body">
+        <div className="kr-doc-content">
+          <p className="kr-section-title" id="kr-section-vocab">
+            📚 Từ vựng <span className="kr-section-count">({vocabCards.length})</span>
+          </p>
+          {vocabCards.length === 0 ? (
+            <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có từ vựng nào trong bài này.</p>
+          ) : (
+            <div className="kr-vocab-tile-grid">
+              {vocabCards.map((card) => (
+                <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
+              ))}
+            </div>
+          )}
 
-      <p className="kr-section-title">
-        ✏️ Ngữ pháp <span className="kr-section-count">({grammarCards.length})</span>
+          <p className="kr-section-title">
+            ✏️ Ngữ pháp <span className="kr-section-count">({grammarCards.length})</span>
+          </p>
+          {grammarCards.length === 0 ? (
+            <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
+          ) : (
+            <div className="kr-grammar-list">
+              {grammarCards.map((card) => (
+                <GrammarCard key={card.id} card={card} onEdit={() => openAddCard(card.id)} />
+              ))}
+            </div>
+          )}
+
+          {speaking && <SpeakingPracticeSection data={speaking} />}
+        </div>
+
+        {tocItems.length > 1 && (
+          <aside className="kr-side-toc" aria-label="Mục lục">
+            <span className="kr-side-toc-label">Đang đọc</span>
+            {tocItems.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                title={item.label}
+                className={`kr-side-toc-item${item.id === activeTocId ? ' active' : ''}`}
+                onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+              >
+                {item.label}
+              </button>
+            ))}
+          </aside>
+        )}
+      </div>
+    </div>
+  )
+}
+
+// Scrollspy: menu bên phải bám theo vị trí cuộn thực tế của window (trang không có scroll
+// container riêng — xem ghi chú .kr-doc-body trong korean.css) để biết đang đọc tới thẻ nào.
+function useSectionScrollspy(items: { id: string; label: string }[]): string {
+  const [activeId, setActiveId] = useState('')
+
+  useEffect(() => {
+    if (items.length === 0) return
+    const els = items.map((it) => document.getElementById(it.id)).filter((el): el is HTMLElement => el !== null)
+    if (els.length === 0) return
+
+    const topOffset = 110
+    let ticking = false
+
+    function updateActive() {
+      ticking = false
+      let current = els[0].id
+      for (const el of els) {
+        if (el.getBoundingClientRect().top - topOffset <= 0) current = el.id
+      }
+      setActiveId(current)
+    }
+
+    function onScroll() {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(updateActive)
+    }
+
+    updateActive()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [items])
+
+  return activeId
+}
+
+function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
+  return (
+    <>
+      <p className="kr-section-title" id="kr-section-speaking">
+        🗣️ Luyện nói <span className="kr-section-count">({data.items.length})</span>
       </p>
-      {grammarCards.length === 0 ? (
-        <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
-      ) : (
-        <div className="kr-grammar-list">
-          {grammarCards.map((card) => (
-            <GrammarCard key={card.id} card={card} onEdit={() => openAddCard(card.id)} />
+      <p className="kr-speaking-intro">{data.intro}</p>
+
+      <div className="kr-speaking-list">
+        {data.items.map((item, i) => (
+          <div key={i} className="kr-glass kr-speaking-card">
+            <div className="kr-speaking-card-head">
+              <span className="kr-speaking-index">Câu {i + 1}</span>
+              <span className="kr-speaking-level">{item.level}</span>
+            </div>
+
+            <p className="kr-speaking-q">{item.question}</p>
+            <p className="kr-speaking-q-vi">{item.questionVi}</p>
+
+            <div className="kr-speaking-answer">
+              <span className="kr-speaking-answer-label">대답</span>
+              <div>
+                <p className="kr-speaking-a">
+                  {item.answer} <span className="kr-speaking-grammar-tag">{item.grammar}</span>
+                </p>
+                <p className="kr-speaking-a-vi">{item.answerVi}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="kr-glass kr-speaking-summary">
+        <p className="kr-speaking-summary-title">📝 Từ vựng/ngữ pháp trọng tâm cần nhớ</p>
+        <div className="kr-speaking-summary-grammar">
+          {data.grammarSummary.map((g, i) => (
+            <p key={i}>
+              <span className="kr-speaking-grammar-tag">{g.label}</span> — {g.note}
+            </p>
           ))}
         </div>
-      )}
-    </div>
+        <p className="kr-speaking-summary-vocab">
+          <strong>Từ vựng đã dùng:</strong> {data.vocabSummary}
+        </p>
+      </div>
+    </>
   )
 }
 
@@ -333,7 +463,7 @@ function VocabTile({ card, progress, learned, onClick }: { card: KoreanCard; pro
       </div>
       {progress && (progress.correctCount > 0 || progress.wrongCount > 0) && (
         <div className="flex shrink-0 flex-col items-end gap-1 text-xs font-semibold">
-          {progress.correctCount > 0 && <span className="rounded-pill bg-accent-soft px-2 py-0.5 text-accent-strong">✓ {progress.correctCount}</span>}
+          {progress.correctCount > 0 && <span className="rounded-pill bg-gold-soft px-2 py-0.5 text-gold">✓ {progress.correctCount}</span>}
           {progress.wrongCount > 0 && <span className="rounded-pill bg-danger-soft px-2 py-0.5 text-danger">✕ {progress.wrongCount}</span>}
         </div>
       )}
@@ -341,9 +471,89 @@ function VocabTile({ card, progress, learned, onClick }: { card: KoreanCard; pro
   )
 }
 
+interface StructureSegment {
+  condition: string
+  result: string
+}
+
+// Ghi chú cấu trúc "chuẩn" là chuỗi các cặp điều kiện:kết quả ngắn, ngăn bởi " · "
+// (ví dụ "V받침O: 려고 · V받침X: (으)려고"). Ghi chú của các động từ bất quy tắc (ㄹ/ㅅ/ㅎ)
+// là văn xuôi mô tả dài, tình cờ cũng chứa dấu ":" nên phải chặn bằng độ dài điều kiện —
+// nếu bất kỳ đoạn nào có phần điều kiện quá dài thì rơi về hiển thị dạng văn bản phẳng.
+function parseStructureSegments(note: string): StructureSegment[] | null {
+  const parts = note
+    .split('·')
+    .map((s) => s.trim())
+    .filter(Boolean)
+  if (parts.length < 2) return null
+
+  const segments: StructureSegment[] = []
+  for (const part of parts) {
+    const colonIndex = part.indexOf(':')
+    if (colonIndex === -1) return null
+    const condition = part.slice(0, colonIndex).trim()
+    const result = part.slice(colonIndex + 1).trim()
+    if (!condition || !result || condition.length > 25) return null
+    segments.push({ condition, result })
+  }
+  return segments
+}
+
+type ConditionKind = 'patchim-o' | 'patchim-x' | 'special' | 'base'
+
+// Tô màu phần điều kiện theo loại 받침 để mắt phân biệt nhanh giữa các nhánh:
+// có patchim (받침O), không patchim (받침X), hoặc phụ âm đặc biệt của động từ bất quy tắc
+// (받침ㄹ/ㅅ/ㅎ...). Trường hợp mơ hồ (받침O/X) hoặc không nhắc tới 받침 thì giữ màu trung tính.
+function classifyCondition(condition: string): ConditionKind {
+  const idx = condition.indexOf('받침')
+  if (idx === -1) return 'base'
+  const rest = condition.slice(idx + 2)
+  if (/[ㄱ-ㅎ]/.test(rest)) return 'special'
+  const hasO = rest.includes('O')
+  const hasX = rest.includes('X')
+  if (hasO && !hasX) return 'patchim-o'
+  if (hasX && !hasO) return 'patchim-x'
+  return 'base'
+}
+
+function GrammarStructure({ note }: { note: string }) {
+  const segments = parseStructureSegments(note)
+
+  if (!segments) {
+    return (
+      <div className="kr-grammar-structure">
+        <span className="kr-grammar-structure-label">Cấu trúc</span>
+        <span className="kr-grammar-structure-text">{note}</span>
+      </div>
+    )
+  }
+
+  // Nhãn gốc là phần chung trước "받침" của điều kiện đầu tiên (vd "N받침O"/"N받침X" → "N") —
+  // hiển thị như 1 node gốc mà các nhánh điều kiện toả ra, giống sơ đồ cây thật thay vì liệt kê.
+  const rootLabel = segments[0].condition.split('받침')[0].trim() || segments[0].condition
+
+  return (
+    <div className="kr-structure-diagram">
+      <span className="kr-grammar-structure-label">Cấu trúc</span>
+      <div className="kr-structure-tree">
+        <div className="kr-structure-root">{rootLabel}</div>
+        <div className="kr-structure-branches">
+          {segments.map((seg, i) => (
+            <div key={i} className="kr-structure-branch">
+              <span className={`kr-structure-condition kr-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
+              <span className="kr-structure-arrow">→</span>
+              <span className="kr-structure-result">{seg.result}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function GrammarCard({ card, onEdit }: { card: KoreanCard; onEdit: () => void }) {
   return (
-    <div className="kr-glass kr-grammar-card">
+    <div id={`kr-grammar-${card.id}`} className="kr-glass kr-grammar-card">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="kr-grammar-eyebrow">✏️ NGỮ PHÁP</p>
@@ -355,12 +565,7 @@ function GrammarCard({ card, onEdit }: { card: KoreanCard; onEdit: () => void })
       </div>
       <p className="kr-grammar-meaning">{card.meaning}</p>
 
-      {card.note && (
-        <div className="kr-grammar-structure">
-          <span className="kr-grammar-structure-label">Cấu trúc</span>
-          <span className="kr-grammar-structure-text">{card.note}</span>
-        </div>
-      )}
+      {card.note && <GrammarStructure note={card.note} />}
 
       {card.theory && (
         <div className="kr-grammar-theory">

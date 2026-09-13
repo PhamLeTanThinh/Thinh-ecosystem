@@ -6,8 +6,16 @@ import { useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
 import { FlashCard } from '@/components/korean/FlashCard'
 import { shuffle } from '@/lib/korean/shuffle'
-import { LESSON_TITLES } from '@/lib/korean/lessons'
-import type { KoreanCard } from '@/lib/korean/types'
+import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LessonPicker } from '@/components/korean/LessonPicker'
+import { SegmentedControl } from '@/components/korean/SegmentedControl'
+import type { KoreanCard, KoreanCardKind } from '@/lib/korean/types'
+
+const KIND_OPTIONS: { value: 'all' | KoreanCardKind; label: string }[] = [
+  { value: 'all', label: 'Tất cả' },
+  { value: 'vocab', label: '📚 Từ vựng' },
+  { value: 'grammar', label: '✏️ Ngữ pháp' },
+]
 
 // Xáo trộn nếu bật cài đặt, ngược lại ôn theo đúng thứ tự danh sách (sortOrder).
 function buildOrder(cards: KoreanCard[], shuffleEnabled: boolean): string[] {
@@ -52,10 +60,74 @@ function StudySession() {
   const [flipped, setFlipped] = useState(false)
   const [tally, setTally] = useState({ correct: 0, wrong: 0 })
 
+  // Setup ôn tập nhiều bài: chỉ áp dụng khi vào thẳng /korean/study không kèm ?lesson= (từ nút
+  // "🎴 Ôn tập" ở trang tổng quan) — bấm 🎴 ở từng bài trong sidebar/trang bài học vẫn vào thẳng
+  // phiên ôn của riêng bài đó như cũ, không qua bước chọn này.
+  const [kindFilter, setKindFilter] = useState<'all' | KoreanCardKind>('all')
+  const [selectedLessons, setSelectedLessons] = useState<Set<number> | null>(null)
+  const [started, setStarted] = useState(lesson !== null)
+
   if (!hydrated) return <StudyMessage text="Đang tải..." />
 
-  const cards = lesson ? allCards.filter((c) => c.lesson === lesson) : allCards
-  const label = lesson ? `제${lesson}과 · ${LESSON_TITLES[lesson] ?? ''}` : 'Toàn bộ'
+  if (lesson === null && !started) {
+    const cardCountByLesson = new Map<number, number>()
+    for (const c of allCards) cardCountByLesson.set(c.lesson, (cardCountByLesson.get(c.lesson) ?? 0) + 1)
+    const selectableLessons = LESSON_NUMBERS.filter((n) => (cardCountByLesson.get(n) ?? 0) > 0)
+
+    if (selectedLessons === null) {
+      setSelectedLessons(new Set(selectableLessons))
+      return <StudyMessage text="Đang tải..." />
+    }
+
+    const matchCount = allCards.filter(
+      (c) => selectedLessons.has(c.lesson) && (kindFilter === 'all' || c.kind === kindFilter)
+    ).length
+
+    return (
+      <div className="kr-setup">
+        <Link href="/korean" className="text-sm font-medium text-accent">
+          ‹ Quay lại
+        </Link>
+        <p className="kr-eyebrow mt-4">한국어 공부 · 🎴 Ôn tập</p>
+        <h1 className="kr-page-title">Chọn nội dung ôn tập</h1>
+
+        <div className="kr-glass kr-setup-panel">
+          <p className="kr-filter-label">LOẠI THẺ</p>
+          <SegmentedControl dense options={KIND_OPTIONS} value={kindFilter} onChange={setKindFilter} />
+
+          <LessonPicker
+            cardCountByLesson={cardCountByLesson}
+            selected={selectedLessons}
+            onToggle={(n) =>
+              setSelectedLessons((prev) => {
+                const next = new Set(prev)
+                if (next.has(n)) next.delete(n)
+                else next.add(n)
+                return next
+              })
+            }
+            onSelectAll={() => setSelectedLessons(new Set(selectableLessons))}
+            onClearAll={() => setSelectedLessons(new Set())}
+          />
+        </div>
+
+        <button
+          type="button"
+          disabled={matchCount === 0}
+          onClick={() => setStarted(true)}
+          className="kr-btn-solid kr-setup-start"
+        >
+          🎴 Bắt đầu ôn tập ({matchCount} thẻ)
+        </button>
+      </div>
+    )
+  }
+
+  const cards =
+    lesson !== null
+      ? allCards.filter((c) => c.lesson === lesson)
+      : allCards.filter((c) => (selectedLessons?.has(c.lesson) ?? true) && (kindFilter === 'all' || c.kind === kindFilter))
+  const label = lesson !== null ? `제${lesson}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
 
   // Xáo bài ngay khi cards vừa sẵn sàng — cập nhật state trong lúc render (không phải
   // effect) để tránh 1 nhịp render thừa, cùng convention với components/korean/BottomSheet.tsx.
@@ -133,9 +205,26 @@ function StudySession() {
   return (
     <div className="flex flex-col items-center">
       <div className="flex w-full max-w-xs items-center justify-between">
-        <Link href="/korean" className="text-sm font-medium text-accent">
-          ‹ Quay lại
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/korean" className="text-sm font-medium text-accent">
+            ‹ Quay lại
+          </Link>
+          {lesson === null && (
+            <button
+              type="button"
+              onClick={() => {
+                setStarted(false)
+                setOrder(null)
+                setIndex(0)
+                setFlipped(false)
+                setTally({ correct: 0, wrong: 0 })
+              }}
+              className="text-sm font-medium text-accent"
+            >
+              ⚙️ Đổi bộ lọc
+            </button>
+          )}
+        </div>
         <p className="text-sm font-medium text-muted">
           {index + 1} / {order.length}
         </p>
