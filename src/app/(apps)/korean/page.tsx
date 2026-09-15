@@ -43,6 +43,7 @@ export default function KoreanPage() {
   const [statusFilter, setStatusFilter] = useState<StatusFilter>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   // Quay lại trang đầu mỗi khi đổi bộ lọc/lựa chọn/từ khoá tìm kiếm — cập nhật state trong lúc
   // render (không phải effect) để tránh 1 nhịp render thừa, cùng convention với app/(apps)/chinese/page.tsx.
@@ -62,10 +63,25 @@ export default function KoreanPage() {
 
   return (
     <div className="kr-shell">
-      <Sidebar cards={sortedCards} isLearned={isLearned} selection={selection} onSelect={setSelection} />
+      <Sidebar
+        cards={sortedCards}
+        isLearned={isLearned}
+        selection={selection}
+        onSelect={setSelection}
+        mobileOpen={mobileNavOpen}
+        onMobileClose={() => setMobileNavOpen(false)}
+      />
 
       <div className="kr-main">
         <header className="kr-topbar">
+          <button
+            type="button"
+            onClick={() => setMobileNavOpen(true)}
+            aria-label="Mở danh sách bài học"
+            className="kr-mobile-menu-btn"
+          >
+            ☰
+          </button>
           <span className="kr-wordmark">Korean Hub</span>
           <input
             type="search"
@@ -284,6 +300,13 @@ function LessonContent({
 
   const activeTocId = useSectionScrollspy(tocItems)
 
+  // Trên mobile không đủ chỗ để cuộn + mục lục bên phải như desktop, nên thay bằng tab bấm-để-xem
+  // (CSS chỉ hiện .kr-mobile-tabs và áp dụng .kr-mobile-section ở @media ≤860px — desktop vẫn giữ
+  // nguyên bố cục cuộn dọc như cũ, xem korean.css). Nếu bài không có Luyện nói mà tab đang chọn lại
+  // là 'speaking' (dư từ bài trước đó), coi như đang ở 'vocab' thay vì crash hoặc màn hình trắng.
+  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>('vocab')
+  const effectiveMobileTab = mobileTab === 'speaking' && !speaking ? 'vocab' : mobileTab
+
   return (
     <div className="kr-content">
       <div className="kr-content-header">
@@ -301,35 +324,69 @@ function LessonContent({
         </div>
       </div>
 
+      <div className="kr-mobile-tabs">
+        <button
+          type="button"
+          className={`kr-mobile-tab${effectiveMobileTab === 'vocab' ? ' active' : ''}`}
+          onClick={() => setMobileTab('vocab')}
+        >
+          📚 Từ vựng
+        </button>
+        <button
+          type="button"
+          className={`kr-mobile-tab${effectiveMobileTab === 'grammar' ? ' active' : ''}`}
+          onClick={() => setMobileTab('grammar')}
+        >
+          ✏️ Ngữ pháp
+        </button>
+        {speaking && (
+          <button
+            type="button"
+            className={`kr-mobile-tab${effectiveMobileTab === 'speaking' ? ' active' : ''}`}
+            onClick={() => setMobileTab('speaking')}
+          >
+            🗣️ Luyện nói
+          </button>
+        )}
+      </div>
+
       <div className="kr-doc-body">
         <div className="kr-doc-content">
-          <p className="kr-section-title" id="kr-section-vocab">
-            📚 Từ vựng <span className="kr-section-count">({vocabCards.length})</span>
-          </p>
-          {vocabCards.length === 0 ? (
-            <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có từ vựng nào trong bài này.</p>
-          ) : (
-            <div className="kr-vocab-tile-grid">
-              {vocabCards.map((card) => (
-                <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
-              ))}
+          <div className={`kr-mobile-section${effectiveMobileTab === 'vocab' ? ' active' : ''}`}>
+            <p className="kr-section-title" id="kr-section-vocab">
+              📚 Từ vựng <span className="kr-section-count">({vocabCards.length})</span>
+            </p>
+            {vocabCards.length === 0 ? (
+              <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có từ vựng nào trong bài này.</p>
+            ) : (
+              <div className="kr-vocab-tile-grid">
+                {vocabCards.map((card) => (
+                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className={`kr-mobile-section${effectiveMobileTab === 'grammar' ? ' active' : ''}`}>
+            <p className="kr-section-title">
+              ✏️ Ngữ pháp <span className="kr-section-count">({grammarCards.length})</span>
+            </p>
+            {grammarCards.length === 0 ? (
+              <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
+            ) : (
+              <div className="kr-grammar-list">
+                {grammarCards.map((card) => (
+                  <GrammarCard key={card.id} card={card} onEdit={() => openAddCard(card.id)} />
+                ))}
+              </div>
+            )}
+          </div>
+
+          {speaking && (
+            <div className={`kr-mobile-section${effectiveMobileTab === 'speaking' ? ' active' : ''}`}>
+              <SpeakingPracticeSection data={speaking} />
             </div>
           )}
-
-          <p className="kr-section-title">
-            ✏️ Ngữ pháp <span className="kr-section-count">({grammarCards.length})</span>
-          </p>
-          {grammarCards.length === 0 ? (
-            <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
-          ) : (
-            <div className="kr-grammar-list">
-              {grammarCards.map((card) => (
-                <GrammarCard key={card.id} card={card} onEdit={() => openAddCard(card.id)} />
-              ))}
-            </div>
-          )}
-
-          {speaking && <SpeakingPracticeSection data={speaking} />}
         </div>
 
         {tocItems.length > 1 && (

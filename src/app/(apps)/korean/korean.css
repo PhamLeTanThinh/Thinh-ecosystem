@@ -113,6 +113,25 @@
   flex-shrink: 0;
 }
 
+/* Nút mở sidebar trên mobile — ẩn trên desktop vì sidebar đã hiện sẵn trong luồng chính. */
+.kr-mobile-menu-btn {
+  display: none;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(28, 35, 51, 0.14);
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.kr-sidebar-backdrop {
+  display: none;
+}
+
 .kr-content {
   flex: 1 1 auto;
   min-height: 0;
@@ -182,6 +201,17 @@
   border-left-color: var(--color-brand);
 }
 
+/* Trên mobile không đủ chỗ để vừa cuộn dọc vừa có mục lục bám bên phải như desktop — thay bằng
+   tab bấm-để-xem (Từ vựng/Ngữ pháp/Luyện nói), xem .kr-mobile-tabs bên dưới. Ẩn trên desktop vì
+   ở đó cuộn dọc + mục lục "Đang đọc" đã đủ dùng. */
+.kr-mobile-tabs {
+  display: none;
+}
+
+.kr-mobile-section {
+  display: block;
+}
+
 @media (max-width: 980px) {
   .kr-side-toc {
     display: none;
@@ -189,8 +219,72 @@
 }
 
 @media (max-width: 860px) {
+  /* Sidebar chọn bài học chuyển thành drawer trượt từ trái, mở qua nút ☰ ở topbar (thay vì ẩn
+     hẳn như trước — trên mobile trước đây không có cách nào khác để đổi bài học). */
+  .kr-mobile-menu-btn {
+    display: inline-flex;
+  }
+
   .kr-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    width: 82vw;
+    max-width: 320px;
+    height: 100dvh;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 24px 0 48px rgba(15, 23, 42, 0.22);
+  }
+
+  .kr-sidebar.kr-sidebar-open {
+    transform: translateX(0);
+  }
+
+  .kr-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(15, 23, 42, 0.45);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  .kr-mobile-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    overflow-x: auto;
+  }
+
+  .kr-mobile-tab {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-muted);
+  }
+
+  .kr-mobile-tab.active {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  .kr-mobile-section {
     display: none;
+  }
+
+  .kr-mobile-section.active {
+    display: block;
   }
 }
 
