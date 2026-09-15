@@ -83,7 +83,66 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
 .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink3);margin-bottom:1.4rem;display:flex;align-items:center;gap:1.5rem}
 .eyebrow::after{content:'';flex:1;height:.5px;background:var(--ink5)}
 .stitle{font-family:var(--serif);font-size:clamp(34px,5vw,64px);font-weight:300;line-height:1;letter-spacing:-.025em;margin-bottom:1.8rem}
-.stitle em{font-style:italic;color:var(--accent)}
+/* Shine sweep — a mirror-like glint that runs once across a heading's own
+   glyphs, triggered via JS (removing then re-adding this class forces the
+   animation to restart) each time the STORY effect's crossfade brings a
+   section's title to full opacity. Built with background-clip:text rather
+   than an overlay box: the gradient IS the text's fill, so the highlight
+   can only ever paint where a glyph actually is — it can't spill onto the
+   whitespace around/between lines the way a rectangular pseudo-element
+   would. em runs get their own copy of this (built from --accent instead
+   of the base ink color) so both stay correctly colored at rest and sweep
+   in sync, since both share the same animation name/duration.
+   width:fit-content still matters: these headings wrap onto 1-2 short
+   lines inside a much wider grid column, and without it the gradient's
+   background-size would be computed against that full column width, most
+   of which the sweep would cross while off to the side of the actual text.
+   Applies to both .stitle (every section heading) and .cg-big (Contact's,
+   which uses its own class instead). */
+.stitle,.cg-big{width:fit-content;max-width:100%}
+/* background-position as a percentage keyword is only guaranteed to fully
+   cover the box (no transparent gap on either side) while it stays within
+   0%-100% — that's the range where the spec defines it as sliding the
+   background image between "left edge aligned" and "right edge aligned".
+   Anything outside that, on a background-size larger than the box, leaves
+   part of the box with no image at all, which with color:transparent below
+   means genuinely missing glyphs (not just a dim rest state) — so the
+   keyframes below only ever move within [0%,100%]. background-size:300%
+   with the highlight stop sitting at the gradient's own 50% then keeps it
+   centered in the box's middle third of travel, invisible (pure base
+   color) at both the 0% rest position and the 100% end position. The base
+   --ink is already a very light cream, so a straight ink->white->ink fade
+   barely registers — dipping to a darker shade just either side of the
+   white peak (ink->dark->white->dark->ink) reads as a real glint regardless
+   of how close the base color already sits to white. That dip has to stay
+   a mid-tone (--ink4/--accent2), not near-black (--ink5): against the
+   page's own near-black background, a near-black dip on a thin stroke
+   (a descender, a comma) loses almost all contrast and reads as the glyph
+   being cut off rather than just dimmed.
+   background-size's height is 160%, not 100%: with line-height:1 these
+   headings' line box is exactly one font-size tall, tighter than this
+   serif's actual glyph metrics, so a descender like the "g" in "Learning"
+   extends below that box. background-clip:text only paints where the
+   background image itself reaches — at height:100% the image stops
+   exactly at the box's bottom edge, so any ink below it (that descender)
+   has no image to paint from and disappears, looking like the letter got
+   cut off. The taller image + position-y:50% centers it with headroom
+   above and below, so descenders/ascenders poking past the tight line box
+   still have color to clip to.
+   The gradient angle is exactly 90deg (pure left-to-right), not a few
+   degrees off it: a tilted angle makes color depend on Y as well as X, so
+   once the image is 160% tall, a descender sitting well below the main
+   body of the letter samples a *different* horizontal slice of the
+   gradient than the letter above it — the tail ends up a visibly different
+   shade than the rest of the glyph, reading as a seam or a malformed
+   letterform rather than one continuous shape. At exactly 90deg, color is
+   a function of X only, so every part of a glyph at the same horizontal
+   position — main body or descender — always matches. */
+.stitle,.cg-big,.stitle em,.cg-big em{background-repeat:no-repeat;background-size:300% 160%;background-position:0% 50%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+.stitle,.cg-big{background-image:linear-gradient(90deg,var(--ink) 26%,var(--ink4) 42%,#fff 50%,var(--ink4) 58%,var(--ink) 74%)}
+.stitle em,.cg-big em{font-style:italic;background-image:linear-gradient(90deg,var(--accent) 26%,var(--accent2) 42%,#fff 50%,var(--accent2) 58%,var(--accent) 74%)}
+.stitle.shine,.cg-big.shine,.stitle.shine em,.cg-big.shine em{animation:textShine 1.1s ease-in-out forwards}
+@keyframes textShine{0%{background-position:0% 50%}100%{background-position:100% 50%}}
 
 /* STORY — once Hero → About settles the photo into place, it stays pinned
    (position:sticky, same trick as .hero-pin) through About, Projects,
@@ -99,7 +158,11 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
    later in the DOM) is already filling the screen while Hero's leftover —
    fully faded to transparent by then — silently finishes scrolling away
    underneath it, so there's no black hold between the two. */
-.story-pin{position:relative;z-index:1;height:500vh;margin-top:-100vh;contain:layout paint}
+/* 14 pages total now (About, 4 Experience entries, Skills, Education,
+   Mindset, Moments, Highlights, 3 Certifications categories, Contact) —
+   height must stay pages.length*100vh so each gets its own 100vh hold
+   before crossfading to the next (see the STORY effect's math). */
+.story-pin{position:relative;z-index:1;height:1400vh;margin-top:-100vh;contain:layout paint}
 .story-anchor{position:absolute;left:0;width:1px;height:1px;pointer-events:none}
 /* Starts hidden — the overlap above means .story's natural resting spot
    physically intersects the viewport well before the Hero reveal finishes,
@@ -114,6 +177,11 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
 .story-text-inner{position:relative;min-height:60vh}
 .story-page{position:absolute;left:0;right:0;top:0;opacity:0;transform:translateY(20px)}
 .story-page:first-child{opacity:1;transform:none}
+/* Shared heading for the Experience block's own pages — sits in the exact
+   same spot (each of those pages reserves the same space with an identical
+   but invisible heading) and is faded in/out by the STORY effect only when
+   entering/leaving the block, not on every job-to-job transition within it. */
+.story-page-heading{position:absolute;left:0;right:0;top:0;opacity:0;pointer-events:none}
 .story-progress{position:absolute;left:5vw;right:5vw;bottom:32px;height:1px;background:var(--ink5)}
 .story-progress-bar{height:100%;width:0%;background:var(--accent)}
 
@@ -130,17 +198,16 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
 .about-now{font-size:13px;color:var(--ink3);line-height:1.6}
 .about-now strong{color:var(--ink);font-weight:500}
 
-/* PROJECTS */
-.pf-eyebrow{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:.7rem}
-.pf-name{font-family:var(--serif);font-size:27px;font-weight:300;line-height:1.05;letter-spacing:-.015em;margin-bottom:.7rem}
-.pf-name em{font-style:italic;color:var(--accent)}
-.pf-desc{font-size:13px;color:var(--ink2);line-height:1.7;margin-bottom:1.2rem}
-.pf-metrics{display:flex;gap:1.8rem;margin-bottom:1.2rem;padding-top:1rem;border-top:.5px solid var(--ink5)}
-.pf-m span:first-child{font-family:var(--serif);font-size:23px;font-weight:300;color:var(--ink);display:block;line-height:1}
-.pf-m span:last-child{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
-.pf-link{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:.5px solid var(--peach2);padding-bottom:3px;width:fit-content}
-.proj-also{display:flex;align-items:center;flex-wrap:wrap;gap:.6rem;margin-top:1.3rem}
-.proj-also-label{font-family:var(--mono);font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink3);margin-right:.3rem}
+/* EXPERIENCE — one timeline milestone per job/role, revealed one at a time
+   as the STORY effect crossfades between pages (see EXPERIENCE in the
+   component and its "02 — Experience" pages). */
+.story-count{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1.4rem}
+.story-count span{color:var(--ink4)}
+.exp-role{font-family:var(--serif);font-size:27px;font-weight:300;line-height:1.05;letter-spacing:-.015em;margin-bottom:.4rem}
+.exp-company{font-size:14px;color:var(--ink2);margin-bottom:.2rem}
+.exp-dates{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem}
+.exp-desc{font-size:13px;color:var(--ink2);line-height:1.7;max-width:46ch;margin-bottom:1.2rem}
+.exp-skills{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem}
 .pchip{font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--ink2);background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);padding:5px 10px}
 
 /* SKILLS */
@@ -160,14 +227,39 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
 .mvs-row{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.6rem}
 .mv-chip{font-family:var(--mono);font-size:11px;color:var(--ink2);background:var(--peach);border:.5px solid var(--peach2);padding:8px 14px;transition:border-color .3s,color .3s}
 .mv-chip:hover{border-color:var(--terracotta);color:var(--ink)}
-.cert-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem}
-.cert-t{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink3);margin-right:.4rem}
-.cbadge{font-family:var(--mono);font-size:10px;color:var(--terracotta);background:var(--peach);border:.5px solid var(--peach2);padding:6px 11px}
+
+/* Placeholder pages awaiting real content (Moments, Highlights) */
+.story-placeholder{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink4)}
+
+/* CERTIFICATIONS */
+/* .cert-group only wraps multiple categories on one page in the mobile
+   fallback below (desktop gives each category its own scroll-through page
+   instead, so there's only ever one per page there — no stacking to space
+   out). */
+.cert-group{margin-top:1.1rem}
+.cert-group:first-of-type{margin-top:.5rem}
+.cert-group-label{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:.8rem;padding-bottom:.4rem;border-bottom:.5px solid var(--ink5)}
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem}
+.cert-card{border:.5px solid var(--ink5);padding:1rem 1.1rem}
+.cert-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.6rem}
+.cert-logo{width:18px;height:18px;flex-shrink:0;color:var(--ink2)}
+.cert-logo-text{width:18px;height:18px;border:.5px solid var(--ink4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:var(--ink3)}
+.cert-issuer{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+.cert-name{font-family:var(--serif);font-size:15px;font-weight:300;line-height:1.2;margin-bottom:.4rem}
+.cert-meta{font-family:var(--mono);font-size:8px;letter-spacing:.04em;color:var(--ink3);margin-bottom:.6rem}
+.cert-link{font-family:var(--mono);font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:.5px solid var(--peach2);padding-bottom:2px;display:inline-block}
+
+/* EDUCATION */
+.edu-list{display:flex;flex-direction:column;gap:1.4rem;margin-top:.5rem;max-width:460px}
+.edu-item{padding-bottom:1.3rem;border-bottom:.5px solid var(--ink5)}
+.edu-item:last-child{border-bottom:none;padding-bottom:0}
+.edu-school{font-family:var(--serif);font-size:22px;font-weight:300;line-height:1.15;margin-bottom:.3rem}
+.edu-degree{font-size:14px;color:var(--ink2);margin-bottom:.3rem}
+.edu-dates{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
 
 /* CONTACT */
 .story-links{margin-top:1.4rem}
 .cg-big{font-family:var(--serif);font-size:clamp(28px,3.6vw,44px);font-weight:300;line-height:1;letter-spacing:-.03em;margin-bottom:1rem}
-.cg-big em{font-style:italic;color:var(--accent)}
 .cg-sub{font-size:14px;color:var(--ink2);line-height:1.8;max-width:420px;margin-bottom:1.4rem}
 .cl{display:flex;align-items:center;justify-content:space-between;padding:.85rem 0;border-bottom:.5px solid var(--ink5);text-decoration:none;color:var(--ink);position:relative;overflow:hidden}
 .cl-fill{position:absolute;inset:0;background:var(--peach);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease);z-index:0}
@@ -205,5 +297,39 @@ footer span{font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-tran
   .story-mobile .story-photo-col{width:200px;margin:0 auto 3.5rem}
   .story-mobile .story-photo{width:200px;height:280px}
   .story-mobile .story-page{position:relative;left:auto;right:auto;top:auto;margin-bottom:4rem;padding-bottom:3rem;border-bottom:.5px solid var(--ink5)}
+  .cert-grid{grid-template-columns:1fr}
   .story-mobile .story-page:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+}
+
+/* ============================================================
+   PRELOADER — full-viewport intro overlay (full-bleed cat video
+   + organic 0->100 counter). Scoped entirely under .preloader so
+   it can't touch any existing layout/typography/colors
+   underneath; see Preloader.tsx for the timing logic driving
+   these classes. Colors/type reuse the site's own dark palette
+   and .eyebrow/.hero-name conventions rather than inventing a
+   one-off look.
+   ============================================================ */
+.preloader{position:fixed;inset:0;width:100vw;height:100vh;z-index:10000;background:var(--bg);overflow:hidden;transition:transform 1s var(--ease);cursor:default}
+.preloader--exit{transform:translateY(-100%);pointer-events:none}
+
+.preloader-cat{position:absolute;inset:0;transition:opacity .4s ease}
+.preloader--exit .preloader-cat{opacity:.4}
+.preloader-video{width:100%;height:100%;object-fit:cover;display:block}
+.preloader-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,8,0) 25%,rgba(10,9,8,.55) 78%,rgba(10,9,8,.8) 100%)}
+
+.preloader-counter{position:absolute;right:5vw;bottom:5vw;display:flex;flex-direction:column;align-items:flex-end;line-height:1}
+.preloader-label{font-family:var(--mono);font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink2);text-shadow:0 2px 14px rgba(0,0,0,.6);margin-bottom:.7rem;display:flex;align-items:center;gap:12px}
+.preloader-label::before{content:'';width:28px;height:.5px;background:var(--ink2);display:inline-block;box-shadow:0 1px 6px rgba(0,0,0,.6)}
+.preloader-num{font-family:var(--serif);font-weight:300;font-size:clamp(28px,3.2vw,44px);letter-spacing:-.02em;color:var(--ink);display:flex;align-items:flex-start;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.preloader-pct{font-style:italic;font-size:.55em;margin-left:.15em;margin-top:.12em;color:var(--accent)}
+
+@media(max-width:640px){
+  .preloader-counter{right:6vw;bottom:6vw}
+  .preloader-num{font-size:clamp(24px,7vw,34px)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .preloader{transition:opacity .5s linear}
+  .preloader--exit{transform:none;opacity:0}
 }

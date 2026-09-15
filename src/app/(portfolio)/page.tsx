@@ -3,10 +3,87 @@
 import { useEffect } from 'react'
 import Image from 'next/image'
 import './portfolio.css'
+import { Preloader } from './Preloader'
 
-// Section ids in scroll order — used both for the nav's active-dot
-// detection and as the anchor markers spaced through .story-pin.
-const STORY_SECTIONS = ['about', 'projects', 'skills', 'mindset', 'contact']
+// Each entry's own scroll-triggered page (see EXPERIENCE below) is inserted
+// between About and Skills, so the anchor markers spaced through .story-pin
+// need each section's actual page index, not just its position in this list.
+const STORY_SECTIONS = [
+  { id: 'about', page: 0 },
+  { id: 'projects', page: 1 },
+  { id: 'skills', page: 5 },
+  { id: 'education', page: 6 },
+  { id: 'mindset', page: 7 },
+  { id: 'moments', page: 8 },
+  { id: 'proud', page: 9 },
+  { id: 'certifications', page: 10 },
+  { id: 'contact', page: 13 },
+]
+
+// One scroll-revealed milestone per real job/role, in chronological-current
+// order (current role first, matching the LinkedIn Experience layout this
+// was modeled on) — each becomes its own page in the STORY pin, so scrolling
+// through "02 — Experience" steps through them one at a time.
+const EXPERIENCE = [
+  {
+    role: 'Software Engineer', company: 'FPT Software', type: 'Full-time',
+    dates: 'Nov 2022 – Present', duration: '3+ yrs', location: 'Vietnam',
+    desc: 'Building the loyalty system for CapitaLand — a large-scale loyalty platform for one of the largest diversified real estate groups in Asia, serving 1.5 million users.',
+    skills: ['JavaScript', 'React.js', 'Java (Spring Boot)', 'MySQL', 'Microsoft Azure', 'GitHub Copilot'],
+  },
+  {
+    role: 'Teacher', company: 'MindX Technology School', type: 'Part-time',
+    dates: 'Sep 2022 – May 2023', duration: '9 mos', location: '',
+    desc: 'Taught coding fundamentals to students at a technology-focused school, alongside full-time engineering work.',
+    skills: [],
+  },
+  {
+    role: 'Full-stack Developer', company: 'Blackbook.ai', type: 'Full-time',
+    dates: 'Sep 2022 – Nov 2022', duration: '3 mos', location: '',
+    desc: 'Worked across the stack on Blackbook.ai’s product before moving to FPT Software.',
+    skills: ['HTML5', 'CSS3'],
+  },
+  {
+    role: 'President', company: 'FPTU Event Club', type: '',
+    dates: 'May 2019 – Apr 2020', duration: '1 yr', location: 'Ho Chi Minh City, Vietnam',
+    desc: 'Enhanced leadership skills and gained experience in event planning and organizing through more than 20 projects.',
+    skills: [],
+  },
+]
+
+// logo: an svg under /public/logos (real brand mark, recolored via
+// currentColor to fit the site's palette) — omitted where no authentic logo
+// was available (Scrum.org's own mark, for the PSM certs, isn't in any brand
+// icon set I could pull from) rather than substituting a different org's.
+// Grouped by category — Language is left empty until a real cert (IELTS/
+// HSK/TOPIK/...) is provided, rather than inventing a score.
+const CERTIFICATIONS = [
+  {
+    category: 'Technical',
+    items: [
+      { issuer: 'Microsoft', name: 'Azure AI Engineer Associate', issued: 'Issued 2026', credentialId: '', href: '#', logo: '/logos/microsoft.svg' },
+      { issuer: 'GitHub', name: 'GitHub Copilot Certification', issued: '', credentialId: '', href: '#', logo: '/logos/github.svg' },
+      { issuer: 'Google', name: 'Google AI Professional Certificate', issued: '', credentialId: '', href: '#', logo: '/logos/google.svg' },
+    ],
+  },
+  {
+    category: 'Management',
+    items: [
+      { issuer: 'Scrum.org', name: 'Professional Scrum Master I (PSM I)', issued: '', credentialId: '', href: '#', logo: '' },
+      { issuer: 'Scrum.org', name: 'Professional Scrum Master II (PSM II)', issued: '', credentialId: '', href: '#', logo: '' },
+    ],
+  },
+  {
+    category: 'Language',
+    items: [],
+  },
+]
+
+const EDUCATION = [
+  { school: 'FPT School of Business & Technology', degree: 'Master of Software Engineering (MSE) — Artificial Intelligence Specialization', dates: 'September 2025 – Now' },
+  { school: 'FPT University', degree: 'Software Engineering', dates: 'Sep 2017 – Sep 2021' },
+  { school: 'KDU Penang University College - Malaysia', degree: 'English Enhancement Programme', dates: 'Jan 2018 – May 2018' },
+]
 
 export default function PortfolioPage() {
   useEffect(() => {
@@ -60,7 +137,7 @@ export default function PortfolioPage() {
     const onMouseMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY }
     window.addEventListener('mousemove', onMouseMove, { passive: true })
 
-    document.querySelectorAll<HTMLElement>('a,button,.astat,.mv-chip,.pchip,.cbadge').forEach(el => {
+    document.querySelectorAll<HTMLElement>('a,button,.astat,.mv-chip,.pchip').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('hl'))
       el.addEventListener('mouseleave', () => document.body.classList.remove('hl'))
     })
@@ -392,7 +469,20 @@ export default function PortfolioPage() {
     const pin = document.getElementById('storyPin')
     const pages = pin ? Array.from(pin.querySelectorAll<HTMLElement>('.story-page')) : []
     const bar = document.getElementById('storyProgressBar')
+    const expHeading = document.getElementById('expHeading')
+    const certHeading = document.getElementById('certHeading')
     if (!pin || !bar || pages.length < 2) return
+
+    // Pages 1..EXPERIENCE.length are the Experience block's own job entries,
+    // and CERTIFICATIONS.length pages right after Skills/Education/Mindset/
+    // Moments/Highlights are the Certifications block's own category pages
+    // (see the JSX for both). Each shared heading should hold rock-solid
+    // through every transition *within* its own block and only fade on the
+    // way out to whatever comes next.
+    const expStart = 1, expEnd = expStart + EXPERIENCE.length - 1
+    // +6 = Skills, Education, Mindset, Moments, Highlights (5 single pages)
+    // plus 1 to land on Certifications' own first page.
+    const certStart = expEnd + 6, certEnd = certStart + CERTIFICATIONS.length - 1
 
     const transN = pages.length - 1
     let enabled = window.innerWidth > 860
@@ -403,6 +493,17 @@ export default function PortfolioPage() {
     // listener isn't doing work on every scroll frame across the rest of
     // the page too.
     let settled: 'top' | 'bottom' | null = null
+    // One-shot "shine" sweep on each page's own heading, replayed every
+    // time it comes back to full opacity (scrolling past it and back up
+    // resets the flag, so it isn't just a first-arrival thing).
+    const shineFired = pages.map(() => false)
+    let expShineFired = false, certShineFired = false
+    function triggerShine(el: Element | null) {
+      if (!el) return
+      el.classList.remove('shine')
+      void (el as HTMLElement).offsetWidth // force reflow so the animation restarts
+      el.classList.add('shine')
+    }
 
     const docTop = (el: HTMLElement) => el.getBoundingClientRect().top + window.scrollY
     const smooth = (t: number) => t * t * (3 - 2 * t)
@@ -441,7 +542,46 @@ export default function PortfolioPage() {
         page.style.opacity = `${o}`
         page.style.transform = `translateY(${ty}px)`
         page.style.pointerEvents = o > 0.5 ? 'auto' : 'none'
+        if (o >= 0.99) {
+          if (!shineFired[i]) { triggerShine(page.querySelector('.stitle, .cg-big')); shineFired[i] = true }
+        } else {
+          shineFired[i] = false
+        }
       })
+
+      // Adjacent pages' opacity above is sequential, not simultaneous — it
+      // briefly dips to 0 at the midpoint of *every* transition (including
+      // ones entirely within a block), so simply summing per-page opacity
+      // made a shared heading flicker there too. Handle each zone
+      // explicitly instead: no fade at all entering the block (snap
+      // straight to visible), rock-solid through every transition inside
+      // it, and only fade — in sync with the last page's own fade-out — on
+      // the way out to whatever comes next.
+      const zoneHeadingT = (start: number, end: number) => {
+        if (idx < start - 1) return 0
+        if (idx === start - 1) return t > 0 ? 1 : 0
+        if (idx < end) return 1
+        if (idx === end) return Math.max(0, 1 - t / 0.5)
+        return 0
+      }
+      const expHeadingT = zoneHeadingT(expStart, expEnd)
+      if (expHeading) {
+        expHeading.style.opacity = `${expHeadingT}`
+        if (expHeadingT >= 0.99) {
+          if (!expShineFired) { triggerShine(expHeading.querySelector('.stitle')); expShineFired = true }
+        } else {
+          expShineFired = false
+        }
+      }
+      const certHeadingT = zoneHeadingT(certStart, certEnd)
+      if (certHeading) {
+        certHeading.style.opacity = `${certHeadingT}`
+        if (certHeadingT >= 0.99) {
+          if (!certShineFired) { triggerShine(certHeading.querySelector('.stitle')); certShineFired = true }
+        } else {
+          certShineFired = false
+        }
+      }
 
       bar!.style.width = `${overall * 100}%`
     }
@@ -458,6 +598,8 @@ export default function PortfolioPage() {
           page.style.opacity = i === 0 ? '1' : '0'
           page.style.transform = 'none'
         })
+        if (expHeading) expHeading.style.opacity = '0'
+        if (certHeading) certHeading.style.opacity = '0'
         bar!.style.width = '0%'
         return
       }
@@ -478,6 +620,7 @@ export default function PortfolioPage() {
 
   return (
     <>
+      <Preloader />
       <canvas id="grain" />
       <div className="cur" id="cd"><div className="cur-d" /></div>
       <div className="cur-r" id="cr" />
@@ -502,20 +645,20 @@ export default function PortfolioPage() {
             </div>
             <div className="hero-about-reveal" id="heroAboutReveal" aria-hidden="true">
               <p className="eyebrow">01 — About me</p>
-              <h2 className="stitle">Seven years of<br /><em>deliberate</em> craft.</h2>
-              <p className="about-body">I&apos;m <strong>Thinh</strong> — a Senior Frontend Engineer and Project Manager bridging <strong>design intent</strong> and <strong>engineering reality</strong>, from 3-person founding teams to orgs of 200+. Now moving deeper into <strong>Product Management</strong>.</p>
+              <h2 className="stitle">3+ years of<br /><em>deliberate</em> craft.</h2>
+              <p className="about-body">I&apos;m <strong>Thinh</strong> — a Software Engineer with a strong <strong>React</strong> and <strong>Java</strong> foundation, building web platforms for outsourcing clients in <strong>Singapore</strong> for 3+ years. I care about clear communication and close teamwork to ship a premium product.</p>
               <div className="about-stats">
-                <div className="astat"><div className="astat-n">7+</div><div className="astat-l">Years in industry</div></div>
-                <div className="astat"><div className="astat-n">32</div><div className="astat-l">Products shipped</div></div>
-                <div className="astat"><div className="astat-n">4</div><div className="astat-l">Design systems</div></div>
-                <div className="astat"><div className="astat-n">3+</div><div className="astat-l">Teams led</div></div>
+                <div className="astat"><div className="astat-n">3+</div><div className="astat-l">Years in industry</div></div>
+                <div className="astat"><div className="astat-n">1.5M+</div><div className="astat-l">Users served</div></div>
+                <div className="astat"><div className="astat-n">3</div><div className="astat-l">Companies</div></div>
+                <div className="astat"><div className="astat-n">20+</div><div className="astat-l">Events led</div></div>
               </div>
-              <div className="about-now"><strong>Senior Frontend Engineer · PM</strong> at Axon Technologies (2022–present) · previously Teko, Fossil, KMS</div>
+              <div className="about-now"><strong>Software Engineer</strong> at FPT Software (2022–present) · previously Full-stack Developer at Blackbook.ai · Teacher at MindX Technology School</div>
             </div>
           </div>
           <div className="hero-content">
-            <p className="hero-eyebrow">Senior Frontend Engineer · Project Manager · Ho Chi Minh City</p>
-            <blockquote className="hero-quote">&ldquo;I write software the way I&apos;d want to read it back in five years.&rdquo;</blockquote>
+            <p className="hero-eyebrow">Software Engineer · Full-Stack Developer · Ho Chi Minh City</p>
+            <blockquote className="hero-quote">&ldquo;There is always enough time to become<br />who I want to be.&rdquo;</blockquote>
             <h1 className="hero-name">
               <span className="fn">Thinh</span>
               <span className="ln">Pham Le</span>
@@ -533,8 +676,8 @@ export default function PortfolioPage() {
           in the right place despite the pages themselves never moving once
           the sticky engages. */}
       <div className="story-pin" id="storyPin">
-        {STORY_SECTIONS.map((id, i) => (
-          <div key={id} id={id} className="story-anchor" style={{ top: `${i * 100}vh` }} />
+        {STORY_SECTIONS.map(({ id, page }) => (
+          <div key={id} id={id} className="story-anchor" style={{ top: `${page * 100}vh` }} />
         ))}
         <div className="story">
           <div className="story-photo-col">
@@ -547,48 +690,55 @@ export default function PortfolioPage() {
               {/* 01 — ABOUT */}
               <div className="story-page" id="aboutTextTarget">
                 <p className="eyebrow">01 — About me</p>
-                <h2 className="stitle">Seven years of<br /><em>deliberate</em> craft.</h2>
-                <p className="about-body">I&apos;m <strong>Thinh</strong> — a Senior Frontend Engineer and Project Manager bridging <strong>design intent</strong> and <strong>engineering reality</strong>, from 3-person founding teams to orgs of 200+. Now moving deeper into <strong>Product Management</strong>.</p>
+                <h2 className="stitle">3+ years of<br /><em>deliberate</em> craft.</h2>
+                <p className="about-body">I&apos;m <strong>Thinh</strong> — a Software Engineer with a strong <strong>React</strong> and <strong>Java</strong> foundation, building web platforms for outsourcing clients in <strong>Singapore</strong> for 3+ years. I care about clear communication and close teamwork to ship a premium product.</p>
                 <div className="about-stats">
-                  <div className="astat"><div className="astat-n">7+</div><div className="astat-l">Years in industry</div></div>
-                  <div className="astat"><div className="astat-n">32</div><div className="astat-l">Products shipped</div></div>
-                  <div className="astat"><div className="astat-n">4</div><div className="astat-l">Design systems</div></div>
-                  <div className="astat"><div className="astat-n">3+</div><div className="astat-l">Teams led</div></div>
+                  <div className="astat"><div className="astat-n">3+</div><div className="astat-l">Years in industry</div></div>
+                  <div className="astat"><div className="astat-n">1.5M+</div><div className="astat-l">Users served</div></div>
+                  <div className="astat"><div className="astat-n">3</div><div className="astat-l">Companies</div></div>
+                  <div className="astat"><div className="astat-n">20+</div><div className="astat-l">Events led</div></div>
                 </div>
-                <div className="about-now"><strong>Senior Frontend Engineer · PM</strong> at Axon Technologies (2022–present) · previously Teko, Fossil, KMS</div>
+                <div className="about-now"><strong>Software Engineer</strong> at FPT Software (2022–present) · previously Full-stack Developer at Blackbook.ai · Teacher at MindX Technology School</div>
               </div>
 
-              {/* 02 — PROJECTS */}
-              <div className="story-page">
-                <p className="eyebrow">02 — Selected work</p>
-                <h2 className="stitle">Things I&apos;ve shipped<br />that <em>matter.</em></h2>
-                <p className="pf-eyebrow">Case study · Axon Technologies</p>
-                <h3 className="pf-name">Axon Design <em>System</em></h3>
-                <p className="pf-desc">A headless component library powering 6 products. Reduced UI inconsistency by 80%.</p>
-                <div className="pf-metrics">
-                  <div className="pf-m"><span>140+</span><span>Components</span></div>
-                  <div className="pf-m"><span>6</span><span>Products</span></div>
-                  <div className="pf-m"><span>4.2k</span><span>Weekly devs</span></div>
-                </div>
-                <a className="pf-link" href="#">View case study ↗</a>
-                <div className="proj-also">
-                  <span className="proj-also-label">Also shipped</span>
-                  {['Teko Commerce', 'AI Dashboard', 'Fossil SmartWatch', 'Dev Tooling', 'KMS Onboarding'].map(n => (
-                    <span key={n} className="pchip">{n}</span>
-                  ))}
-                </div>
+              {/* 02 — EXPERIENCE. The heading is shared (id="expHeading" below,
+                  a separate overlay the STORY effect fades in/out only when
+                  entering/leaving this block, never in between) so it holds
+                  still while scrolling from one job to the next — each page
+                  here keeps its own copy for layout spacing only (invisible,
+                  reserves the same height so the real content below lines up
+                  with every other section's heading position). */}
+              <div className="story-page-heading" id="expHeading">
+                <p className="eyebrow">02 — Experience</p>
+                <h2 className="stitle">Where <em>experience</em><br />took shape.</h2>
               </div>
+              {EXPERIENCE.map((job, i) => (
+                <div key={job.company} className="story-page">
+                  <p className="eyebrow" style={{ visibility: 'hidden' }}>02 — Experience</p>
+                  <h2 className="stitle" style={{ visibility: 'hidden' }}>Where <em>experience</em><br />took shape.</h2>
+                  <div className="story-count">{String(i + 1).padStart(2, '0')}<span>/{String(EXPERIENCE.length).padStart(2, '0')}</span></div>
+                  <h3 className="exp-role">{job.role}</h3>
+                  <p className="exp-company">{job.company}{job.type && ` · ${job.type}`}</p>
+                  <p className="exp-dates">{job.dates} · {job.duration}{job.location && ` · ${job.location}`}</p>
+                  <p className="exp-desc">{job.desc}</p>
+                  {job.skills.length > 0 && (
+                    <div className="exp-skills">
+                      {job.skills.map(s => <span key={s} className="pchip">{s}</span>)}
+                    </div>
+                  )}
+                </div>
+              ))}
 
               {/* 03 — SKILLS */}
               <div className="story-page">
-                <p className="eyebrow">03 — Technical skills</p>
-                <h2 className="stitle">Tools I trust to do<br /><em>serious</em> work.</h2>
+                <p className="eyebrow">03 — Expertise</p>
+                <h2 className="stitle">What I bring<br />to the <em>table.</em></h2>
                 <div className="story-skills">
                   {[
-                    { name: 'Frontend core', cnt: '12', core: ['React 18+', 'TypeScript', 'Next.js 14'] },
-                    { name: 'Backend & infra', cnt: '8', core: ['Java 17+', 'Spring Boot 3', 'PostgreSQL'] },
-                    { name: 'AI & emerging', cnt: '6', core: ['Prompt Engineering', 'OpenAI API', 'LangChain'] },
-                    { name: 'Craft & process', cnt: '6', core: ['Figma', 'GitHub Actions', 'Linear'] },
+                    { name: 'Frontend core', cnt: '3', core: ['ReactJS', 'JavaScript (ES6+)', 'HTML5 & CSS3'] },
+                    { name: 'Backend & data', cnt: '2', core: ['Java (Spring Boot)', 'MySQL'] },
+                    { name: 'Cloud & AI tooling', cnt: '2', core: ['Microsoft Azure', 'GitHub Copilot'] },
+                    { name: 'Craft & process', cnt: '3', core: ['Full SDLC', 'Production support', 'Automation tooling'] },
                   ].map((g, i) => (
                     <div key={i} className="sg-row">
                       <div className="sg-head"><span className="sg-name">{g.name}</span><span className="sg-cnt">{g.cnt} tools</span></div>
@@ -600,27 +750,89 @@ export default function PortfolioPage() {
                 </div>
               </div>
 
-              {/* 04 — MINDSET */}
+              {/* 04 — EDUCATION */}
               <div className="story-page">
-                <p className="eyebrow">04 — Mindset</p>
-                <h2 className="stitle">How I think<br />about <em>building.</em></h2>
-                <blockquote className="big-q">&ldquo;I don&apos;t write code to impress engineers. I write it so the person using the product never has to think about the technology beneath it.&rdquo;</blockquote>
-                <div className="mvs-row">
-                  {['Accessibility is not optional', 'Performance is a design constraint', 'Design & engineering, one language', 'Ship, learn, iterate'].map((t, i) => (
-                    <span key={i} className="mv-chip">{t}</span>
-                  ))}
-                </div>
-                <div className="cert-row">
-                  <span className="cert-t">7 certifications</span>
-                  {['PSM1', 'AWS', 'CKAD', 'FEM', 'DL', 'OCA', 'WAS'].map((b, i) => (
-                    <span key={i} className="cbadge">{b}</span>
+                <p className="eyebrow">04 — Academic Journey</p>
+                <h2 className="stitle">Still learning.<br />Still <em>growing.</em></h2>
+                <div className="edu-list">
+                  {EDUCATION.map(e => (
+                    <div key={e.school} className="edu-item">
+                      <h3 className="edu-school">{e.school}</h3>
+                      <p className="edu-degree">{e.degree}</p>
+                      <p className="edu-dates">{e.dates}</p>
+                    </div>
                   ))}
                 </div>
               </div>
 
-              {/* 05 — CONTACT */}
+              {/* 05 — MINDSET */}
               <div className="story-page">
-                <p className="eyebrow">05 — Get in touch</p>
+                <p className="eyebrow">05 — Mindset</p>
+                <h2 className="stitle">Never quite<br />satisfied.</h2>
+                <blockquote className="big-q">&ldquo;Not because what I&apos;ve done isn&apos;t enough, but because I know there&apos;s always more I can become.&rdquo;</blockquote>
+                <div className="mvs-row">
+                  {['Learn fast, adapt under pressure', 'Automate the repetitive stuff', 'Clear communication, always', 'Teamwork over solo heroics'].map((t, i) => (
+                    <span key={i} className="mv-chip">{t}</span>
+                  ))}
+                </div>
+              </div>
+
+              {/* 06 — MOMENTS (placeholder, content pending) */}
+              <div className="story-page">
+                <p className="eyebrow">06 — Moments</p>
+                <h2 className="stitle">Moments worth<br /><em>remembering.</em></h2>
+                <p className="story-placeholder">Coming soon.</p>
+              </div>
+
+              {/* 07 — PROUD OF (placeholder, content pending) */}
+              <div className="story-page">
+                <p className="eyebrow">07 — Highlights</p>
+                <h2 className="stitle">A few things<br />I&apos;m <em>proud of.</em></h2>
+                <p className="story-placeholder">Coming soon.</p>
+              </div>
+
+              {/* 08 — CERTIFICATIONS. Same shared-heading trick as Experience
+                  (id="certHeading" below) so it holds still while scrolling
+                  from one category to the next, and each category gets its
+                  own page instead of all being crammed onto one screen —
+                  scales cleanly no matter how many certs get added later. */}
+              <div className="story-page-heading" id="certHeading">
+                <p className="eyebrow">08 — Certifications</p>
+                <h2 className="stitle">Learning, <em>validated.</em></h2>
+              </div>
+              {CERTIFICATIONS.map((group, i) => (
+                <div key={group.category} className="story-page">
+                  <p className="eyebrow" style={{ visibility: 'hidden' }}>08 — Certifications</p>
+                  <h2 className="stitle" style={{ visibility: 'hidden' }}>Learning, <em>validated.</em></h2>
+                  <div className="story-count">{String(i + 1).padStart(2, '0')}<span>/{String(CERTIFICATIONS.length).padStart(2, '0')}</span></div>
+                  <div className="cert-group-label">{group.category}</div>
+                  {group.items.length > 0 ? (
+                    <div className="cert-grid">
+                      {group.items.map(cert => (
+                        <div key={cert.name} className="cert-card">
+                          <div className="cert-head">
+                            {cert.logo
+                              ? <img className="cert-logo" src={cert.logo} alt="" />
+                              : <div className="cert-logo cert-logo-text">{cert.issuer[0]}</div>}
+                            <div className="cert-issuer">{cert.issuer}</div>
+                          </div>
+                          <h3 className="cert-name">{cert.name}</h3>
+                          {(cert.issued || cert.credentialId) && (
+                            <p className="cert-meta">{cert.issued}{cert.credentialId && ` · Credential ID ${cert.credentialId}`}</p>
+                          )}
+                          <a className="cert-link" href={cert.href}>View credential ↗</a>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="story-placeholder">Coming soon.</p>
+                  )}
+                </div>
+              ))}
+
+              {/* 09 — CONTACT */}
+              <div className="story-page">
+                <p className="eyebrow">09 — Get in touch</p>
                 <div className="cg-big">Let&apos;s <em>build</em> something <em>real.</em></div>
                 <p className="cg-sub">Open to senior roles, contract work, and interesting problems. If what you&apos;re building matters, let&apos;s talk.</p>
                 <div className="story-links">
@@ -657,46 +869,43 @@ export default function PortfolioPage() {
 
         <div className="story-page rv">
           <p className="eyebrow">01 — About me</p>
-          <h2 className="stitle">Seven years of<br /><em>deliberate</em> craft.</h2>
-          <p className="about-body">I&apos;m <strong>Thinh</strong> — a Senior Frontend Engineer and Project Manager bridging <strong>design intent</strong> and <strong>engineering reality</strong>, from 3-person founding teams to orgs of 200+. Now moving deeper into <strong>Product Management</strong>.</p>
+          <h2 className="stitle">3+ years of<br /><em>deliberate</em> craft.</h2>
+          <p className="about-body">I&apos;m <strong>Thinh</strong> — a Software Engineer with a strong <strong>React</strong> and <strong>Java</strong> foundation, building web platforms for outsourcing clients in <strong>Singapore</strong> for 3+ years. I care about clear communication and close teamwork to ship a premium product.</p>
           <div className="about-stats">
-            <div className="astat"><div className="astat-n">7+</div><div className="astat-l">Years in industry</div></div>
-            <div className="astat"><div className="astat-n">32</div><div className="astat-l">Products shipped</div></div>
-            <div className="astat"><div className="astat-n">4</div><div className="astat-l">Design systems</div></div>
-            <div className="astat"><div className="astat-n">3+</div><div className="astat-l">Teams led</div></div>
+            <div className="astat"><div className="astat-n">3+</div><div className="astat-l">Years in industry</div></div>
+            <div className="astat"><div className="astat-n">1.5M+</div><div className="astat-l">Users served</div></div>
+            <div className="astat"><div className="astat-n">3</div><div className="astat-l">Companies</div></div>
+            <div className="astat"><div className="astat-n">20+</div><div className="astat-l">Events led</div></div>
           </div>
-          <div className="about-now"><strong>Senior Frontend Engineer · PM</strong> at Axon Technologies (2022–present) · previously Teko, Fossil, KMS</div>
+          <div className="about-now"><strong>Software Engineer</strong> at FPT Software (2022–present) · previously Full-stack Developer at Blackbook.ai · Teacher at MindX Technology School</div>
         </div>
 
-        <div className="story-page rv">
-          <p className="eyebrow">02 — Selected work</p>
-          <h2 className="stitle">Things I&apos;ve shipped<br />that <em>matter.</em></h2>
-          <p className="pf-eyebrow">Case study · Axon Technologies</p>
-          <h3 className="pf-name">Axon Design <em>System</em></h3>
-          <p className="pf-desc">A headless component library powering 6 products. Reduced UI inconsistency by 80%.</p>
-          <div className="pf-metrics">
-            <div className="pf-m"><span>140+</span><span>Components</span></div>
-            <div className="pf-m"><span>6</span><span>Products</span></div>
-            <div className="pf-m"><span>4.2k</span><span>Weekly devs</span></div>
+        {EXPERIENCE.map((job, i) => (
+          <div key={job.company} className="story-page rv">
+            <p className="eyebrow">02 — Experience</p>
+            <h2 className="stitle">Where <em>experience</em><br />took shape.</h2>
+            <div className="story-count">{String(i + 1).padStart(2, '0')}<span>/{String(EXPERIENCE.length).padStart(2, '0')}</span></div>
+            <h3 className="exp-role">{job.role}</h3>
+            <p className="exp-company">{job.company}{job.type && ` · ${job.type}`}</p>
+            <p className="exp-dates">{job.dates} · {job.duration}{job.location && ` · ${job.location}`}</p>
+            <p className="exp-desc">{job.desc}</p>
+            {job.skills.length > 0 && (
+              <div className="exp-skills">
+                {job.skills.map(s => <span key={s} className="pchip">{s}</span>)}
+              </div>
+            )}
           </div>
-          <a className="pf-link" href="#">View case study ↗</a>
-          <div className="proj-also">
-            <span className="proj-also-label">Also shipped</span>
-            {['Teko Commerce', 'AI Dashboard', 'Fossil SmartWatch', 'Dev Tooling', 'KMS Onboarding'].map(n => (
-              <span key={n} className="pchip">{n}</span>
-            ))}
-          </div>
-        </div>
+        ))}
 
         <div className="story-page rv">
-          <p className="eyebrow">03 — Technical skills</p>
-          <h2 className="stitle">Tools I trust to do<br /><em>serious</em> work.</h2>
+          <p className="eyebrow">03 — Expertise</p>
+          <h2 className="stitle">What I bring<br />to the <em>table.</em></h2>
           <div className="story-skills">
             {[
-              { name: 'Frontend core', cnt: '12', core: ['React 18+', 'TypeScript', 'Next.js 14'] },
-              { name: 'Backend & infra', cnt: '8', core: ['Java 17+', 'Spring Boot 3', 'PostgreSQL'] },
-              { name: 'AI & emerging', cnt: '6', core: ['Prompt Engineering', 'OpenAI API', 'LangChain'] },
-              { name: 'Craft & process', cnt: '6', core: ['Figma', 'GitHub Actions', 'Linear'] },
+              { name: 'Frontend core', cnt: '3', core: ['ReactJS', 'JavaScript (ES6+)', 'HTML5 & CSS3'] },
+              { name: 'Backend & data', cnt: '2', core: ['Java (Spring Boot)', 'MySQL'] },
+              { name: 'Cloud & AI tooling', cnt: '2', core: ['Microsoft Azure', 'GitHub Copilot'] },
+              { name: 'Craft & process', cnt: '3', core: ['Full SDLC', 'Production support', 'Automation tooling'] },
             ].map((g, i) => (
               <div key={i} className="sg-row">
                 <div className="sg-head"><span className="sg-name">{g.name}</span><span className="sg-cnt">{g.cnt} tools</span></div>
@@ -709,24 +918,75 @@ export default function PortfolioPage() {
         </div>
 
         <div className="story-page rv">
-          <p className="eyebrow">04 — Mindset</p>
-          <h2 className="stitle">How I think<br />about <em>building.</em></h2>
-          <blockquote className="big-q">&ldquo;I don&apos;t write code to impress engineers. I write it so the person using the product never has to think about the technology beneath it.&rdquo;</blockquote>
-          <div className="mvs-row">
-            {['Accessibility is not optional', 'Performance is a design constraint', 'Design & engineering, one language', 'Ship, learn, iterate'].map((t, i) => (
-              <span key={i} className="mv-chip">{t}</span>
-            ))}
-          </div>
-          <div className="cert-row">
-            <span className="cert-t">7 certifications</span>
-            {['PSM1', 'AWS', 'CKAD', 'FEM', 'DL', 'OCA', 'WAS'].map((b, i) => (
-              <span key={i} className="cbadge">{b}</span>
+          <p className="eyebrow">04 — Academic Journey</p>
+          <h2 className="stitle">Still learning.<br />Still <em>growing.</em></h2>
+          <div className="edu-list">
+            {EDUCATION.map(e => (
+              <div key={e.school} className="edu-item">
+                <h3 className="edu-school">{e.school}</h3>
+                <p className="edu-degree">{e.degree}</p>
+                <p className="edu-dates">{e.dates}</p>
+              </div>
             ))}
           </div>
         </div>
 
         <div className="story-page rv">
-          <p className="eyebrow">05 — Get in touch</p>
+          <p className="eyebrow">05 — Mindset</p>
+          <h2 className="stitle">Never quite<br />satisfied.</h2>
+          <blockquote className="big-q">&ldquo;Not because what I&apos;ve done isn&apos;t enough, but because I know there&apos;s always more I can become.&rdquo;</blockquote>
+          <div className="mvs-row">
+            {['Learn fast, adapt under pressure', 'Automate the repetitive stuff', 'Clear communication, always', 'Teamwork over solo heroics'].map((t, i) => (
+              <span key={i} className="mv-chip">{t}</span>
+            ))}
+          </div>
+        </div>
+
+        <div className="story-page rv">
+          <p className="eyebrow">06 — Moments</p>
+          <h2 className="stitle">Moments worth<br /><em>remembering.</em></h2>
+          <p className="story-placeholder">Coming soon.</p>
+        </div>
+
+        <div className="story-page rv">
+          <p className="eyebrow">07 — Highlights</p>
+          <h2 className="stitle">A few things<br />I&apos;m <em>proud of.</em></h2>
+          <p className="story-placeholder">Coming soon.</p>
+        </div>
+
+        <div className="story-page rv">
+          <p className="eyebrow">08 — Certifications</p>
+          <h2 className="stitle">Learning, <em>validated.</em></h2>
+          {CERTIFICATIONS.map(group => (
+            <div key={group.category} className="cert-group">
+              <div className="cert-group-label">{group.category}</div>
+              {group.items.length > 0 ? (
+                <div className="cert-grid">
+                  {group.items.map(cert => (
+                    <div key={cert.name} className="cert-card">
+                      <div className="cert-head">
+                        {cert.logo
+                          ? <img className="cert-logo" src={cert.logo} alt="" />
+                          : <div className="cert-logo cert-logo-text">{cert.issuer[0]}</div>}
+                        <div className="cert-issuer">{cert.issuer}</div>
+                      </div>
+                      <h3 className="cert-name">{cert.name}</h3>
+                      {(cert.issued || cert.credentialId) && (
+                        <p className="cert-meta">{cert.issued}{cert.credentialId && ` · Credential ID ${cert.credentialId}`}</p>
+                      )}
+                      <a className="cert-link" href={cert.href}>View credential ↗</a>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="story-placeholder">Coming soon.</p>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div className="story-page rv">
+          <p className="eyebrow">09 — Get in touch</p>
           <div className="cg-big">Let&apos;s <em>build</em> something <em>real.</em></div>
           <p className="cg-sub">Open to senior roles, contract work, and interesting problems. If what you&apos;re building matters, let&apos;s talk.</p>
           <div className="story-links">
