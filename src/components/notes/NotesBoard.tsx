@@ -34,6 +34,9 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   const addNote = useNotesStore((s) => s.addNote)
   const outerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
+  // Toạ độ (hệ canvas, chưa scale) đang chờ chọn loại "Ghi chú" hay "Lịch trình" — null = không có
+  // popover nào đang mở. Chỉ tạo note THẬT SỰ sau khi người dùng chọn 1 trong 2 lựa chọn.
+  const [chooserAt, setChooserAt] = useState<{ x: number; y: number } | null>(null)
   // Ghi lại target lúc mousedown — trình duyệt tổng hợp sự kiện "click" tại tổ tiên chung gần nhất
   // của target mousedown/mouseup, nên nếu người dùng bôi đen chữ BẮT ĐẦU trong 1 note con rồi thả
   // chuột ra ngoài (đè lên canvas trống), target của "click" vẫn là canvasRef (tổ tiên chung) dù
@@ -78,15 +81,29 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   }
 
   function handleCanvasClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target !== canvasRef.current) return // chỉ tạo note khi click đúng vùng trống, không phải note con
+    if (e.target !== canvasRef.current) return // chỉ mở popover chọn loại khi click đúng vùng trống, không phải note con
     if (mouseDownTargetRef.current !== canvasRef.current) return // drag bắt đầu từ nơi khác (vd bôi đen chữ trong note) — không phải 1 cú click thật
     const rect = canvasRef.current!.getBoundingClientRect()
     const canvasWidth = rect.width / zoom
     const x = Math.max(4, Math.min((e.clientX - rect.left) / zoom, canvasWidth - NOTE_WIDTH - 4))
     const y = Math.max(4, (e.clientY - rect.top) / zoom)
-    const note = addNote(date, x, y)
+    setChooserAt({ x, y })
+  }
+
+  // Người dùng chọn xong loại ("Ghi chú" hay "Lịch trình") ở popover — mới thật sự tạo note lúc này.
+  function handleChooseKind(kind: 'note' | 'timeline') {
+    if (!chooserAt) return
+    const note = addNote(date, chooserAt.x, chooserAt.y, kind)
+    setChooserAt(null)
     onStartEdit(note.id)
   }
+
+  // Đóng popover đang chờ chọn nếu người dùng chuyển sang chỉnh sửa 1 note khác (vd bấm thẳng vào 1
+  // note có sẵn) hoặc dừng chỉnh sửa hoàn toàn — click đó không đi qua handleCanvasClick nên phải
+  // dọn popover ở đây thay vì chỉ dựa vào việc click mới ghi đè chooserAt.
+  useEffect(() => {
+    setChooserAt(null)
+  }, [editingId])
 
   function handleWheel(e: React.WheelEvent<HTMLDivElement>) {
     if (!e.ctrlKey && !e.metaKey) return
@@ -112,7 +129,7 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
         onMouseDown={handleCanvasMouseDown}
         onClick={handleCanvasClick}
       >
-        {notes.length === 0 && <p className="nt-board-empty">Nhấp vào bất kỳ đâu để tạo ghi chú</p>}
+        {notes.length === 0 && <p className="nt-board-empty">Nhấp vào bất kỳ đâu để thêm ghi chú hoặc lịch trình</p>}
         {notes.map((note) => (
           <StickyNoteCard
             key={note.id}
@@ -124,6 +141,21 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
             onHeightChange={handleHeightChange}
           />
         ))}
+
+        {chooserAt && (
+          <div
+            className="nt-kind-chooser"
+            style={{ left: chooserAt.x, top: chooserAt.y }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button type="button" onClick={() => handleChooseKind('note')}>
+              📝 Ghi chú
+            </button>
+            <button type="button" onClick={() => handleChooseKind('timeline')}>
+              🕐 Lịch trình
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

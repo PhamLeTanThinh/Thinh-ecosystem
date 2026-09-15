@@ -17,11 +17,6 @@ const COLOR_HEX: Record<NoteColor, string> = {
   lavender: '#8B6FE0',
 }
 
-function isEffectivelyEmpty(html: string): boolean {
-  if (/<img\b/i.test(html)) return false // note chỉ có ảnh, không có chữ, vẫn tính là có nội dung
-  return html.replace(/<[^>]*>/g, '').trim() === ''
-}
-
 interface Props {
   note: StickyNote
   editing: boolean
@@ -34,6 +29,9 @@ interface Props {
 export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, onHeightChange }: Props) {
   const updateNote = useNotesStore((s) => s.updateNote)
   const deleteNote = useNotesStore((s) => s.deleteNote)
+  const addTimeBlock = useNotesStore((s) => s.addTimeBlock)
+  const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
+  const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
   const [tagDraft, setTagDraft] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
 
@@ -62,11 +60,12 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   function handleRootBlur(e: React.FocusEvent<HTMLDivElement>) {
     if (e.currentTarget.contains(e.relatedTarget as Node | null)) return
     onStopEdit()
-    // Note có nhãn hoặc màu đã gán KHÔNG được coi là rỗng dù chưa có chữ — trước đây chỉ xét
-    // note.content nên 1 note chỉ vừa gắn nhãn (chưa kịp gõ nội dung) bị tự xoá lúc blur (vd bấm
-    // sang ngày khác), khiến nhãn vừa thêm "biến mất" cùng cả note mà người dùng không hay.
-    if (isEffectivelyEmpty(note.content) && note.tags.length === 0 && !note.color) deleteNote(note.id)
-    else useNotesStore.getState().flushSave()
+    // Tạo note (ở cả 2 kind) giờ luôn lưu ngay, kể cả khi chưa nhập gì — không tự xoá note rỗng lúc
+    // blur nữa. Trước đây tự xoá để tránh rác note trống do lỡ tay click, nhưng từ khi thêm popover
+    // chọn loại (bấm canvas → chọn "Ghi chú"/"Lịch trình" mới thật sự tạo), việc tạo note đã là 1
+    // hành động chủ ý — tự xoá lúc này chỉ gây khó chịu: user tạo note/lịch trình rồi bấm sang chỗ
+    // khác trước khi kịp gõ chữ/thêm mốc giờ đầu tiên thì mất trắng.
+    useNotesStore.getState().flushSave()
   }
 
   function handleDragPointerDown(e: React.PointerEvent<HTMLDivElement>) {
@@ -182,9 +181,43 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         </div>
       )}
 
-      <div className="nt-note-body">
-        <NoteEditor content={note.content} editable={editing} onChangeHtml={(html) => updateNote(note.id, { content: html })} />
-      </div>
+      {note.kind === 'timeline' ? (
+        <div className="nt-note-blocks">
+          <p className="nt-note-blocks-label">🕐 Lịch trình</p>
+          {note.timeBlocks.map((b) => (
+            <div key={b.id} className={`nt-note-block${b.done ? ' done' : ''}`}>
+              <button
+                type="button"
+                className="nt-note-done-toggle"
+                aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                onClick={() => toggleTimeBlockDone(note.id, b.id)}
+              >
+                {b.done && '✓'}
+              </button>
+              <span className="nt-note-block-time">
+                {b.startTime}
+                {b.endTime && `–${b.endTime}`}
+              </span>
+              <span className="nt-note-block-text">{b.text}</span>
+              {editing && (
+                <button
+                  type="button"
+                  aria-label="Xoá mốc giờ"
+                  className="nt-note-block-delete"
+                  onClick={() => deleteTimeBlock(note.id, b.id)}
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+          {editing && <TimeBlockAddForm noteId={note.id} onAdd={addTimeBlock} />}
+        </div>
+      ) : (
+        <div className="nt-note-body">
+          <NoteEditor content={note.content} editable={editing} onChangeHtml={(html) => updateNote(note.id, { content: html })} />
+        </div>
+      )}
 
       {(editing || note.tags.length > 0) && (
         <div className="nt-note-tags">
@@ -227,5 +260,52 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         onPointerUp={handleResizePointerUp}
       />
     </div>
+  )
+}
+
+// Form thêm 1 mốc giờ mới vào note — giữ draft bằng local state riêng, chỉ gọi addTimeBlock lúc
+// submit (không phải mỗi phím gõ), khác NoteEditor's content vốn lưu debounce theo từng phím gõ.
+function TimeBlockAddForm({
+  noteId,
+  onAdd,
+}: {
+  noteId: string
+  onAdd: (noteId: string, startTime: string, endTime: string | null, text: string) => void
+}) {
+  const [start, setStart] = useState('')
+  const [end, setEnd] = useState('')
+  const [text, setText] = useState('')
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!start || !text.trim()) return
+    onAdd(noteId, start, end || null, text.trim())
+    setStart('')
+    setEnd('')
+    setText('')
+  }
+
+  return (
+    <form className="nt-note-block-add" onSubmit={handleSubmit}>
+      <div className="nt-note-block-add-times">
+        <input type="time" value={start} onChange={(e) => setStart(e.target.value)} aria-label="Giờ bắt đầu" />
+        <span>→</span>
+        <input type="time" value={end} onChange={(e) => setEnd(e.target.value)} aria-label="Giờ kết thúc (tuỳ chọn)" />
+      </div>
+      <div className="nt-note-block-add-text">
+        <input
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="Việc cần làm..."
+          aria-label="Việc cần làm"
+        />
+        {/* KHÔNG dùng `disabled` dựa theo state sống (start/text rỗng) — handleSubmit đã tự guard
+           rồi, và nếu nút đang giữ focus lúc bị disable ngay sau khi bấm (form tự reset về rỗng),
+           trình duyệt ép blur focus ra khỏi nút tới ngoài note, khiến handleRootBlur tưởng nhầm
+           user đã rời khỏi note và tự đóng chế độ edit — bug thật đã gặp, không phải lý thuyết. */}
+        <button type="submit">+</button>
+      </div>
+    </form>
   )
 }

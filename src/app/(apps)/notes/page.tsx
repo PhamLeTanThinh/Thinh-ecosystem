@@ -4,29 +4,48 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNotesStore } from '@/lib/notes/store'
 import { NotesBoard, ZOOM_STEP, clampZoom } from '@/components/notes/NotesBoard'
 import { NotesSidebar } from '@/components/notes/NotesSidebar'
+import { TimelinePanel } from '@/components/notes/TimelinePanel'
 import { buildDateTree } from '@/lib/notes/dateTree'
-import { addDays, formatDayLabel, fromISODate, toISODate } from '@/lib/notes/date'
+import { addDays, formatDayLabel, formatDayShortLabel, fromISODate, toISODate } from '@/lib/notes/date'
 
 export default function NotesPage() {
   const notes = useNotesStore((s) => s.notes)
   const deleteNotes = useNotesStore((s) => s.deleteNotes)
+  const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
+  const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
   const todayISO = useMemo(() => toISODate(new Date()), [])
   const [currentDate, setCurrentDate] = useState(todayISO)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [timelineOpen, setTimelineOpen] = useState(false)
   const [zoom, setZoom] = useState(1)
   const [focusNoteId, setFocusNoteId] = useState<string | null>(null)
   const dateInputRef = useRef<HTMLInputElement>(null)
 
   const notesForDay = useMemo(() => notes.filter((n) => n.date === currentDate), [notes, currentDate])
 
-  // Mỗi lần có note mới được thêm vào ngày đang xem, tự mở panel danh sách bên phải.
+  // Mỗi lần có note mới được thêm vào ngày đang xem (từ popover chọn loại trên canvas — xem
+  // NotesBoard.tsx), tự mở panel danh sách bên phải.
   const prevCountRef = useRef(notesForDay.length)
   useEffect(() => {
-    if (notesForDay.length > prevCountRef.current) setSidebarOpen(true)
+    if (notesForDay.length > prevCountRef.current) {
+      setSidebarOpen(true)
+      setTimelineOpen(false)
+    }
     prevCountRef.current = notesForDay.length
   }, [notesForDay.length])
+
+  // Bấm vào 1 mục trong Lịch trình để mở note chứa mốc giờ đó lên board (cùng ngày đang xem nên
+  // không cần đổi currentDate như handleSelectNote ở "theo nhãn" — chỉ cần focus + cuộn tới). Vẫn
+  // phải bỏ filter tag đang chọn như handleSelectNote, không thì note có thể bị boardNotes lọc mất
+  // nếu nó không mang tag đang active, khiến focus/scroll không tìm thấy gì.
+  function handleSelectTimelineNote(noteId: string) {
+    setActiveTag(null)
+    setEditingId(noteId)
+    setFocusNoteId(noteId)
+    setTimeout(() => setFocusNoteId(null), 1000)
+  }
 
   const allTags = useMemo(() => {
     const set = new Set<string>()
@@ -142,8 +161,28 @@ export default function NotesPage() {
           )}
         </div>
 
+        {!timelineOpen && (
+          <button
+            type="button"
+            className="nt-sidebar-toggle"
+            onClick={() => {
+              setTimelineOpen(true)
+              setSidebarOpen(false)
+            }}
+          >
+            Lịch trình
+          </button>
+        )}
+
         {!sidebarOpen && (
-          <button type="button" className="nt-sidebar-toggle" onClick={() => setSidebarOpen(true)}>
+          <button
+            type="button"
+            className="nt-sidebar-toggle"
+            onClick={() => {
+              setSidebarOpen(true)
+              setTimelineOpen(false)
+            }}
+          >
             Danh sách
           </button>
         )}
@@ -170,6 +209,17 @@ export default function NotesPage() {
             onSelectNote={handleSelectNote}
             onDeleteGroup={handleDeleteGroup}
             onClose={() => setSidebarOpen(false)}
+          />
+        )}
+
+        {timelineOpen && (
+          <TimelinePanel
+            dayLabel={formatDayShortLabel(fromISODate(currentDate))}
+            notes={notesForDay}
+            onToggleDone={toggleTimeBlockDone}
+            onDeleteBlock={deleteTimeBlock}
+            onSelectNote={handleSelectTimelineNote}
+            onClose={() => setTimelineOpen(false)}
           />
         )}
       </div>

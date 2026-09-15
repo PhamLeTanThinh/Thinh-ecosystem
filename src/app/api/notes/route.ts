@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { notInArray } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { stickyNotes } from '@/db/schema'
-import type { StickyNote } from '@/lib/notes/types'
+import type { StickyNote, TimeBlock } from '@/lib/notes/types'
 
 export async function GET() {
   const rows = await db.select().from(stickyNotes)
@@ -13,9 +13,11 @@ export async function GET() {
     y: r.y,
     width: r.width ?? null,
     height: r.height ?? null,
+    kind: (r.kind as StickyNote['kind']) ?? 'note',
     content: r.content,
     color: (r.color as StickyNote['color']) ?? null,
     tags: r.tags,
+    timeBlocks: (r.timeBlocks as TimeBlock[] | null) ?? [],
     createdAt: r.createdAt.toISOString(),
   }))
   return NextResponse.json(notes)
@@ -43,9 +45,11 @@ export async function PUT(req: NextRequest) {
           y: n.y,
           width: n.width,
           height: n.height,
+          kind: n.kind,
           content: n.content,
           color: n.color,
           tags: n.tags,
+          timeBlocks: n.timeBlocks,
           createdAt: new Date(n.createdAt),
         })
         .onConflictDoUpdate({
@@ -56,9 +60,11 @@ export async function PUT(req: NextRequest) {
             y: n.y,
             width: n.width,
             height: n.height,
+            kind: n.kind,
             content: n.content,
             color: n.color,
             tags: n.tags,
+            timeBlocks: n.timeBlocks,
           },
         })
     }

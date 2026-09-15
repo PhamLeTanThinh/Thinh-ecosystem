@@ -218,9 +218,11 @@ export const stickyNotes = pgTable('sticky_notes', {
   y: real('y').notNull(),
   width: real('width'), // null = auto (mặc định); có giá trị khi user tự kéo resize
   height: real('height'), // null = auto theo nội dung; có giá trị khi user tự kéo resize
-  content: text('content').notNull(), // rich text HTML (TipTap)
+  kind: varchar('kind', { length: 10 }).default('note').notNull(), // 'note' | 'timeline' — chọn lúc tạo, xem lib/notes/types.ts
+  content: text('content').notNull(), // rich text HTML (TipTap) — chỉ dùng khi kind = 'note'
   color: varchar('color', { length: 10 }), // accent tuỳ chọn: 'yellow' | 'pink' | 'mint' | 'sky' | 'lavender' | null
   tags: text('tags').array().default([]).notNull(), // nhãn tự do do user tự đặt, không ép taxonomy
+  timeBlocks: jsonb('time_blocks').default([]).notNull(), // TimeBlock[] — các mốc giờ nối tiếp trong note (xem lib/notes/types.ts)
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

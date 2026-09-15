@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { create } from 'zustand'
 import { storage } from './storage'
-import type { StickyNote } from './types'
+import type { NoteKind, StickyNote, TimeBlock } from './types'
 
 // Rich text bắn onUpdate mỗi phím gõ — nếu PUT thẳng lên server mỗi lần, các request có thể hoàn
 // thành không đúng thứ tự (request cũ với nội dung ngắn hơn về sau, ghi đè mất chữ vừa gõ).
@@ -35,13 +35,18 @@ interface NotesState {
 
   hydrate: () => Promise<void>
 
-  addNote: (date: string, x: number, y: number) => StickyNote
+  addNote: (date: string, x: number, y: number, kind?: NoteKind) => StickyNote
   updateNote: (
     id: string,
     patch: Partial<Pick<StickyNote, 'content' | 'color' | 'tags' | 'x' | 'y' | 'width' | 'height'>>,
   ) => void
   deleteNote: (id: string) => void
   deleteNotes: (ids: string[]) => void
+
+  addTimeBlock: (noteId: string, startTime: string, endTime: string | null, text: string) => void
+  toggleTimeBlockDone: (noteId: string, blockId: string) => void
+  deleteTimeBlock: (noteId: string, blockId: string) => void
+
   flushSave: () => void
 }
 
@@ -55,7 +60,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
     set({ hydrated: true, notes })
   },
 
-  addNote: (date, x, y) => {
+  addNote: (date, x, y, kind = 'note') => {
     const note: StickyNote = {
       id: nanoid(),
       date,
@@ -63,9 +68,11 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       y,
       width: null,
       height: null,
+      kind,
       content: '',
       color: null,
       tags: [],
+      timeBlocks: [],
       createdAt: new Date().toISOString(),
     }
     const notes = [...get().notes, note]
@@ -89,6 +96,31 @@ export const useNotesStore = create<NotesState>((set, get) => ({
   deleteNotes: (ids) => {
     const idSet = new Set(ids)
     const notes = get().notes.filter((n) => !idSet.has(n.id))
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  addTimeBlock: (noteId, startTime, endTime, text) => {
+    const block: TimeBlock = { id: nanoid(), startTime, endTime, text, done: false }
+    const notes = get().notes.map((n) => (n.id === noteId ? { ...n, timeBlocks: [...n.timeBlocks, block] } : n))
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  toggleTimeBlockDone: (noteId, blockId) => {
+    const notes = get().notes.map((n) =>
+      n.id === noteId
+        ? { ...n, timeBlocks: n.timeBlocks.map((b) => (b.id === blockId ? { ...b, done: !b.done } : b)) }
+        : n,
+    )
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  deleteTimeBlock: (noteId, blockId) => {
+    const notes = get().notes.map((n) =>
+      n.id === noteId ? { ...n, timeBlocks: n.timeBlocks.filter((b) => b.id !== blockId) } : n,
+    )
     set({ notes })
     scheduleSave(notes)
   },
