@@ -571,10 +571,18 @@
   background-size: 24px 24px;
 }
 
+/* Con trỏ kiểu "bàn tay" (Photoshop hand tool) — nhấp vẫn mở popover chọn loại note như cũ (xem
+   handleCanvasPointerUp trong NotesBoard.tsx), nhưng KÉO trên vùng trống giờ pan được view, hữu ích
+   khi note tràn ra ngoài vùng nhìn thấy. .panning (gắn trong lúc đang thật sự kéo) đổi sang hình bàn
+   tay nắm lại, giống hệt quy ước pan quen thuộc của Photoshop/Figma. */
 .nt-board-canvas {
   position: relative;
   width: 100%;
-  cursor: crosshair;
+  cursor: grab;
+}
+
+.nt-board-canvas.panning {
+  cursor: grabbing;
 }
 
 .nt-board-empty {
@@ -698,14 +706,22 @@
 }
 
 /* Thân của note kind 'timeline' (xem lib/notes/types.ts) — thay hẳn cho NoteEditor rich text bình
-   thường, gồm danh sách các mốc giờ nối tiếp nhau (vd 9h-10h task1, 10h-15h task2), mỗi mốc tự đánh
-   dấu done riêng. View "Lịch trình" (TimelinePanel.tsx) chỉ là 1 danh sách TỔNG HỢP đọc lại các mốc
-   này từ mọi note kind 'timeline' trong ngày, không phải nơi lưu trữ gốc. */
+   thường. Mỗi việc không có giờ hiện như todo-list thường (.nt-note-todos); có giờ hiện theo dạng
+   lịch trình, sort theo giờ (.nt-note-schedule) — 1 note có thể có cả 2 nhóm cùng lúc. View
+   "Lịch trình" (TimelinePanel.tsx) chỉ là 1 danh sách TỔNG HỢP đọc lại các việc ĐÃ CÓ GIỜ từ mọi
+   note kind 'timeline' trong ngày, không phải nơi lưu trữ gốc. */
 .nt-note-blocks {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 8px;
   margin-bottom: 4px;
+}
+
+.nt-note-todos,
+.nt-note-schedule {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .nt-note-blocks-label {
@@ -715,6 +731,24 @@
   text-transform: uppercase;
   color: var(--color-nt-ink-soft);
   margin-bottom: 2px;
+}
+
+/* Việc không gắn giờ — chỉ checkbox + text, không có cột giờ/trục dọc như .nt-note-block. */
+.nt-note-todo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.nt-note-todo-text {
+  flex: 1 1 auto;
+  font-size: 12px;
+  word-break: break-word;
+}
+
+.nt-note-todo.done .nt-note-todo-text {
+  color: var(--color-nt-ink-soft);
+  text-decoration: line-through;
 }
 
 .nt-note-block {
@@ -734,7 +768,8 @@
   color: #fff;
 }
 
-.nt-note-block.done .nt-note-done-toggle {
+.nt-note-block.done .nt-note-done-toggle,
+.nt-note-todo.done .nt-note-done-toggle {
   background: #34b37a;
   border-color: #34b37a;
 }

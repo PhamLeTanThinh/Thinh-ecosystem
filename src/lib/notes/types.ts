@@ -7,12 +7,14 @@ export const NOTE_COLORS: NoteColor[] = ['yellow', 'pink', 'mint', 'sky', 'laven
 // đổi qua lại được sau khi đã tạo.
 export type NoteKind = 'note' | 'timeline'
 
-// 1 mốc giờ trong lịch trình — chỉ có ý nghĩa với note kind 'timeline'. 1 timeline-note có thể có
-// NHIỀU mốc nối tiếp nhau trong ngày (vd 9h-10h task1, 10h-15h task2).
+// 1 việc trong note kind 'timeline'. `startTime` để trống = hiện như 1 item todo-list thường (chỉ
+// checkbox + text); có giờ = hiện theo dạng lịch trình (dòng thời gian dọc, sort theo giờ). 1
+// timeline-note có thể trộn lẫn cả 2 loại, và có thể có NHIỀU mốc có giờ nối tiếp nhau trong ngày
+// (vd 9h-10h task1, 10h-15h task2).
 export interface TimeBlock {
   id: string
-  startTime: string // 'HH:mm'
-  endTime: string | null // 'HH:mm' | null — không bắt buộc, không phải việc nào cũng có mốc kết thúc
+  startTime: string | null // 'HH:mm' | null
+  endTime: string | null // 'HH:mm' | null — không bắt buộc dù đã có startTime
   text: string
   done: boolean
 }

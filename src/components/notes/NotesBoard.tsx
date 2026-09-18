@@ -48,6 +48,15 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   // Chiều cao thật của từng note (đo bằng ResizeObserver) — cần để canvas tự giãn theo nội dung
   // rich text (có thể dài nhiều dòng) khi note nằm gần đáy màn hình.
   const [heights, setHeights] = useState<Record<string, number>>({})
+  // Kéo-để-cuộn kiểu "bàn tay" (Photoshop hand tool) khi note tràn ra ngoài vùng nhìn thấy — giữ
+  // toạ độ bắt đầu (con trỏ + scroll hiện tại) để tính delta mỗi lần di chuột, và cờ `moved` để phân
+  // biệt với 1 cú CLICK thật (mở popover chọn loại) — chỉ coi là pan nếu di chuyển vượt ngưỡng nhỏ,
+  // tránh biến 1 click bình thường (tay hơi run vài px) thành pan làm mất luôn thao tác tạo note.
+  const panRef = useRef<{ startX: number; startY: number; startScrollLeft: number; startScrollTop: number; moved: boolean } | null>(
+    null,
+  )
+  const [isPanning, setIsPanning] = useState(false)
+  const PAN_THRESHOLD = 4
 
   useEffect(() => {
     const el = outerRef.current
@@ -76,14 +85,56 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     setHeights((prev) => (prev[id] === height ? prev : { ...prev, [id]: height }))
   }, [])
 
-  function handleCanvasMouseDown(e: React.MouseEvent<HTMLDivElement>) {
+  function handleCanvasPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.button !== 0) return // chỉ nút trái mới pan/click — nút phải dành riêng cho việc mở popover chọn loại (xem handleCanvasContextMenu)
     mouseDownTargetRef.current = e.target
+    if (e.target !== canvasRef.current || !outerRef.current) return // chỉ pan khi bắt đầu từ vùng trống, không phải kéo note con
+    canvasRef.current.setPointerCapture(e.pointerId)
+    panRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startScrollLeft: outerRef.current.scrollLeft,
+      startScrollTop: outerRef.current.scrollTop,
+      moved: false,
+    }
   }
 
-  function handleCanvasClick(e: React.MouseEvent<HTMLDivElement>) {
-    if (e.target !== canvasRef.current) return // chỉ mở popover chọn loại khi click đúng vùng trống, không phải note con
+  function handleCanvasPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    if (!panRef.current || !outerRef.current) return
+    const dx = e.clientX - panRef.current.startX
+    const dy = e.clientY - panRef.current.startY
+    if (!panRef.current.moved) {
+      if (Math.hypot(dx, dy) < PAN_THRESHOLD) return
+      panRef.current.moved = true
+      setIsPanning(true)
+    }
+    // Kéo chuột sang phải/xuống = lộ ra phần nội dung bên trái/trên (giống kéo tờ giấy bằng tay) —
+    // scroll ngược dấu với delta con trỏ.
+    outerRef.current.scrollLeft = panRef.current.startScrollLeft - dx
+    outerRef.current.scrollTop = panRef.current.startScrollTop - dy
+  }
+
+  function handleCanvasPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (e.button !== 0) return
+    if (e.target === canvasRef.current) canvasRef.current?.releasePointerCapture(e.pointerId)
+    const pan = panRef.current
+    panRef.current = null
+    setIsPanning(false)
+    if (pan?.moved) return // vừa pan xong thì thôi
+
+    if (e.target !== canvasRef.current) return
     if (mouseDownTargetRef.current !== canvasRef.current) return // drag bắt đầu từ nơi khác (vd bôi đen chữ trong note) — không phải 1 cú click thật
-    const rect = canvasRef.current!.getBoundingClientRect()
+    // Click trái vào vùng trống không còn mở popover chọn loại nữa (đã đổi sang bấm chuột phải, xem
+    // handleCanvasContextMenu) — chỉ dùng để đóng popover đang mở, giống thao tác "bấm ra ngoài để huỷ".
+    setChooserAt(null)
+  }
+
+  // Bấm chuột phải vào vùng trống mới mở popover chọn "Ghi chú" hay "Lịch trình" — bấm phải lên 1
+  // note thì để mặc định (không can thiệp), phòng khi sau này cần menu ngữ cảnh riêng cho note.
+  function handleCanvasContextMenu(e: React.MouseEvent<HTMLDivElement>) {
+    if (e.target !== canvasRef.current) return
+    e.preventDefault()
+    const rect = canvasRef.current.getBoundingClientRect()
     const canvasWidth = rect.width / zoom
     const x = Math.max(4, Math.min((e.clientX - rect.left) / zoom, canvasWidth - NOTE_WIDTH - 4))
     const y = Math.max(4, (e.clientY - rect.top) / zoom)
@@ -99,8 +150,8 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   }
 
   // Đóng popover đang chờ chọn nếu người dùng chuyển sang chỉnh sửa 1 note khác (vd bấm thẳng vào 1
-  // note có sẵn) hoặc dừng chỉnh sửa hoàn toàn — click đó không đi qua handleCanvasClick nên phải
-  // dọn popover ở đây thay vì chỉ dựa vào việc click mới ghi đè chooserAt.
+  // note có sẵn) hoặc dừng chỉnh sửa hoàn toàn — click đó không đi qua handleCanvasPointerUp nên
+  // phải dọn popover ở đây thay vì chỉ dựa vào việc click mới ghi đè chooserAt.
   useEffect(() => {
     setChooserAt(null)
   }, [editingId])
@@ -115,21 +166,29 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     (max, n) => Math.max(max, n.y + (heights[n.id] ?? NOTE_HEIGHT_ESTIMATE) + BOARD_BOTTOM_GAP),
     0,
   )
-  // Ở mọi mức zoom, canvas (trước khi scale) phải đủ lớn để sau khi scale vẫn phủ kín outer —
-  // để "bấm bất kỳ đâu trên màn hình" luôn đúng, không để lại vùng chết không bấm được.
-  const canvasWidth = outerSize.width > 0 ? outerSize.width / zoom : undefined
+  // Note có thể bị kéo sang phải quá xa (handleDragPointerMove trong StickyNoteCard chỉ chặn cận
+  // dưới x >= 0, không chặn cận trên) — canvas phải tự giãn rộng ra theo đúng note xa nhất để còn
+  // pan/cuộn ngang tới được, không thì note đó coi như "biến mất" (nằm ngoài vùng có thể cuộn).
+  const contentWidth = notes.reduce((max, n) => Math.max(max, n.x + (n.width ?? NOTE_WIDTH) + BOARD_BOTTOM_GAP), 0)
+  // Ở mọi mức zoom, canvas (trước khi scale) tối thiểu phải đủ lớn để sau khi scale vẫn phủ kín
+  // outer — để "bấm bất kỳ đâu trên màn hình" luôn đúng, không để lại vùng chết không bấm được —
+  // nhưng vẫn có thể giãn RỘNG/CAO hơn theo nội dung thật (contentWidth/contentHeight) để pan/cuộn
+  // tới được note nằm ngoài vùng nhìn thấy ban đầu.
+  const canvasWidth = Math.max(outerSize.width > 0 ? outerSize.width / zoom : 0, contentWidth) || undefined
   const canvasHeight = Math.max(outerSize.height > 0 ? outerSize.height / zoom : 0, contentHeight)
 
   return (
     <div ref={outerRef} className="nt-board-outer" onWheel={handleWheel}>
       <div
         ref={canvasRef}
-        className="nt-board-canvas"
+        className={`nt-board-canvas${isPanning ? ' panning' : ''}`}
         style={{ width: canvasWidth, height: canvasHeight || undefined, transform: `scale(${zoom})`, transformOrigin: '0 0' }}
-        onMouseDown={handleCanvasMouseDown}
-        onClick={handleCanvasClick}
+        onPointerDown={handleCanvasPointerDown}
+        onPointerMove={handleCanvasPointerMove}
+        onPointerUp={handleCanvasPointerUp}
+        onContextMenu={handleCanvasContextMenu}
       >
-        {notes.length === 0 && <p className="nt-board-empty">Nhấp vào bất kỳ đâu để thêm ghi chú hoặc lịch trình</p>}
+        {notes.length === 0 && <p className="nt-board-empty">Nhấp chuột phải vào bất kỳ đâu để thêm ghi chú hoặc lịch trình</p>}
         {notes.map((note) => (
           <StickyNoteCard
             key={note.id}

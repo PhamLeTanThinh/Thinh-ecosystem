@@ -43,7 +43,7 @@ interface NotesState {
   deleteNote: (id: string) => void
   deleteNotes: (ids: string[]) => void
 
-  addTimeBlock: (noteId: string, startTime: string, endTime: string | null, text: string) => void
+  addTimeBlock: (noteId: string, startTime: string | null, endTime: string | null, text: string) => void
   toggleTimeBlockDone: (noteId: string, blockId: string) => void
   deleteTimeBlock: (noteId: string, blockId: string) => void
 

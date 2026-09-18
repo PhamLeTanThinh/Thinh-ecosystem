@@ -3,6 +3,7 @@
 import type { StickyNote, TimeBlock } from '@/lib/notes/types'
 
 interface FlatBlock extends TimeBlock {
+  startTime: string
   noteId: string
 }
 
@@ -16,12 +17,14 @@ interface Props {
 }
 
 // View tổng hợp CHỈ ĐỌC — nguồn dữ liệu thật là các note kind 'timeline' trên canvas (xem
-// StickyNoteCard.tsx để thêm/sửa mốc giờ). Panel này chỉ gom hết mốc giờ của mọi note-lịch-trình
-// trong ngày thành 1 danh sách duy nhất cho dễ nhìn tổng quan, không phải nơi tạo mới.
+// StickyNoteCard.tsx để thêm/sửa mốc giờ). Panel này chỉ gom hết các việc ĐÃ GẮN GIỜ của mọi
+// note-lịch-trình trong ngày thành 1 danh sách duy nhất cho dễ nhìn tổng quan — việc không gắn giờ
+// (hiện như todo-list trong note) không thuộc phạm vi view "theo giờ" này, ở lại trong note của nó.
 export function TimelinePanel({ dayLabel, notes, onToggleDone, onDeleteBlock, onSelectNote, onClose }: Props) {
   const blocks: FlatBlock[] = notes
     .filter((n) => n.kind === 'timeline')
     .flatMap((n) => n.timeBlocks.map((b) => ({ ...b, noteId: n.id })))
+    .filter((b): b is FlatBlock => b.startTime !== null)
     .sort((a, b) => a.startTime.localeCompare(b.startTime))
 
   return (

@@ -131,14 +131,35 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const x = livePos?.x ?? note.x
   const y = livePos?.y ?? note.y
   const width = liveSize?.width ?? note.width ?? NOTE_WIDTH_DEFAULT
-  const height = liveSize?.height ?? note.height ?? undefined
+  // Chiều cao tự kéo (note.height) chỉ áp dụng lúc ĐANG edit — đó là lúc user kéo to note ra để
+  // vừa đủ chỗ cho toolbar + nội dung. Lúc không edit, toolbar biến mất nhưng khung ngoài vẫn giữ
+  // nguyên chiều cao cố định đó nếu áp dụng luôn, để lại 1 khoảng trống thừa đúng bằng chiều cao
+  // toolbar vừa ẩn — bug thật đã gặp. Bỏ qua note.height khi không edit để khung tự co theo đúng
+  // nội dung thật sự đang hiển thị (không toolbar), không còn khoảng trống thừa.
+  const height = liveSize?.height ?? (editing ? note.height ?? undefined : undefined)
+
+  // Việc không gắn giờ hiện như todo-list thường (chỉ checkbox + text); việc có giờ hiện theo dạng
+  // lịch trình (dòng thời gian dọc, sort theo giờ) — 1 note kind 'timeline' có thể trộn cả 2 loại.
+  const todoItems = note.timeBlocks.filter((b) => !b.startTime)
+  const scheduledItems = note.timeBlocks.filter((b) => b.startTime).sort((a, b) => a.startTime!.localeCompare(b.startTime!))
 
   return (
     <div
       ref={rootRef}
       data-note-id={note.id}
       className="nt-note"
-      style={{ left: x, top: y, width, height, borderLeftColor: note.color ? COLOR_HEX[note.color] : 'transparent' }}
+      style={{
+        left: x,
+        top: y,
+        width,
+        height,
+        borderLeftColor: note.color ? COLOR_HEX[note.color] : 'transparent',
+        // Note đang edit phải luôn nổi lên TRÊN mọi note khác đè lên nó — mặc định các note xếp
+        // chồng theo thứ tự trong mảng/DOM (note tạo sau nằm trên), nên note đang focus có thể vẫn
+        // bị 1 note khác (tạo sau nó) che một phần dù toolbar/chrome của nó đã hiện ra — bug thật
+        // đã gặp. Ép z-index cao hơn hẳn mọi note khác trong lúc editing để luôn thấy trọn vẹn.
+        zIndex: editing ? 1 : undefined,
+      }}
       onClick={() => !editing && onStartEdit()}
       onFocus={onStartEdit}
       onBlur={handleRootBlur}
@@ -183,34 +204,67 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
 
       {note.kind === 'timeline' ? (
         <div className="nt-note-blocks">
-          <p className="nt-note-blocks-label">🕐 Lịch trình</p>
-          {note.timeBlocks.map((b) => (
-            <div key={b.id} className={`nt-note-block${b.done ? ' done' : ''}`}>
-              <button
-                type="button"
-                className="nt-note-done-toggle"
-                aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
-                onClick={() => toggleTimeBlockDone(note.id, b.id)}
-              >
-                {b.done && '✓'}
-              </button>
-              <span className="nt-note-block-time">
-                {b.startTime}
-                {b.endTime && `–${b.endTime}`}
-              </span>
-              <span className="nt-note-block-text">{b.text}</span>
-              {editing && (
-                <button
-                  type="button"
-                  aria-label="Xoá mốc giờ"
-                  className="nt-note-block-delete"
-                  onClick={() => deleteTimeBlock(note.id, b.id)}
-                >
-                  ×
-                </button>
-              )}
+          {todoItems.length > 0 && (
+            <div className="nt-note-todos">
+              {todoItems.map((b) => (
+                <div key={b.id} className={`nt-note-todo${b.done ? ' done' : ''}`}>
+                  <button
+                    type="button"
+                    className="nt-note-done-toggle"
+                    aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                    onClick={() => toggleTimeBlockDone(note.id, b.id)}
+                  >
+                    {b.done && '✓'}
+                  </button>
+                  <span className="nt-note-todo-text">{b.text}</span>
+                  {editing && (
+                    <button
+                      type="button"
+                      aria-label="Xoá việc"
+                      className="nt-note-block-delete"
+                      onClick={() => deleteTimeBlock(note.id, b.id)}
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          {scheduledItems.length > 0 && (
+            <div className="nt-note-schedule">
+              <p className="nt-note-blocks-label">🕐 Lịch trình</p>
+              {scheduledItems.map((b) => (
+                <div key={b.id} className={`nt-note-block${b.done ? ' done' : ''}`}>
+                  <button
+                    type="button"
+                    className="nt-note-done-toggle"
+                    aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                    onClick={() => toggleTimeBlockDone(note.id, b.id)}
+                  >
+                    {b.done && '✓'}
+                  </button>
+                  <span className="nt-note-block-time">
+                    {b.startTime}
+                    {b.endTime && `–${b.endTime}`}
+                  </span>
+                  <span className="nt-note-block-text">{b.text}</span>
+                  {editing && (
+                    <button
+                      type="button"
+                      aria-label="Xoá mốc giờ"
+                      className="nt-note-block-delete"
+                      onClick={() => deleteTimeBlock(note.id, b.id)}
+                    >
+                      ×
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
           {editing && <TimeBlockAddForm noteId={note.id} onAdd={addTimeBlock} />}
         </div>
       ) : (
@@ -263,14 +317,22 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   )
 }
 
-// Form thêm 1 mốc giờ mới vào note — giữ draft bằng local state riêng, chỉ gọi addTimeBlock lúc
-// submit (không phải mỗi phím gõ), khác NoteEditor's content vốn lưu debounce theo từng phím gõ.
+// Form thêm 1 việc mới vào note — giờ KHÔNG bắt buộc (để trống = thêm như todo-list thường, có giờ
+// = thêm vào lịch trình). Giữ draft bằng local state riêng, chỉ gọi addTimeBlock lúc submit (không
+// phải mỗi phím gõ), khác NoteEditor's content vốn lưu debounce theo từng phím gõ.
+//
+// Input giờ dùng type="text" (không phải type="time") — <input type="time"> ở 1 số trình duyệt/hệ
+// điều hành mở popup chọn giờ RIÊNG NGOÀI DOM của trang, khiến input bị blur với relatedTarget=null
+// khi popup đó hiện lên; handleRootBlur coi relatedTarget=null là "rời khỏi note" nên tự đóng edit
+// mode giữa chừng, xoá sạch draft đang nhập — bug thật đã gặp (user chọn giờ xong mất hết dữ liệu),
+// không phải lý thuyết. type="text" tránh hẳn popup ngoài DOM đó, đồng thời gõ tay cũng nhanh hơn
+// nhiều so với phải click đúng từng ô giờ/phút của input native.
 function TimeBlockAddForm({
   noteId,
   onAdd,
 }: {
   noteId: string
-  onAdd: (noteId: string, startTime: string, endTime: string | null, text: string) => void
+  onAdd: (noteId: string, startTime: string | null, endTime: string | null, text: string) => void
 }) {
   const [start, setStart] = useState('')
   const [end, setEnd] = useState('')
@@ -278,8 +340,8 @@ function TimeBlockAddForm({
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!start || !text.trim()) return
-    onAdd(noteId, start, end || null, text.trim())
+    if (!text.trim()) return
+    onAdd(noteId, start.trim() || null, end.trim() || null, text.trim())
     setStart('')
     setEnd('')
     setText('')
@@ -288,9 +350,23 @@ function TimeBlockAddForm({
   return (
     <form className="nt-note-block-add" onSubmit={handleSubmit}>
       <div className="nt-note-block-add-times">
-        <input type="time" value={start} onChange={(e) => setStart(e.target.value)} aria-label="Giờ bắt đầu" />
+        <input
+          type="text"
+          inputMode="numeric"
+          value={start}
+          onChange={(e) => setStart(e.target.value)}
+          placeholder="Giờ (vd 09:00)"
+          aria-label="Giờ bắt đầu (tuỳ chọn — để trống nếu chỉ là việc cần làm)"
+        />
         <span>→</span>
-        <input type="time" value={end} onChange={(e) => setEnd(e.target.value)} aria-label="Giờ kết thúc (tuỳ chọn)" />
+        <input
+          type="text"
+          inputMode="numeric"
+          value={end}
+          onChange={(e) => setEnd(e.target.value)}
+          placeholder="Kết thúc"
+          aria-label="Giờ kết thúc (tuỳ chọn)"
+        />
       </div>
       <div className="nt-note-block-add-text">
         <input
@@ -300,10 +376,10 @@ function TimeBlockAddForm({
           placeholder="Việc cần làm..."
           aria-label="Việc cần làm"
         />
-        {/* KHÔNG dùng `disabled` dựa theo state sống (start/text rỗng) — handleSubmit đã tự guard
-           rồi, và nếu nút đang giữ focus lúc bị disable ngay sau khi bấm (form tự reset về rỗng),
-           trình duyệt ép blur focus ra khỏi nút tới ngoài note, khiến handleRootBlur tưởng nhầm
-           user đã rời khỏi note và tự đóng chế độ edit — bug thật đã gặp, không phải lý thuyết. */}
+        {/* KHÔNG dùng `disabled` dựa theo state sống (text rỗng) — handleSubmit đã tự guard rồi, và
+           nếu nút đang giữ focus lúc bị disable ngay sau khi bấm (form tự reset về rỗng), trình
+           duyệt ép blur focus ra khỏi nút tới ngoài note, khiến handleRootBlur tưởng nhầm user đã
+           rời khỏi note và tự đóng chế độ edit — bug thật đã gặp, không phải lý thuyết. */}
         <button type="submit">+</button>
       </div>
     </form>
