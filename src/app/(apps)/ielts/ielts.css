@@ -899,6 +899,12 @@
   margin-bottom: 0 !important;
 }
 
+/* data-wide — câu hook dài/nhiều thông tin hơn bình thường, bỏ giới hạn 460px để dùng hết chiều rộng
+   card thay vì xuống dòng sớm (xem SectionHero.ts). */
+.ih-hero[data-wide] > *:nth-child(2) {
+  max-width: none;
+}
+
 /* Margin note — ghi chú kiểu lề sách, đường kẻ dọc bên trái thay cho dấu ngoặc "┌...└" trong bản
    phác thảo (ký tự vẽ khung không co giãn tốt trên web nên dùng border thay thế). */
 .ih-margin-note {
@@ -1010,6 +1016,18 @@
   background: rgba(43, 58, 85, 0.08);
   font-weight: 700;
   color: var(--color-ih-ink);
+}
+
+/* Header "pill" tô màu theo nhóm (vd bảng liên từ Adverbial clause trong sách — mỗi cột 1 màu riêng:
+   xanh dương/xanh lá/hồng/cam) — bảng trong app không hỗ trợ tô nền riêng từng ô (@tiptap/extension-
+   table không có attribute màu nền), nên tận dụng ngay <mark> có sẵn (vốn để highlight main idea) bọc
+   quanh CHỮ trong <th>, rồi phóng to thành dạng pill bo tròn thay vì highlight mảnh như trong câu văn
+   thường — scope riêng bằng "th mark" nên không ảnh hưởng mark dùng để highlight main idea ở nơi khác. */
+.ih-editor-content th mark {
+  display: inline-block;
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-weight: 700;
 }
 
 .ih-editor-content td p,
@@ -1361,6 +1379,30 @@ li > .ih-prompt-vi {
 
 .ih-answer-content.ih-answer-hidden {
   display: none;
+}
+
+/* Bọc 1 đoạn đề (câu/đoạn văn có sẵn <mark> đánh dấu sẵn phần main idea) + answerBlock đi kèm ngay
+   sau — mặc định giấu màu vàng của mark (chỉ còn nền/màu chữ như text thường) để không "lộ đáp án"
+   trước khi bấm; khi answerBlock bên trong được mở (class .ih-answer-open, xem AnswerBlockView), CSS
+   :has() phát hiện điều đó và bật lại màu vàng cho MỌI mark trong cùng khối — kể cả mark nằm ở đoạn
+   văn phía TRÊN answerBlock (anh em, không phải con) — !important vì mark vốn có inline
+   style="background-color:…" ưu tiên cao hơn rule thường. */
+.ih-mi-check mark {
+  background-color: transparent !important;
+  color: inherit !important;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.ih-mi-check:has(.ih-answer-open) mark {
+  background-color: #fef08a !important;
+  color: inherit !important;
+}
+
+/* exampleBlock (vd khối "DEMO") không có cơ chế ẩn/hiện — luôn hiển thị sẵn — nên mark đi kèm cũng
+   hiện luôn từ đầu, không cần chờ bấm mở như answerBlock. */
+.ih-mi-check:has(.ih-example-block) mark {
+  background-color: #fef08a !important;
+  color: inherit !important;
 }
 
 /* ── Buttons ──────────────────────────────────────────────────── */

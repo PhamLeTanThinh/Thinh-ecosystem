@@ -13,6 +13,7 @@ import Image from '@tiptap/extension-image'
 import { Callout } from './extensions/Callout'
 import { ExampleBlock } from './extensions/ExampleBlock'
 import { AnswerBlock } from './extensions/AnswerBlock'
+import { MainIdeaCheck } from './extensions/MainIdeaCheck'
 import { BandLevel } from './extensions/BandLevel'
 import { SectionHero } from './extensions/SectionHero'
 import { MarginNote } from './extensions/MarginNote'
@@ -44,6 +45,7 @@ const docExtensions = [
   Callout,
   ExampleBlock,
   AnswerBlock,
+  MainIdeaCheck,
   BandLevel,
   SectionHero,
   MarginNote,

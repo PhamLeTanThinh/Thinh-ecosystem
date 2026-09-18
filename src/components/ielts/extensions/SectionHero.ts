@@ -16,6 +16,10 @@ export const SectionHero = Node.create({
     return {
       index: { default: '01', rendered: false },
       acronym: { default: '', rendered: false },
+      // wide — tuỳ chọn bỏ giới hạn max-width 460px của câu hook (2nd child, xem ielts.css) cho hero
+      // nào câu hook dài/nhiều thông tin hơn bình thường. Mặc định false để không đổi giao diện các
+      // hero đã có sẵn ở mọi bài học khác — chỉ bật khi tác giả chủ động cần.
+      wide: { default: false, rendered: false },
     }
   },
 
@@ -26,6 +30,7 @@ export const SectionHero = Node.create({
         getAttrs: (el) => ({
           index: (el as HTMLElement).getAttribute('data-index'),
           acronym: (el as HTMLElement).getAttribute('data-acronym'),
+          wide: (el as HTMLElement).hasAttribute('data-wide'),
         }),
       },
     ]
@@ -39,6 +44,7 @@ export const SectionHero = Node.create({
         'data-section-hero': '',
         'data-index': node.attrs.index,
         'data-acronym': node.attrs.acronym,
+        ...(node.attrs.wide ? { 'data-wide': '' } : {}),
       }),
       0,
     ]

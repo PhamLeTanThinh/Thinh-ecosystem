@@ -132,6 +132,70 @@ type CueFormatTableData = { groups: CueFormatGroup[] }
 type VerticalStepItem = { label?: string; text: string }
 type VerticalStepsData = { steps: VerticalStepItem[] }
 
+// Sơ đồ "Read connections" (Reading Lesson 1 — Linearthinking®): 1 cột box đánh số 01, 02, 03… nối
+// bằng đường cong sang 1 dấu ngoặc nhọn "{" gộp chung, kèm nhãn vai trò (main argument/explanation/
+// effect/example…) xếp theo đúng hàng — rồi TOÀN BỘ hội tụ xuống 2 box đáy: Repeated information
+// (từ box đầu tiên — câu 01 thường mang từ khoá lặp lại xuyên suốt đoạn) và Relationships (từ cụm
+// nhãn vai trò — chính các vai trò đó thể hiện quan hệ giữa các câu). Số lượng row linh hoạt (không
+// cố định 5 như ảnh gốc) vì có đoạn dùng 4 hoặc 6 câu.
+type ReadConnectionsRow = { num: string; role: string }
+type ReadConnectionsData = { rows: ReadConnectionsRow[]; repeatedLabel: string; relationshipsLabel: string }
+
+// Sơ đồ "Strategy" (Reading Lesson 4 — Main idea questions): 1 box mở đầu ("Read a full paragraph")
+// + tối đa 2 dòng ghi chú phương pháp bên dưới (không có khung riêng, chỉ là chữ) → rẽ phải-xuống
+// vào box "Main idea" (tô đặc) → xuống tiếp qua 1 khối "PARAPHRASE" viền đứt (tuỳ chọn, bỏ qua ở các
+// bản rút gọn không cần bước paraphrase riêng) → rẽ xuống-phải vào box cuối "Compare with options".
+// methodLines rỗng + showParaphrase=false thu về đúng dạng chuỗi 3 box đơn giản (dùng lại được cho
+// các sơ đồ "Read some sentences → Main idea → Compare with options" ở các mục sau trong cùng bài).
+type MainIdeaFlowData = {
+  startLabel: string
+  methodLines?: string[]
+  mainIdeaLabel: string
+  showParaphrase?: boolean
+  compareLabel: string
+}
+
+// Sơ đồ "ví dụ paraphrase" đi kèm Strategy ở trên (Reading Lesson 4): 1 hàng tiêu đề nhỏ nhắc lại
+// đúng 3 khối Main idea/PARAPHRASE/Compare with options (không cần box mở đầu/method lines vì chỗ
+// này chỉ minh hoạ bước 3-5), rồi bên dưới là hai cột nội dung như sách, với một mũi tên minh hoạ
+// ở giữa bảng — số dòng wrap của vế trái (main idea, thường dài) tự
+// quyết định chiều cao từng hàng.
+type MatchPairsFlowData = {
+  headerMainIdea: string
+  headerParaphrase: string
+  headerCompare: string
+  // neutral=true đổi CẢ 2 khối đầu/cuối (headerMainIdea/headerCompare) sang cùng 1 màu xám trung tính
+  // thay vì kiểu xanh-đặc/viền-trắng mặc định — dùng cho các cặp khái niệm KHÔNG có ý nào là trọng
+  // tâm hơn ý nào (vd GENERALISED/SPECIFIC ở Lesson 6, khác Main idea/Compare with options ở Lesson 4
+  // nơi "Main idea" CỐ Ý nổi bật hơn vì đó là đích đến của cả quy trình Simplify+Read connections).
+  neutral?: boolean
+  // right hỗ trợ nhiều dòng — ngăn cách bằng "\n" — cho các ô cần liệt kê 2+ ví dụ cụ thể (vd
+  // "Damage, affect, kill people…" và "Earthquake, volcano…" trên 2 dòng riêng của cùng 1 hàng).
+  pairs: { left: string; right: string }[]
+}
+
+// Sơ đồ "1 gốc → nhiều nhánh" (vd Reading Lesson 6: "Main idea"/"Details" → các dạng câu hỏi con,
+// hoặc "3 parts" → 3 phần của 1 nghiên cứu khoa học) — nhiều "groups" xếp cạnh nhau, mỗi group có
+// đúng 1 root (tô đặc, cao bằng 1 nhánh, canh giữa theo chiều cao cả cụm nhánh) toả ra N nhánh (viền
+// trắng, xếp dọc) bằng các đường chéo có mũi tên — numbered=true thêm huy hiệu tròn đánh số 01/02/03
+// trước mỗi nhánh (dùng cho sơ đồ tuần tự như "3 parts"), false thì không (dùng cho sơ đồ phân loại
+// như "Types of questions", thứ tự các nhánh không quan trọng).
+type BranchDiagramGroup = { root: string; branches: string[]; numbered?: boolean }
+type BranchDiagramData = { groups: BranchDiagramGroup[] }
+
+// Bài tập "Choose all correct answers" (Reading Lesson 6, Matching Information — GENERALISED →
+// Imagine → SPECIFIC): giống hàng tiêu đề của matchPairsFlow (neutral, xám 2 đầu) nhưng thân bài
+// khác hẳn — bên trái CHỈ 1 cụm generalised duy nhất, bên phải là DANH SÁCH nhiều lựa chọn specific
+// đánh số huy hiệu tròn (học sinh phải tự chọn lựa chọn nào khớp) — không phải quan hệ 1-1 từng hàng
+// như matchPairsFlow, nên cần 1 sơ đồ riêng thay vì ép vào cùng 1 kind.
+type GeneraliseChoicesData = {
+  headerGeneralised: string
+  headerImagine: string
+  headerSpecific: string
+  generalised: string
+  options: string[]
+}
+
 // Mô phỏng lại đúng 1 TỜ ĐỀ THI THẬT (Listening completion) — trắng đen, tối giản, KHÔNG dùng màu
 // sắc/box bo tròn kiểu app như các chart khác, vì mục đích ở đây khác hẳn: cho người học hình dung
 // ĐÚNG hình dạng đề thi thật sẽ trông như thế nào (form/flow-chart completion), không phải minh hoạ
@@ -1687,6 +1751,384 @@ function renderVerticalSteps(data: VerticalStepsData, title: string): string {
   const height = y - gapY + pad
   const defs = `<defs><marker id="vsArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#63A375"/></marker></defs>`
   return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${defs}${body}</svg>`
+}
+
+// Vẽ 1 dấu ngoặc nhọn "}" (tip nhô sang phải) bằng 2 đoạn cubic bezier — kỹ thuật brace path chuẩn:
+// nửa trên cong từ (x,y0) phình ra x+w rồi thu vào đỉnh nhọn (x+w+tip, ym), nửa dưới đối xứng xuống
+// (x,y1). Dùng cho sơ đồ readConnections bên dưới để gộp nhóm nhiều hàng lại thành 1 dấu ngoặc.
+function braceRightPath(x: number, y0: number, y1: number, w: number, tip: number): string {
+  const ym = (y0 + y1) / 2
+  return `M ${x} ${y0} C ${x + w} ${y0}, ${x + w} ${ym}, ${x + w + tip} ${ym} C ${x + w} ${ym}, ${x + w} ${y1}, ${x} ${y1}`
+}
+
+// Độ lệch ngang của từng box so với cột badge — ảnh gốc KHÔNG xếp box thành 1 cột thẳng mà so le
+// kiểu zig-zag (viết tay tự nhiên: box 1 gần, box 2 xa hơn, box 3 gần lại, box 4 xa nhất, box 5 gần
+// lại…) — lặp lại chu kỳ 4 nếu nhiều hơn 5 row. Badge vẫn giữ thẳng cột, chỉ box xê dịch.
+const READ_CONN_STAGGER = [56, 118, 88, 150]
+
+function renderReadConnections(data: ReadConnectionsData, title: string): string {
+  const pad = 18
+  const badgeR = 12
+  const rowGapY = 58
+  const boxW = 118
+  const boxH = 28
+  const curveLen = 58
+  const braceW = 13
+  const braceTip = 9
+  const labelGap = 14
+  const labelMaxChars = 16
+
+  const badgeX = pad + badgeR
+  const baseBoxX = badgeX + badgeR + 46
+  const maxStagger = Math.max(...READ_CONN_STAGGER)
+  const spineX = baseBoxX + maxStagger + boxW + curveLen
+  const braceX = spineX + 4
+  const labelX = braceX + braceW + braceTip + labelGap
+
+  const rows = data.rows
+  const rowY = rows.map((_, i) => pad + badgeR + 4 + i * rowGapY)
+  const boxX = rows.map((_, i) => baseBoxX + READ_CONN_STAGGER[i % READ_CONN_STAGGER.length])
+  const y0 = rowY[0]
+  const y1 = rowY[rowY.length - 1]
+
+  let body = ''
+
+  // Đường nối liền mạch box 01 → 02 → 03 → 04 → 05 → "Repeated information" — sợi chỉ xuyên suốt thể
+  // hiện đúng ý "từ khoá/chủ đề lặp lại" chạy dọc qua mọi câu, KHÁC với các đường cong riêng lẻ ở
+  // dưới (nối từng box sang vai trò/Relationships) — vẽ trước để nằm dưới các box.
+  {
+    let d = `M ${boxX[0] + boxW * 0.3} ${rowY[0] + boxH / 2}`
+    for (let i = 1; i < rows.length; i++) {
+      const x0 = boxX[i - 1] + boxW * 0.3
+      const y0i = rowY[i - 1] + boxH / 2
+      const x1 = boxX[i] + boxW * 0.3
+      const y1i = rowY[i] - boxH / 2
+      const midY = (y0i + y1i) / 2
+      d += ` C ${x0} ${midY}, ${x1} ${midY}, ${x1} ${y1i}`
+    }
+    body += `<path d="${d}" fill="none" stroke="${DR_INK_SOFT}" stroke-width="1.3"/>`
+  }
+
+  // Cột badge số + box so le (blank — người học tự điền câu tương ứng) + đường chấm nối badge→box.
+  rows.forEach((row, i) => {
+    const cy = rowY[i]
+    const bx = boxX[i]
+    body += `<line x1="${badgeX + badgeR + 3}" y1="${cy}" x2="${bx - 3}" y2="${cy}" stroke="${DR_INK_SOFT}" stroke-width="1.2" stroke-dasharray="2,3"/>`
+    body += `<rect x="${bx}" y="${cy - boxH / 2}" width="${boxW}" height="${boxH}" rx="8" fill="${DR_BOX}" stroke="${DR_BORDER}" stroke-width="1.4" stroke-dasharray="4,3"/>`
+    body += `<circle cx="${badgeX}" cy="${cy}" r="${badgeR}" fill="${DR_INK}"/>`
+    body += `<text x="${badgeX}" y="${cy + 3.5}" font-size="9.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(row.num)}</text>`
+    // Đường cong swoosh từ box → gốc ngoặc nhọn.
+    body += `<path d="M ${bx + boxW} ${cy} Q ${bx + boxW + curveLen * 0.6} ${cy} ${spineX} ${cy}" fill="none" stroke="${DR_ROSE}" stroke-width="1.3"/>`
+  })
+
+  // Ngoặc nhọn gộp chung + nhãn vai trò (main argument/explanation/…) theo đúng hàng.
+  body += `<path d="${braceRightPath(braceX, y0, y1, braceW, braceTip)}" fill="none" stroke="${DR_ROSE}" stroke-width="1.6"/>`
+  rows.forEach((row, i) => {
+    const lines = wrapLabel(row.role, labelMaxChars)
+    const startY = rowY[i] - ((lines.length - 1) * 12) / 2 + 3.5
+    body += lines
+      .map((l, k) => `<text x="${labelX}" y="${startY + k * 12}" font-size="10.5" text-anchor="start" fill="${DR_INK}" font-weight="600">${escapeXml(l)}</text>`)
+      .join('')
+  })
+
+  // 2 box đáy — CHỈ box 01 (đầu chuỗi "sợi chỉ" ở trên) nối tiếp xuống "Repeated information", đúng
+  // như ảnh gốc; "Relationships" KHÔNG có đường nối riêng (đặt đối xứng bên phải, hiểu ngầm là do
+  // cụm vai trò 01-05 ở trên tạo thành).
+  const bottomY = y1 + rowGapY + 4
+  const bottomBoxW = 150
+  const bottomBoxH = 32
+  const repeatedCx = boxX[boxX.length - 1] + boxW / 2
+  const relationshipsCx = labelX + 46
+
+  body += `<path d="M ${boxX[rows.length - 1] + boxW * 0.3} ${rowY[rows.length - 1] + boxH / 2} C ${boxX[rows.length - 1] + boxW * 0.3} ${bottomY - 26}, ${repeatedCx} ${bottomY - 16}, ${repeatedCx} ${bottomY}" fill="none" stroke="${DR_INK_SOFT}" stroke-width="1.3"/>`
+
+  const bottomBox = (cx: number, label: string) => {
+    const bx = cx - bottomBoxW / 2
+    return `<rect x="${bx}" y="${bottomY}" width="${bottomBoxW}" height="${bottomBoxH}" rx="8" fill="#fff" stroke="${DR_INK}" stroke-width="1.6"/><text x="${cx}" y="${bottomY + bottomBoxH / 2 + 4}" font-size="11" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(label)}</text>`
+  }
+  body += bottomBox(repeatedCx, data.repeatedLabel)
+  body += bottomBox(relationshipsCx, data.relationshipsLabel)
+
+  const width = Math.max(labelX + 150, relationshipsCx + bottomBoxW / 2 + pad)
+  const height = bottomY + bottomBoxH + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" style="width:100%;height:auto;display:block;">${body}</svg>`
+}
+
+function renderMainIdeaFlow(data: MainIdeaFlowData, title: string): string {
+  const pad = 40
+  const startBoxW = 266
+  const startBoxH = 46
+  const startBoxX = pad
+  const startBoxY = pad
+
+  const methodWrapChars = 31
+  const methodLineH = 23
+  const methodGapY = 22
+  let methodCursorY = startBoxY + startBoxH + 34
+  const methodBlocks = (data.methodLines ?? []).map((line) => {
+    const lines = wrapLabel(line, methodWrapChars)
+    const blockY = methodCursorY
+    methodCursorY += lines.length * methodLineH + methodGapY
+    return { lines, y: blockY }
+  })
+  const contentBottom = methodBlocks.length ? methodCursorY - methodGapY : startBoxY + startBoxH
+
+  const mainIdeaW = 120
+  const mainIdeaH = 54
+  const mainIdeaX = startBoxX + startBoxW + 40
+  const mainIdeaY = methodBlocks.length
+    ? Math.max(startBoxY + startBoxH + 70, contentBottom - mainIdeaH / 2)
+    : startBoxY + (startBoxH - mainIdeaH) / 2
+
+  const hasParaphrase = data.showParaphrase !== false && methodBlocks.length > 0
+  const paraphraseW = 104
+  const paraphraseH = 32
+  const paraphraseX = mainIdeaX + (mainIdeaW - paraphraseW) / 2
+  const paraphraseY = mainIdeaY + mainIdeaH + 40
+
+  const compareW = 230
+  const compareH = 46
+  const compareX = mainIdeaX + (hasParaphrase ? 170 : mainIdeaW + 120)
+  const compareY = hasParaphrase ? paraphraseY + paraphraseH + 28 : mainIdeaY + mainIdeaH / 2 - compareH / 2
+
+  const defs = `<defs><marker id="mifArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_INK_SOFT}"/></marker></defs>`
+  let body = ''
+
+  body += `<rect x="${startBoxX}" y="${startBoxY}" width="${startBoxW}" height="${startBoxH}" rx="10" fill="none" stroke="${DR_INK}" stroke-width="1"/>`
+  body += `<text x="${startBoxX + startBoxW / 2}" y="${startBoxY + startBoxH / 2 + 4}" font-size="17" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(data.startLabel)}</text>`
+
+  methodBlocks.forEach((block) => {
+    block.lines.forEach((l, k) => {
+      body += `<text x="${startBoxX}" y="${block.y + k * methodLineH}" font-size="17" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+    })
+    body += `<path d="M${startBoxX} ${block.y + block.lines.length * methodLineH - 8} H${startBoxX + startBoxW}" stroke="#bdc9c8" stroke-width="1"/>`
+  })
+
+  const startRightX = startBoxX + startBoxW
+  const startMidY = startBoxY + startBoxH / 2
+  const turnX = mainIdeaX + mainIdeaW / 2
+  if (methodBlocks.length) {
+    body += `<path d="M ${startRightX + 4} ${startMidY} H ${turnX - 8} Q ${turnX} ${startMidY} ${turnX} ${startMidY + 8} V ${mainIdeaY - 8}" fill="none" stroke="${DR_INK_SOFT}" stroke-width="1.2" marker-end="url(#mifArrow)"/>`
+  } else {
+    body += `<line x1="${startRightX}" y1="${startMidY}" x2="${mainIdeaX}" y2="${mainIdeaY + mainIdeaH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4" marker-end="url(#mifArrow)"/>`
+  }
+
+  body += `<rect x="${mainIdeaX}" y="${mainIdeaY}" width="${mainIdeaW}" height="${mainIdeaH}" rx="10" fill="#506f9e"/>`
+  body += `<text x="${mainIdeaX + mainIdeaW / 2}" y="${mainIdeaY + mainIdeaH / 2 + 4}" font-size="18" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.mainIdeaLabel)}</text>`
+
+  let lastX = mainIdeaX + mainIdeaW / 2
+  let lastY = mainIdeaY + mainIdeaH
+
+  if (hasParaphrase) {
+    body += `<line x1="${lastX}" y1="${lastY}" x2="${paraphraseX + paraphraseW / 2}" y2="${paraphraseY}" stroke="${DR_INK_SOFT}" stroke-width="1.2"/>`
+    body += `<rect x="${paraphraseX}" y="${paraphraseY}" width="${paraphraseW}" height="${paraphraseH}" rx="8" fill="${DR_BOX}" stroke="${DR_INK}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+    body += `<text x="${paraphraseX + paraphraseW / 2}" y="${paraphraseY + paraphraseH / 2 + 4}" font-size="12" text-anchor="middle" fill="${DR_INK}" font-weight="700">PARAPHRASE</text>`
+    lastX = paraphraseX + paraphraseW / 2
+    lastY = paraphraseY + paraphraseH
+    const compareMidY = compareY + compareH / 2
+    body += `<path d="M ${lastX} ${lastY} V ${compareMidY - 8} Q ${lastX} ${compareMidY} ${lastX + 8} ${compareMidY} H ${compareX - 8}" fill="none" stroke="${DR_INK_SOFT}" stroke-width="1.2" marker-end="url(#mifArrow)"/>`
+  } else {
+    body += `<line x1="${mainIdeaX + mainIdeaW}" y1="${mainIdeaY + mainIdeaH / 2}" x2="${compareX}" y2="${compareY + compareH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4" marker-end="url(#mifArrow)"/>`
+  }
+
+  body += `<rect x="${compareX}" y="${compareY}" width="${compareW}" height="${compareH}" rx="10" fill="none" stroke="${DR_INK}" stroke-width="1"/>`
+  body += `<text x="${compareX + compareW / 2}" y="${compareY + compareH / 2 + 4}" font-size="17" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(data.compareLabel)}</text>`
+
+  const width = compareX + compareW + pad
+  const height = Math.max(contentBottom, compareY + compareH, paraphraseY + paraphraseH) + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" font-family="Arial, sans-serif" style="width:100%;height:auto;display:block;"><rect width="${width}" height="${height}" rx="6" fill="#e2eae9"/>${defs}${body}</svg>`
+}
+
+function renderMatchPairsFlow(data: MatchPairsFlowData, title: string): string {
+  const pad = 40
+  const headerY = pad
+  const mainIdeaW = 270
+  const mainIdeaH = 38
+  const paraphraseW = 120
+  const paraphraseH = 30
+  const compareW = 240
+  const compareH = 38
+
+  const mainIdeaX = pad
+  const paraphraseX = mainIdeaX + mainIdeaW + 50
+  const compareX = paraphraseX + paraphraseW + 50
+  const headerBottom = headerY + Math.max(mainIdeaH, paraphraseH, compareH)
+
+  const leftX = pad
+  const rightX = compareX
+  const leftWrapChars = 29
+  const lineH = 25
+  const rowGapY = 26
+  const rowMinH = 38
+
+  const arrowInk = `<marker id="mpfArrowInk" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_INK_SOFT}"/></marker>`
+  let body = ''
+
+  // Hàng tiêu đề — mặc định nhắc lại 3 bước cuối của Strategy (Main idea → PARAPHRASE → Compare with
+  // options, khối đầu tô đặc nổi bật vì là đích đến); neutral=true dùng cho cặp khái niệm ngang hàng
+  // (GENERALISED/SPECIFIC) — cả 2 khối đầu/cuối cùng 1 màu xám trung tính, không khối nào nổi bật hơn.
+  const headColor = data.neutral ? '#8a94a3' : '#506f9e'
+  body += `<rect x="${mainIdeaX}" y="${headerY}" width="${mainIdeaW}" height="${mainIdeaH}" rx="10" fill="${headColor}"/>`
+  body += `<text x="${mainIdeaX + mainIdeaW / 2}" y="${headerY + mainIdeaH / 2 + 4}" font-size="17" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.headerMainIdea)}</text>`
+  const paraphraseY = headerY + (mainIdeaH - paraphraseH) / 2
+  body += `<line x1="${mainIdeaX + mainIdeaW}" y1="${headerY + mainIdeaH / 2}" x2="${paraphraseX}" y2="${paraphraseY + paraphraseH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.3"/>`
+  body += `<rect x="${paraphraseX}" y="${paraphraseY}" width="${paraphraseW}" height="${paraphraseH}" rx="8" fill="${DR_BOX}" stroke="${DR_INK}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+  body += `<text x="${paraphraseX + paraphraseW / 2}" y="${paraphraseY + paraphraseH / 2 + 4}" font-size="12" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(data.headerParaphrase)}</text>`
+  body += `<line x1="${paraphraseX + paraphraseW}" y1="${paraphraseY + paraphraseH / 2}" x2="${compareX}" y2="${headerY + compareH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4" marker-end="url(#mpfArrowInk)"/>`
+  if (data.neutral) {
+    body += `<rect x="${compareX}" y="${headerY}" width="${compareW}" height="${compareH}" rx="10" fill="${headColor}"/>`
+    body += `<text x="${compareX + compareW / 2}" y="${headerY + compareH / 2 + 4}" font-size="17" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.headerCompare)}</text>`
+  } else {
+    body += `<rect x="${compareX}" y="${headerY}" width="${compareW}" height="${compareH}" rx="10" fill="none" stroke="${DR_INK}" stroke-width="1"/>`
+    body += `<text x="${compareX + compareW / 2}" y="${headerY + compareH / 2 + 4}" font-size="17" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(data.headerCompare)}</text>`
+  }
+
+  // Hai cột có dòng kẻ mảnh; chỉ vẽ một mũi tên minh hoạ như ảnh sách. right hỗ trợ nhiều dòng ("\n"),
+  // mỗi dòng con lại tự wrap theo bề rộng cột compare — không thì text dài (vd liệt kê nhiều ví dụ)
+  // sẽ tràn ra ngoài viewBox và bị cắt cụt ở rìa ảnh.
+  const rightWrapChars = 24
+  let cursorY = headerBottom + 40
+  data.pairs.forEach((pair, index) => {
+    const leftLines = wrapLabel(pair.left, leftWrapChars)
+    const rightLines = pair.right.split('\n').flatMap((line) => wrapLabel(line, rightWrapChars))
+    const rowH = Math.max(rowMinH, Math.max(leftLines.length, rightLines.length) * lineH)
+    const rowCenterY = cursorY + rowH / 2
+
+    leftLines.forEach((l, k) => {
+      const ly = cursorY + k * lineH + lineH - 2
+      body += `<text x="${leftX}" y="${ly}" font-size="17" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+    })
+    rightLines.forEach((l, k) => {
+      const ly = cursorY + k * lineH + lineH - 2
+      body += `<text x="${rightX}" y="${ly}" font-size="17" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+    })
+    body += `<path d="M${leftX} ${cursorY + rowH + 10} H${leftX + mainIdeaW} M${rightX} ${cursorY + rowH + 10} H${rightX + compareW}" stroke="#bdc9c8" stroke-width="1"/>`
+    if (index === Math.min(2, data.pairs.length - 1)) {
+      body += `<path d="M${leftX + mainIdeaW + 35} ${rowCenterY - 12} H${rightX - 20}" stroke="${DR_INK_SOFT}" stroke-dasharray="3 5"/><path d="M${leftX + mainIdeaW + 35} ${rowCenterY + 8} H${rightX - 20}" stroke="${DR_INK_SOFT}" marker-end="url(#mpfArrowInk)"/>`
+    }
+
+    cursorY += rowH + rowGapY
+  })
+
+  const width = compareX + compareW + pad
+  const height = cursorY - rowGapY + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" font-family="Arial, sans-serif" style="width:100%;height:auto;display:block;"><rect width="${width}" height="${height}" rx="6" fill="#e2eae9"/><defs>${arrowInk}</defs>${body}</svg>`
+}
+
+function renderBranchDiagram(data: BranchDiagramData, title: string): string {
+  const pad = 40
+  const rootW = 150
+  const rootH = 46
+  const branchW = 250
+  const branchH = 40
+  const branchGapY = 18
+  const badgeR = 13
+  const groupGapX = 70
+
+  const arrowInk = `<marker id="bdArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_INK_SOFT}"/></marker>`
+  let body = ''
+  let groupX = pad
+  let maxBottom = pad
+
+  data.groups.forEach((group) => {
+    const n = group.branches.length
+    const totalBranchH = n * branchH + (n - 1) * branchGapY
+    const groupTop = pad
+    const rootY = groupTop + (totalBranchH - rootH) / 2
+    const rootX = groupX
+    const badgeGap = group.numbered ? badgeR * 2 + 12 : 0
+    const branchX = rootX + rootW + 60 + badgeGap
+
+    body += `<rect x="${rootX}" y="${rootY}" width="${rootW}" height="${rootH}" rx="10" fill="#506f9e"/>`
+    body += `<text x="${rootX + rootW / 2}" y="${rootY + rootH / 2 + 4}" font-size="17" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(group.root)}</text>`
+
+    group.branches.forEach((branch, i) => {
+      const branchY = groupTop + i * (branchH + branchGapY)
+      const branchMidY = branchY + branchH / 2
+      const targetX = group.numbered ? rootX + rootW + 60 : branchX
+      body += `<line x1="${rootX + rootW}" y1="${rootY + rootH / 2}" x2="${targetX}" y2="${branchMidY}" stroke="${DR_INK_SOFT}" stroke-width="1.2" marker-end="url(#bdArrow)"/>`
+      if (group.numbered) {
+        body += `<circle cx="${rootX + rootW + 60 + badgeR}" cy="${branchMidY}" r="${badgeR}" fill="#506f9e"/>`
+        body += `<text x="${rootX + rootW + 60 + badgeR}" y="${branchMidY + 4}" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(String(i + 1).padStart(2, '0'))}</text>`
+      }
+      body += `<rect x="${branchX}" y="${branchY}" width="${branchW}" height="${branchH}" rx="10" fill="none" stroke="${DR_INK}" stroke-width="1"/>`
+      body += `<text x="${branchX + branchW / 2}" y="${branchMidY + 4}" font-size="14" text-anchor="middle" fill="${DR_INK}" font-weight="600">${escapeXml(branch)}</text>`
+    })
+
+    maxBottom = Math.max(maxBottom, groupTop + totalBranchH)
+    groupX = branchX + branchW + groupGapX
+  })
+
+  const width = groupX - groupGapX + pad
+  const height = maxBottom + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" font-family="Arial, sans-serif" style="width:100%;height:auto;display:block;"><rect width="${width}" height="${height}" rx="6" fill="#e2eae9"/><defs>${arrowInk}</defs>${body}</svg>`
+}
+
+function renderGeneraliseChoices(data: GeneraliseChoicesData, title: string): string {
+  const pad = 40
+  const headerY = pad
+  const genW = 270
+  const genH = 38
+  const imagineW = 120
+  const imagineH = 30
+  const specW = 240
+  const specH = 38
+  const headColor = '#8a94a3'
+
+  const genX = pad
+  const imagineX = genX + genW + 50
+  const specX = imagineX + imagineW + 50
+  const headerBottom = headerY + Math.max(genH, imagineH, specH)
+
+  const badgeR = 12
+  const optLineH = 25
+  const optGapY = 18
+  const genWrapChars = 24
+
+  const arrowInk = `<marker id="gcArrow" markerWidth="8" markerHeight="8" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="${DR_INK_SOFT}"/></marker>`
+  let body = ''
+
+  // Hàng tiêu đề — cùng phong cách neutral (2 đầu cùng màu xám) với matchPairsFlow.
+  body += `<rect x="${genX}" y="${headerY}" width="${genW}" height="${genH}" rx="10" fill="${headColor}"/>`
+  body += `<text x="${genX + genW / 2}" y="${headerY + genH / 2 + 4}" font-size="17" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.headerGeneralised)}</text>`
+  const imagineY = headerY + (genH - imagineH) / 2
+  body += `<line x1="${genX + genW}" y1="${headerY + genH / 2}" x2="${imagineX}" y2="${imagineY + imagineH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.3"/>`
+  body += `<rect x="${imagineX}" y="${imagineY}" width="${imagineW}" height="${imagineH}" rx="8" fill="${DR_BOX}" stroke="${DR_INK}" stroke-width="1.3" stroke-dasharray="4,3"/>`
+  body += `<text x="${imagineX + imagineW / 2}" y="${imagineY + imagineH / 2 + 4}" font-size="12" text-anchor="middle" fill="${DR_INK}" font-weight="700">${escapeXml(data.headerImagine)}</text>`
+  body += `<line x1="${imagineX + imagineW}" y1="${imagineY + imagineH / 2}" x2="${specX}" y2="${headerY + specH / 2}" stroke="${DR_INK_SOFT}" stroke-width="1.4" marker-end="url(#gcArrow)"/>`
+  body += `<rect x="${specX}" y="${headerY}" width="${specW}" height="${specH}" rx="10" fill="${headColor}"/>`
+  body += `<text x="${specX + specW / 2}" y="${headerY + specH / 2 + 4}" font-size="17" text-anchor="middle" fill="#fff" font-weight="700">${escapeXml(data.headerSpecific)}</text>`
+
+  // Thân bài: 1 cụm generalised bên trái, danh sách lựa chọn đánh số bên phải.
+  const bodyTop = headerBottom + 40
+  const genLines = wrapLabel(data.generalised, genWrapChars)
+  genLines.forEach((l, k) => {
+    body += `<text x="${genX}" y="${bodyTop + k * optLineH + optLineH - 2}" font-size="17" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+  })
+
+  let optY = bodyTop
+  const optYs: number[] = []
+  data.options.forEach((opt, i) => {
+    const lines = wrapLabel(opt, 30)
+    const rowH = Math.max(optLineH, lines.length * optLineH)
+    optYs.push(optY + rowH / 2)
+    lines.forEach((l, k) => {
+      body += `<text x="${specX + badgeR * 2 + 14}" y="${optY + k * optLineH + optLineH - 2}" font-size="17" text-anchor="start" fill="${DR_INK}">${escapeXml(l)}</text>`
+    })
+    body += `<circle cx="${specX + badgeR}" cy="${optY + rowH / 2 - optLineH / 2 + 8}" r="${badgeR}" fill="#506f9e"/>`
+    body += `<text x="${specX + badgeR}" y="${optY + rowH / 2 - optLineH / 2 + 12}" font-size="10.5" text-anchor="middle" fill="#fff" font-weight="700">${i + 1}</text>`
+    optY += rowH + optGapY
+  })
+
+  // 1 mũi tên minh hoạ duy nhất từ cụm generalised sang vùng lựa chọn (gần lựa chọn đầu tiên) — đúng
+  // như ảnh sách: không phải quan hệ 1-1, chỉ 1 đường "Imagine" chung cho cả danh sách.
+  const genBottom = bodyTop + genLines.length * optLineH
+  const firstOptY = optYs[0] ?? bodyTop
+  body += `<path d="M${genX + genW - 60} ${genBottom + 10} H${genX + genW + 15}" stroke="${DR_INK_SOFT}" stroke-dasharray="3 5"/><path d="M${genX + genW - 60} ${firstOptY} H${specX - 20}" stroke="${DR_INK_SOFT}" marker-end="url(#gcArrow)"/>`
+
+  const width = specX + specW + pad
+  const height = Math.max(optY - optGapY, genBottom) + pad
+  return `<svg viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeXml(title)}" font-family="Arial, sans-serif" style="width:100%;height:auto;display:block;"><rect width="${width}" height="${height}" rx="6" fill="#e2eae9"/><defs>${arrowInk}</defs>${body}</svg>`
 }
 
 // Tách 1 dòng text thành các "token" xen kẽ chữ thường / chỗ trống — chỗ trống viết inline trong
@@ -3330,6 +3772,11 @@ export const DataChart = Node.create({
       else if (chartType === 'badgeColumns') svg = renderBadgeColumns(parsed as BadgeColumnsData, title)
       else if (chartType === 'cueFormatTable') svg = renderCueFormatTable(parsed as CueFormatTableData, title)
       else if (chartType === 'verticalSteps') svg = renderVerticalSteps(parsed as VerticalStepsData, title)
+      else if (chartType === 'readConnections') svg = renderReadConnections(parsed as ReadConnectionsData, title)
+      else if (chartType === 'mainIdeaFlow') svg = renderMainIdeaFlow(parsed as MainIdeaFlowData, title)
+      else if (chartType === 'matchPairsFlow') svg = renderMatchPairsFlow(parsed as MatchPairsFlowData, title)
+      else if (chartType === 'branchDiagram') svg = renderBranchDiagram(parsed as BranchDiagramData, title)
+      else if (chartType === 'generaliseChoices') svg = renderGeneraliseChoices(parsed as GeneraliseChoicesData, title)
       else if (chartType === 'examSheet') svg = renderExamSheet(parsed as ExamSheetData, title)
       else if (chartType === 'compassRose') svg = renderCompassRose(parsed as CompassRoseData, title)
       else if (chartType === 'pairFlow') svg = renderPairFlow(parsed as PairFlowData, title)
