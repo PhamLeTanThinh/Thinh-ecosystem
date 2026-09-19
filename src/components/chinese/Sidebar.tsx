@@ -1,0 +1,173 @@
+'use client'
+
+import { useState } from 'react'
+import Link from 'next/link'
+import { HSK_LEVELS, LESSON_TITLES, UNSORTED_LESSON, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
+import type { ChineseCard, ChineseDeck } from '@/lib/chinese/types'
+
+export type Selection = { type: 'overview' } | { type: 'lesson'; lesson: number } | { type: 'deck'; deckId: string }
+
+interface Props {
+  cards: ChineseCard[]
+  decks: ChineseDeck[]
+  isLearned: (cardId: string) => boolean
+  selection: Selection
+  onSelect: (s: Selection) => void
+  onDeleteDeck: (deckId: string, deckName: string) => void
+  // Trên mobile, sidebar chuyển thành drawer trượt từ trái — ẩn/hiện qua 2 prop này thay vì tự
+  // quản lý state riêng, cùng convention với components/korean/Sidebar.tsx.
+  mobileOpen: boolean
+  onMobileClose: () => void
+}
+
+type GroupKey = HskLevel | 'decks'
+
+export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDeleteDeck, mobileOpen, onMobileClose }: Props) {
+  // Mặc định chỉ mở HSK 1+2 (cấp thấp nhất, nhiều khả năng đang học nhất) + Bộ từ của tôi,
+  // các cấp cao hơn gấp lại — cùng ý tưởng với TOPIK I/II bên components/korean/Sidebar.tsx.
+  const [expanded, setExpanded] = useState<Set<GroupKey>>(() => new Set(['hsk12', 'decks']))
+
+  function toggle(key: GroupKey) {
+    setExpanded((prev) => {
+      const next = new Set(prev)
+      if (next.has(key)) next.delete(key)
+      else next.add(key)
+      return next
+    })
+  }
+
+  // Chọn xong trên mobile thì đóng luôn drawer — trên desktop onMobileClose() không có tác dụng
+  // gì (drawer không tồn tại về mặt hiển thị) nên gọi vô điều kiện cho đơn giản.
+  function handleSelect(s: Selection) {
+    onSelect(s)
+    onMobileClose()
+  }
+
+  return (
+    <>
+      {mobileOpen && <div className="cn-sidebar-backdrop" onClick={onMobileClose} />}
+      <aside className={`cn-sidebar${mobileOpen ? ' cn-sidebar-open' : ''}`}>
+        <div className="cn-sidebar-title">学中文</div>
+
+        <div className={`cn-lesson-row cn-overview-row${selection.type === 'overview' ? ' active' : ''}`}>
+          <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'overview' })}>
+            <span className="cn-lesson-badge">✨</span>
+            <span className="cn-lesson-row-body">
+              <span className="cn-lesson-row-title">Tất cả từ vựng</span>
+              <span className="cn-lesson-row-meta">{cards.length} thẻ</span>
+            </span>
+          </button>
+        </div>
+
+        {(() => {
+          const unsortedCount = cards.filter((c) => c.lesson === UNSORTED_LESSON).length
+          if (unsortedCount === 0) return null
+          const active = selection.type === 'lesson' && selection.lesson === UNSORTED_LESSON
+          return (
+            <div className={`cn-lesson-row cn-overview-row${active ? ' active' : ''}`}>
+              <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'lesson', lesson: UNSORTED_LESSON })}>
+                <span className="cn-lesson-badge">🗂️</span>
+                <span className="cn-lesson-row-body">
+                  <span className="cn-lesson-row-title">{LESSON_TITLES[UNSORTED_LESSON]}</span>
+                  <span className="cn-lesson-row-meta">{unsortedCount} thẻ</span>
+                </span>
+              </button>
+            </div>
+          )
+        })()}
+
+        {HSK_LEVELS.map(({ key, label }) => {
+          const lessonNumbers = lessonNumbersForLevel(key)
+          return (
+            <div key={key} className="cn-topik-group">
+              <button type="button" className="cn-topik-header" onClick={() => toggle(key)}>
+                <span className="cn-topik-toggle">{expanded.has(key) ? '▾' : '▸'}</span>
+                <span className="cn-topik-label">{label}</span>
+              </button>
+
+              {expanded.has(key) &&
+                (lessonNumbers.length === 0 ? (
+                  <p className="cn-topik-empty">Chưa có nội dung — sắp ra mắt</p>
+                ) : (
+                  <div className="cn-lesson-list">
+                    {lessonNumbers.map((n) => {
+                      const lessonCards = cards.filter((c) => c.lesson === n)
+                      const learnedCount = lessonCards.filter((c) => isLearned(c.id)).length
+                      const active = selection.type === 'lesson' && selection.lesson === n
+                      return (
+                        <div key={n} className={`cn-lesson-row${active ? ' active' : ''}`}>
+                          <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'lesson', lesson: n })}>
+                            <span className="cn-lesson-badge">{n}</span>
+                            <span className="cn-lesson-row-body">
+                              <span className="cn-lesson-row-title">{LESSON_TITLES[n]}</span>
+                              <span className="cn-lesson-row-meta">
+                                {learnedCount}/{lessonCards.length} thuộc
+                              </span>
+                            </span>
+                          </button>
+                          <span className="cn-lesson-row-actions">
+                            <Link href={`/chinese/study?lesson=${n}`} aria-label="Ôn tập" title="Ôn tập" className="cn-lesson-row-action">
+                              🎴
+                            </Link>
+                            <Link href={`/chinese/quiz?lesson=${n}`} aria-label="Kiểm tra" title="Kiểm tra" className="cn-lesson-row-action">
+                              📝
+                            </Link>
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                ))}
+            </div>
+          )
+        })}
+
+        <div className="cn-topik-group">
+          <button type="button" className="cn-topik-header" onClick={() => toggle('decks')}>
+            <span className="cn-topik-toggle">{expanded.has('decks') ? '▾' : '▸'}</span>
+            <span className="cn-topik-label">Bộ từ của tôi</span>
+          </button>
+
+          {expanded.has('decks') &&
+            (decks.length === 0 ? (
+              <p className="cn-topik-empty">Chưa có bộ từ nào — chọn từ ở &quot;Tất cả từ vựng&quot; để tạo.</p>
+            ) : (
+              <div className="cn-lesson-list">
+                {decks.map((deck) => {
+                  const active = selection.type === 'deck' && selection.deckId === deck.id
+                  return (
+                    <div key={deck.id} className={`cn-lesson-row${active ? ' active' : ''}`}>
+                      <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'deck', deckId: deck.id })}>
+                        <span className="cn-lesson-badge">📚</span>
+                        <span className="cn-lesson-row-body">
+                          <span className="cn-lesson-row-title">{deck.name}</span>
+                          <span className="cn-lesson-row-meta">{deck.cardIds.length} từ</span>
+                        </span>
+                      </button>
+                      <span className="cn-lesson-row-actions">
+                        <Link href={`/chinese/study?deck=${deck.id}`} aria-label="Ôn tập" title="Ôn tập" className="cn-lesson-row-action">
+                          🎴
+                        </Link>
+                        <Link href={`/chinese/quiz?deck=${deck.id}`} aria-label="Kiểm tra" title="Kiểm tra" className="cn-lesson-row-action">
+                          📝
+                        </Link>
+                        <button
+                          type="button"
+                          aria-label={`Xoá bộ từ ${deck.name}`}
+                          title="Xoá bộ từ"
+                          className="cn-lesson-row-action"
+                          onClick={() => onDeleteDeck(deck.id, deck.name)}
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    </div>
+                  )
+                })}
+              </div>
+            ))}
+        </div>
+      </aside>
+    </>
+  )
+}

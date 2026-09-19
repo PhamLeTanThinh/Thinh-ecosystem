@@ -29,9 +29,11 @@ function StudyMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function ChineseStudyPage() {
   return (
-    <Suspense fallback={<StudyMessage text="Đang tải..." />}>
-      <StudySession />
-    </Suspense>
+    <div className="mx-auto w-full max-w-xl px-4 py-6">
+      <Suspense fallback={<StudyMessage text="Đang tải..." />}>
+        <StudySession />
+      </Suspense>
+    </div>
   )
 }
 

@@ -75,9 +75,11 @@ function QuizMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function ChineseQuizPage() {
   return (
-    <Suspense fallback={<QuizMessage text="Đang tải..." />}>
-      <QuizSession />
-    </Suspense>
+    <div className="mx-auto w-full max-w-xl px-4 py-6">
+      <Suspense fallback={<QuizMessage text="Đang tải..." />}>
+        <QuizSession />
+      </Suspense>
+    </div>
   )
 }
 

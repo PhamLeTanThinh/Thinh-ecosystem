@@ -3,8 +3,11 @@
 import { useState } from 'react'
 import { useChineseStore } from '@/lib/chinese/store'
 import { useChineseUIStore } from '@/lib/chinese/uiStore'
+import { HSK_LEVELS, LESSON_TITLES, UNSORTED_LESSON, lessonNumbersForLevel } from '@/lib/chinese/lessons'
 import { BottomSheet } from '../BottomSheet'
 import { SheetHeader } from '../SheetHeader'
+import { SegmentedControl } from '../SegmentedControl'
+import type { ChineseCardKind } from '@/lib/chinese/types'
 
 export function AddCardModal() {
   const open = useChineseUIStore((s) => s.addCardOpen)
@@ -27,19 +30,33 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
 
   const editingCard = editingCardId ? cards.find((c) => c.id === editingCardId) ?? null : null
 
+  const [kind, setKind] = useState<ChineseCardKind>(editingCard?.kind ?? 'vocab')
+  const [lesson, setLesson] = useState(editingCard?.lesson ?? 1)
   const [hanzi, setHanzi] = useState(editingCard?.hanzi ?? '')
   const [pinyin, setPinyin] = useState(editingCard?.pinyin ?? '')
   const [meaning, setMeaning] = useState(editingCard?.meaning ?? '')
+  const [note, setNote] = useState(editingCard?.note ?? '')
+  const [example, setExample] = useState(editingCard?.example ?? '')
+  const [theory, setTheory] = useState(editingCard?.theory ?? '')
 
   function handleSave() {
     const trimmedHanzi = hanzi.trim()
-    const trimmedPinyin = pinyin.trim()
     const trimmedMeaning = meaning.trim()
-    if (!trimmedHanzi || !trimmedPinyin || !trimmedMeaning) return
+    if (!trimmedHanzi || !trimmedMeaning) return
+    const payload = {
+      kind,
+      lesson,
+      hanzi: trimmedHanzi,
+      pinyin: pinyin.trim(),
+      meaning: trimmedMeaning,
+      note: note.trim(),
+      example: example.trim(),
+      theory: kind === 'grammar' ? theory.trim() : '',
+    }
     if (editingCard) {
-      updateCard(editingCard.id, { hanzi: trimmedHanzi, pinyin: trimmedPinyin, meaning: trimmedMeaning })
+      updateCard(editingCard.id, payload)
     } else {
-      addCard({ hanzi: trimmedHanzi, pinyin: trimmedPinyin, meaning: trimmedMeaning })
+      addCard(payload)
     }
     onClose()
   }
@@ -51,22 +68,57 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
     onClose()
   }
 
-  const canSave = hanzi.trim() && pinyin.trim() && meaning.trim()
+  const canSave = hanzi.trim() && meaning.trim()
 
   return (
     <>
-      <SheetHeader title={editingCard ? 'Sửa từ vựng' : 'Thêm từ vựng'} onCancel={onClose} />
+      <SheetHeader title={editingCard ? 'Sửa thẻ' : 'Thêm thẻ mới'} onCancel={onClose} />
 
       <div className="p-4">
+        <p className="mb-2 text-xs font-medium text-muted">Loại</p>
+        <SegmentedControl
+          options={[
+            { value: 'vocab' as const, label: '📚 Từ vựng' },
+            { value: 'grammar' as const, label: '✏️ Ngữ pháp' },
+          ]}
+          value={kind}
+          onChange={setKind}
+        />
+      </div>
+
+      <div className="px-4 pb-2">
+        <label className="text-xs font-medium text-muted" htmlFor="card-lesson">
+          Bài học
+        </label>
+        <select
+          id="card-lesson"
+          value={lesson}
+          onChange={(e) => setLesson(Number(e.target.value))}
+          className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
+        >
+          <option value={UNSORTED_LESSON}>{LESSON_TITLES[UNSORTED_LESSON]}</option>
+          {HSK_LEVELS.map(({ key, label }) => (
+            <optgroup key={key} label={label}>
+              {lessonNumbersForLevel(key).map((n) => (
+                <option key={n} value={n}>
+                  {LESSON_TITLES[n]}
+                </option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+
+      <div className="px-4 pb-2">
         <label className="text-xs font-medium text-muted" htmlFor="card-hanzi">
-          Chữ Hán
+          {kind === 'grammar' ? 'Mẫu ngữ pháp' : 'Chữ Hán'}
         </label>
         <input
           id="card-hanzi"
           type="text"
           value={hanzi}
           onChange={(e) => setHanzi(e.target.value)}
-          placeholder="VD: 你好"
+          placeholder={kind === 'grammar' ? 'VD: 是……的' : 'VD: 你好'}
           className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-lg outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
           autoFocus
         />
@@ -74,7 +126,7 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
 
       <div className="px-4 pb-2">
         <label className="text-xs font-medium text-muted" htmlFor="card-pinyin">
-          Pinyin
+          Pinyin {kind === 'grammar' && '(không bắt buộc)'}
         </label>
         <input
           id="card-pinyin"
@@ -86,7 +138,7 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
         />
       </div>
 
-      <div className="px-4 pb-4">
+      <div className="px-4 pb-2">
         <label className="text-xs font-medium text-muted" htmlFor="card-meaning">
           Nghĩa tiếng Việt
         </label>
@@ -95,10 +147,54 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
           type="text"
           value={meaning}
           onChange={(e) => setMeaning(e.target.value)}
-          placeholder="VD: Xin chào"
+          placeholder={kind === 'grammar' ? 'VD: chính là… (nhấn mạnh)' : 'VD: Xin chào'}
           className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
         />
       </div>
+
+      <div className="px-4 pb-2">
+        <label className="text-xs font-medium text-muted" htmlFor="card-note">
+          {kind === 'grammar' ? 'Cách dùng / cấu trúc' : 'Ghi chú thêm (không bắt buộc)'}
+        </label>
+        <input
+          id="card-note"
+          type="text"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          placeholder={kind === 'grammar' ? 'VD: 是 + N + 的' : ''}
+          className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
+        />
+      </div>
+
+      <div className="px-4 pb-4">
+        <label className="text-xs font-medium text-muted" htmlFor="card-example">
+          Ví dụ (mỗi câu 1 dòng)
+        </label>
+        <textarea
+          id="card-example"
+          value={example}
+          onChange={(e) => setExample(e.target.value)}
+          placeholder="VD: 这是我买的。"
+          rows={3}
+          className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
+        />
+      </div>
+
+      {kind === 'grammar' && (
+        <div className="px-4 pb-4">
+          <label className="text-xs font-medium text-muted" htmlFor="card-theory">
+            Lý thuyết chi tiết (mỗi đoạn cách nhau 1 dòng trống)
+          </label>
+          <textarea
+            id="card-theory"
+            value={theory}
+            onChange={(e) => setTheory(e.target.value)}
+            placeholder="Giải thích ý nghĩa, cách dùng, lưu ý phân biệt với mẫu ngữ pháp khác..."
+            rows={5}
+            className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
+          />
+        </div>
+      )}
 
       <div className="flex gap-3 px-4 py-4">
         {editingCard && (

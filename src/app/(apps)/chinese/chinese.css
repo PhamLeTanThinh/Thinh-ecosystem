@@ -34,5 +34,979 @@
   color: var(--color-text);
   min-height: 100dvh;
   font-family: var(--font-dm-sans), system-ui, sans-serif;
-  overflow-x: hidden;
+  /* KHÔNG đặt overflow-y ở đây (dù để chặn tràn ngang bằng overflow-x): khai 1 trục overflow mà
+     bỏ trống trục kia khiến trình duyệt tự suy ra overflow-y:auto, biến .chinese-root thành 1
+     scroll container và phá position:sticky của mục lục "Đang đọc" (.cn-side-toc) — cùng lỗi đã
+     gặp ở .korean-root/.lq-root. Việc tràn ngang trên /chinese/study, /chinese/quiz (vốn dựa vào
+     wrapper max-w-xl riêng của từng trang) không còn cần .chinese-root chặn hộ nữa. */
+}
+
+/* ── Kính mờ (glassmorphism) — cùng hệ với .kr-glass bên app Korean ─────────────────────── */
+.cn-glass {
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 8px 30px rgba(179, 34, 43, 0.08);
+  border-radius: var(--radius-card);
+}
+
+/* ── Shell layout: sidebar bài học + topbar + content — cùng bố cục với .kr-shell ────────── */
+.cn-shell {
+  display: flex;
+  min-height: 100dvh;
+  align-items: stretch;
+}
+
+.cn-sidebar {
+  flex: none;
+  width: 268px;
+  padding: 20px 14px;
+  background: rgba(255, 255, 255, 0.4);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(150%);
+  border-right: 1px solid rgba(255, 255, 255, 0.6);
+  overflow-y: auto;
+}
+
+.cn-sidebar-title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  padding: 4px 8px 16px;
+}
+
+.cn-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cn-topbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(36, 31, 26, 0.08);
+  flex-wrap: wrap;
+}
+
+.cn-wordmark {
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: var(--color-text);
+  flex-shrink: 0;
+}
+
+/* Nút mở sidebar trên mobile — ẩn trên desktop vì sidebar đã hiện sẵn trong luồng chính. */
+.cn-mobile-menu-btn {
+  display: none;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  border: 1px solid rgba(36, 31, 26, 0.14);
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 15px;
+  color: var(--color-text);
+}
+
+.cn-sidebar-backdrop {
+  display: none;
+}
+
+.cn-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 24px clamp(16px, 4vw, 40px) 60px;
+}
+
+/* Trang bài học đặt cạnh 1 cột mục lục bám cuộn (scrollspy) — cùng bố cục với .kr-doc-body /
+   .kr-side-toc bên app Korean. KHÔNG đặt overflow-y ở .cn-content/.cn-main: cuộn thực tế phải
+   diễn ra ở window để position:sticky bên dưới bám đúng. */
+.cn-doc-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.cn-doc-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cn-side-toc {
+  position: sticky;
+  top: 24px;
+  flex: 0 0 190px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px 0;
+}
+
+.cn-side-toc-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+  padding-left: 14px;
+}
+
+.cn-side-toc-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 7px 14px;
+  border-radius: 10px;
+  border-left: 2px solid rgba(179, 34, 43, 0.14);
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.cn-side-toc-item:hover {
+  color: var(--color-text);
+  background: rgba(179, 34, 43, 0.06);
+}
+
+.cn-side-toc-item.active {
+  color: var(--color-brand);
+  background: rgba(179, 34, 43, 0.1);
+  border-left-color: var(--color-brand);
+}
+
+.cn-mobile-tabs {
+  display: none;
+}
+
+.cn-mobile-section {
+  display: block;
+}
+
+@media (max-width: 980px) {
+  .cn-side-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .cn-mobile-menu-btn {
+    display: inline-flex;
+  }
+
+  .cn-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 60;
+    width: 82vw;
+    max-width: 320px;
+    height: 100dvh;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 24px 0 48px rgba(15, 23, 42, 0.22);
+  }
+
+  .cn-sidebar.cn-sidebar-open {
+    transform: translateX(0);
+  }
+
+  .cn-sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    background: rgba(15, 23, 42, 0.45);
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  .cn-mobile-tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+    padding: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.5);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    overflow-x: auto;
+  }
+
+  .cn-mobile-tab {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-muted);
+  }
+
+  .cn-mobile-tab.active {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  .cn-mobile-section {
+    display: none;
+  }
+
+  .cn-mobile-section.active {
+    display: block;
+  }
+}
+
+/* ── Search (topbar) ──────────────────────────────────────────────────────────────────── */
+.cn-search {
+  flex: 1 1 auto;
+  max-width: 420px;
+  font-size: 13.5px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  color: var(--color-text);
+  outline: none;
+}
+
+.cn-search:focus {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, transparent);
+}
+
+/* ── Sidebar: nhóm Bài học / Bộ từ ────────────────────────────────────────────────────── */
+.cn-topik-group {
+  margin-bottom: 4px;
+}
+
+.cn-topik-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 8px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.cn-topik-header:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.cn-topik-toggle {
+  width: 12px;
+  font-size: 10px;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.cn-topik-empty {
+  padding: 6px 14px 10px 30px;
+  font-size: 11.5px;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+/* ── Sidebar: danh sách bài học / bộ từ ───────────────────────────────────────────────── */
+.cn-lesson-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.cn-lesson-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-radius: 12px;
+}
+
+.cn-lesson-row:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.cn-lesson-row.active {
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.cn-lesson-row.active .cn-lesson-row-title {
+  color: var(--color-brand-strong);
+}
+
+.cn-overview-row {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(36, 31, 26, 0.1);
+}
+
+.cn-lesson-row-btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-align: left;
+  padding: 7px 8px;
+  border-radius: 12px;
+}
+
+.cn-lesson-badge {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 10px;
+  background: var(--color-gold-soft);
+  color: var(--color-gold);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.cn-overview-row .cn-lesson-badge {
+  background: var(--color-brand-soft);
+  color: var(--color-brand);
+}
+
+.cn-lesson-row-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.cn-lesson-row-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cn-lesson-row-meta {
+  font-size: 10.5px;
+  color: var(--color-muted);
+}
+
+.cn-lesson-row-actions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 2px;
+  opacity: 0;
+  padding-right: 4px;
+  transition: opacity 0.15s ease;
+}
+
+.cn-lesson-row:hover .cn-lesson-row-actions {
+  opacity: 1;
+}
+
+.cn-lesson-row-action {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11.5px;
+  border-radius: 6px;
+}
+
+.cn-lesson-row-action:hover {
+  background: rgba(36, 31, 26, 0.08);
+}
+
+/* ── Content header ───────────────────────────────────────────────────────────────────── */
+.cn-content-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.cn-eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-brand-strong);
+}
+
+.cn-page-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+  margin: 2px 0 0;
+}
+
+.cn-content-header-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+/* ── Stat tiles ───────────────────────────────────────────────────────────────────────── */
+.cn-stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 16px;
+  max-width: 480px;
+}
+
+.cn-stat-tile {
+  padding: 10px 14px;
+  text-align: center;
+}
+
+.cn-stat-value {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.cn-stat-value-accent {
+  color: var(--color-accent);
+}
+
+.cn-stat-label {
+  font-size: 10.5px;
+  color: var(--color-muted);
+  margin-top: 1px;
+}
+
+/* ── Filter panel ─────────────────────────────────────────────────────────────────────── */
+.cn-filter-panel {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 16px 18px;
+  margin-bottom: 20px;
+}
+
+.cn-filter-panel > div {
+  flex: 1 1 200px;
+  min-width: 160px;
+}
+
+.cn-filter-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+/* ── Card list ────────────────────────────────────────────────────────────────────────── */
+.cn-card-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.cn-section-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.cn-section-meta {
+  font-size: 11.5px;
+  color: var(--color-muted);
+}
+
+.cn-lesson-group-header {
+  margin: 14px 0 6px;
+  padding-left: 2px;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--color-brand);
+}
+
+.cn-lesson-group-header:first-child {
+  margin-top: 0;
+}
+
+.cn-card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 24px;
+}
+
+/* Thanh hành động khi đang ở chế độ "Chọn từ" — dính đáy khung nội dung khi cuộn tới, không
+   phủ hết chiều ngang viewport (khác bản cũ) vì giờ còn có sidebar bên trái. */
+.cn-select-bar {
+  position: sticky;
+  bottom: 12px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 12px;
+  padding: 14px 18px;
+  border-radius: var(--radius-card);
+  background: rgba(255, 255, 255, 0.92);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 20px 48px -18px rgba(15, 23, 42, 0.3);
+}
+
+/* ── Lesson detail view ───────────────────────────────────────────────────────────────── */
+.cn-section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 22px 0 10px;
+}
+
+.cn-section-title:first-child {
+  margin-top: 0;
+}
+
+.cn-section-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.cn-vocab-tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 8px;
+}
+
+/* ── Grammar doc card ─────────────────────────────────────────────────────────────────── */
+.cn-grammar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cn-grammar-card {
+  padding: 20px 22px 22px;
+}
+
+.cn-grammar-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-brand-strong);
+}
+
+.cn-grammar-title {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin: 3px 0 4px;
+  line-height: 1.3;
+}
+
+.cn-grammar-pinyin {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  margin: 0 0 4px;
+}
+
+.cn-grammar-meaning {
+  font-size: 14px;
+  color: var(--color-muted);
+  margin-bottom: 14px;
+}
+
+.cn-grammar-structure {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  padding: 10px 14px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  background: rgba(179, 34, 43, 0.07);
+  border: 1px solid rgba(179, 34, 43, 0.16);
+}
+
+.cn-grammar-structure-label {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-brand);
+}
+
+.cn-grammar-structure-text {
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+.cn-structure-diagram {
+  padding: 14px 16px 14px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: rgba(179, 34, 43, 0.06);
+  border: 1px solid rgba(179, 34, 43, 0.14);
+}
+
+.cn-structure-tree {
+  display: flex;
+  align-items: stretch;
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.cn-structure-root {
+  position: relative;
+  flex-shrink: 0;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  padding: 7px 14px;
+  border-radius: 10px;
+  background: var(--color-brand);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cn-structure-root::after {
+  content: '';
+  position: absolute;
+  right: -16px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: rgba(179, 34, 43, 0.3);
+}
+
+.cn-structure-branches {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-left: 16px;
+  border-left: 2px solid rgba(179, 34, 43, 0.28);
+}
+
+.cn-structure-branch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 1px solid rgba(179, 34, 43, 0.18);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.cn-structure-branch::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: rgba(179, 34, 43, 0.28);
+}
+
+.cn-structure-condition {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+  white-space: nowrap;
+}
+
+.cn-structure-arrow {
+  flex-shrink: 0;
+  font-size: 12px;
+  color: rgba(179, 34, 43, 0.45);
+}
+
+.cn-structure-result {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-brand);
+  white-space: nowrap;
+}
+
+.cn-grammar-theory {
+  font-size: 13.5px;
+  line-height: 1.75;
+  color: var(--color-text);
+}
+
+.cn-grammar-theory p {
+  margin: 0 0 12px;
+}
+
+.cn-grammar-theory p:last-child {
+  margin-bottom: 0;
+}
+
+.cn-grammar-examples {
+  position: relative;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(36, 31, 26, 0.04);
+  border: 1px dashed rgba(36, 31, 26, 0.24);
+}
+
+.cn-grammar-examples-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin-bottom: 6px;
+}
+
+.cn-grammar-example {
+  padding: 8px 0;
+}
+
+.cn-grammar-example + .cn-grammar-example {
+  margin-top: 4px;
+  border-top: 1px dashed rgba(36, 31, 26, 0.16);
+}
+
+.cn-grammar-example-line {
+  font-size: 15px;
+  font-weight: 600;
+  font-style: normal;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.cn-grammar-example-pinyin {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-top: 1px;
+}
+
+.cn-grammar-example-vi {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-top: 3px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(179, 34, 43, 0.22);
+}
+
+.cn-grammar-example-note {
+  font-size: 11.5px;
+  color: var(--color-muted);
+  line-height: 1.6;
+  margin-top: 4px;
+}
+
+.cn-grammar-example-note-label {
+  font-weight: 700;
+  color: var(--color-brand);
+  margin-right: 2px;
+}
+
+/* ── Luyện nói (Speaking practice) ──────────────────────────────────────────────────────── */
+.cn-speaking-intro {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--color-muted);
+  margin: -4px 0 12px;
+  line-height: 1.6;
+}
+
+.cn-speaking-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cn-speaking-card {
+  padding: 16px 18px 18px;
+}
+
+.cn-speaking-card-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.cn-speaking-index {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  color: var(--color-brand);
+}
+
+.cn-speaking-level {
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.cn-speaking-q {
+  font-size: 15px;
+  font-weight: 700;
+  font-style: normal;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.cn-speaking-q-vi {
+  font-size: 12px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-top: 3px;
+  padding-left: 8px;
+  border-left: 2px solid rgba(179, 34, 43, 0.22);
+}
+
+.cn-speaking-answer {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(36, 31, 26, 0.04);
+  border: 1px dashed rgba(36, 31, 26, 0.24);
+}
+
+.cn-speaking-answer-label {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+  margin-top: 2px;
+}
+
+.cn-speaking-a {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.55;
+}
+
+.cn-speaking-a-vi {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin-top: 3px;
+}
+
+.cn-speaking-grammar-tag {
+  display: inline-block;
+  font-size: 10.5px;
+  font-weight: 700;
+  font-style: normal;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: rgba(179, 34, 43, 0.1);
+  color: var(--color-brand);
+  vertical-align: middle;
+}
+
+.cn-speaking-summary {
+  margin-top: 14px;
+  padding: 16px 18px;
+}
+
+.cn-speaking-summary-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.cn-speaking-summary-grammar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--color-text);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.cn-speaking-summary-vocab {
+  font-size: 12.5px;
+  color: var(--color-muted);
+  line-height: 1.7;
+}
+
+/* ── Buttons ──────────────────────────────────────────────────────────────────────────── */
+.cn-btn-outline {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 15px;
+  border-radius: 999px;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+.cn-btn-outline:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.cn-btn-solid {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 7px 15px;
+  border-radius: 999px;
+  background: var(--color-brand);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.cn-btn-solid:hover {
+  background: var(--color-brand-strong);
 }

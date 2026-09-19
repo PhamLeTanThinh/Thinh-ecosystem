@@ -12,7 +12,7 @@ export default function ChineseLayout({ children }: { children: React.ReactNode 
   return (
     <div className="chinese-root min-h-dvh">
       <ChineseHydrator />
-      <main className="mx-auto w-full max-w-xl px-4 py-6">{children}</main>
+      {children}
       <AddCardModal />
     </div>
   )

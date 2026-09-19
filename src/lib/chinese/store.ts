@@ -15,7 +15,10 @@ interface ChineseState {
 
   hydrate: () => Promise<void>
 
-  addCard: (input: Pick<ChineseCard, 'hanzi' | 'pinyin' | 'meaning'>) => ChineseCard
+  addCard: (
+    input: Pick<ChineseCard, 'kind' | 'lesson' | 'hanzi' | 'pinyin' | 'meaning' | 'note' | 'example'> &
+      Partial<Pick<ChineseCard, 'theory' | 'exampleDetail'>>
+  ) => ChineseCard
   updateCard: (id: string, patch: Partial<Omit<ChineseCard, 'id'>>) => void
   deleteCard: (id: string) => void
 
@@ -56,9 +59,15 @@ export const useChineseStore = create<ChineseState>((set, get) => ({
   addCard: (input) => {
     const card: ChineseCard = {
       id: nanoid(),
+      kind: input.kind,
+      lesson: input.lesson,
       hanzi: input.hanzi,
       pinyin: input.pinyin,
       meaning: input.meaning,
+      note: input.note,
+      example: input.example,
+      theory: input.theory ?? '',
+      exampleDetail: input.exampleDetail ?? '[]',
       sortOrder: get().cards.length,
       createdAt: new Date().toISOString(),
     }

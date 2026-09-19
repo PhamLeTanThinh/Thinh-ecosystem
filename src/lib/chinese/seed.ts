@@ -23,9 +23,15 @@ export function createDefaultCards(): ChineseCard[] {
   const now = new Date().toISOString()
   return words.map(([hanzi, pinyin, meaning], index) => ({
     id: nanoid(),
+    kind: 'vocab' as const,
+    lesson: 1,
     hanzi,
     pinyin,
     meaning,
+    note: '',
+    example: '',
+    theory: '',
+    exampleDetail: '[]',
     sortOrder: index,
     createdAt: now,
   }))
