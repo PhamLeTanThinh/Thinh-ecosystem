@@ -28,7 +28,7 @@ export function AdminDashboard({ ownerEmail, initialTab }: { ownerEmail: string 
 
   return (
     <AdminActionProvider>
-      <div className="ad-root">
+      <div className="adm-root">
         <Breadcrumb
           accent="#2b3a55"
           items={[
@@ -37,14 +37,14 @@ export function AdminDashboard({ ownerEmail, initialTab }: { ownerEmail: string 
           ]}
         />
 
-        <header className="ad-head">
-          <h1 className="ih-font-hand ad-title">Quản lý</h1>
-          {ownerEmail && <span className="ad-owner">Đăng nhập: {ownerEmail}</span>}
+        <header className="adm-head">
+          <h1 className="ih-font-hand adm-title">Quản lý</h1>
+          {ownerEmail && <span className="adm-owner">Đăng nhập: {ownerEmail}</span>}
         </header>
 
-        <div className="ad-tabs" role="tablist" aria-label="Mảng quản lý">
+        <div className="adm-tabs" role="tablist" aria-label="Mảng quản lý">
           {TABS.map((t) => (
-            <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className="ad-tab" onClick={() => selectTab(t.id)}>
+            <button key={t.id} type="button" role="tab" aria-selected={tab === t.id} className="adm-tab" onClick={() => selectTab(t.id)}>
               {t.label}
             </button>
           ))}

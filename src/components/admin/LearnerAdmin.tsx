@@ -115,56 +115,56 @@ export function LearnerAdmin() {
 
   return (
     <div>
-      <div className="ad-toolbar">
-        <h2 className="ih-font-hand ad-subtitle">Hồ sơ học{learners ? ` (${learners.length})` : ''}</h2>
-        <input className="ih-input ad-search" type="search" placeholder="Tìm theo tên hồ sơ…" value={query} onChange={(e) => setQuery(e.target.value)} />
+      <div className="adm-toolbar">
+        <h2 className="ih-font-hand adm-subtitle">Hồ sơ học{learners ? ` (${learners.length})` : ''}</h2>
+        <input className="ih-input adm-search" type="search" placeholder="Tìm theo tên hồ sơ…" value={query} onChange={(e) => setQuery(e.target.value)} />
         <button type="button" className="ih-btn-outline" onClick={load}>
           Tải lại
         </button>
       </div>
-      <p className="ad-note">
+      <p className="adm-note">
         Hồ sơ dùng chung cho cả app Tiếng Trung và Tiếng Hàn. Đổi tên thì tiến độ đi theo tên mới; xoá thì mất toàn bộ tiến độ của hồ sơ đó.
       </p>
 
-      {loadError && <p className="ih-vocab-empty ad-error">{loadError}</p>}
+      {loadError && <p className="ih-vocab-empty adm-error">{loadError}</p>}
       {!loadError && learners === null && <p className="ih-vocab-empty">Đang tải…</p>}
       {learners && shown.length === 0 && <p className="ih-vocab-empty">{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</p>}
 
-      <div className="ad-list">
+      <div className="adm-list">
         {shown.map((l) => {
           return (
-            <div key={l.id} className="ih-glass ad-learner">
-              <div className="ad-avatar" aria-hidden="true">
+            <div key={l.id} className="ih-glass adm-learner">
+              <div className="adm-avatar" aria-hidden="true">
                 {l.registered ? l.id.charAt(0).toUpperCase() : '?'}
               </div>
 
-              <div className="ad-learner-main">
-                <div className="ad-learner-name">
-                  <span className="ad-name-text">{l.id}</span>
+              <div className="adm-learner-main">
+                <div className="adm-learner-name">
+                  <span className="adm-name-text">{l.id}</span>
                   {!l.registered && (
-                    <span className="ad-badge" title="Hồ sơ cũ, tạo từ trước khi có popup đặt tên — đổi tên để đăng ký">
+                    <span className="adm-badge" title="Hồ sơ cũ, tạo từ trước khi có popup đặt tên — đổi tên để đăng ký">
                       {l.id === 'legacy' ? 'Dữ liệu cũ' : 'Chưa đặt tên'}
                     </span>
                   )}
                 </div>
 
-                <div className="ad-meta">
+                <div className="adm-meta">
                   {l.createdAt ? `Tạo ${fmt(l.createdAt)} · ` : ''}
                   {l.lastActiveAt ? `Học gần nhất ${fmt(l.lastActiveAt)}` : 'Chưa từng ôn thẻ'}
                 </div>
-                <div className="ad-meta">
+                <div className="adm-meta">
                   <strong>中文</strong> {progressText(l.chinese.reviewed, l.chinese.correct, l.chinese.wrong, l.chinese.decks)}
                 </div>
-                <div className="ad-meta">
+                <div className="adm-meta">
                   <strong>한국어</strong> {progressText(l.korean.reviewed, l.korean.correct, l.korean.wrong)}
                 </div>
               </div>
 
-              <div className="ad-actions">
+              <div className="adm-actions">
                 <button type="button" className="ih-btn-outline" onClick={() => rename(l)}>
                   Đổi tên
                 </button>
-                <button type="button" className="ih-btn-outline ad-danger" onClick={() => remove(l)}>
+                <button type="button" className="ih-btn-outline adm-danger" onClick={() => remove(l)}>
                   Xoá
                 </button>
               </div>
