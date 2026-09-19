@@ -35,19 +35,29 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
   const [stats, setStats] = useState<AccessStat[]>([])
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
+  // Mọi fetch đều kiểm tra r.ok trước khi đọc JSON, và luôn rơi về mảng rỗng khi lỗi — trước đây fetch invites/
+  // access-logs không kiểm tra, nên 1 API lỗi (vd DB tạm thời không kết nối được) trả về {message: "..."} thay vì
+  // mảng, set thẳng vào state rồi .map() ở dưới ném lỗi, làm sập toàn bộ trang (React không có error boundary ở
+  // đây) — trang trắng trơn không có gì hiện ra, không có cách nào biết vì sao.
   useEffect(() => {
     fetch('/api/ielts/invites')
-      .then((r) => r.json())
-      .then((data) => setInvites(data))
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`invites: HTTP ${r.status}`))))
+      .then((data) => setInvites(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.error('[admin] tải danh sách người được mời thất bại:', err)
+        setLoadError('Không tải được danh sách, thử tải lại trang nhé.')
+      })
       .finally(() => setLoading(false))
     fetch('/api/ielts/access-requests')
       .then((r) => (r.ok ? r.json() : []))
-      .then((data) => setRequests(data))
+      .then((data) => setRequests(Array.isArray(data) ? data : []))
       .catch(() => {})
     fetch('/api/ielts/access-logs')
-      .then((r) => r.json())
-      .then((data) => setStats(data))
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => setStats(Array.isArray(data) ? data : []))
+      .catch(() => {})
   }, [])
 
   function upsertInvite(created: Invite) {
@@ -268,7 +278,8 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
 
       <div className="ih-vocab-grid" style={{ marginTop: 16, gridTemplateColumns: '1fr' }}>
         {loading && <p className="ih-vocab-empty">Đang tải…</p>}
-        {!loading && invites.length === 0 && <p className="ih-vocab-empty">Chưa mời ai.</p>}
+        {loadError && <p className="ih-vocab-empty" style={{ color: '#dc2626' }}>{loadError}</p>}
+        {!loading && !loadError && invites.length === 0 && <p className="ih-vocab-empty">Chưa mời ai.</p>}
         {invites.map((v) => {
           const stat = statFor(v.email)
           return (
