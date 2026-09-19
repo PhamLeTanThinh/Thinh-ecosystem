@@ -9,6 +9,11 @@ interface Invite {
   revokedAt: string | null
 }
 
+interface AccessRequest {
+  email: string
+  requestedAt: string
+}
+
 interface AccessStat {
   email: string
   count: number
@@ -22,10 +27,12 @@ interface AccessStat {
 export default function IeltsAdminPage() {
   const { isOwner, email: ownerEmail } = useIeltsAccess()
   const [invites, setInvites] = useState<Invite[]>([])
+  const [requests, setRequests] = useState<AccessRequest[]>([])
   const [stats, setStats] = useState<AccessStat[]>([])
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(true)
   const [sending, setSending] = useState(false)
+  const [deciding, setDeciding] = useState<string | null>(null)
 
   useEffect(() => {
     if (!isOwner) return
@@ -33,10 +40,34 @@ export default function IeltsAdminPage() {
       .then((r) => r.json())
       .then((data) => setInvites(data))
       .finally(() => setLoading(false))
+    fetch('/api/ielts/access-requests')
+      .then((r) => (r.ok ? r.json() : []))
+      .then((data) => setRequests(data))
+      .catch(() => {})
     fetch('/api/ielts/access-logs')
       .then((r) => r.json())
       .then((data) => setStats(data))
   }, [isOwner])
+
+  function upsertInvite(created: Invite) {
+    setInvites((v) => (v.some((x) => x.email === created.email) ? v.map((x) => (x.email === created.email ? created : x)) : [...v, created]))
+  }
+
+  async function decideRequest(targetEmail: string, action: 'approve' | 'reject') {
+    setDeciding(targetEmail)
+    try {
+      const res = await fetch(`/api/ielts/access-requests/${encodeURIComponent(targetEmail)}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action }),
+      })
+      if (!res.ok) return
+      setRequests((v) => v.filter((x) => x.email !== targetEmail))
+      if (action === 'approve') upsertInvite(await res.json())
+    } finally {
+      setDeciding(null)
+    }
+  }
 
   function statFor(targetEmail: string) {
     return stats.find((s) => s.email === targetEmail)
@@ -52,8 +83,8 @@ export default function IeltsAdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: trimmed }),
       })
-      const created: Invite = await res.json()
-      setInvites((v) => (v.some((x) => x.email === created.email) ? v.map((x) => (x.email === created.email ? created : x)) : [...v, created]))
+      upsertInvite(await res.json())
+      setRequests((v) => v.filter((x) => x.email !== trimmed))
       setEmail('')
     } finally {
       setSending(false)
@@ -108,8 +139,32 @@ export default function IeltsAdminPage() {
         </p>
       </div>
 
+      {requests.length > 0 && (
+        <div className="ih-vocab-grid" style={{ marginTop: 16, gridTemplateColumns: '1fr' }}>
+          <h2 className="ih-font-hand" style={{ fontSize: 18, margin: 0 }}>
+            Đang chờ duyệt ({requests.length})
+          </h2>
+          {requests.map((r) => (
+            <div key={r.email} className="ih-glass ih-vocab-card" style={{ flexDirection: 'row', alignItems: 'center', display: 'flex', gap: 12 }}>
+              <div style={{ flex: 1 }}>
+                <div className="ih-vocab-word">{r.email}</div>
+                <div className="ih-vocab-meaning" style={{ fontSize: 12 }}>
+                  Xin quyền lúc {new Date(r.requestedAt).toLocaleString('vi-VN')}
+                </div>
+              </div>
+              <button type="button" className="ih-btn-solid" onClick={() => decideRequest(r.email, 'approve')} disabled={deciding === r.email}>
+                Duyệt
+              </button>
+              <button type="button" className="ih-btn-outline" onClick={() => decideRequest(r.email, 'reject')} disabled={deciding === r.email}>
+                Từ chối
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
       <div className="ih-vocab-grid" style={{ marginTop: 16, gridTemplateColumns: '1fr' }}>
-        {loading && <p className="ih-vocab-empty">Đang tải…</p>}
+        {loading &&<p className="ih-vocab-empty">Đang tải…</p>}
         {!loading && invites.length === 0 && <p className="ih-vocab-empty">Chưa mời ai.</p>}
         {invites.map((v) => {
           const stat = statFor(v.email)

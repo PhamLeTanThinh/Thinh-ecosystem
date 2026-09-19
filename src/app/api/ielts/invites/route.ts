@@ -1,11 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { nanoid } from 'nanoid'
 import { db } from '@/lib/db'
-import { ieltsInvites, ieltsMagicTokens } from '@/db/schema'
+import { ieltsInvites } from '@/db/schema'
 import { requireOwnerApi } from '@/lib/ielts/access'
-import { sendMagicLinkEmail } from '@/lib/ielts/mailer'
-
-const MAGIC_TOKEN_TTL_MS = 1000 * 60 * 30
+import { appOrigin, grantAccess } from '@/lib/ielts/invite'
 
 export async function GET() {
   const forbidden = await requireOwnerApi()
@@ -31,21 +28,5 @@ export async function POST(req: NextRequest) {
   if (!email || typeof email !== 'string') {
     return NextResponse.json({ error: 'email is required' }, { status: 400 })
   }
-  const normalized = email.trim().toLowerCase()
-
-  await db
-    .insert(ieltsInvites)
-    .values({ email: normalized })
-    .onConflictDoUpdate({ target: ieltsInvites.email, set: { revokedAt: null } })
-
-  const token = nanoid(32)
-  await db.insert(ieltsMagicTokens).values({
-    token,
-    email: normalized,
-    expiresAt: new Date(Date.now() + MAGIC_TOKEN_TTL_MS),
-  })
-  const origin = process.env.NEXT_PUBLIC_APP_URL || new URL(req.url).origin
-  await sendMagicLinkEmail(normalized, `${origin}/api/ielts/verify?token=${token}`)
-
-  return NextResponse.json({ email: normalized, invitedAt: new Date().toISOString(), revokedAt: null })
+  return NextResponse.json(await grantAccess(email.trim().toLowerCase(), appOrigin(req.url)))
 }

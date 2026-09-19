@@ -1,63 +1,16 @@
-import crypto from 'crypto'
 import { cookies } from 'next/headers'
 import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { ieltsInvites } from '@/db/schema'
+import { SESSION_COOKIE, verifySessionToken } from '@/lib/ielts/session'
 
 // Đăng nhập bằng magic link qua email — không mật khẩu, không OAuth. Chủ đặt IELTS_OWNER_EMAIL
 // trong .env; người xem được thêm vào bảng ieltsInvites (mời qua /ielts/admin). Ai đăng nhập đúng
 // email nằm trong 1 trong 2 diện đó mới được vào; login xong nhận 1 cookie session đã ký (HMAC),
 // không cần bảng session riêng — mỗi request tự giải mã + verify chữ ký, rồi tra lại DB xem email
 // đó còn hợp lệ không (nên thu hồi 1 người có tác dụng ngay ở request kế tiếp của họ).
-export const SESSION_COOKIE = 'ielts_session'
-const SESSION_TTL_MS = 1000 * 60 * 60 * 24 * 30 // 30 ngày
-
-function sessionSecret(): string {
-  const secret = process.env.IELTS_SESSION_SECRET
-  if (!secret) throw new Error('IELTS_SESSION_SECRET is not set')
-  return secret
-}
-
-function sign(value: string, secret: string): string {
-  return crypto.createHmac('sha256', secret).update(value).digest('base64url')
-}
-
-export function createSessionToken(email: string): string {
-  const payload = Buffer.from(JSON.stringify({ email: email.toLowerCase(), exp: Date.now() + SESSION_TTL_MS })).toString('base64url')
-  return `${payload}.${sign(payload, sessionSecret())}`
-}
-
-function verifySessionToken(token: string): { email: string } | null {
-  const [payload, sig] = token.split('.')
-  if (!payload || !sig) return null
-  try {
-    const expected = sign(payload, sessionSecret())
-    const a = Buffer.from(sig)
-    const b = Buffer.from(expected)
-    if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null
-    const data = JSON.parse(Buffer.from(payload, 'base64url').toString()) as { email: string; exp: number }
-    if (typeof data.exp !== 'number' || data.exp < Date.now()) return null
-    return { email: data.email }
-  } catch {
-    return null
-  }
-}
-
-export function setSessionCookie(res: NextResponse, email: string) {
-  res.cookies.set(SESSION_COOKIE, createSessionToken(email), {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    maxAge: SESSION_TTL_MS / 1000,
-    path: '/',
-  })
-}
-
-export function clearSessionCookie(res: NextResponse) {
-  res.cookies.delete(SESSION_COOKIE)
-}
-
+// Phần ký/verify token + đặt/xoá cookie nằm ở session.ts (session trượt 30 ngày, gia hạn ở proxy.ts).
 async function getSessionEmail(): Promise<string | null> {
   const store = await cookies()
   const token = store.get(SESSION_COOKIE)?.value

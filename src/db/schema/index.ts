@@ -24,9 +24,15 @@ export const shortUrls = pgTable('short_urls', {
 // `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với habits/money.
 export const chineseCards = pgTable('chinese_cards', {
   id: text('id').primaryKey(),
-  hanzi: text('hanzi').notNull(),     // 你好
-  pinyin: text('pinyin').notNull(),   // nǐ hǎo
+  kind: varchar('kind', { length: 10 }).default('vocab').notNull(), // 'vocab' | 'grammar'
+  lesson: integer('lesson').default(1).notNull(), // theo LESSON_NUMBERS trong lib/chinese/lessons.ts
+  hanzi: text('hanzi').notNull(),     // 你好 (vocab) hoặc mẫu ngữ pháp (grammar)
+  pinyin: text('pinyin').notNull(),   // nǐ hǎo — rỗng nếu là grammar không cần phiên âm
   meaning: text('meaning').notNull(), // Xin chào
+  note: text('note').default('').notNull(), // ghi chú thêm (vocab) hoặc cách chia/cách dùng (grammar)
+  example: text('example').default('').notNull(), // câu ví dụ, nhiều câu nối bằng '\n'
+  theory: text('theory').default('').notNull(), // lý thuyết mở rộng (chỉ dùng cho grammar)
+  exampleDetail: text('example_detail').default('[]').notNull(), // JSON chú thích từng câu ví dụ (chỉ grammar)
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
@@ -246,6 +252,15 @@ export const ieltsInvites = pgTable('ielts_invites', {
   email: text('email').primaryKey(),
   invitedAt: timestamp('invited_at').defaultNow().notNull(),
   revokedAt: timestamp('revoked_at'), // null = còn hiệu lực; có giá trị = đã bị thu hồi quyền xem
+})
+
+// Người lạ vào /ielts/login nhập email khi chưa được mời → 1 dòng ở đây chờ chủ duyệt trong
+// /ielts/admin. Duyệt = thêm vào ieltsInvites + gửi magic link, rồi xoá dòng này. Từ chối = đổi
+// status sang 'rejected' và GIỮ dòng lại để lần xin sau của cùng email không báo lại cho chủ (chống spam).
+export const ieltsAccessRequests = pgTable('ielts_access_requests', {
+  email: text('email').primaryKey(), // lowercase
+  status: varchar('status', { length: 10 }).default('pending').notNull(), // 'pending' | 'rejected'
+  requestedAt: timestamp('requested_at').defaultNow().notNull(),
 })
 
 // Token đăng nhập 1 lần gửi qua email (magic link) — sống ngắn hạn (xem MAGIC_TOKEN_TTL_MS trong

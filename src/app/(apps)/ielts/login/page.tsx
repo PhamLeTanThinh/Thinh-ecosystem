@@ -31,7 +31,7 @@ export default function IeltsLoginPage() {
       <h1 className="ih-font-hand" style={{ fontSize: 24, marginBottom: 4 }}>
         IELTS Knowledge Hub
       </h1>
-      <p>Nhập email đã được mời để nhận link đăng nhập.</p>
+      <p style={{ maxWidth: 360 }}>Nhập email của bạn để nhận link đăng nhập. Nếu chưa được mời, yêu cầu sẽ được gửi cho chủ trang duyệt.</p>
 
       {status === 'sent' ? (
         <p style={{ maxWidth: 360 }}>{message}</p>

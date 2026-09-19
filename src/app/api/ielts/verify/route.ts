@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { ieltsMagicTokens } from '@/db/schema'
-import { setSessionCookie } from '@/lib/ielts/access'
+import { setSessionCookie } from '@/lib/ielts/session'
 
 // Bấm vào link trong email sẽ tới đây — kiểm tra token còn hạn, chưa dùng, rồi đánh dấu đã dùng
 // (chống mở lại link cũ trong email để đăng nhập lần nữa) và cấp session cookie cho đúng email đó.
