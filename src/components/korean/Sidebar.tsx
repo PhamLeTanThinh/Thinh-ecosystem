@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
 import type { KoreanCard } from '@/lib/korean/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 export type Selection = { type: 'overview' } | { type: 'lesson'; lesson: number }
 
@@ -47,7 +48,10 @@ export function Sidebar({ cards, isLearned, selection, onSelect, mobileOpen, onM
     <>
       {mobileOpen && <div className="kr-sidebar-backdrop" onClick={onMobileClose} />}
       <aside className={`kr-sidebar${mobileOpen ? ' kr-sidebar-open' : ''}`} style={{ viewTransitionName: 'lv-sidebar' }}>
-        <div className="kr-sidebar-title">한국어 공부</div>
+        {/* Breadcrumb thay cho tiêu đề tĩnh "한국어 공부" cũ — vừa báo vị trí (Study › Korean Hub) vừa
+            bấm được để quay lại /study. Chỉ hiện ở đây (sidebar chỉ tồn tại khi đã vào trong); lúc còn
+            ở màn hình chọn cấp độ (chưa có sidebar), breadcrumb nằm ở topbar — xem page.tsx. */}
+        <AppBreadcrumb app="/korean" className="kr-sidebar-crumb" />
 
         <div className="kr-topik-group">
           {/* view-transition-name trùng với card cùng cấp độ ở LevelLanding — để card bay vào đây. */}

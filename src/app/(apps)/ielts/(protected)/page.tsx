@@ -46,7 +46,9 @@ export default function IeltsHomePage() {
 
       <div className="ih-main">
         <header className="ih-topbar">
-          <AppBreadcrumb app="/ielts" />
+          {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
+              cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn kỹ năng chưa có sidebar. */}
+          {showLanding && <AppBreadcrumb app="/ielts" />}
           <GlobalSearch onSelect={selectFromSearch} />
           {sharingEnabled && (
             <div className="ih-role-badge">

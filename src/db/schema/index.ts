@@ -23,8 +23,14 @@ export const shortUrls = pgTable('short_urls', {
 
 // ── CHINESE VOCAB (Học từ vựng tiếng Trung bằng flashcard) ─────────
 // `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với habits/money.
+// `learnerId` NULL = thẻ GỐC dùng chung cho mọi người (toàn bộ ~611 thẻ hiện có, chỉ chủ trang mới
+// thêm/sửa được — xem requireAdminApi ở api/chinese/cards). Có giá trị = thẻ do 1 hồ sơ khách tự thêm,
+// CHỈ hồ sơ đó thấy được; hồ sơ bị xoá (lib/learner/admin.ts deleteLearner) thì các thẻ này xoá theo,
+// nhưng không bao giờ đụng tới thẻ gốc (learnerId NULL). Không cho SỬA thẻ (kể cả thẻ tự thêm) — chỉ
+// thêm mới hoặc xoá cả hồ sơ, để tránh phải phân xử "ai được sửa field nào" cho từng trường hợp.
 export const chineseCards = pgTable('chinese_cards', {
   id: text('id').primaryKey(),
+  learnerId: text('learner_id'),
   kind: varchar('kind', { length: 10 }).default('vocab').notNull(), // 'vocab' | 'grammar'
   lesson: integer('lesson').default(1).notNull(), // theo LESSON_NUMBERS trong lib/chinese/lessons.ts
   hanzi: text('hanzi').notNull(),     // 你好 (vocab) hoặc mẫu ngữ pháp (grammar)
@@ -89,8 +95,11 @@ export const chineseDecks = pgTable('chinese_decks', {
 
 // ── KOREAN VOCAB & GRAMMAR (Học từ vựng + ngữ pháp tiếng Hàn theo bài) ──
 // `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với chinese/habits/money.
+// `learnerId`: cùng quy ước với chineseCards ở trên (NULL = thẻ gốc dùng chung, chỉ chủ trang sửa được;
+// có giá trị = thẻ do 1 hồ sơ khách tự thêm, riêng tư, xoá theo khi hồ sơ đó bị xoá).
 export const koreanCards = pgTable('korean_cards', {
   id: text('id').primaryKey(),
+  learnerId: text('learner_id'),
   kind: varchar('kind', { length: 10 }).notNull(), // 'vocab' | 'grammar'
   lesson: integer('lesson').notNull(), // 1-18, tương ứng 제 N 과
   front: text('front').notNull(), // hangul (vocab) hoặc mẫu ngữ pháp (grammar)

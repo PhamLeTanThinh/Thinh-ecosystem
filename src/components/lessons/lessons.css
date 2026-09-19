@@ -1,0 +1,397 @@
+/* Lưới "Bài 1..N", màn chọn chủ đề, khung sidebar+nội dung bài học (LessonShell) và trang "sắp ra
+   mắt" — dùng chung cho mọi hub học theo lesson (PM in FSOFT, Machine Learning, Deep Learning...).
+   Tự chứa: màu nhấn lấy từ --lg-accent (đặt inline theo màu app gọi nó, xem
+   TopicChoice/LessonShell/ComingSoon.tsx) — không tham chiếu token CSS riêng của app nào. */
+.lg-root {
+  --lg-accent: #111111;
+  --lg-accent-soft: color-mix(in srgb, var(--lg-accent) 12%, #ffffff);
+  width: 100%;
+  padding: 16px 24px 48px;
+}
+
+.lg-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.lg-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.lg-subtitle {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #6b6b76;
+}
+
+/* Icon tròn cạnh tiêu đề trang con — cùng view-transition-name với card tương ứng ở TopicChoice nên
+   trình duyệt tự "bay" card thành icon này khi điều hướng (cùng cơ chế card→sidebar của Korean/Chinese,
+   xem lib/viewTransition.ts, chỉ khác là bay sang TRANG KHÁC thay vì đổi state trong 1 trang). */
+.lg-page-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--lg-accent-soft);
+  color: var(--lg-accent);
+  font-size: 17px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.lg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.lg-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  aspect-ratio: 1;
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(20, 20, 30, 0.1);
+  box-shadow: 0 10px 26px -20px rgba(0, 0, 0, 0.35);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.lg-card:hover,
+.lg-card:focus-visible {
+  transform: translateY(-3px);
+  border-color: var(--lg-accent);
+  box-shadow: 0 16px 30px -20px rgba(0, 0, 0, 0.45);
+}
+
+.lg-card-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--lg-accent-soft);
+  color: var(--lg-accent);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.lg-card-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+/* ── Màn chọn chủ đề (TopicChoice) — giống LevelLanding của Korean/Chinese nhưng tự chứa (--lg-accent) ── */
+.lg-landing {
+  min-height: calc(100dvh - 120px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 0 24px;
+}
+
+.lg-landing-icon-in {
+  margin-bottom: 10px;
+}
+
+.lg-landing-title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+}
+
+.lg-landing-sub {
+  margin: 6px 0 28px;
+  font-size: 14px;
+  color: #6b6b76;
+}
+
+.lg-landing-grid {
+  width: min(880px, 100%);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  justify-content: center;
+  gap: 16px;
+}
+
+.lg-landing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 26px 16px 20px;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  background: #ffffff;
+  border: 1px solid rgba(20, 20, 30, 0.1);
+  border-radius: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.lg-landing-card:hover,
+.lg-landing-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--lg-accent);
+  box-shadow: 0 14px 36px -18px rgba(0, 0, 0, 0.28);
+}
+
+.lg-landing-card--muted {
+  opacity: 0.7;
+}
+
+.lg-landing-card-icon {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.lg-landing-card-label {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.lg-landing-card-meta {
+  font-size: 12px;
+  color: #6b6b76;
+}
+
+@keyframes lg-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lg-landing-card {
+    animation: lg-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+/* ── View Transition: card bay sang icon trang đích / sang dòng trong sidebar ─────────────────────
+   Mọi phần tử "nguồn" (card ở TopicChoice, card "Bài n" ở lưới) và phần tử "đích" (icon trang con,
+   dòng "Bài n" trong sidebar) cùng view-transition-name (đặt theo từng nơi gọi) nên trình duyệt tự
+   nội suy vị trí/kích thước giữa 2 bên. TopicChoice → trang con là điều hướng SANG TRANG KHÁC; lưới
+   "Bài n" → sidebar là đổi STATE TRONG CÙNG 1 TRANG (LessonShell, xem lib/viewTransition.ts) — cùng
+   1 cơ chế card→sidebar như Korean/Chinese, chỉ khác cách trigger. Trình duyệt chưa hỗ trợ thì bị bỏ
+   qua, chuyển thẳng như cũ. */
+.lg-landing-card,
+.lg-page-icon,
+.lg-card,
+.lg-sidebar-row,
+.lg-soon-icon {
+  view-transition-class: lg-vt-card;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+::view-transition-group(*.lg-vt-card) {
+  overflow: clip;
+}
+
+/* Sidebar chỉ có ở trạng thái mới (sau khi chọn 1 bài) — trượt từ trái vào thay vì chỉ mờ dần,
+   giống hiệu ứng sidebar của Korean/Chinese/IELTS. */
+::view-transition-new(lg-sidebar) {
+  animation: lg-vt-sidebar-in 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@keyframes lg-vt-sidebar-in {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ── Khung sidebar + nội dung bài học (LessonShell) — sau khi đã chọn 1 bài ──────────────────── */
+.lg-shell {
+  display: flex;
+  min-height: 100dvh;
+  align-items: stretch;
+}
+
+.lg-sidebar {
+  flex: none;
+  width: 260px;
+  padding: 20px 14px;
+  background: #ffffff;
+  border-right: 1px solid rgba(20, 20, 30, 0.08);
+  /* KHÔNG overflow-y:auto ở đây — nếu không, trục x cũng tự thành "auto" theo spec (1 trục visible +
+     1 trục không-visible thì trục visible bị ép thành auto), cắt mất phần breadcrumb nới rộng lúc
+     hover (xem breadcrumb.css). Cuộn dọc đặt ở .lg-sidebar-list bên dưới thay vì ở đây. */
+  overflow: visible;
+  /* Sidebar (có view-transition-name nên là stacking context riêng) phải nằm TRÊN .lg-main — nội dung
+     bài học có animation transform cũng là stacking context, đứng sau trong DOM nên mặc định đè lên
+     cả breadcrumb đang nới rộng bên trong sidebar. */
+  position: relative;
+  z-index: 10;
+}
+
+.lg-sidebar-crumb {
+  margin: 2px 8px 18px 5px;
+}
+
+.lg-sidebar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: calc(100dvh - 140px);
+  overflow-y: auto;
+}
+
+.lg-sidebar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  font: inherit;
+  text-align: left;
+  color: #444;
+  cursor: pointer;
+}
+
+.lg-sidebar-row:hover {
+  background: rgba(20, 20, 30, 0.05);
+}
+
+.lg-sidebar-row.active {
+  background: var(--lg-accent-soft);
+  color: var(--lg-accent);
+}
+
+.lg-sidebar-row-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(20, 20, 30, 0.06);
+  font-size: 11px;
+  flex-shrink: 0;
+}
+
+.lg-sidebar-row.active .lg-sidebar-row-num {
+  background: var(--lg-accent);
+  color: #ffffff;
+}
+
+.lg-main {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 28px clamp(20px, 4vw, 56px) 60px;
+}
+
+@media (max-width: 860px) {
+  .lg-shell {
+    flex-direction: column;
+  }
+
+  .lg-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(20, 20, 30, 0.08);
+  }
+}
+
+/* ── Nội dung bài học đang xem — remount theo lesson (React key) nên fade-in lại mỗi lần đổi bài ── */
+.lg-detail-meta {
+  margin-bottom: 16px;
+}
+
+.lg-detail-topic {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--lg-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.lg-detail-title {
+  margin: 4px 0 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.lg-detail-body {
+  max-width: 640px;
+  color: #6b6b76;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@keyframes lg-detail-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lg-detail-fade {
+    animation: lg-detail-fade-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+}
+
+/* ── Trang "sắp ra mắt" ───────────────────────────────────────── */
+.lg-soon {
+  min-height: calc(100dvh - 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 28px 20px;
+}
+
+.lg-soon-icon {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.lg-soon-title {
+  margin: 12px 0 0;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.lg-soon-sub {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: #6b6b76;
+}

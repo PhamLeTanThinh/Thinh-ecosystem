@@ -7,9 +7,10 @@ import type { LearnerSummary } from '@/lib/learner/admin'
 
 const fmt = (iso: string) => new Date(iso).toLocaleString('vi-VN')
 
-function progressText(reviewed: number, correct: number, wrong: number, decks?: number) {
+function progressText(reviewed: number, correct: number, wrong: number, decks?: number, addedCards?: number) {
   const parts = [reviewed > 0 ? `${reviewed} thẻ đã ôn · ✓${correct} ✕${wrong}` : 'chưa ôn thẻ nào']
   if (decks) parts.push(`${decks} bộ từ`)
+  if (addedCards) parts.push(`${addedCards} thẻ tự thêm`)
   return parts.join(' · ')
 }
 
@@ -153,10 +154,10 @@ export function LearnerAdmin() {
                   {l.lastActiveAt ? `Học gần nhất ${fmt(l.lastActiveAt)}` : 'Chưa từng ôn thẻ'}
                 </div>
                 <div className="adm-meta">
-                  <strong>中文</strong> {progressText(l.chinese.reviewed, l.chinese.correct, l.chinese.wrong, l.chinese.decks)}
+                  <strong>中文</strong> {progressText(l.chinese.reviewed, l.chinese.correct, l.chinese.wrong, l.chinese.decks, l.chinese.addedCards)}
                 </div>
                 <div className="adm-meta">
-                  <strong>한국어</strong> {progressText(l.korean.reviewed, l.korean.correct, l.korean.wrong)}
+                  <strong>한국어</strong> {progressText(l.korean.reviewed, l.korean.correct, l.korean.wrong, undefined, l.korean.addedCards)}
                 </div>
               </div>
 

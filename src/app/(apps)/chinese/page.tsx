@@ -13,6 +13,8 @@ import { isMobileNav, withViewTransition } from '@/lib/viewTransition'
 import { SegmentedControl } from '@/components/chinese/SegmentedControl'
 import type { ExampleDetail } from '@/lib/chinese/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speakingPractice'
+import { DIALOGUES } from '@/lib/chinese/dialogues'
+import { DialogueSection } from '@/components/chinese/DialogueSection'
 import type { ChineseCard, ChineseCardKind, ChineseDeck, ChineseProgress, PinyinPosition, QuizMode } from '@/lib/chinese/types'
 
 const PAGE_SIZE = 30
@@ -163,7 +165,9 @@ export default function ChinesePage() {
               ☰
             </button>
           )}
-          <AppBreadcrumb app="/chinese" />
+          {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
+              cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn cấp độ chưa có sidebar. */}
+          {showLanding && <AppBreadcrumb app="/chinese" />}
           <input
             type="search"
             value={searchQuery}
@@ -208,7 +212,6 @@ export default function ChinesePage() {
             searchQuery={searchQuery}
             visibleCount={visibleCount}
             setVisibleCount={setVisibleCount}
-            openAddCard={openAddCard}
             selecting={selecting}
             toggleSelecting={toggleSelecting}
             selectedIds={selectedIds}
@@ -221,7 +224,6 @@ export default function ChinesePage() {
             cards={sortedCards}
             progressByCard={progressByCard}
             isLearned={isLearned}
-            openAddCard={openAddCard}
           />
         ) : (
           <DeckContent
@@ -229,7 +231,6 @@ export default function ChinesePage() {
             cards={sortedCards}
             progressByCard={progressByCard}
             isLearned={isLearned}
-            openAddCard={openAddCard}
             onDeleteDeck={handleDeleteDeck}
           />
         )}
@@ -253,7 +254,6 @@ function OverviewContent({
   searchQuery,
   visibleCount,
   setVisibleCount,
-  openAddCard,
   selecting,
   toggleSelecting,
   selectedIds,
@@ -274,7 +274,6 @@ function OverviewContent({
   searchQuery: string
   visibleCount: number
   setVisibleCount: (fn: (c: number) => number) => void
-  openAddCard: (cardId?: string) => void
   selecting: boolean
   toggleSelecting: () => void
   selectedIds: Set<string>
@@ -397,7 +396,7 @@ function OverviewContent({
                 learned={isLearned(card.id)}
                 selecting={selecting}
                 selected={selectedIds.has(card.id)}
-                onClick={() => (selecting ? toggleSelected(card.id) : openAddCard(card.id))}
+                onClick={selecting ? () => toggleSelected(card.id) : undefined}
               />
             </div>
           )
@@ -427,14 +426,12 @@ function DeckContent({
   cards,
   progressByCard,
   isLearned,
-  openAddCard,
   onDeleteDeck,
 }: {
   deck: ChineseDeck | null
   cards: ChineseCard[]
   progressByCard: Map<string, ChineseProgress>
   isLearned: (id: string) => boolean
-  openAddCard: (cardId?: string) => void
   onDeleteDeck: (deckId: string, deckName: string) => void
 }) {
   if (!deck) {
@@ -473,7 +470,7 @@ function DeckContent({
       ) : (
         <div className="cn-vocab-tile-grid">
           {deckCards.map((card) => (
-            <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
+            <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
           ))}
         </div>
       )}
@@ -486,18 +483,18 @@ function LessonContent({
   cards,
   progressByCard,
   isLearned,
-  openAddCard,
 }: {
   lesson: number
   cards: ChineseCard[]
   progressByCard: Map<string, ChineseProgress>
   isLearned: (id: string) => boolean
-  openAddCard: (cardId?: string) => void
 }) {
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
   const grammarCards = lessonCards.filter((c) => c.kind === 'grammar')
   const speaking = SPEAKING_PRACTICE[lesson]
+  const dialogues = DIALOGUES[lesson]
+  const hasSpeaking = !!speaking || !!dialogues
 
   // Mục lục "Đang đọc" bên phải — mỗi mục là 1 điểm ngữ pháp cụ thể, cùng convention với
   // app/(apps)/korean/page.tsx.
@@ -505,14 +502,15 @@ function LessonContent({
     const items: { id: string; label: string }[] = []
     if (vocabCards.length > 0) items.push({ id: 'cn-section-vocab', label: '📚 Từ vựng' })
     grammarCards.forEach((c) => items.push({ id: `cn-grammar-${c.id}`, label: c.hanzi }))
+    if (dialogues) items.push({ id: 'cn-section-dialogue', label: '🗣️ Nói như người bản xứ' })
     if (speaking) items.push({ id: 'cn-section-speaking', label: '🗣️ Luyện nói' })
     return items
-  }, [vocabCards.length, grammarCards, speaking])
+  }, [vocabCards.length, grammarCards, dialogues, speaking])
 
   const activeTocId = useSectionScrollspy(tocItems)
 
   const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>('vocab')
-  const effectiveMobileTab = mobileTab === 'speaking' && !speaking ? 'vocab' : mobileTab
+  const effectiveMobileTab = mobileTab === 'speaking' && !hasSpeaking ? 'vocab' : mobileTab
 
   return (
     <div className="cn-content">
@@ -546,7 +544,7 @@ function LessonContent({
         >
           ✏️ Ngữ pháp
         </button>
-        {speaking && (
+        {hasSpeaking && (
           <button
             type="button"
             className={`cn-mobile-tab${effectiveMobileTab === 'speaking' ? ' active' : ''}`}
@@ -568,7 +566,7 @@ function LessonContent({
             ) : (
               <div className="cn-vocab-tile-grid">
                 {vocabCards.map((card) => (
-                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
+                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
                 ))}
               </div>
             )}
@@ -583,15 +581,16 @@ function LessonContent({
             ) : (
               <div className="cn-grammar-list">
                 {grammarCards.map((card) => (
-                  <GrammarCard key={card.id} card={card} onEdit={() => openAddCard(card.id)} />
+                  <GrammarCard key={card.id} card={card} />
                 ))}
               </div>
             )}
           </div>
 
-          {speaking && (
+          {hasSpeaking && (
             <div className={`cn-mobile-section${effectiveMobileTab === 'speaking' ? ' active' : ''}`}>
-              <SpeakingPracticeSection data={speaking} />
+              {dialogues && <DialogueSection dialogues={dialogues} />}
+              {speaking && <SpeakingPracticeSection data={speaking} />}
             </div>
           )}
         </div>
@@ -715,13 +714,13 @@ function VocabTile({
   learned: boolean
   selecting?: boolean
   selected?: boolean
-  onClick: () => void
+  onClick?: () => void
 }) {
+  const Tag = onClick ? 'button' : 'div'
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`cn-glass flex items-center justify-between gap-3 p-3 text-left transition-shadow hover:shadow-md ${
+    <Tag
+      {...(onClick ? { type: 'button', onClick } : {})}
+      className={`cn-glass flex items-center justify-between gap-3 p-3 text-left transition-shadow ${onClick ? 'hover:shadow-md' : ''} ${
         selecting && selected ? 'ring-2 ring-accent' : ''
       }`}
     >
@@ -760,7 +759,7 @@ function VocabTile({
           {progress.wrongCount > 0 && <span className="rounded-pill bg-danger-soft px-2 py-0.5 text-danger">✕ {progress.wrongCount}</span>}
         </div>
       )}
-    </button>
+    </Tag>
   )
 }
 
@@ -790,7 +789,23 @@ function parseStructureSegments(note: string): StructureSegment[] | null {
   return segments
 }
 
-function GrammarStructure({ note }: { note: string }) {
+type ConditionKind = 'base' | 'positive' | 'question' | 'negative' | 'note'
+
+// Tô màu nhãn nhánh theo vai trò để mắt phân biệt nhanh (giống việc Korean tô theo 받침): xanh lá = dạng
+// khẳng định / cấu trúc chính, cam = dạng hỏi, đỏ = phủ định, tím = nghĩa / lưu ý. Nhãn khác giữ màu xám.
+function classifyCondition(condition: string): ConditionKind {
+  const c = condition.toLowerCase()
+  if (/phủ định/.test(c)) return 'negative'
+  if (/nghi vấn|hỏi/.test(c)) return 'question'
+  if (/lưu ý|nghĩa|dùng cho|ví dụ/.test(c)) return 'note'
+  if (/khẳng định|cấu trúc/.test(c)) return 'positive'
+  return 'base'
+}
+
+// `root` là điểm ngữ pháp của thẻ (card.hanzi) — làm node gốc mà các nhánh mẫu câu toả ra. Khác Korean
+// (gốc là phần chung của điều kiện đầu), ở đây các nhánh là nhãn tiếng Việt (Khẳng định/Nghi vấn...) nên
+// không có phần chung để cắt ra.
+function GrammarStructure({ note, root }: { note: string; root: string }) {
   const segments = parseStructureSegments(note)
 
   if (!segments) {
@@ -802,17 +817,15 @@ function GrammarStructure({ note }: { note: string }) {
     )
   }
 
-  const rootLabel = segments[0].condition.split(' ')[0].trim() || segments[0].condition
-
   return (
     <div className="cn-structure-diagram">
       <span className="cn-grammar-structure-label">Cấu trúc</span>
       <div className="cn-structure-tree">
-        <div className="cn-structure-root">{rootLabel}</div>
+        <div className="cn-structure-root">{root}</div>
         <div className="cn-structure-branches">
           {segments.map((seg, i) => (
             <div key={i} className="cn-structure-branch">
-              <span className="cn-structure-condition">{seg.condition}</span>
+              <span className={`cn-structure-condition cn-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
               <span className="cn-structure-arrow">→</span>
               <span className="cn-structure-result">{seg.result}</span>
             </div>
@@ -823,7 +836,7 @@ function GrammarStructure({ note }: { note: string }) {
   )
 }
 
-function GrammarCard({ card, onEdit }: { card: ChineseCard; onEdit: () => void }) {
+function GrammarCard({ card }: { card: ChineseCard }) {
   return (
     <div id={`cn-grammar-${card.id}`} className="cn-glass cn-grammar-card">
       <div className="flex items-start justify-between gap-3">
@@ -832,13 +845,10 @@ function GrammarCard({ card, onEdit }: { card: ChineseCard; onEdit: () => void }
           <h3 className="cn-grammar-title">{card.hanzi}</h3>
           {card.pinyin && <p className="cn-grammar-pinyin">{card.pinyin}</p>}
         </div>
-        <button type="button" onClick={onEdit} aria-label="Sửa thẻ" className="cn-lesson-row-action mt-1 shrink-0">
-          ✎
-        </button>
       </div>
       <p className="cn-grammar-meaning">{card.meaning}</p>
 
-      {card.note && <GrammarStructure note={card.note} />}
+      {card.note && <GrammarStructure note={card.note} root={card.hanzi} />}
 
       {card.theory && (
         <div className="cn-grammar-theory">

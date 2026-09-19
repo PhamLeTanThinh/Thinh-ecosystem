@@ -1,4 +1,3 @@
-import { Fragment } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import Link from 'next/link'
 import { STUDY_TOOLS } from '@/lib/apps/tools'
@@ -65,10 +64,11 @@ interface BreadcrumbProps {
   className?: string
 }
 
-// Điều hướng phân cấp kiểu web dùng chung cho mọi trang trong hệ thống Study: viên thuốc chứa chuỗi
-// "Study › App › Trang hiện tại". Mục cha là link (hover nổi lên theo màu app), mục cuối là viên màu app
-// đánh dấu trang đang xem (aria-current, không bấm được). Tự chứa style (breadcrumb.css), không phụ
-// thuộc token CSS của từng app nên đặt được ở bất kỳ đâu.
+// Điều hướng phân cấp dùng chung cho mọi trang trong hệ thống Study: dãy chip vuông bo góc, mỗi chip chỉ
+// hiện icon (hoặc ký tự đại diện / chữ cái đầu nếu mục không có icon); rê chuột / focus vào chip thì chữ
+// trượt ra. Mục cuối (trang đang xem, aria-current) luôn hiện sẵn chữ và ngả theo màu app. Thiết bị cảm
+// ứng (không có hover) thì hiện chữ của mọi chip. Tự chứa style (breadcrumb.css), không phụ thuộc token
+// CSS của từng app nên đặt được ở bất kỳ đâu.
 export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
   return (
     <nav className={`sb-breadcrumb${className ? ` ${className}` : ''}`} aria-label="Breadcrumb" style={{ '--sb-accent': accent } as CSSProperties}>
@@ -77,37 +77,24 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
           const last = i === items.length - 1
           const content = (
             <>
-              {item.glyph ? (
-                <span className="sb-crumb-glyph" aria-hidden="true">
-                  {item.glyph}
-                </span>
-              ) : (
-                item.icon && <CrumbIconSvg name={item.icon} />
-              )}
-              <span>{item.label}</span>
+              <span className="sb-crumb-mark" aria-hidden="true">
+                {item.icon ? <CrumbIconSvg name={item.icon} /> : <span className="sb-crumb-glyph">{item.glyph ?? initials(item.label)}</span>}
+              </span>
+              <span className="sb-crumb-label">{item.label}</span>
             </>
           )
           return (
-            <Fragment key={`${item.label}-${i}`}>
-              <li>
-                {last || !item.href ? (
-                  <span className="sb-crumb sb-crumb--current" aria-current="page">
-                    {content}
-                  </span>
-                ) : (
-                  <Link href={item.href} className="sb-crumb">
-                    {content}
-                  </Link>
-                )}
-              </li>
-              {!last && (
-                <li className="sb-crumb-sep" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m9 6 6 6-6 6" />
-                  </svg>
-                </li>
+            <li key={`${item.label}-${i}`}>
+              {last || !item.href ? (
+                <span className={`sb-crumb${last ? ' sb-crumb--current' : ''}`} aria-current={last ? 'page' : undefined} tabIndex={0}>
+                  {content}
+                </span>
+              ) : (
+                <Link href={item.href} className="sb-crumb">
+                  {content}
+                </Link>
               )}
-            </Fragment>
+            </li>
           )
         })}
       </ol>
@@ -115,7 +102,18 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
   )
 }
 
-type AppHref = '/korean' | '/chinese' | '/ielts' | '/music'
+// Mục không có icon/ký tự riêng thì lấy chữ cái đầu của tối đa 2 từ đầu ("Machine Learning" → "ML").
+function initials(label: string): string {
+  return label
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0])
+    .join('')
+    .toUpperCase()
+}
+
+export type AppHref = '/korean' | '/chinese' | '/ielts' | '/music' | '/pm' | '/it' | '/certs'
 
 // Breadcrumb của 1 app học: "Study › <App>" rồi tới `trail` (các trang con). Tên, ký tự và màu của app lấy
 // từ STUDY_TOOLS — cùng nguồn với thẻ ở /study — nên luôn khớp với thẻ mà người dùng đã bấm vào.
@@ -124,8 +122,8 @@ export function AppBreadcrumb({ app, trail = [], className }: { app: AppHref; tr
   if (!tool) return null
   const items: Crumb[] = [
     { label: 'Study', href: '/study', icon: 'study' },
-    // Tên Korean/Chinese đã bắt đầu bằng chính ký tự đại diện (한국어 Hub / 中文 Hub) — bỏ glyph để khỏi lặp chữ.
-    { label: tool.title, href: app, glyph: tool.title.startsWith(tool.icon) ? undefined : tool.icon },
+    // shortTitle (nếu có) thay cho tên đầy đủ — viên "Study › ..." gọn hơn (vd. "Project Manager" → "PM").
+    { label: tool.shortTitle ?? tool.title, href: app, glyph: tool.icon },
     ...trail,
   ]
   return <Breadcrumb items={items} accent={tool.accent} className={className} />

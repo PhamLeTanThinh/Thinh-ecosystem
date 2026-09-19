@@ -115,7 +115,9 @@ export default function KoreanPage() {
               ☰
             </button>
           )}
-          <AppBreadcrumb app="/korean" />
+          {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
+              cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn cấp độ chưa có sidebar. */}
+          {showLanding && <AppBreadcrumb app="/korean" />}
           <input
             type="search"
             value={searchQuery}
@@ -160,10 +162,9 @@ export default function KoreanPage() {
             searchQuery={searchQuery}
             visibleCount={visibleCount}
             setVisibleCount={setVisibleCount}
-            openAddCard={openAddCard}
           />
         ) : (
-          <LessonContent lesson={selection.lesson} cards={sortedCards} progressByCard={progressByCard} isLearned={isLearned} openAddCard={openAddCard} />
+          <LessonContent lesson={selection.lesson} cards={sortedCards} progressByCard={progressByCard} isLearned={isLearned} />
         )}
       </div>
     </div>
@@ -185,7 +186,6 @@ function OverviewContent({
   searchQuery,
   visibleCount,
   setVisibleCount,
-  openAddCard,
 }: {
   sortedCards: KoreanCard[]
   progressByCard: Map<string, KoreanProgress>
@@ -201,7 +201,6 @@ function OverviewContent({
   searchQuery: string
   visibleCount: number
   setVisibleCount: (fn: (c: number) => number) => void
-  openAddCard: (cardId?: string) => void
 }) {
   const normalizedQuery = searchQuery.trim().toLowerCase()
 
@@ -304,7 +303,7 @@ function OverviewContent({
                   제{card.lesson}과 · {LESSON_TITLES[card.lesson] ?? ''}
                 </p>
               )}
-              <VocabTile card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
+              <VocabTile card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
             </div>
           )
         })}
@@ -324,13 +323,11 @@ function LessonContent({
   cards,
   progressByCard,
   isLearned,
-  openAddCard,
 }: {
   lesson: number
   cards: KoreanCard[]
   progressByCard: Map<string, KoreanProgress>
   isLearned: (id: string) => boolean
-  openAddCard: (cardId?: string) => void
 }) {
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
@@ -410,7 +407,7 @@ function LessonContent({
             ) : (
               <div className="kr-vocab-tile-grid">
                 {vocabCards.map((card) => (
-                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} onClick={() => openAddCard(card.id)} />
+                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
                 ))}
               </div>
             )}
@@ -425,7 +422,7 @@ function LessonContent({
             ) : (
               <div className="kr-grammar-list">
                 {grammarCards.map((card) => (
-                  <GrammarCard key={card.id} card={card} onEdit={() => openAddCard(card.id)} />
+                  <GrammarCard key={card.id} card={card} />
                 ))}
               </div>
             )}
@@ -544,9 +541,9 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
   )
 }
 
-function VocabTile({ card, progress, learned, onClick }: { card: KoreanCard; progress: KoreanProgress | undefined; learned: boolean; onClick: () => void }) {
+function VocabTile({ card, progress, learned }: { card: KoreanCard; progress: KoreanProgress | undefined; learned: boolean }) {
   return (
-    <button type="button" onClick={onClick} className="kr-glass flex items-center justify-between gap-3 p-3 text-left transition-shadow hover:shadow-md">
+    <div className="kr-glass flex items-center justify-between gap-3 p-3 text-left">
       <div className="flex items-center gap-3">
         <span
           className={`relative flex min-h-14 min-w-14 shrink-0 items-center justify-center rounded-2xl bg-brand-soft px-2 py-1.5 text-center font-bold leading-tight text-brand ${
@@ -573,7 +570,7 @@ function VocabTile({ card, progress, learned, onClick }: { card: KoreanCard; pro
           {progress.wrongCount > 0 && <span className="rounded-pill bg-danger-soft px-2 py-0.5 text-danger">✕ {progress.wrongCount}</span>}
         </div>
       )}
-    </button>
+    </div>
   )
 }
 
@@ -657,7 +654,7 @@ function GrammarStructure({ note }: { note: string }) {
   )
 }
 
-function GrammarCard({ card, onEdit }: { card: KoreanCard; onEdit: () => void }) {
+function GrammarCard({ card }: { card: KoreanCard }) {
   return (
     <div id={`kr-grammar-${card.id}`} className="kr-glass kr-grammar-card">
       <div className="flex items-start justify-between gap-3">
@@ -665,9 +662,6 @@ function GrammarCard({ card, onEdit }: { card: KoreanCard; onEdit: () => void })
           <p className="kr-grammar-eyebrow">✏️ NGỮ PHÁP</p>
           <h3 className="kr-grammar-title">{card.front}</h3>
         </div>
-        <button type="button" onClick={onEdit} aria-label="Sửa thẻ" className="kr-lesson-row-action mt-1 shrink-0">
-          ✎
-        </button>
       </div>
       <p className="kr-grammar-meaning">{card.meaning}</p>
 

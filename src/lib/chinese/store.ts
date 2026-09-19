@@ -33,17 +33,6 @@ function flushProgressSave() {
   if (toSave) storage.saveProgress(toSave).catch(console.error)
 }
 
-// Dùng cho các thay đổi KHÔNG nên trì hoãn (vd xoá thẻ kéo theo xoá progress) — huỷ hẳn lần lưu debounce
-// đang chờ (nếu có) rồi lưu ngay mảng progress MỚI NHẤT truyền vào. Bắt buộc phải huỷ timer cũ: nếu
-// không, timer đó vẫn đang giữ mảng progress CŨ (từ trước khi xoá) và sẽ ghi đè lên đây sau ~1.2s,
-// làm "sống lại" đúng dòng progress vừa xoá.
-function commitProgressNow(progress: ChineseProgress[]) {
-  if (progressSaveTimer) clearTimeout(progressSaveTimer)
-  progressSaveTimer = null
-  pendingProgress = null
-  storage.saveProgress(progress).catch(console.error)
-}
-
 if (typeof window !== 'undefined') {
   window.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') flushProgressSave()
@@ -63,9 +52,7 @@ interface ChineseState {
   addCard: (
     input: Pick<ChineseCard, 'kind' | 'lesson' | 'hanzi' | 'pinyin' | 'meaning' | 'note' | 'example'> &
       Partial<Pick<ChineseCard, 'theory' | 'exampleDetail'>>
-  ) => ChineseCard
-  updateCard: (id: string, patch: Partial<Omit<ChineseCard, 'id'>>) => void
-  deleteCard: (id: string) => void
+  ) => Promise<ChineseCard>
 
   markResult: (cardId: string, result: ReviewResult) => void
 
@@ -101,9 +88,10 @@ export const useChineseStore = create<ChineseState>((set, get) => ({
     set({ hydrated: true, cards, progress, settings, decks })
   },
 
-  addCard: (input) => {
-    const card: ChineseCard = {
-      id: nanoid(),
+  // Thêm thẻ mới — gắn với hồ sơ học đang đăng nhập (server tự gán, xem api/chinese/cards/route.ts). Không
+  // còn tự sinh id/sửa/xoá ở client: thẻ đã thêm là cố định, muốn "xoá" thì xoá cả hồ sơ (trang /admin).
+  addCard: async (input) => {
+    const card = await storage.addCard({
       kind: input.kind,
       lesson: input.lesson,
       hanzi: input.hanzi,
@@ -113,30 +101,9 @@ export const useChineseStore = create<ChineseState>((set, get) => ({
       example: input.example,
       theory: input.theory ?? '',
       exampleDetail: input.exampleDetail ?? '[]',
-      sortOrder: get().cards.length,
-      createdAt: new Date().toISOString(),
-    }
-    const cards = [...get().cards, card]
-    set({ cards })
-    storage.saveCards(cards).catch(console.error)
+    })
+    set({ cards: [...get().cards, card] })
     return card
-  },
-
-  updateCard: (id, patch) => {
-    const cards = get().cards.map((c) => (c.id === id ? { ...c, ...patch } : c))
-    set({ cards })
-    storage.saveCards(cards).catch(console.error)
-  },
-
-  // Cascades: xoá luôn tiến độ ôn tập của thẻ này, và gỡ khỏi mọi bộ học đang chứa nó.
-  deleteCard: (id) => {
-    const cards = get().cards.filter((c) => c.id !== id)
-    const progress = get().progress.filter((p) => p.id !== id)
-    const decks = get().decks.map((d) => ({ ...d, cardIds: d.cardIds.filter((cardId) => cardId !== id) }))
-    set({ cards, progress, decks })
-    storage.saveCards(cards).catch(console.error)
-    commitProgressNow(progress)
-    storage.saveDecks(decks).catch(console.error)
   },
 
   markResult: (cardId, result) => {

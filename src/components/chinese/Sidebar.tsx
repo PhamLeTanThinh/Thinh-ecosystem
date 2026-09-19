@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { HSK_LEVELS, LESSON_TITLES, UNSORTED_LESSON, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
 import type { ChineseCard, ChineseDeck } from '@/lib/chinese/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 export type Selection = { type: 'overview' } | { type: 'lesson'; lesson: number } | { type: 'deck'; deckId: string }
 
@@ -49,7 +50,10 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDelete
     <>
       {mobileOpen && <div className="cn-sidebar-backdrop" onClick={onMobileClose} />}
       <aside className={`cn-sidebar${mobileOpen ? ' cn-sidebar-open' : ''}`} style={{ viewTransitionName: 'lv-sidebar' }}>
-        <div className="cn-sidebar-title">学中文</div>
+        {/* Breadcrumb thay cho tiêu đề tĩnh "学中文" cũ — vừa báo vị trí (Study › Chinese Hub) vừa bấm
+            được để quay lại /study. Chỉ hiện ở đây (sidebar chỉ tồn tại khi đã vào trong); lúc còn ở
+            màn hình chọn cấp độ (chưa có sidebar), breadcrumb nằm ở topbar — xem page.tsx. */}
+        <AppBreadcrumb app="/chinese" className="cn-sidebar-crumb" />
 
         <div className={`cn-lesson-row cn-overview-row${selection.type === 'overview' ? ' active' : ''}`}>
           <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'overview' })}>

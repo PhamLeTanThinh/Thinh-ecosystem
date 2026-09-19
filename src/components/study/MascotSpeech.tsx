@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useSyncExternalStore } from 'react'
+import { ShieldedVideo } from '@/components/media/ShieldedVideo'
 
 // Con mèo ở đầu trang /study + 2 câu thoại LUÂN PHIÊN nhau trong cùng 1 chỗ: câu 1 bật lên, gõ chữ, giữ một
 // lúc rồi thu lại; sau đó câu 2 bật lên, gõ, giữ, thu lại; rồi lặp lại mãi. Chỉ có 1 bong bóng hiện tại mỗi
@@ -123,7 +124,7 @@ export function MascotSpeech() {
         })}
       </div>
       <span className="sr-only">{PLAIN.join(' ')}</span>
-      <video className="sd-mascot-video" src="/preloader/video/main.mp4" autoPlay muted loop playsInline preload="auto" aria-hidden="true" tabIndex={-1} />
+      <ShieldedVideo className="sd-mascot-video" mediaKey="study-mascot" />
     </div>
   )
 }

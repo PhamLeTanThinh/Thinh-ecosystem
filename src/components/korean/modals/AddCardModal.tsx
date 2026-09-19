@@ -9,68 +9,59 @@ import { SheetHeader } from '../SheetHeader'
 import { SegmentedControl } from '../SegmentedControl'
 import type { KoreanCardKind } from '@/lib/korean/types'
 
+// Chỉ THÊM thẻ mới — không còn sửa/xoá thẻ đã có (kể cả thẻ do chính mình thêm). Thẻ mới được gắn với hồ
+// sơ học đang đăng nhập (server tự gán, xem api/korean/cards/route.ts) và chỉ hồ sơ đó thấy được; muốn bỏ
+// thì xoá cả hồ sơ ở trang /admin. Xem chú thích bảng koreanCards trong db/schema/index.ts để biết lý do.
 export function AddCardModal() {
   const open = useKoreanUIStore((s) => s.addCardOpen)
   const resetKey = useKoreanUIStore((s) => s.addCardKey)
   const close = useKoreanUIStore((s) => s.closeAddCard)
-  const editingCardId = useKoreanUIStore((s) => s.editingCardId)
 
   return (
     <BottomSheet open={open} onClose={close}>
-      <AddCardForm key={resetKey} onClose={close} editingCardId={editingCardId} />
+      <AddCardForm key={resetKey} onClose={close} />
     </BottomSheet>
   )
 }
 
-function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingCardId: string | null }) {
-  const cards = useKoreanStore((s) => s.cards)
+function AddCardForm({ onClose }: { onClose: () => void }) {
   const addCard = useKoreanStore((s) => s.addCard)
-  const updateCard = useKoreanStore((s) => s.updateCard)
-  const deleteCard = useKoreanStore((s) => s.deleteCard)
 
-  const editingCard = editingCardId ? cards.find((c) => c.id === editingCardId) ?? null : null
+  const [kind, setKind] = useState<KoreanCardKind>('vocab')
+  const [lesson, setLesson] = useState(1)
+  const [front, setFront] = useState('')
+  const [meaning, setMeaning] = useState('')
+  const [note, setNote] = useState('')
+  const [example, setExample] = useState('')
+  const [theory, setTheory] = useState('')
+  const [saving, setSaving] = useState(false)
 
-  const [kind, setKind] = useState<KoreanCardKind>(editingCard?.kind ?? 'vocab')
-  const [lesson, setLesson] = useState(editingCard?.lesson ?? 1)
-  const [front, setFront] = useState(editingCard?.front ?? '')
-  const [meaning, setMeaning] = useState(editingCard?.meaning ?? '')
-  const [note, setNote] = useState(editingCard?.note ?? '')
-  const [example, setExample] = useState(editingCard?.example ?? '')
-  const [theory, setTheory] = useState(editingCard?.theory ?? '')
-
-  function handleSave() {
+  async function handleSave() {
     const trimmedFront = front.trim()
     const trimmedMeaning = meaning.trim()
-    if (!trimmedFront || !trimmedMeaning) return
-    const payload = {
-      kind,
-      lesson,
-      front: trimmedFront,
-      meaning: trimmedMeaning,
-      note: note.trim(),
-      example: example.trim(),
-      theory: kind === 'grammar' ? theory.trim() : '',
+    if (!trimmedFront || !trimmedMeaning || saving) return
+    setSaving(true)
+    try {
+      await addCard({
+        kind,
+        lesson,
+        front: trimmedFront,
+        meaning: trimmedMeaning,
+        note: note.trim(),
+        example: example.trim(),
+        theory: kind === 'grammar' ? theory.trim() : '',
+      })
+      onClose()
+    } catch {
+      setSaving(false)
     }
-    if (editingCard) {
-      updateCard(editingCard.id, payload)
-    } else {
-      addCard(payload)
-    }
-    onClose()
   }
 
-  function handleDelete() {
-    if (!editingCard) return
-    if (!window.confirm(`Xoá thẻ "${editingCard.front}"? Tiến độ ôn tập của thẻ này cũng sẽ bị xoá.`)) return
-    deleteCard(editingCard.id)
-    onClose()
-  }
-
-  const canSave = front.trim() && meaning.trim()
+  const canSave = front.trim() && meaning.trim() && !saving
 
   return (
     <>
-      <SheetHeader title={editingCard ? 'Sửa thẻ' : 'Thêm thẻ mới'} onCancel={onClose} />
+      <SheetHeader title="Thêm thẻ mới" onCancel={onClose} />
 
       <div className="p-4">
         <p className="mb-2 text-xs font-medium text-muted">Loại</p>
@@ -176,22 +167,13 @@ function AddCardForm({ onClose, editingCardId }: { onClose: () => void; editingC
       )}
 
       <div className="flex gap-3 px-4 py-4">
-        {editingCard && (
-          <button
-            type="button"
-            onClick={handleDelete}
-            className="rounded-pill border-2 border-danger px-5 py-3.5 text-sm font-semibold text-danger"
-          >
-            Xoá
-          </button>
-        )}
         <button
           type="button"
           onClick={handleSave}
           disabled={!canSave}
           className="flex-1 rounded-pill bg-linear-to-r from-accent to-accent-strong py-3.5 text-sm font-semibold text-white shadow-sm disabled:opacity-40"
         >
-          {editingCard ? 'Lưu thay đổi' : 'Lưu'}
+          {saving ? 'Đang lưu…' : 'Lưu'}
         </button>
       </div>
     </>

@@ -3,8 +3,7 @@ import { create } from 'zustand'
 interface KoreanUIState {
   addCardOpen: boolean
   addCardKey: number
-  editingCardId: string | null
-  openAddCard: (cardId?: string) => void
+  openAddCard: () => void
   closeAddCard: () => void
 }
 
@@ -13,8 +12,6 @@ interface KoreanUIState {
 export const useKoreanUIStore = create<KoreanUIState>((set) => ({
   addCardOpen: false,
   addCardKey: 0,
-  editingCardId: null,
-  openAddCard: (cardId) =>
-    set((s) => ({ addCardOpen: true, addCardKey: s.addCardKey + 1, editingCardId: cardId ?? null })),
+  openAddCard: () => set((s) => ({ addCardOpen: true, addCardKey: s.addCardKey + 1 })),
   closeAddCard: () => set({ addCardOpen: false }),
 }))

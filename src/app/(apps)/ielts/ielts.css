@@ -64,13 +64,10 @@
   overflow-y: auto;
 }
 
-.ih-sidebar-title {
-  font-family: var(--font-ih-hand), 'Shantell Sans', cursive;
-  font-size: 26px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--color-ih-ink);
-  padding: 4px 8px 14px;
+/* Chỉ chỉnh khoảng cách quanh breadcrumb (AppBreadcrumb tự lo màu/kiểu chữ) — margin-left 5px để
+   viên "Study" thẳng hàng với chữ ở .ih-skill-row bên dưới (row đệm 8px, viên breadcrumb có sẵn 3px). */
+.ih-sidebar-crumb {
+  margin: 2px 8px 16px 5px;
 }
 
 .ih-main {

@@ -7,10 +7,16 @@
 //   korean  --color-brand        (korean.css)
 //   vitrine --color-vt-teal      (vitrine.css) — app tạm ẩn khỏi /study, xem lib/apps/tools.ts
 //   music   --color-ms-ink       (music.css)
+//   pm      --color-accent       (pm.css)
+//   it      --color-accent       (it.css)
+//   certs   --color-accent       (certs.css)
 export const APP_BRAND = {
   ielts: '#c9667a',
   chinese: '#b3222b',
   korean: '#1f4fd6',
   vitrine: '#0d9c78',
   music: '#111111',
+  pm: '#7c3aed',
+  it: '#059669',
+  certs: '#0ea5e9',
 } as const

@@ -1,0 +1,22 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #faf8ff;
+  --color-card: #ffffff;
+  --color-card-soft: #f3effc;
+  --color-border: #e6ddf7;
+  --color-accent: #7c3aed;
+  --color-accent-soft: #ede9fe;
+  --color-muted: #6b6280;
+  --color-text: #1e1b2e;
+
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}
+
+.pm-root {
+  background: var(--color-bg);
+  color: var(--color-text);
+  min-height: 100dvh;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}

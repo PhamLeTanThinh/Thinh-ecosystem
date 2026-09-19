@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-bg: #f6f3ec;
+  --color-bg: #faf8f3;
   --color-card: #ffffff;
   --color-card-soft: #f1ece0;
   --color-border: #e7e0cf;
@@ -28,8 +28,8 @@
 
 .chinese-root {
   background:
-    radial-gradient(circle at 10% -10%, color-mix(in srgb, var(--color-brand) 10%, transparent), transparent 50%),
-    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-gold) 16%, transparent), transparent 45%),
+    radial-gradient(circle at 10% -10%, color-mix(in srgb, var(--color-brand) 5%, transparent), transparent 50%),
+    radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-gold) 8%, transparent), transparent 45%),
     var(--color-bg);
   color: var(--color-text);
   min-height: 100dvh;
@@ -62,19 +62,17 @@
   flex: none;
   width: 268px;
   padding: 20px 14px;
-  background: rgba(255, 255, 255, 0.4);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
+  background: rgba(255, 255, 255, 0.65);
+  -webkit-backdrop-filter: blur(16px) saturate(110%);
+  backdrop-filter: blur(16px) saturate(110%);
   border-right: 1px solid rgba(255, 255, 255, 0.6);
   overflow-y: auto;
 }
 
-.cn-sidebar-title {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-  color: var(--color-text);
-  padding: 4px 8px 16px;
+/* Chỉ chỉnh khoảng cách quanh breadcrumb (AppBreadcrumb tự lo màu/kiểu chữ) — margin-left 5px để
+   viên "Study" thẳng hàng với chữ ở dòng cấp độ bên dưới (đệm 8px, viên breadcrumb có sẵn 3px). */
+.cn-sidebar-crumb {
+  margin: 2px 8px 18px 5px;
 }
 
 .cn-main {
@@ -686,12 +684,15 @@
   align-items: center;
   justify-content: center;
   min-width: 34px;
-  padding: 7px 14px;
+  max-width: 110px;
+  padding: 8px 14px;
   border-radius: 10px;
   background: var(--color-brand);
   color: #fff;
-  font-size: 13px;
+  font-size: 18px;
   font-weight: 800;
+  line-height: 1.25;
+  text-align: center;
 }
 
 .cn-structure-root::after {
@@ -708,19 +709,24 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  flex: 1 1 auto;
+  min-width: 0;
   gap: 8px;
   padding-left: 16px;
   border-left: 2px solid rgba(179, 34, 43, 0.28);
 }
 
+/* Mẫu câu tiếng Trung dài hơn nhiều so với đuôi ngữ pháp Hàn (vd "Chủ ngữ + 有 + người/sự vật + 吗？") nên
+   nhánh là hộp bo góc cho phép kết quả xuống dòng, thay vì viên thuốc 1 dòng không co giãn của Korean. */
 .cn-structure-branch {
   position: relative;
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
+  gap: 4px 8px;
+  max-width: 100%;
+  padding: 7px 14px;
+  border-radius: 16px;
   background: var(--color-card);
   border: 1px solid rgba(179, 34, 43, 0.18);
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
@@ -744,6 +750,36 @@
   white-space: nowrap;
 }
 
+/* Màu nhãn nhánh: xanh lá = khẳng định/cấu trúc chính, cam = dạng hỏi, tím = nghĩa/lưu ý/ví dụ; nhãn khác
+   (vd "个", "上") giữ màu xám mặc định ở .cn-structure-condition. */
+.cn-structure-condition--positive,
+.cn-structure-condition--question,
+.cn-structure-condition--negative,
+.cn-structure-condition--note {
+  padding: 1px 8px;
+  border-radius: 999px;
+}
+
+.cn-structure-condition--negative {
+  color: #c2255c;
+  background: rgba(194, 37, 92, 0.12);
+}
+
+.cn-structure-condition--positive {
+  color: #2b8a3e;
+  background: rgba(43, 138, 62, 0.13);
+}
+
+.cn-structure-condition--question {
+  color: #d9480f;
+  background: rgba(217, 72, 15, 0.13);
+}
+
+.cn-structure-condition--note {
+  color: #9c36b5;
+  background: rgba(156, 54, 181, 0.13);
+}
+
 .cn-structure-arrow {
   flex-shrink: 0;
   font-size: 12px;
@@ -751,10 +787,12 @@
 }
 
 .cn-structure-result {
+  min-width: 0;
   font-size: 15px;
   font-weight: 800;
+  line-height: 1.45;
   color: var(--color-brand);
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 
 .cn-grammar-theory {
@@ -972,6 +1010,235 @@
   font-size: 12.5px;
   color: var(--color-muted);
   line-height: 1.7;
+}
+
+/* ── Nói như người bản xứ (hội thoại theo giáo trình) ─────────────────────────────────────── */
+.cn-hl-1 { --hl: #e8590c; }
+.cn-hl-2 { --hl: #4c4fc4; }
+.cn-hl-3 { --hl: #2b8a3e; }
+.cn-hl-4 { --hl: #d6252b; }
+.cn-hl-5 { --hl: #0c8599; }
+.cn-hl-6 { --hl: #9c36b5; }
+.cn-hl-0 { --hl: var(--color-brand); }
+
+/* Từ thuộc điểm ngữ pháp: chữ đậm + nền nhạt cùng màu (--hl theo số thứ tự ngữ pháp của hội thoại). */
+.cn-hl {
+  padding: 0 3px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--hl) 14%, transparent);
+  color: var(--hl);
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* Trên desktop các mục (từ vựng / ngữ pháp / hội thoại) xếp liền nhau trong cùng 1 cột nên cần khoảng cách phía trên; trên
+   điện thoại mỗi mục là 1 tab riêng nên không cần. */
+@media (min-width: 861px) {
+  #cn-section-dialogue.cn-section-title:first-child {
+    margin-top: 26px;
+  }
+}
+
+.cn-dlg-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cn-dlg-card {
+  padding: 16px 18px 18px;
+}
+
+.cn-dlg-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.cn-dlg-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-brand);
+}
+
+.cn-dlg-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.cn-dlg-toggle {
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 11px;
+  border-radius: 999px;
+  border: 1px solid rgba(36, 31, 26, 0.22);
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.55);
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cn-dlg-toggle:hover {
+  border-color: var(--color-brand);
+  background: #fff;
+}
+
+.cn-dlg-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.cn-dlg-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.cn-dlg-who {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-top: 3px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--color-brand);
+}
+
+.cn-dlg-who-b {
+  background: #3b4a6b;
+}
+
+.cn-dlg-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.cn-dlg-zh {
+  font-size: 19px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+/* Đoạn "Chém gió song ngữ": câu chủ yếu là tiếng Việt xen vài từ Hán nên không cần cỡ chữ to như câu tiếng Trung. */
+.cn-dlg-zh-mixed {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+/* Pinyin ẩn: khung nét đứt bấm để xem, giống khối đáp án của IELTS (.ih-answer-block). */
+/* Các nút "Bấm để xem pinyin / nghĩa" dưới chữ Hán — chỉ hiện những loại đang ẩn, xếp mỗi nút 1 hàng. */
+.cn-dlg-hides {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.cn-dlg-py-hidden {
+  display: block;
+  width: 100%;
+  padding: 5px 12px;
+  border-radius: 10px;
+  border: 1px dashed rgba(36, 31, 26, 0.24);
+  background: rgba(36, 31, 26, 0.04);
+  font-size: 12px;
+  text-align: center;
+  color: var(--color-muted);
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.cn-dlg-py-hidden:hover {
+  border-color: var(--color-brand);
+}
+
+.cn-dlg-py {
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+.cn-dlg-vi {
+  margin-top: 3px;
+  cursor: pointer;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--color-text);
+  opacity: 0.72;
+}
+
+.cn-dlg-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(36, 31, 26, 0.16);
+}
+
+.cn-dlg-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.cn-dlg-chip b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  font-size: 10px;
+  background: var(--hl);
+  color: #fff;
+}
+
+.cn-dlg-chip-np {
+  font-weight: 500;
+  opacity: 0.8;
+}
+
+.cn-dlg-note {
+  margin-top: 16px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(179, 34, 43, 0.22);
+}
+
+.cn-dlg-note-title {
+  padding: 6px 14px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--color-brand);
+}
+
+.cn-dlg-note-text {
+  padding: 10px 14px 12px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--color-text);
+  background: rgba(179, 34, 43, 0.05);
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────────────────── */

@@ -80,12 +80,10 @@
   overflow-y: auto;
 }
 
-.kr-sidebar-title {
-  font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 0.01em;
-  color: var(--color-text);
-  padding: 4px 8px 16px;
+/* Chỉ chỉnh khoảng cách quanh breadcrumb (AppBreadcrumb tự lo màu/kiểu chữ) — margin-left 5px để
+   viên "Study" thẳng hàng với chữ ở dòng cấp độ bên dưới (đệm 8px, viên breadcrumb có sẵn 3px). */
+.kr-sidebar-crumb {
+  margin: 2px 8px 18px 5px;
 }
 
 .kr-main {

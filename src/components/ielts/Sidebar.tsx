@@ -6,6 +6,7 @@ import { useIeltsStore } from '@/lib/ielts/store'
 import { useIeltsAccess } from './AccessContext'
 import { SKILLS } from '@/lib/ielts/skills'
 import type { Skill } from '@/lib/ielts/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 export type Selection = { type: 'page'; id: string } | { type: 'vocab' }
 
@@ -52,7 +53,10 @@ export function Sidebar({ selection, onSelect, initialSkill = null }: Props) {
 
   return (
     <aside className="ih-sidebar" style={{ viewTransitionName: 'ih-sidebar' }}>
-      <div className="ih-sidebar-title">IELTS Hub</div>
+      {/* Breadcrumb thay cho tiêu đề tĩnh "IELTS Hub" cũ — vừa báo vị trí (Study › IELTS Hub) vừa bấm
+          được để quay lại /study. Chỉ hiện ở đây (sidebar chỉ tồn tại khi đã vào trong); lúc còn ở
+          màn hình chọn kỹ năng (chưa có sidebar), breadcrumb nằm ở topbar — xem page.tsx. */}
+      <AppBreadcrumb app="/ielts" className="ih-sidebar-crumb" />
 
       {SKILLS.map((skill) => {
         const skillPages = pages.filter((p) => p.skill === skill.key).sort((a, b) => a.sortOrder - b.sortOrder)

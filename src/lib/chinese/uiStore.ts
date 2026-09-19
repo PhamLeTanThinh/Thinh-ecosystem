@@ -3,8 +3,7 @@ import { create } from 'zustand'
 interface ChineseUIState {
   addCardOpen: boolean
   addCardKey: number
-  editingCardId: string | null
-  openAddCard: (cardId?: string) => void
+  openAddCard: () => void
   closeAddCard: () => void
 }
 
@@ -13,8 +12,6 @@ interface ChineseUIState {
 export const useChineseUIStore = create<ChineseUIState>((set) => ({
   addCardOpen: false,
   addCardKey: 0,
-  editingCardId: null,
-  openAddCard: (cardId) =>
-    set((s) => ({ addCardOpen: true, addCardKey: s.addCardKey + 1, editingCardId: cardId ?? null })),
+  openAddCard: () => set((s) => ({ addCardOpen: true, addCardKey: s.addCardKey + 1 })),
   closeAddCard: () => set({ addCardOpen: false }),
 }))

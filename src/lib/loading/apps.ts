@@ -45,10 +45,35 @@ export const MUSIC_LOADING: AppLoadingConfig = {
   message: 'Đợi Diên một chút nha!',
 }
 
+// PM / IT / Certs chưa có API riêng — cùng lý do với Music (loading chỉ theo mốc "trang đã load xong").
+export const PM_LOADING: AppLoadingConfig = {
+  apiPrefix: '/api/pm',
+  videoSrc: '/preloader/video/pm.mp4',
+  accent: APP_BRAND.pm,
+  message: 'Đợi Diên một chút nha!',
+}
+
+export const IT_LOADING: AppLoadingConfig = {
+  apiPrefix: '/api/it',
+  videoSrc: '/preloader/video/IT.mp4',
+  accent: APP_BRAND.it,
+  message: 'Đợi Diên một chút nha!',
+}
+
+export const CERTS_LOADING: AppLoadingConfig = {
+  apiPrefix: '/api/certs',
+  videoSrc: '/preloader/video/cert.mp4',
+  accent: APP_BRAND.certs,
+  message: 'Đợi Diên một chút nha!',
+}
+
 // Tra theo đường dẫn của app — dùng ở /study. App nào không có ở đây thì bấm vào không hiện loading.
 export const APP_LOADING_BY_HREF: Record<string, AppLoadingConfig> = {
   '/ielts': IELTS_LOADING,
   '/chinese': CHINESE_LOADING,
   '/korean': KOREAN_LOADING,
   '/music': MUSIC_LOADING,
+  '/pm': PM_LOADING,
+  '/it': IT_LOADING,
+  '/certs': CERTS_LOADING,
 }
