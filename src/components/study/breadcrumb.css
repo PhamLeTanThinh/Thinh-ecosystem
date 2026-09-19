@@ -1,0 +1,108 @@
+/* Breadcrumb dùng chung cho mọi trang trong hệ thống Study (Korean / Chinese / IELTS / Music).
+   Tự chứa: mọi màu là hằng số trung tính, riêng màu nhấn lấy từ --sb-accent (đặt inline trên <nav> theo
+   màu chủ đạo của app) — không tham chiếu token CSS của app nào để dùng được ở bất kỳ trang nào. */
+.sb-breadcrumb {
+  --sb-accent: #111111;
+  display: flex;
+  max-width: 100%;
+  align-self: flex-start;
+}
+
+.sb-breadcrumb ol {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin: 0;
+  padding: 3px;
+  list-style: none;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1px solid rgba(20, 20, 30, 0.12);
+  box-shadow: 0 6px 18px -12px rgba(20, 20, 30, 0.3);
+}
+
+.sb-breadcrumb ol::-webkit-scrollbar {
+  display: none;
+}
+
+.sb-breadcrumb li {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.sb-crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px 5px 10px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #6b6b76;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+a.sb-crumb:hover,
+a.sb-crumb:focus-visible {
+  background: color-mix(in srgb, var(--sb-accent) 10%, #ffffff);
+  color: var(--sb-accent);
+}
+
+a.sb-crumb:focus-visible {
+  outline: 2px solid var(--sb-accent);
+  outline-offset: 1px;
+}
+
+.sb-crumb--current {
+  background: var(--sb-accent);
+  color: #ffffff;
+  cursor: default;
+}
+
+.sb-crumb-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Ký tự đại diện của app (한 / 中 / EN / ♪) đặt trong ô tròn nhỏ, cùng cỡ với icon nét. */
+.sb-crumb-glyph {
+  display: inline-grid;
+  place-items: center;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 2px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  flex-shrink: 0;
+}
+
+.sb-crumb-sep {
+  display: flex;
+  align-items: center;
+  color: #b4b4bc;
+}
+
+.sb-crumb-sep svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* Đặt breadcrumb ở góc trên trái của trang căn giữa toàn màn hình (đăng nhập / bị từ chối truy cập). */
+.sb-floating {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  z-index: 5;
+}

@@ -3,19 +3,33 @@
 import { useEffect, useState } from 'react'
 import { useIeltsStore } from '@/lib/ielts/store'
 import { Sidebar, type Selection } from '@/components/ielts/Sidebar'
+import { SkillLanding } from '@/components/ielts/SkillLanding'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { PageEditor } from '@/components/ielts/PageEditor'
 import { VocabView } from '@/components/ielts/VocabView'
 import { GlobalSearch } from '@/components/ielts/GlobalSearch'
 import { useIeltsAccess } from '@/components/ielts/AccessContext'
 import { skillLabel } from '@/lib/ielts/skills'
+import type { Skill } from '@/lib/ielts/types'
+import { withViewTransition } from '@/lib/viewTransition'
 
 export default function IeltsHomePage() {
   const { isOwner, email, sharingEnabled } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
   const contentLoaded = useIeltsStore((s) => s.contentLoaded)
   const [selection, setSelection] = useState<Selection | null>(null)
+  // Kỹ năng chọn từ màn hình 4 card. Chưa chọn kỹ năng và chưa chọn trang nào = đang ở màn hình đầu
+  // (chỉ có topbar + 4 card ở giữa, chưa có sidebar); có 1 trong 2 thì hiện bố cục đầy đủ.
+  const [picked, setPicked] = useState<Skill | null>(null)
+  const showLanding = picked === null && selection === null
 
   const activePage = selection?.type === 'page' ? pages.find((p) => p.id === selection.id) ?? null : null
+
+  // Chọn trang từ ô tìm kiếm khi đang ở màn hình đầu cũng chạy transition (sidebar hiện ra).
+  function selectFromSearch(s: Selection) {
+    if (showLanding) withViewTransition(() => setSelection(s))
+    else setSelection(s)
+  }
 
   // Cuộn về đầu trang mỗi lần đổi lựa chọn (trang khác hoặc Từ vựng) — thiếu bước này, trang mới sẽ
   // "thừa hưởng" vị trí cuộn dở dang của trang trước đó, khiến việc chuyển trang cảm giác giật/lỗi
@@ -28,12 +42,12 @@ export default function IeltsHomePage() {
 
   return (
     <div className="ih-shell">
-      <Sidebar selection={selection ?? { type: 'vocab' }} onSelect={setSelection} />
+      {!showLanding && <Sidebar selection={selection} onSelect={setSelection} initialSkill={picked ?? activePage?.skill ?? null} />}
 
       <div className="ih-main">
         <header className="ih-topbar">
-          <span className="ih-wordmark">IELTS Hub</span>
-          <GlobalSearch onSelect={setSelection} />
+          <AppBreadcrumb app="/ielts" />
+          <GlobalSearch onSelect={selectFromSearch} />
           {sharingEnabled && (
             <div className="ih-role-badge">
               <span className={`ih-role-chip${isOwner ? ' owner' : ''}`}>{isOwner ? '👑 Chủ trang' : `👁️ Đang xem${email ? `: ${email}` : ''}`}</span>
@@ -45,6 +59,8 @@ export default function IeltsHomePage() {
         </header>
 
         <div className="ih-content">
+          {showLanding && <SkillLanding onPick={(skill) => withViewTransition(() => setPicked(skill))} />}
+
           {selection?.type === 'vocab' && <VocabView onNavigateToPage={(id) => setSelection({ type: 'page', id })} />}
 
           {selection?.type === 'page' && activePage && (
@@ -69,9 +85,9 @@ export default function IeltsHomePage() {
             </div>
           )}
 
-          {!selection && (
+          {!selection && !showLanding && (
             <div className="ih-empty-state">
-              <p>Chọn 1 trang trong sidebar, hoặc bấm “+ Thêm trang” để bắt đầu ghi chú.</p>
+              <p>Chúc bạn học thật tốt và đạt band điểm mơ ước nhé! 🍀</p>
             </div>
           )}
         </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Link from 'next/link'
 import { useIeltsStore } from '@/lib/ielts/store'
 import { useIeltsAccess } from './AccessContext'
@@ -10,16 +10,20 @@ import type { Skill } from '@/lib/ielts/types'
 export type Selection = { type: 'page'; id: string } | { type: 'vocab' }
 
 interface Props {
-  selection: Selection
+  selection: Selection | null
   onSelect: (s: Selection) => void
+  // Section mở sẵn khi Sidebar mount (chọn từ màn hình 4 card hoặc từ tìm kiếm); chỉ đọc lúc mount.
+  initialSkill?: Skill | null
 }
 
-export function Sidebar({ selection, onSelect }: Props) {
+export function Sidebar({ selection, onSelect, initialSkill = null }: Props) {
   const { isOwner } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
   const hydrated = useIeltsStore((s) => s.hydrated)
   const addPage = useIeltsStore((s) => s.addPage)
-  const [expanded, setExpanded] = useState<Set<Skill>>(() => new Set(SKILLS.map((s) => s.key)))
+  // Mọi section thu gọn mỗi lần vào trang hoặc F5 — không lưu trạng thái mở/đóng. Ngoại lệ duy nhất:
+  // section vừa được chọn ở màn hình 4 card (initialSkill) mở sẵn để thấy ngay các trang bên trong.
+  const [expanded, setExpanded] = useState<Set<Skill>>(() => new Set(initialSkill ? [initialSkill] : []))
   const [addingTo, setAddingTo] = useState<Skill | null>(null)
   const [draftTitle, setDraftTitle] = useState('')
 
@@ -47,15 +51,16 @@ export function Sidebar({ selection, onSelect }: Props) {
   }
 
   return (
-    <aside className="ih-sidebar">
-      <div className="ih-sidebar-title">Kiến thức IELTS</div>
+    <aside className="ih-sidebar" style={{ viewTransitionName: 'ih-sidebar' }}>
+      <div className="ih-sidebar-title">IELTS Hub</div>
 
       {SKILLS.map((skill) => {
         const skillPages = pages.filter((p) => p.skill === skill.key).sort((a, b) => a.sortOrder - b.sortOrder)
         const isOpen = expanded.has(skill.key)
         return (
           <div key={skill.key} className="ih-skill-group">
-            <button type="button" className="ih-skill-row" onClick={() => toggle(skill.key)}>
+            {/* view-transition-name trùng với card cùng kỹ năng ở SkillLanding — để card bay vào đây. */}
+            <button type="button" className="ih-skill-row" style={{ viewTransitionName: `ih-skill-${skill.key}` }} onClick={() => toggle(skill.key)}>
               <span className="ih-skill-toggle">{isOpen ? '▾' : '▸'}</span>
               <span className="ih-skill-icon">{skill.icon}</span>
               <span className="ih-skill-label">{skill.label}</span>
@@ -72,7 +77,7 @@ export function Sidebar({ selection, onSelect }: Props) {
                   </>
                 ) : (
                   skillPages.map((page) => (
-                    <PageRow key={page.id} pageId={page.id} title={page.title} active={selection.type === 'page' && selection.id === page.id} onSelect={() => onSelect({ type: 'page', id: page.id })} isOwner={isOwner} />
+                    <PageRow key={page.id} pageId={page.id} title={page.title} active={selection?.type === 'page' && selection.id === page.id} onSelect={() => onSelect({ type: 'page', id: page.id })} isOwner={isOwner} />
                   ))
                 )}
 
@@ -100,17 +105,17 @@ export function Sidebar({ selection, onSelect }: Props) {
         )
       })}
 
-      <button type="button" className={`ih-skill-row ih-vocab-row${selection.type === 'vocab' ? ' active' : ''}`} onClick={() => onSelect({ type: 'vocab' })}>
+      <button type="button" className={`ih-skill-row ih-vocab-row${selection?.type === 'vocab' ? ' active' : ''}`} onClick={() => onSelect({ type: 'vocab' })}>
         <span className="ih-skill-toggle" />
         <span className="ih-skill-icon">📚</span>
         <span className="ih-skill-label">Từ vựng</span>
       </button>
 
       {isOwner && (
-        <Link href="/ielts/admin" className="ih-skill-row">
+        <Link href="/admin" className="ih-skill-row">
           <span className="ih-skill-toggle" />
           <span className="ih-skill-icon">🔗</span>
-          <span className="ih-skill-label">Chia sẻ / Người xem</span>
+          <span className="ih-skill-label">Admin · Người xem</span>
         </Link>
       )}
     </aside>
@@ -123,6 +128,33 @@ function PageRow({ pageId, title, active, onSelect, isOwner }: { pageId: string;
   const deletePage = useIeltsStore((s) => s.deletePage)
   const [renaming, setRenaming] = useState(false)
   const [draft, setDraft] = useState(title)
+  const btnRef = useRef<HTMLButtonElement>(null)
+  const tipRef = useRef<HTMLDivElement>(null)
+
+  // Tooltip tên đầy đủ khi tên bị cắt bằng dấu … — hiện tức thì (title mặc định của trình duyệt trễ
+  // cả giây). Dùng Popover API: phần tử popover nằm ở "top layer" nên không bị sidebar cắt
+  // (overflow) và không bị backdrop-filter của sidebar làm lệch toạ độ position: fixed.
+  function showTip() {
+    const btn = btnRef.current
+    const tip = tipRef.current
+    if (!btn || !tip || !tip.showPopover) return
+    if (btn.scrollWidth <= btn.clientWidth) return // tên hiện đủ rồi, khỏi tooltip
+    const rect = btn.getBoundingClientRect()
+    // Hiện bên phải sidebar (không hiện phía dưới dòng — sẽ che các lesson kế bên dưới), căn giữa
+    // theo chiều dọc với dòng đang hover.
+    const sidebarRight = btn.closest('.ih-sidebar')?.getBoundingClientRect().right ?? rect.right
+    if (!tip.matches(':popover-open')) tip.showPopover()
+    // Đo sau khi hiện (mới biết kích thước thật) rồi kẹp vào trong màn hình.
+    const left = Math.min(sidebarRight + 8, window.innerWidth - tip.offsetWidth - 8)
+    const top = rect.top + (rect.height - tip.offsetHeight) / 2
+    tip.style.left = `${Math.max(8, left)}px`
+    tip.style.top = `${Math.max(8, Math.min(top, window.innerHeight - tip.offsetHeight - 8))}px`
+  }
+
+  function hideTip() {
+    const tip = tipRef.current
+    if (tip?.matches(':popover-open')) tip.hidePopover()
+  }
 
   function commitRename() {
     setRenaming(false)
@@ -156,9 +188,21 @@ function PageRow({ pageId, title, active, onSelect, isOwner }: { pageId: string;
 
   return (
     <div className={`ih-page-row${active ? ' active' : ''}`}>
-      <button type="button" className="ih-page-row-btn" onClick={onSelect}>
+      <button
+        ref={btnRef}
+        type="button"
+        className="ih-page-row-btn"
+        onClick={onSelect}
+        onMouseEnter={showTip}
+        onMouseLeave={hideTip}
+        onFocus={showTip}
+        onBlur={hideTip}
+      >
         {title}
       </button>
+      <div ref={tipRef} popover="manual" role="tooltip" className="ih-tip">
+        {title}
+      </div>
       {isOwner && (
         <>
           <button

@@ -6,6 +6,51 @@ import type { KoreanCard, KoreanSettings, KoreanProgress, ReviewResult } from '.
 
 const DEFAULT_SETTINGS: KoreanSettings = { shuffle: true, quizMode: 'front-to-meaning' }
 
+// markResult() chạy MỖI LẦN trả lời 1 câu lúc học/làm quiz — nếu PUT thẳng lên server mỗi lần thì
+// "hit" DB liên tục suốt cả buổi học dù chỉ 1 người đang thao tác dồn dập. Debounce: dồn nhiều lần
+// trả lời liên tiếp trong khoảng ngắn thành 1 request mang đúng trạng thái progress mới nhất. Flush
+// ngay khi rời/ẩn trang để không mất lần trả lời cuối nếu người dùng thoát đúng lúc còn đang chờ.
+const PROGRESS_SAVE_DEBOUNCE_MS = 1200
+let progressSaveTimer: ReturnType<typeof setTimeout> | null = null
+let pendingProgress: KoreanProgress[] | null = null
+
+function scheduleProgressSave(progress: KoreanProgress[]) {
+  pendingProgress = progress
+  if (progressSaveTimer) clearTimeout(progressSaveTimer)
+  progressSaveTimer = setTimeout(() => {
+    progressSaveTimer = null
+    const toSave = pendingProgress
+    pendingProgress = null
+    if (toSave) storage.saveProgress(toSave).catch(console.error)
+  }, PROGRESS_SAVE_DEBOUNCE_MS)
+}
+
+function flushProgressSave() {
+  if (progressSaveTimer) clearTimeout(progressSaveTimer)
+  progressSaveTimer = null
+  const toSave = pendingProgress
+  pendingProgress = null
+  if (toSave) storage.saveProgress(toSave).catch(console.error)
+}
+
+// Dùng cho các thay đổi KHÔNG nên trì hoãn (vd xoá thẻ kéo theo xoá progress) — huỷ hẳn lần lưu debounce
+// đang chờ (nếu có) rồi lưu ngay mảng progress MỚI NHẤT truyền vào. Bắt buộc phải huỷ timer cũ: nếu
+// không, timer đó vẫn đang giữ mảng progress CŨ (từ trước khi xoá) và sẽ ghi đè lên đây sau ~1.2s,
+// làm "sống lại" đúng dòng progress vừa xoá.
+function commitProgressNow(progress: KoreanProgress[]) {
+  if (progressSaveTimer) clearTimeout(progressSaveTimer)
+  progressSaveTimer = null
+  pendingProgress = null
+  storage.saveProgress(progress).catch(console.error)
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') flushProgressSave()
+  })
+  window.addEventListener('pagehide', flushProgressSave)
+}
+
 interface KoreanState {
   hydrated: boolean
   cards: KoreanCard[]
@@ -81,7 +126,7 @@ export const useKoreanStore = create<KoreanState>((set, get) => ({
     const progress = get().progress.filter((p) => p.id !== id)
     set({ cards, progress })
     storage.saveCards(cards).catch(console.error)
-    storage.saveProgress(progress).catch(console.error)
+    commitProgressNow(progress)
   },
 
   markResult: (cardId, result) => {
@@ -106,7 +151,7 @@ export const useKoreanStore = create<KoreanState>((set, get) => ({
       ? get().progress.map((p) => (p.id === cardId ? next : p))
       : [...get().progress, next]
     set({ progress })
-    storage.saveProgress(progress).catch(console.error)
+    scheduleProgressSave(progress)
   },
 
   updateSettings: (patch) => {

@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { useChineseStore } from '@/lib/chinese/store'
 import { shuffle } from '@/lib/chinese/shuffle'
 import type { ChineseCard, QuizMode } from '@/lib/chinese/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 const MIN_CARDS = 4
 const OPTION_COUNT = 4
@@ -76,6 +77,7 @@ function QuizMessage({ text }: { text: string }) {
 export default function ChineseQuizPage() {
   return (
     <div className="mx-auto w-full max-w-xl px-4 py-6">
+      <AppBreadcrumb app="/chinese" trail={[{ label: 'Kiểm tra', icon: 'quiz' }]} className="mb-4" />
       <Suspense fallback={<QuizMessage text="Đang tải..." />}>
         <QuizSession />
       </Suspense>

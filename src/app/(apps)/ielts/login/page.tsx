@@ -1,56 +1,15 @@
-'use client'
+import { AccessGate } from '@/components/ielts/AccessGate'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
-import { useState } from 'react'
-
+// Toàn bộ việc hỏi email + gửi link nằm trong popup AccessGate (con mèo Diên hỏi email); trang này chỉ là
+// nền phía sau popup.
 export default function IeltsLoginPage() {
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle')
-  const [message, setMessage] = useState('')
-
-  async function submit() {
-    const trimmed = email.trim()
-    if (!trimmed) return
-    setStatus('sending')
-    try {
-      const res = await fetch('/api/ielts/request-link', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: trimmed }),
-      })
-      const data = await res.json()
-      setMessage(data.message || 'Đã gửi yêu cầu.')
-      setStatus('sent')
-    } catch {
-      setMessage('Có lỗi xảy ra, thử lại sau.')
-      setStatus('idle')
-    }
-  }
-
   return (
     <div className="ih-access-denied">
-      <h1 className="ih-font-hand" style={{ fontSize: 24, marginBottom: 4 }}>
-        IELTS Knowledge Hub
-      </h1>
-      <p style={{ maxWidth: 360 }}>Nhập email của bạn để nhận link đăng nhập. Nếu chưa được mời, yêu cầu sẽ được gửi cho chủ trang duyệt.</p>
-
-      {status === 'sent' ? (
-        <p style={{ maxWidth: 360 }}>{message}</p>
-      ) : (
-        <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-          <input
-            className="ih-input"
-            type="email"
-            placeholder="you@email.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && submit()}
-            autoFocus
-          />
-          <button type="button" className="ih-btn-solid" onClick={submit} disabled={status === 'sending'}>
-            {status === 'sending' ? 'Đang gửi…' : 'Gửi link'}
-          </button>
-        </div>
-      )}
+      <div className="sb-floating">
+        <AppBreadcrumb app="/ielts" trail={[{ label: 'Đăng nhập', icon: 'key' }]} />
+      </div>
+      <AccessGate />
     </div>
   )
 }

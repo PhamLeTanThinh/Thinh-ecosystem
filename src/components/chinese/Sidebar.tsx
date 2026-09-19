@@ -18,14 +18,16 @@ interface Props {
   // quản lý state riêng, cùng convention với components/korean/Sidebar.tsx.
   mobileOpen: boolean
   onMobileClose: () => void
+  // Nhóm mở sẵn khi Sidebar mount (cấp độ chọn ở màn hình đầu — LevelLanding); chỉ đọc lúc mount.
+  initialGroup?: HskLevel | null
 }
 
 type GroupKey = HskLevel | 'decks'
 
-export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDeleteDeck, mobileOpen, onMobileClose }: Props) {
-  // Mặc định chỉ mở HSK 1+2 (cấp thấp nhất, nhiều khả năng đang học nhất) + Bộ từ của tôi,
-  // các cấp cao hơn gấp lại — cùng ý tưởng với TOPIK I/II bên components/korean/Sidebar.tsx.
-  const [expanded, setExpanded] = useState<Set<GroupKey>>(() => new Set(['hsk12', 'decks']))
+export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDeleteDeck, mobileOpen, onMobileClose, initialGroup = null }: Props) {
+  // Mọi nhóm (HSK 1+2 … HSK 6, Bộ từ của tôi) thu gọn mỗi lần vào trang hoặc F5 — giống Sidebar của IELTS. Ngoại lệ
+  // duy nhất: cấp độ vừa chọn ở màn hình đầu mở sẵn để thấy ngay các bài bên trong.
+  const [expanded, setExpanded] = useState<Set<GroupKey>>(() => new Set(initialGroup ? [initialGroup] : []))
 
   function toggle(key: GroupKey) {
     setExpanded((prev) => {
@@ -46,7 +48,7 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDelete
   return (
     <>
       {mobileOpen && <div className="cn-sidebar-backdrop" onClick={onMobileClose} />}
-      <aside className={`cn-sidebar${mobileOpen ? ' cn-sidebar-open' : ''}`}>
+      <aside className={`cn-sidebar${mobileOpen ? ' cn-sidebar-open' : ''}`} style={{ viewTransitionName: 'lv-sidebar' }}>
         <div className="cn-sidebar-title">学中文</div>
 
         <div className={`cn-lesson-row cn-overview-row${selection.type === 'overview' ? ' active' : ''}`}>
@@ -80,7 +82,8 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDelete
           const lessonNumbers = lessonNumbersForLevel(key)
           return (
             <div key={key} className="cn-topik-group">
-              <button type="button" className="cn-topik-header" onClick={() => toggle(key)}>
+              {/* view-transition-name trùng với card cùng cấp độ ở LevelLanding — để card bay vào đây. */}
+              <button type="button" className="cn-topik-header" style={{ viewTransitionName: `cn-level-${key}` }} onClick={() => toggle(key)}>
                 <span className="cn-topik-toggle">{expanded.has(key) ? '▾' : '▸'}</span>
                 <span className="cn-topik-label">{label}</span>
               </button>

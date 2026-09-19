@@ -6,7 +6,7 @@ import { ieltsInvites } from '@/db/schema'
 import { SESSION_COOKIE, verifySessionToken } from '@/lib/ielts/session'
 
 // Đăng nhập bằng magic link qua email — không mật khẩu, không OAuth. Chủ đặt IELTS_OWNER_EMAIL
-// trong .env; người xem được thêm vào bảng ieltsInvites (mời qua /ielts/admin). Ai đăng nhập đúng
+// trong .env; người xem được thêm vào bảng ieltsInvites (mời qua /admin). Ai đăng nhập đúng
 // email nằm trong 1 trong 2 diện đó mới được vào; login xong nhận 1 cookie session đã ký (HMAC),
 // không cần bảng session riêng — mỗi request tự giải mã + verify chữ ký, rồi tra lại DB xem email
 // đó còn hợp lệ không (nên thu hồi 1 người có tác dụng ngay ở request kế tiếp của họ).

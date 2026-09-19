@@ -16,12 +16,18 @@ interface Props {
   // quản lý state riêng, để nút ☰ ở topbar (component khác) điều khiển được từ ngoài.
   mobileOpen: boolean
   onMobileClose: () => void
+  // Nhóm mở sẵn khi Sidebar mount (cấp độ chọn ở màn hình đầu — LevelLanding); chỉ đọc lúc mount.
+  initialGroup?: TopikKey | null
 }
 
-export function Sidebar({ cards, isLearned, selection, onSelect, mobileOpen, onMobileClose }: Props) {
-  const [expanded, setExpanded] = useState<Set<'topik1' | 'topik2'>>(() => new Set(['topik2']))
+export type TopikKey = 'topik1' | 'topik2'
 
-  function toggle(key: 'topik1' | 'topik2') {
+export function Sidebar({ cards, isLearned, selection, onSelect, mobileOpen, onMobileClose, initialGroup = null }: Props) {
+  // Mọi nhóm (TOPIK I, TOPIK II) thu gọn mỗi lần vào trang hoặc F5 — giống Sidebar của IELTS. Ngoại lệ duy nhất:
+  // cấp độ vừa chọn ở màn hình đầu mở sẵn để thấy ngay các bài bên trong.
+  const [expanded, setExpanded] = useState<Set<TopikKey>>(() => new Set(initialGroup ? [initialGroup] : []))
+
+  function toggle(key: TopikKey) {
     setExpanded((prev) => {
       const next = new Set(prev)
       if (next.has(key)) next.delete(key)
@@ -40,11 +46,12 @@ export function Sidebar({ cards, isLearned, selection, onSelect, mobileOpen, onM
   return (
     <>
       {mobileOpen && <div className="kr-sidebar-backdrop" onClick={onMobileClose} />}
-      <aside className={`kr-sidebar${mobileOpen ? ' kr-sidebar-open' : ''}`}>
+      <aside className={`kr-sidebar${mobileOpen ? ' kr-sidebar-open' : ''}`} style={{ viewTransitionName: 'lv-sidebar' }}>
         <div className="kr-sidebar-title">한국어 공부</div>
 
         <div className="kr-topik-group">
-          <button type="button" className="kr-topik-header" onClick={() => toggle('topik1')}>
+          {/* view-transition-name trùng với card cùng cấp độ ở LevelLanding — để card bay vào đây. */}
+          <button type="button" className="kr-topik-header" style={{ viewTransitionName: 'kr-level-topik1' }} onClick={() => toggle('topik1')}>
             <span className="kr-topik-toggle">{expanded.has('topik1') ? '▾' : '▸'}</span>
             <span className="kr-topik-label">TOPIK I</span>
           </button>
@@ -52,7 +59,7 @@ export function Sidebar({ cards, isLearned, selection, onSelect, mobileOpen, onM
         </div>
 
         <div className="kr-topik-group">
-          <button type="button" className="kr-topik-header" onClick={() => toggle('topik2')}>
+          <button type="button" className="kr-topik-header" style={{ viewTransitionName: 'kr-level-topik2' }} onClick={() => toggle('topik2')}>
             <span className="kr-topik-toggle">{expanded.has('topik2') ? '▾' : '▸'}</span>
             <span className="kr-topik-label">TOPIK II · Seoul Korean 2</span>
           </button>

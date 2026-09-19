@@ -1,13 +1,14 @@
-import Link from 'next/link'
 import { headers } from 'next/headers'
 import { nanoid } from 'nanoid'
+import { AccessGate } from '@/components/ielts/AccessGate'
 import { IeltsHydrator } from '@/components/ielts/IeltsHydrator'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { IeltsAccessProvider } from '@/components/ielts/AccessContext'
 import { getIeltsAccess } from '@/lib/ielts/access'
 import { db } from '@/lib/db'
 import { ieltsAccessLogs } from '@/db/schema'
 
-// Bọc riêng /ielts và /ielts/admin — không bọc /ielts/login (nằm ngoài route group này) vì trang
+// Bọc riêng /ielts — không bọc /ielts/login (nằm ngoài route group này) vì trang
 // đó phải luôn render được cho cả người chưa đăng nhập.
 export default async function IeltsProtectedLayout({ children }: { children: React.ReactNode }) {
   const access = await getIeltsAccess()
@@ -15,10 +16,10 @@ export default async function IeltsProtectedLayout({ children }: { children: Rea
   if (access.mode === 'denied') {
     return (
       <div className="ih-access-denied">
-        <p>Bạn cần đăng nhập bằng email được mời để xem trang này.</p>
-        <Link href="/ielts/login" className="ih-btn-solid" style={{ marginTop: 8 }}>
-          Đăng nhập
-        </Link>
+        <div className="sb-floating">
+          <AppBreadcrumb app="/ielts" />
+        </div>
+        <AccessGate />
       </div>
     )
   }

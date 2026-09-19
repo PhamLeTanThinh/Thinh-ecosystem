@@ -4,8 +4,12 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useChineseStore } from '@/lib/chinese/store'
 import { useChineseUIStore } from '@/lib/chinese/uiStore'
-import { LESSON_TITLES, levelLabel } from '@/lib/chinese/lessons'
+import { HSK_LEVELS, LESSON_TITLES, levelLabel, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
 import { Sidebar, type Selection } from '@/components/chinese/Sidebar'
+import { LearnerProfile } from '@/components/learner/LearnerProfile'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { LevelLanding, type LandingItem } from '@/components/landing/LevelLanding'
+import { isMobileNav, withViewTransition } from '@/lib/viewTransition'
 import { SegmentedControl } from '@/components/chinese/SegmentedControl'
 import type { ExampleDetail } from '@/lib/chinese/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speakingPractice'
@@ -53,6 +57,11 @@ export default function ChinesePage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  // Màn hình đầu: các cấp độ HSK dạng card ở giữa (chưa có sidebar). Chọn 1 card (hoặc gõ vào ô tìm kiếm) thì vào
+  // bố cục đầy đủ; cấp độ vừa chọn được mở sẵn trong sidebar. Giống màn hình 4 kỹ năng của IELTS.
+  const [entered, setEntered] = useState(false)
+  const [initialGroup, setInitialGroup] = useState<HskLevel | null>(null)
+  const showLanding = !entered
   const [selecting, setSelecting] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
 
@@ -94,6 +103,32 @@ export default function ChinesePage() {
     setSelectedIds(new Set())
   }
 
+  function pickLevel(key: string) {
+    // Trên mobile sidebar là drawer nằm ngoài màn hình nên không có chỗ để card bay tới: bỏ hiệu ứng, thay vào đó
+    // mở luôn drawer để thấy các bài của cấp độ vừa chọn.
+    const mobile = isMobileNav()
+    withViewTransition(
+      () => {
+        setEntered(true)
+        setInitialGroup(key as HskLevel)
+      },
+      { skip: mobile },
+    )
+    if (mobile) setMobileNavOpen(true)
+  }
+
+  const landingItems: LandingItem[] = HSK_LEVELS.map(({ key, label }) => {
+    const lessons = lessonNumbersForLevel(key)
+    const cardCount = sortedCards.filter((c) => lessons.includes(c.lesson)).length
+    return {
+      key,
+      icon: label.replace('HSK ', ''),
+      label,
+      meta: lessons.length === 0 ? 'Sắp ra mắt' : lessons.length + ' bài · ' + cardCount + ' thẻ',
+      muted: lessons.length === 0,
+    }
+  })
+
   function handleDeleteDeck(deckId: string, deckName: string) {
     if (!window.confirm(`Xoá bộ từ "${deckName}"? Các thẻ trong bộ không bị xoá.`)) return
     deleteDeck(deckId)
@@ -102,41 +137,62 @@ export default function ChinesePage() {
 
   return (
     <div className="cn-shell">
-      <Sidebar
-        cards={sortedCards}
-        decks={decks}
-        isLearned={isLearned}
-        selection={selection}
-        onSelect={setSelection}
-        onDeleteDeck={handleDeleteDeck}
-        mobileOpen={mobileNavOpen}
-        onMobileClose={() => setMobileNavOpen(false)}
-      />
+      {!showLanding && (
+        <Sidebar
+          cards={sortedCards}
+          decks={decks}
+          isLearned={isLearned}
+          selection={selection}
+          onSelect={setSelection}
+          onDeleteDeck={handleDeleteDeck}
+          mobileOpen={mobileNavOpen}
+          onMobileClose={() => setMobileNavOpen(false)}
+          initialGroup={initialGroup}
+        />
+      )}
 
       <div className="cn-main">
         <header className="cn-topbar">
-          <button
-            type="button"
-            onClick={() => setMobileNavOpen(true)}
-            aria-label="Mở danh sách bài học"
-            className="cn-mobile-menu-btn"
-          >
-            ☰
-          </button>
-          <span className="cn-wordmark">Chinese Hub</span>
+          {!showLanding && (
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Mở danh sách bài học"
+              className="cn-mobile-menu-btn"
+            >
+              ☰
+            </button>
+          )}
+          <AppBreadcrumb app="/chinese" />
           <input
             type="search"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value)
+              // Gõ tìm kiếm ở màn hình đầu thì vào thẳng danh sách kết quả (không animation — ô nhập đang có focus).
+              if (showLanding && e.target.value.trim()) setEntered(true)
+            }}
             placeholder="🔍 Tìm theo Hán tự, pinyin hoặc nghĩa…"
             className="cn-search"
           />
           <button type="button" onClick={() => openAddCard()} className="cn-btn-outline">
             ＋ Thêm thẻ
           </button>
+          <LearnerProfile />
         </header>
 
-        {selection.type === 'overview' ? (
+        {showLanding ? (
+          <div className="cn-content">
+            <LevelLanding
+              eyebrow="学中文"
+              title="Chinese Hub"
+              subtitle="Chọn cấp độ HSK để bắt đầu"
+              items={landingItems}
+              transitionPrefix="cn"
+              onPick={pickLevel}
+            />
+          </div>
+        ) : selection.type === 'overview' ? (
           <OverviewContent
             sortedCards={sortedCards}
             progressByCard={progressByCard}

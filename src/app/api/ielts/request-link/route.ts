@@ -9,7 +9,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 // Mọi trường hợp đều trả cùng 1 thông báo — tránh lộ "email này có được cấp quyền hay không" cho
 // người ngoài (email enumeration). Phía sau:
 //  - chủ (IELTS_OWNER_EMAIL) hoặc email đang được mời → gửi magic link luôn;
-//  - email lạ → ghi thành yêu cầu chờ duyệt và báo cho chủ (chủ duyệt ở /ielts/admin mới có mail);
+//  - email lạ → ghi thành yêu cầu chờ duyệt và báo cho chủ (chủ duyệt ở /admin mới có mail);
 //  - email từng bị thu hồi quyền → im lặng, không tạo yêu cầu, để chủ đã thu hồi khỏi bị làm phiền.
 const GENERIC_MESSAGE =
   'Nếu email này đã được cấp quyền, link đăng nhập sẽ được gửi tới hộp thư của bạn. Nếu chưa, yêu cầu của bạn đã được chuyển cho chủ trang để duyệt — khi được duyệt bạn sẽ nhận email đăng nhập.'

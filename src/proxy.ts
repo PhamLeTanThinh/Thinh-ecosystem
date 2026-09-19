@@ -1,22 +1,44 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { SESSION_COOKIE, emailToRefresh, setSessionCookie } from '@/lib/ielts/session'
+import { LEARNER_COOKIE, setLearnerCookie } from '@/lib/learner/identity'
 
-// Gia hạn session IELTS thêm 30 ngày mỗi lần người dùng vào lại. Cookie chỉ ghi được ở proxy/Route
-// Handler, không ghi được từ layout (Server Component), nên việc gia hạn nằm ở đây.
 export function proxy(req: NextRequest) {
+  const { pathname } = req.nextUrl
   const res = NextResponse.next()
-  // logout tự xoá cookie — không gia hạn đè lên.
-  if (req.nextUrl.pathname === '/api/ielts/logout') return res
 
-  const token = req.cookies.get(SESSION_COOKIE)?.value
-  if (!token) return res
+  // Trang /admin dùng chung phiên đăng nhập email của IELTS (phiên của chủ) nên cũng gia hạn trượt ở đây.
+  if (pathname.startsWith('/ielts') || pathname.startsWith('/api/ielts') || pathname.startsWith('/admin') || pathname.startsWith('/api/admin')) {
+    if (pathname !== '/api/ielts/logout') {
+      const token = req.cookies.get(SESSION_COOKIE)?.value
+      if (token) {
+        const email = emailToRefresh(token)
+        if (email) setSessionCookie(res, email)
+      }
+    }
+  }
 
-  const email = emailToRefresh(token)
-  if (email) setSessionCookie(res, email)
+  // Hồ sơ học Chinese/Korean: gia hạn trượt 30 ngày mỗi lần vào trang hoặc gọi API của 2 app này.
+  // KHÔNG tự cấp cookie khi chưa có — người học phải tự đặt tên qua popup (xem LearnerProfile.tsx).
+  // Không áp cho /api/learner/* vì create/login/logout tự quyết định cookie của mình, tránh 2 header
+  // Set-Cookie cùng tên tranh nhau.
+  if (pathname.startsWith('/chinese') || pathname.startsWith('/korean') || pathname.startsWith('/api/chinese') || pathname.startsWith('/api/korean')) {
+    const learnerId = req.cookies.get(LEARNER_COOKIE)?.value
+    if (learnerId) setLearnerCookie(res, learnerId)
+  }
+
   return res
 }
 
 export const config = {
-  matcher: ['/ielts/:path*', '/api/ielts/:path*'],
+  matcher: [
+    '/ielts/:path*',
+    '/api/ielts/:path*',
+    '/admin/:path*',
+    '/api/admin/:path*',
+    '/chinese/:path*',
+    '/korean/:path*',
+    '/api/chinese/:path*',
+    '/api/korean/:path*',
+  ],
 }

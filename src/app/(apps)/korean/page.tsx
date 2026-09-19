@@ -4,8 +4,12 @@ import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
 import { useKoreanStore } from '@/lib/korean/store'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
-import { LESSON_TITLES } from '@/lib/korean/lessons'
-import { Sidebar, type Selection } from '@/components/korean/Sidebar'
+import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { Sidebar, type Selection, type TopikKey } from '@/components/korean/Sidebar'
+import { LearnerProfile } from '@/components/learner/LearnerProfile'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { LevelLanding, type LandingItem } from '@/components/landing/LevelLanding'
+import { isMobileNav, withViewTransition } from '@/lib/viewTransition'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { ExampleDetail } from '@/lib/korean/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speakingPractice'
@@ -44,6 +48,11 @@ export default function KoreanPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE)
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  // Màn hình đầu: các cấp độ TOPIK dạng card ở giữa (chưa có sidebar). Chọn 1 card (hoặc gõ vào ô tìm kiếm) thì vào
+  // bố cục đầy đủ; cấp độ vừa chọn được mở sẵn trong sidebar. Giống màn hình 4 kỹ năng của IELTS.
+  const [entered, setEntered] = useState(false)
+  const [initialGroup, setInitialGroup] = useState<TopikKey | null>(null)
+  const showLanding = !entered
 
   // Quay lại trang đầu mỗi khi đổi bộ lọc/lựa chọn/từ khoá tìm kiếm — cập nhật state trong lúc
   // render (không phải effect) để tránh 1 nhịp render thừa, cùng convention với app/(apps)/chinese/page.tsx.
@@ -61,41 +70,81 @@ export default function KoreanPage() {
   const learnedCount = sortedCards.filter((c) => isLearned(c.id)).length
   const learnedPercent = sortedCards.length > 0 ? Math.round((learnedCount / sortedCards.length) * 100) : 0
 
+  function pickLevel(key: string) {
+    // Trên mobile sidebar là drawer nằm ngoài màn hình nên không có chỗ để card bay tới: bỏ hiệu ứng, thay vào đó
+    // mở luôn drawer để thấy các bài của cấp độ vừa chọn.
+    const mobile = isMobileNav()
+    withViewTransition(
+      () => {
+        setEntered(true)
+        setInitialGroup(key as TopikKey)
+      },
+      { skip: mobile },
+    )
+    if (mobile) setMobileNavOpen(true)
+  }
+
+  const landingItems: LandingItem[] = [
+    { key: 'topik1', icon: 'I', label: 'TOPIK I', meta: 'Sắp ra mắt', muted: true },
+    { key: 'topik2', icon: 'II', label: 'TOPIK II', sublabel: 'Seoul Korean 2', meta: LESSON_NUMBERS.length + ' bài · ' + sortedCards.length + ' thẻ' },
+  ]
+
   return (
     <div className="kr-shell">
-      <Sidebar
-        cards={sortedCards}
-        isLearned={isLearned}
-        selection={selection}
-        onSelect={setSelection}
-        mobileOpen={mobileNavOpen}
-        onMobileClose={() => setMobileNavOpen(false)}
-      />
+      {!showLanding && (
+        <Sidebar
+          cards={sortedCards}
+          isLearned={isLearned}
+          selection={selection}
+          onSelect={setSelection}
+          mobileOpen={mobileNavOpen}
+          onMobileClose={() => setMobileNavOpen(false)}
+          initialGroup={initialGroup}
+        />
+      )}
 
       <div className="kr-main">
         <header className="kr-topbar">
-          <button
-            type="button"
-            onClick={() => setMobileNavOpen(true)}
-            aria-label="Mở danh sách bài học"
-            className="kr-mobile-menu-btn"
-          >
-            ☰
-          </button>
-          <span className="kr-wordmark">Korean Hub</span>
+          {!showLanding && (
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Mở danh sách bài học"
+              className="kr-mobile-menu-btn"
+            >
+              ☰
+            </button>
+          )}
+          <AppBreadcrumb app="/korean" />
           <input
             type="search"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value)
+              // Gõ tìm kiếm ở màn hình đầu thì vào thẳng danh sách kết quả (không animation — ô nhập đang có focus).
+              if (showLanding && e.target.value.trim()) setEntered(true)
+            }}
             placeholder="🔍 Tìm theo Hangul, mẫu ngữ pháp hoặc nghĩa…"
             className="kr-search"
           />
           <button type="button" onClick={() => openAddCard()} className="kr-btn-outline">
             ＋ Thêm thẻ
           </button>
+          <LearnerProfile />
         </header>
 
-        {selection.type === 'overview' ? (
+        {showLanding ? (
+          <div className="kr-content">
+            <LevelLanding
+              eyebrow="한국어 공부"
+              title="Korean Hub"
+              subtitle="Chọn cấp độ TOPIK để bắt đầu"
+              items={landingItems}
+              transitionPrefix="kr"
+              onPick={pickLevel}
+            />
+          </div>
+        ) : selection.type === 'overview' ? (
           <OverviewContent
             sortedCards={sortedCards}
             progressByCard={progressByCard}

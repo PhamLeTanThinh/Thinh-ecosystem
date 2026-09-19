@@ -89,14 +89,6 @@
   border-bottom: 1px solid rgba(43, 58, 85, 0.1);
 }
 
-.ih-wordmark {
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  color: var(--color-ih-ink);
-  flex-shrink: 0;
-}
-
 /* Hiển thị rõ đang đăng nhập với vai trò nào khi app đã bật chia sẻ (sharingEnabled) — tránh nhầm
    lẫn giữa việc đang xem với quyền chủ hay chỉ là người được mời xem. */
 .ih-role-badge {
@@ -150,6 +142,115 @@
   text-align: center;
   color: var(--color-ih-ink-soft);
   font-size: 14px;
+}
+
+/* ── Màn hình đầu: 4 kỹ năng dạng card ở giữa (SkillLanding) ──────── */
+.ih-landing {
+  min-height: calc(100dvh - 180px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.ih-landing-title {
+  margin: 0;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-landing-sub {
+  margin: 6px 0 28px;
+  font-size: 14px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-landing-grid {
+  width: min(880px, 100%);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+}
+
+.ih-landing-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 26px 16px 20px;
+  cursor: pointer;
+  color: var(--color-ih-ink);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ih-landing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(60, 50, 90, 0.16);
+}
+
+.ih-landing-icon {
+  font-size: 38px;
+  line-height: 1;
+}
+
+.ih-landing-label {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.ih-landing-count {
+  font-size: 12px;
+  color: var(--color-ih-ink-soft);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .ih-landing-card {
+    animation: ih-fade-in-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+/* ── View Transition: card kỹ năng bay sang sidebar ───────────────────
+   Card (SkillLanding) và dòng skill (Sidebar) cùng view-transition-name `ih-skill-<key>` nên trình
+   duyệt tự nội suy vị trí/kích thước giữa hai bên. Trình duyệt chưa hỗ trợ thì các luật này bị bỏ
+   qua và trang chuyển thẳng như cũ. */
+.ih-landing-card,
+.ih-skill-group > .ih-skill-row {
+  view-transition-class: ih-vt-skill;
+}
+
+/* Topbar giữ nguyên nội dung nhưng co lại khi sidebar xuất hiện — đặt tên để nó trượt mượt thay vì nhảy. */
+.ih-topbar {
+  view-transition-name: ih-topbar;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+/* Card thu nhỏ thành 1 dòng: cắt phần nội dung thừa của card thay vì để tràn ra ngoài khung. */
+::view-transition-group(*.ih-vt-skill) {
+  overflow: clip;
+}
+
+/* Sidebar chỉ có ở trạng thái mới — trượt từ trái vào thay vì chỉ mờ dần. */
+::view-transition-new(ih-sidebar) {
+  animation: ih-vt-sidebar-in 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@keyframes ih-vt-sidebar-in {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* ── Chuyển trang mượt hơn ────────────────────────────────────────
@@ -332,6 +433,51 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   transition: color 0.15s ease;
+}
+
+/* Tooltip tên đầy đủ của lesson (popover ở top layer — xem showTip trong Sidebar.tsx). Không đặt
+   display ở đây: [popover] tự ẩn/hiện bằng showPopover(). inset/margin/border reset để bỏ kiểu mặc
+   định của trình duyệt (căn giữa màn hình); vị trí top/left do JS gán. */
+.ih-tip {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  border: 0;
+  padding: 4px 9px;
+  width: max-content;
+  max-width: min(300px, calc(100vw - 16px));
+  border-radius: 7px;
+  background: var(--color-ih-ink);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.35;
+  box-shadow: 0 4px 14px rgba(43, 58, 85, 0.25);
+  pointer-events: none;
+  overflow-wrap: anywhere;
+}
+
+/* Animation chỉ chạy khi popover mở (display none → hiện lại sẽ chạy lại từ đầu mỗi lần hover). Dùng
+   transform nên không đụng tới top/left do JS gán. 0.28s: đủ chậm để thấy được chuyển động nhưng
+   vẫn không làm tooltip có cảm giác bị trễ. */
+.ih-tip:popover-open {
+  animation: ih-tip-in 0.28s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes ih-tip-in {
+  from {
+    opacity: 0;
+    transform: translateX(-6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ih-tip:popover-open {
+    animation: none;
+  }
 }
 
 .ih-page-row-action {

@@ -1,0 +1,170 @@
+/* Màn hình đầu chọn cấp độ + hiệu ứng "card bay sang sidebar" dùng chung cho app Chinese và Korean.
+   Chỉ dùng token màu có ở CẢ HAI app (--color-text / --color-muted / --color-brand / --color-brand-soft /
+   --color-brand-strong / --radius-card) nên card tự ăn theo màu chủ đạo của từng app (Chinese đỏ, Korean xanh). */
+
+.lv-landing {
+  min-height: calc(100dvh - 190px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 0 24px;
+}
+
+.lv-eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.lv-title {
+  margin: 0;
+  font-size: clamp(30px, 4.4vw, 46px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.lv-sub {
+  margin: 8px 0 30px;
+  font-size: 14.5px;
+  color: var(--color-muted);
+}
+
+/* Cỡ card cố định trong khoảng 160–210px và căn giữa: 5 card HSK xếp 1 hàng, 2 card TOPIK không bị kéo giãn to. */
+.lv-grid {
+  width: min(1120px, 100%);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 210px));
+  justify-content: center;
+  gap: 16px;
+}
+
+.lv-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 26px 14px 20px;
+  border-radius: var(--radius-card, 24px);
+  cursor: pointer;
+  color: var(--color-text);
+  background: rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 10px 30px -14px rgba(20, 20, 40, 0.18);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.lv-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-brand);
+  box-shadow: 0 16px 38px -14px rgba(20, 20, 40, 0.26);
+}
+
+.lv-card:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+.lv-card--muted {
+  opacity: 0.72;
+}
+
+.lv-card-icon {
+  width: 46px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-brand);
+  background: var(--color-brand-soft);
+}
+
+.lv-card-label {
+  margin-top: 4px;
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.005em;
+  color: var(--color-brand-strong);
+}
+
+.lv-card-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.lv-card-meta {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+@keyframes lv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lv-card {
+    animation: lv-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+    animation-delay: calc(var(--i, 0) * 70ms);
+  }
+}
+
+/* ── View Transition: card cấp độ bay sang sidebar ─────────────────────────────────────────────────
+   Card (LevelLanding) và tiêu đề nhóm trong Sidebar (.cn-topik-header / .kr-topik-header) cùng
+   view-transition-name "<app>-level-<key>" nên trình duyệt tự nội suy vị trí/kích thước giữa hai bên. Trình duyệt
+   chưa hỗ trợ thì các luật này bị bỏ qua và trang chuyển thẳng như cũ. Ngưỡng tắt hiệu ứng trên mobile (drawer)
+   nằm ở lib/viewTransition.ts. */
+.lv-card,
+.cn-topik-header,
+.kr-topik-header {
+  view-transition-class: lv-vt-level;
+}
+
+/* Topbar giữ nguyên nội dung nhưng co lại khi sidebar xuất hiện — đặt tên để nó trượt mượt thay vì nhảy. */
+.cn-topbar,
+.kr-topbar {
+  view-transition-name: lv-topbar;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.55s;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+/* Card thu nhỏ thành 1 dòng: cắt phần nội dung thừa của card thay vì để tràn ra ngoài khung. */
+::view-transition-group(*.lv-vt-level) {
+  overflow: clip;
+}
+
+/* Sidebar chỉ có ở trạng thái mới — trượt từ trái vào thay vì chỉ mờ dần. */
+::view-transition-new(lv-sidebar) {
+  animation: lv-vt-sidebar-in 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+@keyframes lv-vt-sidebar-in {
+  from {
+    opacity: 0;
+    transform: translateX(-28px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

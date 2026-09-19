@@ -1,0 +1,55 @@
+/* Trang 404 — phủ kín cả màn hình bằng position: fixed để trông giống hệt nhau dù notFound() được ném ra
+   từ trang nào (kể cả trang có layout/nền riêng như vitrine). Màu nền #fefefe khớp đúng màu nền của ảnh
+   404.png (254/255, không phải trắng tuyệt đối) nên ảnh liền mạch với trang, không lộ khung. */
+.nf-root {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* chừa chỗ phía dưới cho nút Back To Home */
+  padding: 24px 16px 96px;
+  background: #fefefe;
+}
+
+.nf-image {
+  display: block;
+  width: min(92vw, 1100px);
+  height: auto;
+  max-height: calc(100dvh - 130px);
+  object-fit: contain;
+}
+
+/* Nút quay về trang chủ, cố định giữa mép dưới màn hình. Tông nâu đen lấy từ chiếc hoodie của con mèo. */
+.nf-home {
+  position: absolute;
+  bottom: max(28px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  background: #2a2522;
+  color: #fff;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 14px 30px -14px rgba(42, 37, 34, 0.6);
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.nf-home:hover {
+  background: #8a6d58;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+.nf-home:focus-visible {
+  outline: 3px solid #8a6d58;
+  outline-offset: 3px;
+}

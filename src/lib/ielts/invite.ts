@@ -13,10 +13,17 @@ export function appOrigin(reqUrl: string): string {
   return process.env.NEXT_PUBLIC_APP_URL || new URL(reqUrl).origin
 }
 
-export async function sendLoginLink(email: string, origin: string) {
+// next = trang đích sau khi bấm link (chỉ nhận các đường dẫn trong whitelist ở api/ielts/verify): '/admin' cho
+// link đăng nhập trang quản trị của chủ, bỏ trống = vào /ielts như bình thường.
+// Trả { sent, link }: sent = thư đã được nhà cung cấp nhận (xem mailer.ts), false khi gửi thất bại/chưa cấu hình gửi
+// mail; link = đường dẫn đăng nhập, để trang admin đưa cho chủ tự gửi tay khi thư không đi được.
+export async function sendLoginLink(email: string, origin: string, next?: '/admin'): Promise<{ sent: boolean; link: string }> {
   const token = nanoid(32)
   await db.insert(ieltsMagicTokens).values({ token, email, expiresAt: new Date(Date.now() + MAGIC_TOKEN_TTL_MS) })
-  await sendMagicLinkEmail(email, `${origin}/api/ielts/verify?token=${token}`)
+  const nextParam = next ? `&next=${encodeURIComponent(next)}` : ''
+  const link = `${origin}/api/ielts/verify?token=${token}${nextParam}`
+  const sent = await sendMagicLinkEmail(email, link, next ? 'admin' : 'ielts')
+  return { sent, link }
 }
 
 // Mời 1 email (hoặc cấp lại nếu đã bị thu hồi), dọn yêu cầu chờ duyệt của họ nếu có, và gửi luôn
@@ -28,8 +35,10 @@ export async function grantAccess(email: string, origin: string) {
     .onConflictDoUpdate({ target: ieltsInvites.email, set: { revokedAt: null } })
     .returning()
   await db.delete(ieltsAccessRequests).where(eq(ieltsAccessRequests.email, email))
-  await sendLoginLink(email, origin)
-  return { email: invite.email, invitedAt: invite.invitedAt.toISOString(), revokedAt: null }
+  const { sent, link } = await sendLoginLink(email, origin)
+  // mailSent + loginLink (chỉ khi thư KHÔNG đi được) để trang admin báo thật cho chủ và đưa link cho chủ gửi tay, thay vì
+  // luôn báo "đã gửi". Route này chỉ chủ gọi được (requireOwnerApi) nên trả link về là an toàn.
+  return { email: invite.email, invitedAt: invite.invitedAt.toISOString(), revokedAt: null, mailSent: sent, ...(sent ? {} : { loginLink: link }) }
 }
 
 // Ghi nhận 1 người lạ xin quyền và báo cho chủ. Chỉ báo đúng 1 lần cho mỗi email: xin lại khi đang
@@ -42,7 +51,7 @@ export async function requestAccess(email: string, ownerEmail: string, origin: s
   if (inserted.length === 0) return
 
   try {
-    await sendAccessRequestNotice(ownerEmail, email, `${origin}/ielts/admin`)
+    await sendAccessRequestNotice(ownerEmail, email, `${origin}/admin`)
   } catch (err) {
     console.error('[ielts access request notice]', err)
   }

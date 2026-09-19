@@ -1,0 +1,120 @@
+/* Loading nhỏ ở giữa màn hình trên nền trắng mờ, dùng chung các app (xem AppLoading.tsx) — hiện lúc tải
+   trang và mỗi lần gọi API của app đó. pointer-events: none để không chặn thao tác. Opacity chuyển
+   mượt cả nền lẫn video vì áp lên chính container này.
+
+   Tuỳ biến theo app qua biến CSS (AppLoading gán từ props, bỏ trống thì dùng giá trị mặc định):
+     --loader-accent  màu vòng xoay
+     --loader-font    font của dòng chữ
+   Không dựa vào token của app nào (mỗi app có bộ token riêng) nên chạy được ở mọi nơi. */
+.app-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Nền trắng mờ phủ kín màn hình sau video; đổi độ mờ bằng số alpha (0 = trong suốt, 1 = trắng đặc).
+     backdrop-filter làm nhoè toàn bộ nội dung nằm dưới lớp này; đổi độ nhoè bằng số px của blur(). */
+  background: rgba(255, 255, 255, 0.7);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.18s ease, visibility 0s linear 0.18s;
+}
+
+.app-loader--on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.18s ease;
+}
+
+/* Vòng tròn trắng bọc video, video giữ nguyên khung 16:9 (không cắt). Để 4 góc video không chạm mép
+   vòng tròn thì bề rộng video phải ≤ ~87% đường kính (16:9 nội tiếp hình tròn); dùng 82% để còn
+   chút viền trắng quanh các góc. Đổi cỡ: chỉnh width của .app-loader-circle, video tự co theo. */
+.app-loader-circle {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 200px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 34px rgba(43, 58, 85, 0.22);
+}
+
+.app-loader-video {
+  display: block;
+  width: 82%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Vòng xoay quanh vòng tròn trắng — dấu hiệu "đang tải" rõ ràng kể cả khi loading chỉ hiện chớp
+   nhoáng và video chưa kịp thể hiện chuyển động. Chỉ quay khi loading đang hiện. */
+.app-loader-circle::before {
+  content: '';
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 4px solid color-mix(in srgb, var(--loader-accent, #c9667a) 18%, transparent);
+  border-top-color: var(--loader-accent, #c9667a);
+  animation: app-loader-spin 0.8s linear infinite;
+  animation-play-state: paused;
+}
+
+.app-loader--on .app-loader-circle::before {
+  animation-play-state: running;
+}
+
+@keyframes app-loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Câu chờ dưới vòng tròn — đứng yên, chỉ "thở" nhẹ (mờ/rõ) để có cảm giác đang chạy. Nằm tuyệt đối
+   dưới vòng tròn nên vòng tròn vẫn ở đúng tâm màn hình. */
+.app-loader-text {
+  position: absolute;
+  top: calc(100% + 30px);
+  left: 50%;
+  width: max-content;
+  max-width: min(320px, 90vw);
+  margin: 0;
+  transform: translateX(-50%);
+  text-align: center;
+  font-family: var(--loader-font, inherit);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #2b3a55;
+  animation: app-loader-breathe 1.6s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+.app-loader--on .app-loader-text {
+  animation-play-state: running;
+}
+
+@keyframes app-loader-breathe {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loader-circle::before {
+    animation-duration: 2.4s;
+  }
+
+  .app-loader-text {
+    animation: none;
+  }
+}

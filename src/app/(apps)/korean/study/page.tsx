@@ -10,6 +10,7 @@ import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
 import { LessonPicker } from '@/components/korean/LessonPicker'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { KoreanCard, KoreanCardKind } from '@/lib/korean/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 const KIND_OPTIONS: { value: 'all' | KoreanCardKind; label: string }[] = [
   { value: 'all', label: 'Tất cả' },
@@ -39,6 +40,7 @@ function StudyMessage({ text }: { text: string }) {
 export default function KoreanStudyPage() {
   return (
     <div className="mx-auto w-full max-w-xl px-4 py-6">
+      <AppBreadcrumb app="/korean" trail={[{ label: 'Ôn tập', icon: 'cards' }]} className="mb-4" />
       <Suspense fallback={<StudyMessage text="Đang tải..." />}>
         <StudySession />
       </Suspense>

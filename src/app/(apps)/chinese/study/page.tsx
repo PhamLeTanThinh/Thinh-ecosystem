@@ -7,6 +7,7 @@ import { useChineseStore } from '@/lib/chinese/store'
 import { FlashCard } from '@/components/chinese/FlashCard'
 import { shuffle } from '@/lib/chinese/shuffle'
 import type { ChineseCard } from '@/lib/chinese/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 // Xáo trộn nếu bật cài đặt, ngược lại ôn theo đúng thứ tự danh sách (sortOrder).
 function buildOrder(cards: ChineseCard[], shuffleEnabled: boolean): string[] {
@@ -30,6 +31,7 @@ function StudyMessage({ text }: { text: string }) {
 export default function ChineseStudyPage() {
   return (
     <div className="mx-auto w-full max-w-xl px-4 py-6">
+      <AppBreadcrumb app="/chinese" trail={[{ label: 'Ôn tập', icon: 'cards' }]} className="mb-4" />
       <Suspense fallback={<StudyMessage text="Đang tải..." />}>
         <StudySession />
       </Suspense>

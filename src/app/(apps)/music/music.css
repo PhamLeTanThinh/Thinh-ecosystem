@@ -1,0 +1,508 @@
+@import 'tailwindcss';
+
+/* Dùng đúng tên biến chung (--color-text, --color-muted, --color-brand..., --radius-card) như
+   korean.css / chinese.css — để tái dùng được components/landing/LevelLanding.tsx (level-landing.css
+   chỉ tham chiếu các tên này) mà không cần alias riêng cho Music. */
+@theme {
+  --color-bg: #f5f5f5;
+  --color-card: #ffffff;
+  --color-card-soft: #ececec;
+  --color-border: #e2e2e2;
+  --color-text: #141414;
+  --color-muted: #6e6e6e;
+
+  --color-brand: #111111;
+  --color-brand-soft: #e6e6e6;
+  --color-brand-strong: #000000;
+
+  --radius-card: 24px;
+  --radius-pill: 999px;
+}
+
+.music-root {
+  min-height: 100dvh;
+  background-color: var(--color-bg);
+  background-image: radial-gradient(ellipse 900px 600px at 10% -10%, color-mix(in srgb, var(--color-brand) 6%, transparent), transparent 60%),
+    radial-gradient(ellipse 800px 560px at 105% 10%, color-mix(in srgb, var(--color-brand) 5%, transparent), transparent 62%);
+  color: var(--color-text);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+.ms-content {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 56px 24px 100px;
+}
+
+.ms-kicker {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand-strong);
+}
+
+.ms-title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.ms-subtitle {
+  margin-top: 8px;
+  font-size: 14.5px;
+  color: var(--color-muted);
+}
+
+/* Trang chọn mục (/music): breadcrumb ở góc trên trái, LevelLanding căn giữa phần còn lại — gói vừa đúng 1
+   màn hình (100dvh) nên không sinh thanh cuộn. */
+.ms-content.ms-landing-page {
+  max-width: none;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 24px 24px;
+}
+
+.ms-landing-page .lv-landing {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Icon tròn đặt cạnh tiêu đề trang con (Học nốt nhạc / Nhạc yêu thích) — cùng
+   view-transition-name với card tương ứng ở màn hình đầu (/music) nên trình duyệt tự "bay" card
+   thành icon này khi điều hướng (xem lib/viewTransition.ts + level-landing.css). Cùng kích thước
+   46px với .lv-card-icon để hiệu ứng phóng to/thu nhỏ mượt, không giật hình. */
+.ms-page-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-brand-soft);
+  color: var(--color-brand);
+  font-size: 17px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Nhạc yêu thích — danh sách bản nhạc + trang xem PDF ─────────────────────────────────── */
+.ms-content.ms-favorites-page {
+  width: 100%;
+  max-width: none;
+  padding: 16px 24px 40px;
+}
+
+.ms-page-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.ms-song-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+  width: 80%;
+  margin: 28px auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 720px) {
+  .ms-song-list {
+    width: 100%;
+  }
+}
+
+.ms-song-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 20px;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 26px -20px rgba(0, 0, 0, 0.35);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.ms-song-card:hover,
+.ms-song-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-brand);
+  box-shadow: 0 16px 30px -20px rgba(0, 0, 0, 0.45);
+}
+
+.ms-song-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--color-brand);
+  color: #ffffff;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.ms-song-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.ms-song-title {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.ms-song-artist {
+  font-size: 13.5px;
+  color: var(--color-text);
+}
+
+.ms-song-meta {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.ms-song-arrow {
+  color: var(--color-muted);
+  font-size: 18px;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.ms-song-card:hover .ms-song-arrow {
+  color: var(--color-brand);
+  transform: translateX(3px);
+}
+
+/* Trang xem bản nhạc: cột flex cao đúng 100dvh, khung PDF chiếm hết phần còn lại nên trang không có thanh cuộn riêng. */
+.ms-content.ms-song-page {
+  max-width: none;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px 24px 20px;
+}
+
+.ms-song-bar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ms-song-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.ms-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s ease;
+}
+
+.ms-btn:hover {
+  border-color: var(--color-brand);
+}
+
+.ms-btn-primary {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  color: #ffffff;
+}
+
+.ms-song-frame {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-card-soft);
+}
+
+.ms-pdf-pages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.ms-pdf-page {
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Học nốt nhạc — luyện đọc khuông nhạc ─────────────────────────────────────────────────────
+   Trang gói trong 1 cột flex cao đúng 100dvh (.ms-learn-page), rộng 100% màn hình. Bên
+   trong chia 2 cột: tuỳ chọn ở bên trái (.ms-settings), khuông nhạc + đáp án ở bên phải (.ms-stage).
+   Khoảng cách các khối lấy từ gap thay vì margin riêng lẻ để nén vừa 1 màn hình, không cuộn. */
+.ms-content.ms-learn-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  min-height: 100dvh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 24px 12px;
+}
+
+.ms-learn-head-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ms-learn-body {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+
+/* Cột tuỳ chọn bên trái: mỗi nhóm = nhãn nhỏ + bộ chọn xếp dọc. */
+.ms-settings {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: var(--radius-card);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px -18px rgba(17, 17, 17, 0.16);
+}
+
+.ms-setting {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Cột phải: khuông nhạc, dòng phản hồi ngay dưới khuông, các hàng đáp án, cuối cùng là nút "Nốt tiếp theo" căn giữa. */
+.ms-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+@media (max-width: 720px) {
+  .ms-learn-body {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+.ms-hand-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card-soft);
+  border: 1px solid var(--color-border);
+}
+
+.ms-hand-toggle button {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.ms-hand-toggle button.active {
+  background: var(--color-brand);
+  color: #ffffff;
+}
+
+/* Biến thể xếp dọc trong cột tuỳ chọn: các lựa chọn thành danh sách, chiếm hết bề ngang cột. */
+.ms-hand-toggle--stack {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  border-radius: 16px;
+}
+
+.ms-hand-toggle--stack button {
+  text-align: left;
+  border-radius: 12px;
+}
+
+.ms-option-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.ms-score-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ms-score {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 700;
+  background: var(--color-card-soft);
+}
+
+.ms-score-correct {
+  color: #15803d;
+}
+
+.ms-score-wrong {
+  color: #b91c1c;
+}
+
+.ms-staff-card {
+  display: flex;
+  justify-content: center;
+  padding: 6px 16px;
+  border-radius: var(--radius-card);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 30px -16px rgba(17, 17, 17, 0.18);
+}
+
+.ms-staff-card svg {
+  max-width: 240px;
+}
+
+.ms-feedback {
+  min-height: 20px;
+  text-align: center;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.ms-feedback-correct {
+  color: #15803d;
+}
+
+.ms-feedback-wrong {
+  color: #b91c1c;
+}
+
+.ms-answer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ms-answer-row-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.ms-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(72px, 1fr));
+  gap: 8px;
+}
+
+.ms-answer-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 8px;
+  border-radius: 14px;
+  background: var(--color-card);
+  border: 1.5px solid var(--color-border);
+  transition: border-color 0.15s ease, background-color 0.15s ease, transform 0.15s ease;
+}
+
+.ms-answer-btn:not(:disabled):hover {
+  border-color: var(--color-brand);
+  transform: translateY(-2px);
+}
+
+.ms-answer-btn:disabled {
+  cursor: default;
+}
+
+.ms-answer-btn.correct {
+  border-color: #15803d;
+  background: #dcfce7;
+}
+
+.ms-answer-btn.wrong {
+  border-color: #b91c1c;
+  background: #fee2e2;
+}
+
+.ms-answer-letter {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.ms-answer-solfege {
+  font-size: 10px;
+  color: var(--color-muted);
+}
+
+.ms-answer-btn.correct .ms-answer-solfege,
+.ms-answer-btn.wrong .ms-answer-solfege {
+  color: inherit;
+  opacity: 0.75;
+}
+
+.ms-next-btn {
+  align-self: center;
+  margin-top: 4px;
+  padding: 10px 26px;
+  border-radius: var(--radius-pill);
+  background: var(--color-brand);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.ms-next-btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* ── View Transition: card ở /music bay thành icon tiêu đề của trang con ─────────────────────
+   .lv-card (level-landing.css) và .ms-page-icon cùng view-transition-name
+   "ms-level-<key>" (gán trực tiếp qua style prop ở trang con) nên trình duyệt tự nội suy vị
+   trí/kích thước giữa 2 trang — xem lib/viewTransition.ts. Khai vào view-transition-class chung
+   với .lv-card để dùng lại luật bo góc/cắt nội dung khi thu-phóng đã định nghĩa trong
+   level-landing.css. */
+.ms-page-icon {
+  view-transition-class: lv-vt-level;
+}

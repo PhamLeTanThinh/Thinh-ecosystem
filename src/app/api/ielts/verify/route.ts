@@ -18,7 +18,9 @@ export async function GET(req: NextRequest) {
 
   await db.update(ieltsMagicTokens).set({ usedAt: new Date() }).where(eq(ieltsMagicTokens.token, token))
 
-  const res = NextResponse.redirect(new URL('/ielts', origin))
+  // Chỉ nhận đúng các đích trong whitelist — không redirect tới đường dẫn tuỳ ý người ta nhét vào link.
+  const dest = searchParams.get('next') === '/admin' ? '/admin' : '/ielts'
+  const res = NextResponse.redirect(new URL(dest, origin))
   setSessionCookie(res, row.email)
   return res
 }

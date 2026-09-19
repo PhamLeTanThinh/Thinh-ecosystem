@@ -4,207 +4,801 @@
   min-height: 100dvh;
 }
 
+/* ── Trang: nền trắng sáng ────────────────────────────────────────────────────────────────────
+   Trắng thuần, chỉ có 3 vệt pastel rất nhạt (hồng, oải hương, xanh trời) ở các góc để nền không
+   phẳng lì. Chữ trên trang là màu mực đậm. */
 .sd-root {
   position: relative;
   min-height: 100dvh;
   overflow-x: hidden;
+  color: #1f1d2b;
+  font-family: var(--font-sd), var(--font-dm-sans), sans-serif;
+  /* Hạt phim (noise/grain) giống lớp grain ở trang chủ. Tạo bằng SVG feTurbulence (không cần JS nên
+     có ngay từ HTML đầu tiên). Chỉ dùng độ trong suốt ngẫu nhiên của ảnh này làm MẶT NẠ (mask) cho 1
+     khối tô màu app — nên mỗi card có hạt màu riêng (màu ảnh SVG không đổi được bằng biến CSS). */
+  --sd-grain-ink: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='i' x='0' y='0' width='100%25' height='100%25'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 .12 0 0 0 0 .11 0 0 0 0 .17 2.6 0 0 0 -.9'/></filter><rect width='100%25' height='100%25' filter='url(%23i)'/></svg>");
   background-color: #ffffff;
-  background-image: radial-gradient(ellipse 1100px 760px at 15% -10%, #fff3e6, transparent 60%),
-    radial-gradient(ellipse 1000px 720px at 105% 10%, #eaf2ff, transparent 62%),
-    radial-gradient(ellipse 900px 640px at 40% 115%, #f2ecff, transparent 62%);
-  color: #14151c;
-  font-family: var(--font-dm-sans), sans-serif;
-}
-
-.sd-blobs {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  filter: blur(60px);
-  opacity: 0.55;
-}
-
-.sd-blob {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.sd-blob-1 {
-  width: 360px;
-  height: 360px;
-  left: 2%;
-  top: 4%;
-  background: #ffc2ce;
-}
-.sd-blob-2 {
-  width: 320px;
-  height: 320px;
-  left: 62%;
-  top: 6%;
-  background: #d6cbfb;
-}
-.sd-blob-3 {
-  width: 280px;
-  height: 280px;
-  left: 22%;
-  top: 56%;
-  background: #ffe1ab;
-}
-.sd-blob-4 {
-  width: 260px;
-  height: 260px;
-  left: 76%;
-  top: 50%;
-  background: #bdeece;
+  background-image: radial-gradient(ellipse 60% 40% at 8% 0%, rgba(255, 226, 232, 0.55), transparent 65%),
+    radial-gradient(ellipse 55% 38% at 100% 8%, rgba(226, 232, 255, 0.6), transparent 65%),
+    radial-gradient(ellipse 60% 40% at 50% 112%, rgba(240, 232, 255, 0.55), transparent 65%);
+  background-attachment: fixed;
 }
 
 .sd-content {
   position: relative;
-  z-index: 1;
-  max-width: 1240px;
+  max-width: 1560px;
   margin: 0 auto;
-  padding: 72px 24px 200px;
+  padding: 72px 28px 96px;
+}
+
+/* flex-wrap: khi không đủ chỗ cho cả tiêu đề lẫn mèo + bong bóng (~450px) thì mèo tự xuống hàng riêng, căn
+   phải, thay vì ép tiêu đề ngắt thành 2-3 dòng. */
+.sd-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px 24px;
 }
 
 .sd-kicker {
+  margin-bottom: 14px;
   font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+  font-weight: 400;
+  letter-spacing: 0.28em;
   text-transform: uppercase;
-  color: rgba(20, 21, 28, 0.45);
-  margin-bottom: 10px;
+  color: rgba(31, 29, 43, 0.5);
 }
 
 .sd-title {
-  font-size: 34px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
+  font-size: clamp(38px, 6vw, 62px);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+  color: #1f1d2b;
 }
 
 .sd-subtitle {
-  margin-top: 8px;
-  font-size: 14.5px;
-  color: rgba(20, 21, 28, 0.6);
+  margin-top: 12px;
+  font-size: 15px;
+  font-weight: 300;
+  color: rgba(31, 29, 43, 0.62);
 }
 
-.sd-grid {
-  margin-top: 40px;
+/* ── Con mèo ở đầu trang + bong bóng hội thoại (MascotSpeech.tsx) ──────────────────────────────
+   Con mèo KHÔNG có khung/viền/bóng: clip có nền trắng nên dùng mix-blend-mode: multiply — trắng nhân
+   với nền trang ra đúng màu nền trang (kể cả các vệt pastel ở góc), chỉ còn lại nét vẽ tối của con mèo
+   và cái bóng dưới chân. Mặt nạ mờ dần ở rìa che nốt mọi vết viền còn sót của clip. Để multiply thấy
+   được nền trang, các phần tử cha không được tạo ngữ cảnh xếp chồng riêng (không z-index, filter,
+   backdrop-filter, opacity < 1... trên đường từ đây lên .sd-root). */
+.sd-mascot {
+  flex: none;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.sd-mascot-video {
+  display: block;
+  width: 244px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  mix-blend-mode: multiply;
+  /* Mờ dần ở cả 4 cạnh (2 dải chồng lên nhau, giao nhau bằng mask-composite) — chắc chắn hơn 1 hình elip:
+     mọi điểm ở sát rìa clip, nơi hay còn sót sắc thái không trắng hẳn do nén video, đều về 0. */
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 78%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 14%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0, #000 22%, #000 78%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 14%, #000 88%, transparent 100%);
+  mask-composite: intersect;
+}
+
+/* 2 câu thoại LUÂN PHIÊN nhau trong CÙNG 1 chỗ (xếp chồng trong 1 ô lưới, neo góc dưới phải — nơi có đuôi
+   bong bóng chỉ vào con mèo): mỗi lúc chỉ 1 bong bóng hiện, cái kia thu nhỏ + mờ đi. Ô lưới luôn cao bằng
+   bong bóng cao nhất nên khi đổi câu không làm dịch bố cục. Đè nhẹ lên khung video (margin âm) vì phần rìa
+   của clip chỉ là nền trắng trong suốt. */
+.sd-says {
+  flex: none;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 18px;
+  justify-items: end;
+  align-items: end;
+  margin: 0 -26px 30px 0;
+}
+
+.sd-say {
+  grid-area: 1 / 1;
+  position: relative;
+  max-width: 236px;
+  padding: 13px 17px 14px;
+  border-radius: 22px 22px 6px 22px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 16px 36px -16px rgba(70, 60, 110, 0.42), 0 0 0 1px rgba(31, 29, 43, 0.05);
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: pre-line; /* giữ '\n' trong câu thoại như 1 lần xuống dòng */
+  color: #1f1d2b;
+  transform-origin: 100% 100%;
+  transition: opacity 0.3s ease, transform 0.55s cubic-bezier(0.2, 0.9, 0.3, 1.35);
+}
+
+/* Đang thu lại (hoặc chưa tới lượt): nhỏ + mờ, không bắt chuột. Thu lại nhanh hơn bật lên. */
+.sd-say[data-hidden] {
+  opacity: 0;
+  transform: scale(0.4);
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.3s ease;
+}
+
+/* Đuôi bong bóng: hình vuông bo góc xoay 45°, cùng màu nền. */
+.sd-say::after {
+  content: '';
+  position: absolute;
+  right: -7px;
+  bottom: 13px;
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.94);
+  transform: rotate(45deg);
+}
+
+/* Bản chữ ẩn định kích thước bong bóng; chữ đang gõ nằm đè lên đúng vị trí. */
+.sd-say-ghost {
+  display: block;
+  visibility: hidden;
+}
+
+.sd-say-text {
+  position: absolute;
+  inset: 13px 17px 14px;
+}
+
+/* Chữ nhấn theo màu lông của em mèo: nâu ấm #8a6d58 — màu trung bình của phần lông (lấy mẫu từ ảnh). Tương
+   phản với nền trắng của bong bóng 4,8:1 nên đọc rõ hơn hẳn vàng. */
+.sd-say-em {
+  font-weight: 700;
+  color: #8a6d58;
+}
+
+/* Con trỏ gõ chữ nhấp nháy, cùng màu lông. margin âm để chiều ngang thực bằng 0: không bao giờ bị đẩy xuống
+   dòng dưới khi câu vừa khít bề ngang bong bóng. */
+.sd-say-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1.05em;
+  margin: 0 -2px 0 2px;
+  vertical-align: -0.16em;
+  background: #8a6d58;
+  animation: sd-caret 1s steps(1, end) infinite;
+}
+
+/* Giảm chuyển động: hiện tĩnh cả 2 câu xếp chồng nhau (không tự đổi câu, không gõ chữ). */
+.sd-says[data-static] {
+  justify-items: end;
+  gap: 8px;
+}
+
+.sd-says[data-static] .sd-say {
+  grid-area: auto;
+  transition: none;
+}
+
+.sd-says[data-static] .sd-say::after {
+  display: none;
+}
+
+.sd-says[data-static] .sd-say:first-child::after {
+  display: block;
+}
+
+@keyframes sd-caret {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ── Thẻ: video phủ kín cả thẻ (không khung, không viền), dáng ngang, 1 hàng 4 cột ───────────── */
+.sd-grid {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
 }
 
 .sd-card {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 190px;
-  padding: 24px;
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(22px) saturate(180%);
-  -webkit-backdrop-filter: blur(22px) saturate(180%);
-  box-shadow: 0 10px 40px -14px rgba(20, 21, 28, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-radius 0.3s ease, box-shadow 0.25s ease;
+  --pad: 14px;
+  display: block;
+  border-radius: 32px;
+  color: inherit;
+  text-decoration: none;
+  box-shadow: 0 24px 50px -26px rgba(70, 60, 110, 0.4);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease;
 }
 
-.sd-card::before {
-  content: '';
+.sd-card:hover,
+.sd-card:focus-visible {
+  transform: translateY(-8px);
+  box-shadow: 0 38px 70px -28px rgba(70, 60, 110, 0.48);
+}
+
+.sd-card:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 70%, #1f1d2b);
+  outline-offset: 4px;
+}
+
+/* "Sân khấu" = chính là thẻ: video phủ kín, mọi thứ khác xếp chồng lên trên. Dáng ngang (4:3) — gần
+   khung 16:9 của clip nên linh vật ít bị cắt, chỉ mất khoảng 25% hai bên. container-type để chữ khoét
+   dùng được đơn vị cqw (bề rộng của sân khấu) nên co giãn theo thẻ. */
+.sd-card-stage {
+  position: relative;
+  isolation: isolate;
+  container-type: inline-size;
+  display: block;
+  aspect-ratio: 4 / 3;
+  border-radius: inherit;
+  overflow: hidden;
+  background: #f6f3fa;
+}
+
+.sd-card-video {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background: radial-gradient(circle at 30% 20%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+  transform: scale(1.02);
 }
 
-.sd-card:hover {
-  transform: translateY(-4px);
-  border-radius: 36px 20px 36px 20px;
-  box-shadow: 0 20px 50px -14px rgba(20, 21, 28, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+/* Clip có nền trắng — nhân (multiply) với dải pastel rất nhạt để nền trắng của clip hơi ngả màu,
+   tách khỏi nền trang trắng mà vẫn sáng; vệt màu ở góc trên phải theo màu của từng app. Nét vẽ tối
+   của linh vật giữ nguyên. */
+.sd-card-shade {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  mix-blend-mode: multiply;
+  background: radial-gradient(circle at 84% 12%, color-mix(in srgb, var(--accent) 20%, #fff) 0, transparent 55%),
+    linear-gradient(180deg, #f1eef8 0%, #f9f1f3 55%, #fcf5ee 100%);
 }
 
-.sd-card:hover::before {
-  opacity: 1;
-}
+/* ── Lúc nghỉ: dải mờ trắng + hạt phim (noise/grain). Rê chuột: khung chứa chữ loang thành mặt nước ──
+   LÚC NGHỈ (và trên thiết bị cảm ứng): dải mờ trắng ở đáy thẻ phủ hạt phim mực để tên app luôn đọc rõ
+   — chấp nhận che bớt chi tiết video ở đó. RÊ CHUỘT / FOCUS: dải mờ và hạt phim tan đi; khung bọc chữ hiện
+   ra thành 1 tấm nước trong rồi LOANG RA phủ kín cả thẻ (chính khung đó nở ra, không có lớp phụ hay vòng
+   tròn). Mặt nước khúc xạ mạnh video bên dưới bằng bộ lọc SVG #sd-water (thay cho blur), méo chảy liên tục,
+   mô tả mở ra bên dưới tên. Thiết bị cảm ứng không có hover nên mô tả luôn hiện (dải mờ cao hơn cho vừa
+   cả mô tả) và không có hiệu ứng nước. Khúc xạ dùng backdrop-filter: url(#…) nên chỉ Chromium vẽ được;
+   trình duyệt khác vẫn thấy nước loang tô màu, chỉ thiếu phần méo. */
 
-.sd-card-icon {
-  position: relative;
-  width: 42px;
-  height: 42px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 15px;
-  background: color-mix(in srgb, var(--accent) 20%, white);
-  color: var(--accent);
-}
-
-.sd-card-name {
-  position: relative;
-  font-weight: 700;
-  font-size: 17px;
-  color: #14151c;
-}
-
-.sd-card-desc {
-  position: relative;
-  font-size: 12.5px;
-  line-height: 1.55;
-  color: rgba(20, 21, 28, 0.62);
-  flex: 1;
-}
-
-.sd-card-go {
-  position: relative;
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.sd-footer {
-  position: fixed;
-  z-index: 20;
+/* Dải mờ ở đáy: mờ nền phía sau + gradient trắng đặc dần xuống đáy; mask làm mép trên tan dần chứ
+   không có đường cắt cứng. Phủ thêm hạt mực (::after) để dải không phẳng lì mà có chất grain. */
+.sd-card-band {
+  position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100%;
-  background: #ffffff;
-  padding: 16px 0;
+  z-index: 1;
+  height: 32%;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(2px) saturate(108%);
+  backdrop-filter: blur(2px) saturate(108%);
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.86) 0%, rgba(255, 255, 255, 0.55) 45%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: linear-gradient(to top, #000 60%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 60%, transparent 100%);
 }
 
-.sd-footer::before {
+.sd-card-band::after {
   content: '';
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 100%;
-  height: 160px;
-  background: linear-gradient(to bottom, transparent, #ffffff);
+  inset: -30px;
+  background-color: color-mix(in srgb, var(--accent) 78%, #1f1d2b);
+  -webkit-mask-image: var(--sd-grain-ink);
+  mask-image: var(--sd-grain-ink);
+  -webkit-mask-size: 160px 160px;
+  mask-size: 160px 160px;
+  opacity: 0.04;
+  animation: sd-grain-shift 0.6s steps(1, end) infinite;
+}
+
+/* Lớp hạt phim phủ cả thẻ, tô màu của app (mask + background-color): rộng hơn thẻ 30px mỗi phía để
+   khi nhảy vị trí không lộ mép. Nhấp nháy bằng cách nhảy vị trí mặt nạ từng bước (steps) chứ không
+   trượt mượt — grain thật đổi khung chứ không chuyển động. */
+.sd-card-grain {
+  position: absolute;
+  inset: -30px;
+  z-index: 1;
   pointer-events: none;
+  background-color: color-mix(in srgb, var(--accent) 85%, #000);
+  -webkit-mask-image: var(--sd-grain-ink);
+  mask-image: var(--sd-grain-ink);
+  -webkit-mask-size: 160px 160px;
+  mask-size: 160px 160px;
+  opacity: 0.03;
+  animation: sd-grain-shift 0.6s steps(1, end) infinite;
+  transition: opacity 0.6s ease;
 }
 
-.sd-footer-grid {
+@keyframes sd-grain-shift {
+  0% {
+    -webkit-mask-position: 0 0;
+    mask-position: 0 0;
+  }
+  17% {
+    -webkit-mask-position: -38px 24px;
+    mask-position: -38px 24px;
+  }
+  33% {
+    -webkit-mask-position: 52px -46px;
+    mask-position: 52px -46px;
+  }
+  50% {
+    -webkit-mask-position: -71px -13px;
+    mask-position: -71px -13px;
+  }
+  67% {
+    -webkit-mask-position: 19px 63px;
+    mask-position: 19px 63px;
+  }
+  83% {
+    -webkit-mask-position: -24px -57px;
+    mask-position: -24px -57px;
+  }
+}
+
+/* Khối chữ neo ở góc dưới trái; mô tả mở ra thì khối lớn lên về phía trên nên tên tự trượt lên. Khối này
+   cũng là "khung nước" khi rê chuột: 2 lớp giả (::before = thân nước, ::after = vệt sáng loang) hiện dần
+   ra rồi NỞ RA (top/left/right/bottom âm) cho tới khi phủ kín cả thẻ — chính cái khung bọc chữ loang ra
+   thành mặt nước toàn thẻ, chữ vẫn nằm ở đáy. Phần lớp giả vượt ra ngoài thẻ bị overflow của sân khấu cắt
+   nên không lộ góc. Padding cũng nở ra để chữ lùi vào trong khung; lúc nghỉ padding = 0 nên chữ nằm đúng
+   chỗ cũ. */
+.sd-card-copy {
+  position: absolute;
+  left: var(--pad);
+  right: var(--pad);
+  bottom: var(--pad);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: 26px; /* bo góc ban đầu của khung nước (sd-blob sẽ đổi dần khi hover) */
+}
+
+.sd-card-copy::before,
+.sd-card-copy::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Thân nước, 4 lớp nền (trên xuống dưới): vệt phản chiếu sáng góc trên trái; 2 vệt màu trôi chậm (màu app
+   và xanh nước, sd-flow) cho cảm giác có dòng chảy; nền trắng đặc ở ~165px sát đáy (tính từ đáy lên, nên
+   lúc khung còn nhỏ nó phủ trắng đều để chữ đọc rõ, còn khi loang ra phía trên thì nhạt dần để lộ video)
+   . Không blur: phía sau bị khúc xạ mạnh bằng #sd-water (backdrop-filter: url). Đổ bóng xanh xám trung tính. */
+.sd-card-copy::before {
+  background: radial-gradient(ellipse 55% 120% at 10% -10%, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(circle at 25% 65%, color-mix(in srgb, var(--accent) 20%, transparent) 0%, transparent 55%),
+    radial-gradient(circle at 78% 35%, rgba(150, 215, 255, 0.28) 0%, transparent 50%),
+    linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.68) 0,
+      color-mix(in srgb, var(--accent) 10%, rgba(255, 255, 255, 0.6)) 150px,
+      rgba(200, 232, 255, 0.1) 245px,
+      rgba(190, 225, 250, 0.14) 100%
+    );
+  background-size: 100% 100%, 170% 170%, 170% 170%, 100% 100%;
+  background-repeat: no-repeat;
+  -webkit-backdrop-filter: saturate(140%) brightness(1.05);
+  backdrop-filter: saturate(140%) brightness(1.05);
+  backdrop-filter: url(#sd-water) saturate(140%) brightness(1.05);
+  box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.9), inset 0 -2px 4px rgba(255, 255, 255, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.45),
+    0 12px 22px -12px rgba(20, 60, 100, 0.45);
+}
+
+/* Vệt sáng loang (caustics): vài đốm trắng mềm trôi ngang qua mặt nước. */
+.sd-card-copy::after {
+  background: radial-gradient(ellipse 22% 55% at 18% 25%, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 16% 40% at 62% 72%, rgba(255, 255, 255, 0.38) 0%, rgba(255, 255, 255, 0) 70%),
+    radial-gradient(ellipse 20% 50% at 90% 18%, rgba(255, 255, 255, 0.42) 0%, rgba(255, 255, 255, 0) 70%);
+  background-size: 180% 100%;
+  background-repeat: no-repeat;
+}
+
+@keyframes sd-caustic {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* Vệt màu trong nước trôi ngược chiều nhau (chỉ lớp 2 và 3 của thân nước dịch chuyển). */
+@keyframes sd-flow {
+  from {
+    background-position: 0 0, 0% 100%, 100% 0%, 0 0;
+  }
+  to {
+    background-position: 0 0, 100% 0%, 0% 100%, 0 0;
+  }
+}
+
+/* Khung nước uốn éo như giọt chất lỏng: bo góc mỗi góc 1 kiểu, đổi dần theo chu kỳ. */
+@keyframes sd-blob {
+  0%,
+  100% {
+    border-radius: 26px 34px 28px 38px / 30px 26px 36px 28px;
+  }
+  33% {
+    border-radius: 38px 26px 38px 28px / 26px 38px 28px 34px;
+  }
+  66% {
+    border-radius: 30px 40px 26px 34px / 38px 28px 32px 26px;
+  }
+}
+
+/* Font bình thường của trang (Lexend), nét, không hiệu ứng chữ. Màu theo từng app: màu chủ đạo pha
+   thêm chút mực đậm (86/14) để giữ đủ độ tương phản trên dải trắng mà không bị đen nặng; quầng trắng
+   mảnh phía sau giúp chữ tách khỏi nền video ở mép dải mờ. */
+.sd-card-name {
+  font-size: clamp(20px, 7.5cqw, 28px);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: color-mix(in srgb, var(--accent) 86%, #1f1d2b);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.95), 0 0 2px rgba(255, 255, 255, 0.85);
+}
+
+/* Mô tả nằm trong 1 hàng lưới: hàng cao 0fr (đóng) ↔ 1fr (mở) là cách hoạt hoạ chiều cao theo nội
+   dung mà không cần biết trước số dòng. */
+.sd-card-more {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0;
-  width: 100%;
+  grid-template-rows: 1fr;
 }
 
-.sd-footer-clip {
-  height: 140px;
+.sd-card-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  min-height: 0;
   overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: color-mix(in srgb, var(--accent) 20%, #1f1d2b);
 }
 
-.sd-footer-clip video {
+@media (hover: hover) {
+  .sd-card-band {
+    transition: opacity 0.45s ease;
+  }
+
+  .sd-card-video {
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sd-card-copy {
+    transition: padding 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sd-card-copy::before {
+    transition: opacity 0.5s ease, box-shadow 0.5s ease, inset 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s;
+  }
+
+  .sd-card-copy::after {
+    transition: opacity 0.5s ease, inset 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) 0.1s;
+  }
+
+  .sd-card-more {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sd-card-desc {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Không blur nữa: phóng vừa đủ (che mép khi khúc xạ kéo hình) + tăng bão hoà để video "đậm màu" như
+     dưới nước; phần méo/loang do khung nước (::before của .sd-card-copy). */
+  .sd-card:hover .sd-card-video,
+  .sd-card:focus-visible .sd-card-video {
+    filter: saturate(1.2);
+    transform: scale(1.1);
+  }
+
+  .sd-card:hover .sd-card-band,
+  .sd-card:focus-visible .sd-card-band,
+  .sd-card:hover .sd-card-grain,
+  .sd-card:focus-visible .sd-card-grain {
+    opacity: 0;
+  }
+
+  .sd-card:hover .sd-card-copy,
+  .sd-card:focus-visible .sd-card-copy {
+    padding: 14px 18px 16px;
+    animation: sd-blob 6s ease-in-out infinite;
+  }
+
+  /* Loang ra: khung nở tới sát 4 mép thẻ (top âm cỡ cả chiều cao thẻ — thẻ cao 75cqw — nên mọi cỡ thẻ, mọi
+     độ dài mô tả đều phủ kín). Thứ tự inset: top, right, bottom, left. */
+  .sd-card:hover .sd-card-copy::before,
+  .sd-card:focus-visible .sd-card-copy::before,
+  .sd-card:hover .sd-card-copy::after,
+  .sd-card:focus-visible .sd-card-copy::after {
+    opacity: 1;
+    inset: -75cqw calc(-1 * var(--pad)) calc(-1 * var(--pad)) calc(-1 * var(--pad));
+  }
+
+  .sd-card:hover .sd-card-copy::before,
+  .sd-card:focus-visible .sd-card-copy::before {
+    box-shadow: inset 0 1.5px 1px rgba(255, 255, 255, 0.95), inset 0 -2px 4px rgba(255, 255, 255, 0.45), inset 0 0 0 1px rgba(255, 255, 255, 0.5),
+      0 16px 28px -12px rgba(20, 60, 100, 0.5);
+    animation: sd-flow 7s ease-in-out infinite alternate;
+  }
+
+  .sd-card:hover .sd-card-copy::after,
+  .sd-card:focus-visible .sd-card-copy::after {
+    animation: sd-caustic 4.5s ease-in-out infinite alternate;
+  }
+
+  .sd-card:hover .sd-card-more,
+  .sd-card:focus-visible .sd-card-more {
+    grid-template-rows: 1fr;
+  }
+
+  .sd-card:hover .sd-card-desc,
+  .sd-card:focus-visible .sd-card-desc {
+    opacity: 1;
+    transition-delay: 0.2s;
+  }
+}
+
+/* Thiết bị cảm ứng: mô tả luôn hiện nên dải mờ phải cao hơn để phủ cả tên lẫn mô tả. */
+@media (hover: none) {
+  .sd-card-band {
+    height: 68%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-card-grain,
+  .sd-card-band::after,
+  .sd-card:hover .sd-card-copy,
+  .sd-card:focus-visible .sd-card-copy,
+  .sd-card:hover .sd-card-copy::before,
+  .sd-card:focus-visible .sd-card-copy::before,
+  .sd-card:hover .sd-card-copy::after,
+  .sd-card:focus-visible .sd-card-copy::after {
+    animation: none;
+  }
+
+  /* SMIL trong bộ lọc không tắt được bằng CSS, nên với người giảm chuyển động bỏ hẳn khúc xạ (chỉ còn
+     tô màu) và không cho khung nở dần — hiện thẳng trạng thái cuối. */
+  .sd-card-copy::before {
+    -webkit-backdrop-filter: saturate(140%) brightness(1.05);
+    backdrop-filter: saturate(140%) brightness(1.05);
+  }
+
+  .sd-card-copy::before,
+  .sd-card-copy::after {
+    transition: opacity 0.3s ease;
+  }
+}
+
+/* ── Hiệu ứng hạt riêng của từng thẻ (CardFx.tsx) ────────────────────────────────────────────
+   Hoa anh đào rơi (Korean), tàn lửa bay lên (Chinese), tuyết rơi (IELTS), nốt nhạc bay lên (Vitrine).
+   Thuần CSS, chỉ animate translate / transform / opacity (chạy bằng GPU). Hạt nằm trên video nhưng dưới
+   dải mờ, lớp hạt phim và chữ. Dùng các thuộc tính transform RIÊNG LẺ (translate, scale) để 1 hạt chạy
+   được nhiều animation cùng lúc (rơi + lắc + xoay) mà không đè lên nhau. Quãng đường tính bằng cqw
+   (bề rộng thẻ) — thẻ cao 3/4 bề rộng nên ~84cqw là đi hết chiều cao thẻ. Lúc nghỉ hơi mờ, rê chuột
+   thì rõ hẳn; người bật giảm chuyển động thì tắt hẳn. */
+.sd-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.6s ease;
+}
+
+.sd-card:hover .sd-fx,
+.sd-card:focus-visible .sd-fx {
+  opacity: 1;
+}
+
+.sd-fx i {
+  position: absolute;
+  left: var(--x);
   display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  width: var(--s);
+  height: var(--s);
+  will-change: translate, transform;
+}
+
+@keyframes sd-fall {
+  from {
+    translate: 0 -8cqw;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  to {
+    translate: 0 84cqw;
+    opacity: 0;
+  }
+}
+
+@keyframes sd-float-up {
+  from {
+    translate: 0 0;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.9;
+  }
+  to {
+    translate: 0 -84cqw;
+    opacity: 0;
+  }
+}
+
+/* Lắc ngang + xoay (cánh hoa). */
+@keyframes sd-sway {
+  from {
+    transform: translateX(calc(var(--sw) * -1)) rotate(-38deg);
+  }
+  to {
+    transform: translateX(var(--sw)) rotate(42deg);
+  }
+}
+
+/* Lắc ngang nhẹ, không xoay (tuyết, tàn lửa, nốt nhạc). */
+@keyframes sd-sway-soft {
+  from {
+    transform: translateX(calc(var(--sw) * -1));
+  }
+  to {
+    transform: translateX(var(--sw));
+  }
+}
+
+@keyframes sd-twinkle {
+  0%,
+  100% {
+    scale: 1;
+  }
+  50% {
+    scale: 0.55;
+  }
+}
+
+/* Hoa anh đào: cánh hoa hồng phấn (bo góc chéo tạo hình cánh), xoay khi rơi. */
+.sd-fx-sakura i {
+  top: -6cqw;
+  height: calc(var(--s) * 0.72);
+  border-radius: 80% 0 80% 0;
+  background: linear-gradient(135deg, #ffeaf1 0%, #ffb9d0 58%, #ff92b8 100%);
+  box-shadow: 0 1px 3px rgba(255, 120, 165, 0.4);
+  animation: sd-fall var(--d) linear var(--delay) infinite, sd-sway calc(var(--d) / 3.2) ease-in-out var(--delay) infinite alternate;
+}
+
+/* Tuyết: hạt trắng mềm có viền xanh nhạt để thấy được cả trên nền sáng. */
+.sd-fx-snow i {
+  top: -6cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, #fff 0, #fff 42%, rgba(232, 240, 255, 0.85) 66%, rgba(200, 215, 245, 0) 100%);
+  box-shadow: 0 0 5px rgba(110, 140, 205, 0.55);
+  animation: sd-fall var(--d) linear var(--delay) infinite, sd-sway-soft calc(var(--d) / 4) ease-in-out var(--delay) infinite alternate;
+}
+
+/* Tàn lửa lồng đèn: đốm vàng cam phát sáng, bay lên và nhấp nháy. */
+.sd-fx-embers i {
+  bottom: -4cqw;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff3b0 0, #ffb52e 40%, #ff7a18 62%, rgba(255, 110, 20, 0) 78%);
+  box-shadow: 0 0 10px 3px rgba(255, 130, 30, 0.7), 0 0 2px 1px rgba(200, 60, 10, 0.5);
+  animation: sd-float-up var(--d) ease-out var(--delay) infinite, sd-sway-soft calc(var(--d) / 3) ease-in-out var(--delay) infinite alternate,
+    sd-twinkle 1.7s ease-in-out var(--delay) infinite;
+}
+
+/* Nốt nhạc: ký tự ♪ ♫ ♩ ♬ (chọn qua biến --g) theo màu app, bay lên. */
+.sd-fx-notes i {
+  bottom: -6cqw;
+  width: auto;
+  height: auto;
+  font-size: var(--s);
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent) 88%, #000);
+  text-shadow: 0 1px 6px rgba(255, 255, 255, 0.75);
+  animation: sd-float-up var(--d) ease-out var(--delay) infinite, sd-sway-soft calc(var(--d) / 3) ease-in-out var(--delay) infinite alternate;
+}
+
+.sd-fx-notes i::before {
+  content: var(--g);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sd-fx {
+    display: none;
+  }
+}
+
+@keyframes sd-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .sd-card {
+    animation: sd-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  }
+
+  .sd-card:nth-child(2) {
+    animation-delay: 0.09s;
+  }
+
+  .sd-card:nth-child(3) {
+    animation-delay: 0.18s;
+  }
+
+  .sd-card:nth-child(4) {
+    animation-delay: 0.27s;
+  }
+}
+
+/* Tablet: 2 cột, thẻ rộng hơn nên mô tả to hơn. */
+@media (max-width: 1100px) {
+  .sd-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 26px;
+  }
+
+  .sd-card {
+    --pad: 18px;
+  }
+
+  .sd-card-desc {
+    font-size: 13px;
+  }
+}
+
+/* Điện thoại: 1 cột, thẻ vẫn dáng ngang 4:3. */
+@media (max-width: 640px) {
+  .sd-content {
+    padding: 48px 16px 64px;
+  }
+
+  .sd-mascot {
+    display: none;
+  }
+
+  .sd-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sd-card {
+    border-radius: 28px;
+  }
 }

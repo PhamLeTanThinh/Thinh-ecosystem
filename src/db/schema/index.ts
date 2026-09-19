@@ -8,6 +8,7 @@ import {
   jsonb,
   uuid,
   varchar,
+  primaryKey,
 } from 'drizzle-orm/pg-core'
 
 // ── URL SHORTENER ─────────────────────────────────────────────────
@@ -37,27 +38,50 @@ export const chineseCards = pgTable('chinese_cards', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
-// Kết quả ôn tập gần nhất của mỗi thẻ — 1 dòng/thẻ (id = cardId).
-export const chineseProgress = pgTable('chinese_progress', {
-  id: text('id').primaryKey(), // = cardId
-  correctCount: integer('correct_count').default(0).notNull(),
-  wrongCount: integer('wrong_count').default(0).notNull(),
-  lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
-  lastReviewedAt: timestamp('last_reviewed_at'),
-})
+// Kết quả ôn tập gần nhất của mỗi thẻ, RIÊNG THEO TỪNG NGƯỜI HỌC (learnerId — định danh ẩn danh theo
+// trình duyệt, xem lib/learner/identity.ts; KHÔNG phải tài khoản/đăng nhập). Khoá chính kép
+// (learnerId, id) vì thẻ (id = cardId) là nội dung DÙNG CHUNG — nhiều người có thể cùng ôn 1 thẻ mà
+// tiến độ không đụng nhau. Dữ liệu tạo ra trước khi có khái niệm này được gắn learnerId = 'legacy'
+// (xem LEGACY_LEARNER_ID) thay vì mất — xem route /api/learner/claim-legacy để nhận lại.
+export const chineseProgress = pgTable(
+  'chinese_progress',
+  {
+    learnerId: text('learner_id').default('legacy').notNull(),
+    id: text('id').notNull(), // = cardId
+    correctCount: integer('correct_count').default(0).notNull(),
+    wrongCount: integer('wrong_count').default(0).notNull(),
+    lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
+    lastReviewedAt: timestamp('last_reviewed_at'),
+  },
+  (t) => [primaryKey({ columns: [t.learnerId, t.id] })],
+)
 
-// Cài đặt hiển thị của app — 1 dòng duy nhất, id = 'default'.
+// Cài đặt hiển thị của app — 1 dòng/người học. Cột SQL vẫn tên "id" (không đổi tên cột thật trong DB)
+// nhưng giờ mang giá trị learnerId thay vì hằng số 'default' như trước — xem lib/learner/identity.ts.
 export const chineseSettings = pgTable('chinese_settings', {
-  id: text('id').primaryKey(),
+  learnerId: text('id').primaryKey(),
   pinyinPosition: varchar('pinyin_position', { length: 10 }).default('hanzi').notNull(), // 'hanzi' | 'vietnamese'
   shuffle: boolean('shuffle').default(true).notNull(),
   // 'hanzi-to-pinyin' | 'hanzi-to-meaning' | 'meaning-to-hanzi' — chiều câu hỏi trắc nghiệm kiểu Quizlet.
   quizMode: varchar('quiz_mode', { length: 20 }).default('hanzi-to-meaning').notNull(),
 })
 
-// Bộ học riêng do người dùng tự chọn 1 nhóm từ để ôn tập tách biệt.
+// Sổ đăng ký TÊN hồ sơ đã được ai đó "nhận" (route /api/learner/create, hoặc rename cho hồ sơ cũ) —
+// tách riêng khỏi 5 bảng dữ liệu học vì 1 hồ sơ vừa tạo xong có thể CHƯA có dòng nào ở bất kỳ bảng nào
+// (chưa học gì cả), nên chỉ dò "tên đã có dữ liệu chưa" ở các bảng đó là không đủ — người khác có thể
+// "cướp" đúng cái tên rỗng đó. Ràng buộc UNIQUE trên id còn giúp việc "nhận tên" atomic, tránh 2 người
+// tạo trùng tên cùng lúc (race condition) mà không cần khoá thêm ở tầng ứng dụng.
+export const learnerProfiles = pgTable('learner_profiles', {
+  id: text('id').primaryKey(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// Bộ học riêng do người dùng tự chọn 1 nhóm từ để ôn tập tách biệt — mỗi người học chỉ thấy/sửa được
+// bộ của chính mình (learnerId, xem lib/learner/identity.ts). `id` (nanoid do client sinh) vẫn đủ
+// làm khoá chính vì đã ngẫu nhiên xuyên suốt mọi người học.
 export const chineseDecks = pgTable('chinese_decks', {
   id: text('id').primaryKey(),
+  learnerId: text('learner_id').default('legacy').notNull(),
   name: text('name').notNull(),
   cardIds: text('card_ids').array().notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
@@ -79,18 +103,24 @@ export const koreanCards = pgTable('korean_cards', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
-// Kết quả ôn tập gần nhất của mỗi thẻ — 1 dòng/thẻ (id = cardId).
-export const koreanProgress = pgTable('korean_progress', {
-  id: text('id').primaryKey(), // = cardId
-  correctCount: integer('correct_count').default(0).notNull(),
-  wrongCount: integer('wrong_count').default(0).notNull(),
-  lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
-  lastReviewedAt: timestamp('last_reviewed_at'),
-})
+// Kết quả ôn tập gần nhất của mỗi thẻ, RIÊNG THEO TỪNG NGƯỜI HỌC — cùng thiết kế với chineseProgress
+// ở trên (xem chú thích đó và lib/learner/identity.ts).
+export const koreanProgress = pgTable(
+  'korean_progress',
+  {
+    learnerId: text('learner_id').default('legacy').notNull(),
+    id: text('id').notNull(), // = cardId
+    correctCount: integer('correct_count').default(0).notNull(),
+    wrongCount: integer('wrong_count').default(0).notNull(),
+    lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
+    lastReviewedAt: timestamp('last_reviewed_at'),
+  },
+  (t) => [primaryKey({ columns: [t.learnerId, t.id] })],
+)
 
-// Cài đặt hiển thị của app — 1 dòng duy nhất, id = 'default'.
+// Cài đặt hiển thị của app — 1 dòng/người học — cùng thiết kế với chineseSettings ở trên.
 export const koreanSettings = pgTable('korean_settings', {
-  id: text('id').primaryKey(),
+  learnerId: text('id').primaryKey(),
   shuffle: boolean('shuffle').default(true).notNull(),
   // 'front-to-meaning' | 'meaning-to-front' — chiều câu hỏi trắc nghiệm kiểu Quizlet.
   quizMode: varchar('quiz_mode', { length: 20 }).default('front-to-meaning').notNull(),
@@ -245,7 +275,7 @@ export const ieltsPages = pgTable('ielts_pages', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
-// Danh sách email được mời XEM (không edit) /ielts — chủ nhập email trong /ielts/admin, hệ thống
+// Danh sách email được mời XEM (không edit) /ielts — chủ nhập email trong /admin, hệ thống
 // gửi magic link tới đúng email đó. `email` là khoá chính (luôn lưu dạng lowercase) nên thu hồi/mời
 // lại 1 người chỉ cần update đúng 1 dòng, không tạo trùng.
 export const ieltsInvites = pgTable('ielts_invites', {
@@ -255,7 +285,7 @@ export const ieltsInvites = pgTable('ielts_invites', {
 })
 
 // Người lạ vào /ielts/login nhập email khi chưa được mời → 1 dòng ở đây chờ chủ duyệt trong
-// /ielts/admin. Duyệt = thêm vào ieltsInvites + gửi magic link, rồi xoá dòng này. Từ chối = đổi
+// /admin. Duyệt = thêm vào ieltsInvites + gửi magic link, rồi xoá dòng này. Từ chối = đổi
 // status sang 'rejected' và GIỮ dòng lại để lần xin sau của cùng email không báo lại cho chủ (chống spam).
 export const ieltsAccessRequests = pgTable('ielts_access_requests', {
   email: text('email').primaryKey(), // lowercase

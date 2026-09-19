@@ -1,0 +1,208 @@
+/* Popup có con mèo Diên + bong bóng hội thoại, dùng chung cho mọi app (hồ sơ học Chinese/Korean, đăng nhập
+   IELTS) — xem MascotDialog.tsx. <dialog>.showModal() nằm ở top layer nên phủ kín màn hình bất kể phần tử
+   cha có backdrop-filter/transform hay không.
+
+   Màu lấy theo thứ tự: biến --md-* (app truyền vào qua prop style) → token của app Chinese/Korean
+   (--color-card, --color-brand…) → hằng số mặc định. Nhờ vậy Chinese/Korean tự ăn màu app mà không cần
+   truyền gì, còn app có bộ token riêng (IELTS: --color-ih-*) chỉ cần map vài biến --md-*. */
+.md-dialog {
+  --_card: var(--md-card, var(--color-card, #ffffff));
+  --_soft: var(--md-soft, var(--color-card-soft, #f1ece0));
+  --_brand: var(--md-brand, var(--color-brand, #2b3a55));
+  --_brand-strong: var(--md-brand-strong, var(--color-brand-strong, var(--_brand)));
+  --_text: var(--md-text, var(--color-text, #241f1a));
+  --_muted: var(--md-muted, var(--color-muted, #8a8272));
+  --_border: var(--md-border, var(--color-border, #e7e0cf));
+  --_radius: var(--md-radius, var(--radius-card, 18px));
+
+  /* Tailwind preflight reset margin về 0 → mất `margin: auto` mặc định của <dialog> modal, popup dính góc trái trên. */
+  margin: auto;
+  width: min(420px, calc(100vw - 32px));
+  padding: 0;
+  border: 1px solid var(--_border);
+  border-radius: var(--_radius);
+  background: var(--_card);
+  color: var(--_text);
+  box-shadow: 0 30px 70px -20px rgba(20, 20, 40, 0.5);
+}
+
+.md-dialog::backdrop {
+  background: rgba(20, 20, 40, 0.42);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.md-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 18px 26px 22px;
+  text-align: center;
+}
+
+/* Con mèo KHÔNG có khung/viền: clip nền trắng nên hoà vào nền trắng của popup bằng mix-blend-mode: multiply
+   (cùng kỹ thuật với con mèo ở /study — xem .sd-mascot-video). Khung 4:3 + object-fit: cover cắt bớt 2 bên
+   trống của clip 16:9 để con mèo to hơn; mặt nạ mờ dần ở 4 cạnh che nốt vệt viền do nén video. Popup phải
+   giữ nền trắng thì multiply mới ra đúng màu nền. */
+.md-cat {
+  display: block;
+  width: 250px;
+  max-width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0 auto -6px;
+  object-fit: cover;
+  /* Nền clip là trắng ngà (251-254/255), không trắng tuyệt đối → multiply lên nền popup lộ ra 1 khung xám nhạt.
+     Đẩy sáng nhẹ để nền clip chạm 255 (con mèo gần như không đổi). */
+  filter: brightness(1.05);
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 16%, #000 84%, transparent 98%),
+    linear-gradient(to bottom, transparent 2%, #000 10%, #000 90%, transparent 98%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 2%, #000 16%, #000 84%, transparent 98%),
+    linear-gradient(to bottom, transparent 2%, #000 10%, #000 90%, transparent 98%);
+  mask-composite: intersect;
+  pointer-events: none;
+}
+
+.md-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+/* Câu hỏi nằm trong bong bóng NHỎ phía trên đầu con mèo (cùng kiểu bong bóng ở /study), đuôi chỉ xuống đầu
+   mèo. Margin âm dưới cho bong bóng đè nhẹ lên phần nền trắng trống ở đỉnh clip, để đuôi sát đầu mèo mà
+   không che dấu hỏi bay lên bên phải. Nền lấy màu "soft" của từng app. */
+.md-bubble {
+  position: relative;
+  z-index: 1;
+  align-self: center;
+  max-width: 300px;
+  margin: 0 auto -22px;
+  padding: 11px 18px 12px;
+  border-radius: 18px;
+  background: var(--_soft);
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.45;
+  overflow-wrap: anywhere; /* tên/email dài không tràn bong bóng */
+  transform-origin: 50% 100%;
+  animation: md-pop 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.35) both;
+}
+
+.md-bubble::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--_soft);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* Clip mèo ăn mừng (happy.mp4) nhảy lên cao, tay giơ khỏi đầu — bong bóng KHÔNG đè lên khung clip như
+   khi con mèo đứng yên (margin âm ở .md-bubble) để khỏi che tay/đầu mèo lúc nó nhảy. */
+.md-bubble-jump {
+  margin-bottom: 4px;
+}
+
+/* Câu giải thích nhỏ hơn, nhẹ hơn dưới câu chào — cũng nằm trong bong bóng của con mèo. */
+.md-bubble-sub {
+  display: block;
+  margin-top: 4px;
+  font-size: 12.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--_muted);
+}
+
+/* Chữ nhấn (tên linh vật, tên người dùng) theo màu lông em mèo, giống chữ nhấn ở bong bóng /study (.sd-say-em). */
+.md-em {
+  color: #8a6d58;
+}
+
+@keyframes md-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .md-bubble {
+    animation: none;
+  }
+}
+
+.md-input {
+  margin-top: 12px;
+  padding: 11px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--_border);
+  background: var(--_soft);
+  font-size: 15px;
+  text-align: center;
+  color: var(--_text);
+  outline: none;
+}
+
+.md-input:focus {
+  border-color: var(--_brand);
+}
+
+.md-hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  text-align: center;
+  color: var(--_muted);
+}
+
+.md-hint-error {
+  color: #dc2626;
+}
+
+.md-btn {
+  margin-top: 14px;
+  padding: 11px 14px;
+  border-radius: 999px;
+  border: none;
+  background: var(--_brand);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+/* Nút hành động không thể hoàn tác (xoá...) — đỏ thay vì màu thương hiệu của app. */
+.md-btn-danger {
+  background: #dc2626;
+}
+
+.md-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.md-link {
+  margin-top: 8px;
+  padding: 6px;
+  border: none;
+  background: none;
+  color: var(--_muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.md-link:hover {
+  color: var(--_brand-strong);
+}

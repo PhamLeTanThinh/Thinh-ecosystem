@@ -105,14 +105,6 @@
   flex-wrap: wrap;
 }
 
-.kr-wordmark {
-  font-weight: 800;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  color: var(--color-text);
-  flex-shrink: 0;
-}
-
 /* Nút mở sidebar trên mobile — ẩn trên desktop vì sidebar đã hiện sẵn trong luồng chính. */
 .kr-mobile-menu-btn {
   display: none;

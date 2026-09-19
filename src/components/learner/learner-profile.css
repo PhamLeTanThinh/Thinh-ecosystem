@@ -1,0 +1,102 @@
+/* Style dùng CHUNG cho cả 2 app (Chinese/Korean) — chỉ dựa vào các token màu có ở CẢ HAI file
+   chinese.css / korean.css (--color-text, --color-muted, --color-card, --color-card-soft,
+   --color-border, --color-brand*, --radius-card, --radius-pill) nên component tự ăn theo màu chủ
+   đạo của app đang mở, không cần biết mình đang ở app nào. */
+
+.lp-root {
+  position: relative;
+  flex: none;
+}
+
+.lp-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  border-radius: var(--radius-pill, 999px);
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--color-text);
+  white-space: nowrap;
+  transition: border-color 0.15s ease;
+}
+
+.lp-trigger:hover {
+  border-color: var(--color-brand);
+}
+
+.lp-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 40;
+  width: 270px;
+  padding: 14px;
+  border-radius: var(--radius-card, 16px);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 20px 46px -18px rgba(20, 20, 40, 0.38);
+}
+
+.lp-label {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.lp-panel .lp-label:not(:first-child) {
+  margin-top: 14px;
+}
+
+.lp-code {
+  flex: 1;
+  min-width: 0;
+  padding: 7px 8px;
+  border-radius: 8px;
+  background: var(--color-card-soft);
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-brand-strong, var(--color-brand));
+  text-align: center;
+}
+
+.lp-hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  line-height: 1.45;
+  color: var(--color-muted);
+}
+
+.lp-code-block {
+  display: block;
+  letter-spacing: 0.02em;
+  overflow-wrap: anywhere;
+}
+
+.lp-switch {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.lp-switch:hover {
+  border-color: var(--color-brand);
+  color: var(--color-brand-strong, var(--color-brand));
+}

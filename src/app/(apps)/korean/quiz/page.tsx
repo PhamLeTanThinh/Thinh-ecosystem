@@ -9,6 +9,7 @@ import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
 import { LessonPicker } from '@/components/korean/LessonPicker'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { KoreanCard, KoreanCardKind, QuizMode } from '@/lib/korean/types'
+import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 const MIN_CARDS = 4
 const OPTION_COUNT = 4
@@ -78,9 +79,14 @@ function QuizMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function KoreanQuizPage() {
   return (
-    <Suspense fallback={<QuizMessage text="Đang tải..." />}>
-      <QuizSession />
-    </Suspense>
+    <>
+      <div className="mx-auto w-full max-w-xl px-4 pt-6">
+        <AppBreadcrumb app="/korean" trail={[{ label: 'Kiểm tra', icon: 'quiz' }]} className="mb-4" />
+      </div>
+      <Suspense fallback={<QuizMessage text="Đang tải..." />}>
+        <QuizSession />
+      </Suspense>
+    </>
   )
 }
 

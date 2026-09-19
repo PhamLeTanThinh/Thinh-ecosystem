@@ -1,0 +1,192 @@
+/* Trang /admin — dùng lại token + lớp ih-* của IELTS (ielts.css) cho đồng bộ giao diện, chỉ thêm phần riêng của
+   trang quản trị (khung, tab, danh sách hồ sơ học). */
+.ad-root {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px 16px 72px;
+}
+
+.ad-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 18px 0 12px;
+}
+
+.ad-title {
+  margin: 0;
+  font-size: 28px;
+  color: var(--color-ih-ink);
+}
+
+.ad-owner {
+  font-size: 12px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ad-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 20px;
+  padding: 4px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--color-ih-border);
+}
+
+.ad-tab {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ih-ink-soft);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ad-tab:hover {
+  color: var(--color-ih-ink);
+}
+
+.ad-tab[aria-selected='true'] {
+  background: var(--color-ih-ink);
+  color: #fff;
+}
+
+.ad-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ad-subtitle {
+  margin: 0;
+  margin-right: auto;
+  font-size: 20px;
+}
+
+.ad-search {
+  flex: 0 1 220px;
+  min-width: 140px;
+}
+
+.ad-note {
+  margin: 8px 0 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-ih-ink-soft);
+}
+
+.ad-error {
+  color: #dc2626;
+}
+
+.ad-list {
+  display: grid;
+  gap: 12px;
+}
+
+.ad-learner {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+}
+
+.ad-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-ih-rose) 16%, #fff);
+  color: var(--color-ih-rose);
+  font-weight: 700;
+}
+
+.ad-learner-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ad-learner-name {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ad-name-text {
+  font-size: 16px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.ad-badge {
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: #fdf0d5;
+  color: #8a5a00;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.ad-meta {
+  margin-top: 3px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--color-ih-ink-soft);
+}
+
+.ad-meta strong {
+  margin-right: 4px;
+  color: var(--color-ih-ink);
+}
+
+.ad-rename {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.ad-rename .ih-input {
+  flex: 1 1 200px;
+  min-width: 0;
+}
+
+.ad-row-error {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: #dc2626;
+}
+
+.ad-actions {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ad-danger:hover {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+@media (max-width: 560px) {
+  .ad-learner {
+    flex-wrap: wrap;
+  }
+
+  .ad-actions {
+    flex-direction: row;
+    width: 100%;
+  }
+}
