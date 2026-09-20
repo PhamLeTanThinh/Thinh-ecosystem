@@ -1,6 +1,7 @@
 import { STUDY_TOOLS } from '@/lib/apps/tools'
 import { StudyCardLink } from '@/components/study/StudyCardLink'
 import { CardFx } from '@/components/study/CardFx'
+import { RevealGrid } from '@/components/study/RevealGrid'
 import { MascotSpeech } from '@/components/study/MascotSpeech'
 import { ShieldedVideo } from '@/components/media/ShieldedVideo'
 
@@ -27,11 +28,11 @@ export default function StudyPage() {
           <MascotSpeech />
         </header>
 
-        <div className="sd-grid">
+        <RevealGrid className="sd-grid">
           {STUDY_TOOLS.map((tool) => (
             <StudyCardLink key={tool.href} href={tool.href} accent={tool.accent} className="sd-card">
               <span className="sd-card-stage">
-                {tool.videoKey && <ShieldedVideo className="sd-card-video" mediaKey={tool.videoKey} />}
+                {tool.videoKey && <ShieldedVideo className="sd-card-video" mediaKey={tool.videoKey} lazy />}
                 <span className="sd-card-shade" />
                 {tool.effect && <CardFx effect={tool.effect} />}
                 <span className="sd-card-band" />
@@ -45,7 +46,7 @@ export default function StudyPage() {
               </span>
             </StudyCardLink>
           ))}
-        </div>
+        </RevealGrid>
       </div>
     </div>
   )

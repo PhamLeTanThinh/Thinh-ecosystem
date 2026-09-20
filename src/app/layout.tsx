@@ -1,6 +1,16 @@
 import type { Metadata } from 'next'
-import { Cormorant_Garamond, DM_Sans, DM_Mono } from 'next/font/google'
+import { Caveat, Cormorant_Garamond, DM_Sans, DM_Mono, TikTok_Sans } from 'next/font/google'
 import './globals.css'
+
+// Heavy display sans for the portfolio's About → Contact headings (the same
+// face haoqi.design uses). It has no italic, so the accent words in those
+// headings are colored instead of slanted.
+const tiktok = TikTok_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-tiktok',
+  display: 'swap',
+})
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -8,6 +18,16 @@ const cormorant = Cormorant_Garamond({
   style: ['normal', 'italic'],
   variable: '--font-cormorant',
   display: 'swap',
+})
+
+// Handwritten face for the portfolio's Mindset quote. Not preloaded so the
+// other apps sharing this root layout don't fetch it up front.
+const caveat = Caveat({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-caveat',
+  display: 'swap',
+  preload: false,
 })
 
 const dmSans = DM_Sans({
@@ -31,7 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable} ${tiktok.variable} ${caveat.variable}`}>
       <body>{children}</body>
     </html>
   )

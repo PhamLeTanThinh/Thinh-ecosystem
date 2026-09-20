@@ -701,28 +701,93 @@
   }
 }
 
-@keyframes sd-rise {
+/* ── Tải lười + hiện hình: thẻ chỉ "thành hình" khi cuộn tới (RevealGrid.tsx đặt data-in) ────────────
+   1) Thẻ chưa vào khung nhìn: ẩn, thấp xuống, hơi nhỏ. 2) Vào khung nhìn: bay lên + phóng to, khung
+   thẻ nở ra từ giữa (clip-path trên sân khấu — chỉ chạy 1 lần, không đụng tới hover), rồi bừng 1 nhịp
+   ánh sáng theo màu app. 3) Trong lúc video chưa tải xong, sân khấu là khung chờ có vệt sáng quét
+   ngang; video giải mã xong (class is-ready) thì hiện dần, hạ từ hơi phóng to xuống. Các thẻ vào
+   cùng lúc so le nhau theo --d. Không JS / giảm chuyển động thì không ẩn gì cả. */
+@keyframes sd-materialize {
   from {
     opacity: 0;
-    transform: translateY(28px);
+    transform: translateY(54px) scale(0.92);
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .sd-card {
-    animation: sd-rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+@keyframes sd-unveil {
+  from {
+    clip-path: inset(16% 16% 16% 16% round 48px);
+  }
+  to {
+    clip-path: inset(0 0 0 0 round 32px);
+  }
+}
+
+@keyframes sd-ignite {
+  0%,
+  100% {
+    box-shadow: 0 24px 50px -26px rgba(70, 60, 110, 0.4), 0 0 0 0 transparent;
+  }
+  38% {
+    box-shadow: 0 32px 62px -26px rgba(70, 60, 110, 0.46), 0 0 48px -2px color-mix(in srgb, var(--accent) 85%, transparent),
+      0 0 0 2px color-mix(in srgb, var(--accent) 60%, transparent);
+  }
+}
+
+@keyframes sd-skeleton {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes sd-video-in {
+  from {
+    opacity: 0;
+    transform: scale(1.22);
+  }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .sd-card:not([data-in]) {
+    opacity: 0;
+    transform: translateY(54px) scale(0.92);
+    pointer-events: none;
   }
 
-  .sd-card:nth-child(2) {
-    animation-delay: 0.09s;
+  .sd-card[data-in] {
+    animation: sd-materialize 0.95s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) backwards,
+      sd-ignite 1.7s ease-out calc(var(--d, 0ms) + 0.6s) backwards;
   }
 
-  .sd-card:nth-child(3) {
-    animation-delay: 0.18s;
+  .sd-card[data-in] .sd-card-stage {
+    animation: sd-unveil 1.05s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms) backwards;
   }
 
-  .sd-card:nth-child(4) {
-    animation-delay: 0.27s;
+  .sd-card-stage {
+    background: color-mix(in srgb, var(--accent) 7%, #f6f3fa);
+  }
+
+  .sd-card-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -3;
+    background: linear-gradient(105deg, transparent 20%, color-mix(in srgb, var(--accent) 28%, #fff) 50%, transparent 80%);
+    transform: translateX(-100%);
+    animation: sd-skeleton 1.4s ease-in-out infinite;
+  }
+
+  .sd-card-stage:has(.sd-card-video.is-ready)::before {
+    animation: none;
+    opacity: 0;
+  }
+
+  .sd-card-video:not(.is-ready) {
+    opacity: 0;
+  }
+
+  .sd-card-video.is-ready {
+    animation: sd-video-in 1.3s cubic-bezier(0.22, 1, 0.36, 1) backwards;
   }
 }
 

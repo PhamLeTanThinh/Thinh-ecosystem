@@ -503,4 +503,214 @@ export const DIALOGUES: Record<number, Dialogue[]> = {
       ],
     },
   ],
+  17: [
+    {
+      title: 'Hội thoại 1',
+      lines: [
+        L('A', '小南，我的电脑出问题了，不能用了。', 'Xiǎo Nán, wǒ de diànnǎo chū wèntí le, bùnéng yòng le.', 'Tiểu Nam, máy tính của em có vấn đề rồi, không dùng được nữa.'),
+        L('B', '你的电脑怎么了？', 'Nǐ de diànnǎo zěnme le?', 'Máy tính của em làm sao?'),
+        L('A', '三天[1:以前]就不能[2:上网]了。', 'Sān tiān [1:yǐqián] jiù bùnéng [2:shàng wǎng] le.', 'Không thể [2:lên mạng] từ ba ngày [1:trước].'),
+        L('B', '别着急。正好我现在有空儿，我帮你看看。', 'Bié zháojí. Zhènghǎo wǒ xiànzài yǒu kòngr, wǒ bāng nǐ kànkan.', 'Đừng lo, vừa hay anh đang có thời gian rảnh, để anh xem giúp em.'),
+        L('A', '要修多长时间呢？是不是坏了？', 'Yào xiū duō cháng shíjiān ne? Shìbushì huài le?', 'Phải sửa bao lâu? Hỏng rồi, phải không?'),
+        L('B', '[3:一会儿]就好，你放心。', '[3:Yíhuìr] jiù hǎo, nǐ fàngxīn.', '[3:Một lát] là ổn, em yên tâm.'),
+      ],
+      legend: [
+        { n: 1, label: '以前', np: 'NP 17.1' },
+        { n: 2, label: '上网', np: 'NP 17.2' },
+        { n: 3, label: '一会儿', np: 'NP 17.5' },
+      ],
+    },
+    {
+      title: 'Hội thoại 2',
+      lines: [
+        L('A', '你好，有事吗？', 'Nǐhǎo, yǒu shì ma?', 'Chào ông, có việc gì thế ạ?'),
+        L('B', '我忘了带钥匙，帮我开一下门，好吗？', 'Wǒ wàng le dài yàoshi, bāng wǒ kāi yíxià mén, hǎo ma?', 'Tôi quên mang chìa khóa, cô giúp tôi mở cửa được không?'),
+        L('A', '好的。', 'Hǎo de.', 'Được ạ.'),
+        L('B', '我房间的空调坏了。', 'Wǒ fángjiān de kōngtiáo huài le.', 'Điều hòa phòng tôi cũng hỏng rồi.'),
+        L('A', '你住[4:哪]个房间？', 'Nǐ zhù [4:nǎ] ge fángjiān?', 'Ông ở phòng [4:nào] ạ?'),
+        L('B', '我住826。我的床单也脏了，能换一下吗？', 'Wǒ zhù bā èr liù. Wǒ de chuángdān yě zāng le, néng huàn yíxià ma?', 'Tôi ở phòng 826. Ga giường cũng bẩn rồi, có thể thay không?'),
+        L('A', '今天早上就[5:换好]了。还有别的问题吗？', 'Jīntiān zǎoshang jiù [5:huàn hǎo] le. Hái yǒu bié de wèntí ma?', 'Sáng nay đã [5:thay xong] rồi ạ. Ông còn yêu cầu gì nữa không?'),
+        L('B', '没有了，谢谢。', 'Méiyǒu le, xièxie.', 'Hết rồi. Tôi cảm ơn!'),
+      ],
+      legend: [
+        { n: 4, label: '哪', np: 'NP 17.3' },
+        { n: 5, label: '换好', np: 'NP 17.4' },
+      ],
+    },
+  ],
+  18: [
+    {
+      title: 'Hội thoại',
+      lines: [
+        L('A', '你认识正在喝咖啡的那个姑娘吗？', 'Nǐ rènshi zhèngzài hē kāfēi de nà ge gūniang ma?', 'Cậu biết cô gái đang uống café kia không?'),
+        L('B', '我不认识，不过[1:看起来]她很漂亮。', 'Wǒ bú rènshi, búguò [1:kàn qǐlái] tā hěn piàoliang.', 'Tớ không quen, nhưng [1:xem ra] cô ấy rất xinh.'),
+        L('A', '手里拿[2:着]报纸的呢？', 'Shǒu lǐ ná [2:zhe] bàozhǐ de ne?', 'Thế còn cô gái [2:đang] cầm tờ báo trên tay thì sao?'),
+        L('B', '我认识。她是小林的前女友。', 'Wǒ rènshi. Tā shì Xiǎo Lín de qián nǚyǒu.', 'Tớ quen. Cô ấy là bạn gái cũ của Tiểu Lâm.'),
+        L('A', '我好久不见小林了。他找到工作了吗？', 'Wǒ hǎo jiǔ bú jiàn Xiǎo Lín le. Tā zhǎo dào gōngzuò le ma?', 'Lâu lắm rồi tớ không gặp Tiểu Lâm. Cậu ấy tìm được việc chưa?'),
+        L('B', '找到了。这是他的第一份工作，从上个星期一就开始上班了。', 'Zhǎo dào le. Zhè shì tā de dì yī fèn gōngzuò, cóng shàng ge xīngqīyī jiù kāishǐ shàng bān le.', 'Tìm được rồi. Đây là công việc đầu tiên của cậu ấy, bắt đầu đi làm từ thứ hai tuần trước rồi.'),
+      ],
+      legend: [
+        { n: 1, label: '看起来', np: 'NP 18.1' },
+        { n: 2, label: '着', np: 'NP 18.2' },
+      ],
+    },
+    {
+      title: 'Đoạn văn',
+      lines: [
+        L(
+          '',
+          '今天晚上我去小成家看足球赛。足球赛六点开始，六点差一刻我才[3:紧张地]骑着自行车去他家。我到的时候，他在床上躺着看《汉越词典》，铅笔在词典上放着。我先开电视，然后在椅子上坐着，和他一起看足球赛。',
+          'Jīntiān wǎnshang wǒ qù Xiǎo Chéng jiā kàn zúqiú sài. Zúqiú sài liù diǎn kāishǐ, liù diǎn chà yí kè wǒ cái [3:jǐnzhāng de] qí zhe zìxíngchē qù tā jiā. Wǒ dào de shíhou, tā zài chuáng shang tǎng zhe kàn “Hàn Yuè cídiǎn”, qiānbǐ zài cídiǎn shang fàng zhe. Wǒ xiān kāi diànshì, ránhòu zài yǐzi shang zuò zhe, hé tā yìqǐ kàn zúqiú sài.',
+          'Tối hôm nay tôi đến nhà Thành xem trận đấu bóng đá. Trận đấu 6 giờ bắt đầu, 6 giờ kém 15 tôi mới [3:vội vàng] đạp xe đến nhà cậu ấy. Lúc tôi đến, cậu ấy đang nằm trên giường đọc “Từ điển Hán Việt”, bút chì đặt trên từ điển. Tôi bật tivi lên trước, sau đó ngồi trên ghế, cùng xem trận đấu bóng với cậu ấy.',
+        ),
+      ],
+      legend: [{ n: 3, label: '紧张地骑', np: 'NP 18.3' }],
+    },
+  ],
+  19: [
+    {
+      lines: [
+        L('A', '我很喜欢去旅游，每年都去不同的国家。', 'Wǒ hěn xǐhuan qù lǚyóu, měinián dōu qù bùtóng de guójiā.', 'Mình rất thích đi du lịch, mỗi năm lại đi một nước khác nhau.'),
+        L('B', '今年你去哪儿？', 'Jīnnián nǐ qù nǎr?', 'Năm nay cậu đi đâu?'),
+        L('A', '我下个周末去中国玩儿。', 'Wǒ xià ge zhōumò qù Zhōngguó wánr.', 'Mình định cuối tuần sau đi Trung Quốc chơi.'),
+        L('B', '你[1:不是]去年已经去过中国了[1:吗]？今年还去！', 'Nǐ [1:bú shì] qùnián yǐjīng qù guo Zhōngguó le [1:ma]? Jīnnián hái qù!', '[1:Không phải] là năm ngoái cậu đã đi Trung Quốc rồi [1:sao]? Năm nay lại đi!'),
+        L('A', '我[3:才][4:去过一次中国]，还[2:没去过中国北方]。现在中国北方下着雪，特别好看。', 'Wǒ [3:cái] [4:qù guo yí cì Zhōngguó], hái [2:méi qù guo Zhōngguó běifāng]. Xiànzài Zhōngguó běifāng xià zhe xuě, tèbié hǎokàn.', 'Mình [3:mới] [4:đi Trung Quốc một lần], còn [2:chưa đi miền Bắc Trung Quốc]. Bây giờ miền Bắc Trung Quốc đang có tuyết rơi, rất đẹp.'),
+        L('B', '坐飞机去还是坐火车去？', 'Zuò fēijī qù háishì zuò huǒchē qù?', 'Cậu đi máy bay hay đi tàu hỏa?'),
+        L('A', '坐飞机。要坐[5:四五个小时]飞机。', 'Zuò fēijī. Yào zuò [5:sì wǔ ge xiǎoshí] fēijī.', 'Đi máy bay. Phải ngồi máy bay [5:4-5 tiếng đồng hồ].'),
+        L('B', '票买好了吗？宾馆订好了吗？', 'Piào mǎi hǎo le ma? Bīnguǎn dìng hǎo le ma?', 'Cậu mua vé chưa? Đặt khách sạn chưa?'),
+        L('A', '都准备好了。下个星期六晚上八点我坐出租车去机场。', 'Dōu zhǔnbèi hǎo le. Xià ge xīngqīliù wǎnshang bā diǎn wǒ zuò chūzūchē qù jīchǎng.', 'Tất cả chuẩn bị xong hết rồi. 8 giờ tối thứ bảy tuần sau tớ bắt taxi ra sân bay.'),
+      ],
+      legend: [
+        { n: 1, label: '不是……吗', np: 'NP 19.1' },
+        { n: 2, label: '没去过中国北方', np: 'NP 19.2' },
+        { n: 3, label: '才', np: 'NP 19.3' },
+        { n: 4, label: '去过一次中国', np: 'NP 19.4' },
+        { n: 5, label: '四五个小时', np: 'NP 19.5' },
+      ],
+    },
+  ],
+  20: [
+    {
+      title: 'Hội thoại 1',
+      lines: [
+        L('A', '喂，陈老师吗？我是小成的妈妈。', 'Wèi, Chén lǎoshī ma? Wǒ shì Xiǎo Chéng de māma.', 'Alo, thầy giáo Trần phải không? Tôi là mẹ của em Thành.'),
+        L('B', '您好，我正想给你打电话问问。[1:都]九点[1:了]，小成[2:怎么]还没来上课？', 'Nínhǎo, wǒ zhèng xiǎng gěi nǐ dǎ diànhuà wènwen. [1:Dōu] jiǔ diǎn [1:le], Xiǎo Chéng [2:zěnme] hái méi lái shàng kè?', 'Chào chị, tôi đang muốn gọi điện cho chị hỏi han. [1:Đã] 9 giờ [1:rồi], Thành [2:sao] vẫn chưa đến lớp?'),
+        L('A', '昨天我孩子去游泳的时候，人很多，水有点儿脏，所以今天早上眼睛变红了。现在我得带他去看医生。', 'Zuótiān wǒ háizi qù yóu yǒng de shíhou, rén hěn duō, shuǐ yǒudiǎnr zāng, suǒyǐ jīntiān zǎoshang yǎnjīng biàn hóng le. Xiànzài wǒ děi dài tā qù kàn yīshēng.', 'Hôm qua cháu nó đi bơi, đông người, nước hơi bẩn, nên sáng nay mắt bị đỏ. Giờ tôi phải đưa cháu nó đi gặp bác sĩ.'),
+        L('B', '是吗？我妻子的弟弟是医生。我给你介绍一下。', 'Shì ma? Wǒ qīzi de dìdi shì yīshēng. Wǒ gěi nǐ jièshào yíxià.', 'Vậy sao? Em trai của vợ tôi là bác sĩ. Để tôi giới thiệu cho chị.'),
+        L('A', '好的，谢谢老师。', 'Hǎo de, xièxie lǎoshī.', 'Vâng, cảm ơn thầy.'),
+      ],
+      legend: [
+        { n: 1, label: '都……了', np: 'NP 20.1' },
+        { n: 2, label: '怎么', np: 'NP 20.2' },
+      ],
+    },
+    {
+      title: 'Hội thoại 2',
+      lines: [
+        L('A', '请坐，你哪儿不舒服？', 'Qǐng zuò, nǐ nǎr bù shūfu?', 'Mời ngồi, bạn đau ở đâu?'),
+        L('B', '我有点儿发烧。是不是生病了？', 'Wǒ yǒudiǎnr fā shāo. Shìbushì shēng bìng le?', 'Tôi hơi sốt. Có phải là ốm rồi không ạ?'),
+        L('A', '咳嗽吗？头疼吗？', 'Késou ma? Tóu téng ma?', 'Ho không? Đau đầu không?'),
+        L('B', '咳嗽，头疼。', 'Késou, tóu téng.', 'Có ho, có đau đầu ạ.'),
+        L('A', '你先量一下体温吧。过五分钟给我看看。(过一会儿) 到时间了，我看看多少度。三十八度八，这么高？这样吧，我给你开点儿药，这种药每天吃三次，每次两片，要吃一个星期。你放心，[3:一]吃药，病[3:就]好。', 'Nǐ xiān liáng yíxià tǐwēn ba. Guò wǔ fēnzhōng gěi wǒ kànkan. (Guò yíhuìr) dào shíjiān le, wǒ kànkan duōshao dù. Sānshíbā dù bā, zhème gāo? Zhèyàng ba, wǒ gěi nǐ kāi diǎnr yào, zhè zhǒng yào měitiān chī sān cì, měi cì liǎng piàn, yào chī yí ge xīngqī. Nǐ fàngxīn, [3:yì] chī yào, bìng [3:jiù] hǎo.', 'Bạn đo nhiệt độ đi. 5 phút nữa đưa tôi xem. (Một lúc sau) Đến giờ rồi, tôi xem xem bao nhiêu độ nào. 38 độ 8, cao thế sao? Như thế đi, tôi kê cho bạn một ít thuốc, loại thuốc này mỗi ngày uống 3 lần, mỗi lần 2 viên, phải uống 1 tuần. Bạn yên tâm, [3:vừa] uống thuốc vào [3:là] bệnh khỏi liền.'),
+        L('B', '谢谢医生。', 'Xièxie yīshēng.', 'Cảm ơn bác sĩ.'),
+      ],
+      legend: [{ n: 3, label: '一……就……', np: 'NP 20.3' }],
+    },
+  ],
+  21: [
+    {
+      lines: [
+        L('A', '我要买两张去广州的高铁票。', 'Wǒ yào mǎi liǎng zhāng qù Guǎngzhōu de gāotiě piào.', 'Tôi muốn mua 2 vé tàu cao tốc đi Quảng Châu.'),
+        L('B', '要哪天的？', 'Yào nǎ tiān de?', 'Đi ngày nào?'),
+        L('A', '明天的有没有？', 'Míngtiān de yǒuméiyǒu?', 'Ngày mai còn vé không?'),
+        L('B', '卖完了。有快速火车的。可以吗？[1:虽然]快速火车开得比高铁慢，[1:但是]价格比高铁的便宜多了。', 'Mài wán le. Yǒu kuàisù huǒchē de. Kěyǐ ma? [1:Suīrán] kuàisù huǒchē kāi de bǐ gāotiě màn, [1:dànshì] jiàgé bǐ gāotiě de piányi duō le.', 'Bán hết rồi. Có vé tàu hỏa nhanh. Được không? [1:Tuy] tàu hỏa nhanh chạy chậm hơn tàu cao tốc, [1:nhưng] giá rẻ hơn tàu cao tốc nhiều.'),
+        L('A', '那就快速火车吧。', 'Nà jiù kuàisù huǒchē ba.', 'Thế thì tàu hỏa nhanh đi.'),
+        L('B', '要哪趟的？', 'Yào nǎ tàng de?', 'Đi chuyến nào.'),
+        L('A', 'K2135次。', 'K2135 cì.', 'Chuyến K2135 đi.'),
+        L('B', '要硬座还是软座？', 'Yào yìngzuò háishì ruǎn zuò?', 'Ngồi ghế cứng hay ghế mềm?'),
+        L('A', '硬座。', 'Yìngzuò.', 'Ghế cứng.'),
+        L('B', '好。两张一共一千两百五十块钱。', 'Hǎo. Liǎng zhāng yígòng yì qiān liǎng bǎi wǔshí kuài qián.', 'Được. Hai vé tổng cộng 1250 tệ.'),
+      ],
+      legend: [{ n: 1, label: '虽然……但是……', np: 'NP 21.1' }],
+    },
+  ],
+  22: [
+    {
+      lines: [
+        L('A', '喂，您好，是黄河酒店。', 'Wèi, nínhǎo, shì Huánghé jiǔdiàn.', 'Alo, xin chào, đây là Khách sạn Hoàng Hà.'),
+        L('B', '你好，我想订房。', 'Nǐhǎo, wǒ xiǎng dìng fáng.', 'Xin chào, tôi muốn đặt phòng.'),
+        L('A', '您几位？', 'Nín jǐ wèi?', 'Quý khách có mấy người ạ?'),
+        L('B', '我们四位，要两个标准双人间。', 'Wǒmen sì wèi, yào liǎng ge biāozhǔn shuāngrénjiān.', 'Chúng tôi có 4 người, muốn đặt hai phòng đôi tiêu chuẩn.'),
+        L('A', '您什么时候入住呢？', 'Nín shénme shíhou rùzhù ne?', 'Quý khách khi nào nhận phòng?'),
+        L('B', '我要住五天，[1:从明天起]。我在网上查过，你们还有空房[2:吧]？', 'Wǒ yào zhù wǔ tiān, [1:cóng míngtiān qǐ]. Wǒ zài wǎngshang chá guo, nǐmen hái yǒu kōngfáng [2:ba]?', 'Tôi muốn ở 5 ngày, [1:bắt đầu từ ngày mai]. Tôi tra trên mạng, các bạn vẫn còn phòng trống [2:nhỉ]?'),
+        L('A', '请稍等。……不好意思，双人间[3:一间也没有了]，正好还有两间大床间。可以吗？', 'Qǐng shāo děng. …… Bù hǎoyìsi, shuāngrénjiān [3:yì jiān yě méiyǒu le], zhènghǎo hái yǒu liǎng jiān dàchuángjiān. Kěyǐ ma?', 'Xin chờ chút. …… Thật xin lỗi, phòng đôi [3:không còn phòng nào], vừa hay có hai phòng giường lớn. Có được không ạ?'),
+        L('B', '大床间一天多少钱？', 'Dàchuángjiān yì tiān duōshao qián?', 'Phòng giường lớn bao nhiêu tiền một ngày?'),
+        L('A', '一间大床间三百块一晚，免费取消，免费早饭，退房时间是中午十二点。', "Yì jiān dàchuángjiān sān bǎi kuài yì wǎn, miǎnfèi qǔxiāo, miǎnfèi zǎofàn, tuì fáng shíjiān shì zhōngwǔ shí'èr diǎn.", 'Một phòng giường lớn 300 tệ một đêm, miễn phí hủy phòng, miễn phí ăn sáng, thời gian trả phòng là 12 giờ trưa.'),
+        L('B', '好的，比我在网上查的价格还便宜。那我订两间大床间吧。', 'Hǎo de, bǐ wǒ zài wǎngshang chá de jiàgé hái piányi. Nà wǒ dìng liǎng jiān dàchuángjiān ba.', 'Được, giá còn rẻ hơn tôi tra trên mạng. Vậy tôi đặt hai phòng giường lớn nhé.'),
+      ],
+      legend: [
+        { n: 1, label: '从明天起', np: 'NP 22.1' },
+        { n: 2, label: '吧', np: 'NP 22.2' },
+        { n: 3, label: '一间也没有了', np: 'NP 22.3' },
+      ],
+    },
+  ],
+  23: [
+    {
+      lines: [
+        L('A', '老婆，我们儿子看起来有点儿胖？', 'Lǎopó, wǒmen érzi kàn qilai yǒudiǎnr pàng?', 'Bà xã, con trai chúng ta hình như hơi béo thì phải.'),
+        L('B', '孩子在考试呢，[1:哪有时间]运动。', 'Háizi zài kǎoshì ne, [1:nǎ yǒu shíjiān] yùndòng.', 'Con trai đang thi, [1:làm gì có thời gian] vận động.'),
+        L('A', '人家小明也在考试呢，听说每个星期一、三、五打篮球，星期二、四踢足球，周末跑步。我们孩子[2:不是]在学校复习英语，[2:就是]在家抱着手机玩儿，不出去外面走走是不行的。年轻人得多运动运动。过一会儿我去游泳，游七八百米就觉得很舒服，不如叫他一起去？', "Rénjiā Xiǎo Míng yě zài kǎoshì ne, tīngshuō měi ge xīngqīyī, sān, wǔ dǎ lánqiú, xīngqī'èr, sì tī zúqiú, zhōumò pǎo bù. Wǒmen háizi [2:búshì] zài xuéxiào fùxí Yīngyǔ, [2:jiùshì] zài jiā bào zhe shǒujī wánr, bù chūqù wàimiàn zǒuzou shì bùxíng de. Niánqīng rén děi duō yùndòng yùndòng. Guò yíhuìr wǒ qù yóuyǒng, yóu qī bā bǎi mǐ jiù juéde hěn shūfu, bùrú jiào tā yìqǐ qù?", 'Tiểu Minh nhà người ta cũng đang thi đấy. Nghe nói thứ 2-4-6 đi đánh bóng rổ, thứ 3-5 đá bóng, cuối tuần còn chạy bộ. Con chúng ta [2:nếu không phải] ôn tập Tiếng Anh ở trường [2:thì cũng] ở nhà ôm điện thoại chơi, không ra ngoài đi đây đi đó là không được đâu. Người trẻ phải vận động nhiều vào. Lát nữa tôi đi bơi, bơi 7-800 m thấy rất thoải mái, hay là gọi con trai đi cùng?'),
+        L('B', '你试试吧，看他去不去，饭做好了等你们回来[3:再]吃。', 'Nǐ shìshi ba, kàn tā qù bu qù, fàn zuò hǎo le děng nǐmen huílai [3:zài] chī.', 'Ông thử xem, xem nó có đi không, cơm nấu xong xuôi rồi đợi bố con về cùng ăn.'),
+      ],
+      legend: [
+        { n: 1, label: '哪有时间', np: 'NP 23.1' },
+        { n: 2, label: '不是……就是……', np: 'NP 23.2' },
+        { n: 3, label: '再', np: 'NP 23.3' },
+      ],
+    },
+  ],
+  24: [
+    {
+      lines: [
+        L('A', '你看见[1:刚才]走过的那个漂亮的姑娘吗？', 'Nǐ kànjiàn [1:gāngcái] zǒu guo de nà ge piàoliang de gūniang ma?', '[1:Ban nãy] cậu nhìn thấy cô gái rất xinh đi ngang qua không?'),
+        L('B', '你说谁？', 'Nǐ shuō shéi?', 'Cậu nói ai?'),
+        L('A', '穿着黑裙子，手里拿着白杯子的那个人。', 'Chuān zhe hēi qúnzi, shǒu lǐ ná zhe bái bēizi de nà ge rén.', 'Cô gái mặc váy đen, tay cầm cái cốc trắng ấy.'),
+        L('B', '你说的是李小姐吧？', 'Nǐ shuō de shì Lǐ xiǎojiě ba?', 'Cậu nói cô Lý ấy hả?'),
+        L('A', '我不知道她的名字。不过我们在会议上见过面。她总是笑着跟别人说话。我想认识她。', 'Wǒ bù zhīdào tā de míngzi. Búguò wǒmen zài huìyì shang jiàn guo miàn. Tā zǒngshì xiào zhe gēn biérén shuōhuà. Wǒ xiǎng rènshi tā.', 'Tôi không biết tên cô ấy. Nhưng chúng tôi từng gặp ở cuộc họp. Cô ấy luôn cười đùa nói chuyện với mọi người. Tôi muốn làm quen với cô ấy.'),
+        L('B', '她是新来的职员，[1:刚]进我们公司两周。她很聪明，工作[2:又]认真[2:又]热情。只是……', 'Tā shì xīn lái de zhíyuán, [1:gāng] jìn wǒmen gōngsī liǎng zhōu. Tā hěn cōngmíng, gōngzuò [2:yòu] rènzhēn [2:yòu] rèqíng. Zhǐshì……', 'Cô ấy là nhân viên mới, [1:vừa mới] vào làm ở công ty chúng ta có 2 tuần. Cô ấy rất thông minh, làm việc [2:vừa] chăm chỉ, [2:lại] nhiệt tình. Chỉ là...'),
+        L('A', '只是什么？', 'Zhǐshì shénme?', 'Chỉ là sao..?'),
+        L('B', '她结婚了。', 'Tā jiéhūn le.', 'Cô ấy lấy chồng rồi.'),
+      ],
+      legend: [
+        { n: 1, label: '刚 / 刚才', np: 'NP 24.1' },
+        { n: 2, label: '又……又……', np: 'NP 24.2' },
+      ],
+    },
+  ],
+  25: [
+    {
+      lines: [
+        L('A', '时间过得真快，再过两个星期这一年[1:就要过去了]。', 'Shíjiān guò de zhēn kuài, zài guò liǎng ge xīngqī zhè yì nián [1:jiù yào guòqù le].', 'Thời gian trôi đi thật là nhanh, 2 tuần nữa là một năm nữa [1:lại sắp qua đi].'),
+        L('B', '陈总，谢谢你和大家对我的帮助。希望我们的公司明年[2:更好]。', 'Chén zǒng, xièxie nǐ hé dàjiā duì wǒ de bāngzhù. Xīwàng wǒmen de gōngsī míngnián [2:gèng hǎo].', 'Tổng Giám đốc Trần, cảm ơn sự giúp đỡ của anh và mọi người. Hy vọng công ty chúng ta năm sau sẽ [2:tốt hơn].'),
+        L('A', '甭谢。你打算什么时候回家过春节？', 'Béng xiè. Nǐ dǎsuàn shénme shíhou huí jiā guò chūnjié?', 'Không cần cảm ơn. Cậu định lúc nào về nhà đón tết?'),
+        L('B', '看情况吧。我还没买票。', 'Kàn qíngkuàng ba. Wǒ hái méi mǎi piào.', 'Để xem tình hình đã. Em vẫn chưa mua vé.'),
+        L('A', '都农历二十了还没买票。你真是……', 'Dōu nónglì èrshí le hái méi mǎi piào. Nǐ zhēn shì…', '20 âm rồi còn chưa mua vé. Cậu thật là...'),
+        L('B', '我努力工作嘛。明天就马上去火车站买票。', 'Wǒ nǔlì gōngzuò ma. Míngtiān jiù mǎshàng qù huǒchē zhàn mǎi piào.', 'Em làm việc chăm chỉ mà. Ngày mai sẽ ra bến tàu mua vé ngay.'),
+        L('A', '嗯。天阴了，快下雨了，我得回去了。你也早点儿离开办公室吧。你这个工作狂整天[3:跑来跑去]，这样对身体不好。', 'Ēn. Tiān yīn le, kuài xià yǔ le, wǒ děi huí qù le. Nǐ yě zǎodiǎnr lǐkāi bàngōngshì ba. Nǐ zhè ge gōngzuòkuáng zhěngtiān [3:pǎo lái pǎo qù], zhèyàng duì shēntǐ bù hǎo.', 'Ừ. Trời âm u, có vẻ sắp mưa rồi, tôi phải về thôi. Cậu cũng sớm rời văn phòng đi. Cậu cuồng công việc như vậy, cứ [3:chạy tới chạy lui] cả ngày, hại sức khỏe lắm.'),
+        L('B', '我知道了陈总。你怎么回去？我送你吧。', 'Wǒ zhīdào le Chén zǒng. Nǐ zěnme huíqù? Wǒ sòng nǐ ba.', 'Em biết rồi ạ. Anh về kiểu gì? Em tiễn anh nhé.'),
+        L('A', '你忙你的事吧，我到外面叫辆出租车就行了。', 'Nǐ máng nǐ de shì ba, wǒ dào wàimiàn jiào liàng chūzūchē jiù xíng le.', 'Cậu bận việc của cậu đi. Tôi ra ngoài gọi xe taxi là được rồi.'),
+        L('B', '那路上小心。再见！', 'Nà lùshang xiǎoxīn. Zàijiàn!', 'Vậy anh đi đường cẩn thận nhé. Chào anh!'),
+      ],
+      legend: [
+        { n: 1, label: '就要过去了', np: 'NP 25.1' },
+        { n: 2, label: '更好', np: 'NP 25.2' },
+        { n: 3, label: '跑来跑去', np: 'NP 25.3' },
+      ],
+      note: {
+        title: 'Chú thích',
+        text: '甭 /béng/ = 不用 /búyòng/, nghĩa là “không cần”, được ghép bởi 2 chữ Hán của từ 不用 mà thành. Đây là hình thức tạo chữ bằng cách kết hợp hai âm tiết với nhau (合音字 /hé yīn zì/), tương tự như 孬 /nāo/ = 不好.',
+      },
+    },
+  ],
 }
