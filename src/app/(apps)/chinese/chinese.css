@@ -568,14 +568,22 @@
 }
 
 /* ── Lesson detail view ───────────────────────────────────────────────────────────────── */
+/* Tiêu đề mục (Từ vựng/Luyện nói/Nói như người bản xứ) — làm nổi bật hẳn so với nội dung bên dưới
+   bằng màu thương hiệu + viền dưới, thay vì chỉ đậm chữ đen như cũ (dễ bị lẫn với text thường khi
+   cuộn nhanh qua nhiều mục). Riêng mục Ngữ pháp bỏ hẳn tiêu đề này (xem GrammarCard) vì mỗi thẻ đã
+   tự có nhãn "NGỮ PHÁP" + số thứ tự riêng, giữ thêm tiêu đề chung sẽ dư thừa. */
 .cn-section-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
-  color: var(--color-text);
-  margin: 22px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-brand-strong);
+  margin: 28px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-brand-soft);
 }
 
 .cn-section-title:first-child {
@@ -584,8 +592,13 @@
 
 .cn-section-count {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-muted);
+  text-transform: none;
+  letter-spacing: normal;
+  background: var(--color-card-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
 }
 
 .cn-vocab-tile-grid {
@@ -601,8 +614,33 @@
   gap: 14px;
 }
 
+/* Mục Ngữ pháp không còn .cn-section-title riêng (xem GrammarCard) nên cần margin-top ở đây để tách
+   khỏi mục Từ vựng phía trên — CHỈ trên desktop, nơi các mục xếp liền trong cùng 1 cột (không tách
+   bằng tab như mobile, nơi .cn-grammar-list là con đầu tiên của tab đang mở, không cần margin thừa). */
+@media (min-width: 861px) {
+  .cn-grammar-list {
+    margin-top: 28px;
+  }
+}
+
 .cn-grammar-card {
   padding: 20px 22px 22px;
+}
+
+/* Số thứ tự ngữ pháp trong bài — thay cho đếm số ở tiêu đề mục chung "Ngữ pháp (N)" (dư thừa vì mỗi
+   thẻ đã có nhãn NGỮ PHÁP riêng), đánh số trực tiếp lên từng thẻ dễ theo dõi hơn khi cuộn qua nhiều thẻ. */
+.cn-grammar-index {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+  font-size: 12.5px;
+  font-weight: 800;
 }
 
 .cn-grammar-eyebrow {
@@ -880,7 +918,9 @@
   font-size: 12.5px;
   font-style: italic;
   color: var(--color-muted);
-  margin: -4px 0 12px;
+  /* margin-top dương thay vì âm — .cn-section-title giờ to hơn và có viền dưới (xem phía trên),
+     margin âm cũ khiến dòng chữ này dính sát vào viền đó. */
+  margin: 6px 0 12px;
   line-height: 1.6;
 }
 
@@ -1268,4 +1308,587 @@
 
 .cn-btn-solid:hover {
   background: var(--color-brand-strong);
+}
+
+/* ── Ngữ âm cơ bản (PhoneticsSection.tsx) ─────────────────────────────────────────────────
+   Bài vỡ lòng đứng trước HSK 1+2 — nội dung sống thẳng trong code (lib/chinese/phonetics.ts),
+   không phải thẻ vocab/grammar, nên có bộ class riêng thay vì tái dùng .cn-grammar-*. */
+.cn-phon-intro {
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--color-muted);
+  max-width: 760px;
+  margin: 4px 0 20px;
+}
+
+.cn-phon-intro strong {
+  color: var(--color-brand-strong);
+}
+
+.cn-phon-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+/* Nhóm chỉ có 1 âm (vd âm h — không có âm đối lập bật hơi để so sánh cặp, xem lib/chinese/phonetics.ts)
+   — đứng riêng giữa trang, không kéo giãn hết 2 cột như cặp so sánh thường. */
+.cn-phon-grid-solo {
+  grid-template-columns: minmax(0, 420px);
+  justify-content: center;
+}
+
+.cn-phon-card {
+  padding: 18px 20px 20px;
+}
+
+.cn-phon-card-head {
+  margin-bottom: 12px;
+}
+
+.cn-phon-letter {
+  display: inline-block;
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+  background: var(--color-brand-soft);
+  padding: 4px 14px;
+  border-radius: 999px;
+}
+
+/* Ô hình minh hoạ khoang miệng — để trống, chờ ảnh chụp từ sách (xem lib/chinese/phonetics.ts). */
+.cn-phon-image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 120px;
+  margin-bottom: 14px;
+  border: 1.5px dashed rgba(36, 31, 26, 0.28);
+  border-radius: 12px;
+  background: rgba(36, 31, 26, 0.03);
+  color: var(--color-muted);
+  font-size: 12px;
+  text-align: center;
+  padding: 0 12px;
+}
+
+.cn-phon-image-icon {
+  font-size: 22px;
+  opacity: 0.6;
+}
+
+.cn-phon-row {
+  margin-bottom: 10px;
+}
+
+.cn-phon-row:last-child {
+  margin-bottom: 0;
+}
+
+.cn-phon-row-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-brand);
+  margin-bottom: 3px;
+}
+
+.cn-phon-row-text {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.cn-phon-howto {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.cn-phon-howto li + li {
+  margin-top: 4px;
+}
+
+.cn-phon-row-note {
+  margin-top: 4px;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+/* ── Thanh điệu ────────────────────────────────────────────────────────────────────────── */
+.cn-tone-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.cn-tone-card {
+  padding: 16px 18px 18px;
+  text-align: center;
+}
+
+.cn-tone-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.cn-tone-mark {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+}
+
+.cn-tone-number {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.cn-tone-name {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 10px;
+}
+
+.cn-tone-svg {
+  width: 100%;
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto 12px;
+  display: block;
+}
+
+.cn-tone-svg-grid {
+  stroke: rgba(36, 31, 26, 0.12);
+  stroke-width: 1;
+}
+
+.cn-tone-svg-line {
+  stroke: var(--color-brand);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cn-tone-example {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 13px;
+}
+
+.cn-tone-example-hanzi {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.cn-tone-example-pinyin {
+  color: var(--color-brand);
+  font-weight: 600;
+}
+
+.cn-tone-example-meaning {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+/* ── Bảng ghép âm ──────────────────────────────────────────────────────────────────────── */
+.cn-syllable-wrap {
+  padding: 16px;
+  overflow-x: auto;
+}
+
+/* Bài có nhiều hơn 1 bảng (vd Bài 6: zh/ch/sh/r ghép với a-o-e-i-u-ü VÀ ghép riêng với vận mẫu kép)
+   — cách nhau 1 khoảng rõ ràng thay vì dính sát nhau. */
+.cn-syllable-wrap + .cn-syllable-wrap {
+  margin-top: 14px;
+}
+
+.cn-syllable-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 480px;
+}
+
+.cn-syllable-table th,
+.cn-syllable-table td {
+  border: 1px solid rgba(36, 31, 26, 0.12);
+  text-align: center;
+  padding: 8px;
+}
+
+.cn-syllable-table thead th {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+  background: var(--color-brand-soft);
+}
+
+.cn-syllable-table tbody th {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+  background: var(--color-brand-soft);
+}
+
+.cn-syllable-cell {
+  position: relative;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.cn-syllable-cell span {
+  margin-right: 4px;
+}
+
+.cn-syllable-speak {
+  display: inline-flex;
+  vertical-align: middle;
+  border-radius: 999px;
+  padding: 2px;
+  color: var(--color-muted);
+}
+
+.cn-syllable-speak:hover {
+  background: var(--color-brand-soft);
+  color: var(--color-brand);
+}
+
+/* Tổ hợp không tồn tại trong tiếng Trung — hoạ tiết chéo nhạt thay vì để trống trơn, đúng cảm giác
+   "ô bị loại" như bảng gốc trong sách. */
+.cn-syllable-cell-empty {
+  background-image: repeating-linear-gradient(135deg, rgba(36, 31, 26, 0.06) 0, rgba(36, 31, 26, 0.06) 1px, transparent 1px, transparent 7px);
+}
+
+/* ── Ghi chú thêm (PhoneticsNote — mẹo phát âm, lỗi sai thường gặp...) ───────────────────── */
+.cn-phon-note {
+  padding: 16px 20px 18px;
+  margin-bottom: 14px;
+  border-left: 3px solid var(--color-brand);
+}
+
+.cn-phon-note-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+  margin-bottom: 6px;
+}
+
+.cn-phon-note-text {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+.cn-phon-note-outro {
+  margin-top: 8px;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.cn-phon-note-bullets {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--color-text);
+}
+
+.cn-phon-note-bullets li + li {
+  margin-top: 4px;
+}
+
+.cn-phon-note-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cn-phon-note-example {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--color-brand-soft);
+}
+
+.cn-phon-note-example-hanzi {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.cn-phon-note-example-pinyin {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-brand-strong);
+}
+
+.cn-phon-note-example-meaning {
+  font-size: 11.5px;
+  color: var(--color-muted);
+}
+
+/* ── Quy tắc biến điệu thanh 3 (ToneSandhiBlockCard — Bài 3) ─────────────────────────────── */
+.cn-sandhi-block {
+  padding: 16px 20px 18px;
+  margin-bottom: 14px;
+}
+
+.cn-sandhi-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.cn-sandhi-variants {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* 2 variants (2 cách biến điệu song song) — đặt cạnh nhau để dễ so sánh, giống layout gốc trong sách. */
+.cn-sandhi-variants-split {
+  flex-direction: row;
+  gap: 16px;
+}
+
+.cn-sandhi-variant {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.cn-sandhi-variant-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-brand-strong);
+  margin-bottom: 8px;
+}
+
+.cn-sandhi-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.cn-sandhi-example {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--color-brand-soft);
+  min-width: 140px;
+}
+
+.cn-sandhi-example-pinyin {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cn-sandhi-arrow {
+  color: var(--color-brand);
+}
+
+.cn-sandhi-after {
+  color: var(--color-brand-strong);
+  font-weight: 800;
+}
+
+.cn-sandhi-example-hanzi {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-top: 2px;
+}
+
+.cn-sandhi-example-meaning {
+  font-size: 11.5px;
+  color: var(--color-muted);
+  margin-top: 1px;
+}
+
+/* ── Bảng so sánh vận mẫu -n / -ng (EndingComparisonTable — Bài 3) ───────────────────────── */
+.cn-ending-cmp {
+  padding: 16px 20px 18px;
+  margin-bottom: 14px;
+}
+
+.cn-ending-cmp-grid {
+  display: grid;
+  grid-template-columns: 150px repeat(2, 1fr);
+  gap: 10px 16px;
+  margin-top: 10px;
+  align-items: start;
+}
+
+.cn-ending-cmp-head {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+}
+
+.cn-ending-cmp-row-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  padding-top: 2px;
+}
+
+.cn-ending-cmp-grid > span:not(.cn-ending-cmp-head):not(.cn-ending-cmp-row-label) {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+/* ── Bảng so sánh N nhóm thanh mẫu (GroupComparisonTable — Bài 7) ────────────────────────
+   Khác cn-ending-cmp-grid (cố định 2 cột) — số cột do JS tính theo data.columns.length (inline
+   style), CSS chỉ lo phần trình bày chung. */
+.cn-group-cmp {
+  padding: 16px 20px 18px;
+  margin-bottom: 14px;
+  overflow-x: auto;
+}
+
+.cn-group-cmp-grid {
+  display: grid;
+  gap: 10px 16px;
+  align-items: start;
+  min-width: 560px;
+}
+
+.cn-group-cmp-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 6px;
+  border-bottom: 2px solid var(--color-brand-soft);
+}
+
+.cn-group-cmp-head-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--color-brand-strong);
+}
+
+.cn-group-cmp-head-subtitle {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.cn-group-cmp-row-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  padding-top: 2px;
+}
+
+.cn-group-cmp-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.cn-group-cmp-bullets {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.cn-group-cmp-bullets li + li {
+  margin-top: 3px;
+}
+
+/* ── Thanh nhẹ (NeutralToneCard — Bài 4) ──────────────────────────────────────────────── */
+.cn-neutral-tone {
+  padding: 16px 20px 18px;
+  margin-bottom: 14px;
+}
+
+.cn-neutral-tone-p {
+  margin-bottom: 8px;
+}
+
+.cn-neutral-tone-p:last-of-type {
+  margin-bottom: 0;
+}
+
+.cn-neutral-tone .cn-phon-row {
+  margin-top: 12px;
+}
+
+.cn-neutral-tone-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.cn-neutral-tone-example {
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: var(--color-brand-soft);
+  justify-content: flex-start;
+}
+
+.cn-neutral-tone-distinguish {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(36, 31, 26, 0.16);
+}
+
+.cn-neutral-tone-bullets {
+  margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+  .cn-phon-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cn-phon-grid-solo {
+    grid-template-columns: 1fr;
+  }
+
+  .cn-sandhi-variants-split {
+    flex-direction: column;
+  }
+
+  .cn-ending-cmp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cn-ending-cmp-row-label {
+    padding-top: 8px;
+  }
 }

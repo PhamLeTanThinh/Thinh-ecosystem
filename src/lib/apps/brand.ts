@@ -17,6 +17,6 @@ export const APP_BRAND = {
   vitrine: '#0d9c78',
   music: '#111111',
   pm: '#7c3aed',
-  it: '#059669',
+  it: '#0f3d2e',
   certs: '#0ea5e9',
 } as const

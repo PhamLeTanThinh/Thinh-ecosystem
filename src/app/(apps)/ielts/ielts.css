@@ -1883,3 +1883,141 @@ li > .ih-prompt-vi {
     border-radius: 0;
   }
 }
+
+/* ── Responsive: mobile (nút mở menu, sidebar off-canvas, layout co lại) ──
+   Sidebar 280px cố định + nội dung bên cạnh không co giãn nổi trên màn hẹp, nên < 860px sidebar
+   chuyển hẳn sang off-canvas (fixed, trượt từ trái, che nội dung khi mở) thay vì ép 2 cột chật hẹp. */
+.ih-nav-toggle {
+  display: none;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  font-size: 18px;
+  border-radius: 10px;
+  color: var(--color-ih-ink);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+}
+
+.ih-nav-toggle:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.ih-nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .ih-nav-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .ih-sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 100;
+    width: min(280px, 82vw);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+    transform: translateX(-100%);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+
+  /* View Transition đặt tên riêng cho sidebar (ih-sidebar) — bỏ qua transition CSS thường lúc engine
+     đang chạy transition của chính nó (mount lần đầu từ SkillLanding), tránh 2 animation chồng nhau. */
+  .ih-sidebar-open {
+    transform: translateX(0);
+  }
+
+  .ih-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    background: rgba(43, 58, 85, 0.35);
+  }
+
+  .ih-topbar {
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    padding: 14px 16px;
+  }
+
+  .ih-search {
+    max-width: none;
+  }
+
+  /* Không đủ chỗ trên cùng 1 hàng với nút menu + ô tìm kiếm — xuống hàng riêng, chiếm hết chiều
+     rộng thay vì bị bóp/ẩn hẳn (vẫn cần thấy vai trò + nút đăng xuất trên mobile). */
+  .ih-role-badge {
+    margin-left: 0;
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+
+  .ih-content {
+    padding: 20px 16px 40px;
+  }
+
+  .ih-landing {
+    min-height: calc(100dvh - 140px);
+  }
+
+  .ih-landing-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .ih-doc {
+    padding: 16px 16px 26px;
+  }
+
+  .ih-page-view-title {
+    font-size: 26px;
+  }
+
+  .ih-vocab-header {
+    flex-wrap: wrap;
+  }
+
+  .ih-vocab-search {
+    order: 1;
+    flex-basis: 100%;
+  }
+
+  .ih-vocab-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ih-vocab-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ih-editor-content td img {
+    width: 100%;
+    height: auto;
+  }
+
+  .ih-editor-content table:has(td > img) {
+    table-layout: auto;
+  }
+
+  .ih-example-block {
+    padding: 14px 16px 40px;
+  }
+
+  .ih-example-copy {
+    top: auto;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  .ih-band {
+    padding: 34px 14px 10px;
+  }
+
+  .ih-band::before {
+    left: 10px;
+    top: 10px;
+  }
+}

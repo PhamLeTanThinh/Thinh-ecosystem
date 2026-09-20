@@ -180,6 +180,32 @@
   color: #dc2626;
 }
 
+/* ── Tab "Góp ý" (FeedbackAdmin.tsx) ──────────────────────────────────────────────────── */
+.adm-feedback-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 14px 16px;
+}
+
+.adm-feedback-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.adm-feedback-message {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.adm-feedback-page {
+  font-family: monospace;
+  font-size: 11.5px;
+}
+
 @media (max-width: 560px) {
   .adm-learner {
     flex-wrap: wrap;

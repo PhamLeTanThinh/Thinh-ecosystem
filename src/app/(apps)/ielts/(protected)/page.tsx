@@ -22,6 +22,9 @@ export default function IeltsHomePage() {
   // (chỉ có topbar + 4 card ở giữa, chưa có sidebar); có 1 trong 2 thì hiện bố cục đầy đủ.
   const [picked, setPicked] = useState<Skill | null>(null)
   const showLanding = picked === null && selection === null
+  // Sidebar chuyển thành off-canvas (trượt từ trái, che nội dung) trên màn hẹp — xem media query
+  // trong ielts.css. Trạng thái đóng/mở chỉ có ý nghĩa ở đó, desktop luôn bỏ qua.
+  const [navOpen, setNavOpen] = useState(false)
 
   const activePage = selection?.type === 'page' ? pages.find((p) => p.id === selection.id) ?? null : null
 
@@ -29,6 +32,14 @@ export default function IeltsHomePage() {
   function selectFromSearch(s: Selection) {
     if (showLanding) withViewTransition(() => setSelection(s))
     else setSelection(s)
+    setNavOpen(false)
+  }
+
+  // Chọn trang/từ vựng từ sidebar trên mobile thì đóng luôn off-canvas — nếu không, sau khi chọn
+  // người dùng vẫn phải tự bấm nút đóng dù đã thấy đúng nội dung cần xem.
+  function selectFromSidebar(s: Selection) {
+    setSelection(s)
+    setNavOpen(false)
   }
 
   // Cuộn về đầu trang mỗi lần đổi lựa chọn (trang khác hoặc Từ vựng) — thiếu bước này, trang mới sẽ
@@ -42,10 +53,22 @@ export default function IeltsHomePage() {
 
   return (
     <div className="ih-shell">
-      {!showLanding && <Sidebar selection={selection} onSelect={setSelection} initialSkill={picked ?? activePage?.skill ?? null} />}
+      {!showLanding && (
+        <>
+          <Sidebar selection={selection} onSelect={selectFromSidebar} initialSkill={picked ?? activePage?.skill ?? null} navOpen={navOpen} />
+          {/* Backdrop chỉ hiện (display) trên mobile khi navOpen — xem ielts.css. Bấm ra ngoài để đóng. */}
+          {navOpen && <div className="ih-nav-backdrop" onClick={() => setNavOpen(false)} />}
+        </>
+      )}
 
       <div className="ih-main">
         <header className="ih-topbar">
+          {/* Nút mở sidebar off-canvas — chỉ hiện trên mobile (CSS), vì desktop sidebar luôn nằm sẵn. */}
+          {!showLanding && (
+            <button type="button" className="ih-nav-toggle" aria-label="Mở menu" onClick={() => setNavOpen((v) => !v)}>
+              ☰
+            </button>
+          )}
           {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
               cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn kỹ năng chưa có sidebar. */}
           {showLanding && <AppBreadcrumb app="/ielts" />}

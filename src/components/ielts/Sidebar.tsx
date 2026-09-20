@@ -15,9 +15,11 @@ interface Props {
   onSelect: (s: Selection) => void
   // Section mở sẵn khi Sidebar mount (chọn từ màn hình 4 card hoặc từ tìm kiếm); chỉ đọc lúc mount.
   initialSkill?: Skill | null
+  // Off-canvas trên mobile (xem page.tsx + ielts.css) — không ảnh hưởng gì trên desktop.
+  navOpen?: boolean
 }
 
-export function Sidebar({ selection, onSelect, initialSkill = null }: Props) {
+export function Sidebar({ selection, onSelect, initialSkill = null, navOpen = false }: Props) {
   const { isOwner } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
   const hydrated = useIeltsStore((s) => s.hydrated)
@@ -52,7 +54,7 @@ export function Sidebar({ selection, onSelect, initialSkill = null }: Props) {
   }
 
   return (
-    <aside className="ih-sidebar" style={{ viewTransitionName: 'ih-sidebar' }}>
+    <aside className={`ih-sidebar${navOpen ? ' ih-sidebar-open' : ''}`} style={{ viewTransitionName: 'ih-sidebar' }}>
       {/* Breadcrumb thay cho tiêu đề tĩnh "IELTS Hub" cũ — vừa báo vị trí (Study › IELTS Hub) vừa bấm
           được để quay lại /study. Chỉ hiện ở đây (sidebar chỉ tồn tại khi đã vào trong); lúc còn ở
           màn hình chọn kỹ năng (chưa có sidebar), breadcrumb nằm ở topbar — xem page.tsx. */}

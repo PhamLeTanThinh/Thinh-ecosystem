@@ -1,5 +1,6 @@
 import { TopicChoice } from '@/components/lessons/TopicChoice'
 import { APP_BRAND } from '@/lib/apps/brand'
+import { RESEARCH_PAPERS } from '@/lib/it/papers'
 
 export default function MasterAiPage() {
   return (
@@ -16,7 +17,7 @@ export default function MasterAiPage() {
       items={[
         { key: 'machinelearning', icon: '📈', label: 'Machine Learning', meta: '10 bài' },
         { key: 'deeplearning', icon: '🧠', label: 'Deep Learning', meta: '10 bài' },
-        { key: 'paper', icon: '📄', label: 'Paper Research', meta: '2 paper' },
+        { key: 'paper', icon: '📄', label: 'Paper Research', meta: `${RESEARCH_PAPERS.length} paper` },
       ]}
     />
   )

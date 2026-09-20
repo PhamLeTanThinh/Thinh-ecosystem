@@ -5,17 +5,20 @@ import { AdminActionProvider } from '@/components/admin/AdminDialog'
 import { Breadcrumb } from '@/components/study/Breadcrumb'
 import { IeltsAccessAdmin } from '@/components/admin/IeltsAccessAdmin'
 import { LearnerAdmin } from '@/components/admin/LearnerAdmin'
+import { FeedbackAdmin } from '@/components/admin/FeedbackAdmin'
 
-type Tab = 'ielts' | 'learners'
+type Tab = 'ielts' | 'learners' | 'feedback'
 
 const TABS: { id: Tab; label: string }[] = [
   { id: 'ielts', label: 'Người xem IELTS' },
   { id: 'learners', label: 'Hồ sơ học · 中文 · 한국어' },
+  { id: 'feedback', label: 'Góp ý' },
 ]
 
-// Trang quản trị của chủ, gồm 2 mảng: người được xem IELTS (mời/duyệt/thu hồi) và hồ sơ học của app Trung/Hàn
-// (xem/đổi tên/xoá). Tab đang mở nằm trên URL (?tab=learners) để tải lại hay gửi link vẫn đúng tab — trang server
-// đọc ?tab= rồi truyền xuống làm tab ban đầu, nên HTML server và client luôn khớp nhau.
+// Trang quản trị của chủ, gồm 3 mảng: người được xem IELTS (mời/duyệt/thu hồi), hồ sơ học của app Trung/Hàn
+// (xem/đổi tên/xoá), và góp ý gửi qua DonateWidget (xem/xoá). Tab đang mở nằm trên URL (?tab=learners) để tải
+// lại hay gửi link vẫn đúng tab — trang server đọc ?tab= rồi truyền xuống làm tab ban đầu, nên HTML server và
+// client luôn khớp nhau.
 export function AdminDashboard({ ownerEmail, initialTab }: { ownerEmail: string | null; initialTab: Tab }) {
   const [tab, setTab] = useState<Tab>(initialTab)
 
@@ -50,7 +53,7 @@ export function AdminDashboard({ ownerEmail, initialTab }: { ownerEmail: string 
           ))}
         </div>
 
-        {tab === 'ielts' ? <IeltsAccessAdmin ownerEmail={ownerEmail} /> : <LearnerAdmin />}
+        {tab === 'ielts' ? <IeltsAccessAdmin ownerEmail={ownerEmail} /> : tab === 'learners' ? <LearnerAdmin /> : <FeedbackAdmin />}
       </div>
     </AdminActionProvider>
   )

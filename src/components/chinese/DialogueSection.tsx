@@ -3,8 +3,15 @@
 import { useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Dialogue } from '@/lib/chinese/dialogues'
+import { SpeakButton } from '@/components/shared/SpeakButton'
 
 const MARK = /\[(\d):([^\]]+)\]/g
+
+// Câu thoại gốc chứa mã đánh dấu ngữ pháp [n:chữ] (xem Marked bên dưới) — bóc mã, chỉ giữ lại chữ Hán
+// thật để đọc, nếu không giọng đọc sẽ phát ra luôn cả chuỗi "[1:...]" vô nghĩa.
+function stripMarks(text: string): string {
+  return text.replace(MARK, '$2')
+}
 
 // Chuỗi có thể chứa [n:chữ] — từ thuộc điểm ngữ pháp thứ n của hội thoại — thì tô màu theo n (xem .cn-hl-n).
 function Marked({ text }: { text: string }) {
@@ -95,9 +102,16 @@ function DialogueCard({ dialogue }: { dialogue: Dialogue }) {
             <div key={i} className="cn-dlg-line">
               {line.who && <span className={`cn-dlg-who cn-dlg-who-${line.who.toLowerCase()}`}>{line.who}</span>}
               <div className="cn-dlg-body">
-                <p className={`cn-dlg-zh${bilingual ? ' cn-dlg-zh-mixed' : ''}`}>
-                  <Marked text={line.zh} />
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <p className={`cn-dlg-zh${bilingual ? ' cn-dlg-zh-mixed' : ''}`}>
+                    <Marked text={line.zh} />
+                  </p>
+                  <SpeakButton
+                    text={stripMarks(line.zh)}
+                    lang="zh-CN"
+                    className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand"
+                  />
+                </div>
 
                 {hidden.length > 0 && (
                   <div className="cn-dlg-hides">

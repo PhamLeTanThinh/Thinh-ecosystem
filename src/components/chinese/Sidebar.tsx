@@ -3,10 +3,15 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { HSK_LEVELS, LESSON_TITLES, UNSORTED_LESSON, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
+import { PHONETICS_LESSONS } from '@/lib/chinese/phonetics'
 import type { ChineseCard, ChineseDeck } from '@/lib/chinese/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
-export type Selection = { type: 'overview' } | { type: 'lesson'; lesson: number } | { type: 'deck'; deckId: string }
+export type Selection =
+  | { type: 'overview' }
+  | { type: 'lesson'; lesson: number }
+  | { type: 'deck'; deckId: string }
+  | { type: 'phonetics'; lesson: number }
 
 interface Props {
   cards: ChineseCard[]
@@ -23,7 +28,7 @@ interface Props {
   initialGroup?: HskLevel | null
 }
 
-type GroupKey = HskLevel | 'decks'
+type GroupKey = HskLevel | 'decks' | 'phonetics'
 
 export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDeleteDeck, mobileOpen, onMobileClose, initialGroup = null }: Props) {
   // Mọi nhóm (HSK 1+2 … HSK 6, Bộ từ của tôi) thu gọn mỗi lần vào trang hoặc F5 — giống Sidebar của IELTS. Ngoại lệ
@@ -81,6 +86,34 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDelete
             </div>
           )
         })()}
+
+        {/* Chuỗi bài vỡ lòng đứng riêng, trước mọi cấp độ HSK — KHÔNG phải "lesson" trong LESSON_META
+            (nội dung nằm hẳn trong code, xem lib/chinese/phonetics.ts), nên có Selection riêng
+            ('phonetics') và danh sách bài lấy từ PHONETICS_LESSONS thay vì lessonNumbersForLevel. */}
+        <div className="cn-topik-group">
+          <button type="button" className="cn-topik-header" onClick={() => toggle('phonetics')}>
+            <span className="cn-topik-toggle">{expanded.has('phonetics') ? '▾' : '▸'}</span>
+            <span className="cn-topik-label">🔤 Ngữ âm cơ bản</span>
+          </button>
+
+          {expanded.has('phonetics') && (
+            <div className="cn-lesson-list">
+              {PHONETICS_LESSONS.map((pl) => {
+                const active = selection.type === 'phonetics' && selection.lesson === pl.number
+                return (
+                  <div key={pl.number} className={`cn-lesson-row${active ? ' active' : ''}`}>
+                    <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'phonetics', lesson: pl.number })}>
+                      <span className="cn-lesson-badge">{pl.number}</span>
+                      <span className="cn-lesson-row-body">
+                        <span className="cn-lesson-row-title">{pl.title}</span>
+                      </span>
+                    </button>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+        </div>
 
         {HSK_LEVELS.map(({ key, label }) => {
           const lessonNumbers = lessonNumbersForLevel(key)

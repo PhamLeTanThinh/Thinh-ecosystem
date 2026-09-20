@@ -33,9 +33,10 @@
   box-shadow: 0 18px 36px -14px rgba(31, 29, 43, 0.42), 0 0 0 1px rgba(31, 29, 43, 0.08);
 }
 
+/* To hơn bản cũ (200×266) — đủ chỗ cho 2 nút tab + form góp ý mà không ép mã QR co lại quá nhỏ. */
 .dw-frame.dw-open {
-  width: 200px;
-  height: 266px;
+  width: 234px;
+  height: 320px;
   border-radius: 18px;
   cursor: default;
 }
@@ -75,6 +76,8 @@
 }
 
 .dw-full {
+  display: flex;
+  flex-direction: column;
   padding: 36px 16px 14px;
   opacity: 0;
   pointer-events: none;
@@ -84,6 +87,49 @@
   opacity: 1;
   pointer-events: auto;
   transition-delay: 0.15s;
+}
+
+/* ── Tab switcher (Góp ý / Ủng hộ) ────────────────────────────────────────────────────── */
+.dw-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  margin-bottom: 10px;
+  border-radius: 999px;
+  background: rgba(31, 29, 43, 0.06);
+  flex-shrink: 0;
+}
+
+.dw-tab {
+  flex: 1 1 0;
+  padding: 6px 4px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: rgba(31, 29, 43, 0.55);
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.dw-tab:hover {
+  color: #1f1d2b;
+}
+
+.dw-tab.active {
+  background: #ffffff;
+  color: #1f1d2b;
+  box-shadow: 0 2px 6px rgba(31, 29, 43, 0.12);
+}
+
+/* Vùng nội dung theo tab đang chọn — chiếm hết phần còn lại của .dw-full (flex column). */
+.dw-tab-panel {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  /* Chỉ có tác dụng khi con KHÔNG flex-grow (vd nội dung tab QR — .dw-qr cỡ cố định theo tỉ lệ ảnh) —
+     con có flex:1 (vd .dw-feedback-textarea) vẫn nở hết chỗ trống như bình thường, không bị ảnh hưởng. */
+  justify-content: center;
 }
 
 .dw-close {
@@ -124,6 +170,77 @@
   height: auto;
   border-radius: 10px;
   background: #f6f5fa;
+}
+
+/* ── Tab "Góp ý" (FeedbackForm) ───────────────────────────────────────────────────────── */
+.dw-feedback {
+  gap: 8px;
+}
+
+.dw-feedback-textarea {
+  flex: 1 1 auto;
+  min-height: 0;
+  resize: none;
+  padding: 9px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(31, 29, 43, 0.14);
+  background: rgba(31, 29, 43, 0.03);
+  color: #1f1d2b;
+  font-size: 12px;
+  line-height: 1.5;
+  font-family: inherit;
+  cursor: text;
+}
+
+.dw-feedback-textarea:focus {
+  outline: none;
+  border-color: rgba(31, 29, 43, 0.32);
+  background: #ffffff;
+}
+
+.dw-feedback-textarea:disabled {
+  opacity: 0.6;
+}
+
+.dw-feedback-submit {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #1f1d2b;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.dw-feedback-submit:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.dw-feedback-submit:not(:disabled):hover {
+  opacity: 0.85;
+}
+
+.dw-feedback-error {
+  flex-shrink: 0;
+  margin: 0;
+  font-size: 11px;
+  color: #c0392b;
+  text-align: center;
+}
+
+.dw-feedback-sent {
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  padding: 0 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1f1d2b;
 }
 
 /* Con mèo: nằm GIỮA (căn theo trục ngang của .dw-frame, tự tái căn giữa mỗi khi .dw-frame đổi bề

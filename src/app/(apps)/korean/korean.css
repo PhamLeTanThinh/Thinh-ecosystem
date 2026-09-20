@@ -694,14 +694,22 @@
 }
 
 /* ── Lesson detail view ───────────────────────────────────────────────────────────────── */
+/* Tiêu đề mục (Từ vựng/Luyện nói) — làm nổi bật hẳn so với nội dung bên dưới bằng màu accent + viền
+   dưới, thay vì chỉ đậm chữ đen như cũ (dễ bị lẫn với text thường khi cuộn nhanh qua nhiều mục).
+   Riêng mục Ngữ pháp bỏ hẳn tiêu đề này (xem GrammarCard) vì mỗi thẻ đã tự có nhãn "NGỮ PHÁP" + số
+   thứ tự riêng, giữ thêm tiêu đề chung sẽ dư thừa. */
 .kr-section-title {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
-  color: var(--color-text);
-  margin: 22px 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-accent-strong);
+  margin: 28px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--color-accent-soft);
 }
 
 .kr-section-title:first-child {
@@ -710,8 +718,13 @@
 
 .kr-section-count {
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--color-muted);
+  text-transform: none;
+  letter-spacing: normal;
+  background: var(--color-card-soft);
+  padding: 2px 8px;
+  border-radius: 999px;
 }
 
 .kr-vocab-tile-grid {
@@ -727,8 +740,33 @@
   gap: 14px;
 }
 
+/* Mục Ngữ pháp không còn .kr-section-title riêng (xem GrammarCard) nên cần margin-top ở đây để tách
+   khỏi mục Từ vựng phía trên — CHỈ trên desktop, nơi các mục xếp liền trong cùng 1 cột (không tách
+   bằng tab như mobile, nơi .kr-grammar-list là con đầu tiên của tab đang mở, không cần margin thừa). */
+@media (min-width: 861px) {
+  .kr-grammar-list {
+    margin-top: 28px;
+  }
+}
+
 .kr-grammar-card {
   padding: 20px 22px 22px;
+}
+
+/* Số thứ tự ngữ pháp trong bài — thay cho đếm số ở tiêu đề mục chung "Ngữ pháp (N)" (dư thừa vì mỗi
+   thẻ đã có nhãn NGỮ PHÁP riêng), đánh số trực tiếp lên từng thẻ dễ theo dõi hơn khi cuộn qua nhiều thẻ. */
+.kr-grammar-index {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+  font-size: 12.5px;
+  font-weight: 800;
 }
 
 .kr-grammar-eyebrow {
@@ -981,7 +1019,9 @@
   font-size: 12.5px;
   font-style: italic;
   color: var(--color-muted);
-  margin: -4px 0 12px;
+  /* margin-top dương thay vì âm — .kr-section-title giờ to hơn và có viền dưới (xem phía trên),
+     margin âm cũ khiến dòng chữ này dính sát vào viền đó. */
+  margin: 6px 0 12px;
   line-height: 1.6;
 }
 

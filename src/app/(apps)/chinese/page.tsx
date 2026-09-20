@@ -15,7 +15,11 @@ import type { ExampleDetail } from '@/lib/chinese/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speakingPractice'
 import { DIALOGUES } from '@/lib/chinese/dialogues'
 import { DialogueSection } from '@/components/chinese/DialogueSection'
+import { PhoneticsSection } from '@/components/chinese/PhoneticsSection'
+import { SpeakButton } from '@/components/shared/SpeakButton'
 import type { ChineseCard, ChineseCardKind, ChineseDeck, ChineseProgress, PinyinPosition, QuizMode } from '@/lib/chinese/types'
+
+const ZH_LANG = 'zh-CN'
 
 const PAGE_SIZE = 30
 
@@ -225,6 +229,8 @@ export default function ChinesePage() {
             progressByCard={progressByCard}
             isLearned={isLearned}
           />
+        ) : selection.type === 'phonetics' ? (
+          <PhoneticsSection lesson={selection.lesson} />
         ) : (
           <DeckContent
             deck={decks.find((d) => d.id === selection.deckId) ?? null}
@@ -573,15 +579,12 @@ function LessonContent({
           </div>
 
           <div className={`cn-mobile-section${effectiveMobileTab === 'grammar' ? ' active' : ''}`}>
-            <p className="cn-section-title">
-              ✏️ Ngữ pháp <span className="cn-section-count">({grammarCards.length})</span>
-            </p>
             {grammarCards.length === 0 ? (
               <p className="cn-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
             ) : (
               <div className="cn-grammar-list">
-                {grammarCards.map((card) => (
-                  <GrammarCard key={card.id} card={card} />
+                {grammarCards.map((card, i) => (
+                  <GrammarCard key={card.id} card={card} index={i + 1} />
                 ))}
               </div>
             )}
@@ -668,15 +671,21 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
               <span className="cn-speaking-level">{item.level}</span>
             </div>
 
-            <p className="cn-speaking-q">{item.question}</p>
+            <div className="flex items-center gap-1.5">
+              <p className="cn-speaking-q">{item.question}</p>
+              <SpeakButton text={item.question} lang={ZH_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+            </div>
             <p className="cn-speaking-q-vi">{item.questionVi}</p>
 
             <div className="cn-speaking-answer">
               <span className="cn-speaking-answer-label">答え</span>
               <div>
-                <p className="cn-speaking-a">
-                  {item.answer} <span className="cn-speaking-grammar-tag">{item.grammar}</span>
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <p className="cn-speaking-a">
+                    {item.answer} <span className="cn-speaking-grammar-tag">{item.grammar}</span>
+                  </p>
+                  <SpeakButton text={item.answer} lang={ZH_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+                </div>
                 <p className="cn-speaking-a-vi">{item.answerVi}</p>
               </div>
             </div>
@@ -752,6 +761,14 @@ function VocabTile({
           </p>
           <p className="mt-1 text-sm font-medium">{card.meaning}</p>
         </div>
+        {/* Chỉ hiện khi không ở chế độ chọn thẻ — lúc đó Tag là <button>, không thể lồng thêm nút. */}
+        {!onClick && (
+          <SpeakButton
+            text={card.hanzi}
+            lang={ZH_LANG}
+            className="shrink-0 rounded-full p-1.5 text-muted hover:bg-brand-soft hover:text-brand"
+          />
+        )}
       </div>
       {!selecting && progress && (progress.correctCount > 0 || progress.wrongCount > 0) && (
         <div className="flex shrink-0 flex-col items-end gap-1 text-xs font-semibold">
@@ -836,10 +853,11 @@ function GrammarStructure({ note, root }: { note: string; root: string }) {
   )
 }
 
-function GrammarCard({ card }: { card: ChineseCard }) {
+function GrammarCard({ card, index }: { card: ChineseCard; index: number }) {
   return (
     <div id={`cn-grammar-${card.id}`} className="cn-glass cn-grammar-card">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start gap-3">
+        <span className="cn-grammar-index">{index}</span>
         <div>
           <p className="cn-grammar-eyebrow">✏️ NGỮ PHÁP</p>
           <h3 className="cn-grammar-title">{card.hanzi}</h3>
@@ -877,7 +895,10 @@ function GrammarExamples({ card }: { card: ChineseCard }) {
         <span className="cn-grammar-examples-label">Ví dụ</span>
         {details.map((d, i) => (
           <div key={i} className="cn-grammar-example">
-            <p className="cn-grammar-example-line">{d.zh}</p>
+            <div className="flex items-center gap-1.5">
+              <p className="cn-grammar-example-line">{d.zh}</p>
+              <SpeakButton text={d.zh} lang={ZH_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+            </div>
             {d.pinyin && <p className="cn-grammar-example-pinyin">{d.pinyin}</p>}
             <p className="cn-grammar-example-vi">{d.vi}</p>
             {d.vocab && (
@@ -901,9 +922,10 @@ function GrammarExamples({ card }: { card: ChineseCard }) {
     <div className="cn-grammar-examples">
       <span className="cn-grammar-examples-label">Ví dụ</span>
       {card.example.split('\n').map((ex, i) => (
-        <p key={i} className="cn-grammar-example-line">
-          {ex}
-        </p>
+        <div key={i} className="flex items-center gap-1.5">
+          <p className="cn-grammar-example-line">{ex}</p>
+          <SpeakButton text={ex} lang={ZH_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+        </div>
       ))}
     </div>
   )

@@ -13,7 +13,10 @@ import { isMobileNav, withViewTransition } from '@/lib/viewTransition'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { ExampleDetail } from '@/lib/korean/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speakingPractice'
+import { SpeakButton } from '@/components/shared/SpeakButton'
 import type { KoreanCard, KoreanCardKind, KoreanProgress, QuizMode } from '@/lib/korean/types'
+
+const KO_LANG = 'ko-KR'
 
 const PAGE_SIZE = 30
 
@@ -414,15 +417,12 @@ function LessonContent({
           </div>
 
           <div className={`kr-mobile-section${effectiveMobileTab === 'grammar' ? ' active' : ''}`}>
-            <p className="kr-section-title">
-              ✏️ Ngữ pháp <span className="kr-section-count">({grammarCards.length})</span>
-            </p>
             {grammarCards.length === 0 ? (
               <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
             ) : (
               <div className="kr-grammar-list">
-                {grammarCards.map((card) => (
-                  <GrammarCard key={card.id} card={card} />
+                {grammarCards.map((card, i) => (
+                  <GrammarCard key={card.id} card={card} index={i + 1} />
                 ))}
               </div>
             )}
@@ -508,15 +508,21 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
               <span className="kr-speaking-level">{item.level}</span>
             </div>
 
-            <p className="kr-speaking-q">{item.question}</p>
+            <div className="flex items-center gap-1.5">
+              <p className="kr-speaking-q">{item.question}</p>
+              <SpeakButton text={item.question} lang={KO_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+            </div>
             <p className="kr-speaking-q-vi">{item.questionVi}</p>
 
             <div className="kr-speaking-answer">
               <span className="kr-speaking-answer-label">대답</span>
               <div>
-                <p className="kr-speaking-a">
-                  {item.answer} <span className="kr-speaking-grammar-tag">{item.grammar}</span>
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <p className="kr-speaking-a">
+                    {item.answer} <span className="kr-speaking-grammar-tag">{item.grammar}</span>
+                  </p>
+                  <SpeakButton text={item.answer} lang={KO_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+                </div>
                 <p className="kr-speaking-a-vi">{item.answerVi}</p>
               </div>
             </div>
@@ -563,6 +569,7 @@ function VocabTile({ card, progress, learned }: { card: KoreanCard; progress: Ko
           </p>
           <p className="mt-1 text-sm font-medium">{card.meaning}</p>
         </div>
+        <SpeakButton text={card.front} lang={KO_LANG} className="shrink-0 rounded-full p-1.5 text-muted hover:bg-brand-soft hover:text-brand" />
       </div>
       {progress && (progress.correctCount > 0 || progress.wrongCount > 0) && (
         <div className="flex shrink-0 flex-col items-end gap-1 text-xs font-semibold">
@@ -654,10 +661,11 @@ function GrammarStructure({ note }: { note: string }) {
   )
 }
 
-function GrammarCard({ card }: { card: KoreanCard }) {
+function GrammarCard({ card, index }: { card: KoreanCard; index: number }) {
   return (
     <div id={`kr-grammar-${card.id}`} className="kr-glass kr-grammar-card">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex items-start gap-3">
+        <span className="kr-grammar-index">{index}</span>
         <div>
           <p className="kr-grammar-eyebrow">✏️ NGỮ PHÁP</p>
           <h3 className="kr-grammar-title">{card.front}</h3>
@@ -694,7 +702,10 @@ function GrammarExamples({ card }: { card: KoreanCard }) {
         <span className="kr-grammar-examples-label">Ví dụ</span>
         {details.map((d, i) => (
           <div key={i} className="kr-grammar-example">
-            <p className="kr-grammar-example-line">{d.ko}</p>
+            <div className="flex items-center gap-1.5">
+              <p className="kr-grammar-example-line">{d.ko}</p>
+              <SpeakButton text={d.ko} lang={KO_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+            </div>
             <p className="kr-grammar-example-vi">{d.vi}</p>
             {d.vocab && (
               <p className="kr-grammar-example-note">
@@ -717,9 +728,10 @@ function GrammarExamples({ card }: { card: KoreanCard }) {
     <div className="kr-grammar-examples">
       <span className="kr-grammar-examples-label">Ví dụ</span>
       {card.example.split('\n').map((ex, i) => (
-        <p key={i} className="kr-grammar-example-line">
-          {ex}
-        </p>
+        <div key={i} className="flex items-center gap-1.5">
+          <p className="kr-grammar-example-line">{ex}</p>
+          <SpeakButton text={ex} lang={KO_LANG} className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand" />
+        </div>
       ))}
     </div>
   )

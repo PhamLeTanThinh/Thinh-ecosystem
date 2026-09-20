@@ -332,3 +332,13 @@ export const ieltsVocab = pgTable('ielts_vocab', {
   linkedPageId: text('linked_page_id').references(() => ieltsPages.id, { onDelete: 'set null' }),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+// ── GÓP Ý (tab "Góp ý" trong DonateWidget — mèo "Mua pate cho Diên" ở /study) ──────────────
+// Không gắn learnerId/auth gì — ai cũng gửi được, chỉ mình chủ trang đọc qua db:studio. `page` ghi lại
+// pathname lúc gửi để biết góp ý đang nói về app nào.
+export const siteFeedback = pgTable('site_feedback', {
+  id: text('id').primaryKey(),
+  message: text('message').notNull(),
+  page: text('page').default('').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})

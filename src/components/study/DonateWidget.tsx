@@ -3,6 +3,8 @@
 import { useRef, useState } from 'react'
 import './donate-widget.css'
 
+type Tab = 'qr' | 'feedback'
+
 // Mèo "mua pate cho Diên" ở góc phải dưới /study — MỘT khối duy nhất (.dw-frame), không phải 2 khối
 // tách rời: lúc nghỉ nó là viên thuốc nhỏ "Mua pate cho Diên", hover/bấm vào thì CHÍNH nó phóng to
 // (animation width/height/border-radius) thành thẻ chứa mã QR — không bật thêm thẻ nào khác. Nội
@@ -27,6 +29,7 @@ import './donate-widget.css'
 // liên tục. Trì hoãn đóng cho khối kịp "chạy" hẳn ra khỏi/vào con trỏ trước khi state đổi thật.
 export function DonateWidget() {
   const [open, setOpen] = useState(false)
+  const [tab, setTab] = useState<Tab>('qr')
   const closeTimer = useRef<number | undefined>(undefined)
 
   function openNow() {
@@ -66,7 +69,7 @@ export function DonateWidget() {
           </span>
         </div>
 
-        <div className="dw-full" role="dialog" aria-label="Ủng hộ tác giả">
+        <div className="dw-full" role="dialog" aria-label="Ủng hộ & góp ý">
           <button
             type="button"
             className="dw-close"
@@ -78,10 +81,107 @@ export function DonateWidget() {
           >
             ×
           </button>
-          <p className="dw-thanks">Cảm ơn hội đồng quản trị ♡</p>
-          <img className="dw-qr" src="/donate/qr-code.jpg" width={680} height={680} alt="Mã QR ủng hộ tác giả" />
+
+          {/* stopPropagation trên cả 2 nút tab — .dw-frame có onClick={openNow}, gọi lại openNow() vô hại
+              (đã mở sẵn) nhưng để tránh phụ thuộc vào việc đó luôn vô hại, chặn nổi bọt cho chắc. */}
+          <div className="dw-tabs" role="tablist">
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === 'feedback'}
+              className={`dw-tab${tab === 'feedback' ? ' active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                setTab('feedback')
+              }}
+            >
+              💬 Góp ý
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={tab === 'qr'}
+              className={`dw-tab${tab === 'qr' ? ' active' : ''}`}
+              onClick={(e) => {
+                e.stopPropagation()
+                setTab('qr')
+              }}
+            >
+              🥫 Ủng hộ
+            </button>
+          </div>
+
+          {tab === 'qr' ? (
+            <div className="dw-tab-panel">
+              <p className="dw-thanks">Cảm ơn hội đồng quản trị ♡</p>
+              <img className="dw-qr" src="/donate/qr-code.jpg" width={680} height={680} alt="Mã QR ủng hộ tác giả" />
+            </div>
+          ) : (
+            <FeedbackForm />
+          )}
         </div>
       </div>
+    </div>
+  )
+}
+
+type SendState = 'idle' | 'sending' | 'sent' | 'error'
+
+// Form gửi góp ý — POST /api/feedback (không cần đăng nhập, xem route.ts). `page` gửi kèm pathname
+// hiện tại để biết góp ý đang nói về app nào khi đọc lại qua db:studio.
+function FeedbackForm() {
+  const [message, setMessage] = useState('')
+  const [state, setState] = useState<SendState>('idle')
+
+  async function submit() {
+    const trimmed = message.trim()
+    if (!trimmed || state === 'sending') return
+    setState('sending')
+    try {
+      const res = await fetch('/api/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: trimmed, page: window.location.pathname }),
+      })
+      if (!res.ok) throw new Error('failed')
+      setState('sent')
+      setMessage('')
+      // Tự quay về form trắng sau vài giây — không bắt người dùng tự bấm gì để "reset" lại.
+      window.setTimeout(() => setState('idle'), 2500)
+    } catch {
+      setState('error')
+    }
+  }
+
+  return (
+    <div className="dw-tab-panel dw-feedback">
+      {state === 'sent' ? (
+        <p className="dw-feedback-sent">Đã nhận được góp ý, cảm ơn bạn! 🙏</p>
+      ) : (
+        <>
+          <textarea
+            className="dw-feedback-textarea"
+            placeholder="Góp ý, đề xuất tính năng, báo lỗi..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onClick={(e) => e.stopPropagation()}
+            maxLength={2000}
+            disabled={state === 'sending'}
+          />
+          <button
+            type="button"
+            className="dw-feedback-submit"
+            onClick={(e) => {
+              e.stopPropagation()
+              submit()
+            }}
+            disabled={!message.trim() || state === 'sending'}
+          >
+            {state === 'sending' ? 'Đang gửi…' : 'Gửi góp ý'}
+          </button>
+          {state === 'error' && <p className="dw-feedback-error">Gửi lỗi rồi, thử lại giúp mình nhé.</p>}
+        </>
+      )}
     </div>
   )
 }

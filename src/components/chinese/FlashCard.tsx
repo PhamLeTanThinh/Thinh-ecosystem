@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import type { PinyinPosition } from '@/lib/chinese/types'
+import { SpeakButton } from '@/components/shared/SpeakButton'
 
 interface FlashCardProps {
   hanzi: string
@@ -93,8 +94,11 @@ export function FlashCard({ hanzi, pinyin, meaning, pinyinPosition, flipped, onF
         <div className="absolute inset-0 overflow-hidden rounded-card border border-black/5 bg-linear-to-br from-card to-brand-soft shadow-xl backface-hidden">
           <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full border-8 border-brand/10" />
           <div className="flex h-full flex-col items-center justify-center gap-4 p-6">
-            <span className={`text-center leading-tight font-bold text-brand-strong drop-shadow-sm ${hanziSizeClass(hanzi.length)}`}>
-              {hanzi}
+            <span className="flex items-center gap-2">
+              <span className={`text-center leading-tight font-bold text-brand-strong drop-shadow-sm ${hanziSizeClass(hanzi.length)}`}>
+                {hanzi}
+              </span>
+              <SpeakButton text={hanzi} lang="zh-CN" className="shrink-0 rounded-full p-1.5 text-brand-strong/70 hover:bg-white/60 hover:text-brand-strong" />
             </span>
             {pinyinPosition === 'hanzi' && (
               <span className="rounded-pill bg-white/70 px-3 py-1 text-base font-medium text-muted">{pinyin}</span>

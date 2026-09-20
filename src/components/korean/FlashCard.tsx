@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react'
 import type { PointerEvent as ReactPointerEvent } from 'react'
 import type { KoreanCardKind } from '@/lib/korean/types'
+import { SpeakButton } from '@/components/shared/SpeakButton'
 
 interface FlashCardProps {
   kind: KoreanCardKind
@@ -98,8 +99,11 @@ export function FlashCard({ kind, front, meaning, note, example, flipped, onFlip
             <span className="rounded-pill bg-white/70 px-3 py-1 text-xs font-semibold text-muted">
               {kind === 'grammar' ? '✏️ Ngữ pháp' : '📚 Từ vựng'}
             </span>
-            <span className={`text-center leading-tight font-bold text-brand-strong drop-shadow-sm ${frontSizeClass(front.length)}`}>
-              {front}
+            <span className="flex items-center gap-2">
+              <span className={`text-center leading-tight font-bold text-brand-strong drop-shadow-sm ${frontSizeClass(front.length)}`}>
+                {front}
+              </span>
+              <SpeakButton text={front} lang="ko-KR" className="shrink-0 rounded-full p-1.5 text-brand-strong/70 hover:bg-white/60 hover:text-brand-strong" />
             </span>
             <span className="absolute bottom-6 text-xs text-muted">👆 Chạm xem nghĩa · 👉 Quẹt chấm điểm</span>
           </div>
