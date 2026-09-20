@@ -1357,6 +1357,18 @@
   border-radius: 999px;
 }
 
+/* Ảnh sơ đồ khoang miệng thật, chụp từ sách (xem lib/chinese/phonetics.ts) — nền trắng nhẹ + viền
+   mảnh giống khung dashed cũ để cỡ/khoảng cách không nhảy giữa thẻ có ảnh và thẻ chưa có ảnh. */
+.cn-phon-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(36, 31, 26, 0.12);
+  background: #ffffff;
+}
+
 /* Ô hình minh hoạ khoang miệng — để trống, chờ ảnh chụp từ sách (xem lib/chinese/phonetics.ts). */
 .cn-phon-image-placeholder {
   display: flex;

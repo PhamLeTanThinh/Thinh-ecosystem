@@ -16,6 +16,7 @@ import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speak
 import { DIALOGUES } from '@/lib/chinese/dialogues'
 import { DialogueSection } from '@/components/chinese/DialogueSection'
 import { PhoneticsSection } from '@/components/chinese/PhoneticsSection'
+import { PHONETICS_LESSONS } from '@/lib/chinese/phonetics'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import type { ChineseCard, ChineseCardKind, ChineseDeck, ChineseProgress, PinyinPosition, QuizMode } from '@/lib/chinese/types'
 
@@ -66,7 +67,7 @@ export default function ChinesePage() {
   // Màn hình đầu: các cấp độ HSK dạng card ở giữa (chưa có sidebar). Chọn 1 card (hoặc gõ vào ô tìm kiếm) thì vào
   // bố cục đầy đủ; cấp độ vừa chọn được mở sẵn trong sidebar. Giống màn hình 4 kỹ năng của IELTS.
   const [entered, setEntered] = useState(false)
-  const [initialGroup, setInitialGroup] = useState<HskLevel | null>(null)
+  const [initialGroup, setInitialGroup] = useState<HskLevel | 'phonetics' | null>(null)
   const showLanding = !entered
   const [selecting, setSelecting] = useState(false)
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
@@ -116,24 +117,35 @@ export default function ChinesePage() {
     withViewTransition(
       () => {
         setEntered(true)
-        setInitialGroup(key as HskLevel)
+        setInitialGroup(key as HskLevel | 'phonetics')
       },
       { skip: mobile },
     )
     if (mobile) setMobileNavOpen(true)
   }
 
-  const landingItems: LandingItem[] = HSK_LEVELS.map(({ key, label }) => {
-    const lessons = lessonNumbersForLevel(key)
-    const cardCount = sortedCards.filter((c) => lessons.includes(c.lesson)).length
-    return {
-      key,
-      icon: label.replace('HSK ', ''),
-      label,
-      meta: lessons.length === 0 ? 'Sắp ra mắt' : lessons.length + ' bài · ' + cardCount + ' thẻ',
-      muted: lessons.length === 0,
-    }
-  })
+  // "Ngữ âm cơ bản" đứng trước mọi cấp độ HSK — cùng vị trí với mục riêng của nó ở đầu Sidebar (xem
+  // components/chinese/Sidebar.tsx). Bấm vào chỉ mở sẵn nhóm này trong sidebar (giống hệt cách các
+  // card HSK hoạt động — không tự nhảy thẳng vào Bài 1), người dùng tự chọn bài cụ thể muốn xem.
+  const landingItems: LandingItem[] = [
+    {
+      key: 'phonetics',
+      icon: '🔤',
+      label: 'Ngữ âm cơ bản',
+      meta: `${PHONETICS_LESSONS.length} bài`,
+    },
+    ...HSK_LEVELS.map(({ key, label }) => {
+      const lessons = lessonNumbersForLevel(key)
+      const cardCount = sortedCards.filter((c) => lessons.includes(c.lesson)).length
+      return {
+        key,
+        icon: label.replace('HSK ', ''),
+        label,
+        meta: lessons.length === 0 ? 'Sắp ra mắt' : lessons.length + ' bài · ' + cardCount + ' thẻ',
+        muted: lessons.length === 0,
+      }
+    }),
+  ]
 
   function handleDeleteDeck(deckId: string, deckName: string) {
     if (!window.confirm(`Xoá bộ từ "${deckName}"? Các thẻ trong bộ không bị xoá.`)) return

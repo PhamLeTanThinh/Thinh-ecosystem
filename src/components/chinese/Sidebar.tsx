@@ -24,8 +24,8 @@ interface Props {
   // quản lý state riêng, cùng convention với components/korean/Sidebar.tsx.
   mobileOpen: boolean
   onMobileClose: () => void
-  // Nhóm mở sẵn khi Sidebar mount (cấp độ chọn ở màn hình đầu — LevelLanding); chỉ đọc lúc mount.
-  initialGroup?: HskLevel | null
+  // Nhóm mở sẵn khi Sidebar mount (cấp độ/mục chọn ở màn hình đầu — LevelLanding); chỉ đọc lúc mount.
+  initialGroup?: HskLevel | 'phonetics' | null
 }
 
 type GroupKey = HskLevel | 'decks' | 'phonetics'
@@ -91,7 +91,8 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onDelete
             (nội dung nằm hẳn trong code, xem lib/chinese/phonetics.ts), nên có Selection riêng
             ('phonetics') và danh sách bài lấy từ PHONETICS_LESSONS thay vì lessonNumbersForLevel. */}
         <div className="cn-topik-group">
-          <button type="button" className="cn-topik-header" onClick={() => toggle('phonetics')}>
+          {/* view-transition-name trùng với card "Ngữ âm cơ bản" ở LevelLanding — để card bay vào đây. */}
+          <button type="button" className="cn-topik-header" style={{ viewTransitionName: 'cn-level-phonetics' }} onClick={() => toggle('phonetics')}>
             <span className="cn-topik-toggle">{expanded.has('phonetics') ? '▾' : '▸'}</span>
             <span className="cn-topik-label">🔤 Ngữ âm cơ bản</span>
           </button>

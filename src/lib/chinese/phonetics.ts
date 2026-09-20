@@ -9,6 +9,9 @@ export interface PhoneticSound {
   howTo: string[] // Cách phát âm — mỗi phần tử là 1 gạch đầu dòng
   soundLike: string // Đặc trưng âm thanh
   note?: string // Chú ý thêm (vd âm e đọc thành "ơ" trong 1 số trường hợp)
+  // Tên file ảnh sơ đồ khoang miệng trong public/phonetics/<image>.png (chụp từ sách gốc) — không
+  // có nghĩa là chưa có ảnh, PhoneticsSection hiện lại ô trống chờ như cũ.
+  image?: string
 }
 
 export interface PhoneticsNote {
@@ -220,6 +223,7 @@ export const TONES: ToneInfo[] = [
 
 const b: PhoneticSound = {
   letter: 'b',
+  image: 'b',
   characteristic: 'Âm môi, tắc, không bật hơi.',
   howTo: [
     'Để tạo âm này, hai môi bặm nhẹ trong khi hai hàm tách nhau.',
@@ -231,6 +235,7 @@ const b: PhoneticSound = {
 
 const p: PhoneticSound = {
   letter: 'p',
+  image: 'p',
   characteristic: 'Âm môi, tắc, bật hơi.',
   howTo: [
     'Để tạo âm này, hai môi bặm nhẹ trong khi hai hàm tách nhau.',
@@ -242,6 +247,7 @@ const p: PhoneticSound = {
 
 const m: PhoneticSound = {
   letter: 'm',
+  image: 'm',
   characteristic: 'Âm môi, mũi, không bật hơi.',
   howTo: [
     'Để tạo âm này, hai môi chạm nhẹ vào nhau trong khi hai hàm tách nhau.',
@@ -253,6 +259,7 @@ const m: PhoneticSound = {
 
 const f: PhoneticSound = {
   letter: 'f',
+  image: 'f',
   characteristic: 'Âm môi răng, xát, không bật hơi.',
   howTo: [
     'Để tạo âm này, răng trên chạm nhẹ môi dưới.',
@@ -264,6 +271,7 @@ const f: PhoneticSound = {
 
 const aFinal: PhoneticSound = {
   letter: 'a',
+  image: 'a',
   characteristic: 'Nguyên âm rộng, lưỡi trước, không tròn môi.',
   howTo: [
     'Trong quá trình phát âm, miệng mở rộng một cách tự nhiên, lưỡi phẳng và hạ ở vị trí thấp nhất, lưỡi ở phía trước.',
@@ -274,6 +282,7 @@ const aFinal: PhoneticSound = {
 
 const oFinal: PhoneticSound = {
   letter: 'o',
+  image: 'o',
   characteristic: 'Nguyên âm trung bình, lưỡi sau, tròn môi.',
   howTo: [
     'Khi phát âm miệng từ từ mở rộng, môi tròn và hơi nhô lên, lưỡi rút nhẹ về sau, mặt sau của lưỡi được nâng lên, lưỡi ở giữa.',
@@ -284,6 +293,7 @@ const oFinal: PhoneticSound = {
 
 const eFinal: PhoneticSound = {
   letter: 'e',
+  image: 'e',
   characteristic: 'Nguyên âm trung bình, lưỡi sau, không tròn môi.',
   howTo: [
     'Khi phát âm, miệng mở một nửa, lưỡi rụt nhẹ về phía sau, khoé miệng bị dẹt sang hai bên.',
@@ -295,6 +305,7 @@ const eFinal: PhoneticSound = {
 
 const iFinal: PhoneticSound = {
   letter: 'i',
+  image: 'i',
   characteristic: 'Nguyên âm hẹp cao, lưỡi trước, không tròn môi.',
   howTo: [
     'Khi phát âm miệng dẹt, hai mép kéo rộng sang hai bên, đầu lưỡi chạm nhẹ lợi dưới, phần giữa và cuống lưỡi được nâng lên sát với vòm miệng phía trên.',
@@ -305,6 +316,7 @@ const iFinal: PhoneticSound = {
 
 const uFinal: PhoneticSound = {
   letter: 'u',
+  image: 'u',
   characteristic: 'Nguyên âm trung bình, lưỡi sau, tròn môi.',
   howTo: [
     'Khi phát âm, môi tròn và nhô ra thành một lỗ nhỏ, mặt sau của lưỡi được nâng lên, lưỡi rụt về phía sau.',
@@ -315,6 +327,7 @@ const uFinal: PhoneticSound = {
 
 const uUmlautFinal: PhoneticSound = {
   letter: 'ü',
+  image: 'yu',
   characteristic: 'Nguyên âm hẹp cao, lưỡi trước, tròn môi.',
   howTo: [
     'Khi phát âm, đọc như âm "uy" nhưng môi tròn, hai khoé mép khép nhau như hình quả trám, đầu lưỡi chạm nhẹ lợi dưới, phần giữa và cuống lưỡi được nâng lên sát với vòm miệng phía trên.',
@@ -326,6 +339,7 @@ const uUmlautFinal: PhoneticSound = {
 
 const d: PhoneticSound = {
   letter: 'd',
+  image: 'd',
   characteristic: 'Âm đầu lưỡi, tắc, không bật hơi.',
   howTo: [
     'Để tạo âm này, đưa đầu lưỡi tiếp xúc với lợi trên.',
@@ -337,6 +351,7 @@ const d: PhoneticSound = {
 
 const t: PhoneticSound = {
   letter: 't',
+  image: 't',
   characteristic: 'Âm đầu lưỡi, tắc, bật hơi.',
   howTo: [
     'Để tạo âm này, đưa đầu lưỡi tiếp xúc với lợi trên.',
@@ -349,6 +364,7 @@ const t: PhoneticSound = {
 
 const n: PhoneticSound = {
   letter: 'n',
+  image: 'n',
   characteristic: 'Âm đầu lưỡi, mũi, không bật hơi.',
   howTo: [
     'Để tạo âm này, đưa đầu lưỡi tiếp xúc với lợi trên.',
@@ -360,6 +376,7 @@ const n: PhoneticSound = {
 
 const l: PhoneticSound = {
   letter: 'l',
+  image: 'l',
   characteristic: 'Âm đầu lưỡi, biên, không bật hơi.',
   howTo: [
     'Để tạo âm này, đưa đầu lưỡi tiếp xúc với lợi trên.',
@@ -371,6 +388,7 @@ const l: PhoneticSound = {
 
 const g: PhoneticSound = {
   letter: 'g',
+  image: 'g',
   characteristic: 'Âm cuống lưỡi, tắc, không bật hơi.',
   howTo: [
     'Để tạo âm này, đưa mặt trên của cuống lưỡi vồng lên, chạm vào vòm miệng trên.',
@@ -382,6 +400,7 @@ const g: PhoneticSound = {
 
 const k: PhoneticSound = {
   letter: 'k',
+  image: 'k',
   characteristic: 'Âm cuống lưỡi, tắc, bật hơi.',
   howTo: [
     'Trước khi đọc âm k, người học đọc lại âm g, nhận biết và nắm rõ vị trí phần cuống lưỡi tiếp xúc với vòm miệng.',
@@ -393,6 +412,7 @@ const k: PhoneticSound = {
 
 const h: PhoneticSound = {
   letter: 'h',
+  image: 'h',
   characteristic: 'Âm cuống lưỡi, xát, không bật hơi.',
   howTo: [
     'Để tạo âm này cần rụt sâu cuống lưỡi, cảm nhận phần tiếp xúc với cuống lưỡi ở rất sâu trong cổ họng.',
@@ -404,6 +424,7 @@ const h: PhoneticSound = {
 
 const aiFinal: PhoneticSound = {
   letter: 'ai',
+  image: 'ai',
   characteristic: 'Nguyên âm đôi vang trước.',
   howTo: [
     'Khi phát âm, đầu tiên mở rộng miệng phát âm âm a, sau đó khép hàm lại, trượt sang âm i, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Nguyên âm đứng trước (a) nghe vang và rõ hơn hẳn nguyên âm đứng sau (i).',
@@ -414,6 +435,7 @@ const aiFinal: PhoneticSound = {
 
 const eiFinal: PhoneticSound = {
   letter: 'ei',
+  image: 'ei',
   characteristic: 'Nguyên âm đôi vang trước.',
   howTo: [
     'Khi phát âm, đầu tiên mở miệng trung bình để phát âm âm e (ngả sang ê), sau đó khép hàm lại, trượt sang i, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt, khoé miệng dẹt ra hai bên. Nguyên âm đứng trước (e) nghe vang và rõ hơn hẳn nguyên âm đứng sau (i).',
@@ -424,6 +446,7 @@ const eiFinal: PhoneticSound = {
 
 const aoFinal: PhoneticSound = {
   letter: 'ao',
+  image: 'ao',
   characteristic: 'Nguyên âm đôi vang trước.',
   howTo: [
     'Khi phát âm, đầu tiên mở rộng miệng phát âm âm a, sau đó cuống lưỡi nhấc lên, miệng tròn và nhẹ nhàng trượt về phía âm o, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Nguyên âm đứng trước (a) nghe vang và rõ hơn hẳn nguyên âm đứng sau (o).',
@@ -434,6 +457,7 @@ const aoFinal: PhoneticSound = {
 
 const ouFinal: PhoneticSound = {
   letter: 'ou',
+  image: 'ou',
   characteristic: 'Nguyên âm đôi vang trước.',
   howTo: [
     'Khi phát âm, đầu tiên mở miệng vừa, phát âm âm o (ngả sang ô), sau đó môi dần dần khép lại, cuống lưỡi nâng lên và trượt về phía âm u, khẩu hình miệng di chuyển từ lớn đến nhỏ. Nguyên âm đứng trước (o) nghe vang và rõ hơn hẳn nguyên âm đứng sau (u).',
@@ -444,6 +468,7 @@ const ouFinal: PhoneticSound = {
 
 const anFinal: PhoneticSound = {
   letter: 'an',
+  image: 'an',
   characteristic: 'Vận mẫu mũi đầu lưỡi.',
   howTo: [
     'Khi phát âm, đầu tiên mở rộng miệng, phát âm âm a, sau đó đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, hai hàm từ mở to đến khép lại.',
@@ -454,6 +479,7 @@ const anFinal: PhoneticSound = {
 
 const enFinal: PhoneticSound = {
   letter: 'en',
+  image: 'en',
   characteristic: 'Vận mẫu mũi đầu lưỡi.',
   howTo: [
     'Khi phát âm, đầu tiên mở miệng vừa, phát âm âm e (ngả sang ơ), sau đó đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, hai hàm mở vừa đến khép lại.',
@@ -464,6 +490,7 @@ const enFinal: PhoneticSound = {
 
 const angFinal: PhoneticSound = {
   letter: 'ang',
+  image: 'ang',
   characteristic: 'Vận mẫu mũi cuống lưỡi.',
   howTo: [
     'Khi phát âm, đầu tiên mở rộng miệng phát âm âm a, sau đó rụt cuống lưỡi lại để chặn vòm họng, đồng thời nâng hàm lên cho miệng hẹp lại, cảm nhận rõ luồng hơi lên mũi bị bịt lại.',
@@ -474,6 +501,7 @@ const angFinal: PhoneticSound = {
 
 const engFinal: PhoneticSound = {
   letter: 'eng',
+  image: 'eng',
   characteristic: 'Vận mẫu mũi cuống lưỡi.',
   howTo: [
     'Khi phát âm, đầu tiên mở miệng vừa, phát âm âm e (ngả sang ơ), sau đó rụt cuống lưỡi lại để chặn vòm họng, đồng thời nâng hàm lên cho miệng hẹp lại, cảm nhận rõ luồng hơi lên mũi bị bịt lại.',
@@ -484,6 +512,7 @@ const engFinal: PhoneticSound = {
 
 const ongFinal: PhoneticSound = {
   letter: 'ong',
+  image: 'ong',
   characteristic: 'Vận mẫu mũi cuống lưỡi.',
   howTo: [
     'Khi phát âm, đầu tiên phát âm âm o (đọc thành u), môi tròn chúm lại, sau đó rụt cuống lưỡi lại để chặn vòm họng, cảm nhận rõ luồng hơi lên mũi bị bịt lại, khẩu hình môi không thay đổi. Khi hết âm, môi vẫn tròn hở ra một lỗ nhỏ chứ không khép hẳn lại.',
@@ -494,6 +523,7 @@ const ongFinal: PhoneticSound = {
 
 const j: PhoneticSound = {
   letter: 'j',
+  image: 'j',
   characteristic: 'Âm mặt lưỡi, tắc xát, không bật hơi.',
   howTo: [
     'Để tạo âm này, lưỡi để phẳng, bẹt, dẹt, đầu lưỡi chạm mặt trong hàm răng dưới, mặt lưỡi áp sát vòm miệng trên, hai mép kéo ra hai bên giống như cười mỉm, không được nhìn thấy răng dưới.',
@@ -505,6 +535,7 @@ const j: PhoneticSound = {
 
 const q: PhoneticSound = {
   letter: 'q',
+  image: 'q',
   characteristic: 'Âm mặt lưỡi, tắc xát, bật hơi.',
   howTo: [
     'Để tạo âm này, lưỡi để phẳng, bẹt, dẹt, đầu lưỡi chạm mặt trong hàm răng dưới, mặt lưỡi áp sát vòm miệng trên, hai mép kéo ra hai bên giống như cười mỉm, không được nhìn thấy răng dưới.',
@@ -516,6 +547,7 @@ const q: PhoneticSound = {
 
 const x: PhoneticSound = {
   letter: 'x',
+  image: 'x',
   characteristic: 'Âm mặt lưỡi, xát, không tắc, không bật hơi.',
   howTo: [
     'Để tạo âm này, lưỡi để phẳng, bẹt, dẹt, đầu lưỡi chạm mặt trong hàm răng dưới, mặt lưỡi áp sát vòm miệng trên, hai mép kéo ra hai bên giống như cười mỉm, không được nhìn thấy răng dưới.',
@@ -527,6 +559,7 @@ const x: PhoneticSound = {
 
 const ueFinal: PhoneticSound = {
   letter: 'üe',
+  image: 'yue',
   characteristic: 'Nguyên âm đôi vang sau, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi, hai khoé mép khép nhau như hình quả trám để phát âm âm ü, sau đó hạ hàm nhẹ nhàng trượt sang âm ê, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Trong suốt quá trình phát âm, đầu lưỡi chạm nhẹ lợi dưới, phần cuống lưỡi được nâng lên sát với vòm miệng phía trên.',
@@ -537,6 +570,7 @@ const ueFinal: PhoneticSound = {
 
 const uUmlautAnFinal: PhoneticSound = {
   letter: 'üan',
+  image: 'yuan',
   characteristic: 'Nguyên âm ba, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi, hai khoé mép khép nhau như hình quả trám để phát âm âm ü, sau đó hạ hàm trượt về âm a, cuối cùng đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, môi từ tròn đến mở to rồi khép lại.',
@@ -547,6 +581,7 @@ const uUmlautAnFinal: PhoneticSound = {
 
 const unFinal: PhoneticSound = {
   letter: 'ün (-un)',
+  image: 'yun',
   characteristic: 'Nguyên âm ba, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi, hai khoé mép khép nhau như hình quả trám để phát âm âm ü, sau đó đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, môi tròn đều từ đầu đến cuối âm.',
@@ -557,6 +592,7 @@ const unFinal: PhoneticSound = {
 
 const iaFinal: PhoneticSound = {
   letter: 'ia',
+  image: 'ia',
   characteristic: 'Nguyên âm đôi vang sau.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó hạ hàm và nhẹ nhàng trượt về phía âm a, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Nguyên âm đứng sau (a) nghe vang và rõ hơn nguyên âm đứng trước (i).',
@@ -568,6 +604,7 @@ const iaFinal: PhoneticSound = {
 
 const ieFinal: PhoneticSound = {
   letter: 'ie',
+  image: 'ie',
   characteristic: 'Nguyên âm đôi vang sau.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó hạ hàm và nhẹ nhàng trượt về phía âm ê, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Nguyên âm đứng sau (e) nghe vang và rõ hơn nguyên âm đứng trước (i).',
@@ -579,6 +616,7 @@ const ieFinal: PhoneticSound = {
 
 const iaoFinal: PhoneticSound = {
   letter: 'iao',
+  image: 'iao',
   characteristic: 'Nguyên âm ba.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó nhẹ nhàng trượt về phía âm ao, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt.',
@@ -590,6 +628,7 @@ const iaoFinal: PhoneticSound = {
 
 const iouFinal: PhoneticSound = {
   letter: 'iou (-iu)',
+  image: 'iou',
   characteristic: 'Nguyên âm ba.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó nhẹ nhàng trượt về phía âm ou, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt, hình dạng miệng thay đổi từ phẳng sang tròn.',
@@ -601,6 +640,7 @@ const iouFinal: PhoneticSound = {
 
 const ianFinal: PhoneticSound = {
   letter: 'ian',
+  image: 'ian',
   characteristic: 'Vận mẫu mũi đầu lưỡi rộng.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó hạ hàm trượt về âm a, cuối cùng đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, hai hàm từ dẹt đến mở to rồi khép lại.',
@@ -612,6 +652,7 @@ const ianFinal: PhoneticSound = {
 
 const iangFinal: PhoneticSound = {
   letter: 'iang',
+  image: 'iang',
   characteristic: 'Vận mẫu mũi cuống lưỡi rộng.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó hạ hàm trượt về âm a, cuối cùng hạ hàm đồng thời rụt cuống lưỡi lại để chặn vòm họng, cảm nhận rõ luồng hơi lên mũi bị bịt lại, hai hàm từ dẹt đến mở to.',
@@ -623,6 +664,7 @@ const iangFinal: PhoneticSound = {
 
 const inFinal: PhoneticSound = {
   letter: 'in',
+  image: 'in',
   characteristic: 'Vận mẫu mũi đầu lưỡi hẹp.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, hai hàm dẹt từ đầu đến cuối âm.',
@@ -634,6 +676,7 @@ const inFinal: PhoneticSound = {
 
 const ingFinal: PhoneticSound = {
   letter: 'ing',
+  image: 'ing',
   characteristic: 'Vận mẫu mũi cuống lưỡi hẹp.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó hạ hàm đồng thời rụt cuống lưỡi lại để chặn vòm họng, cảm nhận rõ luồng hơi lên mũi bị bịt lại, khẩu hình miệng từ dẹt hẹp chuyển sang hạ sâu hàm dưới.',
@@ -645,6 +688,7 @@ const ingFinal: PhoneticSound = {
 
 const iongFinal: PhoneticSound = {
   letter: 'iong',
+  image: 'iong',
   characteristic: 'Vận mẫu mũi cuống lưỡi vừa.',
   howTo: [
     'Khi phát âm, đầu tiên đẩy cao lưỡi sát vòm miệng trên và dẹt miệng để phát âm âm i, sau đó tròn môi nhẹ nhàng trượt về phía âm u, cuối cùng hạ hàm đồng thời rụt cuống lưỡi lại để chặn vòm họng, cảm nhận rõ luồng hơi lên mũi bị bịt lại, khẩu hình miệng từ dẹt hẹp chuyển sang tròn.',
@@ -656,6 +700,7 @@ const iongFinal: PhoneticSound = {
 
 const zh: PhoneticSound = {
   letter: 'zh',
+  image: 'zh',
   characteristic: 'Âm đầu lưỡi sau, tắc xát, không bật hơi.',
   howTo: [
     'Để tạo âm này, đầu lưỡi cần cuộn lên, cuống lưỡi uốn sát vào gần cuống họng, hai môi cong ra ngoài (môi trên cong lên, môi dưới cong xuống).',
@@ -667,6 +712,7 @@ const zh: PhoneticSound = {
 
 const ch: PhoneticSound = {
   letter: 'ch',
+  image: 'ch',
   characteristic: 'Âm đầu lưỡi sau, tắc xát, bật hơi.',
   howTo: [
     'Để tạo âm này, đầu lưỡi cần cuộn lên, cuống lưỡi uốn sát vào gần cuống họng, hai môi cong ra ngoài (môi trên cong lên, môi dưới cong xuống).',
@@ -678,6 +724,7 @@ const ch: PhoneticSound = {
 
 const sh: PhoneticSound = {
   letter: 'sh',
+  image: 'sh',
   characteristic: 'Âm đầu lưỡi sau, xát, không tắc, không bật hơi.',
   howTo: [
     'Để tạo âm này, đầu lưỡi cần cuộn lên, cuống lưỡi uốn sát vào gần cuống họng, hai môi cong ra ngoài (môi trên cong lên, môi dưới cong xuống).',
@@ -689,6 +736,7 @@ const sh: PhoneticSound = {
 
 const r: PhoneticSound = {
   letter: 'r',
+  image: 'r',
   characteristic: 'Âm đầu lưỡi sau, xát, không tắc, không bật hơi, rung dây thanh.',
   howTo: [
     'Để tạo âm này, đầu lưỡi cần cuộn lên, cuống lưỡi uốn sát vào gần cuống họng, hai môi cong ra ngoài (môi trên cong lên, môi dưới cong xuống).',
@@ -700,6 +748,7 @@ const r: PhoneticSound = {
 
 const erFinal: PhoneticSound = {
   letter: 'er',
+  image: 'er',
   characteristic: 'Vận mẫu cuốn lưỡi.',
   howTo: ['Hạ hàm dưới, rụt sâu cuống lưỡi vào cuống họng, đầu lưỡi cong sâu lên rồi phát âm.'],
   soundLike: 'Không có âm thanh tương tự trong Tiếng Việt.',
@@ -707,6 +756,7 @@ const erFinal: PhoneticSound = {
 
 const z: PhoneticSound = {
   letter: 'z',
+  image: 'z',
   characteristic: 'Âm đầu lưỡi trước, tắc xát, không bật hơi.',
   howTo: [
     'Để tạo âm này, miệng thả lỏng tự nhiên, răng hàm trên phủ nhẹ lên răng hàm dưới, hai hàm không cắn chặt vào nhau.',
@@ -718,6 +768,7 @@ const z: PhoneticSound = {
 
 const c: PhoneticSound = {
   letter: 'c',
+  image: 'c',
   characteristic: 'Âm đầu lưỡi trước, tắc xát, bật hơi.',
   howTo: [
     'Để tạo âm này, miệng thả lỏng tự nhiên, răng hàm trên phủ nhẹ lên răng hàm dưới, hai hàm không cắn chặt vào nhau, môi hé mở.',
@@ -729,6 +780,7 @@ const c: PhoneticSound = {
 
 const s: PhoneticSound = {
   letter: 's',
+  image: 's',
   characteristic: 'Âm đầu lưỡi trước, xát, không tắc, không bật hơi.',
   howTo: [
     'Để tạo âm này, miệng thả lỏng tự nhiên, răng hàm trên phủ nhẹ lên răng hàm dưới, hai hàm không cắn chặt vào nhau, môi hé mở.',
@@ -740,6 +792,7 @@ const s: PhoneticSound = {
 
 const uaFinal: PhoneticSound = {
   letter: 'ua',
+  image: 'ua',
   characteristic: 'Nguyên âm đôi vang sau.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi phát âm âm u, sau đó mở rộng miệng trượt về phía âm a, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Nguyên âm đứng sau (a) nghe vang và rõ hơn hẳn nguyên âm đứng trước (u).',
@@ -750,6 +803,7 @@ const uaFinal: PhoneticSound = {
 
 const uoFinal: PhoneticSound = {
   letter: 'uo',
+  image: 'uo',
   characteristic: 'Nguyên âm đôi vang sau.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi phát âm âm u, sau đó mở rộng miệng nhẹ nhàng trượt về phía âm o, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt. Nguyên âm đứng sau (o) nghe vang và rõ hơn hẳn nguyên âm đứng trước (u).',
@@ -760,6 +814,7 @@ const uoFinal: PhoneticSound = {
 
 const uaiFinal: PhoneticSound = {
   letter: 'uai',
+  image: 'uai',
   characteristic: 'Nguyên âm ba, lưỡi trước, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi phát âm âm u, sau đó nhẹ nhàng trượt về phía âm ai, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt.',
@@ -770,6 +825,7 @@ const uaiFinal: PhoneticSound = {
 
 const ueiFinal: PhoneticSound = {
   letter: 'uei (-ui)',
+  image: 'uei',
   characteristic: 'Nguyên âm ba, lưỡi trước, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi phát âm âm u, sau đó nhẹ nhàng trượt về phía âm ei, luồng khí không bị gián đoạn, âm thanh nghe liền và mượt.',
@@ -780,6 +836,7 @@ const ueiFinal: PhoneticSound = {
 
 const uanFinal: PhoneticSound = {
   letter: 'uan',
+  image: 'uan',
   characteristic: 'Vận mẫu mũi đầu lưỡi, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi để phát âm âm u, sau đó hạ hàm trượt về âm a, cuối cùng đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, hai hàm từ dẹt đến mở to rồi khép lại.',
@@ -790,6 +847,7 @@ const uanFinal: PhoneticSound = {
 
 const uenFinal: PhoneticSound = {
   letter: 'uen (-un)',
+  image: 'uen',
   characteristic: 'Vận mẫu mũi đầu lưỡi, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi để phát âm âm u, sau đó mở miệng trượt sang âm e (ngả sang ơ), cuối cùng đưa đầu lưỡi chạm lên phần lợi của hàm răng trên, bịt đường dẫn khí khoang miệng lại để luồng hơi đi qua mũi, hai hàm từ tròn đến mở vừa rồi khép lại.',
@@ -800,6 +858,7 @@ const uenFinal: PhoneticSound = {
 
 const uangFinal: PhoneticSound = {
   letter: 'uang',
+  image: 'uang',
   characteristic: 'Vận mẫu mũi cuống lưỡi, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi để phát âm âm u, sau đó hạ hàm trượt về âm a, cuối cùng hạ hàm đồng thời rụt cuống lưỡi lại để chặn vòm họng, cảm nhận rõ luồng hơi lên mũi bị bịt lại, hai hàm từ dẹt đến mở to.',
@@ -810,6 +869,7 @@ const uangFinal: PhoneticSound = {
 
 const uengFinal: PhoneticSound = {
   letter: 'ueng',
+  image: 'ueng',
   characteristic: 'Vận mẫu mũi cuống lưỡi, tròn môi.',
   howTo: [
     'Khi phát âm, đầu tiên tròn môi để phát âm âm u, sau đó mở miệng trượt sang âm e (ngả sang ơ), cuối cùng hạ hàm đồng thời rụt cuống lưỡi lại để chặn vòm họng, cảm nhận rõ luồng hơi lên mũi bị bịt lại, hai hàm từ tròn đến mở to.',

@@ -149,11 +149,16 @@ function SoundCard({ sound }: { sound: PhoneticSound }) {
         <span className="cn-phon-letter">Âm {sound.letter}</span>
       </div>
 
-      {/* Ô hình minh hoạ khoang miệng — để trống chờ ảnh chụp từ sách (xem lib/chinese/phonetics.ts). */}
-      <div className="cn-phon-image-placeholder" aria-hidden>
-        <span className="cn-phon-image-icon">🖼️</span>
-        <span>Hình minh hoạ khoang miệng (sẽ thêm sau)</span>
-      </div>
+      {/* Ảnh sơ đồ khoang miệng chụp từ sách — public/phonetics/<image>.png (xem lib/chinese/phonetics.ts).
+          Chưa có ảnh (sound.image rỗng) thì vẫn hiện ô trống chờ như cũ. */}
+      {sound.image ? (
+        <img className="cn-phon-image" src={`/phonetics/${sound.image}.png`} alt={`Sơ đồ khoang miệng khi phát âm ${sound.letter}`} />
+      ) : (
+        <div className="cn-phon-image-placeholder" aria-hidden>
+          <span className="cn-phon-image-icon">🖼️</span>
+          <span>Hình minh hoạ khoang miệng (sẽ thêm sau)</span>
+        </div>
+      )}
 
       <div className="cn-phon-row">
         <span className="cn-phon-row-label">Đặc tính</span>
