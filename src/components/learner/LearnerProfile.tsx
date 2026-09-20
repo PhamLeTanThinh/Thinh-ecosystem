@@ -134,7 +134,7 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
                 Trung và tiếng Hàn luôn đó 🐾
               </MascotSub>
             </MascotBubble>
-            <MascotCat src={HAPPY_VIDEO} />
+            <MascotCat videoKey={HAPPY_VIDEO} />
             <button type="button" className="md-btn" onClick={() => window.location.reload()}>
               Bắt đầu học thôi!
             </button>
@@ -171,7 +171,7 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
                 )}
               </MascotBubble>
             </Fragment>
-            <MascotCat src={QUESTION_VIDEO} />
+            <MascotCat videoKey={QUESTION_VIDEO} />
             <input
               className="md-input"
               value={name}

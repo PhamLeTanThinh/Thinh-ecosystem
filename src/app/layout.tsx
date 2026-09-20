@@ -10,6 +10,9 @@ const tiktok = TikTok_Sans({
   weight: ['400', '500', '600', '700', '800'],
   variable: '--font-tiktok',
   display: 'swap',
+  // TikTok Sans isn't in next/font's font-metrics table, so it can't build a size-adjusted fallback
+  // font and would log "Failed to find font override values" on every build/dev start.
+  adjustFontFallback: false,
 })
 
 const cormorant = Cormorant_Garamond({

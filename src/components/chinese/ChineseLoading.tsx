@@ -8,5 +8,5 @@ import { createLoadingTracker } from '@/lib/loading/tracker'
 const tracker = createLoadingTracker(config.apiPrefix)
 
 export function ChineseLoading() {
-  return <AppLoading tracker={tracker} videoSrc={config.videoSrc} accent={config.accent} message={config.message} />
+  return <AppLoading tracker={tracker} videoKey={config.videoKey} accent={config.accent} message={config.message} />
 }

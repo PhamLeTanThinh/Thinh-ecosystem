@@ -78,7 +78,7 @@ export function ActionDialog({ spec, onClose, style }: { spec: ActionSpec; onClo
             {done.bubble}
             {done.sub && <MascotSub>{done.sub}</MascotSub>}
           </MascotBubble>
-          <MascotCat src={HAPPY_VIDEO} />
+          <MascotCat videoKey={HAPPY_VIDEO} />
           {done.copy ? (
             <>
               <input className="md-input" readOnly value={done.copy.text} aria-label="Link đăng nhập" onFocus={(e) => e.currentTarget.select()} />
@@ -114,7 +114,7 @@ export function ActionDialog({ spec, onClose, style }: { spec: ActionSpec; onClo
           {spec.bubble}
           {spec.sub && <MascotSub>{spec.sub}</MascotSub>}
         </MascotBubble>
-        <MascotCat src={QUESTION_VIDEO} />
+        <MascotCat videoKey={QUESTION_VIDEO} />
         {spec.input && (
           <input
             className="md-input"

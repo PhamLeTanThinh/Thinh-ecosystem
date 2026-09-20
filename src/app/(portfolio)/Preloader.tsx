@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { ShieldedVideo } from '@/components/media/ShieldedVideo'
 import './portfolio.css'
 
 // Module-scoped, not sessionStorage: resets on a real page load/refresh (the
@@ -48,7 +49,8 @@ export function Preloader() {
   const [mounted, setMounted] = useState(() => !hasPlayed)
   const [percent, setPercent] = useState(0)
   const [exiting, setExiting] = useState(false)
-  const videoRef = useRef<HTMLVideoElement>(null)
+  // Set by the ShieldedVideo below once its first frame has decoded (the clip is fetched as a blob, see there).
+  const videoReadyRef = useRef(false)
 
   useEffect(() => {
     if (!mounted) return
@@ -65,15 +67,7 @@ export function Preloader() {
     const onWindowLoad = () => { pageReady = true }
     window.addEventListener('load', onWindowLoad)
 
-    const videoEl = videoRef.current
-    // readyState >= 2 (HAVE_CURRENT_DATA) covers a cached/local video whose
-    // 'loadeddata' event already fired before this effect had a chance to
-    // attach the listener below — otherwise videoReady would wrongly sit on
-    // the fallback timeout for a video that was actually ready instantly.
-    let videoReady = videoEl ? videoEl.readyState >= 2 : true
-    const onVideoReady = () => { videoReady = true }
-    videoEl?.addEventListener('loadeddata', onVideoReady)
-    const videoFallback = window.setTimeout(() => { videoReady = true }, VIDEO_FALLBACK_MS)
+    const videoFallback = window.setTimeout(() => { videoReadyRef.current = true }, VIDEO_FALLBACK_MS)
 
     function finish() {
       if (done) return
@@ -90,7 +84,7 @@ export function Preloader() {
       const elapsed = performance.now() - start
       const curvePercent = Math.min(99, Math.round(percentAtElapsed(elapsed)))
       setPercent(prev => (curvePercent > prev ? curvePercent : prev))
-      if (elapsed >= CURVE_MS && pageReady && videoReady) {
+      if (elapsed >= CURVE_MS && pageReady && videoReadyRef.current) {
         finish()
         return
       }
@@ -101,7 +95,6 @@ export function Preloader() {
     return () => {
       cancelAnimationFrame(raf)
       window.removeEventListener('load', onWindowLoad)
-      videoEl?.removeEventListener('loadeddata', onVideoReady)
       window.clearTimeout(videoFallback)
       document.body.style.overflow = previousOverflow
     }
@@ -112,16 +105,7 @@ export function Preloader() {
   return (
     <div className={`preloader${exiting ? ' preloader--exit' : ''}`} aria-hidden="true">
       <div className="preloader-cat">
-        <video
-          ref={videoRef}
-          className="preloader-video"
-          src="/preloader/preloader.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-        />
+        <ShieldedVideo className="preloader-video" mediaKey="preloader" onReady={() => { videoReadyRef.current = true }} />
         <div className="preloader-scrim" />
       </div>
       <div className="preloader-counter">

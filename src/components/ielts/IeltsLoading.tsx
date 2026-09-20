@@ -11,7 +11,7 @@ export function IeltsLoading() {
   return (
     <AppLoading
       tracker={tracker}
-      videoSrc={config.videoSrc}
+      videoKey={config.videoKey}
       accent={config.accent}
       message={config.message}
       fontFamily="var(--font-ih-hand), 'Shantell Sans', cursive"

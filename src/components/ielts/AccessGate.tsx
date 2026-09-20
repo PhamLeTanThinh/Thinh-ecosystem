@@ -72,7 +72,7 @@ export function AccessGate() {
               gấp thì anh chị liên hệ ông chủ của em giúp em nhé, và nhớ ngó cả mục thư rác nữa nha 🐾
             </MascotSub>
           </MascotBubble>
-          <MascotCat src={HAPPY_VIDEO} />
+          <MascotCat videoKey={HAPPY_VIDEO} />
           <button
             type="button"
             className="md-link"
@@ -94,7 +94,7 @@ export function AccessGate() {
               mới nhé 🐾
             </MascotSub>
           </MascotBubble>
-          <MascotCat src={HAPPY_VIDEO} />
+          <MascotCat videoKey={HAPPY_VIDEO} />
           <button type="button" className="md-btn" onClick={() => setView('ask')}>
             Xin link mới
           </button>
@@ -116,7 +116,7 @@ export function AccessGate() {
             Anh chị cho em xin email nhé?
             <MascotSub>Em sẽ gửi link đăng nhập vào hộp thư của anh chị, không cần mật khẩu đâu! 🐾</MascotSub>
           </MascotBubble>
-          <MascotCat src={QUESTION_VIDEO} />
+          <MascotCat videoKey={QUESTION_VIDEO} />
           <input
             className="md-input"
             type="email"

@@ -8,14 +8,14 @@ import { APP_BRAND } from '@/lib/apps/brand'
 
 export interface AppLoadingConfig {
   apiPrefix: string
-  videoSrc: string
+  videoKey: string
   accent: string
   message: string
 }
 
 export const IELTS_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/ielts',
-  videoSrc: '/preloader/video/ielts.mp4',
+  videoKey: 'ielts',
   accent: APP_BRAND.ielts,
   message: 'Wait for Diên xíu nha!',
 }
@@ -23,7 +23,7 @@ export const IELTS_LOADING: AppLoadingConfig = {
 // "Đợi Diên một chút nhé!"
 export const CHINESE_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/chinese',
-  videoSrc: '/preloader/video/chinese.mp4',
+  videoKey: 'chinese',
   accent: APP_BRAND.chinese,
   message: '等 Diên 一下哦！',
 }
@@ -31,7 +31,7 @@ export const CHINESE_LOADING: AppLoadingConfig = {
 // "Hãy đợi Diên một chút nhé!" — Diên kết thúc bằng phụ âm n nên trợ từ tân ngữ là 을, không phải 를.
 export const KOREAN_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/korean',
-  videoSrc: '/preloader/video/korean.mp4',
+  videoKey: 'korean',
   accent: APP_BRAND.korean,
   message: 'Diên을 잠깐만 기다려 주세요!',
 }
@@ -40,7 +40,7 @@ export const KOREAN_LOADING: AppLoadingConfig = {
 // chỉ còn phụ thuộc mốc "trang đã load xong" của tracker — vẫn đúng ý cho 1 app tĩnh, không dữ liệu.
 export const MUSIC_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/music',
-  videoSrc: '/preloader/video/music.mp4',
+  videoKey: 'music',
   accent: APP_BRAND.music,
   message: 'Đợi Diên một chút nha!',
 }
@@ -48,21 +48,21 @@ export const MUSIC_LOADING: AppLoadingConfig = {
 // PM / IT / Certs chưa có API riêng — cùng lý do với Music (loading chỉ theo mốc "trang đã load xong").
 export const PM_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/pm',
-  videoSrc: '/preloader/video/pm.mp4',
+  videoKey: 'pm',
   accent: APP_BRAND.pm,
   message: 'Đợi Diên một chút nha!',
 }
 
 export const IT_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/it',
-  videoSrc: '/preloader/video/IT.mp4',
+  videoKey: 'it',
   accent: APP_BRAND.it,
   message: 'Đợi Diên một chút nha!',
 }
 
 export const CERTS_LOADING: AppLoadingConfig = {
   apiPrefix: '/api/certs',
-  videoSrc: '/preloader/video/cert.mp4',
+  videoKey: 'certs',
   accent: APP_BRAND.certs,
   message: 'Đợi Diên một chút nha!',
 }

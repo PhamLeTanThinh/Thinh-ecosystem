@@ -60,7 +60,7 @@ export function StudyCardLink({ href, accent, className, children }: Props) {
       {going &&
         config &&
         createPortal(
-          <AppLoading tracker={alwaysOn} videoSrc={config.videoSrc} accent={config.accent} message={config.message} />,
+          <AppLoading tracker={alwaysOn} videoKey={config.videoKey} accent={config.accent} message={config.message} />,
           document.body,
         )}
     </>

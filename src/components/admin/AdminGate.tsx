@@ -50,7 +50,7 @@ export function AdminGate() {
               thư thì ông chủ kiểm tra lại email đã nhập và cả mục thư rác giúp em nhé 🐾
             </MascotSub>
           </MascotBubble>
-          <MascotCat src={HAPPY_VIDEO} />
+          <MascotCat videoKey={HAPPY_VIDEO} />
           <button
             type="button"
             className="md-link"
@@ -77,7 +77,7 @@ export function AdminGate() {
             Cho em xin email của ông chủ nhé?
             <MascotSub>Trang Admin chỉ dành riêng cho ông chủ thôi nha. Em sẽ gửi link đăng nhập vào hộp thư, không cần mật khẩu đâu! 🐾</MascotSub>
           </MascotBubble>
-          <MascotCat src={QUESTION_VIDEO} />
+          <MascotCat videoKey={QUESTION_VIDEO} />
           <input
             className="md-input"
             type="email"
