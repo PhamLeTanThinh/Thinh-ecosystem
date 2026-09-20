@@ -1,0 +1,205 @@
+/* Mèo "mua pate cho Diên" ở góc phải dưới /study (DonateWidget.tsx). .dw-frame là MỘT khối duy
+   nhất: lúc nghỉ là viên thuốc nhỏ, hover/bấm thì chính nó phóng to (transition width/height/
+   border-radius) thành thẻ mã QR — không có khối thứ 2 nào bật thêm. .dw-root chỉ auto-size theo
+   .dw-frame (overflow: visible) để .dw-cats — con mèo ló ra ngoài phần bị cắt của .dw-frame — định vị
+   đúng theo mép trên của nó dù .dw-frame đang to hay nhỏ. */
+.dw-root {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 500;
+  font-family: var(--font-sd), var(--font-dm-sans), sans-serif;
+}
+
+/* Khối duy nhất, đổi kích thước bằng transition (không dùng transform:scale — sẽ phóng to luôn cả
+   chữ/ảnh bên trong theo tỉ lệ đồng dạng, không ra đúng hình chữ nhật bo tròn to hơn như ý muốn).
+   transform-origin bottom-right giữ góc dưới-phải đứng yên, chỉ nở lên trên/sang trái. */
+.dw-frame {
+  position: relative;
+  overflow: hidden;
+  width: 156px;
+  height: 34px;
+  border-radius: 999px;
+  background: #ffffff;
+  cursor: pointer;
+  transform-origin: bottom right;
+  box-shadow: 0 14px 30px -14px rgba(31, 29, 43, 0.35), 0 0 0 1px rgba(31, 29, 43, 0.06);
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), height 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-radius 0.4s ease,
+    box-shadow 0.3s ease;
+}
+
+.dw-frame:hover,
+.dw-frame:focus-visible {
+  box-shadow: 0 18px 36px -14px rgba(31, 29, 43, 0.42), 0 0 0 1px rgba(31, 29, 43, 0.08);
+}
+
+.dw-frame.dw-open {
+  width: 200px;
+  height: 266px;
+  border-radius: 18px;
+  cursor: default;
+}
+
+/* Viên-thuốc và thẻ QR nằm chồng lên nhau (cùng 1 vùng), đổi qua lại bằng crossfade khi .dw-frame
+   phóng to/thu nhỏ, chứ không phải 2 khối tách rời hiện/ẩn theo layout. */
+.dw-mini,
+.dw-full {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.2s ease;
+}
+
+.dw-mini {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 11px;
+  color: #1f1d2b;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.dw-frame.dw-open .dw-mini {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dw-pill-icon {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.dw-pill-chevron {
+  color: rgba(31, 29, 43, 0.35);
+}
+
+.dw-full {
+  padding: 36px 16px 14px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.dw-frame.dw-open .dw-full {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0.15s;
+}
+
+.dw-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: none;
+  border-radius: 999px;
+  background: rgba(31, 29, 43, 0.06);
+  color: rgba(31, 29, 43, 0.6);
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dw-close:hover {
+  background: rgba(31, 29, 43, 0.12);
+  color: #1f1d2b;
+}
+
+.dw-thanks {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #1f1d2b;
+  text-align: center;
+}
+
+/* qr-code.jpg (xem DonateWidget.tsx) đã được cắt sẵn chỉ còn đúng ô vuông mã QR nên hiện thẳng. */
+.dw-qr {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  background: #f6f5fa;
+}
+
+/* Con mèo: nằm GIỮA (căn theo trục ngang của .dw-frame, tự tái căn giữa mỗi khi .dw-frame đổi bề
+   rộng vì dùng left:50%+translateX), ló ra ngay trên viền trên — 2 chân trước "đặt" lên viền chứ
+   không lơ lửng cách 1 khoảng. .dw-cats đứng NGOÀI .dw-frame (không bị overflow:hidden của nó cắt)
+   nên đầu/tai mèo vẫn lộ hẳn ra trên viền thay vì bị xén ngang mép. */
+.dw-cats {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  /* .dw-cats đứng TRƯỚC .dw-frame trong DOM nên nếu không có z-index thì .dw-frame (vẽ sau) sẽ đè
+     lên đúng phần 2 chân mèo chồng xuống mặt khối (margin-bottom âm) — phải cao hơn để mèo luôn
+     hiện ở trước. */
+  z-index: 1;
+}
+
+.dw-cat {
+  display: block;
+  height: auto;
+  /* .dw-cats (cha) rộng 0 vì chỉ dùng để định vị (mọi con đều position:absolute, không góp kích
+     thước) — Tailwind preflight đặt sẵn `max-width:100%` cho mọi <img>, mà 100% của 1 khối cha rộng
+     0 vẫn là 0, nên nếu không chặn lại thì ảnh mèo bị ép về đúng 0×0. */
+  max-width: none;
+}
+
+/* before-crop.png / after-crop.png (đã cắt sát viền mèo — xem DonateWidget.tsx) — cả 2 chồng đúng
+   lên nhau (canh giữa ngang bằng left:50%+translateX riêng vì .dw-cats chỉ rộng bằng đúng 1 ảnh còn
+   ảnh kia nằm "trồi" ra ngoài luồng) rồi crossfade qua lại bằng .dw-hide. Dưới 2 chân mỗi ảnh vẫn còn
+   1 khoảng trong suốt mỏng (đệm lúc cắt) — margin-bottom âm phải cộng thêm khoảng đó thì 2 chân mới
+   thực sự chồng lên mặt khối; xem phép tính ở comment ngay dưới mỗi ảnh.
+   before: rộng 92px (tỉ lệ gốc 900:574), đáy nội dung thật ở ~97% chiều cao ảnh → trống dưới
+   ≈ 92*0.03 ≈ 3px; muốn chồng ~5px lên viên-thuốc (nhích lên cao hơn 1 tí) → margin-bottom:
+   -(5+3) ≈ -8px. */
+.dw-cat-before {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  margin-bottom: -7px;
+  width: 92px;
+  transition: opacity 0.25s ease;
+}
+
+/* after: rộng 100px (tỉ lệ gốc 813:498), đáy nội dung thật ở ~97% chiều cao ảnh → trống dưới
+   ≈ 100*0.03 ≈ 3px; muốn chồng ~6px lên mặt thẻ (nhích lên cao hơn nữa so với before) →
+   margin-bottom: -(6+3) ≈ -9px. */
+.dw-cat-after {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  margin-bottom: -6px;
+  width: 100px;
+  transition: opacity 0.25s ease;
+}
+
+.dw-hide {
+  opacity: 0;
+}
+
+@media (hover: none) {
+  /* Cảm ứng: chỉ bấm mới mở/đóng (component đã tự bấm-để-mở qua onClick), hover không áp dụng. */
+  .dw-root {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dw-frame,
+  .dw-mini,
+  .dw-full,
+  .dw-cat-before,
+  .dw-cat-after {
+    transition: none;
+  }
+}

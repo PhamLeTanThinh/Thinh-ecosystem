@@ -827,13 +827,15 @@ export default function PortfolioPage() {
       // briefly dips to 0 at the midpoint of *every* transition (including
       // ones entirely within a block), so simply summing per-page opacity
       // made a shared heading flicker there too. Handle each zone
-      // explicitly instead: no fade at all entering the block (snap
-      // straight to visible), rock-solid through every transition inside
-      // it, and only fade — in sync with the last page's own fade-out — on
-      // the way out to whatever comes next.
+      // explicitly instead: rock-solid through every transition inside the
+      // block, and fade in/out in sync with the block's first/last page's
+      // own fade curve on the way in/out — mirroring pageO's timing (entering
+      // page only starts fading in at t>0.5) instead of snapping to visible
+      // the instant the PREVIOUS, still mostly-opaque page starts leaving,
+      // which used to overlap the two headings for half the transition.
       const zoneHeadingT = (start: number, end: number) => {
         if (idx < start - 1) return 0
-        if (idx === start - 1) return t > 0 ? 1 : 0
+        if (idx === start - 1) return Math.max(0, (t - 0.5) / 0.5)
         if (idx < end) return 1
         if (idx === end) return Math.max(0, 1 - t / 0.5)
         return 0

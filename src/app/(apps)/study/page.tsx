@@ -3,6 +3,7 @@ import { StudyCardLink } from '@/components/study/StudyCardLink'
 import { CardFx } from '@/components/study/CardFx'
 import { RevealGrid } from '@/components/study/RevealGrid'
 import { MascotSpeech } from '@/components/study/MascotSpeech'
+import { DonateWidget } from '@/components/study/DonateWidget'
 import { ShieldedVideo } from '@/components/media/ShieldedVideo'
 
 // Nền trắng sáng (xem study.css). Mỗi thẻ dáng ngang, video linh vật của app đó phủ kín cả thẻ (không
@@ -22,7 +23,7 @@ export default function StudyPage() {
             <h1 className="sd-title">
               <span className="sd-title-em">Diennie</span> thích học
             </h1>
-            <p className="sd-subtitle">Chọn một thẻ để mở app tương ứng.</p>
+            <p className="sd-subtitle">Học đi, không phải do ai ép, mà vì tương lai của bạn xứng đáng tốt hơn.</p>
           </div>
 
           <MascotSpeech />
@@ -48,6 +49,8 @@ export default function StudyPage() {
           ))}
         </RevealGrid>
       </div>
+
+      <DonateWidget />
     </div>
   )
 }
