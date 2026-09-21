@@ -9,13 +9,13 @@ jobs:
   backup:
     runs-on: ubuntu-latest
     steps:
-      - name: Cài postgresql-client 17 (pg_dump phải >= version của server)
+      - name: Cài postgresql-client 18 (pg_dump phải >= version của server)
         run: |
           sudo install -d /usr/share/postgresql-common/pgdg
           sudo curl -fsSL -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc https://www.postgresql.org/media/keys/ACCC4CF8.asc
           echo "deb [signed-by=/usr/share/postgresql-common/pgdg/apt.postgresql.org.asc] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
           sudo apt-get update -q
-          sudo apt-get install -y -q postgresql-client-17
+          sudo apt-get install -y -q postgresql-client-18
 
       - name: Dump + mã hóa
         env:
@@ -24,7 +24,7 @@ jobs:
         run: |
           set -euo pipefail
           FILE="backup-$(date -u +%Y%m%d-%H%M%S).dump.gpg"
-          pg_dump "$DATABASE_URL" --format=custom --no-owner --no-privileges \
+          /usr/lib/postgresql/18/bin/pg_dump "$DATABASE_URL" --format=custom --no-owner --no-privileges \
             | gpg --batch --yes --pinentry-mode loopback --passphrase "$BACKUP_PASSPHRASE" \
                   --symmetric --cipher-algo AES256 -o "$FILE"
           test "$(stat -c%s "$FILE")" -gt 1024 # chặn file rỗng/hỏng
