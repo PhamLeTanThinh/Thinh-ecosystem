@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import { IeltsLoading } from '@/components/ielts/IeltsLoading'
 import { bodyFont, handFont } from './fonts'
 import './ielts.css'
@@ -16,7 +17,9 @@ export const metadata: Metadata = {
 export default function IeltsLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={`${handFont.variable} ${bodyFont.variable} ielts-root`}>
-      <IeltsLoading />
+      <Suspense fallback={null}>
+        <IeltsLoading />
+      </Suspense>
       {children}
     </div>
   )
