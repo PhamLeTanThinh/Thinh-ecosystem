@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { IeltsLoading } from '@/components/ielts/IeltsLoading'
 import { bodyFont, handFont } from './fonts'
 import './ielts.css'
+import './practice.css'
 
 export const metadata: Metadata = {
   title: 'IELTS Knowledge Hub',

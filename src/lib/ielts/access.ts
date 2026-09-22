@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers'
 import { eq } from 'drizzle-orm'
+import { notFound } from 'next/navigation'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { ieltsInvites } from '@/db/schema'
@@ -33,6 +34,13 @@ export async function getIeltsAccess(): Promise<IeltsAccess> {
   const [invite] = await db.select().from(ieltsInvites).where(eq(ieltsInvites.email, email.toLowerCase()))
   if (invite && !invite.revokedAt) return { mode: 'viewer', email }
   return { mode: 'denied' }
+}
+
+// Dùng ở đầu mọi PAGE (server component) trả dữ liệu đề luyện. Layout (protected) đã hiện màn khoá cho
+// người chưa đăng nhập, nhưng KHÔNG đủ để chặn dữ liệu: Next render page song song với layout nên nội
+// dung page vẫn nằm trong phản hồi RSC gửi về client dù giao diện hiện màn khoá. Phải kiểm tra lại ở đây.
+export async function assertIeltsAccess(): Promise<void> {
+  if ((await getIeltsAccess()).mode === 'denied') notFound()
 }
 
 export async function isOwner(): Promise<boolean> {

@@ -17,11 +17,14 @@ const HIDE_DELAY_MS = 200
 export interface LoadingTracker {
   subscribe: (listener: () => void) => () => void
   getVisible: () => boolean
+  setNavigationPending: (pending: boolean) => void
 }
 
 interface Entry {
   prefix: string
   pending: number
+  navigationPending: boolean
+  navigationTimer: number | null
   loaded: boolean
   visible: boolean
   shownAt: number
@@ -42,7 +45,7 @@ function emit(entry: Entry) {
 }
 
 function recompute(entry: Entry) {
-  const busy = !entry.loaded || entry.pending > 0
+  const busy = !entry.loaded || entry.pending > 0 || entry.navigationPending
   if (busy) {
     if (entry.hideTimer !== null) {
       window.clearTimeout(entry.hideTimer)
@@ -107,7 +110,17 @@ export function createLoadingTracker(apiPrefix: string): LoadingTracker {
   let entry = registry.entries.get(apiPrefix)
   if (!entry) {
     // visible khởi tạo true: loading hiện từ khung hình đầu (cả lúc SSR) cho tới khi trang load xong.
-    const created: Entry = { prefix: apiPrefix, pending: 0, loaded: false, visible: true, shownAt: Date.now(), hideTimer: null, listeners: new Set() }
+    const created: Entry = {
+      prefix: apiPrefix,
+      pending: 0,
+      navigationPending: false,
+      navigationTimer: null,
+      loaded: false,
+      visible: true,
+      shownAt: Date.now(),
+      hideTimer: null,
+      listeners: new Set(),
+    }
     entry = created
     registry.entries.set(apiPrefix, created)
 
@@ -131,5 +144,21 @@ export function createLoadingTracker(apiPrefix: string): LoadingTracker {
       }
     },
     getVisible: () => e.visible,
+    setNavigationPending(pending) {
+      e.navigationPending = pending
+      if (e.navigationTimer !== null) {
+        window.clearTimeout(e.navigationTimer)
+        e.navigationTimer = null
+      }
+      // Route errors must not be able to leave the full-page overlay stuck forever.
+      if (pending) {
+        e.navigationTimer = window.setTimeout(() => {
+          e.navigationTimer = null
+          e.navigationPending = false
+          recompute(e)
+        }, MAX_TRACK_MS)
+      }
+      recompute(e)
+    },
   }
 }

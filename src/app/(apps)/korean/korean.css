@@ -71,19 +71,132 @@
 
 .kr-sidebar {
   flex: none;
-  width: 268px;
+  display: flex;
+  flex-direction: column;
+  width: 280px;
   padding: 20px 14px;
   background: rgba(255, 255, 255, 0.4);
   -webkit-backdrop-filter: blur(16px) saturate(150%);
   backdrop-filter: blur(16px) saturate(150%);
   border-right: 1px solid rgba(255, 255, 255, 0.6);
+  overflow-x: hidden;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  font-family: var(--font-ih-body), 'Inter', system-ui, sans-serif;
+}
+
+.kr-sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 /* Chỉ chỉnh khoảng cách quanh breadcrumb (AppBreadcrumb tự lo màu/kiểu chữ) — margin-left 5px để
    viên "Study" thẳng hàng với chữ ở dòng cấp độ bên dưới (đệm 8px, viên breadcrumb có sẵn 3px). */
 .kr-sidebar-crumb {
-  margin: 2px 8px 18px 5px;
+  margin: 2px 8px 16px 5px;
+}
+
+/* ── Hero + nav-item (icon tile / label / sub / chevron) — cùng ngôn ngữ thị giác với .ih-nav-hero /
+   .ih-nav-item / .ih-nav-tile bên sidebar IELTS, dùng --color-brand làm màu nhấn thay cho --nav-accent
+   (IELTS đổi màu theo từng kỹ năng, Korean chỉ có 1 màu nhận diện xuyên suốt app cho breadcrumb/brand —
+   --color-brand [xanh dương, khớp APP_BRAND.korean trong lib/apps/brand.ts] — dùng cho các phần tử điều
+   hướng/nhận diện này; --color-accent [đỏ] chỉ dùng cho nút CTA như .kr-btn-solid, khác mối quan tâm). */
+.kr-nav-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 2px 2px 18px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--color-brand) 22%, white);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--color-brand) 16%, white), color-mix(in srgb, var(--color-brand) 4%, white));
+}
+
+.kr-nav-hero-icon {
+  color: var(--color-brand);
+  font-size: 30px;
+  line-height: 1;
+}
+
+.kr-nav-hero-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+}
+
+.kr-nav-hero-cap {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--color-brand);
+}
+
+.kr-nav-hero-name {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.kr-nav-tile {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--color-brand) 13%, white);
+  color: var(--color-brand);
+  font-size: 12.5px;
+  font-weight: 800;
+  transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.kr-topik-header:hover .kr-nav-tile {
+  transform: scale(1.06);
+}
+
+.kr-nav-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.kr-nav-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.kr-nav-sub {
+  min-height: 14px;
+  font-size: 11.5px;
+  color: var(--color-muted);
+}
+
+.kr-nav-chevron {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  color: var(--color-muted);
+  transition: transform 0.2s ease, background-color 0.15s ease;
+}
+
+.kr-nav-chevron:hover {
+  background: rgba(28, 35, 51, 0.08);
+}
+
+.kr-nav-chevron.open {
+  transform: rotate(90deg);
 }
 
 .kr-main {
@@ -94,6 +207,8 @@
 }
 
 .kr-topbar {
+  position: relative;
+  z-index: 60;
   flex: none;
   display: flex;
   align-items: center;
@@ -101,6 +216,7 @@
   padding: 16px 24px;
   border-bottom: 1px solid rgba(28, 35, 51, 0.08);
   flex-wrap: wrap;
+  overflow: visible;
 }
 
 /* Nút mở sidebar trên mobile — ẩn trên desktop vì sidebar đã hiện sẵn trong luồng chính. */
@@ -120,6 +236,16 @@
 
 .kr-sidebar-backdrop {
   display: none;
+}
+
+@media (min-width: 861px) {
+  .kr-sidebar {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    width: 340px;
+    height: 100dvh;
+  }
 }
 
 .kr-content {
@@ -218,13 +344,12 @@
   .kr-sidebar {
     position: fixed;
     inset: 0 auto 0 0;
-    z-index: 60;
-    width: 82vw;
-    max-width: 320px;
+    z-index: 100;
+    width: min(340px, 90vw);
     height: 100dvh;
     transform: translateX(-100%);
-    transition: transform 0.25s ease;
-    box-shadow: 24px 0 48px rgba(15, 23, 42, 0.22);
+    transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.3, 1);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
   }
 
   .kr-sidebar.kr-sidebar-open {
@@ -235,10 +360,8 @@
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 55;
-    background: rgba(15, 23, 42, 0.45);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
+    z-index: 90;
+    background: rgba(43, 58, 85, 0.35);
   }
 
   .kr-mobile-tabs {
@@ -303,27 +426,53 @@
 }
 
 .kr-topik-header {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   width: 100%;
-  padding: 8px 8px;
-  border-radius: 10px;
-  text-align: left;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--color-text);
+  padding: 9px 10px 9px 12px;
+  border-radius: 14px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.kr-topik-header--split {
+  gap: 0;
+  padding: 0;
+}
+
+.kr-topik-header-main {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  min-width: 0;
+  gap: 12px;
+  padding: 9px 4px 9px 12px;
 }
 
 .kr-topik-header:hover {
   background: rgba(255, 255, 255, 0.55);
 }
 
-.kr-topik-toggle {
-  width: 12px;
-  font-size: 10px;
-  color: var(--color-muted);
-  flex-shrink: 0;
+.kr-topik-header.active {
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 14px rgba(28, 35, 51, 0.1);
+}
+
+.kr-topik-header.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  bottom: 11px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--color-brand);
+}
+
+.kr-topik-header.active .kr-nav-tile {
+  background: var(--color-brand);
+  color: #fff;
 }
 
 .kr-topik-empty {
@@ -333,18 +482,43 @@
   font-style: italic;
 }
 
+.kr-nav-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 11px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-muted);
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.kr-nav-back:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--color-text);
+}
+
 /* ── Sidebar: danh sách bài học ───────────────────────────────────────────────────────── */
+/* Danh sách lồng trong 1 nhóm (dưới kr-topik-header) hiện đường kẻ dọc + chấm tròn trên mỗi bài —
+   cùng kiểu ".ih-nav-tree" bên IELTS, thụt vào đúng dưới ô icon tile. */
 .kr-lesson-list {
   display: flex;
   flex-direction: column;
-  gap: 1px;
+  gap: 2px;
+  margin: 0 0 6px 28px;
+  padding: 2px 0 2px 10px;
+  border-left: 1.5px solid color-mix(in srgb, var(--color-brand) 28%, transparent);
 }
 
 .kr-lesson-row {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
-  border-radius: 12px;
+  border-radius: 14px;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .kr-lesson-row:hover {
@@ -352,11 +526,66 @@
 }
 
 .kr-lesson-row.active {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 4px 14px rgba(28, 35, 51, 0.1);
+}
+
+/* Thanh nhấn bên trái khi đang chọn (áp dụng cho hàng KHÔNG lồng trong danh sách 1 nhóm) — cùng kiểu
+   với .ih-nav-item.active::before bên IELTS. */
+.kr-lesson-row.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 11px;
+  bottom: 11px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--color-brand);
+}
+
+/* Hàng lồng trong 1 nhóm: thay thanh nhấn bằng chấm tròn trên đường kẻ dọc — cùng kiểu
+   ".ih-nav-tree .ih-page-row::before" bên IELTS. Độ đặc thù cao hơn nên thắng quy tắc thanh nhấn ở
+   trên cho các hàng nằm trong danh sách. */
+.kr-lesson-list .kr-lesson-row::before {
+  content: '';
+  position: absolute;
+  left: -15px;
+  top: 17px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid color-mix(in srgb, var(--color-brand) 45%, white);
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.kr-lesson-list .kr-lesson-row:hover::before {
+  border-color: var(--color-brand);
+}
+
+.kr-lesson-list .kr-lesson-row.active::before {
+  background: var(--color-brand);
+  border-color: var(--color-brand);
+  transform: scale(1.25);
+}
+
+.kr-lesson-list .kr-lesson-row {
+  border-radius: 10px;
+  padding: 1px 2px;
+}
+
+.kr-lesson-list .kr-lesson-row.active {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2px 10px rgba(28, 35, 51, 0.08);
 }
 
 .kr-lesson-row.active .kr-lesson-row-title {
-  color: var(--color-accent-strong);
+  color: var(--color-brand-strong);
+}
+
+.kr-lesson-row.active .kr-lesson-badge {
+  background: var(--color-brand);
+  color: #fff;
 }
 
 .kr-overview-row {
@@ -370,10 +599,10 @@
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   text-align: left;
-  padding: 7px 8px;
-  border-radius: 12px;
+  padding: 9px 10px 9px 12px;
+  border-radius: 14px;
 }
 
 .kr-lesson-badge {
@@ -381,18 +610,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 10px;
-  background: var(--color-gold-soft);
-  color: var(--color-gold);
+  width: 34px;
+  height: 34px;
+  border-radius: 11px;
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
   font-size: 11px;
   font-weight: 800;
-}
-
-.kr-overview-row .kr-lesson-badge {
-  background: var(--color-brand-soft);
-  color: var(--color-brand);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .kr-lesson-row-body {
@@ -402,7 +627,7 @@
 }
 
 .kr-lesson-row-title {
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text);
   white-space: nowrap;
@@ -411,8 +636,43 @@
 }
 
 .kr-lesson-row-meta {
-  font-size: 10.5px;
+  min-height: 14px;
+  font-size: 11.5px;
   color: var(--color-muted);
+}
+
+.kr-lesson-list .kr-lesson-row-btn {
+  align-items: flex-start;
+  gap: 9px;
+  padding: 7px 6px;
+  border-radius: 10px;
+}
+
+.kr-lesson-list .kr-lesson-badge {
+  width: auto;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border-radius: 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+.kr-lesson-list .kr-lesson-row-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+.kr-lesson-list .kr-lesson-row.active .kr-lesson-row-title {
+  font-weight: 600;
 }
 
 .kr-lesson-row-actions {
@@ -506,16 +766,15 @@
 
 /* ── Filter panel ─────────────────────────────────────────────────────────────────────── */
 .kr-filter-panel {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: 16px;
   padding: 16px 18px;
   margin-bottom: 20px;
 }
 
 .kr-filter-panel > div {
-  flex: 1 1 200px;
-  min-width: 160px;
+  min-width: 0;
 }
 
 .kr-filter-label {
@@ -1182,4 +1441,165 @@
 
 .kr-btn-solid:hover {
   background: var(--color-accent-strong);
+}
+/* Trang danh sách Kiến thức: cùng bố cục banner + card lesson với IELTS LessonsIndex. */
+.lv-knowledge-index {
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: 24px clamp(16px, 4vw, 40px) 60px;
+}
+
+.lv-knowledge-hero {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 22px;
+  padding: 22px 26px;
+  border: 1px solid color-mix(in srgb, var(--color-brand) 22%, white);
+  border-radius: 22px;
+  background: linear-gradient(120deg, color-mix(in srgb, var(--color-brand) 16%, white), color-mix(in srgb, var(--color-brand) 3%, white) 75%);
+}
+
+.lv-knowledge-hero-icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 8px 20px -8px color-mix(in srgb, var(--color-brand) 60%, transparent);
+  color: var(--color-brand);
+  font-size: 34px;
+  font-weight: 800;
+}
+
+.lv-knowledge-title {
+  margin: 0;
+  color: var(--color-text);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+}
+
+.lv-knowledge-subtitle {
+  margin: 4px 0 0;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+
+.lv-knowledge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr));
+  gap: 14px;
+}
+
+.lv-knowledge-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  text-align: left;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.lv-knowledge-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-brand);
+  box-shadow: 0 12px 28px -12px color-mix(in srgb, var(--color-brand) 55%, transparent);
+}
+
+.lv-knowledge-number {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-brand) 13%, white);
+  color: var(--color-brand);
+  font-size: 22px;
+  font-weight: 700;
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.lv-knowledge-card:hover .lv-knowledge-number {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+.lv-knowledge-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.lv-knowledge-cap {
+  color: var(--color-brand);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lv-knowledge-card-title {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--color-text);
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.lv-knowledge-meta {
+  color: var(--color-muted);
+  font-size: 12px;
+}
+
+.lv-knowledge-arrow {
+  flex: none;
+  color: var(--color-muted);
+  font-size: 18px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, color 0.18s ease;
+}
+
+.lv-knowledge-card:hover .lv-knowledge-arrow {
+  color: var(--color-brand);
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.lv-knowledge-empty {
+  padding: 28px;
+  border: 1px dashed color-mix(in srgb, var(--color-brand) 35%, white);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.65);
+  color: var(--color-muted);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .lv-knowledge-hero {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .lv-knowledge-hero-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 26px;
+  }
 }

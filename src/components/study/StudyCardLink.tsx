@@ -11,7 +11,11 @@ import type { LoadingTracker } from '@/lib/loading/tracker'
 
 // Loading ở /study không bám theo request API nào mà bật cố định từ lúc bấm cho tới khi trang đích
 // thay thế trang này (component bị gỡ cùng trang) — nên tracker luôn báo "đang hiện".
-const alwaysOn: LoadingTracker = { subscribe: () => () => {}, getVisible: () => true }
+const alwaysOn: LoadingTracker = {
+  subscribe: () => () => {},
+  getVisible: () => true,
+  setNavigationPending: () => {},
+}
 
 // Nếu điều hướng kẹt/lỗi mà đường dẫn không đổi thì tự tắt loading sau chừng này, tránh treo mãi.
 const GIVE_UP_MS = 15_000

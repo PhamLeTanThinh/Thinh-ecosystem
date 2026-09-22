@@ -48,3 +48,25 @@ export function speak(text: string, lang: string, rate?: number) {
   if (voice) utterance.voice = voice
   window.speechSynthesis.speak(utterance)
 }
+
+// Đọc nối tiếp nhiều câu (vd term → định nghĩa EN → định nghĩa VI) — khác speak() ở chỗ các câu
+// không huỷ lẫn nhau giữa chừng, chỉ huỷ lượt đọc TRƯỚC ĐÓ khi bắt đầu 1 hàng đợi mới.
+export function speakQueue(items: { text: string; lang: string; rate?: number }[]) {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  window.speechSynthesis.cancel()
+  const queue = items.filter((it) => it.text.trim())
+
+  function playNext(i: number) {
+    if (i >= queue.length) return
+    const { text, lang, rate } = queue[i]
+    const utterance = new SpeechSynthesisUtterance(text.trim())
+    utterance.lang = lang
+    utterance.rate = rate ?? DEFAULT_RATE[lang] ?? 1
+    const voice = pickVoice(lang)
+    if (voice) utterance.voice = voice
+    utterance.onend = () => playNext(i + 1)
+    window.speechSynthesis.speak(utterance)
+  }
+
+  playNext(0)
+}

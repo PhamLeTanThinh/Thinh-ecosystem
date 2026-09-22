@@ -3,6 +3,7 @@ import { ChineseHydrator } from '@/components/chinese/ChineseHydrator'
 import { ChineseLoading } from '@/components/chinese/ChineseLoading'
 import { AddCardModal } from '@/components/chinese/modals/AddCardModal'
 import { LearnerGate } from '@/components/learner/LearnerProfile'
+import { bodyFont } from '../ielts/fonts'
 import './chinese.css'
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function ChineseLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="chinese-root min-h-dvh">
+    <div className={`${bodyFont.variable} chinese-root min-h-dvh`}>
       <ChineseHydrator />
       <ChineseLoading />
       {children}

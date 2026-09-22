@@ -1,14 +1,15 @@
 'use client'
 
 import type { CSSProperties } from 'react'
+import Link from 'next/link'
 import { SKILLS } from '@/lib/ielts/skills'
 import { useIeltsStore } from '@/lib/ielts/store'
-import type { Skill } from '@/lib/ielts/types'
+import { useIeltsAccess } from './AccessContext'
 
-// Màn hình đầu khi mới vào /ielts: 4 kỹ năng dạng card ở giữa màn hình. Chọn 1 card thì trang cha
-// (page.tsx) chạy View Transition: mỗi card có view-transition-name trùng với dòng skill tương ứng
-// trong Sidebar nên trình duyệt tự cho card "bay" sang vị trí dòng đó ở bên trái.
-export function SkillLanding({ onPick }: { onPick: (skill: Skill) => void }) {
+// Màn hình đầu /ielts: 4 kỹ năng dạng card. Mỗi card dẫn vào khu riêng của kỹ năng đó (/ielts/<skill>,
+// có menu Kiến thức / Làm đề / Vocab). Bên dưới là lối vào kho từ vựng chung (và Admin nếu là chủ).
+export function SkillLanding() {
+  const { isOwner } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
   const hydrated = useIeltsStore((s) => s.hydrated)
 
@@ -21,20 +22,25 @@ export function SkillLanding({ onPick }: { onPick: (skill: Skill) => void }) {
         {SKILLS.map((skill, i) => {
           const count = pages.filter((p) => p.skill === skill.key).length
           return (
-            <button
-              key={skill.key}
-              type="button"
-              className="ih-glass ih-landing-card"
-              style={{ viewTransitionName: `ih-skill-${skill.key}`, '--i': i } as CSSProperties}
-              onClick={() => onPick(skill.key)}
-            >
+            <Link key={skill.key} href={`/ielts/${skill.key}/lessons`} className="ih-glass ih-landing-card" style={{ '--i': i } as CSSProperties}>
               <span className="ih-landing-icon">{skill.icon}</span>
               <span className="ih-font-hand ih-landing-label">{skill.label}</span>
               {/* Chưa tải xong danh sách trang thì để trống (giữ chiều cao) thay vì hiện "0 trang" sai. */}
-              <span className="ih-landing-count">{hydrated ? `${count} trang` : ' '}</span>
-            </button>
+              <span className="ih-landing-count">{hydrated ? `${count} trang` : ' '}</span>
+            </Link>
           )
         })}
+      </div>
+
+      <div className="ih-landing-links">
+        <Link href="/ielts/vocab" className="ih-btn-outline">
+          📚 Từ vựng chung
+        </Link>
+        {isOwner && (
+          <Link href="/admin" className="ih-btn-outline">
+            🔗 Admin · Người xem
+          </Link>
+        )}
       </div>
     </div>
   )

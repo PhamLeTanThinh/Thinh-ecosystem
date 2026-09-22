@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 @theme {
-  --color-ih-bg: #f5f4f0;
+  --color-ih-bg: #fdfcfa;
   --color-ih-surface: #ffffff;
   --color-ih-ink: #2b3a55;
   --color-ih-ink-soft: #5b6884;
@@ -12,11 +12,12 @@
 .ielts-root {
   min-height: 100dvh;
   background-color: var(--color-ih-bg);
-  /* Nền "aurora" — vài khối màu lớn được blur, rải rác trên nền trắng ngà. */
-  background-image: radial-gradient(ellipse 620px 520px at 6% 0%, rgba(255, 186, 150, 0.35), transparent 65%),
-    radial-gradient(ellipse 560px 480px at 100% 10%, rgba(196, 181, 253, 0.32), transparent 65%),
-    radial-gradient(ellipse 600px 520px at 30% 100%, rgba(167, 243, 208, 0.3), transparent 65%),
-    radial-gradient(ellipse 520px 460px at 95% 95%, rgba(191, 219, 254, 0.28), transparent 65%);
+  /* Nền "aurora" — vài khối màu lớn được blur, rải rác trên nền trắng ngà. Độ đậm thấp (~0.15) để tổng
+     thể sáng; tăng các số alpha này nếu muốn nền nhiều màu hơn. */
+  background-image: radial-gradient(ellipse 620px 520px at 6% 0%, rgba(255, 196, 166, 0.18), transparent 65%),
+    radial-gradient(ellipse 560px 480px at 100% 10%, rgba(206, 194, 253, 0.16), transparent 65%),
+    radial-gradient(ellipse 600px 520px at 30% 100%, rgba(178, 246, 216, 0.15), transparent 65%),
+    radial-gradient(ellipse 520px 460px at 95% 95%, rgba(199, 224, 254, 0.14), transparent 65%);
   background-attachment: fixed;
   color: var(--color-ih-ink);
   font-family: var(--font-ih-body), 'Inter', system-ui, sans-serif;
@@ -61,6 +62,7 @@
   -webkit-backdrop-filter: blur(16px) saturate(150%);
   backdrop-filter: blur(16px) saturate(150%);
   border-right: 1px solid rgba(255, 255, 255, 0.6);
+  overflow-x: hidden;
   overflow-y: auto;
 }
 
@@ -1645,12 +1647,394 @@ li > .ih-prompt-vi {
 
 .ih-vocab-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: 1fr;
   gap: 14px;
 }
 
 .ih-vocab-card {
-  padding: 16px 18px;
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 20px;
+  padding: 18px 20px;
+}
+
+.ih-vocab-card-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding-right: 16px;
+  border-right: 1px solid rgba(43, 58, 85, 0.12);
+}
+
+.ih-vocab-card-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ih-vocab-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ih-vocab-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-lang {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  margin-right: 8px;
+  border-radius: 5px;
+  border: 1px solid rgba(43, 58, 85, 0.2);
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-speak {
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  opacity: 0.7;
+}
+
+.ih-vocab-speak:hover {
+  opacity: 1;
+  background: rgba(43, 58, 85, 0.08);
+}
+
+.ih-vocab-reveal,
+.ih-vocab-expand {
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-reveal:hover,
+.ih-vocab-expand:hover {
+  color: var(--color-ih-rose);
+}
+
+.ih-vocab-star.is-on {
+  color: #e0a800;
+}
+
+.ih-vocab-sort {
+  flex: 0 0 auto;
+}
+
+/* Thẻ lớn (flashcard modal) */
+.ih-vocab-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(20, 28, 45, 0.45);
+}
+
+.ih-vocab-modal {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 20px;
+}
+
+.ih-vocab-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  z-index: 1;
+  font-size: 22px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-flash {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 260px;
+  padding: 24px;
+  text-align: center;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ih-vocab-flash-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-flash-word {
+  font-size: 34px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-vocab-flash-meaning {
+  font-size: 20px;
+  color: var(--color-ih-ink);
+}
+
+.ih-vocab-flash-example {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-flash-hint {
+  font-size: 12px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-modal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.ih-vocab-modal-count {
+  font-size: 14px;
+  font-weight: 600;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Thẻ lớn v2: 2 cột (trái = chữ, phải = hình) + toolbar cài đặt/đóng nổi trên góc hình. Nền trắng đặc
+   (không dùng kính mờ .ih-glass mặc định) để chữ + ảnh tương phản rõ, giống bản gốc. Cỡ thẻ CỐ ĐỊNH
+   (không phụ thuộc độ dài nội dung từng từ) — chữ dài thì cuộn riêng trong cột trái, thẻ không co giãn
+   khi chuyển từ.
+*/
+.ih-vocab-modal-v2 {
+  position: relative;
+  width: min(1000px, 100%);
+  height: min(640px, 88vh);
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  background: #fff;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid var(--color-ih-border);
+}
+
+.ih-vocab-modal-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+@media (max-width: 760px) {
+  .ih-vocab-modal-v2 {
+    height: min(720px, 92vh);
+  }
+
+  .ih-vocab-modal-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.ih-vocab-modal-left {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.ih-vocab-modal-word-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ih-vocab-modal-word {
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-vocab-modal-ipa {
+  margin: 2px 0 8px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-vocab-modal-section {
+  margin-top: 18px;
+}
+
+.ih-vocab-modal-watch {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #d42525;
+}
+
+.ih-vocab-modal-watch:hover {
+  text-decoration: underline;
+}
+
+.ih-vocab-modal-right {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 760px) {
+  .ih-vocab-modal-right {
+    min-height: 220px;
+  }
+}
+
+/* Nền trắng, không cắt ảnh — ảnh tỉ lệ lệch (quá cao/quá ngang so với khung) sẽ tự thu nhỏ vừa khung
+   (object-fit: contain) thay vì bị zoom/crop mất chi tiết. */
+.ih-vocab-modal-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.ih-vocab-modal-image img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
+}
+
+.ih-vocab-modal-emoji {
+  font-size: 72px;
+}
+
+/* Nằm ngay trên nền trắng của card, ở góc trên-phải — KHÔNG phải khối/pill nổi riêng, chỉ là icon
+   trần chìm vào góc thẻ (giống bản gốc). */
+.ih-vocab-modal-toolbar {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.ih-vocab-modal-icon-btn {
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--color-ih-ink);
+}
+
+.ih-vocab-modal-icon-btn svg {
+  flex: 0 0 auto;
+}
+
+.ih-vocab-modal-icon-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Hộp thoại "Cài đặt" mở từ nút ⚙️ trong thẻ lớn. */
+.ih-flash-settings-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 110;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(20, 28, 45, 0.5);
+}
+
+.ih-flash-settings {
+  width: min(440px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 20px;
+  background: #fff;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border: 1px solid var(--color-ih-border);
+}
+
+.ih-flash-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.ih-flash-settings-head h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-flash-settings-group-label {
+  margin: 16px 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-flash-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+  border: 1px solid var(--color-ih-border);
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.ih-flash-settings-row-icon {
+  font-size: 16px;
+}
+
+.ih-flash-settings-row-label {
+  flex: 1;
+  font-weight: 600;
+  color: var(--color-ih-ink);
+}
+
+.ih-flash-settings-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
 }
 
 .ih-vocab-card-top {
@@ -1989,8 +2373,17 @@ li > .ih-prompt-vi {
     grid-template-columns: 1fr;
   }
 
-  .ih-vocab-grid {
-    grid-template-columns: 1fr;
+  .ih-vocab-card {
+    grid-template-columns: 1fr auto;
+  }
+
+  .ih-vocab-card-left {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    border-right: 0;
+    border-bottom: 1px solid rgba(43, 58, 85, 0.12);
+    padding: 0 0 8px;
   }
 
   .ih-editor-content td img {

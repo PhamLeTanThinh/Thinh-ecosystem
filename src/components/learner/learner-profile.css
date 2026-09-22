@@ -5,6 +5,7 @@
 
 .lp-root {
   position: relative;
+  z-index: 100;
   flex: none;
 }
 
@@ -32,7 +33,7 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  z-index: 40;
+  z-index: 1000;
   width: 270px;
   padding: 14px;
   border-radius: var(--radius-card, 16px);

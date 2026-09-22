@@ -3,6 +3,7 @@ import { KoreanHydrator } from '@/components/korean/KoreanHydrator'
 import { KoreanLoading } from '@/components/korean/KoreanLoading'
 import { AddCardModal } from '@/components/korean/modals/AddCardModal'
 import { LearnerGate } from '@/components/learner/LearnerProfile'
+import { bodyFont } from '../ielts/fonts'
 import './korean.css'
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function KoreanLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="korean-root min-h-dvh">
+    <div className={`${bodyFont.variable} korean-root min-h-dvh`}>
       <KoreanHydrator />
       <KoreanLoading />
       {children}

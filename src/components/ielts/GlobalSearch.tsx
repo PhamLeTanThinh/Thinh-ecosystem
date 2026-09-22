@@ -1,15 +1,20 @@
 'use client'
 
 import { useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useIeltsStore } from '@/lib/ielts/store'
 import { searchAll } from '@/lib/ielts/search'
-import type { Selection } from './Sidebar'
+import { beginIeltsNavigation } from '@/lib/ielts/navigationLoading'
 
 interface Props {
-  onSelect: (s: Selection) => void
+  // Gọi sau khi chọn 1 kết quả — để đóng menu off-canvas trên mobile.
+  onNavigate?: () => void
 }
 
-export function GlobalSearch({ onSelect }: Props) {
+// Tìm trong toàn bộ trang + từ vựng, bất kể kỹ năng. Chọn kết quả = chuyển route: trang → bài học của
+// đúng kỹ năng chứa nó, từ vựng → trang từ vựng chung.
+export function GlobalSearch({ onNavigate }: Props) {
+  const router = useRouter()
   const pages = useIeltsStore((s) => s.pages)
   const vocab = useIeltsStore((s) => s.vocab)
   const [query, setQuery] = useState('')
@@ -24,9 +29,19 @@ export function GlobalSearch({ onSelect }: Props) {
   }
 
   function handlePick(r: (typeof results)[number]) {
-    onSelect(r.type === 'page' ? { type: 'page', id: r.id } : { type: 'vocab' })
+    let destination: string
+    if (r.type === 'page') {
+      const page = pages.find((p) => p.id === r.id)
+      if (!page) return
+      destination = `/ielts/${page.skill}/lessons/${page.id}`
+    } else {
+      destination = '/ielts/vocab'
+    }
+    beginIeltsNavigation(destination)
+    router.push(destination)
     setQuery('')
     setOpen(false)
+    onNavigate?.()
   }
 
   return (

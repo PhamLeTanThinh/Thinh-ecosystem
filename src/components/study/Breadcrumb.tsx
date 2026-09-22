@@ -1,6 +1,11 @@
+'use client'
+
+import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import Link from 'next/link'
 import { STUDY_TOOLS } from '@/lib/apps/tools'
+import { HSK_LEVELS } from '@/lib/chinese/lessons'
+import { SKILLS } from '@/lib/ielts/skills'
 import './breadcrumb.css'
 
 type CrumbIcon = 'study' | 'cards' | 'quiz' | 'note' | 'star' | 'users' | 'key'
@@ -11,6 +16,14 @@ export interface Crumb {
   icon?: CrumbIcon
   // Ký tự đại diện của app (한 / 中 / EN / ♪ — lấy từ STUDY_TOOLS), dùng thay icon nét cho mục app.
   glyph?: string
+  options?: CrumbOption[]
+}
+
+export interface CrumbOption {
+  label: string
+  href: string
+  glyph?: string
+  active?: boolean
 }
 
 // Icon nét mảnh 24x24, đổi màu theo currentColor — không phụ thuộc font/emoji của hệ điều hành.
@@ -70,8 +83,27 @@ interface BreadcrumbProps {
 // ứng (không có hover) thì hiện chữ của mọi chip. Tự chứa style (breadcrumb.css), không phụ thuộc token
 // CSS của từng app nên đặt được ở bất kỳ đâu.
 export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const navRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    if (openIndex === null) return
+    function closeOnOutsideClick(event: PointerEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) setOpenIndex(null)
+    }
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setOpenIndex(null)
+    }
+    document.addEventListener('pointerdown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [openIndex])
+
   return (
-    <nav className={`sb-breadcrumb${className ? ` ${className}` : ''}`} aria-label="Breadcrumb" style={{ '--sb-accent': accent } as CSSProperties}>
+    <nav ref={navRef} className={`sb-breadcrumb${className ? ` ${className}` : ''}`} aria-label="Breadcrumb" style={{ '--sb-accent': accent } as CSSProperties}>
       <ol>
         {items.map((item, i) => {
           const last = i === items.length - 1
@@ -84,9 +116,27 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
             </>
           )
           return (
-            <li key={`${item.label}-${i}`}>
-              {last || !item.href ? (
-                <span className={`sb-crumb${last ? ' sb-crumb--current' : ''}`} aria-current={last ? 'page' : undefined} tabIndex={0}>
+            <li
+              key={`${item.label}-${i}`}
+              className={`sb-crumb-item${item.options?.length ? ' sb-crumb-item--switcher' : ''}${openIndex === i ? ' is-open' : ''}`}
+            >
+              {item.options?.length ? (
+                <button
+                  type="button"
+                  className={`sb-crumb${last ? ' sb-crumb--current' : ''}`}
+                  aria-current={last ? 'page' : undefined}
+                  aria-haspopup="menu"
+                  aria-expanded={openIndex === i}
+                  onClick={() => setOpenIndex((current) => (current === i ? null : i))}
+                >
+                  {content}
+                </button>
+              ) : last || !item.href ? (
+                <span
+                  className={`sb-crumb${last ? ' sb-crumb--current' : ''}`}
+                  aria-current={last ? 'page' : undefined}
+                  tabIndex={0}
+                >
                   {content}
                 </span>
               ) : (
@@ -94,6 +144,26 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
                   {content}
                 </Link>
               )}
+              {item.options?.length ? (
+                <div className="sb-crumb-dropdown" role="menu" aria-label={`Chuyển ${item.label}`}>
+                  {item.options.map((option) => (
+                    <Link
+                      key={option.href}
+                      href={option.href}
+                      role="menuitem"
+                      className={`sb-crumb-option${option.active ? ' active' : ''}`}
+                      aria-current={option.active ? 'page' : undefined}
+                      onClick={() => setOpenIndex(null)}
+                    >
+                      <span className="sb-crumb-option-glyph" aria-hidden>
+                        {option.glyph ?? initials(option.label)}
+                      </span>
+                      <span>{option.label}</span>
+                      {option.active && <span className="sb-crumb-option-check">✓</span>}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
             </li>
           )
         })}
@@ -120,11 +190,55 @@ export type AppHref = '/korean' | '/chinese' | '/ielts' | '/music' | '/pm' | '/i
 export function AppBreadcrumb({ app, trail = [], className }: { app: AppHref; trail?: Crumb[]; className?: string }) {
   const tool = STUDY_TOOLS.find((t) => t.href === app)
   if (!tool) return null
+  const hasStudySwitcher = app === '/chinese' || app === '/korean' || app === '/ielts'
+  const appOptions: CrumbOption[] = STUDY_TOOLS.filter((candidate) => ['/chinese', '/korean', '/ielts'].includes(candidate.href)).map((candidate) => ({
+    label: candidate.shortTitle ?? candidate.title,
+    href: candidate.href,
+    glyph: candidate.icon,
+    active: candidate.href === app,
+  }))
+  const sectionOptions = getSectionOptions(app)
+  const switchableTrail = trail.map((crumb, index) => {
+    if (index !== 0 || !sectionOptions.some((option) => option.label === crumb.label)) return crumb
+    return {
+      ...crumb,
+      options: sectionOptions.map((option) => ({ ...option, active: option.label === crumb.label })),
+    }
+  })
   const items: Crumb[] = [
-    { label: 'Study', href: '/study', icon: 'study' },
+    {
+      label: 'Study',
+      href: '/study',
+      icon: 'study',
+      options: hasStudySwitcher
+        ? [
+            { label: 'Tất cả ứng dụng', href: '/study', glyph: '⌂' },
+            ...STUDY_TOOLS.map((candidate) => ({ label: candidate.shortTitle ?? candidate.title, href: candidate.href, glyph: candidate.icon, active: candidate.href === app })),
+          ]
+        : undefined,
+    },
     // shortTitle (nếu có) thay cho tên đầy đủ — viên "Study › ..." gọn hơn (vd. "Project Manager" → "PM").
-    { label: tool.shortTitle ?? tool.title, href: app, glyph: tool.icon },
-    ...trail,
+    { label: tool.shortTitle ?? tool.title, href: app, glyph: tool.icon, options: hasStudySwitcher ? appOptions : undefined },
+    ...switchableTrail,
   ]
   return <Breadcrumb items={items} accent={tool.accent} className={className} />
+}
+
+function getSectionOptions(app: AppHref): CrumbOption[] {
+  if (app === '/chinese') {
+    return [
+      { label: 'Ngữ âm cơ bản', href: '/chinese/lessons?open=phonetics', glyph: '音' },
+      ...HSK_LEVELS.map((level) => ({ label: level.label, href: `/chinese/lessons?open=${level.key}`, glyph: level.label.replace('HSK ', 'H') })),
+    ]
+  }
+  if (app === '/korean') {
+    return [
+      { label: 'TOPIK I', href: '/korean/lessons?open=topik1', glyph: 'T1' },
+      { label: 'TOPIK II', href: '/korean/lessons?open=topik2', glyph: 'T2' },
+    ]
+  }
+  if (app === '/ielts') {
+    return SKILLS.map((skill) => ({ label: skill.label, href: `/ielts/${skill.key}/lessons`, glyph: skill.icon }))
+  }
+  return []
 }
