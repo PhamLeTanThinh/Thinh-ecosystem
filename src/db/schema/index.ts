@@ -135,6 +135,50 @@ export const koreanSettings = pgTable('korean_settings', {
   quizMode: varchar('quiz_mode', { length: 20 }).default('front-to-meaning').notNull(),
 })
 
+// Tiến độ luyện đề chứng chỉ (Certs Hub), RIÊNG THEO TỪNG NGƯỜI HỌC — cùng hồ sơ learnerId với
+// Chinese/Korean (xem lib/learner/identity.ts). certId (vd 'ccaf') + questionId (id câu trong ngân
+// hàng đề) cùng learnerId tạo khoá kép.
+export const certProgress = pgTable(
+  'cert_progress',
+  {
+    learnerId: text('learner_id').notNull(),
+    certId: varchar('cert_id', { length: 20 }).notNull(),
+    questionId: integer('question_id').notNull(),
+    correctCount: integer('correct_count').default(0).notNull(),
+    wrongCount: integer('wrong_count').default(0).notNull(),
+    lastResult: varchar('last_result', { length: 10 }), // 'correct' | 'wrong'
+    lastReviewedAt: timestamp('last_reviewed_at'),
+  },
+  (t) => [primaryKey({ columns: [t.learnerId, t.certId, t.questionId] })],
+)
+
+// Mỗi LẦN luyện (bấm "Kết thúc") của 1 người học: điểm + danh sách id câu sai của lần đó, để liệt kê lịch
+// sử và luyện lại đúng những câu sai của từng lần. Cùng quy ước learnerId với certProgress.
+export const certAttempts = pgTable('cert_attempts', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  learnerId: text('learner_id').notNull(),
+  certId: varchar('cert_id', { length: 20 }).notNull(),
+  mode: varchar('mode', { length: 20 }).notNull(),
+  total: integer('total').notNull(),
+  correct: integer('correct').notNull(),
+  wrongIds: jsonb('wrong_ids').$type<number[]>().notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// Trạng thái luyện đề IELTS của từng người (điểm + lịch sử các lần nộp, bài làm dở, highlight, từ đã thuộc,
+// tuỳ chọn hiển thị) — mỗi mục 1 dòng, value là đúng cục JSON mà trình duyệt vẫn giữ ở localStorage (xem
+// lib/ielts/practiceSync.ts). ownerKey = email đăng nhập (chữ thường), hoặc 'owner' khi chưa bật chia sẻ.
+export const ieltsPracticeState = pgTable(
+  'ielts_practice_state',
+  {
+    ownerKey: text('owner_key').notNull(),
+    key: varchar('key', { length: 40 }).notNull(),
+    value: jsonb('value').notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.ownerKey, t.key] })],
+)
+
 // ── FAMILY TREE ───────────────────────────────────────────────────
 export const familyMembers = pgTable('family_members', {
   id: uuid('id').defaultRandom().primaryKey(),

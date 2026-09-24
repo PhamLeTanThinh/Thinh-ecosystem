@@ -1,18 +1,24 @@
 import type { Metadata } from 'next'
-import { Caveat, Cormorant_Garamond, DM_Sans, DM_Mono, TikTok_Sans } from 'next/font/google'
+import { Caveat, Cormorant_Garamond, DM_Sans, DM_Mono } from 'next/font/google'
+import localFont from 'next/font/local'
 import './globals.css'
 
 // Heavy display sans for the portfolio's About → Contact headings (the same
 // face haoqi.design uses). It has no italic, so the accent words in those
 // headings are colored instead of slanted.
-const tiktok = TikTok_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+// Self-hosted (src/fonts/tiktok-sans): TikTok Sans isn't in next/font/google's font-metrics table, so the
+// Google version logged "Failed to find font override values" on every build/dev start.
+const tiktok = localFont({
+  // next/font/local needs a static array literal (no .map) to analyse the files at build time.
+  src: [
+    { path: '../fonts/tiktok-sans/TikTokSans-400.ttf', weight: '400', style: 'normal' },
+    { path: '../fonts/tiktok-sans/TikTokSans-500.ttf', weight: '500', style: 'normal' },
+    { path: '../fonts/tiktok-sans/TikTokSans-600.ttf', weight: '600', style: 'normal' },
+    { path: '../fonts/tiktok-sans/TikTokSans-700.ttf', weight: '700', style: 'normal' },
+    { path: '../fonts/tiktok-sans/TikTokSans-800.ttf', weight: '800', style: 'normal' },
+  ],
   variable: '--font-tiktok',
   display: 'swap',
-  // TikTok Sans isn't in next/font's font-metrics table, so it can't build a size-adjusted fallback
-  // font and would log "Failed to find font override values" on every build/dev start.
-  adjustFontFallback: false,
 })
 
 const cormorant = Cormorant_Garamond({

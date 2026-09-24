@@ -1,13 +1,13 @@
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { chineseDecks, chineseProgress, chineseSettings, koreanProgress, koreanSettings, learnerProfiles } from '@/db/schema'
+import { certProgress, chineseDecks, chineseProgress, chineseSettings, koreanProgress, koreanSettings, learnerProfiles } from '@/db/schema'
 
 export async function isRegistered(id: string): Promise<boolean> {
   const [row] = await db.select({ id: learnerProfiles.id }).from(learnerProfiles).where(eq(learnerProfiles.id, id)).limit(1)
   return !!row
 }
 
-// Tên đã có dữ liệu học ở 1 trong 5 bảng — bắt các tên có dữ liệu THẬT nhưng chưa nằm trong sổ
+// Tên đã có dữ liệu học ở 1 trong 6 bảng — bắt các tên có dữ liệu THẬT nhưng chưa nằm trong sổ
 // learnerProfiles (vd 'legacy', hoặc hồ sơ từ trước khi có sổ đăng ký). Chỉ là bước lọc nhanh; chốt
 // chặn chống trùng tên thật sự là ràng buộc UNIQUE của learnerProfiles.id.
 export async function hasLearnerData(id: string): Promise<boolean> {
@@ -20,7 +20,9 @@ export async function hasLearnerData(id: string): Promise<boolean> {
   const [d] = await db.select({ x: koreanProgress.learnerId }).from(koreanProgress).where(eq(koreanProgress.learnerId, id)).limit(1)
   if (d) return true
   const [e] = await db.select({ x: koreanSettings.learnerId }).from(koreanSettings).where(eq(koreanSettings.learnerId, id)).limit(1)
-  return !!e
+  if (e) return true
+  const [f] = await db.select({ x: certProgress.learnerId }).from(certProgress).where(eq(certProgress.learnerId, id)).limit(1)
+  return !!f
 }
 
 export async function isLearnerIdTaken(id: string): Promise<boolean> {

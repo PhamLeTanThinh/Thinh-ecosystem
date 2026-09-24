@@ -32,7 +32,7 @@ export const STUDY_TOOLS: Tool[] = [
   { href: '/music', icon: '♪', title: 'Music Hub', description: 'Học nốt nhạc và lưu lại những bản nhạc yêu thích của bạn.', accent: APP_BRAND.music, videoKey: 'music', effect: 'notes' },
   { href: '/pm', icon: 'PM', title: 'Project Manager', shortTitle: 'PM', description: 'Ôn kiến thức quản lý dự án — Agile, Scrum, PMBOK, quản trị rủi ro.', accent: APP_BRAND.pm, videoKey: 'pm' },
   { href: '/it', icon: 'IT', title: 'IT Hub', description: 'Ôn kiến thức Master AI và Software Engineer.', accent: APP_BRAND.it, videoKey: 'it' },
-  { href: '/certs', icon: '✓', title: 'Certs Hub', description: 'Tổng hợp đề thi các chứng chỉ — AZ-900, AI-900, CCNA...', accent: APP_BRAND.certs, videoKey: 'certs' },
+  { href: '/certs', icon: '✓', title: 'Certs Hub', description: 'Tổng hợp đề thi các chứng chỉ — CCAF...', accent: APP_BRAND.certs, videoKey: 'certs' },
 ]
 
 /** Các app dùng hàng ngày — hiển thị ở /tools. */

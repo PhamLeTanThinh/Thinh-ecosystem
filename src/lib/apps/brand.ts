@@ -18,5 +18,5 @@ export const APP_BRAND = {
   music: '#111111',
   pm: '#7c3aed',
   it: '#0f3d2e',
-  certs: '#0ea5e9',
+  certs: '#2563eb',
 } as const

@@ -124,7 +124,9 @@ function TestRunnerBody({ test, mode, start }: Props & { start: Start }) {
 
   const answered = questions.filter((q) => answers[q.id]?.trim()).length
   const score = questions.filter((q) => isCorrect(q, answers[q.id])).length
-  const reveal = submitted || checked
+  // Chỉ lộ đáp án khi người dùng bấm "Check" (luyện tập). Nộp bài thì KHÔNG lộ trên màn làm bài — trang chuyển
+  // sang màn kết quả ngay, lộ ở đây chỉ làm đáp án nháy lên trong lúc chờ chuyển trang.
+  const reveal = checked
 
   // Các nhóm câu hỏi (đầu–cuối) cho chip điều hướng nhóm ở đáy màn hình.
   const groupRanges = useMemo(

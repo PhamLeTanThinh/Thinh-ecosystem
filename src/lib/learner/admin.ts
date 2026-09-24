@@ -1,6 +1,6 @@
 import { count, eq, isNotNull, max, sum } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles } from '@/db/schema'
+import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles } from '@/db/schema'
 import { hasLearnerData, isLearnerIdTaken, isRegistered } from '@/lib/learner/registry'
 
 // Quản lý hồ sơ học (Chinese + Korean dùng chung 1 hồ sơ) cho trang /admin — xem lib/learner/identity.ts.
@@ -19,6 +19,8 @@ export async function moveLearnerData(tx: Tx, oldId: string, newId: string) {
   await tx.update(koreanProgress).set({ learnerId: newId }).where(eq(koreanProgress.learnerId, oldId))
   await tx.update(koreanSettings).set({ learnerId: newId }).where(eq(koreanSettings.learnerId, oldId))
   await tx.update(koreanCards).set({ learnerId: newId }).where(eq(koreanCards.learnerId, oldId))
+  await tx.update(certProgress).set({ learnerId: newId }).where(eq(certProgress.learnerId, oldId))
+  await tx.update(certAttempts).set({ learnerId: newId }).where(eq(certAttempts.learnerId, oldId))
 }
 
 export interface LearnerSummary {
@@ -127,6 +129,8 @@ export async function deleteLearner(id: string): Promise<void> {
     await tx.delete(koreanProgress).where(eq(koreanProgress.learnerId, id))
     await tx.delete(koreanSettings).where(eq(koreanSettings.learnerId, id))
     await tx.delete(koreanCards).where(eq(koreanCards.learnerId, id))
+    await tx.delete(certProgress).where(eq(certProgress.learnerId, id))
+    await tx.delete(certAttempts).where(eq(certAttempts.learnerId, id))
     await tx.delete(learnerProfiles).where(eq(learnerProfiles.id, id))
   })
 }

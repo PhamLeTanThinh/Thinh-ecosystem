@@ -1,4 +1,5 @@
 import type { Skill } from './types'
+import { markDirty, PRACTICE_KEYS } from './practiceSync'
 
 export type QuestionType = 'gap-fill' | 'table' | 'tfng' | 'mcq' | 'match' | 'bank'
 
@@ -165,10 +166,10 @@ export function isCorrect(q: PracticeQuestion, given: string | undefined): boole
   return [q.answer, ...(q.alt ?? [])].some((a) => a.trim().toLowerCase() === g)
 }
 
-// ── Lưu ở trình duyệt (localStorage) ───────────────────────────────
-// Chưa có bảng DB cho luyện đề nên điểm, bài làm dở và từ đã thuộc nằm ở localStorage của từng trình
-// duyệt (không đồng bộ giữa các máy). Khi cần đồng bộ thì chuyển các hàm dưới đây sang gọi API như
-// pages/vocab — chữ ký hàm giữ nguyên nên UI không phải đổi.
+// ── Lưu ở trình duyệt (localStorage) + đồng bộ lên database ─────────────────────
+// localStorage vẫn là bộ nhớ đệm đọc/ghi đồng bộ cho UI; mỗi lần ghi được đẩy nền lên DB và khi vào /ielts
+// dữ liệu từ DB được trộn ngược về localStorage trước khi hiển thị — xem practiceSync.ts. Nhờ đó điểm/bài
+// làm dở/từ đã thuộc theo người dùng, dùng được trên nhiều máy, mà chữ ký các hàm dưới đây không đổi.
 function readJson<T>(key: string): Record<string, T> {
   try {
     const raw = localStorage.getItem(key)
@@ -181,6 +182,7 @@ function readJson<T>(key: string): Record<string, T> {
 function writeJson(key: string, value: unknown) {
   try {
     localStorage.setItem(key, JSON.stringify(value))
+    markDirty(key)
   } catch {
     // localStorage đầy/bị chặn: bỏ qua, dữ liệu chỉ không được nhớ.
   }
@@ -203,7 +205,7 @@ export interface Attempt {
   history?: AttemptRecord[] // thiếu ở dữ liệu cũ (trước khi có lịch sử)
 }
 
-const ATTEMPTS_KEY = 'ielts-practice-attempts'
+const ATTEMPTS_KEY = PRACTICE_KEYS.attempts
 const MAX_HISTORY = 30
 
 export function loadAttempts(): Record<string, Attempt> {
@@ -232,7 +234,7 @@ export interface Draft {
   flags?: string[] // id các câu đã đánh dấu cờ để xem lại
 }
 
-const DRAFTS_KEY = 'ielts-practice-drafts'
+const DRAFTS_KEY = PRACTICE_KEYS.drafts
 
 export function loadDrafts(): Record<string, Draft> {
   return readJson<Draft>(DRAFTS_KEY)
@@ -262,7 +264,7 @@ export interface Highlight {
   note?: string
 }
 
-const NOTES_KEY = 'ielts-practice-notes'
+const NOTES_KEY = PRACTICE_KEYS.notes
 
 export function loadHighlights(testId: string): Highlight[] {
   return readJson<Highlight[]>(NOTES_KEY)[testId] ?? []
@@ -284,7 +286,7 @@ export interface RunPrefs {
 }
 
 export const DEFAULT_PREFS: RunPrefs = { dark: false, fontStep: 0, stack: false, split: 50 }
-const PREFS_KEY = 'ielts-run-prefs'
+const PREFS_KEY = PRACTICE_KEYS.prefs
 
 export function loadPrefs(): RunPrefs {
   return { ...DEFAULT_PREFS, ...(readJson<unknown>(PREFS_KEY).v as Partial<RunPrefs> | undefined) }
@@ -295,7 +297,7 @@ export function savePrefs(p: RunPrefs): void {
 }
 
 // Từ đã thuộc của từng Vocab set (testId → danh sách từ).
-const LEARNED_KEY = 'ielts-vocab-learned'
+const LEARNED_KEY = PRACTICE_KEYS.learned
 
 export function loadLearned(): Record<string, string[]> {
   return readJson<string[]>(LEARNED_KEY)

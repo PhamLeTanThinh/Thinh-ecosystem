@@ -9,6 +9,7 @@
 // trước effect của cha, nên nếu patch trong effect thì lượt hydrate đầu tiên đã gọi fetch xong trước
 // khi patch kịp có hiệu lực và không được đếm. State đặt trên globalThis để HMR (module bị nạp lại)
 // không làm bộ đếm và fetch đã patch trỏ về 2 bản khác nhau.
+export const BACKGROUND_HEADER = 'x-background'
 const MAX_TRACK_MS = 30_000 // request treo quá lâu thì thôi không đếm nữa, tránh loading kẹt mãi
 // Hiện tối thiểu + trễ khi ẩn để request nhanh, hoặc nhiều request nối tiếp nhau, không làm nó nháy.
 const MIN_VISIBLE_MS = 350
@@ -34,11 +35,13 @@ interface Entry {
 
 interface Registry {
   entries: Map<string, Entry>
-  patched: boolean
+  // fetch gốc của trình duyệt, giữ lại để mỗi lần module được nạp lại (HMR) có thể gắn wrapper MỚI lên đó
+  // thay vì mãi dùng wrapper của bản code cũ (khiến sửa tracker không có hiệu lực nếu không F5).
+  original: typeof fetch | null
 }
 
 const g = globalThis as typeof globalThis & { __appLoading?: Registry }
-const registry: Registry = (g.__appLoading ??= { entries: new Map(), patched: false })
+const registry: Registry = (g.__appLoading ??= { entries: new Map(), original: null })
 
 function emit(entry: Entry) {
   entry.listeners.forEach((l) => l())
@@ -78,11 +81,11 @@ function apiPathname(input: RequestInfo | URL): string | null {
 }
 
 function patchFetchOnce() {
-  if (registry.patched) return
-  registry.patched = true
-
-  const original = window.fetch.bind(window)
+  registry.original ??= window.fetch.bind(window)
+  const original = registry.original
   window.fetch = (input, init) => {
+    // Request nền (lưu tiến trình…) tự đánh dấu header X-Background thì không bật loading.
+    if (new Headers(init?.headers ?? (input instanceof Request ? input.headers : undefined)).has(BACKGROUND_HEADER)) return original(input, init)
     const pathname = apiPathname(input)
     const matched = pathname ? [...registry.entries.values()].filter((e) => pathname.startsWith(e.prefix)) : []
     if (matched.length === 0) return original(input, init)
@@ -162,3 +165,6 @@ export function createLoadingTracker(apiPrefix: string): LoadingTracker {
     },
   }
 }
+
+// Gắn lại wrapper mỗi lần module được nạp (kể cả HMR) để luôn dùng bản logic mới nhất.
+if (typeof window !== 'undefined') patchFetchOnce()

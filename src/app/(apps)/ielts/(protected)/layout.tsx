@@ -1,6 +1,7 @@
 import { headers } from 'next/headers'
 import { nanoid } from 'nanoid'
 import { AccessGate } from '@/components/ielts/AccessGate'
+import { PracticeSyncGate } from '@/components/ielts/PracticeSyncGate'
 import { IeltsHydrator } from '@/components/ielts/IeltsHydrator'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { IeltsAccessProvider } from '@/components/ielts/AccessContext'
@@ -39,7 +40,7 @@ export default async function IeltsProtectedLayout({ children }: { children: Rea
   return (
     <IeltsAccessProvider isOwner={access.mode === 'owner'} email={access.email} sharingEnabled={Boolean(process.env.IELTS_OWNER_EMAIL)}>
       <IeltsHydrator />
-      {children}
+      <PracticeSyncGate>{children}</PracticeSyncGate>
     </IeltsAccessProvider>
   )
 }

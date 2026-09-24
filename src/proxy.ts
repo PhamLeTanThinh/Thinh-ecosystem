@@ -18,11 +18,11 @@ export function proxy(req: NextRequest) {
     }
   }
 
-  // Hồ sơ học Chinese/Korean: gia hạn trượt 30 ngày mỗi lần vào trang hoặc gọi API của 2 app này.
+  // Hồ sơ học Chinese/Korean/Certs: gia hạn trượt 30 ngày mỗi lần vào trang hoặc gọi API của 2 app này.
   // KHÔNG tự cấp cookie khi chưa có — người học phải tự đặt tên qua popup (xem LearnerProfile.tsx).
   // Không áp cho /api/learner/* vì create/login/logout tự quyết định cookie của mình, tránh 2 header
   // Set-Cookie cùng tên tranh nhau.
-  if (pathname.startsWith('/chinese') || pathname.startsWith('/korean') || pathname.startsWith('/api/chinese') || pathname.startsWith('/api/korean')) {
+  if (pathname.startsWith('/chinese') || pathname.startsWith('/korean') || pathname.startsWith('/api/chinese') || pathname.startsWith('/api/korean') || pathname.startsWith('/certs') || pathname.startsWith('/api/certs')) {
     const learnerId = req.cookies.get(LEARNER_COOKIE)?.value
     if (learnerId) setLearnerCookie(res, learnerId)
   }
@@ -40,5 +40,7 @@ export const config = {
     '/korean/:path*',
     '/api/chinese/:path*',
     '/api/korean/:path*',
+    '/certs/:path*',
+    '/api/certs/:path*',
   ],
 }
