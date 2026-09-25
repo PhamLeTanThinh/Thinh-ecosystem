@@ -1,12 +1,8 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { SongView } from '@/components/music/SongView'
 import { FAVORITE_SONGS, getFavoriteSong, songPageImages } from '@/lib/music/songs'
-
-// Kích thước ảnh trang A4 đã xuất (chỉ để giữ đúng tỉ lệ, chưa tải xong ảnh trang không bị nhảy bố cục).
-const PAGE_WIDTH = 2396
-const PAGE_HEIGHT = 3384
 
 export function generateStaticParams() {
   return FAVORITE_SONGS.map((s) => ({ slug: s.slug }))
@@ -50,23 +46,7 @@ export default async function MusicSongPage({ params }: PageProps<'/music/favori
         </div>
       </div>
 
-      <div className="ms-song-frame">
-        <div className="ms-pdf-pages">
-          {songPageImages(song).map((src, i) => (
-            <Image
-              key={src}
-              src={src}
-              alt={`${song.title} — trang ${i + 1}`}
-              width={PAGE_WIDTH}
-              height={PAGE_HEIGHT}
-              sizes="(max-width: 1000px) 100vw, 1000px"
-              className="ms-pdf-page"
-              unoptimized
-              priority={i === 0}
-            />
-          ))}
-        </div>
-      </div>
+      <SongView song={song} pageImages={songPageImages(song)} />
     </div>
   )
 }

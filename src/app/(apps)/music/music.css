@@ -260,6 +260,224 @@
   box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.4);
 }
 
+/* ── Bản nhạc tương tác (ScorePlayer) — chọn cách xem, khuông nhạc + phím đàn ────────────────── */
+.ms-view-toggle {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card-soft);
+  width: fit-content;
+}
+
+.ms-view-tab {
+  padding: 6px 14px;
+  border: none;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ms-view-tab[aria-selected='true'] {
+  background: var(--color-card);
+  color: var(--color-text);
+  box-shadow: 0 4px 10px -6px rgba(0, 0, 0, 0.3);
+}
+
+.ms-score-player {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ms-score-toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 10px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-card);
+}
+
+.ms-score-transport {
+  display: flex;
+  gap: 8px;
+}
+
+.ms-score-transport .ms-btn {
+  border-radius: 10px;
+}
+
+.ms-score-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.ms-score-progress-bar {
+  flex: 1;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card-soft);
+  overflow: hidden;
+}
+
+.ms-score-progress-fill {
+  height: 100%;
+  background: var(--color-brand);
+  transition: width 0.1s linear;
+}
+
+.ms-score-time {
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-muted);
+  flex-shrink: 0;
+}
+
+.ms-score-tempo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.ms-score-tempo input[type='range'] {
+  width: 130px;
+  accent-color: var(--color-brand);
+}
+
+.ms-score-sheet-frame {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  background: var(--color-card-soft);
+}
+
+.ms-score-sheet {
+  position: relative; /* bắt buộc: con trỏ phát nhạc của OSMD là <img> position:absolute + z-index:-1 —
+    không có container định vị (position!=static) ở đây thì nó thoát ra stacking context gốc của cả
+    trang, bị vẽ chìm sau nền trắng và biến mất hoàn toàn dù vẫn đang chạy đúng. */
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px -14px rgba(0, 0, 0, 0.4);
+  min-height: 200px;
+  cursor: pointer; /* bấm vào 1 nốt để tua timeline tới đó — xem ScorePlayer.handleSheetClick */
+}
+
+/* Con trỏ phát nhạc do OSMD vẽ (thẻ <img>, id "cursorImg-*") — top/left nó tính đúng, nhưng height thì
+   tính sai (ra ~1px, gần như vô hình) với bản nhạc 2 khuông ở bản OSMD đang dùng, xem ghi chú
+   cursorsOptions trong ScorePlayer.tsx. Ép lại chiều cao + z-index bằng CSS thay vì đụng vào logic tính
+   toán nội bộ (dễ vỡ, không có API public để sửa). 240px đủ phủ hết 2 khuông treble+bass ở cỡ chữ mặc định. */
+.ms-score-sheet img[id^='cursorImg'] {
+  z-index: 1 !important;
+  height: 240px !important;
+}
+
+.ms-score-status {
+  padding: 40px 0;
+  text-align: center;
+  font-size: 13.5px;
+  color: var(--color-muted);
+}
+
+.ms-score-status-error {
+  color: #dc2626;
+}
+
+.ms-piano-scroll {
+  overflow: hidden; /* SVG bên trong stretch full width (width="100%") nên không còn cần cuộn ngang */
+  border: 1px solid var(--color-border);
+  border-radius: 14px;
+  background: var(--color-card);
+}
+
+.ms-piano-svg {
+  display: block;
+  padding-bottom: 8px;
+}
+
+/* Đường nốt rơi (Synthesia-style) phía trên phím — nằm CHUNG 1 container cuộn ngang với phím đàn
+   (.ms-piano-scroll) nên luôn khớp cột dọc, không cần tự đồng bộ vị trí cuộn giữa 2 nơi. Nền tối để
+   khối nốt (màu) nổi rõ, viền dưới đậm đánh dấu đúng ranh giới "chạm phím" — cố tình để sát ngay phím
+   đàn (không padding ở giữa) để nốt rơi trông như "rơi thẳng vào" phím, không có khoảng hở.
+   padding-top ở đây (không phải trên .ms-piano-scroll) để chỉ mép TRÊN cùng có khoảng đệm. */
+.ms-highway-svg {
+  display: block;
+  padding-top: 8px;
+  background: #1c1c1c;
+  border-bottom: 2px solid #3a3a3a;
+}
+
+.ms-highway-note rect {
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 1;
+}
+
+.ms-highway-note-right rect {
+  fill: #16a34a;
+}
+
+.ms-highway-note-left rect {
+  fill: #2563eb;
+}
+
+.ms-highway-note text {
+  fill: #ffffff;
+  font-size: 8px;
+  font-weight: 700;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.ms-key {
+  stroke: var(--color-border);
+  stroke-width: 1;
+  transition: fill 0.08s ease;
+}
+
+.ms-key-white {
+  fill: #ffffff;
+}
+
+.ms-key-black {
+  fill: #1a1a1a;
+}
+
+/* Màu phím theo tay đang bấm — khớp đúng màu khối nốt rơi cùng tay bên NoteHighway (right=xanh lá,
+   left=xanh dương) để nhìn là biết ngay nốt nào của tay nào, không tô cứng 1 màu cho mọi nốt. */
+.ms-key-active-right.ms-key-white {
+  fill: #bbf7d0;
+}
+
+.ms-key-active-right.ms-key-black {
+  fill: #16a34a;
+}
+
+.ms-key-active-left.ms-key-white {
+  fill: #bfdbfe;
+}
+
+.ms-key-active-left.ms-key-black {
+  fill: #2563eb;
+}
+
 /* ── Học nốt nhạc — luyện đọc khuông nhạc ─────────────────────────────────────────────────────
    Trang gói trong 1 cột flex cao đúng 100dvh (.ms-learn-page), rộng 100% màn hình. Bên
    trong chia 2 cột: tuỳ chọn ở bên trái (.ms-settings), khuông nhạc + đáp án ở bên phải (.ms-stage).
