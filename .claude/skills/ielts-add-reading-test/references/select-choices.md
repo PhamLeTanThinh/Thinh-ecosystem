@@ -49,6 +49,13 @@ For Not Given specifically: the `explanation`'s `paraphrase.pairs` entry for the
 should have no `right` counterpart, just a `note` saying the information isn't in the passage —
 see `cinnamon-explain.ts` `q12` for a worked example of that pattern.
 
+## `ynng` — Yes / No / Not Given
+
+Same shape as `tfng` (no `options`, the UI renders the three choices from `FIXED_CHOICES` in
+`practice.ts`), but `answer` is exactly `'Yes'`, `'No'`, or `'Not Given'`. Use it whenever the
+source says YES/NO/NOT GIVEN (questions about the writer's views/claims) — don't force it into
+`tfng`, the buttons would read True/False. Worked example: `seti-explain.ts` q8–q13.
+
 ## Deciding "does this look like `match` instead?"
 
 If several consecutive questions all present the **same fixed set of options** (e.g. always
@@ -57,3 +64,19 @@ own wording of options, it's probably the matrix `match` type, not `mcq` — see
 `references/matrix-match.md`. The tell: in `mcq` each option's text is specific to that one
 question; in `match` the exact same option list repeats verbatim under every question in the
 group.
+
+## `multi` — "Choose TWO letters" (one card, counts as N questions)
+
+Source shows ONE question numbered like "7-8." with checkboxes, "Choose **TWO** letters, A-E". Make N
+consecutive questions (q7, q8) with the **same** `prompt` and `options`; each gets one correct option
+as `answer` and the other correct option(s) in `alt`:
+
+```ts
+{ id: 'q7', type: 'multi', prompt: 'Which TWO measures…?', options: [...], answer: 'Spying', alt: ['Restrictions on access to its ports'] },
+{ id: 'q8', type: 'multi', prompt: 'Which TWO measures…?', options: [...], answer: 'Restrictions on access to its ports', alt: ['Spying'] },
+```
+
+The group renders as one checkbox card (`MultiGroup`); picks are sorted by option order and assigned
+to q7, q8 — because each accepts every correct option, the score is |picked ∩ correct| regardless of
+order. Share one explanation object between them. Worked example: "Measures to combat infectious
+disease in tsarist Russia" g2.

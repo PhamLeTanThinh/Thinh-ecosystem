@@ -3,11 +3,15 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { clearDraft, loadAttempts, loadDrafts, QUESTION_TYPES, type Attempt, type Draft, type QuestionType, type SetStatus, type TestSummary } from '@/lib/ielts/practice'
+import { navigateIelts } from '@/lib/ielts/navigationLoading'
+import { clearDraft, DIFFICULTY_LABEL, loadAttempts, loadDrafts, type Attempt, type Difficulty, type Draft, type SetStatus, type TestSummary } from '@/lib/ielts/practice'
 import { accentVars, skillLabel } from '@/lib/ielts/skills'
 import type { Skill } from '@/lib/ielts/types'
 import { ConfirmDialog } from './ConfirmDialog'
 import { ProgressBanner } from './ProgressBanner'
+
+// Tỉ lệ đúng tối thiểu (theo điểm cao nhất) để thẻ đề hiện dấu ✓ xanh "đạt".
+const PASS_RATIO = 0.7
 
 // Đang làm dở (có bài nháp) được ưu tiên hơn "đã làm": đề đã nộp rồi nhưng đang làm lại thì vẫn tính là đang làm.
 function statusOf(id: string, attempts: Record<string, Attempt>, drafts: Record<string, Draft>): SetStatus {
@@ -52,7 +56,7 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
   const [attempts, setAttempts] = useState<Record<string, Attempt>>({})
   const [drafts, setDrafts] = useState<Record<string, Draft>>({})
   const [query, setQuery] = useState('')
-  const [typeFilter, setTypeFilter] = useState<QuestionType | 'all'>('all')
+  const [diffFilter, setDiffFilter] = useState<Difficulty | 'all'>('all')
   const [statusFilter, setStatusFilter] = useState<SetStatus | 'all'>('all')
   const [menuFor, setMenuFor] = useState<string | null>(null)
   const [restartFor, setRestartFor] = useState<TestSummary | null>(null)
@@ -97,11 +101,11 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
     const q = query.trim().toLowerCase()
     return tests.filter((t) => {
       if (q && !t.title.toLowerCase().includes(q)) return false
-      if (typeFilter !== 'all' && !t.questionTypes.includes(typeFilter)) return false
+      if (diffFilter !== 'all' && t.difficulty !== diffFilter) return false
       if (statusFilter !== 'all' && statusOf(t.id, attempts, drafts) !== statusFilter) return false
       return true
     })
-  }, [tests, query, typeFilter, statusFilter, attempts, drafts])
+  }, [tests, query, diffFilter, statusFilter, attempts, drafts])
 
   // Làm lại từ đầu ở đúng chế độ đang làm dở: xoá nháp rồi mở đề mới (sau khi xác nhận trong hộp thoại).
   function restartDraft(t: TestSummary) {
@@ -109,7 +113,7 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
     setRestartFor(null)
     if (!draft) return
     clearDraft(t.id)
-    router.push(`${base}/${t.id}/run?mode=${draft.mode}`)
+    navigateIelts(router, `${base}/${t.id}/run?mode=${draft.mode}`)
   }
 
   const title =
@@ -130,11 +134,11 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
 
       <div className="ih-pr-filters">
         <input className="ih-pr-search" placeholder="Tìm kiếm…" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <select className="ih-pr-select" value={typeFilter} onChange={(e) => setTypeFilter(e.target.value as QuestionType | 'all')} aria-label="Loại bài">
-          <option value="all">Loại bài</option>
-          {QUESTION_TYPES.map((t) => (
-            <option key={t.key} value={t.key}>
-              {t.label}
+        <select className="ih-pr-select" value={diffFilter} onChange={(e) => setDiffFilter(e.target.value as Difficulty | 'all')} aria-label="Độ khó">
+          <option value="all">Độ khó</option>
+          {(Object.keys(DIFFICULTY_LABEL) as Difficulty[]).map((d) => (
+            <option key={d} value={d}>
+              {DIFFICULTY_LABEL[d]}
             </option>
           ))}
         </select>
@@ -163,9 +167,16 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
               <span className="ih-les-num">{tests.indexOf(t) + 1}</span>
               <span className="ih-les-body">
                 <span className="ih-les-cap ih-les-cap-row">
-                  <span className={`ih-pr-status ${status}`} aria-hidden>
-                    {status === 'done' ? '✓' : ''}
-                  </span>
+                  {/* Dấu ✓ xanh chỉ khi điểm cao nhất đạt ≥ 70%; đã nộp nhưng chưa đạt → vòng cam rỗng (khác "chưa làm"). */}
+                  {(() => {
+                    const passed = status === 'done' && !!a && a.total > 0 && a.best / a.total >= PASS_RATIO
+                    const cls = status === 'done' ? (passed ? 'done' : 'tried') : status
+                    return (
+                      <span className={`ih-pr-status ${cls}`} aria-hidden title={cls === 'tried' ? 'Đã làm, chưa đạt 70%' : undefined}>
+                        {passed ? '✓' : ''}
+                      </span>
+                    )
+                  })()}
                   {skillLabel(t.skill)} · {t.category}
                 </span>
                 <span className="ih-les-title">{t.title}</span>
@@ -181,6 +192,7 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
                       Best score {a.best}/{a.total}
                     </span>
                   )}
+                  {t.difficulty && <span className={`ih-pr-chip ih-pr-chip-diff ${t.difficulty}`}>{DIFFICULTY_LABEL[t.difficulty]}</span>}
                 </span>
               </span>
 
@@ -191,8 +203,8 @@ export function PracticeList({ skill, tests }: { skill: Skill; tests: TestSummar
                     className="ih-pr-pill-main"
                     onClick={() => {
                       // Đang làm dở → vào lại đúng chế độ; còn lại → trang chọn chế độ.
-                      if (status === 'doing' && draft) router.push(`${base}/${t.id}/run?mode=${draft.mode}`)
-                      else router.push(chooserHref)
+                      if (status === 'doing' && draft) navigateIelts(router, `${base}/${t.id}/run?mode=${draft.mode}`)
+                      else navigateIelts(router, chooserHref)
                     }}
                   >
                     {status === 'doing' ? ICON_RESUME : status === 'done' ? ICON_REDO : ICON_START}

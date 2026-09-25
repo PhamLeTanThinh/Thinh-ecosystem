@@ -123,6 +123,11 @@
   border-color: #2f9e57;
 }
 
+/* Đã nộp nhưng điểm cao nhất < 70%: vòng cam rỗng, không có dấu ✓ */
+.ih-pr-status.tried {
+  border-color: #e0a13a;
+}
+
 /* Đang làm: vòng xanh dương, nửa trong — khác rõ với "chưa làm" (vòng xám rỗng) và "xong" (tròn xanh lá). */
 .ih-pr-status.doing {
   border: 2.5px solid #dfe6f7;
@@ -161,6 +166,26 @@
 .ih-pr-chip-score {
   background: #e6f6ec;
   color: #23803f;
+}
+
+/* Độ khó của đề (PracticeTest.difficulty) */
+.ih-pr-chip-diff {
+  font-weight: 700;
+}
+
+.ih-pr-chip-diff.easy {
+  background: #e3f6e8;
+  color: #2f9e57;
+}
+
+.ih-pr-chip-diff.medium {
+  background: #fdf1dc;
+  color: #b7791f;
+}
+
+.ih-pr-chip-diff.hard {
+  background: #fde8e4;
+  color: #d6451f;
 }
 
 .ih-pr-chip-doing {
@@ -2187,8 +2212,15 @@
   margin-bottom: 16px;
 }
 
+/* Luôn nằm ở cột chữ — đoạn không có nhãn (vd đoạn mở đầu trước A) không bị dồn vào cột nhãn 30px. */
 .ih-run-para p {
+  grid-column: 2;
   margin: 0;
+}
+
+/* Bài không có nhãn đoạn nào thì bỏ hẳn cột nhãn, không thụt lề vô ích. */
+.ih-run-passage:not(:has(.ih-run-plabel)) .ih-run-para {
+  display: block;
 }
 
 .ih-run-plabel {
@@ -2255,6 +2287,88 @@
 
 .ih-run-table .ih-run-q-text {
   margin: 0;
+}
+
+/* Hàng tiêu đề cột (table.headers) */
+.ih-run-table thead th {
+  width: auto;
+  padding: 14px 18px;
+  background: #f4f5f7;
+  border-bottom: 1px solid var(--color-ih-border);
+}
+
+.ih-run-table thead th + th {
+  border-right: none;
+}
+
+/* Ô cột trái có chỗ trống (row.labelLines) — chữ thường như đề gốc */
+.ih-run-table th.rich {
+  font-weight: 400;
+}
+
+.ih-run-table th.rich .ih-run-q-text {
+  font-weight: 400;
+}
+
+/* Note Completion (table.bullets): danh sách gạch đầu dòng thay cho bảng */
+.ih-run-notes {
+  margin: 0;
+  padding-left: 22px;
+  list-style: disc;
+}
+
+.ih-run-notes li {
+  padding: 6px 0;
+}
+
+.ih-run-notes li::marker {
+  color: var(--color-ih-ink);
+}
+
+.ih-run-notes .ih-run-q-text {
+  margin: 0;
+}
+
+/* Summary Completion (table.summary): các câu nối liền thành 1 đoạn văn — ép các khối câu hỏi thành inline */
+.ih-run-summary {
+  line-height: 2.1;
+}
+
+/* Mỗi hàng của table.summary là 1 đoạn văn riêng */
+.ih-run-summary + .ih-run-summary {
+  margin-top: 14px;
+}
+
+.ih-run-summary .ih-run-q,
+.ih-run-summary .ih-run-q.inline,
+.ih-run-summary .ih-run-q-text,
+.ih-run-summary .ih-run-answer {
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+
+.ih-run-summary .ih-run-q-text::after {
+  content: ' ';
+}
+
+.ih-run-summary .ih-run-answer {
+  margin: 0 6px 0 2px;
+  font-size: 0.85em;
+}
+
+/* Tiêu đề phụ trong notes (label của từng hàng), gạch chân cam như đề gốc */
+.ih-run-notes-sub {
+  display: inline-block;
+  margin: 14px 0 8px;
+  padding-bottom: 2px;
+  border-bottom: 2px solid #e8590c;
+  font-size: calc(15.5px * var(--run-scale, 1));
+  font-weight: 700;
+}
+
+.ih-run-notes + .ih-run-notes-sub {
+  margin-top: 18px;
 }
 
 .ih-run-q.inline {
@@ -2345,6 +2459,34 @@
 
 .ih-run-radio.selected {
   font-weight: 600;
+}
+
+/* "Choose TWO letters" (type multi): ô vuông + dấu ✓ thay cho chấm tròn */
+.ih-run-radio.check .ih-run-radio-dot {
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+}
+
+.ih-run-radio.check.selected .ih-run-radio-dot {
+  box-shadow: none;
+}
+
+.ih-run-radio.check.selected .ih-run-radio-dot::after {
+  content: '✓';
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  color: #fff;
+}
+
+.ih-run-radio.check.right {
+  color: #178a5a;
+}
+
+.ih-run-radio.check.wrong {
+  color: #d9363e;
+  text-decoration: line-through;
 }
 
 /* Câu dạng "match" (nối câu ↔ lựa chọn A/B/C/D) — ma trận: 1 hàng tiêu đề chữ cái dùng chung, mỗi câu là
@@ -3730,6 +3872,51 @@
 .ih-ex-prefix {
   padding-bottom: 6px;
   margin-right: 4px;
+}
+
+/* Màu đỏ cho chip / nhãn / tô nền (vd "V - hiện nay rất ít" trong khuôn Linear thinking) */
+.ih-ex-label.c-red {
+  background: #d9363e;
+}
+
+.ih-ex-chip.c-red {
+  border-color: #d9363e;
+}
+
+.ih-ex-hl.c-red {
+  background: #f5b5b5;
+}
+
+/* Ghi chú của cặp không có cụm tương ứng trong bài (Not Given) */
+.ih-ex-rel.miss {
+  font-weight: 700;
+  color: #e8590c;
+}
+
+/* Explanation.detail — giải thích từng bước */
+.ih-ex-detail > p {
+  margin: 0 0 10px;
+}
+
+.ih-ex-detail .ih-ex-sent {
+  margin: 26px 0 16px;
+}
+
+.ih-ex-bullet {
+  position: relative;
+  padding-left: 22px;
+}
+
+.ih-ex-bullet::before {
+  content: '•';
+  position: absolute;
+  left: 8px;
+}
+
+.ih-ex-hr {
+  margin: 14px 0;
+  border: none;
+  border-top: 1px dashed var(--color-ih-border);
 }
 
 .ih-ex-punct {

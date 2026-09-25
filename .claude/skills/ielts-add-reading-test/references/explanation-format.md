@@ -78,3 +78,47 @@ passing `''` or a description string there is a TypeScript error (`Argument of t
 assignable to parameter of type 'ChipColor | undefined'`). If a `question` chip needs no color
 (plain connective text like "and" or "you should"), omit the second argument entirely rather than
 passing an empty string.
+
+## Step-by-step format (`detail`) — "Linear thinking" for T/F/NG & Y/N/NG
+
+When the user wants the 4-step layout (Step 01 read question → Step 02 locate → Step 03 read
+evidence → Step 04 compare meaning, then "vì sao đáp án khác sai"), use `detail` instead of
+`breakdown` + `notes`. It's an ordered array mixing text lines and chip rows, rendered exactly in
+that order (so a "Simplified:" chip row can sit right under its step heading):
+
+- string → a paragraph (`**bold**`, `*italic*`, `{ok}`, `{no}`, `[[N]]`); `'---'` → dashed divider;
+  a string starting with `'• '` → indented bullet.
+- `{ prefix?, chips }` (an `ExSentence`) → a chip row; `prefix` supports `**bold**`.
+- Don't nest bold inside italic (`*a **b** c*`) — split into separate runs instead.
+
+`ChipColor` also has `'red'` (e.g. the verb/claim that the passage doesn't support). In
+`paraphrase.pairs`, a pair with `note` but no `right` renders the note in bold orange — use it for
+the "→ Không được nhắc đến trong bài ⇒ **NOT GIVEN**" line. Worked example: `thylacine-explain.ts` q13.
+
+**Default for every `tfng` / `ynng` question:** keep the `paraphrase` block, and write the detail
+with the shared builder `linear()` from `src/data/ielts/practice/linear.ts` instead of hand-writing
+`detail` (or `breakdown` + `notes`):
+
+```ts
+import { linear } from './linear'
+const r = chip('red')
+
+q9: {
+  paraphrase: { ... },
+  detail: linear({
+    yn: true,                         // Yes/No/Not Given; omit for True/False/Not Given
+    question: [g('SETI scientists', 'S'), r('are trying to find a life form that…', 'V - …'), '.'],
+    keywords: '"SETI scientists", "life form", "resembles"',
+    where: 'đoạn B',                  // or 'đoạn 7' when the passage has no letter labels
+    topic: 'nói về các giả định của nhà khoa học SETI',
+    quote: 'we make … assumption that **we are looking for a life form that is pretty well like us** …',
+    evidence: [[g('we', 'S'), b('are looking for', 'V'), r('a life form that is pretty well like us', '…')]],
+    result: [...],                    // optional "→ Result:" chip row
+    mainIdea: '…', inPassage: '…', inQuestion: '…', conclusion: '…',
+    answer: 'YES',
+    others: [['NO', 'chỉ đúng nếu … → …'], ['NOT GIVEN', '…']],
+  }),
+},
+```
+
+Every existing T/F/NG and Y/N/NG question across all reading tests uses this — keep new ones consistent.

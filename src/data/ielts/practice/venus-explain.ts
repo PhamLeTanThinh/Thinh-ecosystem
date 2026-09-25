@@ -1,4 +1,5 @@
 import type { ChipColor, ExChip, Explanation } from '@/lib/ielts/practice'
+import { linear } from './linear'
 
 // Giải thích từng câu của "Venus in Transit" (id q1…q13 khớp với reading.ts) — do tôi tự soạn từ bài
 // đọc, CHƯA đối chiếu đáp án gốc. Viết theo đúng khuôn của cinnamon-explain.ts / trends-explain.ts.
@@ -8,6 +9,7 @@ const chip =
 const o = chip('orange')
 const g = chip('green')
 const b = chip('blue')
+const r = chip('red')
 const s = (text: string, color?: ChipColor) => ({ text, color })
 
 export const EXPLAIN: Record<string, Explanation> = {
@@ -143,13 +145,26 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('one transit of...Venus', 'quan sát 1 lần transit của Venus'), right: g('observed a transit of the innermost planet, Mercury', 'quan sát transit của Mercury, KHÔNG PHẢI Venus'), rel: '≠' },
       ],
     },
-    breakdown: {
-      sentences: [
-        { n: 1, chips: [b('Halley', 'S'), b('observed a transit of the innermost planet, Mercury', 'V — Mercury, không phải Venus')] },
-        { n: 2, chips: [b('he (=Halley)', 'S'), b('accurately predicted that Venus would cross the face of the Sun in both 1761 and 1769', ''), b('though he didn’t survive to see either', 'không sống để chứng kiến')] },
+    detail: linear({
+      question: [g('Halley', 'S'), r('observed one transit of the planet Venus', 'V - quan sát 1 lần Venus đi qua Mặt Trời'), '.'],
+      keywords: '"Halley", "observed", "transit", "Venus"',
+      where: 'đoạn B và C',
+      topic: 'nói về Halley và các lần transit',
+      quote: 'In November 1677, **Halley observed a transit of the innermost planet, Mercury** … he accurately predicted that Venus would cross the face of the Sun in both 1761 and 1769 - **though he didn’t survive to see either**.',
+      evidence: [
+        [g('Halley', 'S'), b('observed', 'V'), r('a transit of … Mercury', 'transit của Sao Thuỷ, không phải Venus')],
+        [g('he', 'S'), b('predicted', 'V - dự đoán'), b('Venus transits in 1761 and 1769'), '→', r('didn’t survive to see either', 'không sống tới để xem')],
       ],
-    },
-    notes: '→ [[1]] Halley quan sát transit của **Mercury**, không phải Venus\n→ [[2]] Ông dự đoán transit Venus 1761/1769 nhưng "didn\'t survive to see either" — không hề chứng kiến transit Venus nào\n⇒ Đáp án là **False** {ok}',
+      mainIdea: 'Halley chỉ quan sát transit **Mercury**; transit Venus ông chỉ **dự đoán** và **không sống tới** để thấy.',
+      inPassage: 'Halley chưa từng quan sát transit Venus nào.',
+      inQuestion: 'Halley quan sát **1** lần transit Venus.',
+      conclusion: 'Thông tin **trái ngược**.',
+      answer: 'FALSE',
+      others: [
+        ['TRUE', 'chỉ đúng nếu bài nói Halley đã thấy Venus đi qua Mặt Trời → bài nói ông chỉ thấy Mercury.'],
+        ['NOT GIVEN', 'bài nói rõ ông không sống tới 1761/1769.'],
+      ],
+    }),
   },
 
   q10: {
@@ -160,10 +175,26 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('managed to observe a second Venus transit', 'quan sát THÀNH CÔNG lần transit thứ 2'), right: g('his view was clouded out at the last moment', 'bị mây che ngay phút chót'), rel: '≠' },
       ],
     },
-    breakdown: {
-      sentences: [{ chips: [b('he (=Le Gentil)', 'S'), b('travelling nearly 50,000 kilometres', ''), g('his view was clouded out at the last moment', 'V = KHÔNG quan sát thành công'), b(', a very dispiriting experience', '')] }],
-    },
-    notes: '→ Le Gentil đi gần 50,000 km để tới Philippines quan sát transit lần 2, nhưng "clouded out at the last moment" — bị mây che ngay phút cuối, KHÔNG quan sát thành công\n⇒ Đáp án là **False** {ok}',
+    detail: linear({
+      question: [g('Le Gentil', 'S'), r('managed to observe a second Venus transit', 'V - quan sát thành công lần transit thứ 2'), '.'],
+      keywords: '"Le Gentil", "second", "transit"',
+      where: 'đoạn D',
+      topic: 'kể về chuyến đi của Le Gentil',
+      quote: '… before setting off to observe the next transit in the Philippines. Ironically, after travelling nearly 50,000 kilometres, **his view was clouded out at the last moment**, a very dispiriting experience.',
+      evidence: [
+        [g('he (= Le Gentil)', 'S'), b('set off to observe the next transit', 'lần transit thứ 2'), b('in the Philippines')],
+        [b('after travelling nearly 50,000 km'), r('his view was clouded out at the last moment', 'V - bị mây che phút chót')],
+      ],
+      mainIdea: 'Lần transit thứ 2, Le Gentil **bị mây che** nên **không quan sát được**.',
+      inPassage: 'Không quan sát được lần transit thứ 2.',
+      inQuestion: 'Quan sát **thành công** lần transit thứ 2.',
+      conclusion: 'Thông tin **trái ngược**.',
+      answer: 'FALSE',
+      others: [
+        ['TRUE', 'chỉ đúng nếu bài nói ông đã nhìn thấy transit ở Philippines → bài nói bị mây che.'],
+        ['NOT GIVEN', 'bài nói rõ kết quả lần quan sát thứ 2.'],
+      ],
+    }),
   },
 
   q11: {
@@ -174,10 +205,23 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('appears distorted', 'trông bị méo/biến dạng'), right: g('it looks smeared not circular', 'trông bị nhoè, không tròn') },
       ],
     },
-    breakdown: {
-      sentences: [{ chips: [b('When Venus begins to cross the Sun’s disc', 'trạng ngữ thời gian = starts to pass'), b('it (=Venus)', 'S'), g('looks smeared not circular', 'V = appears distorted')] }],
-    },
-    notes: '→ Đoạn E: khi Venus **bắt đầu** đi qua đĩa Mặt Trời, nó "looks smeared not circular" (trông nhoè, không tròn) — chính là "appears distorted"\n⇒ Đáp án là **True** {ok}',
+    detail: linear({
+      question: [g('The shape of Venus', 'S - hình dạng Venus'), r('appears distorted', 'V - trông bị méo'), b('when it starts to pass in front of the Sun', 'Time'), '.'],
+      keywords: '"shape", "distorted", "starts to pass"',
+      where: 'đoạn E',
+      topic: 'nói về hiệu ứng "black drop"',
+      quote: '**When Venus begins to cross the Sun’s disc, it looks smeared not circular** - which makes it difficult to establish timings.',
+      evidence: [[b('When Venus begins to cross the Sun’s disc', 'Time = starts to pass in front of the Sun'), g('it', 'S'), r('looks smeared not circular', 'V - trông nhoè, không tròn')]],
+      mainIdea: 'Khi Venus bắt đầu đi qua Mặt Trời, nó **trông nhoè, không tròn**.',
+      inPassage: 'smeared not circular.',
+      inQuestion: 'distorted (méo).',
+      conclusion: 'smeared not circular = distorted; begins to cross = starts to pass → **khớp**.',
+      answer: 'TRUE',
+      others: [
+        ['FALSE', 'chỉ đúng nếu bài nói Venus vẫn tròn, rõ nét → bài nói ngược lại.'],
+        ['NOT GIVEN', 'bài mô tả rõ hình dạng Venus lúc bắt đầu transit.'],
+      ],
+    }),
   },
 
   q12: {
@@ -189,10 +233,23 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('toxic'), note: 'không có thông tin trong bài — chỉ nói Venus có lớp khí dày, không nói gì về độc tính' },
       ],
     },
-    breakdown: {
-      sentences: [{ chips: [b('this (=the halo of light)', 'S'), b('showed astronomers that', 'V'), b('Venus was surrounded by a thick layer of gases refracting sunlight around it', 'chỉ nói CÓ khí quyển dày, không nói ĐỘC hay không')] }],
-    },
-    notes: '→ Bài chỉ nói Venus có 1 lớp khí quyển dày khúc xạ ánh sáng Mặt Trời — hoàn toàn không đề cập tới việc khí đó có ĐỘC (toxic) hay không\n⇒ Đáp án là **Not Given** {ok}',
+    detail: linear({
+      question: [g('Early astronomers', 'S'), r('suspected that the atmosphere on Venus was toxic', 'V - nghi khí quyển Venus độc'), '.'],
+      keywords: '"atmosphere", "Venus", "toxic"',
+      where: 'đoạn E',
+      topic: 'nói về quầng sáng quanh Venus',
+      quote: 'While **this showed astronomers that Venus was surrounded by a thick layer of gases refracting sunlight around it**, both effects made it impossible to obtain accurate timings.',
+      evidence: [[g('this (= the halo)', 'S'), b('showed astronomers', 'V'), r('Venus was surrounded by a thick layer of gases', 'chỉ biết có lớp khí dày')]],
+      mainIdea: 'Nhà thiên văn chỉ biết Venus có **lớp khí dày** → **không nói gì về độc tính**.',
+      inPassage: 'Venus có lớp khí dày khúc xạ ánh sáng.',
+      inQuestion: 'Nhà thiên văn nghi khí quyển Venus **độc**.',
+      conclusion: 'Bài đọc **không cung cấp** thông tin về độc tính của khí quyển.',
+      answer: 'NOT GIVEN',
+      others: [
+        ['TRUE', 'chỉ đúng nếu bài nói họ nghi khí quyển độc → bài không nói.'],
+        ['FALSE', 'chỉ đúng nếu bài nói họ cho rằng khí quyển không độc → bài cũng không nói.'],
+      ],
+    }),
   },
 
   q13: {
@@ -203,9 +260,25 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('work out how far away distant stars are', 'tính khoảng cách tới các ngôi sao xa'), right: g('the parallax shift lets astronomers calculate the distance', 'độ lệch parallax cho phép tính khoảng cách') },
       ],
     },
-    breakdown: {
-      sentences: [{ chips: [b('The parallax principle', 'S'), g('can be extended', 'V'), b('to measure the distances to the stars', '= work out how far away distant stars are')] }],
-    },
-    notes: '→ Đoạn F: nguyên lý parallax "can be extended to measure the distances to the stars" — dùng để tính khoảng cách tới các ngôi sao ở xa\n⇒ Đáp án là **True** {ok}',
+    detail: linear({
+      question: [g('The parallax principle', 'S'), r('allows astronomers to work out how far away distant stars are', 'V - giúp tính khoảng cách tới các ngôi sao'), '.'],
+      keywords: '"parallax principle", "distant stars"',
+      where: 'đoạn F',
+      topic: 'nói về ứng dụng của nguyên lý parallax',
+      quote: '**The parallax principle can be extended to measure the distances to the stars.** … Knowing the width of Earth’s orbit, **the parallax shift lets astronomers calculate the distance**.',
+      evidence: [
+        [g('The parallax principle', 'S'), b('can be extended', 'V'), r('to measure the distances to the stars', 'đo khoảng cách tới các sao')],
+        [g('the parallax shift', 'S'), r('lets astronomers calculate the distance', 'V - giúp tính khoảng cách')],
+      ],
+      mainIdea: 'Nguyên lý parallax được **mở rộng để đo khoảng cách tới các ngôi sao**.',
+      inPassage: 'measure the distances to the stars.',
+      inQuestion: 'work out how far away distant stars are.',
+      conclusion: 'Cùng nghĩa → **khớp**.',
+      answer: 'TRUE',
+      others: [
+        ['FALSE', 'chỉ đúng nếu bài nói parallax không dùng được cho các ngôi sao → bài nói ngược lại.'],
+        ['NOT GIVEN', 'bài nói thẳng điều này.'],
+      ],
+    }),
   },
 }

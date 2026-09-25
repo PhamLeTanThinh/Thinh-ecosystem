@@ -24,6 +24,7 @@ export function summariesForSkill(skill: Skill): TestSummary[] {
     durationMin: t.durationMin,
     questionTypes: [...new Set(flatQuestions(t).map((q) => q.type))],
     questionCount: flatQuestions(t).length,
+    difficulty: t.difficulty,
   }))
 }
 

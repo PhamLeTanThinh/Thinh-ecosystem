@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { navigateIelts } from '@/lib/ielts/navigationLoading'
 import { nanoid } from 'nanoid'
 import {
   clearDraft,
@@ -11,6 +12,7 @@ import {
   loadDrafts,
   loadHighlights,
   loadPrefs,
+  FIXED_CHOICES,
   saveAttempt,
   saveDraft,
   saveHighlights,
@@ -149,7 +151,7 @@ function TestRunnerBody({ test, mode, start }: Props & { start: Start }) {
     clearDraft(test.id)
     saveAttempt(test.id, { score, total: questions.length, mode, answers })
     // Sang màn kết quả riêng (tổng điểm, thống kê, answer key). replace để Back không quay lại bài đã nộp.
-    router.replace(resultHref)
+    navigateIelts(router, resultHref, true)
   }
 
   // Tự lưu nháp mỗi khi đáp án / cờ đổi. Luyện tập chưa trả lời câu nào thì không tạo nháp (mở đề xem rồi
@@ -292,7 +294,7 @@ function TestRunnerBody({ test, mode, start }: Props & { start: Start }) {
   function requestClose() {
     // Bài làm dở đã được tự lưu nên thoát không mất đáp án; riêng thi thật đồng hồ vẫn chạy nên báo rõ.
     if (mode === 'real' && !submitted) return setConfirm('exit')
-    router.push(listHref)
+    navigateIelts(router, listHref)
   }
 
   // Bấm "Nộp bài": luôn hỏi lại (hộp thoại liệt kê câu chưa trả lời + câu đã đánh dấu cờ).
@@ -405,7 +407,7 @@ function TestRunnerBody({ test, mode, start }: Props & { start: Start }) {
                   </span>
                   <span>{richText(g.instruction)}</span>
                 </div>
-                <div className={`ih-run-group-body${g.table ? ' table' : g.matchLegend ? ' match' : g.optionBank ? ' bank' : g.questions.every((q) => q.type === 'tfng' || q.type === 'mcq') ? ' cards' : ''}`}>
+                <div className={`ih-run-group-body${g.table ? ' table' : g.matchLegend ? ' match' : g.optionBank ? ' bank' : g.questions.every((q) => q.type === 'tfng' || q.type === 'ynng' || q.type === 'mcq' || q.type === 'multi') ? ' cards' : ''}`}>
                   {(() => {
                     const renderQ = (q: PracticeQuestion, inline = false) => (
                       <QuestionRow
@@ -442,6 +444,20 @@ function TestRunnerBody({ test, mode, start }: Props & { start: Start }) {
                       return (
                         <BankGroup
                           bank={g.optionBank}
+                          questions={g.questions}
+                          numberOf={numberOf}
+                          answers={answers}
+                          onChange={setAnswer}
+                          reveal={reveal}
+                          locked={submitted}
+                          flags={flags}
+                          onFlag={toggleFlag}
+                          onActive={setActiveQ}
+                        />
+                      )
+                    if (g.questions.every((q) => q.type === 'multi'))
+                      return (
+                        <MultiGroup
                           questions={g.questions}
                           numberOf={numberOf}
                           answers={answers}
@@ -563,7 +579,7 @@ function TestRunnerBody({ test, mode, start }: Props & { start: Start }) {
           cancelLabel="Ở lại làm bài"
           tone="danger"
           onCancel={() => setConfirm(null)}
-          onConfirm={() => router.push(listHref)}
+          onConfirm={() => navigateIelts(router, listHref)}
         >
           <p>Đồng hồ vẫn tiếp tục chạy khi bạn thoát. Bạn có thể vào lại để làm tiếp nếu còn giờ, đáp án đã được tự lưu.</p>
         </ConfirmDialog>
@@ -607,33 +623,65 @@ function richText(text: string) {
 }
 
 // Dạng Table Completion: thẻ có tiêu đề + bảng nhãn | nội dung; dòng {q} hiện câu hỏi (ô điền) tại chỗ.
+// table.bullets = dạng Note Completion: cùng dữ liệu nhưng hiện thành danh sách gạch đầu dòng, không có bảng.
 function TableGroup({ table, questions, renderQ }: { table: TableLayout; questions: PracticeQuestion[]; renderQ: (q: PracticeQuestion) => React.ReactNode }) {
   const byId = new Map(questions.map((q) => [q.id, q]))
+  const renderLine = (line: string | { q: string }, i: number) => {
+    if (typeof line === 'string') {
+      return (
+        <p key={i} className="ih-run-q-text">
+          {line}
+        </p>
+      )
+    }
+    const q = byId.get(line.q)
+    return q ? <Fragment key={line.q}>{renderQ(q)}</Fragment> : null
+  }
   return (
     <div className="ih-run-table-card">
-      <h3 className="ih-run-table-title">{table.title}</h3>
-      <table className="ih-run-table">
-        <tbody>
-          {table.rows.map((row) => (
-            <tr key={row.label}>
-              <th scope="row">{row.label}</th>
-              <td>
-                {row.lines.map((line, i) => {
-                  if (typeof line === 'string') {
-                    return (
-                      <p key={i} className="ih-run-q-text">
-                        {line}
-                      </p>
-                    )
-                  }
-                  const q = byId.get(line.q)
-                  return q ? <Fragment key={line.q}>{renderQ(q)}</Fragment> : null
-                })}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {table.title && <h3 className="ih-run-table-title">{table.title}</h3>}
+      {table.summary ? (
+        table.rows.map((row, ri) => (
+          <div key={ri} className="ih-run-summary">
+            {row.lines.map(renderLine)}
+          </div>
+        ))
+      ) : table.bullets ? (
+        table.rows.map((row, ri) => (
+          <Fragment key={ri}>
+            {row.label && <h4 className="ih-run-notes-sub">{row.label}</h4>}
+            <ul className="ih-run-notes">
+              {row.lines.map((line, i) => (
+                <li key={i}>{renderLine(line, i)}</li>
+              ))}
+            </ul>
+          </Fragment>
+        ))
+      ) : (
+        <table className="ih-run-table">
+          {table.headers && (
+            <thead>
+              <tr>
+                {table.headers.map((h) => (
+                  <th key={h} scope="col">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {table.rows.map((row, ri) => (
+              <tr key={ri}>
+                <th scope="row" className={row.labelLines ? 'rich' : undefined}>
+                  {row.labelLines ? row.labelLines.map(renderLine) : row.label}
+                </th>
+                <td>{row.lines.map(renderLine)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   )
 }
@@ -730,6 +778,82 @@ function MatchGroup({
 // "Drop or Select"; bấm vào ô đó mở dropdown ngay tại chỗ để chọn nhanh. Danh sách đầy đủ (word bank)
 // vẫn hiện 1 lần bên dưới, dùng làm cách chọn thay thế (bấm ô câu để "chọn nó đang active" rồi bấm 1
 // mục trong bank) — không cần kéo-thả thật, chỉ mô phỏng lại tương tác bằng click.
+// Dạng "Choose TWO letters" (type 'multi'): các câu trong nhóm dùng chung prompt + options, hiện thành 1 thẻ với
+// các ô chọn (tối đa = số câu). Ô đã chọn được sắp theo thứ tự options rồi gán lần lượt cho từng câu — mỗi câu
+// chấp nhận mọi đáp án đúng (answer + alt) nên điểm = số ô chọn đúng, không phụ thuộc thứ tự.
+function MultiGroup({
+  questions,
+  numberOf,
+  answers,
+  onChange,
+  reveal,
+  locked,
+  flags,
+  onFlag,
+  onActive,
+}: {
+  questions: PracticeQuestion[]
+  numberOf: Map<string, number>
+  answers: Record<string, string>
+  onChange: (id: string, v: string) => void
+  reveal: boolean
+  locked: boolean
+  flags: string[]
+  onFlag: (id: string) => void
+  onActive: (id: string) => void
+}) {
+  const q0 = questions[0]
+  const opts = q0.options ?? []
+  const picked = questions.map((q) => answers[q.id]).filter(Boolean)
+  const correct = new Set([q0.answer, ...(q0.alt ?? [])])
+  const flagged = flags.includes(q0.id)
+  const first = numberOf.get(q0.id) ?? 0
+  const last = numberOf.get(questions[questions.length - 1].id) ?? first
+
+  function toggle(opt: string) {
+    if (locked) return
+    onActive(q0.id)
+    const next = picked.includes(opt) ? picked.filter((p) => p !== opt) : picked.length < questions.length ? [...picked, opt] : picked
+    const sorted = [...next].sort((a, b) => opts.indexOf(a) - opts.indexOf(b))
+    questions.forEach((q, i) => onChange(q.id, sorted[i] ?? ''))
+  }
+
+  return (
+    <div id={`ih-q-${q0.id}`} className={`ih-run-q${flagged ? ' flagged' : ''}`}>
+      <p className="ih-run-q-text choice">
+        <span className="ih-run-q-num">
+          {first}-{last}.
+        </span>
+        {q0.prompt}
+      </p>
+      <div className="ih-run-radios" role="group" aria-label={`Câu ${first}-${last}`}>
+        {opts.map((opt) => {
+          const on = picked.includes(opt)
+          const mark = reveal ? (correct.has(opt) ? ' right' : on ? ' wrong' : '') : ''
+          return (
+            <button key={opt} type="button" role="checkbox" aria-checked={on} disabled={locked} className={`ih-run-radio check${on ? ' selected' : ''}${mark}`} onClick={() => toggle(opt)}>
+              <span className="ih-run-radio-dot" aria-hidden />
+              {opt}
+            </button>
+          )
+        })}
+      </div>
+      <button
+        type="button"
+        className={`ih-run-bookmark${flagged ? ' on' : ''}`}
+        title="Đánh dấu câu này để xem lại"
+        aria-label="Đánh dấu câu này"
+        aria-pressed={flagged}
+        onClick={() => onFlag(q0.id)}
+      >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill={flagged ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M7 4h10v17l-5-4-5 4z" />
+        </svg>
+      </button>
+    </div>
+  )
+}
+
 function BankGroup({
   bank,
   questions,
@@ -890,7 +1014,7 @@ function QuestionRow({
             {q.prompt}
           </p>
           <div className="ih-run-radios" role="radiogroup" aria-label={`Câu ${num}`}>
-            {(q.type === 'tfng' ? ['True', 'False', 'Not Given'] : (q.options ?? [])).map((opt) => (
+            {(FIXED_CHOICES[q.type] ?? q.options ?? []).map((opt) => (
               <button key={opt} type="button" role="radio" aria-checked={value === opt} disabled={locked} className={`ih-run-radio${value === opt ? ' selected' : ''}`} onClick={() => onChange(opt)}>
                 <span className="ih-run-radio-dot" aria-hidden />
                 {opt === 'Not Given' ? 'Not given' : opt}

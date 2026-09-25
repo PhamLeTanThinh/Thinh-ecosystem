@@ -1,4 +1,5 @@
 import type { ChipColor, ExChip, Explanation } from '@/lib/ielts/practice'
+import { linear } from './linear'
 
 // Giải thích từng câu của "Bringing Cinnamon To Europe" (id q1…q13 khớp với reading.ts).
 // Câu 1, 2, 3, 9, 12: chép theo nội dung mẫu bạn cung cấp (câu 12 phần cuối bị cắt trong ảnh nên tôi viết tiếp).
@@ -12,6 +13,7 @@ const chip =
 const o = chip('orange')
 const g = chip('green')
 const b = chip('blue')
+const r = chip('red')
 const s = (text: string, color?: ChipColor) => ({ text, color })
 
 export const EXPLAIN: Record<string, Explanation> = {
@@ -156,13 +158,26 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('throughout the **16th century**', 'suốt thế kỷ 16'), right: g('In **1518** … By **1640** … the **150-year** Portuguese monopoly', 'từ 1518, độc quyền kéo dài 150 năm đến 1640') },
       ],
     },
-    breakdown: {
-      sentences: [
-        { n: 1, chips: [g('In 1518', 'mốc bắt đầu'), ',', b('the Portuguese', 'S'), b('built a fort on Ceylon', 'V'), b('which enabled them to protect the island'), b('so helping them to develop a monopoly in the cinnamon trade', 'kết quả: độc quyền')] },
-        { n: 2, chips: [g('By 1640', 'mốc kết thúc'), ',', b('the Dutch', 'S'), b('broke', 'V'), b('the 150-year Portuguese monopoly')] },
+    detail: linear({
+      question: [g('The Portuguese', 'S - người Bồ Đào Nha'), r('had control over the cinnamon trade in Ceylon', 'V - kiểm soát việc buôn quế'), r('throughout the 16th century', 'suốt thế kỷ 16'), '.'],
+      keywords: '"The Portuguese", "control", "cinnamon trade", "16th century"',
+      where: 'đoạn C và D',
+      topic: 'nói về việc người Bồ Đào Nha rồi người Hà Lan nắm việc buôn quế ở Ceylon',
+      quote: 'In 1518, the Portuguese built a fort on Ceylon, … so helping them to **develop a monopoly in the cinnamon trade** … By 1640, the Dutch broke the **150-year Portuguese monopoly**',
+      evidence: [
+        [b('In 1518', 'Time'), g('the Portuguese', 'S'), r('develop a monopoly in the cinnamon trade', 'V - độc quyền buôn quế')],
+        [b('By 1640', 'Time'), b('the Dutch', 'S'), b('broke', 'V - phá vỡ'), r('the 150-year Portuguese monopoly', 'độc quyền kéo dài 150 năm')],
       ],
-    },
-    notes: '→ [[1]] Từ **1518**, người Bồ Đào Nha có pháo đài và bắt đầu độc quyền cinnamon\n→ [[2]] Đến **1640** người Hà Lan mới phá vỡ **150-year monopoly** này (150 năm trước 1640 ≈ 1490)\n→ Độc quyền kéo dài từ cuối thế kỷ 15 đến 1640 ⇒ bao trùm toàn bộ thế kỷ 16\n⇒ Đáp án là **True** {ok}',
+      mainIdea: 'Bồ Đào Nha giữ **độc quyền** buôn quế ở Ceylon suốt **150 năm** tới 1640 → trùm toàn bộ thế kỷ 16.',
+      inPassage: 'Độc quyền của Bồ Đào Nha kéo dài từ cuối thế kỷ 15 tới năm 1640.',
+      inQuestion: 'Bồ Đào Nha kiểm soát việc buôn quế ở Ceylon **suốt** thế kỷ 16.',
+      conclusion: 'monopoly = control; khoảng thời gian độc quyền bao trùm cả thế kỷ 16 → thông tin **khớp**.',
+      answer: 'TRUE',
+      others: [
+        ['FALSE', 'chỉ đúng nếu bài nói Bồ Đào Nha mất quyền kiểm soát trong thế kỷ 16 → bài nói độc quyền kéo dài tới 1640.'],
+        ['NOT GIVEN', 'bài có đủ mốc thời gian (1518, 150 năm, 1640) để kết luận.'],
+      ],
+    }),
   },
 
   q11: {
@@ -174,14 +189,27 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('**as soon as** they arrived', 'ngay khi vừa tới'), right: g('**By 1640** … **By 1658**', 'phải đến 1640 / 1658 mới làm được'), rel: '≠' },
       ],
     },
-    breakdown: {
-      sentences: [
-        { n: 1, chips: [b('the Dutch', 'S'), b('arrived off the coast of southern Asia'), g('at the very beginning of the 17th century', 'thời điểm họ tới')] },
-        { n: 2, chips: [g('By 1640', 'mốc 1'), ',', b('the Dutch', 'S'), b('broke the 150-year Portuguese monopoly', 'V')] },
-        { n: 3, chips: [g('By 1658', 'mốc 2'), ',', b('they', 'S'), b('had permanently expelled the Portuguese', 'V'), b('from the island')] },
+    detail: linear({
+      question: [g('The Dutch', 'S - người Hà Lan'), r('took over the cinnamon trade from the Portuguese', 'V - giành quyền buôn quế'), r('as soon as they arrived in Ceylon', 'ngay khi vừa tới'), '.'],
+      keywords: '"The Dutch", "took over", "as soon as they arrived"',
+      where: 'đoạn D',
+      topic: 'nói về quá trình người Hà Lan giành quyền buôn quế từ Bồ Đào Nha',
+      quote: 'When the Dutch arrived off the coast of southern Asia **at the very beginning of the 17th century**, … **By 1640**, the Dutch broke the 150-year Portuguese monopoly … **By 1658**, they had permanently expelled the Portuguese from the island, thereby gaining control of the lucrative cinnamon trade.',
+      evidence: [
+        [g('the Dutch arrived', 'S + V'), b('at the very beginning of the 17th century', 'Time - đầu thế kỷ 17')],
+        [b('allied with Kandy', 'liên minh trước'), '→', b('By 1640', 'Time'), b('broke the Portuguese monopoly', 'V - phá độc quyền')],
       ],
-    },
-    notes: '→ Người Hà Lan tới vào đầu thế kỷ 17, nhưng phải đến **1640** mới phá được độc quyền và đến **1658** mới đuổi hẳn người Bồ Đào Nha\n→ Khoảng cách hàng chục năm ⇒ **không phải** “as soon as they arrived”\n⇒ Đáp án là **False** {ok}',
+      result: [b('By 1658', 'Time'), g('they', 'S'), b('expelled the Portuguese', 'V - trục xuất'), r('gaining control of the cinnamon trade', 'mới nắm được việc buôn quế')],
+      mainIdea: 'Hà Lan tới **đầu thế kỷ 17**, phải liên minh rồi tới **1640** mới phá độc quyền và **1658** mới nắm hẳn việc buôn quế.',
+      inPassage: 'Phải mất vài chục năm (≈1600 → 1640/1658) Hà Lan mới giành được quyền buôn quế.',
+      inQuestion: 'Hà Lan giành quyền buôn quế **ngay khi vừa tới** Ceylon.',
+      conclusion: '"as soon as" **trái ngược** với quá trình kéo dài hàng chục năm trong bài.',
+      answer: 'FALSE',
+      others: [
+        ['TRUE', 'chỉ đúng nếu bài nói Hà Lan nắm quyền ngay lúc đặt chân tới → bài cho thấy phải tới 1640/1658.'],
+        ['NOT GIVEN', 'bài có mốc thời gian cụ thể, đủ để thấy câu hỏi sai.'],
+      ],
+    }),
   },
 
   q12: {
@@ -193,11 +221,26 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: b('produced larger quantities of cinnamon'), note: 'không có thông tin trong bài' },
       ],
     },
-    breakdown: {
-      sentences: [{ chips: [b('the Dutch', 'S'), b('began cultivating', 'V'), b('their own cinnamon trees'), b('to supplement the diminishing number of wild trees', 'mục đích của V')] }],
-    },
-    notes:
-      '- Câu này chỉ nói rằng: the Dutch trồng cinnamon trees của riêng họ để bổ sung cho số lượng wild trees đang giảm\n→ Câu này chỉ nói **số lượng wild trees giảm**, chứ hoàn toàn ko so sánh **số lượng quế** được sản xuất bởi **cây do người Dutch trồng** với **wild trees**\n⇒ Đáp án là **Not Given** {ok}',
+    detail: linear({
+      question: [g('The trees planted by the Dutch', 'S - cây do người Hà Lan trồng'), r('produced larger quantities of cinnamon than the wild trees', 'V - cho nhiều quế hơn cây dại'), '.'],
+      keywords: '"trees planted by the Dutch", "wild trees", "larger quantities"',
+      where: 'đoạn E',
+      topic: 'nói về việc người Hà Lan tự trồng cây quế',
+      quote: 'Over time, the supply of cinnamon trees on the island became nearly exhausted, due to systematic stripping of the bark. Eventually, the Dutch began **cultivating their own cinnamon trees to supplement the diminishing number of wild trees** available for use.',
+      evidence: [
+        [g('the supply of cinnamon trees', 'S'), b('became nearly exhausted', 'V - gần cạn kiệt')],
+        [g('the Dutch', 'S'), b('began cultivating their own cinnamon trees', 'V - tự trồng cây'), b('to supplement the diminishing number of wild trees', 'mục đích - bù cho cây dại đang giảm')],
+      ],
+      mainIdea: 'Cây dại gần cạn → Hà Lan **tự trồng thêm để bù số lượng** → **không so sánh sản lượng** giữa cây trồng và cây dại.',
+      inPassage: 'Chỉ nói lý do trồng cây (bù cho số cây dại đang giảm).',
+      inQuestion: 'Cây Hà Lan trồng cho **nhiều quế hơn** cây dại.',
+      conclusion: 'Bài đọc **không cung cấp** thông tin so sánh sản lượng quế.',
+      answer: 'NOT GIVEN',
+      others: [
+        ['TRUE', 'chỉ đúng nếu bài nói cây trồng cho sản lượng cao hơn → bài không nói.'],
+        ['FALSE', 'chỉ đúng nếu bài nói cây trồng cho ít quế hơn hoặc bằng cây dại → bài cũng không nói.'],
+      ],
+    }),
   },
 
   q13: {
@@ -209,9 +252,25 @@ export const EXPLAIN: Record<string, Explanation> = {
         { left: g('during the **19th century**', 'trong thế kỷ 19'), right: g('By the **middle of the 19th century**', 'vào giữa thế kỷ 19') },
       ],
     },
-    breakdown: {
-      sentences: [{ chips: [b('the spice trade overall', 'S'), b('was diminishing', 'đang suy giảm'), b('in economic potential'), ',', b('and'), b('was eventually superseded', 'V2'), b('by the rise of trade in coffee, tea, chocolate, and sugar')] }],
-    },
-    notes: '→ Đến giữa thế kỷ 19, **spice trade** đang **diminishing in economic potential** (giảm tiềm năng kinh tế)\n→ Câu hỏi nói **maintained** (giữ nguyên) ⇒ **trái ngược** với **diminishing**\n⇒ Đáp án là **False** {ok}',
+    detail: linear({
+      question: [g('The spice trade', 'S - việc buôn gia vị'), r('maintained its economic importance', 'V - giữ nguyên tầm quan trọng kinh tế'), b('during the 19th century', 'Time'), '.'],
+      keywords: '"spice trade", "economic importance", "19th century"',
+      where: 'đoạn F',
+      topic: 'nói về việc buôn gia vị vào giữa thế kỷ 19',
+      quote: 'By the middle of the 19th century, … Not only was a monopoly of cinnamon becoming impossible, but **the spice trade overall was diminishing in economic potential**, and was eventually superseded by the rise of trade in coffee, tea, chocolate, and sugar.',
+      evidence: [
+        [b('By the middle of the 19th century', 'Time'), g('a monopoly of cinnamon', 'S'), b('becoming impossible', 'V - không thể độc quyền')],
+        [g('the spice trade overall', 'S'), r('was diminishing in economic potential', 'V - giảm tiềm năng kinh tế'), '→', b('superseded by coffee, tea, chocolate, sugar', 'bị thay thế')],
+      ],
+      mainIdea: 'Giữa thế kỷ 19, buôn gia vị **suy giảm** giá trị kinh tế và dần bị thay thế.',
+      inPassage: 'diminishing in economic potential (đang suy giảm).',
+      inQuestion: 'maintained its economic importance (giữ nguyên).',
+      conclusion: 'maintained **trái ngược** với diminishing.',
+      answer: 'FALSE',
+      others: [
+        ['TRUE', 'chỉ đúng nếu bài nói buôn gia vị vẫn quan trọng như trước → bài nói ngược lại.'],
+        ['NOT GIVEN', 'bài nói rõ giá trị kinh tế của buôn gia vị ở thế kỷ 19.'],
+      ],
+    }),
   },
 }

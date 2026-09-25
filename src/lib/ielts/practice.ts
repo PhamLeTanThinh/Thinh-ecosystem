@@ -1,23 +1,35 @@
 import type { Skill } from './types'
 import { markDirty, PRACTICE_KEYS } from './practiceSync'
 
-export type QuestionType = 'gap-fill' | 'table' | 'tfng' | 'mcq' | 'match' | 'bank'
+// multi = "Choose TWO letters": N câu liền nhau cùng prompt + options, hiện thành 1 thẻ chọn N ô. Mỗi câu có
+// answer = 1 đáp án đúng, alt = các đáp án đúng còn lại → chấm theo TẬP HỢP (chọn đúng mấy ô được mấy điểm,
+// không phụ thuộc thứ tự chọn). UI sắp các ô đã chọn theo thứ tự options rồi gán lần lượt cho từng câu.
+export type QuestionType = 'gap-fill' | 'table' | 'tfng' | 'ynng' | 'mcq' | 'multi' | 'match' | 'bank'
 
 export const QUESTION_TYPES: { key: QuestionType; label: string }[] = [
   { key: 'gap-fill', label: 'Điền từ' },
   { key: 'table', label: 'Table Completion' },
   { key: 'tfng', label: 'True / False / Not Given' },
+  { key: 'ynng', label: 'Yes / No / Not Given' },
   { key: 'mcq', label: 'Trắc nghiệm' },
+  { key: 'multi', label: 'Chọn nhiều đáp án (Choose TWO letters)' },
   { key: 'match', label: 'Nối câu ↔ lựa chọn (A/B/C/D)' },
   { key: 'bank', label: 'Chọn từ ngân hàng đáp án dùng chung' },
 ]
+
+// 3 lựa chọn cố định mà UI tự hiện (câu không cần options) — tfng hỏi về THÔNG TIN trong bài, ynng hỏi về
+// QUAN ĐIỂM/nhận định của tác giả.
+export const FIXED_CHOICES: Partial<Record<QuestionType, string[]>> = {
+  tfng: ['True', 'False', 'Not Given'],
+  ynng: ['Yes', 'No', 'Not Given'],
+}
 
 export function questionTypeLabel(type: QuestionType): string {
   return QUESTION_TYPES.find((t) => t.key === type)?.label ?? type
 }
 
 // ── Giải thích có cấu trúc (màn "Xem giải thích") ─────────────────────────────
-export type ChipColor = 'blue' | 'orange' | 'green'
+export type ChipColor = 'blue' | 'orange' | 'green' | 'red'
 
 // 1 cụm từ viền màu; label = nhãn nhỏ phía trên (vai trò S / V, hoặc nghĩa tiếng Việt). Hỗ trợ **đậm** trong text.
 export interface ExChip {
@@ -40,6 +52,9 @@ export interface ExPair {
 export interface ExParaphrase {
   // Câu hỏi với các cụm được tô nền màu (color) — không có color thì chữ thường.
   question: { text: string; color?: ChipColor }[]
+  // Dòng "Answer:" ngay dưới câu hỏi (vd "A - Plague outbreaks were…") — dùng khi câu hỏi chung cho nhiều đáp án
+  // (dạng Choose TWO) nên cần nói rõ câu này giải thích cho lựa chọn nào.
+  answer?: { text: string; color?: ChipColor }[]
   pairs: ExPair[]
 }
 
@@ -61,6 +76,10 @@ export interface Explanation {
   breakdown?: ExBreakdown // khối phân tích cấu trúc câu trong "Giải thích chi tiết"
   // Các dòng diễn giải bên dưới. Định dạng: **đậm**, xuống dòng bằng \n, {ok} ✓ xanh, {no} ✕ đỏ, [[3]] huy hiệu số.
   notes?: string
+  // Giải thích chi tiết dạng "từng bước" (vd Linear thinking Step 01-04): dòng chữ và dòng cụm (ExSentence) XEN
+  // KẼ theo đúng thứ tự. Có detail thì hiện detail thay cho breakdown + notes. Dòng chữ hỗ trợ như notes, thêm
+  // *nghiêng*, `---` = đường kẻ ngăn, dòng bắt đầu bằng "• " = gạch đầu dòng thụt vào.
+  detail?: (string | ExSentence)[]
 }
 
 export interface PracticeQuestion {
@@ -87,7 +106,18 @@ export interface PracticeQuestion {
 // — câu đó hiện bằng prompt của nó (có "___" thành ô điền) tại đúng vị trí trong bảng.
 export interface TableLayout {
   title: string
-  rows: { label: string; lines: (string | { q: string })[] }[]
+  // labelLines: ô cột trái có chỗ trống (vd "Observing the ___ of…") — có thì hiện thay cho label (chữ thường, không đậm).
+  rows: { label: string; labelLines?: (string | { q: string })[]; lines: (string | { q: string })[] }[]
+  // Hàng tiêu đề cột (vd ['TEST', 'FINDINGS']) — không có thì bảng không có hàng tiêu đề.
+  headers?: string[]
+  // true = dạng Note Completion: bỏ khung bảng, mỗi hàng là 1 danh sách gạch đầu dòng; label khác rỗng thì hiện
+  // làm tiêu đề phụ phía trên danh sách đó (dòng chữ thường vẫn là 1 gạch đầu dòng không có ô điền).
+  // title rỗng = không hiện tiêu đề.
+  bullets?: boolean
+  // true = dạng Summary Completion: mỗi HÀNG là 1 đoạn văn, các dòng trong hàng nối liền nhau (ô trống nằm giữa
+  // dòng chữ), không bảng, không gạch đầu dòng. Mỗi câu hỏi là 1 khúc của đoạn, prompt chứa "___"; dòng chữ thường
+  // (không có ô trống) cũng được.
+  summary?: boolean
 }
 
 export interface PracticeGroup {
@@ -129,6 +159,7 @@ export interface PracticeTest {
   paragraphLabels?: string[] // nhãn A, B, C… hiện bên trái từng đoạn (bài có câu hỏi theo đoạn)
   groups: PracticeGroup[]
   vocab: PracticeVocab[]
+  difficulty?: Difficulty // hiện thành nhãn trên thẻ đề ở danh sách
 }
 
 export type PracticeMode = 'practice' | 'real'
@@ -144,6 +175,7 @@ export interface TestSummary {
   durationMin: number
   questionTypes: QuestionType[]
   questionCount: number
+  difficulty?: Difficulty
 }
 
 // 1 "Vocab set" = từ vựng của 1 đề.
@@ -155,6 +187,13 @@ export interface VocabGroup {
   part: string
   vocab: PracticeVocab[]
 }
+
+// Độ khó ước lượng của 1 đề (không quy ra band: mỗi đề chỉ ~13-14 câu nên không đủ để chấm band). Đánh giá theo độ
+// dài / độ học thuật của bài đọc, dạng câu hỏi (heading, Y/N/NG, trắc nghiệm suy luận khó hơn điền từ, T/F/NG
+// thông tin) và mức độ bẫy của đáp án.
+export type Difficulty = 'easy' | 'medium' | 'hard'
+
+export const DIFFICULTY_LABEL: Record<Difficulty, string> = { easy: 'Dễ', medium: 'Trung bình', hard: 'Khó' }
 
 export function flatQuestions(test: PracticeTest): PracticeQuestion[] {
   return test.groups.flatMap((g) => g.questions)

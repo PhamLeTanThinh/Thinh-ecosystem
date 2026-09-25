@@ -22,3 +22,11 @@ export function beginIeltsNavigation(path: string) {
   ieltsLoadingTracker.setNavigationPending(true)
   useIeltsNavigationStore.getState().begin(path)
 }
+
+// Điều hướng bằng code (router.push/replace) KHÔNG đi qua bộ bắt click <a> trong IeltsLoading, nên phải tự bật
+// loading trước — vd nút "Nộp bài" chuyển sang trang kết quả, trang đó cần tải xong mới hiện.
+export function navigateIelts(router: { push: (href: string) => void; replace: (href: string) => void }, href: string, replace = false) {
+  beginIeltsNavigation(href)
+  if (replace) router.replace(href)
+  else router.push(href)
+}

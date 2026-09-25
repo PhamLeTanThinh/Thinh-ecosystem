@@ -2,7 +2,8 @@
 
 import { Fragment, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { DEFAULT_PREFS, flatQuestions, isCorrect, loadAttempts, loadPrefs, savePrefs, type AttemptRecord, type ExBreakdown, type ExChip, type ExParaphrase, type Explanation, type PracticeGroup, type PracticeQuestion, type PracticeTest } from '@/lib/ielts/practice'
+import { navigateIelts } from '@/lib/ielts/navigationLoading'
+import { DEFAULT_PREFS, FIXED_CHOICES, flatQuestions, isCorrect, loadAttempts, loadPrefs, savePrefs, type AttemptRecord, type ExBreakdown, type ExChip, type ExParaphrase, type ExSentence, type Explanation, type PracticeGroup, type PracticeQuestion, type PracticeTest } from '@/lib/ielts/practice'
 import { ColumnDivider, useColumnSplit } from './columnSplit'
 import { locateHits } from './locateHits'
 import { segmentsFor } from './passageSelection'
@@ -11,8 +12,9 @@ type Status = 'correct' | 'wrong' | 'missed' | 'none' // none = chưa có lần 
 
 // Định dạng giải thích: **đậm**, {ok} ✓ xanh, {no} ✗ đỏ, [[3]] huy hiệu số câu. Mỗi dòng (\n) là 1 đoạn.
 function inline(line: string): ReactNode[] {
-  return line.split(/(\*\*[^*]+\*\*|\{ok\}|\{no\}|\[\[\d+\]\])/g).map((part, i) => {
+  return line.split(/(\*\*[^*]+\*\*|\*[^*\s][^*]*\*|\{ok\}|\{no\}|\[\[\d+\]\])/g).map((part, i) => {
     if (part.startsWith('**')) return <strong key={i}>{part.slice(2, -2)}</strong>
+    if (part.length > 2 && part.startsWith('*') && part.endsWith('*')) return <em key={i}>{part.slice(1, -1)}</em>
     if (part === '{ok}') return <span key={i} className="ih-rv-mark ok" aria-label="đúng">✓</span>
     if (part === '{no}') return <span key={i} className="ih-rv-mark no" aria-label="sai">✕</span>
     if (part.startsWith('[[')) return <span key={i} className="ih-rv-qnum">{part.slice(2, -2)}</span>
@@ -89,7 +91,7 @@ export function AnswerReview({ test }: { test: PracticeTest }) {
   return (
     <div className="ih-run ih-rv" role="dialog" aria-modal="true" aria-label="Giải thích">
       <header className="ih-run-top">
-        <button type="button" className="ih-run-close" aria-label="Thoát" onClick={() => router.push(rec ? `${base}/result` : `/ielts/${test.skill}/practice`)}>
+        <button type="button" className="ih-run-close" aria-label="Thoát" onClick={() => navigateIelts(router, rec ? `${base}/result` : `/ielts/${test.skill}/practice`)}>
           ✕
         </button>
         <div className="ih-rv-title">
@@ -149,50 +151,86 @@ export function AnswerReview({ test }: { test: PracticeTest }) {
           </div>
 
           {isTable && group.table ? (
-            <div className="ih-run-table-card">
-              <h3 className="ih-run-table-title">{group.table.title}</h3>
-              <table className="ih-run-table">
-                <tbody>
-                  {group.table.rows.map((row) => (
-                    <tr key={row.label}>
-                      <th scope="row">{row.label}</th>
-                      <td>
-                        {row.lines.map((line, li) => {
-                          if (typeof line === 'string') return <p key={li} className="ih-run-q-text">{line}</p>
-                          const gq = group.questions.find((x) => x.id === line.q)
-                          if (!gq) return null
-                          const idx = questions.indexOf(gq)
-                          const st = statusOf(gq)
-                          const g = rec?.answers[gq.id]
-                          const parts = gq.prompt.split('___')
-                          return (
-                            <p key={li} className="ih-run-q-text">
-                              {parts[0]}
-                              <button type="button" className={`ih-rv-chip ${st}${idx === cur ? ' active' : ''}`} onClick={() => setCur(idx)}>
-                                <span className="n">{idx + 1}</span>
-                                {st === 'correct' && g}
-                                {st === 'wrong' && (
-                                  <>
-                                    <s>{g}</s> → <b>{gq.answer}</b>
-                                  </>
-                                )}
-                                {st === 'missed' && (
-                                  <>
-                                    <em>Bỏ trống</em> → <b>{gq.answer}</b>
-                                  </>
-                                )}
-                                {st === 'none' && <b>{gq.answer}</b>}
-                              </button>
-                              {parts.slice(1).join('___')}
-                            </p>
-                          )
-                        })}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            (() => {
+              const table = group.table
+              const renderLine = (line: string | { q: string }, li: number) => {
+                if (typeof line === 'string') return <p key={li} className="ih-run-q-text">{line}</p>
+                const gq = group.questions.find((x) => x.id === line.q)
+                if (!gq) return null
+                const idx = questions.indexOf(gq)
+                const st = statusOf(gq)
+                const g = rec?.answers[gq.id]
+                const parts = gq.prompt.split('___')
+                return (
+                  <p key={li} className="ih-run-q-text">
+                    {parts[0]}
+                    <button type="button" className={`ih-rv-chip ${st}${idx === cur ? ' active' : ''}`} onClick={() => setCur(idx)}>
+                      <span className="n">{idx + 1}</span>
+                      {st === 'correct' && g}
+                      {st === 'wrong' && (
+                        <>
+                          <s>{g}</s> → <b>{gq.answer}</b>
+                        </>
+                      )}
+                      {st === 'missed' && (
+                        <>
+                          <em>Bỏ trống</em> → <b>{gq.answer}</b>
+                        </>
+                      )}
+                      {st === 'none' && <b>{gq.answer}</b>}
+                    </button>
+                    {parts.slice(1).join('___')}
+                  </p>
+                )
+              }
+              return (
+                <div className="ih-run-table-card">
+                  {table.title && <h3 className="ih-run-table-title">{table.title}</h3>}
+                  {table.summary ? (
+                    table.rows.map((row, ri) => (
+                      <div key={ri} className="ih-run-summary">
+                        {row.lines.map(renderLine)}
+                      </div>
+                    ))
+                  ) : table.bullets ? (
+                    table.rows.map((row, ri) => (
+                      <Fragment key={ri}>
+                        {row.label && <h4 className="ih-run-notes-sub">{row.label}</h4>}
+                        <ul className="ih-run-notes">
+                          {row.lines.map((line, li) => (
+                            <li key={li}>{renderLine(line, li)}</li>
+                          ))}
+                        </ul>
+                      </Fragment>
+                    ))
+                  ) : (
+                    <table className="ih-run-table">
+                      {table.headers && (
+                        <thead>
+                          <tr>
+                            {table.headers.map((h) => (
+                              <th key={h} scope="col">
+                                {h}
+                              </th>
+                            ))}
+                          </tr>
+                        </thead>
+                      )}
+                      <tbody>
+                        {table.rows.map((row, ri) => (
+                          <tr key={ri}>
+                            <th scope="row" className={row.labelLines ? 'rich' : undefined}>
+                              {row.labelLines ? row.labelLines.map(renderLine) : row.label}
+                            </th>
+                            <td>{row.lines.map(renderLine)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                </div>
+              )
+            })()
           ) : (
             <div className={`ih-rv-card ${status}`}>
               <p className="ih-rv-prompt">
@@ -212,8 +250,9 @@ export function AnswerReview({ test }: { test: PracticeTest }) {
                         </span>
                       )
                     })
-                  : (q.type === 'tfng' ? ['True', 'False', 'Not Given'] : q.type === 'bank' ? (group.optionBank ?? [q.answer]) : (q.options ?? [q.answer])).map((opt) => {
-                      const right = opt === q.answer
+                  : (FIXED_CHOICES[q.type] ?? (q.type === 'bank' ? (group.optionBank ?? [q.answer]) : (q.options ?? [q.answer]))).map((opt) => {
+                      // multi: mọi đáp án đúng của nhóm (answer + alt) đều đánh ✓.
+                      const right = opt === q.answer || (q.type === 'multi' && (q.alt ?? []).includes(opt))
                       const picked = given === opt
                       return (
                         <span key={opt} className={`ih-rv-opt${right ? ' right' : ''}${picked && !right ? ' wrong' : ''}${picked ? ' picked' : ''}`}>
@@ -225,7 +264,7 @@ export function AnswerReview({ test }: { test: PracticeTest }) {
                     })}
               </div>
               {status === 'missed' && <p className="ih-rv-missed">Bạn đã bỏ trống câu này.</p>}
-              {status === 'wrong' && q.type !== 'tfng' && q.type !== 'mcq' && q.type !== 'match' && q.type !== 'bank' && (
+              {status === 'wrong' && q.type !== 'tfng' && q.type !== 'ynng' && q.type !== 'mcq' && q.type !== 'multi' && q.type !== 'match' && q.type !== 'bank' && (
                 <p className="ih-rv-missed">
                   Bạn trả lời: <s>{given}</s> · Đáp án: <b>{q.answer}</b>
                 </p>
@@ -252,8 +291,14 @@ export function AnswerReview({ test }: { test: PracticeTest }) {
               Giải thích chi tiết
             </div>
             <div className="ih-rv-exp-body">
-              {ex?.breakdown && <BreakdownView b={ex.breakdown} />}
-              {ex?.notes ? ex.notes.split('\n').map((line, i) => <p key={i}>{inline(line)}</p>) : !ex?.breakdown && <p className="ih-rv-empty">Chưa có giải thích cho câu này.</p>}
+              {ex?.detail ? (
+                <DetailView items={ex.detail} />
+              ) : (
+                <>
+                  {ex?.breakdown && <BreakdownView b={ex.breakdown} />}
+                  {ex?.notes ? ex.notes.split('\n').map((line, i) => <p key={i}>{inline(line)}</p>) : !ex?.breakdown && <p className="ih-rv-empty">Chưa có giải thích cho câu này.</p>}
+                </>
+              )}
             </div>
           </div>
         </section>
@@ -310,6 +355,12 @@ function ParaphraseCard({ p }: { p: ExParaphrase }) {
           <strong>Question: </strong>
           {p.question.map((seg, i) => (seg.color ? <span key={i} className={`ih-ex-hl c-${seg.color}`}>{bold(seg.text)}</span> : <Fragment key={i}>{bold(seg.text)}</Fragment>))}
         </p>
+        {p.answer && (
+          <p>
+            <strong>Answer: </strong>
+            {p.answer.map((seg, i) => (seg.color ? <span key={i} className={`ih-ex-hl c-${seg.color}`}>{bold(seg.text)}</span> : <Fragment key={i}>{bold(seg.text)}</Fragment>))}
+          </p>
+        )}
         <p>
           <strong>So sánh các cụm từ bên câu hỏi và bài đọc</strong>, ta có:
         </p>
@@ -322,7 +373,8 @@ function ParaphraseCard({ p }: { p: ExParaphrase }) {
                 <Chip chip={pair.right} />
               </>
             )}
-            {pair.note && <span className="ih-ex-rel">→ {pair.note}</span>}
+            {/* Không có cụm tương ứng trong bài (Not Given) → ghi chú nổi bật màu đỏ như đề mẫu. */}
+            {pair.note && <span className={`ih-ex-rel${pair.right ? '' : ' miss'}`}>→ {bold(pair.note)}</span>}
           </div>
         ))}
       </div>
@@ -336,12 +388,32 @@ function BreakdownView({ b }: { b: ExBreakdown }) {
     <div className="ih-ex-break">
       <p className="ih-ex-break-title">{b.title ?? 'Phân tích cấu trúc câu'} 🤩</p>
       {b.sentences.map((sent, i) => (
-        <div key={i} className="ih-ex-sent">
-          {sent.n !== undefined && <span className="ih-rv-qnum big">{sent.n}</span>}
-          {sent.prefix && <span className="ih-ex-prefix">{sent.prefix}</span>}
-          {sent.chips.map((c, ci) => (typeof c === 'string' ? <span key={ci} className="ih-ex-punct">{c}</span> : <Chip key={ci} chip={c} />))}
-        </div>
+        <SentenceRow key={i} sent={sent} />
       ))}
+    </div>
+  )
+}
+
+function SentenceRow({ sent }: { sent: ExSentence }) {
+  return (
+    <div className="ih-ex-sent">
+      {sent.n !== undefined && <span className="ih-rv-qnum big">{sent.n}</span>}
+      {sent.prefix && <span className="ih-ex-prefix">{inline(sent.prefix)}</span>}
+      {sent.chips.map((c, ci) => (typeof c === 'string' ? <span key={ci} className="ih-ex-punct">{c}</span> : <Chip key={ci} chip={c} />))}
+    </div>
+  )
+}
+
+// Giải thích "từng bước": dòng chữ và dòng cụm xen kẽ đúng thứ tự khai báo (xem Explanation.detail).
+function DetailView({ items }: { items: (string | ExSentence)[] }) {
+  return (
+    <div className="ih-ex-detail">
+      {items.map((item, i) => {
+        if (typeof item !== 'string') return <SentenceRow key={i} sent={item} />
+        if (item === '---') return <hr key={i} className="ih-ex-hr" />
+        if (item.startsWith('• ')) return <p key={i} className="ih-ex-bullet">{inline(item.slice(2))}</p>
+        return <p key={i}>{inline(item)}</p>
+      })}
     </div>
   )
 }

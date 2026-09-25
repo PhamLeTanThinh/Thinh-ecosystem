@@ -60,7 +60,9 @@ const passageOpen = block.indexOf('[', passageStart)
 const passageClose = block.indexOf('],', passageOpen)
 const paras = strings(block.slice(passageOpen, passageClose))
 
-if (labels.length === paras.length) pass(`paragraphLabels (${labels.length}) matches passage length (${paras.length})`)
+// paragraphLabels là tuỳ chọn (bài không chia đoạn theo chữ cái thì bỏ hẳn) — chỉ kiểm khi có khai báo.
+if (!labelsM) pass(`no paragraphLabels (optional) — passage has ${paras.length} paragraphs`)
+else if (labels.length === paras.length) pass(`paragraphLabels (${labels.length}) matches passage length (${paras.length})`)
 else fail(`paragraphLabels has ${labels.length} entries but passage has ${paras.length} paragraphs`)
 
 // ── matchLegend / optionBank blocks, in file order (nearest-preceding one is attributed to a
@@ -116,6 +118,8 @@ for (let i = 0; i < hits.length; i++) {
     fail(`${id} (${type}): no "answer" field found (or it contains something the regex couldn't parse — check manually)`)
   } else if (type === 'tfng') {
     if (!['True', 'False', 'Not Given'].includes(answer)) fail(`${id} (tfng): answer "${answer}" is not True/False/Not Given`)
+  } else if (type === 'ynng') {
+    if (!['Yes', 'No', 'Not Given'].includes(answer)) fail(`${id} (ynng): answer "${answer}" is not Yes/No/Not Given`)
   } else if (type === 'match') {
     const ctx = nearestContext(at)
     if (!ctx || ctx.kind !== 'match') fail(`${id} (match): no matchLegend found before this question`)
@@ -124,11 +128,14 @@ for (let i = 0; i < hits.length; i++) {
     const ctx = nearestContext(at)
     if (!ctx || ctx.kind !== 'bank') fail(`${id} (bank): no optionBank found before this question`)
     else if (!ctx.keys.includes(answer)) fail(`${id} (bank): answer text not found verbatim in nearest optionBank`)
-  } else if (type === 'mcq') {
+  } else if (type === 'mcq' || type === 'multi') {
     const optM = span.match(/options:\s*\[([\s\S]*?)\n\s*\],/)
     const opts = optM ? strings(optM[1]) : []
-    if (opts.length === 0) fail(`${id} (mcq): no options array found`)
-    else if (!opts.includes(answer)) fail(`${id} (mcq): answer not found verbatim in its own options`)
+    if (opts.length === 0) fail(`${id} (${type}): no options array found`)
+    else if (!opts.includes(answer)) fail(`${id} (${type}): answer not found verbatim in its own options`)
+    // multi: alt = các đáp án đúng còn lại, cũng phải nằm nguyên văn trong options.
+    const altM = type === 'multi' ? span.match(/alt:\s*\[([^\]]*)\]/) : null
+    for (const a of altM ? strings(altM[1]) : []) if (!opts.includes(a)) fail(`${id} (multi): alt "${a}" not found in options`)
   }
 
   // locate quotes must be verbatim substrings of passage[para] — tolerate newlines/whitespace

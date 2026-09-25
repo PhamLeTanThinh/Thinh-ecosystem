@@ -10,7 +10,7 @@ export interface LocHit {
 
 // Màu nền khi tô trong bài đọc — trùng màu tô của các cụm trong thẻ Paraphrasing (cam = từ khoá của đề bài,
 // xanh lá = chứng cứ của đáp án, xanh dương = phần khác của câu).
-export const LOC_COLORS: Record<ChipColor, string> = { orange: '#fdd9a8', green: '#a8e0b5', blue: '#b7c9f5' }
+export const LOC_COLORS: Record<ChipColor, string> = { orange: '#fdd9a8', green: '#a8e0b5', blue: '#b7c9f5', red: '#f5b5b5' }
 const FALLBACK_COLOR = '#fde68a'
 
 // Tìm `piece` trong các đoạn `paras` (không phân biệt hoa/thường), lấy lần xuất hiện đầu tiên. Không thấy thì thử

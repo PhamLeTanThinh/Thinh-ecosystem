@@ -20,6 +20,9 @@ Two finished examples to pattern-match against: `src/data/ielts/practice/reading
 
 ## Procedure
 
+0. **Check for a duplicate first.** Grep `src/data/ielts/practice/` for the passage title and a couple of
+   distinctive names/phrases from the passage. If the test already exists, tell the user it's a duplicate
+   (name the existing test and its `part`) instead of adding it again — the user asked to be warned.
 1. Clean the passage: paste-ins from PDFs/scans often prefix each paragraph with its letter
    doubled (`AAMost managers...`, `BBMany ignore...`) — strip that, keep only the paragraph text.
    Fix obvious OCR typos you're confident about, don't rewrite the author's voice.
@@ -52,8 +55,17 @@ Two finished examples to pattern-match against: `src/data/ielts/practice/reading
   passage: ['<para A text>', '<para B text>', ...],
   groups: [ /* one PracticeGroup per instruction block — see the reference files */ ],
   vocab: [],   // filled separately by the ielts-add-vocab skill, or [] if not doing vocab yet
+  difficulty: 'easy' | 'medium' | 'hard',   // shown as a chip on the list card — see below
 }
 ```
+
+## `difficulty`
+
+Always set it. Judge the passage, not the user's score (one passage is ~13 questions — too few to
+convert to a band, which is why there's no band estimate): Cambridge passage 1-style (factual, T/F/NG +
+gap-fill, little inference) → `easy`; passage 2-style (headings / matching / Y/N/NG, moderate trickiness)
+→ `medium`; passage 3-style (abstract/academic argument, inference-heavy MCQ on the writer's view,
+close distractors) → `hard`.
 
 ## Question-type reference files
 
@@ -63,6 +75,9 @@ Read the one that matches what the source screenshot shows, per group:
 |---|---|---|
 | Radio-button A/B/C/D, each question has its own wording of options | `references/select-choices.md` | `mcq` |
 | True / False / Not Given | `references/select-choices.md` | `tfng` |
+| Yes / No / Not Given | `references/select-choices.md` | `ynng` |
+| "Choose TWO letters" — one card numbered "7-8." with checkboxes | `references/select-choices.md` | `multi` (N questions) |
+| "Choose the correct heading for paragraphs B–E" with a draggable List of headings | `references/drag-select-ending.md` | `bank` (prompt = `'Paragraph B'`…) |
 | A labeled table (rows like "Biblical times", "Ancient Rome") with blanks to fill inside it | `references/table-completion.md` | `table` (group) + `gap-fill`/`table` (questions) |
 | A summary/sentence with a blank, no table around it | `references/gap-fill.md` | `gap-fill` |
 | A grid: column headers A/B/C/D, each row a statement, checkmark under the chosen column, legend below (e.g. A=Coach, B=Tesco) | `references/matrix-match.md` | `match` |
