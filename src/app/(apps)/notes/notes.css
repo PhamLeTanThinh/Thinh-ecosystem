@@ -1073,3 +1073,307 @@
   background: transparent;
   color: var(--color-nt-ink-soft);
 }
+
+/* Chuyển Bảng (canvas theo ngày) / Lịch (tháng-tuần) — dùng lại style segmented của .nt-sidebar-tabs */
+.nt-view-switch {
+  margin-bottom: 0;
+  border: 1px solid var(--color-nt-border);
+}
+
+.nt-view-switch button {
+  flex: none;
+  padding: 4px 14px;
+}
+
+/* ===== Lịch tháng / tuần — theo dõi việc chưa xong ===== */
+.nt-cal {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 16px clamp(16px, 4vw, 56px) 20px;
+  overflow: auto;
+}
+
+.nt-cal-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 18px;
+}
+
+.nt-cal-mode {
+  margin-bottom: 0;
+  border: 1px solid var(--color-nt-border);
+}
+
+.nt-cal-mode button {
+  flex: none;
+  padding: 4px 14px;
+}
+
+.nt-cal-title {
+  min-width: 132px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.nt-cal-filter {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--color-nt-ink-soft);
+  cursor: pointer;
+}
+
+.nt-cal-filter input {
+  accent-color: var(--color-nt-accent);
+}
+
+.nt-cal-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-cal-summary span {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-nt-surface);
+  border: 1px solid var(--color-nt-border);
+}
+
+.nt-cal-summary b {
+  color: var(--color-nt-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.nt-cal-summary span.pending b {
+  color: var(--color-nt-accent);
+}
+
+.nt-cal-summary span.overdue {
+  color: #b91c1c;
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.nt-cal-summary span.overdue b {
+  color: #b91c1c;
+}
+
+.nt-cal-grid {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  /* Hàng tiêu đề thứ giữ auto, chỉ các hàng ngày giãn theo 1fr */
+  grid-template-rows: auto;
+  grid-auto-rows: minmax(112px, 1fr);
+  gap: 6px;
+  min-width: 640px;
+}
+
+.nt-cal-grid.week {
+  grid-auto-rows: minmax(360px, 1fr);
+}
+
+.nt-cal-grid > .nt-cal-weekday {
+  align-self: end;
+  padding: 0 6px 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-cal-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  padding: 7px 8px;
+  border-radius: 10px;
+  border: 1px solid var(--color-nt-border);
+  background: var(--color-nt-surface);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.1s ease, box-shadow 0.1s ease;
+}
+
+.nt-cal-cell:hover {
+  border-color: var(--color-nt-note-border);
+  box-shadow: 0 2px 8px rgba(24, 24, 27, 0.06);
+}
+
+.nt-cal-cell:focus-visible {
+  outline: 2px solid var(--color-nt-accent);
+  outline-offset: 1px;
+}
+
+.nt-cal-cell.outside {
+  background: transparent;
+  opacity: 0.5;
+}
+
+.nt-cal-cell.status-overdue {
+  background: #fef2f2;
+  border-color: #fecaca;
+}
+
+.nt-cal-cell.status-done {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.nt-cal-cell.is-today {
+  border-color: var(--color-nt-accent);
+  box-shadow: inset 0 0 0 1px var(--color-nt-accent);
+}
+
+.nt-cal-cell-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.nt-cal-daynum {
+  font-size: 12.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.nt-cal-cell.is-today .nt-cal-daynum {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-nt-accent);
+  color: #fff;
+}
+
+.nt-cal-badge {
+  font-size: 10.5px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-nt-bg);
+  color: var(--color-nt-ink-soft);
+}
+
+.status-overdue .nt-cal-badge {
+  background: #dc2626;
+  color: #fff;
+}
+
+.status-today .nt-cal-badge,
+.status-pending .nt-cal-badge {
+  background: #e0e7ff;
+  color: var(--color-nt-accent);
+}
+
+.status-done .nt-cal-badge {
+  background: #34b37a;
+  color: #fff;
+}
+
+.nt-cal-progress {
+  height: 3px;
+  border-radius: 999px;
+  background: var(--color-nt-border);
+  overflow: hidden;
+}
+
+.nt-cal-progress span {
+  display: block;
+  height: 100%;
+  background: #34b37a;
+}
+
+.status-overdue .nt-cal-progress {
+  background: #fecaca;
+}
+
+.nt-cal-todos {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 0;
+}
+
+.nt-cal-todos li {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  min-width: 0;
+}
+
+.nt-cal-check {
+  flex: none;
+  width: 13px;
+  height: 13px;
+  margin-top: 2px;
+  border-radius: 3px;
+  border: 1.5px solid var(--color-nt-note-border);
+  background: var(--color-nt-surface);
+  font-size: 8.5px;
+  line-height: 1;
+  color: #fff;
+}
+
+.nt-cal-todos li.done .nt-cal-check {
+  background: #34b37a;
+  border-color: #34b37a;
+}
+
+.status-overdue .nt-cal-todos li:not(.done) .nt-cal-check {
+  border-color: #f87171;
+}
+
+.nt-cal-todo-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--color-nt-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nt-cal-grid.week .nt-cal-todo-text {
+  white-space: normal;
+  word-break: break-word;
+  font-size: 12.5px;
+}
+
+.nt-cal-todo-text:hover {
+  text-decoration: underline;
+}
+
+.nt-cal-todos li.done .nt-cal-todo-text {
+  color: var(--color-nt-ink-soft);
+  text-decoration: line-through;
+}
+
+.nt-cal-todo-time {
+  margin-right: 4px;
+  font-size: 10.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-cal-more {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--color-nt-ink-soft);
+}

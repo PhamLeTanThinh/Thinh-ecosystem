@@ -50,3 +50,16 @@ export function getSeason(month0: number): Season {
 export function weekOfMonth(d: Date): number {
   return Math.ceil(d.getDate() / 7)
 }
+
+// Tuần bắt đầu từ Thứ 2 (theo thói quen VN), khác getDay() mặc định lấy Chủ nhật làm đầu tuần.
+export function startOfWeek(d: Date): Date {
+  return addDays(d, -((d.getDay() + 6) % 7))
+}
+
+export function startOfMonth(d: Date): Date {
+  return new Date(d.getFullYear(), d.getMonth(), 1)
+}
+
+export function addMonths(d: Date, delta: number): Date {
+  return new Date(d.getFullYear(), d.getMonth() + delta, 1)
+}

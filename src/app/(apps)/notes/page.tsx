@@ -5,6 +5,7 @@ import { useNotesStore } from '@/lib/notes/store'
 import { NotesBoard, ZOOM_STEP, clampZoom } from '@/components/notes/NotesBoard'
 import { NotesSidebar } from '@/components/notes/NotesSidebar'
 import { TimelinePanel } from '@/components/notes/TimelinePanel'
+import { CalendarView } from '@/components/notes/CalendarView'
 import { buildDateTree } from '@/lib/notes/dateTree'
 import { addDays, formatDayLabel, formatDayShortLabel, fromISODate, toISODate } from '@/lib/notes/date'
 
@@ -21,6 +22,8 @@ export default function NotesPage() {
   const [timelineOpen, setTimelineOpen] = useState(false)
   const [zoom, setZoom] = useState(1)
   const [focusNoteId, setFocusNoteId] = useState<string | null>(null)
+  // 'calendar' = lịch tháng/tuần để theo dõi việc chưa xong qua nhiều ngày (xem CalendarView.tsx).
+  const [view, setView] = useState<'board' | 'calendar'>('board')
   const dateInputRef = useRef<HTMLInputElement>(null)
 
   const notesForDay = useMemo(() => notes.filter((n) => n.date === currentDate), [notes, currentDate])
@@ -65,6 +68,7 @@ export default function NotesPage() {
   const dateTree = useMemo(() => buildDateTree(notes, todayISO), [notes, todayISO])
 
   function goToDay(date: string) {
+    setView('board')
     setCurrentDate(date)
     setEditingId(null)
   }
@@ -73,6 +77,7 @@ export default function NotesPage() {
   // tag của NGÀY đó (effectiveActiveTag) để note chắc chắn hiện ra trên board, và báo cho
   // NotesBoard cuộn tới đúng vị trí note (toạ độ tự do, có thể đang ngoài vùng nhìn thấy).
   function handleSelectNote(date: string, noteId: string) {
+    setView('board')
     setCurrentDate(date)
     setActiveTag(null)
     setEditingId(noteId)
@@ -92,7 +97,16 @@ export default function NotesPage() {
       <header className="nt-topbar">
         <h1 className="nt-wordmark">Ghi chú</h1>
 
-        <div className="nt-day-nav">
+        <div className="nt-sidebar-tabs nt-view-switch">
+          <button type="button" className={view === 'board' ? 'active' : ''} onClick={() => setView('board')}>
+            Bảng
+          </button>
+          <button type="button" className={view === 'calendar' ? 'active' : ''} onClick={() => setView('calendar')}>
+            Lịch
+          </button>
+        </div>
+
+        <div className="nt-day-nav" hidden={view !== 'board'}>
           <button type="button" aria-label="Ngày trước" onClick={() => goToDay(toISODate(addDays(fromISODate(currentDate), -1)))}>
             ‹
           </button>
@@ -128,7 +142,7 @@ export default function NotesPage() {
           />
         </div>
 
-        {allTags.length > 0 && (
+        {view === 'board' && allTags.length > 0 && (
           <div className="nt-tag-filter">
             <button type="button" className={effectiveActiveTag === null ? 'active' : ''} onClick={() => setActiveTag(null)}>
               Tất cả
@@ -146,7 +160,7 @@ export default function NotesPage() {
           </div>
         )}
 
-        <div className="nt-zoom-controls">
+        <div className="nt-zoom-controls" hidden={view !== 'board'}>
           <button type="button" aria-label="Thu nhỏ" onClick={() => setZoom((z) => clampZoom(z - ZOOM_STEP))}>
             −
           </button>
@@ -161,7 +175,7 @@ export default function NotesPage() {
           )}
         </div>
 
-        {!timelineOpen && (
+        {view === 'board' && !timelineOpen && (
           <button
             type="button"
             className="nt-sidebar-toggle"
@@ -174,7 +188,7 @@ export default function NotesPage() {
           </button>
         )}
 
-        {!sidebarOpen && (
+        {view === 'board' && !sidebarOpen && (
           <button
             type="button"
             className="nt-sidebar-toggle"
@@ -188,41 +202,52 @@ export default function NotesPage() {
         )}
       </header>
 
-      <div className="nt-body">
-        <NotesBoard
-          date={currentDate}
-          notes={boardNotes}
-          editingId={editingId}
-          zoom={zoom}
-          onZoomChange={setZoom}
-          onStartEdit={setEditingId}
-          onStopEdit={() => setEditingId(null)}
-          focusNoteId={focusNoteId}
+      {view === 'calendar' ? (
+        <CalendarView
+          notes={notes}
+          todayISO={todayISO}
+          initialDate={currentDate}
+          onSelectDay={goToDay}
+          onSelectNote={handleSelectNote}
+          onToggleDone={toggleTimeBlockDone}
         />
-
-        {sidebarOpen && (
-          <NotesSidebar
-            tree={dateTree}
-            notes={notes}
-            currentDate={currentDate}
-            onSelectDay={goToDay}
-            onSelectNote={handleSelectNote}
-            onDeleteGroup={handleDeleteGroup}
-            onClose={() => setSidebarOpen(false)}
+      ) : (
+        <div className="nt-body">
+          <NotesBoard
+            date={currentDate}
+            notes={boardNotes}
+            editingId={editingId}
+            zoom={zoom}
+            onZoomChange={setZoom}
+            onStartEdit={setEditingId}
+            onStopEdit={() => setEditingId(null)}
+            focusNoteId={focusNoteId}
           />
-        )}
 
-        {timelineOpen && (
-          <TimelinePanel
-            dayLabel={formatDayShortLabel(fromISODate(currentDate))}
-            notes={notesForDay}
-            onToggleDone={toggleTimeBlockDone}
-            onDeleteBlock={deleteTimeBlock}
-            onSelectNote={handleSelectTimelineNote}
-            onClose={() => setTimelineOpen(false)}
-          />
-        )}
-      </div>
+          {sidebarOpen && (
+            <NotesSidebar
+              tree={dateTree}
+              notes={notes}
+              currentDate={currentDate}
+              onSelectDay={goToDay}
+              onSelectNote={handleSelectNote}
+              onDeleteGroup={handleDeleteGroup}
+              onClose={() => setSidebarOpen(false)}
+            />
+          )}
+
+          {timelineOpen && (
+            <TimelinePanel
+              dayLabel={formatDayShortLabel(fromISODate(currentDate))}
+              notes={notesForDay}
+              onToggleDone={toggleTimeBlockDone}
+              onDeleteBlock={deleteTimeBlock}
+              onSelectNote={handleSelectTimelineNote}
+              onClose={() => setTimelineOpen(false)}
+            />
+          )}
+        </div>
+      )}
     </div>
   )
 }
