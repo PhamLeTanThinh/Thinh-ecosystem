@@ -36,6 +36,7 @@ export default function CcafTheoryPage() {
                 <Link
                   key={t.id}
                   href={`/certs/ccaf/theory/${t.id}`}
+                  prefetch={false}
                   className="group flex flex-col rounded-card border border-border bg-card p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-accent"
                 >
                   <h3 className="font-semibold leading-snug">{t.title}</h3>

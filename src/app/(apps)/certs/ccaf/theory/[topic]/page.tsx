@@ -47,6 +47,7 @@ export default async function CcafTopicPage({ params }: { params: Promise<{ topi
             <p className="mt-1 text-sm text-muted">Làm {topic.questionIds.length} câu trong bộ đề liên quan trực tiếp tới chủ đề này.</p>
             <Link
               href={`/certs/ccaf?topic=${topic.id}`}
+              prefetch={false}
               className="mt-3 inline-block rounded-pill border border-accent bg-accent px-5 py-2 text-sm font-semibold text-white"
             >
               Luyện {topic.questionIds.length} câu về chủ đề này →
@@ -55,10 +56,10 @@ export default async function CcafTopicPage({ params }: { params: Promise<{ topi
 
           <nav className="mt-6 flex flex-wrap justify-between gap-3 text-sm">
             {prev ? (
-              <Link href={`/certs/ccaf/theory/${prev.id}`} className="rounded-pill border border-border px-4 py-2 font-semibold hover:border-accent">← {prev.title}</Link>
+              <Link href={`/certs/ccaf/theory/${prev.id}`} prefetch={false} className="rounded-pill border border-border px-4 py-2 font-semibold hover:border-accent">← {prev.title}</Link>
             ) : <span />}
             {next ? (
-              <Link href={`/certs/ccaf/theory/${next.id}`} className="rounded-pill border border-border px-4 py-2 font-semibold hover:border-accent">{next.title} →</Link>
+              <Link href={`/certs/ccaf/theory/${next.id}`} prefetch={false} className="rounded-pill border border-border px-4 py-2 font-semibold hover:border-accent">{next.title} →</Link>
             ) : <span />}
           </nav>
         </article>
@@ -78,7 +79,11 @@ export default async function CcafTopicPage({ params }: { params: Promise<{ topi
               <ul className="flex flex-col gap-1.5">
                 {domain.topics.map((t) => (
                   <li key={t.id}>
-                    <Link href={`/certs/ccaf/theory/${t.id}`} className={t.id === topic.id ? 'font-semibold text-accent' : 'text-muted hover:text-accent'}>{t.title}</Link>
+                    {t.id === topic.id ? (
+                      <span className="font-semibold text-accent">{t.title}</span>
+                    ) : (
+                      <Link href={`/certs/ccaf/theory/${t.id}`} prefetch={false} className="text-muted hover:text-accent">{t.title}</Link>
+                    )}
                   </li>
                 ))}
               </ul>
