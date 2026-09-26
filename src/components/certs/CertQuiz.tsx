@@ -30,6 +30,9 @@ export interface CertQuestion {
   // Sơ đồ minh hoạ (đường dẫn trong /public), một số câu dựa vào hình để trả lời.
   image?: string
   category?: string
+  // Mẹo nhận diện nhanh: số liệu/từ khoá đặc trưng trong câu → gợi ý đáp án, dùng ở chế độ Ôn mẹo nhanh
+  // (components/certs/TipReview.tsx). Không phải mọi bộ đề đều có — hiện chỉ CCAF.
+  tip?: string
 }
 
 type Mode = 'all' | 'random20' | 'random50' | 'custom' | 'wrong' | 'unseen'

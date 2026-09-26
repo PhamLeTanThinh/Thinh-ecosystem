@@ -35,6 +35,9 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
             <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">📝 {questions.length} câu</span>
             <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">🧩 5 domain</span>
             <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">🌐 Song ngữ</span>
+            <Link href="/certs/ccaf/tips" className="rounded-pill border border-plum/40 bg-card px-5 py-2.5 text-sm font-bold text-plum shadow-sm transition hover:-translate-y-0.5 hover:border-plum hover:shadow-md">
+            ⚡ Ôn mẹo nhanh
+            </Link>
             <Link href="/certs/ccaf/theory" className="rounded-pill border border-gold/40 bg-card px-5 py-2.5 text-sm font-bold text-gold shadow-sm transition hover:-translate-y-0.5 hover:border-gold hover:shadow-md">
             📖 Học lý thuyết
             </Link>
