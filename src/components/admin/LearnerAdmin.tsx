@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAdminAction } from '@/components/admin/AdminDialog'
+import { formatAdminDate } from '@/components/admin/format'
 import { MascotEm } from '@/components/mascot/MascotDialog'
 import type { LearnerSummary } from '@/lib/learner/admin'
 
-const fmt = (iso: string) => new Date(iso).toLocaleString('vi-VN')
 
 function progressText(reviewed: number, correct: number, wrong: number, decks?: number, addedCards?: number) {
   const parts = [reviewed > 0 ? `${reviewed} thẻ đã ôn · ✓${correct} ✕${wrong}` : 'chưa ôn thẻ nào']
@@ -115,11 +115,13 @@ export function LearnerAdmin() {
   }
 
   return (
-    <div>
+    <div className="adm-panel">
       <div className="adm-toolbar">
-        <h2 className="ih-font-hand adm-subtitle">Hồ sơ học{learners ? ` (${learners.length})` : ''}</h2>
-        <input className="ih-input adm-search" type="search" placeholder="Tìm theo tên hồ sơ…" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <button type="button" className="ih-btn-outline" onClick={load}>
+        <h2 className="adm-panel-title">
+          Hồ sơ học {learners && <span className="adm-count">{learners.length}</span>}
+        </h2>
+        <input className="adm-input adm-search" type="search" placeholder="Tìm theo tên hồ sơ…" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <button type="button" className="adm-btn adm-btn-outline" onClick={load}>
           Tải lại
         </button>
       </div>
@@ -127,52 +129,71 @@ export function LearnerAdmin() {
         Hồ sơ dùng chung cho cả app Tiếng Trung và Tiếng Hàn. Đổi tên thì tiến độ đi theo tên mới; xoá thì mất toàn bộ tiến độ của hồ sơ đó.
       </p>
 
-      {loadError && <p className="ih-vocab-empty adm-error">{loadError}</p>}
-      {!loadError && learners === null && <p className="ih-vocab-empty">Đang tải…</p>}
-      {learners && shown.length === 0 && <p className="ih-vocab-empty">{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</p>}
+      {loadError && <p className="adm-note adm-error">{loadError}</p>}
 
-      <div className="adm-list">
-        {shown.map((l) => {
-          return (
-            <div key={l.id} className="ih-glass adm-learner">
-              <div className="adm-avatar" aria-hidden="true">
-                {l.registered ? l.id.charAt(0).toUpperCase() : '?'}
-              </div>
-
-              <div className="adm-learner-main">
-                <div className="adm-learner-name">
-                  <span className="adm-name-text">{l.id}</span>
-                  {!l.registered && (
-                    <span className="adm-badge" title="Hồ sơ cũ, tạo từ trước khi có popup đặt tên — đổi tên để đăng ký">
-                      {l.id === 'legacy' ? 'Dữ liệu cũ' : 'Chưa đặt tên'}
-                    </span>
-                  )}
-                </div>
-
-                <div className="adm-meta">
-                  {l.createdAt ? `Tạo ${fmt(l.createdAt)} · ` : ''}
-                  {l.lastActiveAt ? `Học gần nhất ${fmt(l.lastActiveAt)}` : 'Chưa từng ôn thẻ'}
-                </div>
-                <div className="adm-meta">
-                  <strong>中文</strong> {progressText(l.chinese.reviewed, l.chinese.correct, l.chinese.wrong, l.chinese.decks, l.chinese.addedCards)}
-                </div>
-                <div className="adm-meta">
-                  <strong>한국어</strong> {progressText(l.korean.reviewed, l.korean.correct, l.korean.wrong, undefined, l.korean.addedCards)}
-                </div>
-              </div>
-
-              <div className="adm-actions">
-                <button type="button" className="ih-btn-outline" onClick={() => rename(l)}>
-                  Đổi tên
-                </button>
-                <button type="button" className="ih-btn-outline adm-danger" onClick={() => remove(l)}>
-                  Xoá
-                </button>
-              </div>
-            </div>
-          )
-        })}
-      </div>
+      {!loadError && (
+        <div className="adm-table-wrap">
+          <table className="adm-table">
+            <thead>
+              <tr>
+                <th>Hồ sơ</th>
+                <th>Hoạt động</th>
+                <th>中文</th>
+                <th>한국어</th>
+                <th className="adm-col-actions">Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {learners === null && (
+                <tr className="adm-empty-row">
+                  <td colSpan={5}>Đang tải…</td>
+                </tr>
+              )}
+              {learners && shown.length === 0 && (
+                <tr className="adm-empty-row">
+                  <td colSpan={5}>{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</td>
+                </tr>
+              )}
+              {shown.map((l) => (
+                <tr key={l.id}>
+                  <td>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <div className="adm-avatar" aria-hidden="true">
+                        {l.registered ? l.id.charAt(0).toUpperCase() : '?'}
+                      </div>
+                      <div>
+                        <div className="adm-cell-main">{l.id}</div>
+                        {!l.registered && (
+                          <span className="adm-pill adm-pill-warning" title="Hồ sơ cũ, tạo từ trước khi có popup đặt tên — đổi tên để đăng ký">
+                            {l.id === 'legacy' ? 'Dữ liệu cũ' : 'Chưa đặt tên'}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="adm-cell-sub">
+                    {l.createdAt ? `Tạo ${formatAdminDate(l.createdAt)}` : ''}
+                    {l.createdAt && <br />}
+                    {l.lastActiveAt ? `Gần nhất ${formatAdminDate(l.lastActiveAt)}` : 'Chưa từng ôn thẻ'}
+                  </td>
+                  <td className="adm-cell-sub">{progressText(l.chinese.reviewed, l.chinese.correct, l.chinese.wrong, l.chinese.decks, l.chinese.addedCards)}</td>
+                  <td className="adm-cell-sub">{progressText(l.korean.reviewed, l.korean.correct, l.korean.wrong, undefined, l.korean.addedCards)}</td>
+                  <td className="adm-col-actions">
+                    <div className="adm-actions">
+                      <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => rename(l)}>
+                        Đổi tên
+                      </button>
+                      <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => remove(l)}>
+                        Xoá
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }

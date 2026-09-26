@@ -25,11 +25,11 @@ interface AccessStat {
   lastBrowser: string
 }
 
-// Tab "Người xem IELTS" của trang /admin — mời/thu hồi quyền xem theo email và duyệt yêu cầu của người lạ.
-// Nhập email rồi bấm mời sẽ gửi luôn 1 magic link đăng nhập tới đúng địa chỉ đó. Việc thực thi quyền thật
-// nằm ở API (`requireOwnerApi`); /admin/layout.tsx đã chặn người không phải chủ ở phía giao diện. Mọi thao tác
-// (mời/duyệt/từ chối/thu hồi/cấp lại/xoá) đi qua popup mèo hỏi–xong của AdminDialog, không dùng window.confirm.
-export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) {
+
+// Tab "Người xem Certs" của trang /admin — song song với IeltsAccessAdmin.tsx (đọc file đó để biết đầy đủ
+// từng nhánh xử lý), chỉ đổi endpoint sang /api/certs/*. Danh sách người mời TÁCH RIÊNG khỏi IELTS: được
+// mời xem IELTS không tự có quyền xem Certs và ngược lại — xem lib/certs/access.ts.
+export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) {
   const runAction = useAdminAction()
   const [invites, setInvites] = useState<Invite[]>([])
   const [requests, setRequests] = useState<AccessRequest[]>([])
@@ -38,24 +38,20 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
 
-  // Mọi fetch đều kiểm tra r.ok trước khi đọc JSON, và luôn rơi về mảng rỗng khi lỗi — trước đây fetch invites/
-  // access-logs không kiểm tra, nên 1 API lỗi (vd DB tạm thời không kết nối được) trả về {message: "..."} thay vì
-  // mảng, set thẳng vào state rồi .map() ở dưới ném lỗi, làm sập toàn bộ trang (React không có error boundary ở
-  // đây) — trang trắng trơn không có gì hiện ra, không có cách nào biết vì sao.
   useEffect(() => {
-    fetch('/api/ielts/invites')
+    fetch('/api/certs/invites')
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`invites: HTTP ${r.status}`))))
       .then((data) => setInvites(Array.isArray(data) ? data : []))
       .catch((err) => {
-        console.error('[admin] tải danh sách người được mời thất bại:', err)
+        console.error('[admin] tải danh sách người được mời (Certs) thất bại:', err)
         setLoadError('Không tải được danh sách, thử tải lại trang nhé.')
       })
       .finally(() => setLoading(false))
-    fetch('/api/ielts/access-requests')
+    fetch('/api/certs/access-requests')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => setRequests(Array.isArray(data) ? data : []))
       .catch(() => {})
-    fetch('/api/ielts/access-logs')
+    fetch('/api/certs/access-logs')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => setStats(Array.isArray(data) ? data : []))
       .catch(() => {})
@@ -65,8 +61,6 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     setInvites((v) => (v.some((x) => x.email === created.email) ? v.map((x) => (x.email === created.email ? created : x)) : [...v, created]))
   }
 
-  // Kết quả của thao tác CÓ gửi mail đăng nhập (duyệt / mời): mail đi được thì báo bình thường; không đi được (chưa cấu hình
-  // gửi mail, Gmail/Resend từ chối...) thì nói thật và đưa link để chủ sao chép gửi tay — thay vì báo "đã gửi" suông.
   function grantResult(targetEmail: string, data: { mailSent?: boolean; loginLink?: string }, verb: 'duyệt cho' | 'mời'): ActionResult {
     const name = <MascotEm>{targetEmail}</MascotEm>
     if (data.mailSent === false && data.loginLink) {
@@ -97,7 +91,7 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     return runAction({
       bubble: approve ? (
         <>
-          Duyệt cho <MascotEm>{targetEmail}</MascotEm> hả ông chủ?
+          Duyệt cho <MascotEm>{targetEmail}</MascotEm> xem Certs hả ông chủ?
         </>
       ) : (
         <>
@@ -108,7 +102,7 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
       confirmLabel: approve ? 'Duyệt nè' : 'Từ chối nè',
       danger: !approve,
       run: async () => {
-        const res = await fetch(`/api/ielts/access-requests/${encodeURIComponent(targetEmail)}`, {
+        const res = await fetch(`/api/certs/access-requests/${encodeURIComponent(targetEmail)}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ action }),
@@ -156,14 +150,14 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     return runAction({
       bubble: (
         <>
-          Mời <MascotEm>{trimmed}</MascotEm> xem IELTS Hub hả ông chủ?
+          Mời <MascotEm>{trimmed}</MascotEm> xem Certs Hub hả ông chủ?
         </>
       ),
       sub: 'Em sẽ gửi luôn link đăng nhập vào hộp thư của bạn ấy nha 🐾',
       confirmLabel: 'Mời nè',
       run: async () => {
         if (!EMAIL_RE.test(trimmed)) return { ok: false, error: 'Email này trông chưa đúng lắm, ông chủ kiểm tra lại giúp em nha' }
-        const res = await fetch('/api/ielts/invites', {
+        const res = await fetch('/api/certs/invites', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email: trimmed }),
@@ -193,7 +187,7 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
       confirmLabel: revoked ? 'Thu hồi nè' : 'Cấp lại nè',
       danger: revoked,
       run: async () => {
-        const res = await fetch(`/api/ielts/invites/${encodeURIComponent(targetEmail)}`, {
+        const res = await fetch(`/api/certs/invites/${encodeURIComponent(targetEmail)}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ revoked }),
@@ -227,7 +221,7 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
       confirmLabel: 'Xoá luôn',
       danger: true,
       run: async () => {
-        const res = await fetch(`/api/ielts/invites/${encodeURIComponent(targetEmail)}`, { method: 'DELETE' })
+        const res = await fetch(`/api/certs/invites/${encodeURIComponent(targetEmail)}`, { method: 'DELETE' })
         if (!res.ok) return { ok: false, error: 'Chưa xoá được rồi, ông chủ thử lại sau chút nha' }
         setInvites((v) => v.filter((x) => x.email !== targetEmail))
         return {

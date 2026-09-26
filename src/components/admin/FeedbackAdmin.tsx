@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useAdminAction } from '@/components/admin/AdminDialog'
+import { formatAdminDate } from '@/components/admin/format'
 import { MascotEm } from '@/components/mascot/MascotDialog'
 import type { FeedbackItem } from '@/lib/feedback/admin'
 
-const fmt = (iso: string) => new Date(iso).toLocaleString('vi-VN')
 
 // Tab "Góp ý" của /admin — đọc góp ý gửi qua DonateWidget (tab "Góp ý" ở /study), chỉ chủ trang xem
 // được (API chặn bằng requireAdminApi). Không sửa được, chỉ đọc rồi xoá khi đã xử lý xong.
@@ -48,42 +48,59 @@ export function FeedbackAdmin() {
   }
 
   return (
-    <div>
+    <div className="adm-panel">
       <div className="adm-toolbar">
-        <h2 className="ih-font-hand adm-subtitle">Góp ý{items ? ` (${items.length})` : ''}</h2>
-        <button type="button" className="ih-btn-outline" onClick={load}>
+        <h2 className="adm-panel-title">
+          Góp ý {items && <span className="adm-count">{items.length}</span>}
+        </h2>
+        <button type="button" className="adm-btn adm-btn-outline" onClick={load}>
           Tải lại
         </button>
       </div>
       <p className="adm-note">Góp ý gửi qua nút &quot;Mua pate cho Diên&quot; ở /study (tab Góp ý) — mới nhất lên trước.</p>
 
-      {loadError && <p className="ih-vocab-empty adm-error">{loadError}</p>}
-      {!loadError && items === null && <p className="ih-vocab-empty">Đang tải…</p>}
-      {items && items.length === 0 && <p className="ih-vocab-empty">Chưa có góp ý nào.</p>}
+      {loadError && <p className="adm-note adm-error">{loadError}</p>}
 
-      <div className="adm-list">
-        {items?.map((item) => (
-          <div key={item.id} className="ih-glass adm-feedback-item">
-            <div className="adm-feedback-main">
-              <p className="adm-feedback-message">{item.message}</p>
-              <div className="adm-meta">
-                {fmt(item.createdAt)}
-                {item.page && (
-                  <>
-                    {' · '}
-                    <span className="adm-feedback-page">{item.page}</span>
-                  </>
-                )}
-              </div>
-            </div>
-            <div className="adm-actions">
-              <button type="button" className="ih-btn-outline adm-danger" onClick={() => remove(item)}>
-                Xoá
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
+      {!loadError && (
+        <div className="adm-table-wrap">
+          <table className="adm-table">
+            <thead>
+              <tr>
+                <th>Nội dung</th>
+                <th>Trang</th>
+                <th>Gửi lúc</th>
+                <th className="adm-col-actions">Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items === null && (
+                <tr className="adm-empty-row">
+                  <td colSpan={4}>Đang tải…</td>
+                </tr>
+              )}
+              {items && items.length === 0 && (
+                <tr className="adm-empty-row">
+                  <td colSpan={4}>Chưa có góp ý nào.</td>
+                </tr>
+              )}
+              {items?.map((item) => (
+                <tr key={item.id}>
+                  <td>
+                    <p className="adm-message">{item.message}</p>
+                  </td>
+                  <td className="adm-mono">{item.page || '—'}</td>
+                  <td className="adm-cell-sub">{formatAdminDate(item.createdAt)}</td>
+                  <td className="adm-col-actions">
+                    <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => remove(item)}>
+                      Xoá
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }

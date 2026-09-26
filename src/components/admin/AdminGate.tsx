@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { IELTS_TOKENS } from '@/components/ielts/AccessGate'
+import { ADMIN_TOKENS } from '@/components/admin/adminTokens'
 import { HAPPY_VIDEO, MascotBubble, MascotCat, MascotDialog, MascotEm, MascotSub, QUESTION_VIDEO } from '@/components/mascot/MascotDialog'
 import { MAGIC_LINK_SUBJECT } from '@/lib/ielts/mailSubjects'
 
@@ -40,7 +40,7 @@ export function AdminGate() {
   }
 
   return (
-    <MascotDialog style={IELTS_TOKENS}>
+    <MascotDialog style={ADMIN_TOKENS}>
       {status === 'sent' ? (
         <div className="md-body">
           <MascotBubble jump>

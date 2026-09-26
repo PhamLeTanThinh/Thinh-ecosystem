@@ -3,6 +3,6 @@ import { getAdminAccess } from '@/lib/admin/access'
 
 export default async function AdminPage({ searchParams }: { searchParams: Promise<{ tab?: string }> }) {
   const [access, { tab }] = await Promise.all([getAdminAccess(), searchParams])
-  const initialTab = tab === 'learners' ? 'learners' : tab === 'feedback' ? 'feedback' : 'ielts'
+  const initialTab = tab === 'learners' ? 'learners' : tab === 'feedback' ? 'feedback' : tab === 'certs' ? 'certs' : 'ielts'
   return <AdminDashboard ownerEmail={access.ok ? access.email : null} initialTab={initialTab} />
 }

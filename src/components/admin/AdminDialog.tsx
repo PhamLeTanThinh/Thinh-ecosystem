@@ -2,12 +2,13 @@
 
 import { createContext, useCallback, useContext, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
-import { IELTS_TOKENS } from '@/components/ielts/AccessGate'
+import { ADMIN_TOKENS } from '@/components/admin/adminTokens'
 import { ActionDialog } from '@/components/mascot/ActionDialog'
 import type { ActionSpec } from '@/components/mascot/ActionDialog'
 
 // Mọi thao tác thêm/sửa/xoá ở /admin đi qua popup mèo hỏi–xong dùng chung (mascot/ActionDialog.tsx) thay vì
-// window.confirm mặc định của trình duyệt — file này chỉ bọc thêm: 1 popup mở tại 1 thời điểm, gọi bằng hook, màu IELTS.
+// window.confirm mặc định của trình duyệt — file này chỉ bọc thêm: 1 popup mở tại 1 thời điểm, gọi bằng hook,
+// màu riêng của /admin (xem adminTokens.ts).
 // Dùng: const runAction = useAdminAction(); const done = await runAction({ bubble, confirmLabel, run }).
 export type { ActionResult } from '@/components/mascot/ActionDialog'
 export type AdminAction = ActionSpec
@@ -47,7 +48,7 @@ export function AdminActionProvider({ children }: { children: ReactNode }) {
   return (
     <ActionContext.Provider value={runAction}>
       {children}
-      {pending && <ActionDialog key={pending.id} spec={pending.spec} onClose={close} style={IELTS_TOKENS} />}
+      {pending && <ActionDialog key={pending.id} spec={pending.spec} onClose={close} style={ADMIN_TOKENS} />}
     </ActionContext.Provider>
   )
 }

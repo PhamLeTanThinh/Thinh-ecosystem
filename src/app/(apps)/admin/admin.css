@@ -1,61 +1,132 @@
-/* Trang /admin — dùng lại token + lớp ih-* của IELTS (ielts.css) cho đồng bộ giao diện, chỉ thêm phần riêng của
-   trang quản trị (khung, tab, danh sách hồ sơ học). */
-.adm-root {
-  max-width: 780px;
-  margin: 0 auto;
-  padding: 24px 16px 72px;
+/* Trang /admin — bảng điều khiển nội bộ, KHÔNG dùng chung hệ màu/font vui nhộn (--color-ih-*, chữ viết tay)
+   của IELTS nữa: đây là màn hình thao tác dữ liệu (mời/duyệt/xoá), nên ưu tiên rõ ràng, gọn, chuyên nghiệp.
+   Popup xác nhận (mèo Diên, AdminDialog.tsx) vẫn giữ nguyên — chỉ đổi màu qua adminTokens.ts, không đụng
+   cấu trúc/giọng văn. Toàn bộ token/lớp bên dưới tự chứa (namespace `adm-`), không phụ thuộc ielts.css. */
+
+/* Chỉ khai báo custom property thường (không dùng @theme của Tailwind) — các lớp .adm-* dưới đây tham
+   chiếu qua var(--color-adm-*), không cần Tailwind sinh utility class (bg-adm-accent...) cho các tên này. */
+:root {
+  --color-adm-bg: #f5f6f8;
+  --color-adm-surface: #ffffff;
+  --color-adm-surface-soft: #f7f8fa;
+  --color-adm-border: #e3e6ec;
+  --color-adm-ink: #101828;
+  --color-adm-ink-soft: #64748b;
+  --color-adm-accent: #2b3a55;
+  --color-adm-accent-soft: #eef1f6;
+  --color-adm-success: #178a5a;
+  --color-adm-success-soft: #e7f5ee;
+  --color-adm-warning: #b45309;
+  --color-adm-warning-soft: #fdf3e2;
+  --color-adm-danger: #dc2626;
+  --color-adm-danger-soft: #fdecec;
 }
 
+.adm-shell {
+  min-height: 100dvh;
+  background: var(--color-adm-bg);
+  color: var(--color-adm-ink);
+  font-family: var(--font-adm-body), 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+}
+
+.adm-root {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px 20px 72px;
+}
+
+/* ── Header ────────────────────────────────────────────────────── */
 .adm-head {
   display: flex;
-  align-items: baseline;
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 4px 12px;
-  margin: 18px 0 12px;
+  gap: 8px 16px;
+  margin: 14px 0 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-adm-border);
 }
 
 .adm-title {
   margin: 0;
-  font-size: 28px;
-  color: var(--color-ih-ink);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-adm-ink);
+}
+
+.adm-subhead {
+  margin: 2px 0 0;
+  font-size: 13px;
+  color: var(--color-adm-ink-soft);
 }
 
 .adm-owner {
-  font-size: 12px;
-  color: var(--color-ih-ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--color-adm-ink-soft);
+  background: var(--color-adm-surface);
+  border: 1px solid var(--color-adm-border);
+  border-radius: 999px;
+  padding: 5px 12px 5px 10px;
 }
 
+.adm-owner::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-adm-success);
+  flex: none;
+}
+
+/* ── Tabs (kiểu underline, chuẩn dashboard) ───────────────────────── */
 .adm-tabs {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   gap: 4px;
   margin-bottom: 20px;
-  padding: 4px;
-  border-radius: 999px;
-  background: #fff;
-  border: 1px solid var(--color-ih-border);
+  border-bottom: 1px solid var(--color-adm-border);
 }
 
 .adm-tab {
-  padding: 8px 16px;
+  position: relative;
+  top: 1px;
+  padding: 9px 4px;
+  margin-right: 22px;
   border: 0;
-  border-radius: 999px;
+  border-bottom: 2px solid transparent;
   background: transparent;
   font-size: 13.5px;
   font-weight: 600;
-  color: var(--color-ih-ink-soft);
+  color: var(--color-adm-ink-soft);
   cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition: color 0.15s ease, border-color 0.15s ease;
 }
 
 .adm-tab:hover {
-  color: var(--color-ih-ink);
+  color: var(--color-adm-ink);
 }
 
 .adm-tab[aria-selected='true'] {
-  background: var(--color-ih-ink);
-  color: #fff;
+  color: var(--color-adm-accent);
+  border-bottom-color: var(--color-adm-accent);
+}
+
+/* ── Panel (khung trắng bọc mỗi tab) ──────────────────────────────── */
+.adm-panel {
+  background: var(--color-adm-surface);
+  border: 1px solid var(--color-adm-border);
+  border-radius: 14px;
+  padding: 18px 20px 20px;
+}
+
+.adm-panel + .adm-panel {
+  margin-top: 16px;
 }
 
 .adm-toolbar {
@@ -63,156 +134,296 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
+  margin-bottom: 4px;
 }
 
-.adm-subtitle {
+.adm-panel-title {
   margin: 0;
   margin-right: auto;
-  font-size: 20px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-adm-ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adm-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-adm-ink-soft);
+  background: var(--color-adm-surface-soft);
+  border: 1px solid var(--color-adm-border);
+  border-radius: 999px;
+  padding: 1px 8px;
 }
 
 .adm-search {
-  flex: 0 1 220px;
+  flex: 0 1 240px;
   min-width: 140px;
 }
 
 .adm-note {
-  margin: 8px 0 14px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--color-ih-ink-soft);
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--color-adm-ink-soft);
 }
 
 .adm-error {
-  color: #dc2626;
+  color: var(--color-adm-danger);
 }
 
-.adm-list {
-  display: grid;
-  gap: 12px;
-}
-
-.adm-learner {
+/* ── Form dòng (mời qua email...) ─────────────────────────────────── */
+.adm-inline-form {
   display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 16px;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 4px;
+}
+
+.adm-inline-form .adm-input {
+  flex: 1 1 260px;
+}
+
+/* ── Input / nút dùng chung ────────────────────────────────────────── */
+.adm-input {
+  font-size: 13.5px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-adm-border);
+  background: var(--color-adm-surface);
+  color: var(--color-adm-ink);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.adm-input:focus {
+  border-color: var(--color-adm-accent);
+}
+
+.adm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.adm-btn-primary {
+  background: var(--color-adm-accent);
+  color: #fff;
+}
+
+.adm-btn-primary:hover {
+  background: color-mix(in srgb, var(--color-adm-accent) 88%, #000);
+}
+
+.adm-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.adm-btn-outline {
+  background: var(--color-adm-surface);
+  border-color: var(--color-adm-border);
+  color: var(--color-adm-ink);
+}
+
+.adm-btn-outline:hover {
+  border-color: var(--color-adm-accent);
+  color: var(--color-adm-accent);
+}
+
+.adm-btn-outline.adm-danger:hover {
+  border-color: var(--color-adm-danger);
+  color: var(--color-adm-danger);
+}
+
+.adm-btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--color-adm-ink-soft);
+  padding: 5px 8px;
+}
+
+.adm-btn-ghost:hover {
+  color: var(--color-adm-danger);
+}
+
+.adm-btn-sm {
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* ── Bảng dữ liệu ─────────────────────────────────────────────────── */
+.adm-table-wrap {
+  overflow-x: auto;
+  margin: 14px -4px 0;
+}
+
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.adm-table th {
+  text-align: left;
+  padding: 8px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-adm-ink-soft);
+  border-bottom: 1px solid var(--color-adm-border);
+  white-space: nowrap;
+}
+
+.adm-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--color-adm-border);
+  vertical-align: top;
+  color: var(--color-adm-ink);
+}
+
+.adm-table tbody tr:hover td {
+  background: var(--color-adm-surface-soft);
+}
+
+.adm-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* Dòng chưa từng vào hệ thống (Lần cuối = "Chưa từng đăng nhập") — tô nền vàng nhạt để chủ dễ thấy ai
+   được mời nhưng chưa dùng, kể cả khi không hover vào dòng đó. */
+.adm-table tbody tr.adm-row-warning td {
+  background: var(--color-adm-warning-soft);
+}
+
+.adm-table tbody tr.adm-row-warning:hover td {
+  background: color-mix(in srgb, var(--color-adm-warning-soft) 70%, var(--color-adm-surface-soft));
+}
+
+.adm-table td.adm-col-actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.adm-cell-main {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.adm-cell-sub {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--color-adm-ink-soft);
+  line-height: 1.5;
+}
+
+.adm-cell-sub strong {
+  color: var(--color-adm-ink);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.adm-empty-row td {
+  text-align: center;
+  padding: 32px 14px;
+  color: var(--color-adm-ink-soft);
+}
+
+.adm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+/* ── Badge / trạng thái ───────────────────────────────────────────── */
+.adm-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.adm-pill-neutral {
+  background: var(--color-adm-surface-soft);
+  color: var(--color-adm-ink-soft);
+  border: 1px solid var(--color-adm-border);
+}
+
+.adm-pill-accent {
+  background: var(--color-adm-accent-soft);
+  color: var(--color-adm-accent);
+}
+
+.adm-pill-success {
+  background: var(--color-adm-success-soft);
+  color: var(--color-adm-success);
+}
+
+.adm-pill-warning {
+  background: var(--color-adm-warning-soft);
+  color: var(--color-adm-warning);
+}
+
+.adm-pill-danger {
+  background: var(--color-adm-danger-soft);
+  color: var(--color-adm-danger);
 }
 
 .adm-avatar {
   flex: none;
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--color-ih-rose) 16%, #fff);
-  color: var(--color-ih-rose);
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--color-adm-accent-soft);
+  color: var(--color-adm-accent);
   font-weight: 700;
-}
-
-.adm-learner-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.adm-learner-name {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.adm-name-text {
-  font-size: 16px;
-  font-weight: 700;
-  overflow-wrap: anywhere;
-}
-
-.adm-badge {
-  padding: 2px 9px;
-  border-radius: 999px;
-  background: #fdf0d5;
-  color: #8a5a00;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.adm-meta {
-  margin-top: 3px;
   font-size: 12.5px;
-  line-height: 1.5;
-  color: var(--color-ih-ink-soft);
 }
 
-.adm-meta strong {
-  margin-right: 4px;
-  color: var(--color-ih-ink);
-}
-
-.adm-rename {
+.adm-rename-form {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
-.adm-rename .ih-input {
-  flex: 1 1 200px;
-  min-width: 0;
-}
-
-.adm-row-error {
-  margin: 8px 0 0;
-  font-size: 12.5px;
-  color: #dc2626;
-}
-
-.adm-actions {
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.adm-danger:hover {
-  border-color: #dc2626;
-  color: #dc2626;
-}
-
-/* ── Tab "Góp ý" (FeedbackAdmin.tsx) ──────────────────────────────────────────────────── */
-.adm-feedback-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 14px;
-  padding: 14px 16px;
-}
-
-.adm-feedback-main {
-  flex: 1;
-  min-width: 0;
-}
-
-.adm-feedback-message {
+.adm-message {
   margin: 0;
-  font-size: 14px;
+  font-size: 13.5px;
   line-height: 1.55;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
+  max-width: 46ch;
 }
 
-.adm-feedback-page {
-  font-family: monospace;
+.adm-mono {
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
   font-size: 11.5px;
 }
 
-@media (max-width: 560px) {
-  .adm-learner {
-    flex-wrap: wrap;
+@media (max-width: 720px) {
+  .adm-root {
+    padding: 16px 14px 56px;
   }
 
-  .adm-actions {
-    flex-direction: row;
-    width: 100%;
+  .adm-panel {
+    padding: 14px;
   }
 }
