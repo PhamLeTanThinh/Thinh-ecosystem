@@ -11,7 +11,7 @@ function inline(text: string): ReactNode[] {
     if (m.index > last) out.push(text.slice(last, m.index))
     const tok = m[0]
     if (tok.startsWith('**')) out.push(<strong key={i++} className="font-semibold text-text">{tok.slice(2, -2)}</strong>)
-    else out.push(<code key={i++} className="rounded bg-card-soft px-1.5 py-0.5 font-mono text-[0.85em] text-accent">{tok.slice(1, -1)}</code>)
+    else out.push(<code key={i++} className="rounded bg-card-soft px-1.5 py-0.5 font-mono text-[0.85em] text-plum">{tok.slice(1, -1)}</code>)
     last = m.index + tok.length
   }
   if (last < text.length) out.push(text.slice(last))
@@ -19,9 +19,9 @@ function inline(text: string): ReactNode[] {
 }
 
 const TONE = {
-  tip: { icon: '💡', box: 'border-blue-200 bg-blue-50', title: 'text-blue-800' },
-  warn: { icon: '⚠️', box: 'border-amber-200 bg-amber-50', title: 'text-amber-800' },
-  exam: { icon: '🎯', box: 'border-indigo-200 bg-indigo-50', title: 'text-indigo-800' },
+  tip: { icon: '💡', box: 'border-sky-200 bg-sky-50', title: 'text-sky-800' },
+  warn: { icon: '⚠️', box: 'border-gold/30 bg-gold/5', title: 'text-gold' },
+  exam: { icon: '🎯', box: 'border-plum/20 bg-plum-soft', title: 'text-plum' },
 } as const
 
 export function slugify(text: string): string {
@@ -50,7 +50,7 @@ export function TheoryBlocks({ blocks }: { blocks: TheoryBlock[] }) {
           case 'list': {
             const Tag = b.ordered ? 'ol' : 'ul'
             return (
-              <Tag key={i} className={`flex flex-col gap-2 pl-5 leading-relaxed ${b.ordered ? 'list-decimal' : 'list-disc'} marker:text-accent`}>
+              <Tag key={i} className={`flex flex-col gap-2 pl-5 leading-relaxed ${b.ordered ? 'list-decimal' : 'list-disc'} marker:text-plum`}>
                 {b.items.map((it, j) => <li key={j}>{inline(it)}</li>)}
               </Tag>
             )
@@ -85,7 +85,7 @@ export function TheoryBlocks({ blocks }: { blocks: TheoryBlock[] }) {
             return (
               <figure key={i}>
                 {b.caption && <figcaption className="mb-1 text-xs text-muted">{b.caption}</figcaption>}
-                <pre className="overflow-x-auto rounded-xl bg-slate-900 p-4 text-xs leading-relaxed text-slate-100"><code>{b.text}</code></pre>
+                <pre className="overflow-x-auto rounded-xl bg-midnight p-4 text-xs leading-relaxed text-slate-100"><code>{b.text}</code></pre>
               </figure>
             )
         }

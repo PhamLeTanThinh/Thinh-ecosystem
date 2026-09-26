@@ -20,20 +20,20 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
         <AppBreadcrumb app="/certs" trail={[{ label: 'CCAF' }]} />
         <LearnerProfile />
       </div>
-      <section className="relative mb-4 shrink-0 overflow-hidden rounded-card border border-blue-100 bg-gradient-to-br from-blue-50 via-indigo-50 to-sky-50 px-5 py-4 shadow-sm md:px-6">
-        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-blue-200/30" />
-        <div className="pointer-events-none absolute -bottom-20 right-24 h-48 w-48 rounded-full bg-blue-200/30" />
+      <section className="relative mb-4 shrink-0 overflow-hidden rounded-card border border-border bg-gradient-to-br from-accent-soft via-card to-plum-soft px-5 py-4 shadow-sm md:px-6">
+        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/10 blur-2xl" />
+        <div className="pointer-events-none absolute -bottom-20 right-24 h-48 w-48 rounded-full bg-plum/10 blur-2xl" />
         <div className="relative flex flex-wrap items-center justify-between gap-4">
           <div className="max-w-2xl">
-            <span className="rounded-pill bg-blue-100 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-700">Claude Certified Architect</span>
+            <span className="rounded-pill border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold">Claude Certified Architect</span>
             <h1 className="mt-2 text-2xl font-extrabold leading-tight">CCA Foundations — Luyện đề</h1>
             <p className="mt-1 text-sm text-muted">CCA-F là chứng chỉ nền tảng dành cho kiến trúc sư xây dựng giải pháp với Claude, kiểm tra kiến thức về thiết kế agent, tool & MCP, Claude Code, prompt và quản lý ngữ cảnh.</p>
           </div>
           <div className="flex flex-wrap items-center gap-2 text-xs font-semibold">
-            <span className="rounded-pill border border-blue-100 bg-white/70 px-3 py-1 text-blue-800">📝 {questions.length} câu</span>
-            <span className="rounded-pill border border-blue-100 bg-white/70 px-3 py-1 text-blue-800">🧩 5 domain</span>
-            <span className="rounded-pill border border-blue-100 bg-white/70 px-3 py-1 text-blue-800">🌐 Song ngữ</span>
-            <Link href="/certs/ccaf/theory" className="rounded-pill border border-blue-200 bg-white px-5 py-2.5 text-sm font-bold text-blue-700 shadow-sm transition hover:-translate-y-0.5 hover:border-blue-400 hover:shadow-md">
+            <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">📝 {questions.length} câu</span>
+            <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">🧩 5 domain</span>
+            <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">🌐 Song ngữ</span>
+            <Link href="/certs/ccaf/theory" className="rounded-pill border border-gold/40 bg-card px-5 py-2.5 text-sm font-bold text-gold shadow-sm transition hover:-translate-y-0.5 hover:border-gold hover:shadow-md">
             📖 Học lý thuyết
             </Link>
           </div>

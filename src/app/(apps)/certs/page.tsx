@@ -28,10 +28,10 @@ export default function CertsPage() {
       <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {CERTS.map((cert) => (
           <div key={cert.title} className="relative flex flex-col overflow-hidden rounded-card border border-border bg-card p-6 shadow-sm">
-            <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-accent-soft opacity-70" />
+            <div className="pointer-events-none absolute -right-10 -top-10 h-36 w-36 rounded-full bg-plum-soft opacity-90 blur-xl" />
 
             <div className="relative">
-              <span className="rounded-pill bg-accent px-3 py-1 text-lg font-extrabold tracking-wide text-white">{cert.title}</span>
+              <span className="rounded-pill border border-gold/40 bg-accent px-3 py-1 text-lg font-extrabold tracking-wide text-gold-light">{cert.title}</span>
             </div>
 
             <h2 className="relative mt-5 text-base font-bold leading-snug">{cert.subtitle}</h2>
