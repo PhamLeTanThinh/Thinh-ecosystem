@@ -11,7 +11,7 @@ export const DOMAIN_4: TheoryDomain = {
       id: 'structured-extraction-schema',
       title: 'Trích xuất có cấu trúc: tool_use, tool_choice & thiết kế schema',
       summary: 'Lấy JSON đúng cấu trúc bằng tool_use, điều khiển tool_choice, và thiết kế schema (null, other, unclear) để model không phải bịa.',
-      questionIds: [63, 65, 67, 68, 69, 70, 71, 72, 73, 106, 107, 111, 112, 117, 155, 180, 182],
+      questionIds: [63, 65, 67, 68, 69, 70, 71, 72, 73, 107, 111, 117, 182],
       blocks: [
         {
           type: 'tldr',
@@ -184,7 +184,7 @@ export const DOMAIN_4: TheoryDomain = {
       id: 'prompting-techniques',
       title: 'Kỹ thuật prompt, làm rõ yêu cầu & duy trì hành vi',
       summary: 'Đặt hướng dẫn trong system prompt, một nguyên tắc chung thay vì nhiều điều kiện, nêu giả định khi mơ hồ, nhắc lại khi hội thoại dài.',
-      questionIds: [122, 124, 126, 127, 129, 130, 131, 132, 138, 143, 145, 159],
+      questionIds: [122, 124, 126, 127, 129, 130, 131, 132, 143, 145],
       blocks: [
         {
           type: 'tldr',
@@ -235,13 +235,6 @@ export const DOMAIN_4: TheoryDomain = {
           type: 'p',
           text: 'Ngoại lệ: yêu cầu có **nhiều cách hiểu dẫn tới hành động rất khác nhau** — vd. "Set up my focus music" có thể là cấu hình, tạo playlist hay phát nhạc ngay → hỏi **một câu** để làm rõ loại hành động.',
         },
-        {
-          type: 'callout',
-          tone: 'warn',
-          title: 'Lưu ý bộ đề',
-          text: 'Câu Q138 (bản trùng của Q126) trong bộ đề gốc từng đánh dấu nhầm "gộp câu hỏi" là đúng. Đáp án nhất quán với Q126/Q143 là **nêu giả định rõ ràng + chỉ hỏi cho hành động không thể hoàn tác**.',
-        },
-
         { type: 'h', text: '4. Hướng dẫn bị "phai" khi hội thoại dài' },
         {
           type: 'p',
@@ -275,7 +268,7 @@ export const DOMAIN_4: TheoryDomain = {
       id: 'batch-api',
       title: 'Message Batches API',
       summary: 'Rẻ hơn 50% nhưng chờ tới 24 giờ: khi nào dùng batch, tính chu kỳ gửi theo SLA, và xử lý phần bị lỗi.',
-      questionIds: [62, 75, 76, 77, 110, 181],
+      questionIds: [62, 75, 76, 77, 110],
       blocks: [
         {
           type: 'tldr',

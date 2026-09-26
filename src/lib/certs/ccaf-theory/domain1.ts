@@ -11,7 +11,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'agent-loop-patterns',
       title: 'Agentic loop & các mẫu chia nhỏ tác vụ',
       summary: 'Claude tự quyết từng bước như thế nào, 5 mẫu workflow nên chọn khi nào, và cách chia một việc lớn chưa rõ ràng.',
-      questionIds: [1, 2, 3, 4, 13, 36, 56, 85, 149, 193, 196],
+      questionIds: [1, 2, 3, 4, 13, 36, 56],
       blocks: [
         {
           type: 'tldr',
@@ -129,7 +129,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'multi-agent',
       title: 'Hệ thống nhiều agent: coordinator & subagent',
       summary: 'Trưởng nhóm chia việc cho các subagent: truyền đủ thông tin, chạy song song, giao mục tiêu thay vì thủ tục, mỗi agent ít tool.',
-      questionIds: [6, 7, 8, 13, 14, 16, 17, 20, 27, 82, 83, 85, 87, 90, 148, 193, 195],
+      questionIds: [6, 7, 8, 13, 14, 16, 17, 20, 27],
       blocks: [
         {
           type: 'tldr',
@@ -249,7 +249,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'multi-agent-state',
       title: 'Truyền trạng thái & nguồn gốc dữ liệu giữa các agent',
       summary: 'Giữ nguồn, ngày tháng và độ chắc chắn không bị rơi mất khi thông tin đi qua nhiều agent; tìm thêm khi thiếu; chạy tiếp sau khi sập.',
-      questionIds: [5, 9, 10, 11, 12, 18, 19, 21, 22, 79, 80, 81, 84, 86, 88, 147],
+      questionIds: [5, 9, 10, 11, 12, 18, 19, 21, 22, 81, 86],
       blocks: [
         {
           type: 'tldr',
@@ -328,7 +328,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'guardrails-escalation',
       title: 'Guardrail, hook & chuyển giao cho con người',
       summary: 'Quy tắc bắt buộc phải chặn bằng code (hook/tool), khi nào escalate, và handoff sao cho người nhận làm được ngay.',
-      questionIds: [29, 30, 31, 32, 33, 37, 38, 98, 99, 105, 189, 191, 204],
+      questionIds: [29, 30, 31, 32, 33, 37, 38, 98, 99, 105, 191],
       blocks: [
         {
           type: 'tldr',
@@ -443,7 +443,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'sessions-exploration',
       title: 'Quản lý session: resume, fork & khám phá codebase',
       summary: 'Khi nào dùng resume, continue, fork hay session mới; xử lý khi context quá đầy trong session khám phá dài.',
-      questionIds: [28, 45, 48, 49, 51, 52, 53, 54, 55, 162, 165, 194],
+      questionIds: [28, 45, 48, 49, 51, 52, 53, 54, 55],
       blocks: [
         {
           type: 'tldr',

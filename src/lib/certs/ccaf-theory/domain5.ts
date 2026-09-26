@@ -67,13 +67,6 @@ export const DOMAIN_5: TheoryDomain = {
             ['Một session xử lý nhiều vấn đề; gần hết context thì khách hỏi lại vụ hoàn tiền ở lượt 1–15', '**Tóm tắt các lượt cũ dạng kể chuyện**, chỉ giữ nguyên văn cho vấn đề **đang xử lý**. Sliding window sẽ bỏ mất đúng vụ khách đang hỏi.'],
           ],
         },
-        {
-          type: 'callout',
-          tone: 'warn',
-          title: 'Lưu ý bộ đề',
-          text: 'Câu Q135 là bản trùng của Q39 nhưng file gốc đánh dấu "structured state" là đúng. Đáp án nhất quán với Q39 là **tóm tắt dạng kể + giữ nguyên văn cho vấn đề đang xử lý**; ứng dụng đã sửa cho hai câu khớp nhau.',
-        },
-
         { type: 'h', text: '3. Câu hỏi cần số liệu chính xác' },
         {
           type: 'example',
@@ -97,7 +90,7 @@ export const DOMAIN_5: TheoryDomain = {
       id: 'context-budgeting',
       title: 'Ngân sách context: tool output, RAG & suy giảm chất lượng',
       summary: 'Context có giới hạn: trim tool result thừa, chỉ giữ RAG gần nhất, dùng scratchpad file và subagent khi session quá dài.',
-      questionIds: [42, 49, 53, 55, 114, 128, 134, 190],
+      questionIds: [42, 49, 53, 55, 114, 128],
       blocks: [
         {
           type: 'tldr',

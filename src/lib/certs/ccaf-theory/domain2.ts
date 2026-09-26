@@ -11,7 +11,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'tool-design-selection',
       title: 'Thiết kế tool: mô tả, ranh giới & số lượng',
       summary: 'Claude chọn tool chỉ dựa vào tên và mô tả: viết mô tả rõ, mỗi tool một việc, gộp tool trùng nghĩa, thiết kế để không thể dùng sai.',
-      questionIds: [15, 27, 46, 57, 96, 100, 102, 103, 104, 136, 140, 148, 184, 192, 207],
+      questionIds: [15, 27, 46, 57, 96, 100, 102, 103, 104, 136, 140, 184],
       blocks: [
         {
           type: 'tldr',
@@ -106,7 +106,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'tool-results-errors',
       title: 'Tool result, xử lý lỗi & phân trang',
       summary: 'Báo lỗi sao cho agent biết làm gì tiếp: lỗi tạm thời hay vĩnh viễn, có nên retry; pagination và trả kết quả đủ để hành động.',
-      questionIds: [35, 40, 41, 92, 93, 94, 95, 97, 101, 133, 137, 139, 141, 185, 205, 206],
+      questionIds: [35, 40, 41, 92, 93, 94, 95, 97, 101, 137, 139, 141, 185],
       blocks: [
         {
           type: 'tldr',
@@ -306,7 +306,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'builtin-tools-exploration',
       title: 'Công cụ tích hợp & chiến lược khám phá codebase',
       summary: 'Grep tìm nội dung, Glob tìm tên file, Read/Edit/Write; cách tìm hiểu code lạ từ entry point hoặc base class.',
-      questionIds: [23, 25, 47, 50, 56, 58, 59, 161, 166, 202],
+      questionIds: [23, 25, 47, 50, 56, 58, 59, 202],
       blocks: [
         {
           type: 'tldr',

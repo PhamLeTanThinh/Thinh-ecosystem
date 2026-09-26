@@ -92,7 +92,7 @@ export const DOMAIN_3: TheoryDomain = {
       id: 'plan-vs-direct-iteration',
       title: 'Plan mode vs. thực thi trực tiếp & loop cải tiến',
       summary: 'Khi nào lập kế hoạch, khi nào làm luôn; cách sửa dần hiệu quả: test trước, ví dụ cụ thể, từng vấn đề một, để Claude hỏi lại.',
-      questionIds: [3, 60, 164, 167, 169, 170, 171, 175, 177],
+      questionIds: [3, 60, 164, 167, 169, 170, 171, 177],
       blocks: [
         {
           type: 'tldr',
@@ -165,7 +165,7 @@ export const DOMAIN_3: TheoryDomain = {
       id: 'ci-headless-review',
       title: 'Chạy không giao diện (CI) & thiết kế review tự động',
       summary: 'Chạy Claude Code trong CI (-p, --max-turns, --max-budget-usd) và thiết kế review tự động: session riêng, tìm rộng rồi lọc, ví dụ có chú thích.',
-      questionIds: [1, 43, 61, 75, 183, 186, 188, 197, 198, 200, 201],
+      questionIds: [1, 43, 61, 75, 183, 186, 188, 197, 198, 200],
       blocks: [
         {
           type: 'tldr',
