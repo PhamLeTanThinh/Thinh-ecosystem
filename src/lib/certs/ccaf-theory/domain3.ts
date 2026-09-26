@@ -165,7 +165,7 @@ export const DOMAIN_3: TheoryDomain = {
       id: 'ci-headless-review',
       title: 'Chạy không giao diện (CI) & thiết kế review tự động',
       summary: 'Chạy Claude Code trong CI (-p, --max-turns, --max-budget-usd) và thiết kế review tự động: session riêng, tìm rộng rồi lọc, ví dụ có chú thích.',
-      questionIds: [1, 43, 61, 75, 183, 186, 187, 188, 197, 198, 200, 201],
+      questionIds: [1, 43, 61, 75, 183, 186, 188, 197, 198, 200, 201],
       blocks: [
         {
           type: 'tldr',

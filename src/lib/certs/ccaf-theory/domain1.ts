@@ -129,7 +129,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'multi-agent',
       title: 'Hệ thống nhiều agent: coordinator & subagent',
       summary: 'Trưởng nhóm chia việc cho các subagent: truyền đủ thông tin, chạy song song, giao mục tiêu thay vì thủ tục, mỗi agent ít tool.',
-      questionIds: [6, 7, 8, 13, 14, 16, 17, 20, 27, 82, 83, 85, 87, 90, 148, 152, 193, 195],
+      questionIds: [6, 7, 8, 13, 14, 16, 17, 20, 27, 82, 83, 85, 87, 90, 148, 193, 195],
       blocks: [
         {
           type: 'tldr',
@@ -249,7 +249,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'multi-agent-state',
       title: 'Truyền trạng thái & nguồn gốc dữ liệu giữa các agent',
       summary: 'Giữ nguồn, ngày tháng và độ chắc chắn không bị rơi mất khi thông tin đi qua nhiều agent; tìm thêm khi thiếu; chạy tiếp sau khi sập.',
-      questionIds: [5, 9, 10, 11, 12, 18, 19, 21, 22, 78, 79, 80, 81, 84, 86, 88, 89, 91, 147],
+      questionIds: [5, 9, 10, 11, 12, 18, 19, 21, 22, 79, 80, 81, 84, 86, 88, 147],
       blocks: [
         {
           type: 'tldr',
@@ -443,7 +443,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'sessions-exploration',
       title: 'Quản lý session: resume, fork & khám phá codebase',
       summary: 'Khi nào dùng resume, continue, fork hay session mới; xử lý khi context quá đầy trong session khám phá dài.',
-      questionIds: [28, 45, 48, 49, 51, 52, 53, 54, 55, 162, 163, 165, 194],
+      questionIds: [28, 45, 48, 49, 51, 52, 53, 54, 55, 162, 165, 194],
       blocks: [
         {
           type: 'tldr',

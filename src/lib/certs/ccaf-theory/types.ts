@@ -25,7 +25,7 @@ export interface TheoryTopic {
   // Câu tóm tắt hiện ở thẻ chủ đề.
   summary: string
   blocks: TheoryBlock[]
-  // id các câu trong ngân hàng đề liên quan trực tiếp tới chủ đề (kể cả bản trùng lặp).
+  // id các câu trong ngân hàng đề liên quan trực tiếp tới chủ đề.
   questionIds: number[]
 }
 

@@ -10,6 +10,8 @@ export interface CcafQuestion {
   answer: string
   explanation: string
   vn: { question: string; options: Record<string, string>; explanation: string }
+  // Sơ đồ minh hoạ (đường dẫn trong /public), một số câu dựa vào hình để trả lời.
+  image?: string
 }
 
 type Mode = 'all' | 'random20' | 'random50' | 'custom' | 'wrong' | 'unseen'
@@ -165,7 +167,8 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
 
   const mastered = questions.filter((q) => progress.get(q.id)?.lastResult === 'correct').length
   const wrongNow = questions.filter((q) => progress.get(q.id)?.lastResult === 'wrong').length
-  const unseen = questions.length - progress.size
+  // Đếm theo bộ câu hiện có: progress có thể còn bản ghi của câu đã bị xoá khỏi đề.
+  const unseen = questions.filter((q) => !progress.has(q.id)).length
 
   // ids: chạy đúng bộ câu này (luyện lại câu sai / làm lại); không có thì chọn theo `mode` đang chọn.
   function start(ids?: number[], modeOverride?: string) {
@@ -450,6 +453,11 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
       </div>
       <p className="text-lg font-semibold leading-relaxed">{q.question}</p>
       {vi && q.vn.question && <p className="mt-3 rounded-xl bg-card-soft/70 p-3 text-sm italic leading-relaxed text-muted">{q.vn.question}</p>}
+      {q.image && (
+        <a href={q.image} target="_blank" rel="noreferrer" className="mt-4 block overflow-hidden rounded-xl border border-border" title="Mở ảnh gốc">
+          <img src={q.image} alt={`Sơ đồ câu ${q.id}`} className="w-full" />
+        </a>
+      )}
 
       <div className="mt-6 flex flex-col gap-3">
         {q.letters.map((l) => {
@@ -483,7 +491,8 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
         <div className={`mt-6 rounded-2xl border-l-4 p-5 text-sm leading-relaxed ${sel === q.answer ? 'border-jade bg-jade/10' : 'border-rose-400 bg-rose-400/10'}`}>
           <div className={`text-base font-bold ${sel === q.answer ? 'text-jade' : 'text-rose-600'}`}>{sel === q.answer ? '🎉 Chính xác!' : `✗ Chưa đúng — đáp án đúng là ${q.answer}`}</div>
           {q.explanation && <p className="mt-2">{q.explanation}</p>}
-          {vi && q.vn.explanation && <p className="mt-2 italic text-muted">{q.vn.explanation}</p>}
+          {/* Câu chỉ có giải thích tiếng Việt thì luôn hiện, kể cả khi tắt bản dịch. */}
+          {(vi || !q.explanation) && q.vn.explanation && <p className="mt-2 italic text-muted">{q.vn.explanation}</p>}
           {!q.explanation && !q.vn.explanation && <p className="mt-2 text-muted">Câu này chưa có giải thích.</p>}
           {(theoryByQuestion[q.id] ?? []).length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-black/10 pt-3 text-xs">

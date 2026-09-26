@@ -11,7 +11,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'tool-design-selection',
       title: 'Thiết kế tool: mô tả, ranh giới & số lượng',
       summary: 'Claude chọn tool chỉ dựa vào tên và mô tả: viết mô tả rõ, mỗi tool một việc, gộp tool trùng nghĩa, thiết kế để không thể dùng sai.',
-      questionIds: [15, 27, 46, 57, 96, 100, 102, 103, 104, 136, 140, 148, 153, 184, 192, 207],
+      questionIds: [15, 27, 46, 57, 96, 100, 102, 103, 104, 136, 140, 148, 184, 192, 207],
       blocks: [
         {
           type: 'tldr',
@@ -306,7 +306,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'builtin-tools-exploration',
       title: 'Công cụ tích hợp & chiến lược khám phá codebase',
       summary: 'Grep tìm nội dung, Glob tìm tên file, Read/Edit/Write; cách tìm hiểu code lạ từ entry point hoặc base class.',
-      questionIds: [23, 25, 47, 50, 56, 58, 59, 160, 161, 166, 202],
+      questionIds: [23, 25, 47, 50, 56, 58, 59, 161, 166, 202],
       blocks: [
         {
           type: 'tldr',

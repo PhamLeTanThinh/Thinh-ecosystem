@@ -11,7 +11,7 @@ export const DOMAIN_5: TheoryDomain = {
       id: 'conversation-state',
       title: 'Trạng thái hội thoại & bộ nhớ dài hạn',
       summary: 'API không có trí nhớ nên phải gửi lại lịch sử; hội thoại dài thì progressive summarization, tách dữ kiện quan trọng thành structured state.',
-      questionIds: [34, 39, 119, 120, 121, 123, 125, 135, 142, 144, 146, 158],
+      questionIds: [34, 39, 119, 120, 121, 123, 125, 142, 144, 146, 158],
       blocks: [
         {
           type: 'tldr',

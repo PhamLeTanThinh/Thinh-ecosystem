@@ -11,7 +11,7 @@ export const DOMAIN_4: TheoryDomain = {
       id: 'structured-extraction-schema',
       title: 'Trích xuất có cấu trúc: tool_use, tool_choice & thiết kế schema',
       summary: 'Lấy JSON đúng cấu trúc bằng tool_use, điều khiển tool_choice, và thiết kế schema (null, other, unclear) để model không phải bịa.',
-      questionIds: [63, 65, 67, 68, 69, 70, 71, 72, 73, 106, 107, 111, 112, 113, 115, 117, 155, 156, 157, 180, 182],
+      questionIds: [63, 65, 67, 68, 69, 70, 71, 72, 73, 106, 107, 111, 112, 117, 155, 180, 182],
       blocks: [
         {
           type: 'tldr',
@@ -107,7 +107,7 @@ export const DOMAIN_4: TheoryDomain = {
       id: 'validation-retry-review',
       title: 'Kiểm tra, retry & con người trong loop',
       summary: 'Retry kèm lỗi cụ thể, khi nào retry vô ích, chia nhỏ tài liệu dài, và dồn sức người review vào chỗ model kém tự tin.',
-      questionIds: [64, 66, 74, 108, 109, 114, 118, 150, 151, 154],
+      questionIds: [64, 66, 74, 109, 114, 118, 150, 151, 154],
       blocks: [
         {
           type: 'tldr',
@@ -275,7 +275,7 @@ export const DOMAIN_4: TheoryDomain = {
       id: 'batch-api',
       title: 'Message Batches API',
       summary: 'Rẻ hơn 50% nhưng chờ tới 24 giờ: khi nào dùng batch, tính chu kỳ gửi theo SLA, và xử lý phần bị lỗi.',
-      questionIds: [62, 75, 76, 77, 110, 116, 181],
+      questionIds: [62, 75, 76, 77, 110, 181],
       blocks: [
         {
           type: 'tldr',
