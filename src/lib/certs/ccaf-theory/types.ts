@@ -10,6 +10,14 @@ export type TheoryBlock =
   // tip = mẹo, warn = bẫy hay gặp trong đề, exam = quy tắc chọn đáp án nhanh.
   | { type: 'callout'; tone: 'tip' | 'warn' | 'exam'; title: string; text: string }
   | { type: 'code'; text: string; caption?: string }
+  // "Hiểu nhanh": 2–3 câu tóm ý chính bằng lời thường, đặt đầu chủ đề.
+  | { type: 'tldr'; text: string }
+  // Các bước nối tiếp (quy trình / vòng lặp); `loop` = ghi chú ở cuối khi các bước lặp lại.
+  | { type: 'steps'; items: string[]; loop?: string }
+  // Thuật ngữ: giải nghĩa từ tiếng Anh bằng lời thường.
+  | { type: 'terms'; items: { term: string; meaning: string }[] }
+  // Tình huống kiểu đề thi: đáp án đúng, các lựa chọn sai hay gặp và lý do.
+  | { type: 'example'; scenario: string; right: string; wrong?: string[]; why: string }
 
 export interface TheoryTopic {
   id: string

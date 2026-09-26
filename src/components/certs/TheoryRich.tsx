@@ -81,6 +81,66 @@ export function TheoryBlocks({ blocks }: { blocks: TheoryBlock[] }) {
               </div>
             )
           }
+          case 'tldr':
+            return (
+              <div key={i} className="rounded-2xl border border-accent/15 bg-gradient-to-br from-accent-soft to-plum-soft p-5">
+                <div className="mb-1.5 text-xs font-bold uppercase tracking-wider text-plum">⚡ Hiểu nhanh</div>
+                <div className="text-[15px] leading-relaxed">{inline(b.text)}</div>
+              </div>
+            )
+          case 'steps':
+            return (
+              <div key={i} className="rounded-2xl border border-border bg-card-soft/60 p-4">
+                <ol className="flex flex-col">
+                  {b.items.map((it, j) => (
+                    <li key={j} className="relative flex gap-3 pb-4 last:pb-0">
+                      {j < b.items.length - 1 && <span className="absolute left-[13px] top-7 bottom-0 w-px bg-accent/20" />}
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-bold text-white">{j + 1}</span>
+                      <span className="pt-0.5 leading-relaxed">{inline(it)}</span>
+                    </li>
+                  ))}
+                </ol>
+                {b.loop && <div className="mt-3 rounded-xl bg-plum-soft px-3 py-2 text-sm font-medium text-plum">↻ {inline(b.loop)}</div>}
+              </div>
+            )
+          case 'terms':
+            return (
+              <div key={i} className="grid gap-2 sm:grid-cols-2">
+                {b.items.map((t, j) => (
+                  <div key={j} className="rounded-xl border border-border bg-card p-3 text-sm">
+                    <div className="font-semibold text-accent">{inline(t.term)}</div>
+                    <div className="mt-0.5 leading-relaxed text-muted">{inline(t.meaning)}</div>
+                  </div>
+                ))}
+              </div>
+            )
+          case 'example':
+            return (
+              <div key={i} className="overflow-hidden rounded-2xl border border-border text-sm leading-relaxed">
+                <div className="bg-card-soft px-4 py-3">
+                  <div className="mb-1 text-xs font-bold uppercase tracking-wider text-plum">📌 Tình huống</div>
+                  <div>{inline(b.scenario)}</div>
+                </div>
+                <div className="flex flex-col gap-3 p-4">
+                  <div className="rounded-xl border-l-4 border-jade bg-jade/10 px-3 py-2">
+                    <span className="font-bold text-jade">✓ Nên làm: </span>
+                    {inline(b.right)}
+                  </div>
+                  {b.wrong && b.wrong.length > 0 && (
+                    <div className="rounded-xl border-l-4 border-rose-400 bg-rose-400/10 px-3 py-2">
+                      <div className="font-bold text-rose-600">✕ Bẫy hay gặp:</div>
+                      <ul className="mt-1 flex list-disc flex-col gap-1 pl-5">
+                        {b.wrong.map((w, j) => <li key={j}>{inline(w)}</li>)}
+                      </ul>
+                    </div>
+                  )}
+                  <div>
+                    <span className="font-bold">Vì sao? </span>
+                    <span className="text-muted">{inline(b.why)}</span>
+                  </div>
+                </div>
+              </div>
+            )
           case 'code':
             return (
               <figure key={i}>
