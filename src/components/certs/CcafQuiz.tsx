@@ -235,7 +235,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
               <svg viewBox="0 0 100 100" className="h-full w-full -rotate-90">
                 <circle cx="50" cy="50" r="40" fill="none" strokeWidth="11" className="stroke-card-soft" />
                 <circle cx="50" cy="50" r="40" fill="none" strokeWidth="11" strokeLinecap="round" stroke="#f07aa0" strokeDasharray={`${redLen} ${RING_C}`} strokeDashoffset={-greenLen} />
-                <circle cx="50" cy="50" r="40" fill="none" strokeWidth="11" strokeLinecap="round" stroke="#d9b779" strokeDasharray={`${greenLen} ${RING_C}`} />
+                <circle cx="50" cy="50" r="40" fill="none" strokeWidth="11" strokeLinecap="round" stroke="#3f8a70" strokeDasharray={`${greenLen} ${RING_C}`} />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
                 <span className="text-2xl font-extrabold leading-none">{donePct}%</span>
@@ -244,7 +244,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
             </div>
             <div className="grid w-full flex-1 grid-cols-3 gap-3">
               {[
-                { n: mastered, label: 'Đã đúng', icon: '✓', box: 'bg-gold/10 border-gold/25', num: 'text-gold', chip: 'bg-gold text-white' },
+                { n: mastered, label: 'Đã đúng', icon: '✓', box: 'bg-jade/10 border-jade/25', num: 'text-jade', chip: 'bg-jade text-white' },
                 { n: wrongNow, label: 'Đang sai', icon: '✕', box: 'bg-rose-400/10 border-rose-400/25', num: 'text-rose-600', chip: 'bg-rose-400 text-white' },
                 { n: unseen, label: 'Chưa làm', icon: '○', box: 'bg-accent-soft border-accent/25', num: 'text-accent', chip: 'bg-accent text-white' },
               ].map((s) => (
@@ -334,14 +334,14 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
                 const rate = Math.round((a.correct / a.total) * 100)
                 const good = rate >= 70
                 return (
-                  <div key={a.id} className={`relative shrink-0 overflow-hidden rounded-2xl border border-border p-3 pl-4 text-sm transition hover:shadow-md ${good ? 'bg-gold/5' : 'bg-rose-400/5'}`}>
-                    <span className={`absolute inset-y-0 left-0 w-1.5 ${good ? 'bg-gold' : 'bg-rose-400'}`} />
+                  <div key={a.id} className={`relative shrink-0 overflow-hidden rounded-2xl border border-border p-3 pl-4 text-sm transition hover:shadow-md ${good ? 'bg-jade/5' : 'bg-rose-400/5'}`}>
+                    <span className={`absolute inset-y-0 left-0 w-1.5 ${good ? 'bg-jade' : 'bg-rose-400'}`} />
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-bold">Lần {attempts.length - i}</span>
-                      <span className={`rounded-pill px-2.5 py-0.5 text-xs font-bold ${good ? 'bg-gold/15 text-gold' : 'bg-rose-400/15 text-rose-600'}`}>{rate}%</span>
+                      <span className={`rounded-pill px-2.5 py-0.5 text-xs font-bold ${good ? 'bg-jade/15 text-jade' : 'bg-rose-400/15 text-rose-600'}`}>{rate}%</span>
                     </div>
                     <div className="mt-2 h-1.5 overflow-hidden rounded-pill bg-black/10">
-                      <div className={`h-full ${good ? 'bg-gold' : 'bg-rose-400'}`} style={{ width: `${rate}%` }} />
+                      <div className={`h-full ${good ? 'bg-jade' : 'bg-rose-400'}`} style={{ width: `${rate}%` }} />
                     </div>
                     <div className="mt-2 flex flex-wrap items-center justify-between gap-1 text-xs text-muted">
                       <span>{a.correct}/{a.total} câu · {MODE_LABEL[a.mode] ?? a.mode}</span>
@@ -376,7 +376,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
               <button
                 key={q.id}
                 onClick={() => { setIdx(i); setDone(false) }}
-                className={`rounded-lg border p-3 text-left text-sm ${ok ? 'border-gold/40 bg-gold/10' : 'border-rose-400/40 bg-rose-400/10'}`}
+                className={`rounded-lg border p-3 text-left text-sm ${ok ? 'border-jade/40 bg-jade/10' : 'border-rose-400/40 bg-rose-400/10'}`}
               >
                 <div className="font-semibold">Q{q.id}. {q.question.slice(0, 140)}{q.question.length > 140 ? '…' : ''}</div>
                 <div className="text-xs text-muted">{picked[i] ? `Bạn chọn ${picked[i]} — đáp án ${q.answer}` : `Chưa trả lời — đáp án ${q.answer}`}</div>
@@ -427,7 +427,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
           {progress.get(q.id) && <span className="rounded-pill border border-border px-2.5 py-1">từng: ✓{progress.get(q.id)!.correctCount} ✕{progress.get(q.id)!.wrongCount}</span>}
         </span>
         <span className="flex items-center gap-3">
-          <span className="rounded-pill bg-gold/15 px-2.5 py-1 font-bold text-gold">✓ {correctCount}</span>
+          <span className="rounded-pill bg-jade/15 px-2.5 py-1 font-bold text-jade">✓ {correctCount}</span>
           <span className="rounded-pill bg-rose-400/15 px-2.5 py-1 font-bold text-rose-600">✕ {answeredCount - correctCount}</span>
           <button onClick={exit} className="rounded-pill border border-border px-3 py-1 text-xs font-semibold text-text transition hover:border-rose-400 hover:text-rose-600">
             ✕ Thoát
@@ -457,8 +457,8 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
           let badge = 'bg-card-soft text-accent'
           if (sel) {
             if (l === q.answer) {
-              cls = 'border-gold/60 bg-gold/10 shadow-sm'
-              badge = 'bg-gold text-white'
+              cls = 'border-jade/60 bg-jade/10 shadow-sm'
+              badge = 'bg-jade text-white'
             } else if (l === sel) {
               cls = 'border-rose-400/60 bg-rose-400/10 shadow-sm'
               badge = 'bg-rose-400 text-white'
@@ -480,8 +480,8 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
       </div>
 
       {sel && (
-        <div className={`mt-6 rounded-2xl border-l-4 p-5 text-sm leading-relaxed ${sel === q.answer ? 'border-gold bg-gold/10' : 'border-rose-400 bg-rose-400/10'}`}>
-          <div className={`text-base font-bold ${sel === q.answer ? 'text-gold' : 'text-rose-600'}`}>{sel === q.answer ? '🎉 Chính xác!' : `✗ Chưa đúng — đáp án đúng là ${q.answer}`}</div>
+        <div className={`mt-6 rounded-2xl border-l-4 p-5 text-sm leading-relaxed ${sel === q.answer ? 'border-jade bg-jade/10' : 'border-rose-400 bg-rose-400/10'}`}>
+          <div className={`text-base font-bold ${sel === q.answer ? 'text-jade' : 'text-rose-600'}`}>{sel === q.answer ? '🎉 Chính xác!' : `✗ Chưa đúng — đáp án đúng là ${q.answer}`}</div>
           {q.explanation && <p className="mt-2">{q.explanation}</p>}
           {vi && q.vn.explanation && <p className="mt-2 italic text-muted">{q.vn.explanation}</p>}
           {!q.explanation && !q.vn.explanation && <p className="mt-2 text-muted">Câu này chưa có giải thích.</p>}

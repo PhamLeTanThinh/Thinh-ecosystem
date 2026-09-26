@@ -2,13 +2,15 @@
 
 /* Bảng màu "Midnight Velvet" bản sáng: Midnight Blue (Pantone 19-4023 #111830) là màu chủ đạo — chữ,
    nút, huy hiệu (token accent). Plum Perfect (Pantone 19-2622 #4A143B) chỉ làm điểm nhấn phụ qua
-   plum / plum-soft (thanh tiến độ, callout, số câu...), cộng ánh vàng trang sức cho trạng thái đúng. */
+   plum / plum-soft (thanh tiến độ, callout, số câu...), cộng ánh vàng trang sức làm chi tiết trang trí và xanh ngọc (jade) cho trạng thái đúng. */
 @theme {
   --color-midnight: #111830;
   --color-plum: #4a143b;
   --color-gold: #9a7433;
   --color-gold-light: #ecd39f;
   --color-plum-soft: #f6ebf2;
+  /* Xanh ngọc lục bảo trầm cho trạng thái đúng — cùng độ sâu với navy/plum, không dùng xanh lá tươi. */
+  --color-jade: #2f6b57;
 
   --color-bg: #f4f5fa;
   --color-card: #ffffff;
