@@ -1,10 +1,12 @@
 import Link from 'next/link'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { assertCertsAccess } from '@/lib/certs/access'
 import { CCAF_DOMAINS } from '@/lib/certs/ccaf-theory'
 
 export const metadata = { title: 'CCAF — Lý thuyết' }
 
-export default function CcafTheoryPage() {
+export default async function CcafTheoryPage() {
+  await assertCertsAccess()
   const topicCount = CCAF_DOMAINS.reduce((n, d) => n + d.topics.length, 0)
   return (
     <div className="mx-auto w-[80%] min-w-0 py-8 max-lg:w-full max-lg:px-6">

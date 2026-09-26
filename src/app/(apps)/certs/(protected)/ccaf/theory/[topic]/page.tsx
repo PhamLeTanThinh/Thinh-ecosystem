@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { slugify, TheoryBlocks } from '@/components/certs/TheoryRich'
+import { assertCertsAccess } from '@/lib/certs/access'
 import { CCAF_TOPICS, findTopic } from '@/lib/certs/ccaf-theory'
 
 export function generateStaticParams() {
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
 }
 
 export default async function CcafTopicPage({ params }: { params: Promise<{ topic: string }> }) {
+  await assertCertsAccess()
   const found = findTopic((await params).topic)
   if (!found) notFound()
   const { topic, domain, prev, next } = found

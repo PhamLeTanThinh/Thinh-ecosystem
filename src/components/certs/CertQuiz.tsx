@@ -2,16 +2,34 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import { RichText } from './RichText'
 
-export interface CcafQuestion {
+// single: chọn 1 · multi: chọn nhiều (answer = các key nối bằng ",") · yesno: bảng Yes/No theo dòng ·
+// match: mỗi dòng chọn 1 lựa chọn (điền chỗ trống, ghép cặp, sắp thứ tự).
+export type QuestionKind = 'single' | 'multi' | 'yesno' | 'match'
+
+export interface Statement {
+  id: string
+  text: string
+  // yesno: "Yes" | "No"; match: key trong `options`.
+  answer: string
+  // match: chỉ các key này được chọn cho dòng này (mặc định: mọi lựa chọn).
+  choices?: string[]
+}
+
+export interface CertQuestion {
   id: number
+  kind?: QuestionKind
   question: string
   options: Record<string, string>
+  // single/multi. yesno/match để trống — đáp án nằm ở `statements`.
   answer: string
+  statements?: Statement[]
   explanation: string
   vn: { question: string; options: Record<string, string>; explanation: string }
   // Sơ đồ minh hoạ (đường dẫn trong /public), một số câu dựa vào hình để trả lời.
   image?: string
+  category?: string
 }
 
 type Mode = 'all' | 'random20' | 'random50' | 'custom' | 'wrong' | 'unseen'
@@ -32,7 +50,6 @@ interface Attempt {
   createdAt: string
 }
 
-const CERT_ID = 'ccaf'
 const MODE_LABEL: Record<string, string> = {
   all: 'Tất cả',
   random20: 'Ngẫu nhiên 20',
@@ -43,7 +60,8 @@ const MODE_LABEL: Record<string, string> = {
   retry: 'Luyện lại câu sai',
   topic: 'Theo chủ đề lý thuyết',
 }
-type Item = CcafQuestion & { letters: string[] }
+// key = đáp án đúng đã mã hoá cùng dạng với câu trả lời của người học, để chấm chỉ cần so chuỗi.
+type Item = CertQuestion & { kind: QuestionKind; letters: string[]; key: string }
 
 const MODES: { id: Mode; label: string }[] = [
   { id: 'all', label: 'Tất cả' },
@@ -63,19 +81,59 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
-// Xáo thứ tự đáp án, gán lại nhãn A–D và map đáp án đúng theo nội dung.
-function prepare(q: CcafQuestion): Item {
+// Câu trả lời lưu dạng chuỗi: single "B" · multi "B,C" (đã sắp xếp) · yesno/match "1=Yes|2=No".
+function encodeRows(rows: Record<string, string>): string {
+  return Object.keys(rows)
+    .sort()
+    .map((k) => `${k}=${rows[k]}`)
+    .join('|')
+}
+
+function decodeRows(value: string | undefined): Record<string, string> {
+  if (!value) return {}
+  return Object.fromEntries(value.split('|').map((p) => p.split('=') as [string, string]))
+}
+
+// single/multi: xáo thứ tự đáp án, gán lại nhãn A–D và map đáp án đúng theo nội dung.
+// yesno/match: giữ nguyên thứ tự (các dòng tham chiếu key lựa chọn, câu sắp thứ tự dựa vào "Slot 1, 2…").
+function prepare(q: CertQuestion): Item {
+  const kind = q.kind ?? 'single'
+  if (kind === 'yesno' || kind === 'match') {
+    const rows = Object.fromEntries((q.statements ?? []).map((s) => [s.id, s.answer]))
+    return { ...q, kind, letters: Object.keys(q.options), key: encodeRows(rows) }
+  }
+  const correct = new Set(q.answer.split(','))
   const entries = shuffle(Object.entries(q.options))
   const options: Record<string, string> = {}
   const optionsVn: Record<string, string> = {}
-  let answer = q.answer
+  const answer: string[] = []
   entries.forEach(([orig, text], i) => {
     const l = String.fromCharCode(65 + i)
     options[l] = text
     optionsVn[l] = q.vn.options[orig] ?? ''
-    if (orig === q.answer) answer = l
+    if (correct.has(orig)) answer.push(l)
   })
-  return { ...q, options, answer, vn: { ...q.vn, options: optionsVn }, letters: Object.keys(options) }
+  const key = answer.join(',')
+  return { ...q, kind, options, answer: key, key, vn: { ...q.vn, options: optionsVn }, letters: Object.keys(options) }
+}
+
+// Người học đã chọn đủ để nộp chưa.
+function isComplete(q: Item, value: string | undefined): boolean {
+  if (!value) return false
+  if (q.kind === 'multi') return value.split(',').length === q.key.split(',').length
+  if (q.kind === 'yesno' || q.kind === 'match') return Object.keys(decodeRows(value)).length === (q.statements ?? []).length
+  return true
+}
+
+// Mô tả ngắn câu trả lời cho màn tổng kết.
+function describe(q: Item, value: string | undefined): string {
+  if (q.kind === 'yesno' || q.kind === 'match') {
+    const rows = decodeRows(value)
+    const right = (q.statements ?? []).filter((s) => rows[s.id] === s.answer).length
+    return value ? `Đúng ${right}/${q.statements?.length ?? 0} dòng` : 'Chưa trả lời'
+  }
+  const answer = q.key.split(',').join(', ')
+  return value ? `Bạn chọn ${value.split(',').join(', ')} — đáp án ${answer}` : `Chưa trả lời — đáp án ${answer}`
 }
 
 export interface TheoryLink {
@@ -84,18 +142,22 @@ export interface TheoryLink {
 }
 
 interface Props {
-  questions: CcafQuestion[]
+  // Mã chứng chỉ dùng làm khoá lưu tiến độ / lịch sử (vd. "ccaf", "ai-103").
+  certId: string
+  questions: CertQuestion[]
   // Chủ đề lý thuyết đang luyện (từ ?topic=): tự bắt đầu ngay với đúng các câu của chủ đề đó.
   initialTopic?: { id: string; title: string; ids: number[] }
   // Câu hỏi → chủ đề lý thuyết liên quan, để hiện link "Xem lý thuyết" sau khi chấm.
   theoryByQuestion?: Record<number, TheoryLink[]>
 }
 
-export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Props) {
+export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {} }: Props) {
   const [mode, setMode] = useState<Mode>('all')
   const [from, setFrom] = useState(1)
   const [to, setTo] = useState(questions.length)
   const [vi, setVi] = useState(true)
+  // Bộ đề chỉ có giải thích tiếng Việt (không dịch câu hỏi) thì ẩn công tắc bản dịch.
+  const hasTranslation = questions.some((q) => q.vn.question)
   const [set, setSet] = useState<Item[] | null>(null)
   const [idx, setIdx] = useState(0)
   // picked = đáp án ĐÃ nộp (đã chấm, đã lưu DB); choice = đáp án đang chọn nhưng chưa bấm "Kiểm tra", đổi được thoải mái.
@@ -119,26 +181,26 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
   }, [])
 
   useEffect(() => {
-    fetch(`/api/certs/progress?cert=${CERT_ID}`)
+    fetch(`/api/certs/progress?cert=${certId}`)
       .then((r) => r.json() as Promise<Progress[]>)
       .then((rows) => setProgress(new Map(rows.map((p) => [p.id, p]))))
       .catch(() => {})
-    fetch(`/api/certs/attempts?cert=${CERT_ID}`)
+    fetch(`/api/certs/attempts?cert=${certId}`)
       .then((r) => r.json() as Promise<Attempt[]>)
       .then(setAttempts)
       .catch(() => {})
-  }, [])
+  }, [certId])
 
   function finish(items: Item[]) {
     setDone(true)
     if (saved) return
     setSaved(true)
-    const wrongIds = items.filter((q, i) => picked[i] && picked[i] !== q.answer).map((q) => q.id)
-    const correct = items.filter((q, i) => picked[i] === q.answer).length
+    const wrongIds = items.filter((q, i) => picked[i] && picked[i] !== q.key).map((q) => q.id)
+    const correct = items.filter((q, i) => picked[i] === q.key).length
     fetch('/api/certs/attempts', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Background': '1' },
-      body: JSON.stringify({ cert: CERT_ID, mode: runMode, total: items.length, correct, wrongIds }),
+      body: JSON.stringify({ cert: certId, mode: runMode, total: items.length, correct, wrongIds }),
     })
       .then((r) => (r.ok ? (r.json() as Promise<Attempt>) : null))
       .then((a) => a && setAttempts((prev) => [a, ...prev]))
@@ -161,7 +223,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
       method: 'POST',
       // X-Background: lưu nền, không bật màn hình loading (xem lib/loading/tracker.ts).
       headers: { 'Content-Type': 'application/json', 'X-Background': '1' },
-      body: JSON.stringify({ cert: CERT_ID, questionId, correct }),
+      body: JSON.stringify({ cert: certId, questionId, correct }),
     }).catch(() => {})
   }
 
@@ -301,11 +363,15 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
           )}
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-gradient-to-r from-card-soft/60 to-transparent px-4 py-3">
-            <label className="flex cursor-pointer items-center gap-3 text-sm font-medium">
-              <input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} className="peer sr-only" />
-              <span className="relative h-6 w-11 shrink-0 rounded-pill bg-border transition peer-checked:bg-plum after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5" />
-              Hiện bản dịch tiếng Việt
-            </label>
+            {hasTranslation ? (
+              <label className="flex cursor-pointer items-center gap-3 text-sm font-medium">
+                <input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} className="peer sr-only" />
+                <span className="relative h-6 w-11 shrink-0 rounded-pill bg-border transition peer-checked:bg-plum after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5" />
+                Hiện bản dịch tiếng Việt
+              </label>
+            ) : (
+              <span className="text-sm text-muted">🇻🇳 Giải thích bằng tiếng Việt</span>
+            )}
             <button
               onClick={() => start()}
               disabled={poolSize === 0}
@@ -365,7 +431,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
     )
   }
 
-  const correctCount = set.filter((q, i) => picked[i] === q.answer).length
+  const correctCount = set.filter((q, i) => picked[i] === q.key).length
 
   if (done) {
     return (
@@ -374,24 +440,26 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
         <div className="text-sm text-muted">{Math.round((correctCount / set.length) * 100)}% đúng</div>
         <div className="mt-4 flex max-h-96 flex-col gap-2 overflow-auto">
           {set.map((q, i) => {
-            const ok = picked[i] === q.answer
+            const ok = picked[i] === q.key
+            // Bỏ cú pháp ảnh markdown khỏi đoạn xem trước.
+            const plain = q.question.replace(/!\[[^\]]*\]\([^)]+\)/g, '[hình]').replace(/\s+/g, ' ').trim()
             return (
               <button
                 key={q.id}
                 onClick={() => { setIdx(i); setDone(false) }}
                 className={`rounded-lg border p-3 text-left text-sm ${ok ? 'border-jade/40 bg-jade/10' : 'border-rose-400/40 bg-rose-400/10'}`}
               >
-                <div className="font-semibold">Q{q.id}. {q.question.slice(0, 140)}{q.question.length > 140 ? '…' : ''}</div>
-                <div className="text-xs text-muted">{picked[i] ? `Bạn chọn ${picked[i]} — đáp án ${q.answer}` : `Chưa trả lời — đáp án ${q.answer}`}</div>
+                <div className="font-semibold">Q{q.id}. {plain.slice(0, 140)}{plain.length > 140 ? '…' : ''}</div>
+                <div className="text-xs text-muted">{describe(q, picked[i])}</div>
               </button>
             )
           })}
         </div>
         <div className="mt-5 flex gap-2">
           <button onClick={() => start(runIds, runMode)} className={primary}>Làm lại</button>
-          {set.some((q, i) => picked[i] && picked[i] !== q.answer) && (
+          {set.some((q, i) => picked[i] && picked[i] !== q.key) && (
             <button
-              onClick={() => start(set.filter((q, i) => picked[i] && picked[i] !== q.answer).map((q) => q.id), 'retry')}
+              onClick={() => start(set.filter((q, i) => picked[i] && picked[i] !== q.key).map((q) => q.id), 'retry')}
               className={btn}
             >
               Luyện lại câu sai
@@ -416,10 +484,32 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
   const chosen = choice[idx]
 
   function submit() {
-    if (!chosen || sel) return
+    if (!isComplete(q, chosen) || sel) return
     setPicked({ ...picked, [idx]: chosen })
-    record(q.id, chosen === q.answer)
+    record(q.id, chosen === q.key)
   }
+
+  // single: thay lựa chọn · multi: bật/tắt lựa chọn (giữ thứ tự A–Z để so với key).
+  function toggleOption(l: string) {
+    if (q.kind === 'multi') {
+      const cur = new Set(chosen ? chosen.split(',') : [])
+      if (cur.has(l)) cur.delete(l)
+      else cur.add(l)
+      setChoice({ ...choice, [idx]: [...cur].sort().join(',') })
+    } else setChoice({ ...choice, [idx]: l })
+  }
+
+  function setRow(rowId: string, value: string) {
+    setChoice({ ...choice, [idx]: encodeRows({ ...decodeRows(chosen), [rowId]: value }) })
+  }
+
+  const correctSet = new Set(q.key.split(','))
+  const chosenSet = new Set(chosen ? chosen.split(',') : [])
+  const selSet = new Set(sel ? sel.split(',') : [])
+  const selRows = decodeRows(sel)
+  const chosenRows = decodeRows(chosen)
+  const isRight = sel === q.key
+  const needed = q.kind === 'multi' ? correctSet.size : 0
 
   return (
     <div className="rounded-card border border-border bg-card p-6 shadow-sm md:p-8">
@@ -451,7 +541,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
       <div className="mb-6 h-2 overflow-hidden rounded-pill bg-card-soft">
         <div className="h-full rounded-pill bg-gradient-to-r from-accent to-plum transition-all duration-500" style={{ width: `${((idx + 1) / set.length) * 100}%` }} />
       </div>
-      <p className="text-lg font-semibold leading-relaxed">{q.question}</p>
+      <RichText text={q.question} className="text-lg font-semibold leading-relaxed" />
       {vi && q.vn.question && <p className="mt-3 rounded-xl bg-card-soft/70 p-3 text-sm italic leading-relaxed text-muted">{q.vn.question}</p>}
       {q.image && (
         <a href={q.image} target="_blank" rel="noreferrer" className="mt-4 block overflow-hidden rounded-xl border border-border" title="Mở ảnh gốc">
@@ -459,40 +549,122 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
         </a>
       )}
 
-      <div className="mt-6 flex flex-col gap-3">
-        {q.letters.map((l) => {
-          let cls = 'border-border bg-card hover:-translate-y-0.5 hover:border-accent hover:shadow-md'
-          let badge = 'bg-card-soft text-accent'
-          if (sel) {
-            if (l === q.answer) {
-              cls = 'border-jade/60 bg-jade/10 shadow-sm'
-              badge = 'bg-jade text-white'
-            } else if (l === sel) {
-              cls = 'border-rose-400/60 bg-rose-400/10 shadow-sm'
-              badge = 'bg-rose-400 text-white'
-            } else cls = 'border-border opacity-50'
-          } else if (l === chosen) {
-            cls = 'border-accent bg-accent-soft shadow-md ring-1 ring-accent/40'
-            badge = 'bg-accent text-white'
-          }
-          return (
-            <button key={l} disabled={!!sel} onClick={() => setChoice({ ...choice, [idx]: l })} className={`flex items-start gap-4 rounded-2xl border p-4 text-left text-sm leading-relaxed transition ${cls}`}>
-              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${badge}`}>{sel && l === q.answer ? '✓' : sel && l === sel ? '✕' : l}</span>
-              <span className="pt-1">
-                {q.options[l]}
-                {vi && q.vn.options[l] && <span className="mt-1 block italic text-muted">{q.vn.options[l]}</span>}
-              </span>
-            </button>
-          )
-        })}
-      </div>
+      {q.kind === 'multi' && !sel && (
+        <p className="mt-4 text-sm font-semibold text-plum">Chọn {needed} đáp án · đã chọn {chosenSet.size}/{needed}</p>
+      )}
+
+      {(q.kind === 'single' || q.kind === 'multi') && (
+        <div className="mt-6 flex flex-col gap-3">
+          {q.letters.map((l) => {
+            let cls = 'border-border bg-card hover:-translate-y-0.5 hover:border-accent hover:shadow-md'
+            let badge = 'bg-card-soft text-accent'
+            if (sel) {
+              if (correctSet.has(l)) {
+                cls = 'border-jade/60 bg-jade/10 shadow-sm'
+                badge = 'bg-jade text-white'
+              } else if (selSet.has(l)) {
+                cls = 'border-rose-400/60 bg-rose-400/10 shadow-sm'
+                badge = 'bg-rose-400 text-white'
+              } else cls = 'border-border opacity-50'
+            } else if (chosenSet.has(l)) {
+              cls = 'border-accent bg-accent-soft shadow-md ring-1 ring-accent/40'
+              badge = 'bg-accent text-white'
+            }
+            const shape = q.kind === 'multi' ? 'rounded-lg' : 'rounded-full'
+            return (
+              <button key={l} disabled={!!sel} onClick={() => toggleOption(l)} className={`flex items-start gap-4 rounded-2xl border p-4 text-left text-sm leading-relaxed transition ${cls}`}>
+                <span className={`flex h-8 w-8 shrink-0 items-center justify-center text-sm font-extrabold ${shape} ${badge}`}>{sel && correctSet.has(l) ? '✓' : sel && selSet.has(l) ? '✕' : l}</span>
+                <span className="pt-1">
+                  {q.options[l]}
+                  {vi && q.vn.options[l] && <span className="mt-1 block italic text-muted">{q.vn.options[l]}</span>}
+                </span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {q.kind === 'yesno' && (
+        <div className="mt-6 overflow-hidden rounded-2xl border border-border">
+          <div className="grid grid-cols-[1fr_auto] gap-3 bg-card-soft px-4 py-2 text-xs font-bold uppercase tracking-wide text-muted">
+            <span>Phát biểu</span>
+            <span className="w-34 text-center">Yes / No</span>
+          </div>
+          {(q.statements ?? []).map((s) => {
+            const mine = sel ? selRows[s.id] : chosenRows[s.id]
+            const rowOk = sel ? mine === s.answer : null
+            return (
+              <div key={s.id} className={`grid grid-cols-[1fr_auto] items-center gap-3 border-t border-border px-4 py-3 text-sm ${rowOk === true ? 'bg-jade/10' : rowOk === false ? 'bg-rose-400/10' : ''}`}>
+                <span className="leading-relaxed">
+                  {s.text}
+                  {rowOk === false && <span className="mt-1 block text-xs font-semibold text-jade">Đáp án đúng: {s.answer}</span>}
+                </span>
+                <span className="flex w-34 justify-center gap-2">
+                  {['Yes', 'No'].map((v) => (
+                    <button
+                      key={v}
+                      disabled={!!sel}
+                      onClick={() => setRow(s.id, v)}
+                      className={`w-16 rounded-pill border px-3 py-1.5 text-xs font-bold transition ${
+                        mine === v
+                          ? sel
+                            ? v === s.answer ? 'border-jade bg-jade text-white' : 'border-rose-400 bg-rose-400 text-white'
+                            : 'border-accent bg-accent text-white'
+                          : sel && v === s.answer
+                            ? 'border-jade text-jade'
+                            : 'border-border bg-card hover:border-accent'
+                      }`}
+                    >
+                      {v}
+                    </button>
+                  ))}
+                </span>
+              </div>
+            )
+          })}
+        </div>
+      )}
+
+      {q.kind === 'match' && (
+        <div className="mt-6 flex flex-col gap-3">
+          {(q.statements ?? []).map((s) => {
+            const mine = sel ? selRows[s.id] : chosenRows[s.id]
+            const rowOk = sel ? mine === s.answer : null
+            const keys = s.choices ?? q.letters
+            return (
+              <div key={s.id} className={`rounded-2xl border p-4 text-sm ${rowOk === true ? 'border-jade/60 bg-jade/10' : rowOk === false ? 'border-rose-400/60 bg-rose-400/10' : 'border-border bg-card'}`}>
+                <div className="mb-2 leading-relaxed font-medium">{s.text}</div>
+                <select
+                  value={mine ?? ''}
+                  disabled={!!sel}
+                  onChange={(e) => setRow(s.id, e.target.value)}
+                  aria-label={`Đáp án cho dòng ${s.id}`}
+                  className="w-full rounded-xl border border-border bg-card px-3 py-2 text-sm disabled:opacity-100"
+                >
+                  <option value="" disabled>Chọn đáp án…</option>
+                  {keys.map((k) => (
+                    <option key={k} value={k}>{k}. {q.options[k]}</option>
+                  ))}
+                </select>
+                {rowOk === false && <div className="mt-2 text-xs font-semibold text-jade">Đáp án đúng: {s.answer}. {q.options[s.answer]}</div>}
+              </div>
+            )
+          })}
+        </div>
+      )}
 
       {sel && (
-        <div className={`mt-6 rounded-2xl border-l-4 p-5 text-sm leading-relaxed ${sel === q.answer ? 'border-jade bg-jade/10' : 'border-rose-400 bg-rose-400/10'}`}>
-          <div className={`text-base font-bold ${sel === q.answer ? 'text-jade' : 'text-rose-600'}`}>{sel === q.answer ? '🎉 Chính xác!' : `✗ Chưa đúng — đáp án đúng là ${q.answer}`}</div>
-          {q.explanation && <p className="mt-2">{q.explanation}</p>}
+        <div className={`mt-6 rounded-2xl border-l-4 p-5 text-sm leading-relaxed ${isRight ? 'border-jade bg-jade/10' : 'border-rose-400 bg-rose-400/10'}`}>
+          <div className={`text-base font-bold ${isRight ? 'text-jade' : 'text-rose-600'}`}>
+            {isRight
+              ? '🎉 Chính xác!'
+              : q.kind === 'yesno' || q.kind === 'match'
+                ? `✗ Chưa đúng — ${describe(q, sel).toLowerCase()}, xem đáp án từng dòng ở trên`
+                : `✗ Chưa đúng — đáp án đúng là ${q.key.split(',').join(', ')}`}
+          </div>
+          {q.explanation && <RichText text={q.explanation} className="mt-2" />}
           {/* Câu chỉ có giải thích tiếng Việt thì luôn hiện, kể cả khi tắt bản dịch. */}
-          {(vi || !q.explanation) && q.vn.explanation && <p className="mt-2 italic text-muted">{q.vn.explanation}</p>}
+          {(vi || !q.explanation) && q.vn.explanation && <RichText text={q.vn.explanation} className="mt-2 text-muted" />}
           {!q.explanation && !q.vn.explanation && <p className="mt-2 text-muted">Câu này chưa có giải thích.</p>}
           {(theoryByQuestion[q.id] ?? []).length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-black/10 pt-3 text-xs">
@@ -514,7 +686,7 @@ export function CcafQuiz({ questions, initialTopic, theoryByQuestion = {} }: Pro
             {idx === set.length - 1 ? 'Kết thúc' : 'Tiếp →'}
           </button>
         ) : (
-          <button className={`${primary} px-6 shadow-md shadow-midnight/20`} disabled={!chosen} onClick={submit}>
+          <button className={`${primary} px-6 shadow-md shadow-midnight/20`} disabled={!isComplete(q, chosen)} onClick={submit}>
             Kiểm tra đáp án
           </button>
         )}

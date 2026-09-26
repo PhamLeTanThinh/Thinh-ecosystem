@@ -60,3 +60,53 @@
 .certs-root .border-accent.bg-accent {
   border-color: rgba(154, 116, 51, 0.45);
 }
+
+/* Badge vai trò (chủ/đang xem) + đăng xuất — nổi góc trên phải, chỉ hiện khi đã bật chia sẻ
+   (components/certs/RoleBadge.tsx). Không đặt trong header của từng trang vì các trang Certs không
+   dùng chung 1 khung layout ngang — song song với .ih-role-badge của IELTS (ielts.css). */
+.certs-role-badge {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.certs-role-chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.certs-role-chip.owner {
+  background: rgba(47, 107, 87, 0.12);
+  color: var(--color-jade);
+  border-color: rgba(47, 107, 87, 0.3);
+}
+
+.certs-role-logout {
+  font-size: 12px;
+  color: var(--color-muted);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.certs-role-logout:hover {
+  color: var(--color-text);
+}
+
+/* Màn "cần đăng nhập" — song song với .ih-access-denied (ielts.css). */
+.certs-access-denied {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}

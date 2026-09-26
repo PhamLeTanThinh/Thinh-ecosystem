@@ -116,30 +116,45 @@ function renderMail(l: MailLayout): string {
 
 const em = (s: string) => `<span style="color:${FUR};font-weight:700;">${s}</span>`
 
-export function renderMagicLinkHtml(link: string, inlineMascot = false, kind: MagicLinkKind = 'ielts'): string {
-  const admin = kind === 'admin'
-  return renderMail({
-    inlineMascot,
-    preheader: admin ? 'Bấm vào link để vào trang Admin — link có hiệu lực trong 30 phút nha!' : 'Bấm vào link để vào IELTS Hub — link có hiệu lực trong 30 phút nha!',
-    bubbleHtml: admin ? 'Ông chủ ơi!<br>Link vào trang Admin đây nè!' : `Xin chào, em là ${em('Diên')}!<br>Link đăng nhập của anh chị đây nè!`,
-    bodyHtml: admin
-      ? 'Ông chủ bấm nút bên dưới để vào trang <strong>Admin</strong> duyệt yêu cầu và quản lý hồ sơ học nha. Vào xong em nhớ ông chủ 30 ngày, mỗi lần ghé lại em gia hạn thêm!'
-      : 'Anh chị bấm nút bên dưới để vào <strong>IELTS Hub</strong> nha. Vào xong em nhớ anh chị 30 ngày, mỗi lần ghé lại em gia hạn thêm, nên lần sau cứ vào thẳng trang là được!',
-    ctaLabel: admin ? 'Vào trang Admin nè' : 'Vào IELTS Hub nè',
-    ctaUrl: link,
-    fallbackUrl: link,
-    footerHtml: admin
-      ? 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì ông chủ xin link mới nhé.<br>Nếu không phải ông chủ yêu cầu thì cứ bỏ qua nha 🐾'
-      : 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì anh chị xin link mới nhé.<br>Nếu anh chị không yêu cầu email này thì cứ bỏ qua, em không giận đâu 🐾',
-  })
+// Nội dung riêng theo từng đích đến (kind) — cùng khung renderMail, chỉ đổi lời thoại của Diên và tên app.
+// 'ielts'/'certs' xưng hô "anh chị" (người xem), 'admin' xưng hô "ông chủ" (chủ trang).
+const MAGIC_LINK_COPY: Record<MagicLinkKind, { preheader: string; bubbleHtml: string; bodyHtml: string; ctaLabel: string; footerHtml: string }> = {
+  ielts: {
+    preheader: 'Bấm vào link để vào IELTS Hub — link có hiệu lực trong 30 phút nha!',
+    bubbleHtml: `Xin chào, em là ${em('Diên')}!<br>Link đăng nhập của anh chị đây nè!`,
+    bodyHtml: 'Anh chị bấm nút bên dưới để vào <strong>IELTS Hub</strong> nha. Vào xong em nhớ anh chị 30 ngày, mỗi lần ghé lại em gia hạn thêm, nên lần sau cứ vào thẳng trang là được!',
+    ctaLabel: 'Vào IELTS Hub nè',
+    footerHtml: 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì anh chị xin link mới nhé.<br>Nếu anh chị không yêu cầu email này thì cứ bỏ qua, em không giận đâu 🐾',
+  },
+  certs: {
+    preheader: 'Bấm vào link để vào Certs Hub — link có hiệu lực trong 30 phút nha!',
+    bubbleHtml: `Xin chào, em là ${em('Diên')}!<br>Link đăng nhập Certs Hub đây nè!`,
+    bodyHtml: 'Anh chị bấm nút bên dưới để vào <strong>Certs Hub</strong> nha. Vào xong em nhớ anh chị 30 ngày, mỗi lần ghé lại em gia hạn thêm, nên lần sau cứ vào thẳng trang là được!',
+    ctaLabel: 'Vào Certs Hub nè',
+    footerHtml: 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì anh chị xin link mới nhé.<br>Nếu anh chị không yêu cầu email này thì cứ bỏ qua, em không giận đâu 🐾',
+  },
+  admin: {
+    preheader: 'Bấm vào link để vào trang Admin — link có hiệu lực trong 30 phút nha!',
+    bubbleHtml: 'Ông chủ ơi!<br>Link vào trang Admin đây nè!',
+    bodyHtml: 'Ông chủ bấm nút bên dưới để vào trang <strong>Admin</strong> duyệt yêu cầu và quản lý hồ sơ học nha. Vào xong em nhớ ông chủ 30 ngày, mỗi lần ghé lại em gia hạn thêm!',
+    ctaLabel: 'Vào trang Admin nè',
+    footerHtml: 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì ông chủ xin link mới nhé.<br>Nếu không phải ông chủ yêu cầu thì cứ bỏ qua nha 🐾',
+  },
 }
 
-export function renderAccessRequestHtml(requesterEmail: string, adminUrl: string, inlineMascot = false): string {
+export function renderMagicLinkHtml(link: string, inlineMascot = false, kind: MagicLinkKind = 'ielts'): string {
+  const copy = MAGIC_LINK_COPY[kind]
+  return renderMail({ inlineMascot, ctaUrl: link, fallbackUrl: link, ...copy })
+}
+
+// appLabel = tên app hiện trong thư ("IELTS Hub" / "Certs Hub") — mỗi app có danh sách người xem riêng
+// (ieltsAccessRequests / certAccessRequests) nên chủ cần biết ngay đây là yêu cầu của app nào.
+export function renderAccessRequestHtml(requesterEmail: string, adminUrl: string, appLabel: string, inlineMascot = false): string {
   return renderMail({
     inlineMascot,
-    preheader: `${escapeHtml(requesterEmail)} vừa xin quyền xem IELTS Hub`,
+    preheader: `${escapeHtml(requesterEmail)} vừa xin quyền xem ${appLabel}`,
     bubbleHtml: 'Ông chủ ơi!<br>Có người xin quyền xem trang nè!',
-    bodyHtml: `<strong style="color:${ROSE};">${escapeHtml(requesterEmail)}</strong> vừa xin quyền xem <strong>IELTS Hub</strong>. Ông chủ duyệt giúp em nha, duyệt xong em gửi link đăng nhập cho bạn ấy liền!`,
+    bodyHtml: `<strong style="color:${ROSE};">${escapeHtml(requesterEmail)}</strong> vừa xin quyền xem <strong>${appLabel}</strong>. Ông chủ duyệt giúp em nha, duyệt xong em gửi link đăng nhập cho bạn ấy liền!`,
     ctaLabel: 'Xem &amp; duyệt yêu cầu',
     ctaUrl: adminUrl,
     footerHtml: 'Không quen người này thì cứ bỏ qua, hoặc bấm Từ chối trong trang admin nhé 🐾',
@@ -244,9 +259,23 @@ export async function sendAccessRequestNotice(to: string, requesterEmail: string
     kind: 'báo yêu cầu truy cập',
     to,
     subject: 'Có người xin quyền truy cập IELTS Knowledge Hub',
-    html: renderAccessRequestHtml(requesterEmail, adminUrl, mascot !== null),
+    html: renderAccessRequestHtml(requesterEmail, adminUrl, 'IELTS Hub', mascot !== null),
     mascot,
     offlineNote: `${requesterEmail} xin quyền truy cập, duyệt tại: ${adminUrl}`,
+  })
+}
+
+// Bản dành cho Certs Hub (lib/certs/invite.ts) — cùng khung thư, khác tên app + tiêu đề để chủ phân biệt
+// ngay đây là yêu cầu xem Certs hay IELTS.
+export async function sendCertsAccessRequestNotice(to: string, requesterEmail: string, adminUrl: string): Promise<boolean> {
+  const mascot = await loadMascotAttachment(new URL(adminUrl).origin)
+  return deliver({
+    kind: 'báo yêu cầu truy cập Certs',
+    to,
+    subject: 'Có người xin quyền truy cập Certs Hub',
+    html: renderAccessRequestHtml(requesterEmail, adminUrl, 'Certs Hub', mascot !== null),
+    mascot,
+    offlineNote: `${requesterEmail} xin quyền truy cập Certs, duyệt tại: ${adminUrl}`,
   })
 }
 

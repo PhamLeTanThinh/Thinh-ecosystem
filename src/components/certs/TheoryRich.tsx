@@ -1,22 +1,5 @@
-import type { ReactNode } from 'react'
 import type { TheoryBlock } from '@/lib/certs/ccaf-theory'
-
-// Inline: **đậm** và `code`. Không dùng dangerouslySetInnerHTML — nội dung được tách thành phần tử React.
-function inline(text: string): ReactNode[] {
-  const out: ReactNode[] = []
-  const re = /(\*\*[^*]+\*\*|`[^`]+`)/g
-  let last = 0
-  let i = 0
-  for (const m of text.matchAll(re)) {
-    if (m.index > last) out.push(text.slice(last, m.index))
-    const tok = m[0]
-    if (tok.startsWith('**')) out.push(<strong key={i++} className="font-semibold text-text">{tok.slice(2, -2)}</strong>)
-    else out.push(<code key={i++} className="rounded bg-card-soft px-1.5 py-0.5 font-mono text-[0.85em] text-plum">{tok.slice(1, -1)}</code>)
-    last = m.index + tok.length
-  }
-  if (last < text.length) out.push(text.slice(last))
-  return out
-}
+import { renderInline as inline } from './RichText'
 
 const TONE = {
   tip: { icon: '💡', box: 'border-sky-200 bg-sky-50', title: 'text-sky-800' },

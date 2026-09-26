@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(node peek.js)",
+      "Bash(node convert.js \"d:/Study/Personal_Prj/thinh-ecosystem-boilerplate\")",
+      "Bash(git mv *)",
+      "Bash(curl -s --max-time 60 http://localhost:3000/certs)"
     ]
   }
 }

@@ -1,9 +1,11 @@
 import Link from 'next/link'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { assertCertsAccess } from '@/lib/certs/access'
+import { CERT_CATALOG } from '@/lib/certs/catalog'
 import questions from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS } from '@/lib/certs/ccaf-theory'
 
-// Mỗi chứng chỉ 1 card, các chế độ học là các nút bên trong. Thêm mục mới khi có đề cho cert khác.
+// Mỗi chứng chỉ 1 card, các chế độ học là các nút bên trong. Cert chỉ có luyện đề thì thêm vào lib/certs/catalog.ts.
 const CERTS = [
   {
     title: 'CCAF',
@@ -15,9 +17,17 @@ const CERTS = [
       { href: '/certs/ccaf', icon: '📝', label: 'Luyện đề', meta: `${questions.length} câu`, primary: true },
     ],
   },
+  ...CERT_CATALOG.map((c) => ({
+    title: c.code,
+    subtitle: `Microsoft ${c.code} — ${c.title}`,
+    description: c.description,
+    tags: [...c.tags, 'Giải thích tiếng Việt'],
+    actions: [{ href: `/certs/${c.id}`, icon: '📝', label: 'Luyện đề', meta: `${c.questions.length} câu`, primary: true }],
+  })),
 ]
 
-export default function CertsPage() {
+export default async function CertsPage() {
+  await assertCertsAccess()
   return (
     <div className="w-full px-6 py-8 md:px-10">
       <AppBreadcrumb app="/certs" className="mb-6" />
@@ -45,7 +55,7 @@ export default function CertsPage() {
               ))}
             </div>
 
-            <div className="relative mt-6 grid grid-cols-2 gap-3">
+            <div className={`relative mt-6 grid gap-3 ${cert.actions.length > 1 ? 'grid-cols-2' : 'grid-cols-1'}`}>
               {cert.actions.map((a) => (
                 <Link
                   key={a.href}

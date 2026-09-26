@@ -1,17 +1,19 @@
 import Link from 'next/link'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
-import { CcafQuiz, type CcafQuestion } from '@/components/certs/CcafQuiz'
+import { CertQuiz, type CertQuestion } from '@/components/certs/CertQuiz'
 import { LearnerGate, LearnerProfile } from '@/components/learner/LearnerProfile'
+import { assertCertsAccess } from '@/lib/certs/access'
 import data from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS, topicsByQuestion } from '@/lib/certs/ccaf-theory'
 
-const questions = data as unknown as CcafQuestion[]
+const questions = data as unknown as CertQuestion[]
 
 export const metadata = { title: 'CCAF — Luyện đề' }
 
 const theoryByQuestion = topicsByQuestion()
 
 export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[] }> }) {
+  await assertCertsAccess()
   const topicParam = (await searchParams).topic
   const topic = CCAF_TOPICS.find((t) => t.id === (Array.isArray(topicParam) ? topicParam[0] : topicParam))
   return (
@@ -40,7 +42,8 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
         </div>
       </section>
       <div className="min-h-0 flex-1 max-lg:min-h-fit lg:overflow-y-auto">
-      <CcafQuiz
+      <CertQuiz
+        certId="ccaf"
         key={topic?.id ?? 'all'}
         questions={questions}
         theoryByQuestion={theoryByQuestion}

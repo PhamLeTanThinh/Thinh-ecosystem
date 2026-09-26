@@ -364,6 +364,32 @@ export const ieltsAccessLogs = pgTable('ielts_access_logs', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
+// Quyền vào Certs Hub — cùng cơ chế đăng nhập bằng email (magic link, session cookie) với IELTS và
+// dùng chung 1 "chủ trang" (IELTS_OWNER_EMAIL, xem lib/certs/access.ts), nhưng danh sách người được
+// mời XEM tách riêng khỏi ieltsInvites: được mời xem IELTS không tự có quyền xem Certs và ngược lại.
+export const certInvites = pgTable('cert_invites', {
+  email: text('email').primaryKey(),
+  invitedAt: timestamp('invited_at').defaultNow().notNull(),
+  revokedAt: timestamp('revoked_at'), // null = còn hiệu lực; có giá trị = đã bị thu hồi quyền xem
+})
+
+// Người lạ vào /certs/login nhập email khi chưa được mời → 1 dòng ở đây chờ chủ duyệt trong /admin
+// (tab "Người xem Certs"). Duyệt = thêm vào certInvites + gửi magic link, rồi xoá dòng này. Từ chối =
+// đổi status sang 'rejected' và GIỮ dòng lại để lần xin sau của cùng email không báo lại cho chủ.
+export const certAccessRequests = pgTable('cert_access_requests', {
+  email: text('email').primaryKey(), // lowercase
+  status: varchar('status', { length: 10 }).default('pending').notNull(), // 'pending' | 'rejected'
+  requestedAt: timestamp('requested_at').defaultNow().notNull(),
+})
+
+// 1 dòng = 1 lần load trang /certs thành công (owner hoặc viewer) — cùng thiết kế với ieltsAccessLogs.
+export const certAccessLogs = pgTable('cert_access_logs', {
+  id: text('id').primaryKey(),
+  email: text('email').notNull(), // lowercase; 'owner' nếu chưa bật chia sẻ thì không ghi (xem access.ts)
+  userAgent: text('user_agent').default('').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
 // Từ vựng — danh sách có cấu trúc, khác document tự do của các trang kỹ năng.
 export const ieltsVocab = pgTable('ielts_vocab', {
   id: text('id').primaryKey(),
