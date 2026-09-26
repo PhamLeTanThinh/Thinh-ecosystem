@@ -3,6 +3,7 @@ import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { CertQuiz, type CertQuestion } from '@/components/certs/CertQuiz'
 import { LearnerGate, LearnerProfile } from '@/components/learner/LearnerProfile'
 import { assertCertsAccess } from '@/lib/certs/access'
+import { findAnswerGroup } from '@/lib/certs/ccaf-answer-groups'
 import data from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS, topicsByQuestion } from '@/lib/certs/ccaf-theory'
 
@@ -12,10 +13,13 @@ export const metadata = { title: 'CCAF — Luyện đề' }
 
 const theoryByQuestion = topicsByQuestion()
 
-export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[] }> }) {
+export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[]; answer?: string | string[] }> }) {
   await assertCertsAccess()
-  const topicParam = (await searchParams).topic
+  const params = await searchParams
+  const topicParam = params.topic
   const topic = CCAF_TOPICS.find((t) => t.id === (Array.isArray(topicParam) ? topicParam[0] : topicParam))
+  const answerParam = params.answer
+  const answerGroup = findAnswerGroup(Array.isArray(answerParam) ? answerParam[0] : (answerParam ?? ''))
   return (
     <div className="mx-auto flex w-[80%] min-w-0 flex-col py-4 max-lg:w-full max-lg:px-6 lg:h-dvh lg:overflow-hidden">
       <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
@@ -35,6 +39,9 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
             <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">📝 {questions.length} câu</span>
             <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">🧩 5 domain</span>
             <span className="rounded-pill border border-border bg-card/70 px-3 py-1 text-text">🌐 Song ngữ</span>
+            <Link href="/certs/ccaf/answers" className="rounded-pill border border-jade/40 bg-card px-5 py-2.5 text-sm font-bold text-jade shadow-sm transition hover:-translate-y-0.5 hover:border-jade hover:shadow-md">
+            🧩 Theo đáp án
+            </Link>
             <Link href="/certs/ccaf/tips" className="rounded-pill border border-plum/40 bg-card px-5 py-2.5 text-sm font-bold text-plum shadow-sm transition hover:-translate-y-0.5 hover:border-plum hover:shadow-md">
             ⚡ Ôn mẹo nhanh
             </Link>
@@ -47,10 +54,11 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
       <div className="min-h-0 flex-1 max-lg:min-h-fit lg:overflow-y-auto">
       <CertQuiz
         certId="ccaf"
-        key={topic?.id ?? 'all'}
+        key={topic?.id ?? answerGroup?.id ?? 'all'}
         questions={questions}
         theoryByQuestion={theoryByQuestion}
         initialTopic={topic ? { id: topic.id, title: topic.title, ids: topic.questionIds } : undefined}
+        initialAnswerGroup={answerGroup ? { id: answerGroup.id, title: answerGroup.title, ids: answerGroup.questionIds } : undefined}
       />
       </div>
       <LearnerGate />

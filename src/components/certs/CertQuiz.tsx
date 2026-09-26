@@ -35,7 +35,7 @@ export interface CertQuestion {
   tip?: string
 }
 
-type Mode = 'all' | 'random20' | 'random50' | 'custom' | 'wrong' | 'unseen'
+type Mode = 'all' | 'random20' | 'random50' | 'custom' | 'wrong' | 'mostWrong' | 'unseen'
 
 interface Progress {
   id: number
@@ -59,9 +59,11 @@ const MODE_LABEL: Record<string, string> = {
   random50: 'Ngẫu nhiên 50',
   custom: 'Theo khoảng',
   wrong: 'Ôn câu sai',
+  mostWrong: 'Sai nhiều lần',
   unseen: 'Câu chưa làm',
   retry: 'Luyện lại câu sai',
   topic: 'Theo chủ đề lý thuyết',
+  answer: 'Theo đáp án giống nhau',
 }
 // key = đáp án đúng đã mã hoá cùng dạng với câu trả lời của người học, để chấm chỉ cần so chuỗi.
 type Item = CertQuestion & { kind: QuestionKind; letters: string[]; key: string }
@@ -72,6 +74,7 @@ const MODES: { id: Mode; label: string }[] = [
   { id: 'random50', label: 'Ngẫu nhiên 50' },
   { id: 'custom', label: 'Theo khoảng' },
   { id: 'wrong', label: 'Ôn câu sai' },
+  { id: 'mostWrong', label: 'Sai nhiều lần' },
   { id: 'unseen', label: 'Câu chưa làm' },
 ]
 
@@ -150,11 +153,14 @@ interface Props {
   questions: CertQuestion[]
   // Chủ đề lý thuyết đang luyện (từ ?topic=): tự bắt đầu ngay với đúng các câu của chủ đề đó.
   initialTopic?: { id: string; title: string; ids: number[] }
+  // Nhóm câu hỏi cùng kỹ thuật/giải pháp đang luyện (từ ?answer=, xem ccaf-answer-groups.ts): cùng cơ chế
+  // với initialTopic nhưng nhãn lịch sử riêng ("Theo đáp án giống nhau") để phân biệt.
+  initialAnswerGroup?: { id: string; title: string; ids: number[] }
   // Câu hỏi → chủ đề lý thuyết liên quan, để hiện link "Xem lý thuyết" sau khi chấm.
   theoryByQuestion?: Record<number, TheoryLink[]>
 }
 
-export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {} }: Props) {
+export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, theoryByQuestion = {} }: Props) {
   const [mode, setMode] = useState<Mode>('all')
   const [from, setFrom] = useState(1)
   const [to, setTo] = useState(questions.length)
@@ -182,8 +188,10 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
   const [progress, setProgress] = useState<Map<number, Progress>>(new Map())
 
   useEffect(() => {
-    // Vào từ nút "Luyện các câu về chủ đề" ở trang lý thuyết: bắt đầu luôn, khỏi qua màn chọn chế độ.
+    // Vào từ nút "Luyện các câu về chủ đề" ở trang lý thuyết, hoặc từ trang duyệt nhóm đáp án giống nhau:
+    // bắt đầu luôn, khỏi qua màn chọn chế độ.
     if (initialTopic) start(initialTopic.ids, 'topic')
+    else if (initialAnswerGroup) start(initialAnswerGroup.ids, 'answer')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -238,6 +246,9 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
   const wrongNow = questions.filter((q) => progress.get(q.id)?.lastResult === 'wrong').length
   // Đếm theo bộ câu hiện có: progress có thể còn bản ghi của câu đã bị xoá khỏi đề.
   const unseen = questions.filter((q) => !progress.has(q.id)).length
+  // Khác "Ôn câu sai" (chỉ câu ĐANG sai ở lần gần nhất): đây là mọi câu từng sai ít nhất 1 lần, kể cả nếu
+  // sau đó đã làm đúng lại — để luyện lại đúng những câu hay nhầm nhất, sai nhiều lên đầu.
+  const everWrong = questions.filter((q) => (progress.get(q.id)?.wrongCount ?? 0) > 0).length
 
   // ids: chạy đúng bộ câu này (luyện lại câu sai / làm lại); không có thì chọn theo `mode` đang chọn.
   function start(ids?: number[], modeOverride?: string) {
@@ -245,7 +256,11 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
     if (ids) pool = questions.filter((q) => ids.includes(q.id))
     else {
     if (mode === 'wrong') pool = questions.filter((q) => progress.get(q.id)?.lastResult === 'wrong')
-    else if (mode === 'unseen') pool = questions.filter((q) => !progress.has(q.id))
+    else if (mode === 'mostWrong') {
+      pool = questions
+        .filter((q) => (progress.get(q.id)?.wrongCount ?? 0) > 0)
+        .sort((a, b) => (progress.get(b.id)?.wrongCount ?? 0) - (progress.get(a.id)?.wrongCount ?? 0))
+    } else if (mode === 'unseen') pool = questions.filter((q) => !progress.has(q.id))
     if (mode === 'random20') pool = shuffle(questions).slice(0, 20)
     else if (mode === 'random50') pool = shuffle(questions).slice(0, 50)
     else if (mode === 'custom') {
@@ -287,6 +302,7 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
       : mode === 'random50' ? Math.min(50, N)
       : mode === 'custom' ? inRange || N
       : mode === 'wrong' ? wrongNow
+      : mode === 'mostWrong' ? everWrong
       : unseen
 
     const MODE_INFO: Record<Mode, { icon: string; tile: string; desc: string }> = {
@@ -295,6 +311,7 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
       random50: { icon: '🎯', tile: 'from-plum/20 to-card-soft', desc: '50 câu ngẫu nhiên, như một bài thi' },
       custom: { icon: '🔢', tile: 'from-violet-500/20 to-card-soft', desc: 'Chọn khoảng câu muốn luyện' },
       wrong: { icon: '🔁', tile: 'from-rose-500/20 to-card-soft', desc: `${wrongNow} câu đang sai ở lần gần nhất` },
+      mostWrong: { icon: '📉', tile: 'from-amber-500/20 to-card-soft', desc: `${everWrong} câu từng sai, xếp sai nhiều lên đầu` },
       unseen: { icon: '✨', tile: 'from-teal-500/20 to-card-soft', desc: `${unseen} câu bạn chưa làm lần nào` },
     }
 
