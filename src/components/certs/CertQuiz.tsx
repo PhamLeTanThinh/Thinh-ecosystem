@@ -158,9 +158,13 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
   const [mode, setMode] = useState<Mode>('all')
   const [from, setFrom] = useState(1)
   const [to, setTo] = useState(questions.length)
-  const [vi, setVi] = useState(true)
-  // Bộ đề chỉ có giải thích tiếng Việt (không dịch câu hỏi) thì ẩn công tắc bản dịch.
-  const hasTranslation = questions.some((q) => q.vn.question)
+  // Tách riêng bật/tắt bản dịch cho câu hỏi và cho câu trả lời (lựa chọn + giải thích) — có thể chỉ muốn
+  // đọc đáp án bằng tiếng Việt mà vẫn tự đọc đề bằng tiếng Anh, hoặc ngược lại.
+  const [viQuestion, setViQuestion] = useState(true)
+  const [viAnswer, setViAnswer] = useState(true)
+  // Bộ đề chỉ có giải thích tiếng Việt (không dịch câu hỏi/lựa chọn) thì ẩn đúng công tắc không có gì để bật/tắt.
+  const hasQuestionTranslation = questions.some((q) => q.vn.question)
+  const hasAnswerTranslation = questions.some((q) => Object.values(q.vn.options).some(Boolean))
   const [set, setSet] = useState<Item[] | null>(null)
   const [idx, setIdx] = useState(0)
   // picked = đáp án ĐÃ nộp (đã chấm, đã lưu DB); choice = đáp án đang chọn nhưng chưa bấm "Kiểm tra", đổi được thoải mái.
@@ -366,12 +370,23 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
           )}
 
           <div className="mt-auto flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-gradient-to-r from-card-soft/60 to-transparent px-4 py-3">
-            {hasTranslation ? (
-              <label className="flex cursor-pointer items-center gap-3 text-sm font-medium">
-                <input type="checkbox" checked={vi} onChange={(e) => setVi(e.target.checked)} className="peer sr-only" />
-                <span className="relative h-6 w-11 shrink-0 rounded-pill bg-border transition peer-checked:bg-plum after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5" />
-                Hiện bản dịch tiếng Việt
-              </label>
+            {hasQuestionTranslation || hasAnswerTranslation ? (
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+                {hasQuestionTranslation && (
+                  <label className="flex cursor-pointer items-center gap-3 text-sm font-medium">
+                    <input type="checkbox" checked={viQuestion} onChange={(e) => setViQuestion(e.target.checked)} className="peer sr-only" />
+                    <span className="relative h-6 w-11 shrink-0 rounded-pill bg-border transition peer-checked:bg-plum after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5" />
+                    Dịch câu hỏi
+                  </label>
+                )}
+                {hasAnswerTranslation && (
+                  <label className="flex cursor-pointer items-center gap-3 text-sm font-medium">
+                    <input type="checkbox" checked={viAnswer} onChange={(e) => setViAnswer(e.target.checked)} className="peer sr-only" />
+                    <span className="relative h-6 w-11 shrink-0 rounded-pill bg-border transition peer-checked:bg-plum after:absolute after:left-0.5 after:top-0.5 after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition peer-checked:after:translate-x-5" />
+                    Dịch câu trả lời
+                  </label>
+                )}
+              </div>
             ) : (
               <span className="text-sm text-muted">🇻🇳 Giải thích bằng tiếng Việt</span>
             )}
@@ -545,7 +560,7 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
         <div className="h-full rounded-pill bg-gradient-to-r from-accent to-plum transition-all duration-500" style={{ width: `${((idx + 1) / set.length) * 100}%` }} />
       </div>
       <RichText text={q.question} className="text-lg font-semibold leading-relaxed" />
-      {vi && q.vn.question && <p className="mt-3 rounded-xl bg-card-soft/70 p-3 text-sm italic leading-relaxed text-muted">{q.vn.question}</p>}
+      {viQuestion && q.vn.question && <p className="mt-3 rounded-xl bg-card-soft/70 p-3 text-sm italic leading-relaxed text-muted">{q.vn.question}</p>}
       {q.image && (
         <a href={q.image} target="_blank" rel="noreferrer" className="mt-4 block overflow-hidden rounded-xl border border-border" title="Mở ảnh gốc">
           <img src={q.image} alt={`Sơ đồ câu ${q.id}`} className="w-full" />
@@ -579,7 +594,7 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
                 <span className={`flex h-8 w-8 shrink-0 items-center justify-center text-sm font-extrabold ${shape} ${badge}`}>{sel && correctSet.has(l) ? '✓' : sel && selSet.has(l) ? '✕' : l}</span>
                 <span className="pt-1">
                   {q.options[l]}
-                  {vi && q.vn.options[l] && <span className="mt-1 block italic text-muted">{q.vn.options[l]}</span>}
+                  {viAnswer && q.vn.options[l] && <span className="mt-1 block italic text-muted">{q.vn.options[l]}</span>}
                 </span>
               </button>
             )
@@ -667,7 +682,7 @@ export function CertQuiz({ certId, questions, initialTopic, theoryByQuestion = {
           </div>
           {q.explanation && <RichText text={q.explanation} className="mt-2" />}
           {/* Câu chỉ có giải thích tiếng Việt thì luôn hiện, kể cả khi tắt bản dịch. */}
-          {(vi || !q.explanation) && q.vn.explanation && <RichText text={q.vn.explanation} className="mt-2 text-muted" />}
+          {(viAnswer || !q.explanation) && q.vn.explanation && <RichText text={q.vn.explanation} className="mt-2 text-muted" />}
           {!q.explanation && !q.vn.explanation && <p className="mt-2 text-muted">Câu này chưa có giải thích.</p>}
           {(theoryByQuestion[q.id] ?? []).length > 0 && (
             <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-black/10 pt-3 text-xs">
