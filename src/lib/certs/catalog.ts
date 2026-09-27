@@ -1,9 +1,10 @@
-import type { CertQuestion } from '@/components/certs/CertQuiz'
+import type { CertContext, CertQuestion } from '@/components/certs/CertQuiz'
 import ab100 from './questions/ab-100.json'
 import ab731 from './questions/ab-731.json'
 import ai103 from './questions/ai-103.json'
 import ai200 from './questions/ai-200.json'
 import { AI200_ANSWER_GROUPS } from './ai-200/answer-groups'
+import ai200Contexts from './ai-200/contexts.json'
 import { AI200_DOMAINS } from './ai-200/theory'
 import type { AnswerGroup } from './ccaf-answer-groups'
 import type { TheoryDomain } from './ccaf-theory/types'
@@ -23,6 +24,8 @@ export interface CertInfo {
   theory?: TheoryDomain[]
   // Nhóm câu có đáp án đúng cùng một kỹ thuật (cùng kiểu với ccaf-answer-groups.ts).
   answerGroups?: AnswerGroup[]
+  // Bối cảnh case study / scenario dùng chung, câu hỏi trỏ tới bằng `context`.
+  contexts?: Record<string, CertContext>
 }
 
 export const CERT_CATALOG: CertInfo[] = [
@@ -43,6 +46,7 @@ export const CERT_CATALOG: CertInfo[] = [
     questions: ai200 as unknown as CertQuestion[],
     theory: AI200_DOMAINS,
     answerGroups: AI200_ANSWER_GROUPS,
+    contexts: ai200Contexts as Record<string, CertContext>,
   },
   {
     id: 'ab-100',

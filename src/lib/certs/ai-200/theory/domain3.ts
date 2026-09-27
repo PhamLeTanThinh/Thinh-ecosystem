@@ -81,7 +81,7 @@ export const DOMAIN_3: TheoryDomain = {
       id: 'cosmos-vector',
       title: 'Vector search & consistency trong Cosmos DB',
       summary: 'Embedding là mảng số, vector index flat / quantizedFlat / diskANN, VectorDistance + TOP N, indexing policy, 5 mức consistency.',
-      questionIds: [13, 17, 101, 103, 119, 120],
+      questionIds: [13, 17, 101, 103, 119, 120, 139],
       blocks: [
         {
           type: 'tldr',
@@ -122,6 +122,12 @@ export const DOMAIN_3: TheoryDomain = {
           tone: 'exam',
           title: '"Thấy ghi ở mọi region trong khoảng thời gian dự đoán được"',
           text: '→ **Strong** hoặc **Bounded staleness**. Session và Eventual không cho giới hạn thời gian. Có thể **nới** consistency cho từng request (yếu hơn mặc định của tài khoản) để giảm độ trễ.',
+        },
+        {
+          type: 'callout',
+          tone: 'warn',
+          title: 'Override theo request chỉ áp cho ĐỌC',
+          text: 'Mặc định của tài khoản là **Session**. Đặt consistent prefix cho request → **đọc** chạy ở consistent prefix, còn **ghi** luôn theo mức của tài khoản (vẫn là Session). Override chỉ được **nới yếu hơn**, không nâng lên mạnh hơn mặc định.',
         },
       ],
     },

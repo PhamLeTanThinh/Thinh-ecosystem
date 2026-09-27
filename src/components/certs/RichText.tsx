@@ -1,9 +1,9 @@
 import { Fragment, type ReactNode } from 'react'
 
-// Inline: ![alt](url), **đậm** và `code`. Không dùng dangerouslySetInnerHTML — nội dung được tách thành phần tử React.
+// Inline: ![alt](url), [link](url), **đậm** và `code`. Không dùng dangerouslySetInnerHTML — nội dung được tách thành phần tử React.
 export function renderInline(text: string): ReactNode[] {
   const out: ReactNode[] = []
-  const re = /(!\[[^\]]*\]\([^)\s]+\)|\*\*[^*]+\*\*|`[^`]+`)/g
+  const re = /(!\[[^\]]*\]\([^)\s]+\)|\[[^\]]+\]\((?:https?:\/\/|\/)[^)\s]+\)|\*\*[^*]+\*\*|`[^`]+`)/g
   let last = 0
   let i = 0
   for (const m of text.matchAll(re)) {
@@ -14,6 +14,14 @@ export function renderInline(text: string): ReactNode[] {
       out.push(
         <a key={i++} href={src} target="_blank" rel="noreferrer" className="my-2 block overflow-hidden rounded-xl border border-border" title="Mở ảnh gốc">
           <img src={src} alt={alt || 'Hình minh hoạ'} className="w-full" />
+        </a>,
+      )
+    } else if (tok.startsWith('[')) {
+      // Link tài liệu tham khảo trong lời giải thích / case study — luôn mở tab mới.
+      const [, label, href] = tok.match(/^\[([^\]]+)\]\(([^)\s]+)\)$/)!
+      out.push(
+        <a key={i++} href={href} target="_blank" rel="noreferrer" className="font-medium text-accent underline decoration-accent/30 underline-offset-2 hover:decoration-accent">
+          {label}
         </a>,
       )
     } else if (tok.startsWith('**')) out.push(<strong key={i++} className="font-semibold text-text">{tok.slice(2, -2)}</strong>)
@@ -60,21 +68,41 @@ function highlightNumbers(nodes: ReactNode[]): ReactNode[] {
 }
 
 const BULLET = /^\s*[-*] /
+const HEADING = /^#{1,6}\s+/
+const FENCE = /^\s*```/
 
-// Markdown nhẹ cho câu hỏi/giải thích: đoạn (cách nhau bằng dòng trống), xuống dòng giữ nguyên, danh sách "- ".
+type Group = { kind: 'p' | 'list' | 'heading' | 'code'; lines: string[] }
+
+// Markdown nhẹ cho câu hỏi/giải thích/case study: đoạn (cách nhau bằng dòng trống), xuống dòng giữ nguyên,
+// danh sách "- ", tiêu đề "## " và khối code ``` (mẫu lệnh CLI, query KQL).
 // highlightNumbersOn: chỉ bật ở chế độ Ôn mẹo nhanh, tô sáng số liệu đặc trưng trong câu hỏi.
 export function RichText({ text, className, highlightNumbersOn }: { text: string; className?: string; highlightNumbersOn?: boolean }) {
-  const groups: { list: boolean; lines: string[] }[] = []
+  const groups: Group[] = []
+  let code: Group | null = null
   for (const raw of text.replace(/\r/g, '').split('\n')) {
     const line = raw.replace(/\s+$/, '')
-    if (!line) {
-      groups.push({ list: false, lines: [] })
+    if (FENCE.test(line)) {
+      if (code) code = null
+      else groups.push((code = { kind: 'code', lines: [] }))
       continue
     }
-    const list = BULLET.test(line)
+    // Trong khối code giữ nguyên thụt lề; bỏ dòng trống thừa mà nguồn chèn giữa các dòng lệnh.
+    if (code) {
+      if (line) code.lines.push(line)
+      continue
+    }
+    if (!line) {
+      groups.push({ kind: 'p', lines: [] })
+      continue
+    }
+    if (HEADING.test(line)) {
+      groups.push({ kind: 'heading', lines: [line.replace(HEADING, '')] })
+      continue
+    }
+    const kind = BULLET.test(line) ? 'list' : 'p'
     const cur = groups[groups.length - 1]
-    if (cur && cur.list === list && cur.lines.length) cur.lines.push(line)
-    else groups.push({ list, lines: [line] })
+    if (cur && cur.kind === kind && cur.lines.length) cur.lines.push(line)
+    else groups.push({ kind, lines: [line] })
   }
   const render = (l: string) => (highlightNumbersOn ? highlightNumbers(renderInline(l)) : renderInline(l))
   return (
@@ -82,7 +110,15 @@ export function RichText({ text, className, highlightNumbersOn }: { text: string
       {groups
         .filter((g) => g.lines.length)
         .map((g, i) =>
-          g.list ? (
+          g.kind === 'code' ? (
+            <pre key={i} className="overflow-x-auto rounded-xl bg-card-soft px-4 py-3 font-mono text-[0.85em] leading-relaxed">
+              {g.lines.join('\n')}
+            </pre>
+          ) : g.kind === 'heading' ? (
+            <h4 key={i} className="mt-2 font-bold text-text first:mt-0">
+              {render(g.lines[0])}
+            </h4>
+          ) : g.kind === 'list' ? (
             <ul key={i} className="flex list-disc flex-col gap-1 pl-5 marker:text-plum">
               {g.lines.map((l, j) => <li key={j}>{render(l.replace(BULLET, ''))}</li>)}
             </ul>

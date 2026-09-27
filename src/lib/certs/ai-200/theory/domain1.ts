@@ -104,7 +104,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'aca-apps',
       title: 'Azure Container Apps: revision, ingress, domain, giám sát',
       summary: 'Single vs multiple revision mode, traffic splitting, revision label, session affinity, gắn custom domain đúng thứ tự, log streaming & console.',
-      questionIds: [5, 54, 74, 81, 109, 122],
+      questionIds: [5, 54, 74, 81, 109, 122, 131, 138],
       blocks: [
         {
           type: 'tldr',
@@ -157,6 +157,37 @@ export const DOMAIN_1: TheoryDomain = {
             ['Truy vấn log lịch sử, tương quan nhiều app', '**Log Analytics** (KQL)'],
             ['Biểu đồ CPU/memory/request', '**Azure Monitor metrics**'],
           ],
+        },
+
+        { type: 'h', text: '4. Environment & workload profiles' },
+        {
+          type: 'p',
+          text: '**Container Apps environment** là ranh giới dùng chung của nhiều app: cùng **virtual network**, cùng cấu hình **Dapr** và cùng nơi lưu **log**. Muốn cấu hình CPU/memory cho container theo profile (kể cả dedicated) thì bật **workload profiles** khi tạo environment.',
+        },
+        { type: 'code', text: 'az containerapp env create -n MyEnv -g MyResourceGroup --location eastus2 --enable-workload-profiles', caption: 'Chung VNet + Dapr + logging → environment; tuỳ chỉnh tài nguyên → workload profiles' },
+        {
+          type: 'list',
+          items: [
+            '`--internal-only`: environment không có endpoint public — không liên quan cấu hình tài nguyên.',
+            '`--enable-mtls`: mã hoá traffic giữa các app trong environment.',
+          ],
+        },
+
+        { type: 'h', text: '5. Health probe' },
+        {
+          type: 'table',
+          headers: ['Probe', 'Trả lời câu hỏi', 'Khi fail'],
+          rows: [
+            ['**Readiness**', 'Replica đã sẵn sàng nhận request chưa?', 'Tạm không nhận traffic'],
+            ['**Liveness**', 'Container còn "sống" không?', 'Restart container'],
+            ['**Startup**', 'App khởi động chậm đã khởi động xong chưa?', 'Chặn liveness/readiness cho tới khi xong'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'exam',
+          title: '"Replica ready to process incoming requests"',
+          text: '→ **readiness probe**. App nhận web request → chọn **HTTP** readiness probe (TCP chỉ biết port đã mở, không biết app đã phục vụ được chưa).',
         },
       ],
     },
@@ -273,7 +304,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'app-service-functions-hosting',
       title: 'App Service cho container & hosting plan của Functions',
       summary: 'App settings thành biến môi trường, xem log container bằng az webapp log, Consumption vs Premium vs Dedicated và giới hạn 230 giây của HTTP trigger.',
-      questionIds: [36, 55, 57, 63],
+      questionIds: [36, 55, 57, 63, 129],
       blocks: [
         {
           type: 'tldr',
@@ -308,6 +339,13 @@ export const DOMAIN_1: TheoryDomain = {
           tone: 'exam',
           title: 'Con số 230 giây',
           text: 'Hàm **HTTP-triggered** phải phản hồi trong **230 giây** (idle timeout của Azure Load Balancer) — dù `functionTimeout` đặt dài hơn. Việc lâu hơn → chuyển sang xử lý bất đồng bộ qua queue.',
+        },
+        {
+          type: 'example',
+          scenario: 'App1: function app **Windows chạy code**, scale theo event, mỗi lần chạy < 10 phút. App2: function app **Linux chạy custom container**, scale theo event. Tối thiểu chi phí.',
+          right: 'App1 → **Consumption**; App2 → **Premium**.',
+          wrong: ['App2 → Dedicated — chạy được container nhưng không có event-driven scaling của Functions.', 'App2 → Consumption — không hỗ trợ custom container.'],
+          why: 'Consumption rẻ nhất khi không cần container; trong các plan chạy được Linux container, chỉ Premium scale theo event.',
         },
       ],
     },

@@ -84,6 +84,7 @@ export default async function CertPage({
           initialTopic={topic ? { id: topic.id, title: topic.title, ids: topic.questionIds } : undefined}
           initialAnswerGroup={answerGroup ? { id: answerGroup.id, title: answerGroup.title, ids: answerGroup.questionIds } : undefined}
           initialQuestion={initialQuestion}
+          contexts={cert.contexts}
         />
       </div>
       <LearnerGate />

@@ -79,7 +79,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'service-bus',
       title: 'Azure Service Bus',
       summary: 'Queue vs topic/subscription, peek-lock, complete / abandon / defer / dead-letter, duplicate detection, session FIFO, SQL filter & action.',
-      questionIds: [28, 32, 35, 37, 53, 73, 114, 115, 118],
+      questionIds: [28, 32, 35, 37, 53, 73, 114, 115, 118, 130, 135, 136],
       blocks: [
         {
           type: 'tldr',
@@ -116,7 +116,7 @@ export const DOMAIN_2: TheoryDomain = {
             ['Xử lý theo thứ tự FIFO', '**Queue** (FIFO nghiêm ngặt: bật **session**)'],
             ['Cách ly message lỗi', '**Dead-letter queue**'],
             ['Không xử lý trùng message gửi lại', '**Duplicate detection** (theo `MessageId` trong một khoảng thời gian)'],
-            ['Service Bus phát sự kiện sang Event Grid', 'Tier **Premium** + quyền **Contributor** trên namespace'],
+            ['Service Bus phát sự kiện sang Event Grid', 'Tier **Premium** + quyền **Contributor** trên namespace (bộ lựa chọn không có Contributor → role **Data Receiver** cho Function nhận message)'],
           ],
         },
 
@@ -136,13 +136,30 @@ export const DOMAIN_2: TheoryDomain = {
           type: 'steps',
           items: ['Tạo **ServiceBusClient**', 'Tạo **ServiceBusProcessor** cho queue', 'Đăng ký **message handler + error handler**', '**Start** processor'],
         },
+        {
+          type: 'callout',
+          tone: 'warn',
+          title: 'Client đã tạo mà không nhận message',
+          text: 'Thiếu bước **đăng ký handler**. SDK cũ (`Microsoft.Azure.ServiceBus`): `subscriptionClient.RegisterMessageHandler(...)` vừa gắn callback vừa bật message pump. `AddRuleAsync` chỉ quyết định message nào vào subscription, `CloseAsync` thì dừng xử lý.',
+        },
+
+        { type: 'h', text: '5. Request/reply & audit trail' },
+        {
+          type: 'table',
+          headers: ['Thuộc tính của reply', 'Gán bằng', 'Để làm gì'],
+          rows: [
+            ['`ReplyToSessionId`', '`SessionId` của message gốc', 'Reply quay về đúng session gốc'],
+            ['`CorrelationId`', '`MessageId` của message gốc', 'Nối reply với message gốc (audit trail)'],
+          ],
+        },
+        { type: 'p', text: '`SequenceNumber` và `DeliveryCount` do broker tự gán khi giao message — không gán tay và không dùng để dựng audit trail.' },
       ],
     },
     {
       id: 'event-grid',
       title: 'Azure Event Grid',
       summary: 'Subject filter, event type filter, advanced filter trên payload; retry policy, dead-letter; custom topic & đăng ký provider.',
-      questionIds: [24, 30, 33, 34, 108, 123, 124],
+      questionIds: [24, 30, 33, 34, 108, 123, 124, 133, 134],
       blocks: [
         {
           type: 'tldr',
@@ -193,6 +210,23 @@ export const DOMAIN_2: TheoryDomain = {
             '**Partner topic**: sự kiện từ đối tác SaaS bên ngoài.',
             'Webhook endpoint phải qua **validation handshake** (ValidationCode đồng bộ hoặc ValidationURL thủ công); SAS token có hạn dùng tự hết hiệu lực, còn access key thì dùng vô thời hạn tới khi tạo lại.',
           ],
+        },
+
+        { type: 'h', text: '4. System topic, custom topic hay domain?' },
+        {
+          type: 'table',
+          headers: ['Loại', 'Ai publish', 'Dùng khi'],
+          rows: [
+            ['**System topic**', 'Chính dịch vụ Azure (Storage, Event Hubs…)', 'Phản ứng với event của tài nguyên Azure — app **không** tự publish vào được'],
+            ['**Custom topic**', 'Ứng dụng của bạn', 'Một luồng event tuỳ chỉnh; tối đa **500 event subscription** mỗi topic'],
+            ['**Domain**', 'Ứng dụng của bạn, qua **một endpoint**', 'Hàng nghìn topic riêng cho từng khách hàng/tenant, phân quyền bằng Microsoft Entra ID'],
+          ],
+        },
+        {
+          type: 'callout',
+          tone: 'exam',
+          title: '"Thousands of customers" + "single endpoint"',
+          text: '→ **Event Grid domain**. System topic sai vì app không publish được; custom topic + mỗi khách một subscription sai vì vượt giới hạn 500 subscription.',
         },
       ],
     },
@@ -303,7 +337,7 @@ export const DOMAIN_2: TheoryDomain = {
       id: 'app-configuration',
       title: 'Azure App Configuration',
       summary: 'Key-value, label theo môi trường, feature flag, Key Vault reference, refresh động có cache, DefaultAzureCredential.',
-      questionIds: [43, 44, 58, 79, 93],
+      questionIds: [43, 44, 58, 79, 93, 137],
       blocks: [
         {
           type: 'tldr',
@@ -317,6 +351,8 @@ export const DOMAIN_2: TheoryDomain = {
             ['Rollout theo %, theo nhóm người dùng', '**Feature flag**'],
             ['Giới hạn token, danh sách region…', '**Key-value** thường'],
             ['API key lấy an toàn lúc chạy', '**Key Vault reference**'],
+            ['Đổi nhiều setting mà app phải nạp lại **nhất quán** cùng lúc', '**Sentinel key** register với `refreshAll: true`'],
+            ['Giảm số request tới App Configuration', '**Tăng** cache expiration (refresh interval)'],
             ['Cập nhật cấu hình không restart, request vẫn nhanh', '**Cache + refresh interval**'],
           ],
         },

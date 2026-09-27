@@ -42,6 +42,18 @@ const RELATED: Record<string, RelatedGroup[]> = {
       title: 'Đọc kết quả query KQL summarize theo resultCode',
       note: 'Query gốc: `requests | summarize request_count = count() by resultCode | order by request_count desc`, mục tiêu là liệt kê các result code **từ nhiều request nhất đến ít nhất**. **Đúng**: mỗi resultCode một hàng kèm số request (#85). **Sai**: hiện từng request riêng lẻ (#87 — summarize đã gộp nhóm), sắp theo alphabet (#92 — đang sắp theo `request_count`).',
     },
+    {
+      ids: [133, 134],
+      kind: 'series',
+      title: 'Publish event cho hàng nghìn khách hàng',
+      note: 'Mục tiêu (trang gốc cũng thiếu, suy ra từ lời giải thích): gửi event ứng dụng tới **hàng nghìn khách hàng**, mỗi khách chỉ nhận event của mình, publish qua **một endpoint**. Cách đúng là **Event Grid domain**. **Cả hai đều "No"**: system topic (#133 — chỉ dành cho event do dịch vụ Azure phát ra, app không publish vào được), custom topic + mỗi khách một subscription (#134 — một custom topic tối đa 500 event subscription). Câu "Yes" của chuỗi (có lẽ là phương án domain, #132) đã bị gỡ khỏi examcademy.',
+    },
+    {
+      ids: [73, 135],
+      kind: 'variant',
+      title: 'Service Bus phát event sang Event Grid: tier & quyền',
+      note: 'Cùng một tình huống, chỉ khác bộ lựa chọn. Tier luôn là **Premium** (tích hợp Service Bus → Event Grid chỉ có ở Premium). Về quyền: #73 có lựa chọn **Contributor** — quyền quản lý namespace cần để cấu hình tích hợp — nên chọn nó. Bộ lựa chọn của #135 chỉ có các role data-plane, nên chọn **Data Receiver**: Function chỉ cần nhận message, không cần quyền gửi hay quyền Owner.',
+    },
   ],
   'ai-103': [
     {

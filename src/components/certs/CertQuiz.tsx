@@ -35,6 +35,23 @@ export interface CertQuestion {
   // Mẹo nhận diện nhanh: số liệu/từ khoá đặc trưng trong câu → gợi ý đáp án, dùng ở chế độ Ôn mẹo nhanh
   // (components/certs/TipReview.tsx). Không phải mọi bộ đề đều có — hiện có CCAF và AI-200.
   tip?: string
+  // Id bối cảnh dùng chung (case study / scenario) — nội dung nằm ở `contexts` truyền vào CertQuiz.
+  context?: string
+}
+
+// Bối cảnh của một nhóm câu: case study dài (thu gọn sẵn), scenario ngắn của chuỗi "Solution" (mở sẵn), hoặc
+// inferred — trang gốc cũng thiếu nên được dựng lại từ đáp án + lời giải thích.
+export interface CertContext {
+  kind: 'case_study' | 'scenario' | 'inferred'
+  title: string
+  content: string
+  vn?: string
+}
+
+const CONTEXT_LABEL: Record<CertContext['kind'], string> = {
+  case_study: 'Case study',
+  scenario: 'Tình huống',
+  inferred: 'Bối cảnh (suy ra)',
 }
 
 type Mode = 'all' | 'random20' | 'random50' | 'custom' | 'wrong' | 'mostWrong' | 'unseen'
@@ -163,9 +180,11 @@ interface Props {
   initialQuestion?: number
   // Câu hỏi → chủ đề lý thuyết liên quan, để hiện link "Xem lý thuyết" sau khi chấm.
   theoryByQuestion?: Record<number, TheoryLink[]>
+  // Bối cảnh dùng chung (case study / scenario), tra theo `CertQuestion.context`.
+  contexts?: Record<string, CertContext>
 }
 
-export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, initialQuestion, theoryByQuestion = {} }: Props) {
+export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, initialQuestion, theoryByQuestion = {}, contexts = {} }: Props) {
   const [mode, setMode] = useState<Mode>('all')
   const [from, setFrom] = useState(1)
   const [to, setTo] = useState(questions.length)
@@ -191,6 +210,8 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
   const [saved, setSaved] = useState(false)
   // Câu cùng tình huống / cùng đề khác đáp án (lib/certs/related.ts).
   const related = useMemo(() => relatedByQuestion(certId), [certId])
+  // Case study đã mở/đóng thì giữ nguyên trạng thái đó cho các câu kế tiếp cùng case study, khỏi phải mở lại mỗi câu.
+  const [ctxOpen, setCtxOpen] = useState<Record<string, boolean>>({})
   // Tiến độ theo hồ sơ học (cookie learner_id). Chưa có hồ sơ thì rỗng và không lưu — vẫn làm bài bình thường.
   const [progress, setProgress] = useState<Map<number, Progress>>(new Map())
 
@@ -584,6 +605,39 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
       <div className="mb-6 h-2 overflow-hidden rounded-pill bg-card-soft">
         <div className="h-full rounded-pill bg-gradient-to-r from-accent to-plum transition-all duration-500" style={{ width: `${((idx + 1) / set.length) * 100}%` }} />
       </div>
+      {q.context && contexts[q.context] && (() => {
+        const ctx = contexts[q.context]
+        // Scenario ngắn mở sẵn; case study dài thu gọn sẵn (có thể dài vài nghìn chữ).
+        const open = ctxOpen[q.context] ?? ctx.kind !== 'case_study'
+        return (
+          <details
+            key={`ctx-${q.id}`}
+            open={open}
+            onToggle={(e) => {
+              const now = e.currentTarget.open
+              if (now !== open) setCtxOpen((prev) => ({ ...prev, [q.context!]: now }))
+            }}
+            className="mb-4 rounded-2xl border border-accent/30 bg-accent-soft/40 p-4 text-sm"
+          >
+            <summary className="cursor-pointer select-none font-semibold">
+              <span className="mr-2 rounded-pill bg-accent px-2.5 py-0.5 text-xs font-bold text-white">📋 {CONTEXT_LABEL[ctx.kind]}</span>
+              {ctx.title}
+            </summary>
+            {ctx.kind === 'inferred' && (
+              <p className="mt-2 text-xs italic text-muted">Đề gốc trên examcademy.com cũng thiếu phần này — bối cảnh dưới đây được dựng lại từ đáp án và lời giải thích.</p>
+            )}
+            <div className="mt-3 max-h-112 overflow-y-auto pr-1">
+              <RichText text={ctx.content} className="leading-relaxed" />
+              {viQuestion && ctx.vn && (
+                <details className="mt-3 border-t border-black/10 pt-3">
+                  <summary className="cursor-pointer text-xs font-semibold text-plum">Bản dịch tiếng Việt</summary>
+                  <RichText text={ctx.vn} className="mt-2 leading-relaxed text-muted" />
+                </details>
+              )}
+            </div>
+          </details>
+        )
+      })()}
       {(related[q.id] ?? []).map(({ group, others }) => (
         <div key={group.title} className="mb-4 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-sm">
           <div className="flex flex-wrap items-center gap-2">

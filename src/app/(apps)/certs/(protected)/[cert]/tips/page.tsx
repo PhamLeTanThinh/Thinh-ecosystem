@@ -27,7 +27,7 @@ export default async function CertTipsPage({ params }: { params: Promise<{ cert:
           ← Về luyện đề
         </Link>
       </div>
-      <TipReview questions={cert.questions} />
+      <TipReview questions={cert.questions} contexts={cert.contexts} />
     </div>
   )
 }

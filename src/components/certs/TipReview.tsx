@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { RichText } from './RichText'
-import type { CertQuestion } from './CertQuiz'
+import type { CertContext, CertQuestion } from './CertQuiz'
 
 // Chế độ ôn tốc độ: mỗi thẻ hiện luôn câu hỏi + mẹo nhận diện (số liệu/từ khoá đặc trưng) + đáp án đúng +
 // giải thích cùng lúc, không cần bấm gì thêm để xem — chỉ lướt qua để ôn. Không chấm điểm, không lưu tiến
@@ -16,7 +16,7 @@ function shuffle<T>(arr: T[]): T[] {
   return a
 }
 
-export function TipReview({ questions }: { questions: CertQuestion[] }) {
+export function TipReview({ questions, contexts = {} }: { questions: CertQuestion[]; contexts?: Record<string, CertContext> }) {
   const withTip = questions.filter((q) => q.tip)
   const [order, setOrder] = useState<CertQuestion[] | null>(null)
   const [idx, setIdx] = useState(0)
@@ -81,6 +81,15 @@ export function TipReview({ questions }: { questions: CertQuestion[] }) {
         <div className="h-full rounded-pill bg-gradient-to-r from-accent to-plum transition-all duration-500" style={{ width: `${((idx + 1) / order.length) * 100}%` }} />
       </div>
 
+      {q.context && contexts[q.context] && (
+        // Ôn nhanh nên luôn thu gọn; mở ra khi cần đọc lại yêu cầu của case study.
+        <details key={`ctx-${q.id}`} className="mb-4 rounded-2xl border border-accent/30 bg-accent-soft/40 p-4 text-sm">
+          <summary className="cursor-pointer select-none font-semibold">📋 {contexts[q.context].title}</summary>
+          <div className="mt-3 max-h-112 overflow-y-auto pr-1">
+            <RichText text={contexts[q.context].vn ?? contexts[q.context].content} className="leading-relaxed" />
+          </div>
+        </details>
+      )}
       <RichText text={q.question} className="text-lg font-semibold leading-relaxed" highlightNumbersOn />
       {q.image && (
         <a href={q.image} target="_blank" rel="noreferrer" className="mt-4 block overflow-hidden rounded-xl border border-border" title="Mở ảnh gốc">

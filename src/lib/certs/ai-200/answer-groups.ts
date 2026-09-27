@@ -24,7 +24,7 @@ export const AI200_ANSWER_GROUPS: AnswerGroup[] = [
   { id: 'otel-pipeline', title: 'OpenTelemetry: TracerProvider → exporter → span processor', icon: '🛰️', questionIds: [40, 64, 65, 66, 78] },
   { id: 'inspect-before-restart', title: 'AKS: xem events / logs / endpoints trước, đừng restart hay scale mù', icon: '🩺', questionIds: [2, 39, 82] },
   { id: 'function-trigger-choice', title: 'Chọn trigger Azure Functions đúng mô hình (HTTP / Queue / Timer / Event Grid / Cosmos DB)', icon: '⚡', questionIds: [25, 29, 69, 75, 100] },
-  { id: 'functions-premium', title: 'Functions Premium plan: custom container, VNet, không cold start', icon: '🔥', questionIds: [36, 63] },
-  { id: 'cosmos-consistency', title: 'Chọn consistency level Cosmos DB theo yêu cầu độ mới', icon: '⚖️', questionIds: [17, 120] },
-  { id: 'app-config-features', title: 'App Configuration: label theo môi trường, feature flag, refresh có cache', icon: '🎛️', questionIds: [43, 44, 79, 93] },
+  { id: 'functions-premium', title: 'Functions Premium plan: custom container, VNet, không cold start', icon: '🔥', questionIds: [36, 63, 129] },
+  { id: 'cosmos-consistency', title: 'Chọn consistency level Cosmos DB theo yêu cầu độ mới', icon: '⚖️', questionIds: [17, 120, 139] },
+  { id: 'app-config-features', title: 'App Configuration: label theo môi trường, feature flag, refresh có cache', icon: '🎛️', questionIds: [43, 44, 79, 93, 137] },
 ]
