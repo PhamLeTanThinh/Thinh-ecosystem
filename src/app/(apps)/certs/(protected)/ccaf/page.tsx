@@ -13,13 +13,15 @@ export const metadata = { title: 'CCAF — Luyện đề' }
 
 const theoryByQuestion = topicsByQuestion()
 
-export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[]; answer?: string | string[] }> }) {
+export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[]; answer?: string | string[]; q?: string | string[] }> }) {
   await assertCertsAccess()
   const params = await searchParams
   const topicParam = params.topic
   const topic = CCAF_TOPICS.find((t) => t.id === (Array.isArray(topicParam) ? topicParam[0] : topicParam))
   const answerParam = params.answer
   const answerGroup = findAnswerGroup(Array.isArray(answerParam) ? answerParam[0] : (answerParam ?? ''))
+  const questionId = Number(Array.isArray(params.q) ? params.q[0] : params.q)
+  const initialQuestion = questions.some((q) => q.id === questionId) ? questionId : undefined
   return (
     <div className="mx-auto flex w-[80%] min-w-0 flex-col py-4 max-lg:w-full max-lg:px-6 lg:h-dvh lg:overflow-hidden">
       <div className="mb-3 flex shrink-0 items-center justify-between gap-3">
@@ -54,11 +56,12 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
       <div className="min-h-0 flex-1 max-lg:min-h-fit lg:overflow-y-auto">
       <CertQuiz
         certId="ccaf"
-        key={topic?.id ?? answerGroup?.id ?? 'all'}
+        key={topic?.id ?? answerGroup?.id ?? (initialQuestion !== undefined ? `q${initialQuestion}` : 'all')}
         questions={questions}
         theoryByQuestion={theoryByQuestion}
         initialTopic={topic ? { id: topic.id, title: topic.title, ids: topic.questionIds } : undefined}
         initialAnswerGroup={answerGroup ? { id: answerGroup.id, title: answerGroup.title, ids: answerGroup.questionIds } : undefined}
+        initialQuestion={initialQuestion}
       />
       </div>
       <LearnerGate />

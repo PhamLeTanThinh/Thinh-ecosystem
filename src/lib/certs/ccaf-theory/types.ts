@@ -1,4 +1,5 @@
-// Lý thuyết CCAF (Claude Certified Architect — Foundations), soạn từ bộ đề `ccaf-questions.json`.
+// Lý thuyết CCAF (Claude Certified Architect — Foundations), soạn từ bộ đề `ccaf-questions.json`. Các cert
+// khác trong catalog.ts (vd. AI-200) dùng lại đúng các kiểu này.
 // Nội dung là dữ liệu tĩnh; văn bản hỗ trợ **đậm** và `code` (xem components/certs/TheoryRich.tsx).
 
 export type TheoryBlock =
@@ -33,8 +34,10 @@ export interface TheoryDomain {
   id: string
   number: number
   title: string
-  // Tỷ trọng trong đề thi thật (%).
-  weight: number
+  // Tỷ trọng trong đề thi thật (%). Bỏ trống khi chưa có số chính thức — trang lý thuyết hiện số câu thay thế.
+  weight?: number
+  // Giá trị `category` tương ứng trong bộ đề (khi đề có gắn category) — để đếm số câu của domain.
+  category?: string
   summary: string
   topics: TheoryTopic[]
 }

@@ -249,7 +249,7 @@ export const DOMAIN_1: TheoryDomain = {
       id: 'multi-agent-state',
       title: 'Truyền trạng thái & nguồn gốc dữ liệu giữa các agent',
       summary: 'Giữ nguồn, ngày tháng và độ chắc chắn không bị rơi mất khi thông tin đi qua nhiều agent; tìm thêm khi thiếu; chạy tiếp sau khi sập.',
-      questionIds: [5, 9, 10, 11, 12, 18, 19, 21, 22, 81, 86],
+      questionIds: [5, 9, 10, 11, 12, 18, 19, 21, 22, 81],
       blocks: [
         {
           type: 'tldr',

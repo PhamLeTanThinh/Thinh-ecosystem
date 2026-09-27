@@ -61,6 +61,9 @@ export function TipReview({ questions }: { questions: CertQuestion[] }) {
 
   const q = order[idx]
   const last = idx === order.length - 1
+  // single/multi: đáp án là các key nối bằng ","; yesno/match: đáp án nằm ở từng dòng `statements`.
+  const rows = q.kind === 'yesno' || q.kind === 'match'
+  const correct = new Set(q.answer.split(','))
 
   function go(delta: number) {
     setIdx((v) => v + delta)
@@ -90,21 +93,34 @@ export function TipReview({ questions }: { questions: CertQuestion[] }) {
         {q.tip}
       </div>
 
-      <div className="mt-6 flex flex-col gap-3">
-        {Object.entries(q.options).map(([l, text]) => (
-          <div
-            key={l}
-            className={`flex items-start gap-4 rounded-2xl border p-4 text-left text-sm leading-relaxed ${
-              l === q.answer ? 'border-jade/60 bg-jade/10 shadow-sm' : 'border-border opacity-60'
-            }`}
-          >
-            <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${l === q.answer ? 'bg-jade text-white' : 'bg-card-soft text-muted'}`}>
-              {l === q.answer ? '✓' : l}
-            </span>
-            <span className="pt-1">{text}</span>
-          </div>
-        ))}
-      </div>
+      {rows ? (
+        <div className="mt-6 flex flex-col gap-2">
+          {(q.statements ?? []).map((s) => (
+            <div key={s.id} className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 rounded-2xl border border-jade/40 bg-jade/5 px-4 py-3 text-sm leading-relaxed">
+              <span>{s.text}</span>
+              <span className="font-semibold text-jade">
+                → {q.kind === 'yesno' ? s.answer : `${s.answer}. ${q.options[s.answer] ?? ''}`}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-6 flex flex-col gap-3">
+          {Object.entries(q.options).map(([l, text]) => (
+            <div
+              key={l}
+              className={`flex items-start gap-4 rounded-2xl border p-4 text-left text-sm leading-relaxed ${
+                correct.has(l) ? 'border-jade/60 bg-jade/10 shadow-sm' : 'border-border opacity-60'
+              }`}
+            >
+              <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${correct.has(l) ? 'bg-jade text-white' : 'bg-card-soft text-muted'}`}>
+                {correct.has(l) ? '✓' : l}
+              </span>
+              <span className="pt-1">{text}</span>
+            </div>
+          ))}
+        </div>
+      )}
       {(q.explanation || q.vn.explanation) && (
         <div className="mt-6 rounded-2xl border-l-4 border-jade bg-jade/10 p-5 text-sm leading-relaxed">
           {q.explanation && <RichText text={q.explanation} />}

@@ -5,7 +5,7 @@ import { CERT_CATALOG } from '@/lib/certs/catalog'
 import questions from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS } from '@/lib/certs/ccaf-theory'
 
-// Mỗi chứng chỉ 1 card, các chế độ học là các nút bên trong. Cert chỉ có luyện đề thì thêm vào lib/certs/catalog.ts.
+// Mỗi chứng chỉ 1 card, các chế độ học là các nút bên trong. Cert mới thì thêm vào lib/certs/catalog.ts.
 const CERTS = [
   {
     title: 'CCAF',
@@ -21,8 +21,13 @@ const CERTS = [
     title: c.code,
     subtitle: `Microsoft ${c.code} — ${c.title}`,
     description: c.description,
-    tags: [...c.tags, 'Giải thích tiếng Việt'],
-    actions: [{ href: `/certs/${c.id}`, icon: '📝', label: 'Luyện đề', meta: `${c.questions.length} câu`, primary: true }],
+    tags: [...c.tags, c.questions.some((q) => q.vn.question) ? 'Song ngữ' : 'Giải thích tiếng Việt'],
+    actions: [
+      ...(c.theory
+        ? [{ href: `/certs/${c.id}/theory`, icon: '📖', label: 'Lý thuyết', meta: `${c.theory.reduce((n, d) => n + d.topics.length, 0)} chủ đề`, primary: false }]
+        : []),
+      { href: `/certs/${c.id}`, icon: '📝', label: 'Luyện đề', meta: `${c.questions.length} câu`, primary: true },
+    ],
   })),
 ]
 

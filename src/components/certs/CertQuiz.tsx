@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Link from 'next/link'
+import { RELATED_KIND_LABEL, relatedByQuestion } from '@/lib/certs/related'
 import { RichText } from './RichText'
 
 // single: chọn 1 · multi: chọn nhiều (answer = các key nối bằng ",") · yesno: bảng Yes/No theo dòng ·
@@ -26,12 +27,13 @@ export interface CertQuestion {
   answer: string
   statements?: Statement[]
   explanation: string
-  vn: { question: string; options: Record<string, string>; explanation: string }
+  // statements: bản dịch từng dòng của câu yesno/match (theo `Statement.id`).
+  vn: { question: string; options: Record<string, string>; explanation: string; statements?: Record<string, string> }
   // Sơ đồ minh hoạ (đường dẫn trong /public), một số câu dựa vào hình để trả lời.
   image?: string
   category?: string
   // Mẹo nhận diện nhanh: số liệu/từ khoá đặc trưng trong câu → gợi ý đáp án, dùng ở chế độ Ôn mẹo nhanh
-  // (components/certs/TipReview.tsx). Không phải mọi bộ đề đều có — hiện chỉ CCAF.
+  // (components/certs/TipReview.tsx). Không phải mọi bộ đề đều có — hiện có CCAF và AI-200.
   tip?: string
 }
 
@@ -64,6 +66,7 @@ const MODE_LABEL: Record<string, string> = {
   retry: 'Luyện lại câu sai',
   topic: 'Theo chủ đề lý thuyết',
   answer: 'Theo đáp án giống nhau',
+  goto: 'Xem câu liên quan',
 }
 // key = đáp án đúng đã mã hoá cùng dạng với câu trả lời của người học, để chấm chỉ cần so chuỗi.
 type Item = CertQuestion & { kind: QuestionKind; letters: string[]; key: string }
@@ -156,11 +159,13 @@ interface Props {
   // Nhóm câu hỏi cùng kỹ thuật/giải pháp đang luyện (từ ?answer=, xem ccaf-answer-groups.ts): cùng cơ chế
   // với initialTopic nhưng nhãn lịch sử riêng ("Theo đáp án giống nhau") để phân biệt.
   initialAnswerGroup?: { id: string; title: string; ids: number[] }
+  // Mở thẳng 1 câu (từ ?q=, vd nút "Xem câu liên quan" mở tab mới — xem lib/certs/related.ts).
+  initialQuestion?: number
   // Câu hỏi → chủ đề lý thuyết liên quan, để hiện link "Xem lý thuyết" sau khi chấm.
   theoryByQuestion?: Record<number, TheoryLink[]>
 }
 
-export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, theoryByQuestion = {} }: Props) {
+export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, initialQuestion, theoryByQuestion = {} }: Props) {
   const [mode, setMode] = useState<Mode>('all')
   const [from, setFrom] = useState(1)
   const [to, setTo] = useState(questions.length)
@@ -184,6 +189,8 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
   const [runIds, setRunIds] = useState<number[]>([])
   const [runMode, setRunMode] = useState('all')
   const [saved, setSaved] = useState(false)
+  // Câu cùng tình huống / cùng đề khác đáp án (lib/certs/related.ts).
+  const related = useMemo(() => relatedByQuestion(certId), [certId])
   // Tiến độ theo hồ sơ học (cookie learner_id). Chưa có hồ sơ thì rỗng và không lưu — vẫn làm bài bình thường.
   const [progress, setProgress] = useState<Map<number, Progress>>(new Map())
 
@@ -192,6 +199,7 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
     // bắt đầu luôn, khỏi qua màn chọn chế độ.
     if (initialTopic) start(initialTopic.ids, 'topic')
     else if (initialAnswerGroup) start(initialAnswerGroup.ids, 'answer')
+    else if (initialQuestion !== undefined) start([initialQuestion], 'goto')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -576,6 +584,36 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
       <div className="mb-6 h-2 overflow-hidden rounded-pill bg-card-soft">
         <div className="h-full rounded-pill bg-gradient-to-r from-accent to-plum transition-all duration-500" style={{ width: `${((idx + 1) / set.length) * 100}%` }} />
       </div>
+      {(related[q.id] ?? []).map(({ group, others }) => (
+        <div key={group.title} className="mb-4 rounded-2xl border border-gold/40 bg-gold/10 p-4 text-sm">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="rounded-pill bg-gold/20 px-2.5 py-0.5 text-xs font-bold text-gold">🔁 {RELATED_KIND_LABEL[group.kind]}</span>
+            <span className="font-semibold">{group.title}</span>
+          </div>
+          <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
+            <span className="text-muted">Câu liên quan:</span>
+            {others.map((other) => {
+              // Câu kia có trong lượt đang làm thì nhảy tới luôn; không thì mở tab mới để khỏi mất lượt này.
+              const pos = set.findIndex((x) => x.id === other)
+              const cls = 'rounded-pill border border-gold/50 bg-card px-2.5 py-1 font-semibold text-gold transition hover:border-gold hover:shadow-sm'
+              return pos >= 0 ? (
+                <button key={other} type="button" onClick={() => setIdx(pos)} className={cls}>
+                  Tới #{other} →
+                </button>
+              ) : (
+                <a key={other} href={`?q=${other}`} target="_blank" rel="noreferrer" className={cls}>
+                  Mở #{other} ↗
+                </a>
+              )
+            })}
+          </div>
+          {/* Lời giải thích có lộ đáp án, nên chỉ tự mở sau khi đã nộp câu này. */}
+          <details key={`${q.id}-${sel ? 1 : 0}`} open={!!sel} className="mt-2">
+            <summary className="cursor-pointer text-xs font-semibold text-gold">Vì sao các câu này giống nhau?</summary>
+            <RichText text={group.note} className="mt-2 leading-relaxed" />
+          </details>
+        </div>
+      ))}
       <RichText text={q.question} className="text-lg font-semibold leading-relaxed" />
       {viQuestion && q.vn.question && <p className="mt-3 rounded-xl bg-card-soft/70 p-3 text-sm italic leading-relaxed text-muted">{q.vn.question}</p>}
       {q.image && (
@@ -632,6 +670,7 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
               <div key={s.id} className={`grid grid-cols-[1fr_auto] items-center gap-3 border-t border-border px-4 py-3 text-sm ${rowOk === true ? 'bg-jade/10' : rowOk === false ? 'bg-rose-400/10' : ''}`}>
                 <span className="leading-relaxed">
                   {s.text}
+                  {viQuestion && q.vn.statements?.[s.id] && <span className="mt-1 block text-xs italic text-muted">{q.vn.statements[s.id]}</span>}
                   {rowOk === false && <span className="mt-1 block text-xs font-semibold text-jade">Đáp án đúng: {s.answer}</span>}
                 </span>
                 <span className="flex w-34 justify-center gap-2">
@@ -668,7 +707,10 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
             const keys = s.choices ?? q.letters
             return (
               <div key={s.id} className={`rounded-2xl border p-4 text-sm ${rowOk === true ? 'border-jade/60 bg-jade/10' : rowOk === false ? 'border-rose-400/60 bg-rose-400/10' : 'border-border bg-card'}`}>
-                <div className="mb-2 leading-relaxed font-medium">{s.text}</div>
+                <div className="mb-2 leading-relaxed font-medium">
+                  {s.text}
+                  {viQuestion && q.vn.statements?.[s.id] && <span className="mt-1 block text-xs font-normal italic text-muted">{q.vn.statements[s.id]}</span>}
+                </div>
                 <select
                   value={mine ?? ''}
                   disabled={!!sel}
@@ -678,10 +720,10 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
                 >
                   <option value="" disabled>Chọn đáp án…</option>
                   {keys.map((k) => (
-                    <option key={k} value={k}>{k}. {q.options[k]}</option>
+                    <option key={k} value={k}>{k}. {q.options[k]}{viAnswer && q.vn.options[k] ? ` — ${q.vn.options[k]}` : ''}</option>
                   ))}
                 </select>
-                {rowOk === false && <div className="mt-2 text-xs font-semibold text-jade">Đáp án đúng: {s.answer}. {q.options[s.answer]}</div>}
+                {rowOk === false && <div className="mt-2 text-xs font-semibold text-jade">Đáp án đúng: {s.answer}. {q.options[s.answer]}{viAnswer && q.vn.options[s.answer] ? ` — ${q.vn.options[s.answer]}` : ''}</div>}
               </div>
             )
           })}
@@ -705,7 +747,7 @@ export function CertQuiz({ certId, questions, initialTopic, initialAnswerGroup, 
             <div className="mt-3 flex flex-wrap items-center gap-2 border-t border-black/10 pt-3 text-xs">
               <span className="font-semibold">📖 Xem lý thuyết:</span>
               {theoryByQuestion[q.id].map((t) => (
-                <Link key={t.id} href={`/certs/ccaf/theory/${t.id}`} target="_blank" className="rounded-pill border border-border bg-card px-2.5 py-1 font-semibold text-accent hover:border-accent">
+                <Link key={t.id} href={`/certs/${certId}/theory/${t.id}`} target="_blank" className="rounded-pill border border-border bg-card px-2.5 py-1 font-semibold text-accent hover:border-accent">
                   {t.title}
                 </Link>
               ))}

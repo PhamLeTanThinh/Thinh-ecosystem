@@ -3,8 +3,14 @@ import ab100 from './questions/ab-100.json'
 import ab731 from './questions/ab-731.json'
 import ai103 from './questions/ai-103.json'
 import ai200 from './questions/ai-200.json'
+import { AI200_ANSWER_GROUPS } from './ai-200/answer-groups'
+import { AI200_DOMAINS } from './ai-200/theory'
+import type { AnswerGroup } from './ccaf-answer-groups'
+import type { TheoryDomain } from './ccaf-theory/types'
 
-// Các chứng chỉ chỉ có phần luyện đề, dùng chung trang /certs/[cert]. CCAF có trang riêng (/certs/ccaf) vì còn phần lý thuyết.
+// Các chứng chỉ dùng chung trang /certs/[cert]. CCAF có trang riêng (/certs/ccaf) vì làm trước.
+// Cert nào khai báo thêm `theory` / `answerGroups` / `tip` trong từng câu thì tự có thêm các chế độ học giống CCAF:
+// /certs/[cert]/theory, /certs/[cert]/answers, /certs/[cert]/tips.
 // Đề lấy từ study-certificate (huyentran1306.github.io/study-certificate, đã được đồng ý); giải thích bằng tiếng Việt.
 export interface CertInfo {
   id: string
@@ -13,6 +19,10 @@ export interface CertInfo {
   description: string
   tags: string[]
   questions: CertQuestion[]
+  // Lý thuyết theo domain, mỗi chủ đề trỏ về các câu liên quan (cùng kiểu với CCAF).
+  theory?: TheoryDomain[]
+  // Nhóm câu có đáp án đúng cùng một kỹ thuật (cùng kiểu với ccaf-answer-groups.ts).
+  answerGroups?: AnswerGroup[]
 }
 
 export const CERT_CATALOG: CertInfo[] = [
@@ -31,6 +41,8 @@ export const CERT_CATALOG: CertInfo[] = [
     description: 'Phát triển giải pháp AI trên cloud Azure: container, kết nối và dùng dịch vụ Azure, quản trị dữ liệu cho AI, bảo mật và giám sát.',
     tags: ['Container', 'Azure services', 'Bảo mật'],
     questions: ai200 as unknown as CertQuestion[],
+    theory: AI200_DOMAINS,
+    answerGroups: AI200_ANSWER_GROUPS,
   },
   {
     id: 'ab-100',
