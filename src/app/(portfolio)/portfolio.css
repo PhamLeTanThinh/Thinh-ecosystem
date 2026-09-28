@@ -340,6 +340,10 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
    page.tsx, taken from the companies' own logos and sites). --b1t is --b1 darkened a little so small
    text stays readable on the light background. */
 [style*="--b1"]{--b1t:color-mix(in srgb,var(--b1) 84%,#101a2c)}
+/* --tint (optional, see Brand.tint in page.tsx) overrides --b1 just for
+   decorative single-colour bits — Microsoft's cert card wants its signature
+   blue there even though --b1 itself is the logo's red/orange square. */
+[style*="--tint"]{--tintt:color-mix(in srgb,var(--tint) 84%,#101a2c)}
 .story-count,.jh-count,.exp-hint,.proj-resp-n{color:var(--b1t,var(--accent))}
 .jh-company,.exp-company{color:var(--b1t,var(--ink2))}
 .exp-child .exp-company{color:var(--ink2)}
@@ -384,15 +388,44 @@ section{padding:8rem 5vw;border-top:.5px solid var(--ink5);min-height:100vh;disp
 .cert-group:first-of-type{margin-top:.5rem}
 .cert-group-label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink3);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:.5px solid var(--ink5)}
 .cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-.cert-card{border:.5px solid var(--ink5);padding:1.3rem 1.3rem;transition:transform .35s var(--ease),box-shadow .35s var(--ease)}
-.cert-card:hover{transform:translateY(-3px);box-shadow:0 12px 22px -12px rgba(16,26,44,.35)}
-.cert-head{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
-.cert-logo{width:22px;height:22px;flex-shrink:0;color:var(--ink2)}
-.cert-logo-text{width:22px;height:22px;border:.5px solid var(--ink4);border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:var(--ink3)}
+/* Brand-tinted like the Experience job/project cards (--b1/--b2/--b3, set
+   inline via brandStyle) instead of one flat grey block per cert: a 3-stop
+   gradient bar along the top (same recipe as .jh-role::before), a tinted
+   logo tile, and a colour-matched glow + diagonal shine sweep on hover. */
+.cert-card{position:relative;border:.5px solid var(--ink5);border-radius:10px;padding:1.5rem 1.4rem 1.3rem;background:var(--bg2);overflow:hidden;transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease)}
+/* var(--b4, var(--b3)) means a brand with no 4th colour just repeats its
+   3rd across the last two segments — same solid-looking 3-colour bar as
+   before, no visible seam — while Microsoft's real --b4 (yellow) shows. */
+.cert-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--b1,var(--accent)) 0 25%,var(--b2,var(--accent2)) 25% 50%,var(--b3,var(--ink4)) 50% 75%,var(--b4,var(--b3,var(--ink4))) 75%)}
+.cert-card::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 42%,color-mix(in srgb,var(--tint,var(--b1,var(--accent))) 20%,transparent) 50%,transparent 58%);transform:translateX(-130%);transition:transform 1s var(--ease-io);pointer-events:none}
+.cert-card:hover{transform:translateY(-5px);box-shadow:0 20px 36px -16px color-mix(in srgb,var(--tint,var(--b1,var(--ink))) 50%,transparent);border-color:color-mix(in srgb,var(--tint,var(--b1,var(--ink4))) 45%,var(--ink5))}
+.cert-card:hover::after{transform:translateX(130%)}
+.cert-head{display:flex;align-items:center;gap:.7rem;margin-bottom:1rem}
+.cert-logo{width:36px;height:36px;flex-shrink:0;padding:7px;border-radius:9px;color:var(--ink2);background:color-mix(in srgb,var(--tint,var(--b1,var(--accent))) 14%,var(--bg))}
+.cert-logo-text{width:36px;height:36px;flex-shrink:0;border-radius:9px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:13px;color:var(--tintt,var(--b1t,var(--ink3)));background:color-mix(in srgb,var(--tint,var(--b1,var(--accent))) 14%,var(--bg));border:.5px solid color-mix(in srgb,var(--tint,var(--b1,var(--ink4))) 40%,var(--ink4))}
 .cert-issuer{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
-.cert-name{font-family:var(--display);font-size:clamp(16px,min(1.5vw,2.6vh),21px);font-weight:600;line-height:1.2;margin-bottom:.5rem}
-.cert-meta{font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--ink3);margin-bottom:.7rem}
+.cert-verified{font-family:var(--mono);font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--tintt,var(--b1t,var(--accent)));margin-top:.25rem;opacity:.85}
+.cert-name{position:relative;font-family:var(--display);font-size:clamp(16px,min(1.5vw,2.6vh),21px);font-weight:600;line-height:1.2;margin-bottom:.5rem}
+.cert-meta{position:relative;font-family:var(--mono);font-size:9px;letter-spacing:.04em;color:var(--ink3);margin-bottom:.7rem}
+.cert-links{position:relative;display:flex;flex-wrap:wrap;gap:.5rem .9rem}
 .cert-link{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);text-decoration:none;border-bottom:.5px solid var(--peach2);padding-bottom:2px;display:inline-block}
+.cert-card-clickable{cursor:pointer}
+.cert-card-clickable:focus-visible{outline:1.5px solid var(--accent);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.cert-card::after{transition:none}.cert-card:hover::after{transform:translateX(-130%)}}
+
+.cert-modal-overlay{position:fixed;inset:0;z-index:1000;background:rgba(16,26,44,.72);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:4vh 4vw}
+/* Every cert PDF here is landscape US Letter (792x612pt) — sizing the modal
+   to that same ratio (instead of a generic 88vh box) means the browser's
+   own "fit page" zoom fills the frame edge to edge instead of letterboxing
+   it in a mismatched shape. The calc() term picks height as the limiter on
+   short/tall viewports, width otherwise; 44px approximates the bar's height. */
+.cert-modal{width:min(1100px,92vw,calc((92vh - 44px) * 792 / 612));background:var(--bg);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 60px -20px rgba(0,0,0,.5)}
+.cert-modal-bar{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1rem;border-bottom:.5px solid var(--ink5)}
+.cert-modal-title{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
+.cert-modal-actions{display:flex;align-items:center;gap:1rem}
+.cert-modal-close{font-family:var(--mono);font-size:13px;line-height:1;background:none;border:none;color:var(--ink2);cursor:pointer;padding:.2rem}
+.cert-modal-frame{width:100%;aspect-ratio:792/612;border:none;display:block}
+.cert-modal-loading{width:100%;aspect-ratio:792/612;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3)}
 
 /* EDUCATION */
 .edu-list{display:flex;flex-direction:column;gap:1.6rem;margin-top:.5rem;max-width:600px}

@@ -29,57 +29,57 @@ function ToolbarButton({
   )
 }
 
-// Toolbar chặn mousedown ở component cha (NoteEditor) để không làm mất focus editor khi bấm nút.
+// The toolbar blocks mousedown at the parent (NoteEditor) so clicking a button doesn't steal focus from the editor.
 export function NoteToolbar({ editor }: { editor: Editor }) {
   return (
     <div className="nt-toolbar" onMouseDown={(e) => e.preventDefault()}>
-      <ToolbarButton label="Đậm" active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()}>
+      <ToolbarButton label="Bold" active={editor.isActive('bold')} onClick={() => editor.chain().focus().toggleBold().run()}>
         <strong>B</strong>
       </ToolbarButton>
-      <ToolbarButton label="Nghiêng" active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()}>
+      <ToolbarButton label="Italic" active={editor.isActive('italic')} onClick={() => editor.chain().focus().toggleItalic().run()}>
         <em>I</em>
       </ToolbarButton>
-      <ToolbarButton label="Gạch chân" active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()}>
+      <ToolbarButton label="Underline" active={editor.isActive('underline')} onClick={() => editor.chain().focus().toggleUnderline().run()}>
         <span style={{ textDecoration: 'underline' }}>U</span>
       </ToolbarButton>
-      <ToolbarButton label="Gạch ngang" active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()}>
+      <ToolbarButton label="Strikethrough" active={editor.isActive('strike')} onClick={() => editor.chain().focus().toggleStrike().run()}>
         <span style={{ textDecoration: 'line-through' }}>S</span>
       </ToolbarButton>
 
       <span className="nt-tb-sep" />
 
-      <ToolbarButton label="Tiêu đề lớn" active={editor.isActive('heading', { level: 2 })} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
+      <ToolbarButton label="Large heading" active={editor.isActive('heading', { level: 2 })} onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}>
         H2
       </ToolbarButton>
-      <ToolbarButton label="Tiêu đề nhỏ" active={editor.isActive('heading', { level: 3 })} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
+      <ToolbarButton label="Small heading" active={editor.isActive('heading', { level: 3 })} onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}>
         H3
       </ToolbarButton>
 
       <span className="nt-tb-sep" />
 
-      <ToolbarButton label="Danh sách chấm" active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()}>
+      <ToolbarButton label="Bullet list" active={editor.isActive('bulletList')} onClick={() => editor.chain().focus().toggleBulletList().run()}>
         •≡
       </ToolbarButton>
-      <ToolbarButton label="Danh sách số" active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
+      <ToolbarButton label="Numbered list" active={editor.isActive('orderedList')} onClick={() => editor.chain().focus().toggleOrderedList().run()}>
         1.≡
       </ToolbarButton>
 
       <span className="nt-tb-sep" />
 
-      <ToolbarButton label="Căn trái" active={editor.isActive({ textAlign: 'left' })} onClick={() => editor.chain().focus().setTextAlign('left').run()}>
+      <ToolbarButton label="Align left" active={editor.isActive({ textAlign: 'left' })} onClick={() => editor.chain().focus().setTextAlign('left').run()}>
         ⟸
       </ToolbarButton>
-      <ToolbarButton label="Căn giữa" active={editor.isActive({ textAlign: 'center' })} onClick={() => editor.chain().focus().setTextAlign('center').run()}>
+      <ToolbarButton label="Align center" active={editor.isActive({ textAlign: 'center' })} onClick={() => editor.chain().focus().setTextAlign('center').run()}>
         ⟺
       </ToolbarButton>
-      <ToolbarButton label="Căn phải" active={editor.isActive({ textAlign: 'right' })} onClick={() => editor.chain().focus().setTextAlign('right').run()}>
+      <ToolbarButton label="Align right" active={editor.isActive({ textAlign: 'right' })} onClick={() => editor.chain().focus().setTextAlign('right').run()}>
         ⟹
       </ToolbarButton>
 
       <span className="nt-tb-sep" />
 
       <ToolbarButton
-        label="Chèn liên kết"
+        label="Insert link"
         active={editor.isActive('link')}
         onClick={() => {
           if (editor.isActive('link')) {
@@ -95,12 +95,12 @@ export function NoteToolbar({ editor }: { editor: Editor }) {
 
       <span className="nt-tb-sep" />
 
-      <div className="nt-tb-swatches" aria-label="Màu chữ">
+      <div className="nt-tb-swatches" aria-label="Text color">
         {TEXT_COLORS.map((c) => (
           <button
             key={c}
             type="button"
-            aria-label={`Màu chữ ${c}`}
+            aria-label={`Text color ${c}`}
             className="nt-tb-swatch"
             style={{ backgroundColor: c }}
             onClick={() => editor.chain().focus().setColor(c).run()}

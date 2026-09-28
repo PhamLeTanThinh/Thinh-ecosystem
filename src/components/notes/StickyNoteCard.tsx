@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNotesStore } from '@/lib/notes/store'
 import { NOTE_COLORS, type NoteColor, type StickyNote } from '@/lib/notes/types'
 import { NoteEditor } from './NoteEditor'
+import { useNotesConfirm } from './ConfirmDialog'
 
 const NOTE_WIDTH_DEFAULT = 260
 const MIN_WIDTH = 180
@@ -32,12 +33,14 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const addTimeBlock = useNotesStore((s) => s.addTimeBlock)
   const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
   const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
+  const confirm = useNotesConfirm()
   const [tagDraft, setTagDraft] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
 
-  // Vị trí/kích thước "sống" trong lúc đang kéo/resize — chỉ ghi vào store lúc thả ra,
-  // tránh spam PUT lên server mỗi pixel di chuyển. Dùng thêm ref (không chỉ state) để đọc
-  // được giá trị mới nhất ở pointerup mà không dính stale-closure hay setState lồng side-effect.
+  // "Live" position/size while dragging/resizing — only written to the store on release, to avoid
+  // spamming the server with a PUT on every pixel moved. Also kept in a ref (not just state) so the
+  // latest value can be read on pointerup without hitting a stale closure or a nested setState
+  // side-effect.
   const [livePos, setLivePos] = useState<{ x: number; y: number } | null>(null)
   const [liveSize, setLiveSize] = useState<{ width: number; height: number } | null>(null)
   const livePosRef = useRef<{ x: number; y: number } | null>(null)
@@ -45,8 +48,8 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const dragRef = useRef<{ startX: number; startY: number; noteX: number; noteY: number } | null>(null)
   const resizeRef = useRef<{ startX: number; startY: number; width: number; height: number } | null>(null)
 
-  // Band cha cần biết chiều cao thật của note (rich text có thể dài nhiều dòng) để tự giãn,
-  // tránh note tràn đè lên band tuần kế tiếp.
+  // The parent band needs to know the note's real height (rich text can span many lines) so it can
+  // grow accordingly, avoiding a note overlapping the next week's band.
   useEffect(() => {
     const el = rootRef.current
     if (!el) return
@@ -60,11 +63,12 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   function handleRootBlur(e: React.FocusEvent<HTMLDivElement>) {
     if (e.currentTarget.contains(e.relatedTarget as Node | null)) return
     onStopEdit()
-    // Tạo note (ở cả 2 kind) giờ luôn lưu ngay, kể cả khi chưa nhập gì — không tự xoá note rỗng lúc
-    // blur nữa. Trước đây tự xoá để tránh rác note trống do lỡ tay click, nhưng từ khi thêm popover
-    // chọn loại (bấm canvas → chọn "Ghi chú"/"Lịch trình" mới thật sự tạo), việc tạo note đã là 1
-    // hành động chủ ý — tự xoá lúc này chỉ gây khó chịu: user tạo note/lịch trình rồi bấm sang chỗ
-    // khác trước khi kịp gõ chữ/thêm mốc giờ đầu tiên thì mất trắng.
+    // Creating a note (either kind) now always saves immediately, even with nothing typed yet — it
+    // no longer auto-deletes an empty note on blur. It used to, to avoid clutter from an accidental
+    // click, but ever since the kind-picker popover was added (clicking the canvas → choosing
+    // "Note"/"Timeline" is what actually creates it), creating a note is already a deliberate
+    // action — auto-deleting at this point is just annoying: the user creates a note/timeline, then
+    // clicks elsewhere before typing anything or adding a first time entry, and loses it entirely.
     useNotesStore.getState().flushSave()
   }
 
@@ -131,16 +135,19 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const x = livePos?.x ?? note.x
   const y = livePos?.y ?? note.y
   const width = liveSize?.width ?? note.width ?? NOTE_WIDTH_DEFAULT
-  // Chiều cao tự kéo (note.height) chỉ áp dụng lúc ĐANG edit — đó là lúc user kéo to note ra để
-  // vừa đủ chỗ cho toolbar + nội dung. Lúc không edit, toolbar biến mất nhưng khung ngoài vẫn giữ
-  // nguyên chiều cao cố định đó nếu áp dụng luôn, để lại 1 khoảng trống thừa đúng bằng chiều cao
-  // toolbar vừa ẩn — bug thật đã gặp. Bỏ qua note.height khi không edit để khung tự co theo đúng
-  // nội dung thật sự đang hiển thị (không toolbar), không còn khoảng trống thừa.
+  // The manually-resized height (note.height) only applies WHILE editing — that's when the user
+  // dragged the note bigger to fit the toolbar + content. When not editing, the toolbar disappears
+  // but the outer frame would keep that same fixed height if we always applied it, leaving a gap
+  // exactly the size of the now-hidden toolbar — a real bug we hit. Ignore note.height while not
+  // editing so the frame shrinks to fit what's actually shown (no toolbar), with no leftover gap.
   const height = liveSize?.height ?? (editing ? note.height ?? undefined : undefined)
 
-  // Việc không gắn giờ hiện như todo-list thường (chỉ checkbox + text); việc có giờ hiện theo dạng
-  // lịch trình (dòng thời gian dọc, sort theo giờ) — 1 note kind 'timeline' có thể trộn cả 2 loại.
-  const todoItems = note.timeBlocks.filter((b) => !b.startTime)
+  // Items with no time show as a plain todo-list entry (checkbox + text only); items with a time
+  // show in schedule form (vertical timeline, sorted by time) — a single 'timeline' note can mix
+  // both kinds.
+  // Todo items marked done get pushed to the bottom, unfinished ones float to the top (stable sort,
+  // so the original order within each group is preserved).
+  const todoItems = note.timeBlocks.filter((b) => !b.startTime).sort((a, b) => Number(a.done) - Number(b.done))
   const scheduledItems = note.timeBlocks.filter((b) => b.startTime).sort((a, b) => a.startTime!.localeCompare(b.startTime!))
 
   return (
@@ -154,10 +161,11 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         width,
         height,
         borderLeftColor: note.color ? COLOR_HEX[note.color] : 'transparent',
-        // Note đang edit phải luôn nổi lên TRÊN mọi note khác đè lên nó — mặc định các note xếp
-        // chồng theo thứ tự trong mảng/DOM (note tạo sau nằm trên), nên note đang focus có thể vẫn
-        // bị 1 note khác (tạo sau nó) che một phần dù toolbar/chrome của nó đã hiện ra — bug thật
-        // đã gặp. Ép z-index cao hơn hẳn mọi note khác trong lúc editing để luôn thấy trọn vẹn.
+        // A note being edited must always float ABOVE every other note overlapping it — by default
+        // notes stack in array/DOM order (later-created notes on top), so a focused note could
+        // still be partly covered by another note created after it, even with its toolbar/chrome
+        // showing — a real bug we hit. Force a much higher z-index than every other note while
+        // editing so it's always fully visible.
         zIndex: editing ? 1 : undefined,
       }}
       onClick={() => !editing && onStartEdit()}
@@ -175,9 +183,31 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         <span />
       </div>
 
+      {/* A short title any note can carry — the 3 auto-created notes (Daily/WORK/Personal, see
+         syncDailyNote/syncWorkNote/syncPersonalNote in lib/notes/store.ts) start with one pre-filled,
+         but it's just a regular editable field: rename it or add one to any note. Shown even outside
+         edit mode (as plain text) so it stays readable once you click away; while editing it becomes
+         an input, and it disappears entirely when empty and not editing (nothing to show). */}
+      {(editing || note.header) && (
+        <div className="nt-note-header">
+          {editing ? (
+            <input
+              className="nt-note-header-input"
+              value={note.header}
+              onChange={(e) => updateNote(note.id, { header: e.target.value })}
+              onClick={(e) => e.stopPropagation()}
+              placeholder="+ header"
+              aria-label="Note header"
+            />
+          ) : (
+            note.header
+          )}
+        </div>
+      )}
+
       {editing && (
         <div className="nt-note-chrome">
-          <div className="nt-tb-swatches" aria-label="Màu ghi chú">
+          <div className="nt-tb-swatches" aria-label="Note color">
             {NOTE_COLORS.map((c) => (
               <button
                 key={c}
@@ -191,10 +221,10 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
           </div>
           <button
             type="button"
-            aria-label="Xoá ghi chú"
+            aria-label="Delete note"
             className="nt-note-delete"
             onClick={() => {
-              if (window.confirm('Xoá ghi chú này?')) deleteNote(note.id)
+              confirm('Delete this note?').then((ok) => ok && deleteNote(note.id))
             }}
           >
             ×
@@ -211,7 +241,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                   <button
                     type="button"
                     className="nt-note-done-toggle"
-                    aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                    aria-label={b.done ? 'Mark as not done' : 'Mark as done'}
                     onClick={() => toggleTimeBlockDone(note.id, b.id)}
                   >
                     {b.done && '✓'}
@@ -220,7 +250,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                   {editing && (
                     <button
                       type="button"
-                      aria-label="Xoá việc"
+                      aria-label="Delete item"
                       className="nt-note-block-delete"
                       onClick={() => deleteTimeBlock(note.id, b.id)}
                     >
@@ -234,13 +264,13 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
 
           {scheduledItems.length > 0 && (
             <div className="nt-note-schedule">
-              <p className="nt-note-blocks-label">🕐 Lịch trình</p>
+              <p className="nt-note-blocks-label">🕐 Schedule</p>
               {scheduledItems.map((b) => (
                 <div key={b.id} className={`nt-note-block${b.done ? ' done' : ''}`}>
                   <button
                     type="button"
                     className="nt-note-done-toggle"
-                    aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                    aria-label={b.done ? 'Mark as not done' : 'Mark as done'}
                     onClick={() => toggleTimeBlockDone(note.id, b.id)}
                   >
                     {b.done && '✓'}
@@ -253,7 +283,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                   {editing && (
                     <button
                       type="button"
-                      aria-label="Xoá mốc giờ"
+                      aria-label="Delete time entry"
                       className="nt-note-block-delete"
                       onClick={() => deleteTimeBlock(note.id, b.id)}
                     >
@@ -281,7 +311,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
               {editing && (
                 <button
                   type="button"
-                  aria-label={`Xoá nhãn ${t}`}
+                  aria-label={`Remove tag ${t}`}
                   onClick={() => updateNote(note.id, { tags: note.tags.filter((x) => x !== t) })}
                 >
                   ×
@@ -300,7 +330,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                   setTagDraft('')
                 }
               }}
-              placeholder="+ nhãn"
+              placeholder="+ tag"
               className="nt-tag-input"
             />
           )}
@@ -317,16 +347,17 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   )
 }
 
-// Form thêm 1 việc mới vào note — giờ KHÔNG bắt buộc (để trống = thêm như todo-list thường, có giờ
-// = thêm vào lịch trình). Giữ draft bằng local state riêng, chỉ gọi addTimeBlock lúc submit (không
-// phải mỗi phím gõ), khác NoteEditor's content vốn lưu debounce theo từng phím gõ.
+// Form for adding a new item to a note — the time is now OPTIONAL (left blank = adds a plain
+// todo-list item, with a time = adds a schedule entry). Kept as separate local-state draft, only
+// calling addTimeBlock on submit (not on every keystroke), unlike NoteEditor's content which saves
+// debounced on every keystroke.
 //
-// Input giờ dùng type="text" (không phải type="time") — <input type="time"> ở 1 số trình duyệt/hệ
-// điều hành mở popup chọn giờ RIÊNG NGOÀI DOM của trang, khiến input bị blur với relatedTarget=null
-// khi popup đó hiện lên; handleRootBlur coi relatedTarget=null là "rời khỏi note" nên tự đóng edit
-// mode giữa chừng, xoá sạch draft đang nhập — bug thật đã gặp (user chọn giờ xong mất hết dữ liệu),
-// không phải lý thuyết. type="text" tránh hẳn popup ngoài DOM đó, đồng thời gõ tay cũng nhanh hơn
-// nhiều so với phải click đúng từng ô giờ/phút của input native.
+// The time inputs use type="text" (not type="time") — on some browsers/OSes, <input type="time">
+// opens a time picker OUTSIDE the page's DOM, which blurs the input with relatedTarget=null when
+// that picker appears; handleRootBlur treats relatedTarget=null as "left the note" and closes edit
+// mode mid-way, wiping the draft being typed — a real bug we hit (user picks a time, then loses
+// everything), not a theoretical one. type="text" avoids that out-of-DOM popup entirely, and typing
+// by hand is also much faster than clicking each hour/minute field of the native input.
 function TimeBlockAddForm({
   noteId,
   onAdd,
@@ -355,8 +386,8 @@ function TimeBlockAddForm({
           inputMode="numeric"
           value={start}
           onChange={(e) => setStart(e.target.value)}
-          placeholder="Giờ (vd 09:00)"
-          aria-label="Giờ bắt đầu (tuỳ chọn — để trống nếu chỉ là việc cần làm)"
+          placeholder="Time (e.g. 09:00)"
+          aria-label="Start time (optional — leave blank for a plain to-do item)"
         />
         <span>→</span>
         <input
@@ -364,8 +395,8 @@ function TimeBlockAddForm({
           inputMode="numeric"
           value={end}
           onChange={(e) => setEnd(e.target.value)}
-          placeholder="Kết thúc"
-          aria-label="Giờ kết thúc (tuỳ chọn)"
+          placeholder="End"
+          aria-label="End time (optional)"
         />
       </div>
       <div className="nt-note-block-add-text">
@@ -373,13 +404,14 @@ function TimeBlockAddForm({
           type="text"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Việc cần làm..."
-          aria-label="Việc cần làm"
+          placeholder="To-do..."
+          aria-label="To-do item"
         />
-        {/* KHÔNG dùng `disabled` dựa theo state sống (text rỗng) — handleSubmit đã tự guard rồi, và
-           nếu nút đang giữ focus lúc bị disable ngay sau khi bấm (form tự reset về rỗng), trình
-           duyệt ép blur focus ra khỏi nút tới ngoài note, khiến handleRootBlur tưởng nhầm user đã
-           rời khỏi note và tự đóng chế độ edit — bug thật đã gặp, không phải lý thuyết. */}
+        {/* Do NOT use `disabled` based on live state (empty text) — handleSubmit already guards for
+           this, and if the button holds focus when it's disabled right after being clicked (the
+           form resets to empty), the browser forces focus off the button and out of the note,
+           making handleRootBlur think the user left the note and auto-closing edit mode — a real
+           bug we hit, not theoretical. */}
         <button type="submit">+</button>
       </div>
     </form>

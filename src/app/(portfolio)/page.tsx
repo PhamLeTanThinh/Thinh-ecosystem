@@ -1,6 +1,7 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import Image from 'next/image'
 import Link from 'next/link'
 import Lenis from 'lenis'
@@ -12,7 +13,15 @@ import { Preloader } from './Preloader'
 // EXPERIENCE_PAGES below), so adding another project later is just appending
 // one object here — the pin height, anchors and headings all recompute.
 // Brand colours taken from each company's own logo / site (see BRANDS below).
-type Brand = { c1: string; c2: string; c3: string }
+// c4 is optional — only Microsoft's cert card uses it (its real logo is 4
+// squares, not 3; see .cert-card::before, which falls back to c3 when unset
+// so every other brand's gradient bar is unaffected).
+// tint is optional too: the colour used for the small decorative bits (logo
+// tile backdrop, "Verified" label, hover glow) when it should be a single
+// signature colour rather than c1 — Microsoft's c1 is its red/orange square,
+// correct for the 4-colour bar, but its recognisable brand colour for
+// everything else is the blue, so tint overrides just that.
+type Brand = { c1: string; c2: string; c3: string; c4?: string; tint?: string }
 
 type ExpProject = {
   brand: Brand
@@ -53,7 +62,11 @@ const BRANDS = {
   fptu: { c1: '#6a3fb5', c2: '#111111', c3: '#d62839' },
 } satisfies Record<string, Brand>
 
-const brandStyle = (b: Brand) => ({ '--b1': b.c1, '--b2': b.c2, '--b3': b.c3 }) as React.CSSProperties
+const brandStyle = (b: Brand) => ({
+  '--b1': b.c1, '--b2': b.c2, '--b3': b.c3,
+  ...(b.c4 ? { '--b4': b.c4 } : {}),
+  ...(b.tint ? { '--tint': b.tint } : {}),
+}) as React.CSSProperties
 
 const EXPERIENCE: ExpJob[] = [
   {
@@ -228,20 +241,71 @@ function ExpBody({ page, mobile = false }: { page: ExpPage; mobile?: boolean }) 
 // icon set I could pull from) rather than substituting a different org's.
 // Grouped by category — Language is left empty until a real cert (IELTS/
 // HSK/TOPIK/...) is provided, rather than inventing a score.
-const CERTIFICATIONS = [
+// pdf: the certificate file dropped into /public/certs (e.g. '/certs/gh-300.pdf');
+// verify: the issuer's credential/verification URL.
+// Each link only renders when its field is filled in.
+// brand: same idea as EXPERIENCE's BRANDS above — each issuer's own mark
+// colours, used for the card's top accent bar / tinted logo tile / hover glow
+// instead of every cert reading as one identical grey block.
+type Cert = {
+  code: string
+  issuer: string
+  name: string
+  issued: string
+  credentialId: string
+  pdf: string
+  verify: string
+  logo: string
+  brand: Brand
+}
+
+const CERT_BRANDS = {
+  // GitHub Copilot's own gradient mark: purple → blue, over GitHub's near-black.
+  github: { c1: '#8957e5', c2: '#218bff', c3: '#24292f' },
+  // Microsoft's actual four-square logo, in its own reading order (top-left
+  // red/orange, top-right green, bottom-left blue, bottom-right yellow) — the
+  // only brand here that uses all four slots (see Brand.c4).
+  microsoft: { c1: '#f25022', c2: '#7fba00', c3: '#00a4ef', c4: '#ffb900', tint: '#00a4ef' },
+  // Anthropic's clay/terracotta brand tone (as used across claude.ai) fading to ink.
+  anthropic: { c1: '#d97757', c2: '#cc785c', c3: '#1f1e1d' },
+  // Scrum.org's orange-on-black identity.
+  // c1/c2/c3 (orange/yellow/black) are the widely-seen Scrum.org bar colours,
+  // but couldn't be confirmed against an official brand guide (web search
+  // turned up nothing reliable, and no PDF rasterizer was available here to
+  // sample the real badge art) — tint is a light blue per direct request,
+  // used for the card's glow/hover accents instead of the unconfirmed orange.
+  scrumorg: { c1: '#f6821f', c2: '#fdb714', c3: '#1d1d1b', tint: '#4fa3d1' },
+} satisfies Record<string, Brand>
+
+const CERTIFICATIONS: { category: string; items: Cert[] }[] = [
   {
     category: 'Technical',
     items: [
-      { issuer: 'Microsoft', name: 'Azure AI Engineer Associate', issued: 'Issued 2026', credentialId: '', href: '#', logo: '/logos/microsoft.svg' },
-      { issuer: 'GitHub', name: 'GitHub Copilot Certification', issued: '', credentialId: '', href: '#', logo: '/logos/github.svg' },
-      { issuer: 'Google', name: 'Google AI Professional Certificate', issued: '', credentialId: '', href: '#', logo: '/logos/google.svg' },
+      {
+        code: 'GH-300', issuer: 'GitHub', name: 'GitHub Copilot', issued: '', credentialId: '',
+        pdf: '/certs/gh-300/GH-300.pdf', verify: 'https://learn.microsoft.com/api/credentials/share/en-us/PhamLeTanThinhFHMADG-1729/D362F3C8204F7198?sharingId=7E590EFE89B7FD00',
+        logo: '/logos/github.svg', brand: CERT_BRANDS.github,
+      },
+      {
+        code: 'AI-200', issuer: 'Microsoft', name: 'Developing AI Cloud Solutions on Azure', issued: '', credentialId: '',
+        pdf: '/certs/ai-200/ThinhPLT_AI_200.pdf', verify: 'https://learn.microsoft.com/api/credentials/share/en-us/PhamLeTanThinhFHMADG-1729/2C4DC05E3A777DD?sharingId=7E590EFE89B7FD00',
+        logo: '/logos/microsoft.svg', brand: CERT_BRANDS.microsoft,
+      },
+      {
+        code: 'CCA-F', issuer: 'Anthropic', name: 'Claude Certified Architect – Foundations', issued: '', credentialId: '',
+        pdf: '/certs/ccaf/ClaudeCertifiedCertificate20260926-20-h9jgtk.pdf', verify: 'https://www.credly.com/badges/c89066d0-da2e-4707-86c5-c59087f5103d',
+        logo: '', brand: CERT_BRANDS.anthropic,
+      },
     ],
   },
   {
     category: 'Management',
     items: [
-      { issuer: 'Scrum.org', name: 'Professional Scrum Master I (PSM I)', issued: '', credentialId: '', href: '#', logo: '' },
-      { issuer: 'Scrum.org', name: 'Professional Scrum Master II (PSM II)', issued: '', credentialId: '', href: '#', logo: '' },
+      {
+        code: 'PSM I', issuer: 'Scrum.org', name: 'Professional Scrum Master I', issued: '', credentialId: '',
+        pdf: '/certs/psm-1/psm-1.pdf', verify: 'https://www.scrum.org/certificates/976078',
+        logo: '', brand: CERT_BRANDS.scrumorg,
+      },
     ],
   },
   {
@@ -249,6 +313,116 @@ const CERTIFICATIONS = [
     items: [],
   },
 ]
+
+// Card is clickable (when a PDF exists) to preview the certificate in a
+// lightbox — portaled to document.body since the story-pin scroll rig
+// transforms its ancestors, which would otherwise clip a plain
+// position:fixed overlay to that transformed box instead of the viewport.
+// The "Certificate PDF" text itself stays a plain download link (stops
+// propagation so it doesn't also pop the preview), same for "Verify".
+function CertCard({ cert }: { cert: Cert }) {
+  const [open, setOpen] = useState(false)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const hasPdf = Boolean(cert.pdf)
+
+  useEffect(() => {
+    if (!open) return
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false) }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [open])
+
+  // A plain `fetch(cert.pdf)` still isn't enough to dodge IDM: its browser
+  // integration watches network traffic at the response-header level (any
+  // application/pdf response, no matter who issued the request), not just
+  // clicks/navigations — so it was grabbing our own fetch() before the page
+  // ever saw the bytes. /api/certs/pdf-preview serves the same file wrapped
+  // in JSON instead, which doesn't match IDM's file-type sniffing; we decode
+  // the base64 into a Blob ourselves (pure client-side, no network involved)
+  // and hand the iframe that as a local blob: URL.
+  useEffect(() => {
+    if (!open || !hasPdf) return
+    let cancelled = false
+    let objectUrl: string | null = null
+    const relPath = cert.pdf.replace(/^\/certs\//, '')
+    fetch(`/api/certs/pdf-preview?path=${encodeURIComponent(relPath)}`)
+      .then(res => res.json())
+      .then((body: { data?: string }) => {
+        if (cancelled || !body.data) return
+        const bytes = Uint8Array.from(atob(body.data), c => c.charCodeAt(0))
+        objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }))
+        setPreviewUrl(objectUrl)
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+      if (objectUrl) URL.revokeObjectURL(objectUrl)
+      setPreviewUrl(null)
+    }
+  }, [open, hasPdf, cert.pdf])
+
+  return (
+    <>
+      <div
+        className={hasPdf ? 'cert-card cert-card-clickable' : 'cert-card'}
+        style={brandStyle(cert.brand)}
+        onClick={hasPdf ? () => setOpen(true) : undefined}
+        role={hasPdf ? 'button' : undefined}
+        tabIndex={hasPdf ? 0 : undefined}
+        onKeyDown={hasPdf ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen(true) } } : undefined}
+      >
+        <div className="cert-head">
+          {cert.logo
+            ? <img className="cert-logo" src={cert.logo} alt="" />
+            : <div className="cert-logo cert-logo-text">{cert.issuer[0]}</div>}
+          <div>
+            <div className="cert-issuer">{cert.issuer} · {cert.code}</div>
+            {cert.verify && <div className="cert-verified">✓ Verified</div>}
+          </div>
+        </div>
+        <h3 className="cert-name">{cert.name}</h3>
+        {(cert.issued || cert.credentialId) && (
+          <p className="cert-meta">{cert.issued}{cert.credentialId && ` · Credential ID ${cert.credentialId}`}</p>
+        )}
+        <div className="cert-links">
+          {hasPdf && (
+            <a className="cert-link" href={cert.pdf} download onClick={e => e.stopPropagation()}>Certificate PDF ↓</a>
+          )}
+          {cert.verify && (
+            <a className="cert-link" href={cert.verify} target="_blank" rel="noopener noreferrer" onClick={e => e.stopPropagation()}>Verify ↗</a>
+          )}
+        </div>
+      </div>
+      {open && hasPdf && typeof document !== 'undefined' && createPortal(
+        <div className="cert-modal-overlay" onClick={() => setOpen(false)}>
+          <div className="cert-modal" onClick={e => e.stopPropagation()}>
+            <div className="cert-modal-bar">
+              <span className="cert-modal-title">{cert.issuer} · {cert.code}</span>
+              <div className="cert-modal-actions">
+                {/* Some embedded browser contexts (e.g. VS Code's Simple Browser) don't render a PDF
+                   inside an iframe at all — it just shows blank. This link is the escape hatch: opens
+                   the same file in a full browser tab, which always has a real PDF viewer. */}
+                <a className="cert-link" href={cert.pdf} target="_blank" rel="noopener noreferrer">Open ↗</a>
+                <a className="cert-link" href={cert.pdf} download>Download ↓</a>
+                <button className="cert-modal-close" onClick={() => setOpen(false)} aria-label="Close">✕</button>
+              </div>
+            </div>
+            {/* Earlier attempts at #toolbar=0 on a real .pdf network URL blanked the frame — that
+               turned out to be IDM silently swallowing the request, not the fragment itself. Now
+               that the src is a local blob: URL (no network request for IDM to grab), the fragment
+               works as intended: strips the browser's own PDF toolbar/side-panel chrome. The
+               modal's aspect-ratio already matches these PDFs' own page shape (792x612pt), so the
+               viewer's default zoom fills the frame without needing a zoom override too. */}
+            {previewUrl
+              ? <iframe className="cert-modal-frame" src={`${previewUrl}#toolbar=0&navpane=0`} title={`${cert.name} certificate`} />
+              : <div className="cert-modal-loading">Loading…</div>}
+          </div>
+        </div>,
+        document.body,
+      )}
+    </>
+  )
+}
 
 const CONTACT_LINKS = [
   { l: 'Email', v: 'phamletanthinh.bob.work@gmail.com', href: 'mailto:phamletanthinh.bob.work@gmail.com' },
@@ -293,6 +467,14 @@ const SKILLS_PAGE = EXP_START + EXPERIENCE_PAGES.length
 const CERT_START = SKILLS_PAGE + 3
 const CONTACT_PAGE = CERT_START + CERTIFICATIONS.length
 const TOTAL_PAGES = CONTACT_PAGE + 1
+
+// Scroll distance given to each story page, in vh. The crossfade math below
+// (transN, stepFloat, localT) is all proportional — it divides the pin's
+// total scroll range evenly across pages, so bumping this alone slows down
+// how fast content visibly moves per notch of wheel/trackpad scroll without
+// touching any of that math. Was 100 (one viewport height per page), which
+// read as content crossfading away before it had settled in.
+const PAGE_SCROLL_VH = 160
 
 // Jobs that have projects, with the first/last story-page index they span (the
 // job's own page, then one per project) — the shared header overlay for each
@@ -968,9 +1150,9 @@ export default function PortfolioPage() {
           carry the real #about/#projects/... ids so hash links still land
           in the right place despite the pages themselves never moving once
           the sticky engages. */}
-      <div className="story-pin" id="storyPin" style={{ height: `${TOTAL_PAGES * 100}vh` }}>
+      <div className="story-pin" id="storyPin" style={{ height: `${TOTAL_PAGES * PAGE_SCROLL_VH}vh` }}>
         {STORY_SECTIONS.map(({ id, page }) => (
-          <div key={id} id={id} className="story-anchor" style={{ top: `${page * 100}vh` }} />
+          <div key={id} id={id} className="story-anchor" style={{ top: `${page * PAGE_SCROLL_VH}vh` }} />
         ))}
         <div className="story">
           <div className="story-photo-col">
@@ -1090,21 +1272,7 @@ export default function PortfolioPage() {
                   <div className="cert-group-label">{group.category}</div>
                   {group.items.length > 0 ? (
                     <div className="cert-grid">
-                      {group.items.map(cert => (
-                        <div key={cert.name} className="cert-card">
-                          <div className="cert-head">
-                            {cert.logo
-                              ? <img className="cert-logo" src={cert.logo} alt="" />
-                              : <div className="cert-logo cert-logo-text">{cert.issuer[0]}</div>}
-                            <div className="cert-issuer">{cert.issuer}</div>
-                          </div>
-                          <h3 className="cert-name">{cert.name}</h3>
-                          {(cert.issued || cert.credentialId) && (
-                            <p className="cert-meta">{cert.issued}{cert.credentialId && ` · Credential ID ${cert.credentialId}`}</p>
-                          )}
-                          <a className="cert-link" href={cert.href}>View credential ↗</a>
-                        </div>
-                      ))}
+                      {group.items.map(cert => <CertCard key={cert.code} cert={cert} />)}
                     </div>
                   ) : (
                     <p className="story-placeholder">Coming soon.</p>
@@ -1219,21 +1387,7 @@ export default function PortfolioPage() {
               <div className="cert-group-label">{group.category}</div>
               {group.items.length > 0 ? (
                 <div className="cert-grid">
-                  {group.items.map(cert => (
-                    <div key={cert.name} className="cert-card">
-                      <div className="cert-head">
-                        {cert.logo
-                          ? <img className="cert-logo" src={cert.logo} alt="" />
-                          : <div className="cert-logo cert-logo-text">{cert.issuer[0]}</div>}
-                        <div className="cert-issuer">{cert.issuer}</div>
-                      </div>
-                      <h3 className="cert-name">{cert.name}</h3>
-                      {(cert.issued || cert.credentialId) && (
-                        <p className="cert-meta">{cert.issued}{cert.credentialId && ` · Credential ID ${cert.credentialId}`}</p>
-                      )}
-                      <a className="cert-link" href={cert.href}>View credential ↗</a>
-                    </div>
-                  ))}
+                  {group.items.map(cert => <CertCard key={cert.code} cert={cert} />)}
                 </div>
               ) : (
                 <p className="story-placeholder">Coming soon.</p>

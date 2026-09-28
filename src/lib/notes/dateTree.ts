@@ -9,26 +9,28 @@ export interface TreeNode {
   noteIds: string[]
   children: TreeNode[]
   isDay: boolean
-  date?: string // chỉ có ở node ngày (leaf)
+  date?: string // only set on day nodes (leaves)
 }
 
 function seasonKey(year: string, season: string): string {
   return `${year}-${season}`
 }
 
-// Mỗi CẤP (Năm/Mùa/Tháng/Tuần/Ngày) 1 màu riêng, cố định, khác hẳn nhau về tông — không suy ra từ
-// màu mùa nữa (trước đây chỉ đổi độ sáng/tối của 1 màu, nhìn vẫn na ná nhau, khó phân biệt cấp).
-// Giờ nhìn màu là biết ngay đang ở cấp nào, bất kể đang ở mùa nào.
+// Each LEVEL (Year/Season/Month/Week/Day) gets its own fixed color, clearly distinct from the
+// others — no longer derived from the season color (previously just varied lightness/darkness of
+// one hue, which looked too similar and made levels hard to tell apart). Now the color alone tells
+// you which level you're looking at, regardless of season.
 const LEVEL_COLOR = {
-  year: '#E0648A', // hồng
-  month: '#8B6FE0', // tím
-  week: '#2FAE82', // xanh lá
-  day: '#3E8FE0', // xanh dương
+  year: '#E0648A', // pink
+  month: '#8B6FE0', // purple
+  week: '#2FAE82', // green
+  day: '#3E8FE0', // blue
 }
 
-// Xây cây Năm -> Mùa -> Tháng -> Tuần -> Ngày từ danh sách note (dựa trên `date` của từng note).
-// Ngày hôm nay luôn có mặt trong cây dù chưa có note nào (để luôn chọn được), nhưng không có
-// nghĩa là được lưu xuống DB — node ngày trống chỉ tồn tại tạm trong cây hiển thị.
+// Builds a Year -> Season -> Month -> Week -> Day tree from the note list (based on each note's
+// `date`). Today's date is always present in the tree even with no notes yet (so it's always
+// selectable), but that doesn't mean it's persisted to the DB — an empty day node only exists
+// temporarily in the displayed tree.
 export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[] {
   const dayMap = new Map<string, string[]>()
   for (const n of notes) {
@@ -74,7 +76,7 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
     if (monthKey !== prevMonthKey) {
       curMonth = {
         key: monthKey,
-        label: `Tháng ${d.getMonth() + 1}`,
+        label: `Month ${d.getMonth() + 1}`,
         color: LEVEL_COLOR.month,
         count: 0,
         noteIds: [],
@@ -88,7 +90,7 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
     if (weekKey !== prevWeekKey) {
       curWeek = {
         key: weekKey,
-        label: `Tuần ${weekNum}`,
+        label: `Week ${weekNum}`,
         color: LEVEL_COLOR.week,
         count: 0,
         noteIds: [],
@@ -120,7 +122,8 @@ export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[]
   return years
 }
 
-// Khoá của mọi node tổ tiên chứa ngày `dateISO` — dùng để tự mở rộng cây tới ngày đang chọn.
+// Keys of every ancestor node containing `dateISO` — used to auto-expand the tree down to the
+// currently selected day.
 export function getAncestorKeys(dateISO: string): string[] {
   const d = fromISODate(dateISO)
   const year = String(d.getFullYear())

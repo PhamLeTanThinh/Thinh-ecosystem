@@ -9,17 +9,17 @@ interface FlatBlock extends TimeBlock {
 
 interface Props {
   dayLabel: string
-  notes: StickyNote[] // đã lọc theo ngày đang xem — component tự lọc kind === 'timeline' rồi gom + sort theo giờ
+  notes: StickyNote[] // already filtered to the day being viewed — the component itself filters to kind === 'timeline' then gathers + sorts by time
   onToggleDone: (noteId: string, blockId: string) => void
   onDeleteBlock: (noteId: string, blockId: string) => void
   onSelectNote: (noteId: string) => void
   onClose: () => void
 }
 
-// View tổng hợp CHỈ ĐỌC — nguồn dữ liệu thật là các note kind 'timeline' trên canvas (xem
-// StickyNoteCard.tsx để thêm/sửa mốc giờ). Panel này chỉ gom hết các việc ĐÃ GẮN GIỜ của mọi
-// note-lịch-trình trong ngày thành 1 danh sách duy nhất cho dễ nhìn tổng quan — việc không gắn giờ
-// (hiện như todo-list trong note) không thuộc phạm vi view "theo giờ" này, ở lại trong note của nó.
+// A READ-ONLY aggregate view — the real data source is the 'timeline'-kind notes on the canvas (see
+// StickyNoteCard.tsx to add/edit time entries). This panel just gathers every TIMED item across all
+// timeline notes for the day into one list for an at-a-glance overview — untimed items (shown as a
+// todo-list inside the note) are out of scope for this "by time" view and stay in their own note.
 export function TimelinePanel({ dayLabel, notes, onToggleDone, onDeleteBlock, onSelectNote, onClose }: Props) {
   const blocks: FlatBlock[] = notes
     .filter((n) => n.kind === 'timeline')
@@ -30,15 +30,15 @@ export function TimelinePanel({ dayLabel, notes, onToggleDone, onDeleteBlock, on
   return (
     <aside className="nt-timeline-panel">
       <div className="nt-sidebar-header">
-        <span>Lịch trình — {dayLabel}</span>
-        <button type="button" aria-label="Đóng lịch trình" onClick={onClose}>
+        <span>Timeline — {dayLabel}</span>
+        <button type="button" aria-label="Close timeline" onClick={onClose}>
           ×
         </button>
       </div>
 
       {blocks.length === 0 ? (
         <p className="nt-tree-empty">
-          Chưa có mốc giờ nào — nhấp vào canvas và chọn &quot;🕐 Lịch trình&quot; để tạo 1 note lịch trình mới.
+          No time entries yet — right-click the canvas and choose &quot;🕐 Timeline&quot; to create a new timeline note.
         </p>
       ) : (
         <div className="nt-timeline-track">
@@ -55,7 +55,7 @@ export function TimelinePanel({ dayLabel, notes, onToggleDone, onDeleteBlock, on
                 <button
                   type="button"
                   className="nt-timeline-check"
-                  aria-label={b.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                  aria-label={b.done ? 'Mark as not done' : 'Mark as done'}
                   onClick={() => onToggleDone(b.noteId, b.id)}
                 >
                   {b.done && '✓'}
@@ -65,7 +65,7 @@ export function TimelinePanel({ dayLabel, notes, onToggleDone, onDeleteBlock, on
                 </button>
                 <button
                   type="button"
-                  aria-label="Xoá mốc giờ"
+                  aria-label="Delete time entry"
                   className="nt-timeline-delete"
                   onClick={() => onDeleteBlock(b.noteId, b.id)}
                 >

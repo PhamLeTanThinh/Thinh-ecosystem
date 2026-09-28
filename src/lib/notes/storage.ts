@@ -1,4 +1,4 @@
-import type { StickyNote } from './types'
+import type { DailyTodo, StickyNote } from './types'
 
 async function getJSON<T>(url: string): Promise<T[]> {
   const res = await fetch(url)
@@ -19,4 +19,6 @@ async function putJSON<T>(url: string, body: T[]): Promise<void> {
 export const storage = {
   getNotes: () => getJSON<StickyNote>('/api/notes'),
   saveNotes: (notes: StickyNote[]) => putJSON('/api/notes', notes),
+  getDailyTodos: () => getJSON<DailyTodo>('/api/notes/daily-todos'),
+  saveDailyTodos: (todos: DailyTodo[]) => putJSON('/api/notes/daily-todos', todos),
 }

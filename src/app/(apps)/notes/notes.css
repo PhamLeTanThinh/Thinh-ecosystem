@@ -177,7 +177,7 @@
   color: var(--color-nt-ink);
 }
 
-/* Chuyển đổi "Theo ngày" (cây phân cấp) / "Theo nhãn" (tìm note cũ theo nhãn, xuyên suốt mọi ngày) */
+/* Switches between "By date" (hierarchical tree) / "By tag" (find old notes by tag, across every day) */
 .nt-sidebar-tabs {
   display: flex;
   gap: 4px;
@@ -207,8 +207,8 @@
   padding: 8px 6px;
 }
 
-/* 1 note trong danh sách "theo nhãn" — đoạn trích chữ (đã bỏ HTML) + ngày, bấm để nhảy thẳng tới
-   đúng note đó (đổi ngày + cuộn canvas tới, xem onSelectNote ở page.tsx / NotesBoard.tsx). */
+/* A note in the "by tag" list — a text snippet (HTML stripped) + date, click to jump straight to
+   that note (changes the day + scrolls the canvas to it, see onSelectNote in page.tsx / NotesBoard.tsx). */
 .nt-tree-note {
   display: flex;
   flex-direction: column;
@@ -238,11 +238,18 @@
   color: var(--color-nt-ink-soft);
 }
 
-/* Cây phân cấp Năm > Mùa > Tháng > Tuần > Ngày — viền trái tô màu theo mùa, chạy suốt xuống
-   từng cấp con để dễ quét mắt theo màu (điểm nhấn thị giác chính của danh sách này). */
+/* Year > Season > Month > Week > Day hierarchy tree — left border colored by level, running down
+   through every child level so the eye can scan by color (the main visual cue of this list). */
 .nt-tree {
   display: flex;
   flex-direction: column;
+}
+
+/* Border + tinted background per level are set inline (levelStyle in NotesSidebar.tsx). */
+.nt-tree-group-row,
+.nt-tree-day {
+  border-left: 3px solid var(--color-nt-border);
+  margin-bottom: 2px;
 }
 
 .nt-tree-group-row {
@@ -250,12 +257,12 @@
   align-items: center;
   gap: 6px;
   padding: 6px 8px 6px 6px;
-  border-left: 2px solid var(--color-nt-border);
   border-radius: 6px;
 }
 
-.nt-tree-group-row:hover {
-  background: var(--color-nt-surface);
+.nt-tree-group-row:hover,
+.nt-tree-day:not(.active):hover {
+  box-shadow: inset 0 0 0 999px rgb(0 0 0 / 0.04);
 }
 
 .nt-tree-toggle {
@@ -302,12 +309,7 @@
   align-items: center;
   gap: 6px;
   padding: 5px 8px 5px 6px;
-  border-left: 2px solid var(--color-nt-border);
   border-radius: 6px;
-}
-
-.nt-tree-day:hover {
-  background: var(--color-nt-surface);
 }
 
 .nt-tree-day.active {
@@ -326,8 +328,8 @@
   color: var(--color-nt-ink);
 }
 
-/* Lịch trình theo giờ trong ngày — panel bên phải giống hệt .nt-sidebar về khung/kích thước, chỉ
-   khác nội dung (dòng thời gian dọc thay vì cây phân cấp). */
+/* Timed schedule for the day — right-hand panel identical to .nt-sidebar in frame/size, just
+   different content (a vertical timeline instead of the hierarchy tree). */
 .nt-timeline-panel {
   flex: none;
   width: 320px;
@@ -385,9 +387,9 @@
   opacity: 0.35;
 }
 
-/* Dòng thời gian dọc — mỗi item là 1 hàng lưới [giờ | trục+chấm | nội dung]; đường nối dọc được
-   ghép từ 2 nửa (::before phía trên chấm, ::after phía dưới chấm) của TỪNG item để nối liền mạch
-   qua mọi item mà không cần tính toạ độ tuyệt đối cho cả danh sách. */
+/* Vertical timeline — each item is a grid row [time | rail+dot | content]; the connecting vertical
+   line is assembled from 2 halves (::before above the dot, ::after below it) on EACH item so it
+   joins up seamlessly across every item without computing absolute coordinates for the whole list. */
 .nt-timeline-track {
   display: flex;
   flex-direction: column;
@@ -489,8 +491,8 @@
   border-color: #34b37a;
 }
 
-/* Nút mở note gắn với mục lịch trình này lên board — text-align/cursor riêng vì đây là <button>,
-   không phải <span> tĩnh, để bấm vào đoạn trích chữ nhảy thẳng tới note trên canvas. */
+/* Button that opens the note this schedule item belongs to on the board — its own text-align/cursor
+   because it's a <button>, not a static <span>, so clicking the text snippet jumps to the note on the canvas. */
 .nt-timeline-text {
   flex: 1 1 auto;
   text-align: left;
@@ -554,27 +556,28 @@
   text-align: center;
 }
 
-/* Canvas ghi chú duy nhất, choán trọn phần còn lại của màn hình — click bất kỳ đâu để tạo note.
-   Lưới chấm mờ là điểm nhấn tối giản thay cho nền phẳng trơn 1 màu. */
+/* The single note canvas, filling the rest of the screen — click anywhere to create a note.
+   The faint dot grid is a minimal accent instead of a flat solid-color background. */
 .nt-board-outer {
   flex: 1 1 auto;
   min-width: 0;
   position: relative;
-  /* overflow-y: scroll (không phải auto) — canvas bên trong được đo bằng ResizeObserver và set lại
-     kích thước đúng bằng outer; nếu dùng "auto", việc thanh cuộn dọc xuất hiện/biến mất tự thay đổi
-     clientWidth, ResizeObserver bắt lại, canvas resize lại theo — tạo vòng lặp phản hồi khiến layout
-     giật liên tục ở đúng 100% zoom (khi canvas khớp sát outer). Cố định overflow-y: scroll để
-     clientWidth luôn ổn định, không phụ thuộc có cần cuộn hay không. */
+  /* overflow-y: scroll (not auto) — the inner canvas is measured via ResizeObserver and resized to
+     exactly match the outer container; with "auto", the vertical scrollbar appearing/disappearing
+     changes clientWidth, ResizeObserver picks that up, the canvas resizes again — creating a
+     feedback loop that makes the layout jitter constantly at exactly 100% zoom (when the canvas
+     matches the outer container tightly). Fixing overflow-y: scroll keeps clientWidth stable
+     regardless of whether scrolling is actually needed. */
   overflow-x: hidden;
   overflow-y: scroll;
   background-image: radial-gradient(rgba(24, 24, 27, 0.07) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
-/* Con trỏ kiểu "bàn tay" (Photoshop hand tool) — nhấp vẫn mở popover chọn loại note như cũ (xem
-   handleCanvasPointerUp trong NotesBoard.tsx), nhưng KÉO trên vùng trống giờ pan được view, hữu ích
-   khi note tràn ra ngoài vùng nhìn thấy. .panning (gắn trong lúc đang thật sự kéo) đổi sang hình bàn
-   tay nắm lại, giống hệt quy ước pan quen thuộc của Photoshop/Figma. */
+/* "Hand tool" style cursor (Photoshop hand tool) — clicking still opens the note-kind popover as
+   before (see handleCanvasPointerUp in NotesBoard.tsx), but DRAGGING on empty space now pans the
+   view, useful when notes overflow the visible area. .panning (applied while actually dragging)
+   switches to a closed-fist cursor, matching the familiar pan convention from Photoshop/Figma. */
 .nt-board-canvas {
   position: relative;
   width: 100%;
@@ -596,9 +599,9 @@
   pointer-events: none;
 }
 
-/* Popover chọn loại note ngay lúc click canvas (xem handleCanvasClick trong NotesBoard.tsx) — vị
-   trí left/top dùng CHUNG hệ toạ độ với .nt-note (px chưa scale, absolute trong canvas đã scale
-   sẵn qua transform), nên không cần tính toán riêng cho zoom. */
+/* Note-kind popover shown right when the canvas is clicked (see handleCanvasClick in NotesBoard.tsx) —
+   its left/top position SHARES the same coordinate system as .nt-note (unscaled px, absolute inside
+   a canvas already scaled via transform), so no separate math is needed for zoom. */
 .nt-kind-chooser {
   position: absolute;
   z-index: 5;
@@ -626,7 +629,7 @@
   background: var(--color-nt-bg);
 }
 
-/* Sticky note — flat, viền rõ (không quá mờ), không tilt, không nền màu đặc; accent chỉ ở viền trái. */
+/* Sticky note — flat, with a clear (not overly faint) border, no tilt, no solid color background; the accent is only on the left border. */
 .nt-note {
   position: absolute;
   display: flex;
@@ -673,6 +676,42 @@
   background: var(--color-nt-ink-soft);
 }
 
+/* Optional short title any note can carry (see StickyNoteCard.tsx) — the 3 auto-created notes
+   (Daily/WORK/Personal) start with one pre-filled, but it's freely editable on any note. Shown even
+   outside edit mode as plain text, distinct from the tag chips at the bottom; becomes an input while editing. */
+.nt-note-header {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-nt-ink-soft);
+  padding: 1px 2px 5px;
+}
+
+.nt-note-header-input {
+  width: 100%;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-nt-ink-soft);
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+
+.nt-note-header-input:focus {
+  color: var(--color-nt-ink);
+}
+
+.nt-note-header-input::placeholder {
+  text-transform: none;
+  font-weight: 500;
+  letter-spacing: normal;
+  opacity: 0.5;
+}
+
 .nt-note-resize-handle {
   position: absolute;
   right: 0;
@@ -705,11 +744,11 @@
   overflow-y: auto;
 }
 
-/* Thân của note kind 'timeline' (xem lib/notes/types.ts) — thay hẳn cho NoteEditor rich text bình
-   thường. Mỗi việc không có giờ hiện như todo-list thường (.nt-note-todos); có giờ hiện theo dạng
-   lịch trình, sort theo giờ (.nt-note-schedule) — 1 note có thể có cả 2 nhóm cùng lúc. View
-   "Lịch trình" (TimelinePanel.tsx) chỉ là 1 danh sách TỔNG HỢP đọc lại các việc ĐÃ CÓ GIỜ từ mọi
-   note kind 'timeline' trong ngày, không phải nơi lưu trữ gốc. */
+/* Body of a 'timeline'-kind note (see lib/notes/types.ts) — entirely replaces the regular rich-text
+   NoteEditor. Items with no time show as a plain todo-list (.nt-note-todos); items with a time show
+   in schedule form, sorted by time (.nt-note-schedule) — a note can have both groups at once. The
+   "Timeline" view (TimelinePanel.tsx) is just an AGGREGATE list reading back the TIMED items from
+   every 'timeline'-kind note for the day — it isn't the original data store. */
 .nt-note-blocks {
   display: flex;
   flex-direction: column;
@@ -733,7 +772,7 @@
   margin-bottom: 2px;
 }
 
-/* Việc không gắn giờ — chỉ checkbox + text, không có cột giờ/trục dọc như .nt-note-block. */
+/* An untimed item — just a checkbox + text, no time column/vertical rail like .nt-note-block. */
 .nt-note-todo {
   display: flex;
   align-items: center;
@@ -998,9 +1037,9 @@
   pointer-events: none;
 }
 
-/* Toolbar — dính lại trên đầu .nt-note-body (container cuộn riêng của từng note, xem overflow-y:auto
-   ở trên) khi nội dung dài và người dùng cuộn xuống, thay vì cuộn mất theo nội dung. Cần nền đặc
-   (không trong suốt) + z-index để che đúng phần chữ cuộn qua bên dưới nó. */
+/* Toolbar — sticks to the top of .nt-note-body (each note's own scroll container, see overflow-y:auto
+   above) when the content is long and the user scrolls down, instead of scrolling away with the
+   content. Needs a solid (non-transparent) background + z-index to properly cover the text scrolling underneath it. */
 .nt-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1074,7 +1113,7 @@
   color: var(--color-nt-ink-soft);
 }
 
-/* Chuyển Bảng (canvas theo ngày) / Lịch (tháng-tuần) — dùng lại style segmented của .nt-sidebar-tabs */
+/* Switches Board (per-day canvas) / Calendar (month-week) — reuses the segmented style from .nt-sidebar-tabs */
 .nt-view-switch {
   margin-bottom: 0;
   border: 1px solid var(--color-nt-border);
@@ -1085,7 +1124,7 @@
   padding: 4px 14px;
 }
 
-/* ===== Lịch tháng / tuần — theo dõi việc chưa xong ===== */
+/* ===== Month / week calendar — tracking unfinished items ===== */
 .nt-cal {
   flex: 1 1 auto;
   min-height: 0;
@@ -1173,7 +1212,7 @@
   flex: 1 1 auto;
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  /* Hàng tiêu đề thứ giữ auto, chỉ các hàng ngày giãn theo 1fr */
+  /* The weekday header row stays auto-sized, only the day rows grow via 1fr */
   grid-template-rows: auto;
   grid-auto-rows: minmax(112px, 1fr);
   gap: 6px;
@@ -1376,4 +1415,123 @@
   font-size: 10.5px;
   font-weight: 600;
   color: var(--color-nt-ink-soft);
+}
+
+/* Daily todo config panel — same frame as .nt-timeline-panel, each row = a name field + ↑ ↓ × */
+.nt-daily-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nt-daily-item {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.nt-daily-item input {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12.5px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--color-nt-ink);
+}
+
+.nt-daily-item input:hover,
+.nt-daily-item input:focus {
+  border-color: var(--color-nt-border);
+  background: var(--color-nt-surface);
+}
+
+.nt-daily-item button {
+  flex: none;
+  width: 22px;
+  font-size: 13px;
+  line-height: 1;
+  padding: 4px 0;
+  border-radius: 4px;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-daily-item button:hover:not(:disabled) {
+  color: var(--color-nt-ink);
+  background: var(--color-nt-surface);
+}
+
+.nt-daily-item button:disabled {
+  opacity: 0.25;
+}
+
+.nt-daily-hint {
+  margin-top: 14px;
+  font-size: 11.5px;
+  color: var(--color-nt-ink-soft);
+}
+
+/* Custom confirm dialog (see ConfirmDialog.tsx) — replaces the browser's native window.confirm()
+   for every destructive action in the Notes tool, so it matches the app's own look instead of the
+   OS/browser chrome. Overlay + card style mirrors .nt-kind-chooser (same surface/border/shadow),
+   just centered and dimmed like a real modal. */
+.nt-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(24, 24, 27, 0.32);
+  padding: 16px;
+}
+
+.nt-confirm-dialog {
+  width: min(340px, 100%);
+  padding: 18px;
+  border-radius: 10px;
+  background: var(--color-nt-surface);
+  border: 1px solid var(--color-nt-border);
+  box-shadow: 0 20px 48px rgba(24, 24, 27, 0.22);
+}
+
+.nt-confirm-message {
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--color-nt-ink);
+  margin-bottom: 16px;
+}
+
+.nt-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.nt-confirm-actions button {
+  font-size: 12.5px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+}
+
+.nt-confirm-cancel {
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-confirm-cancel:hover {
+  background: var(--color-nt-bg);
+}
+
+.nt-confirm-ok {
+  color: #fff;
+  background: #dc2626;
+}
+
+.nt-confirm-ok:hover {
+  background: #b91c1c;
 }

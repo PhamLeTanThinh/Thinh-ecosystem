@@ -298,20 +298,32 @@ export const wellnessLogs = pgTable('wellness_logs', {
   sleepHours: real('sleep_hours'), // nullable
 })
 
-// ── STICKY NOTES (mỗi ngày là 1 canvas toàn màn hình riêng — click bất kỳ đâu để tạo) ──
-// `id` là text vì client tự sinh nanoid trước khi gửi lên server, cùng convention với habits/money.
+// ── STICKY NOTES (each day is its own full-screen canvas — click anywhere to create one) ──
+// `id` is text because the client generates the nanoid itself before sending it to the server, same convention as habits/money.
 export const stickyNotes = pgTable('sticky_notes', {
   id: text('id').primaryKey(),
-  date: varchar('date', { length: 10 }).notNull(), // 'YYYY-MM-DD' — note thuộc "space" ngày nào
-  x: real('x').notNull(), // toạ độ tự do trên canvas của ngày đó (px, ở zoom 100%)
+  date: varchar('date', { length: 10 }).notNull(), // 'YYYY-MM-DD' — which day "space" the note belongs to
+  x: real('x').notNull(), // free-form position on that day's canvas (px, at 100% zoom)
   y: real('y').notNull(),
-  width: real('width'), // null = auto (mặc định); có giá trị khi user tự kéo resize
-  height: real('height'), // null = auto theo nội dung; có giá trị khi user tự kéo resize
-  kind: varchar('kind', { length: 10 }).default('note').notNull(), // 'note' | 'timeline' — chọn lúc tạo, xem lib/notes/types.ts
-  content: text('content').notNull(), // rich text HTML (TipTap) — chỉ dùng khi kind = 'note'
-  color: varchar('color', { length: 10 }), // accent tuỳ chọn: 'yellow' | 'pink' | 'mint' | 'sky' | 'lavender' | null
-  tags: text('tags').array().default([]).notNull(), // nhãn tự do do user tự đặt, không ép taxonomy
-  timeBlocks: jsonb('time_blocks').default([]).notNull(), // TimeBlock[] — các mốc giờ nối tiếp trong note (xem lib/notes/types.ts)
+  width: real('width'), // null = auto (default); set when the user manually resizes
+  height: real('height'), // null = auto based on content; set when the user manually resizes
+  kind: varchar('kind', { length: 10 }).default('note').notNull(), // 'note' | 'timeline' — chosen at creation time, see lib/notes/types.ts
+  header: text('header').default('').notNull(), // optional short title shown at the top of the note — editable on any note, see lib/notes/types.ts
+  content: text('content').notNull(), // rich text HTML (TipTap) — only used when kind = 'note'
+  color: varchar('color', { length: 10 }), // optional accent: 'yellow' | 'pink' | 'mint' | 'sky' | 'lavender' | null
+  tags: text('tags').array().default([]).notNull(), // free-form tags set by the user, no enforced taxonomy
+  timeBlocks: jsonb('time_blocks').default([]).notNull(), // TimeBlock[] — consecutive time entries in the note (see lib/notes/types.ts)
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// Templates for tasks that repeat EVERY DAY — configured in the "Daily todo" panel (/notes); today
+// automatically gets a timeline note containing a copy of these tasks (see syncDailyNote in
+// lib/notes/store.ts). Editing/deleting a template doesn't touch past days — each day keeps its own
+// copy in sticky_notes.time_blocks.
+export const dailyTodos = pgTable('daily_todos', {
+  id: text('id').primaryKey(),
+  text: text('text').notNull(),
+  sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

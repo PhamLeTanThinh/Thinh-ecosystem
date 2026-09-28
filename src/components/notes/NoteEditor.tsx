@@ -12,8 +12,9 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import { NoteToolbar } from './NoteToolbar'
 
-// Ảnh dán vào lớn hơn ngưỡng này sẽ được thu nhỏ (giữ tỉ lệ, nén JPEG) trước khi nhúng base64
-// vào nội dung note — content của mọi note được gộp gửi lên server mỗi lần lưu, nên cần giữ nhỏ.
+// A pasted image larger than this threshold gets downscaled (aspect ratio kept, JPEG-compressed)
+// before being embedded as base64 in the note content — every note's content gets bundled and sent
+// to the server on every save, so it needs to stay small.
 const MAX_IMAGE_WIDTH = 900
 
 function downscaleDataUrl(dataUrl: string, maxWidth: number): Promise<string> {
@@ -57,19 +58,19 @@ function readAndInsertImage(view: EditorView, file: File) {
   reader.readAsDataURL(file)
 }
 
-// Hoist ra ngoài component: `useEditor` tự so sánh lại `options` mỗi lần render (khi không truyền
-// deps) và gọi `setOptions()` nếu thấy khác — nếu tạo mới mảng extensions/object editorProps ngay
-// trong thân component, mỗi lần render sẽ tạo ra instance mới (dù nội dung giống hệt), khiến
-// setOptions() bị gọi liên tục mỗi render, gây vòng lặp re-render/reflow (biểu hiện ra ngoài là
-// thanh scroll giật liên tục). Các extension này không phụ thuộc props/state nên dùng chung an toàn
-// cho mọi note trên trang.
+// Hoisted outside the component: `useEditor` re-compares `options` on every render (when no deps
+// are passed) and calls `setOptions()` if it sees a difference — if the extensions array/editorProps
+// object were created fresh inside the component body, every render would produce a new instance
+// (even with identical content), causing setOptions() to fire on every render and triggering a
+// re-render/reflow loop (visible as the scrollbar jittering constantly). These extensions don't
+// depend on props/state, so sharing them across every note on the page is safe.
 const editorExtensions = [
   StarterKit.configure({ heading: { levels: [2, 3] } }),
   TextStyle,
   Color,
   Highlight.configure({ multicolor: true }),
   TextAlign.configure({ types: ['heading', 'paragraph'] }),
-  Placeholder.configure({ placeholder: 'Viết gì đó…' }),
+  Placeholder.configure({ placeholder: 'Write something…' }),
   Image.configure({
     allowBase64: true,
     resize: { enabled: true, directions: ['bottom-right'], minWidth: 60, minHeight: 60, alwaysPreserveAspectRatio: true },
@@ -110,14 +111,15 @@ interface Props {
   onChangeHtml: (html: string) => void
 }
 
-// Focus/blur của note (bao gồm toolbar, editor, ô nhãn) được xử lý gộp ở StickyNoteCard
-// (root onFocus/onBlur với kiểm tra relatedTarget) — component này chỉ lo phần soạn thảo.
+// Focus/blur for the note (including the toolbar, editor, and tag input) is handled together in
+// StickyNoteCard (root onFocus/onBlur with a relatedTarget check) — this component only handles editing.
 export function NoteEditor({ content, editable, onChangeHtml }: Props) {
-  // Chỉ dùng content lúc khởi tạo — sau đó editor tự quản lý nội dung của nó (nguồn sự thật là
-  // editor, đẩy ra ngoài qua onUpdate). Không truyền lại `content` prop mỗi render vào useEditor:
-  // useEditor tự đồng bộ `options` mỗi render khi không có deps, và content prop có thể tạm thời
-  // "trễ" hơn nội dung đang gõ dở trong editor (do setState bất đồng bộ) — nếu truyền lại sẽ có
-  // lúc bị ghi đè ngược, mất ký tự vừa gõ khi gõ nhanh.
+  // Only used for the initial content — after that the editor owns its own content (the editor is
+  // the source of truth, pushed out via onUpdate). Don't pass the `content` prop back into useEditor
+  // on every render: useEditor re-syncs `options` on every render when there are no deps, and the
+  // content prop can temporarily lag behind what's actually being typed in the editor (due to async
+  // setState) — passing it back in could sometimes overwrite in reverse, losing characters just
+  // typed when typing fast.
   const [initialContent] = useState(content)
 
   const editor = useEditor({

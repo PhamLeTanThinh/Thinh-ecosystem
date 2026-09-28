@@ -6,6 +6,8 @@ import { NotesBoard, ZOOM_STEP, clampZoom } from '@/components/notes/NotesBoard'
 import { NotesSidebar } from '@/components/notes/NotesSidebar'
 import { TimelinePanel } from '@/components/notes/TimelinePanel'
 import { CalendarView } from '@/components/notes/CalendarView'
+import { DailyTodoPanel } from '@/components/notes/DailyTodoPanel'
+import { useNotesConfirm } from '@/components/notes/ConfirmDialog'
 import { buildDateTree } from '@/lib/notes/dateTree'
 import { addDays, formatDayLabel, formatDayShortLabel, fromISODate, toISODate } from '@/lib/notes/date'
 
@@ -14,35 +16,54 @@ export default function NotesPage() {
   const deleteNotes = useNotesStore((s) => s.deleteNotes)
   const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
   const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
+  const hydrated = useNotesStore((s) => s.hydrated)
+  const syncDailyNote = useNotesStore((s) => s.syncDailyNote)
+  const syncWorkNote = useNotesStore((s) => s.syncWorkNote)
+  const syncPersonalNote = useNotesStore((s) => s.syncPersonalNote)
+  const confirm = useNotesConfirm()
   const todayISO = useMemo(() => toISODate(new Date()), [])
   const [currentDate, setCurrentDate] = useState(todayISO)
   const [editingId, setEditingId] = useState<string | null>(null)
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [timelineOpen, setTimelineOpen] = useState(false)
+  const [dailyOpen, setDailyOpen] = useState(false)
   const [zoom, setZoom] = useState(1)
   const [focusNoteId, setFocusNoteId] = useState<string | null>(null)
-  // 'calendar' = lịch tháng/tuần để theo dõi việc chưa xong qua nhiều ngày (xem CalendarView.tsx).
+  // 'calendar' = month/week calendar for tracking unfinished items across multiple days (see CalendarView.tsx).
   const [view, setView] = useState<'board' | 'calendar'>('board')
   const dateInputRef = useRef<HTMLInputElement>(null)
 
+  // Opening the app on today's date ensures 3 auto-created notes exist: Daily (from the Daily todo
+  // templates), an empty WORK todo on weekdays only, and an empty Personal note every day. Only does
+  // this for TODAY — doesn't retroactively generate one for a past day or preemptively for a future
+  // day while browsing.
+  useEffect(() => {
+    if (!hydrated || currentDate !== todayISO) return
+    syncDailyNote(todayISO)
+    syncWorkNote(todayISO)
+    syncPersonalNote(todayISO)
+  }, [hydrated, currentDate, todayISO, syncDailyNote, syncWorkNote, syncPersonalNote])
+
   const notesForDay = useMemo(() => notes.filter((n) => n.date === currentDate), [notes, currentDate])
 
-  // Mỗi lần có note mới được thêm vào ngày đang xem (từ popover chọn loại trên canvas — xem
-  // NotesBoard.tsx), tự mở panel danh sách bên phải.
+  // Whenever a new note is added to the day being viewed (from the kind-picker popover on the
+  // canvas — see NotesBoard.tsx), auto-open the list panel on the right.
   const prevCountRef = useRef(notesForDay.length)
   useEffect(() => {
     if (notesForDay.length > prevCountRef.current) {
       setSidebarOpen(true)
       setTimelineOpen(false)
+      setDailyOpen(false)
     }
     prevCountRef.current = notesForDay.length
   }, [notesForDay.length])
 
-  // Bấm vào 1 mục trong Lịch trình để mở note chứa mốc giờ đó lên board (cùng ngày đang xem nên
-  // không cần đổi currentDate như handleSelectNote ở "theo nhãn" — chỉ cần focus + cuộn tới). Vẫn
-  // phải bỏ filter tag đang chọn như handleSelectNote, không thì note có thể bị boardNotes lọc mất
-  // nếu nó không mang tag đang active, khiến focus/scroll không tìm thấy gì.
+  // Clicking an entry in the Timeline opens the note containing that time entry on the board (same
+  // day as the one being viewed, so no need to change currentDate like handleSelectNote does for
+  // "by tag" — just focus + scroll to it). Still needs to clear the active tag filter like
+  // handleSelectNote, otherwise the note could get filtered out of boardNotes if it doesn't carry
+  // the active tag, and the focus/scroll would find nothing.
   function handleSelectTimelineNote(noteId: string) {
     setActiveTag(null)
     setEditingId(noteId)
@@ -56,8 +77,9 @@ export default function NotesPage() {
     return Array.from(set).sort()
   }, [notesForDay])
 
-  // Tag hết tồn tại ở ngày đang xem (vì đổi ngày) thì coi như chưa chọn — tránh lọc ra danh sách
-  // rỗng vô lý. Suy ra trực tiếp lúc render thay vì đồng bộ ngược lại activeTag qua effect.
+  // A tag that no longer exists on the day being viewed (because the day changed) is treated as
+  // unselected — avoids filtering to a nonsensically empty list. Derived directly during render
+  // rather than syncing activeTag back via an effect.
   const effectiveActiveTag = activeTag && allTags.includes(activeTag) ? activeTag : null
 
   const boardNotes = useMemo(
@@ -73,9 +95,10 @@ export default function NotesPage() {
     setEditingId(null)
   }
 
-  // Chọn 1 note cụ thể từ danh sách "theo nhãn" — khác goToDay (chỉ đổi ngày): còn phải bỏ filter
-  // tag của NGÀY đó (effectiveActiveTag) để note chắc chắn hiện ra trên board, và báo cho
-  // NotesBoard cuộn tới đúng vị trí note (toạ độ tự do, có thể đang ngoài vùng nhìn thấy).
+  // Select a specific note from the "by tag" list — unlike goToDay (just changes the day): also has
+  // to clear THAT day's tag filter (effectiveActiveTag) so the note is guaranteed to show on the
+  // board, and tells NotesBoard to scroll to the note's position (free-form coordinates, which may
+  // be outside the visible area).
   function handleSelectNote(date: string, noteId: string) {
     setView('board')
     setCurrentDate(date)
@@ -85,29 +108,29 @@ export default function NotesPage() {
     setTimeout(() => setFocusNoteId(null), 1000)
   }
 
-  // Nếu ngày đang xem nằm trong nhóm vừa xoá, board tự trống theo (notesForDay lọc lại theo notes mới).
-  function handleDeleteGroup(noteIds: string[], label: string) {
+  // If the day being viewed is part of the group just deleted, the board empties out on its own (notesForDay re-filters against the updated notes).
+  async function handleDeleteGroup(noteIds: string[], label: string) {
     if (noteIds.length === 0) return
-    if (!window.confirm(`Xoá toàn bộ ${noteIds.length} ghi chú trong "${label}"?`)) return
+    if (!(await confirm(`Delete all ${noteIds.length} notes in "${label}"?`))) return
     deleteNotes(noteIds)
   }
 
   return (
     <div className="nt-page">
       <header className="nt-topbar">
-        <h1 className="nt-wordmark">Ghi chú</h1>
+        <h1 className="nt-wordmark">Notes</h1>
 
         <div className="nt-sidebar-tabs nt-view-switch">
           <button type="button" className={view === 'board' ? 'active' : ''} onClick={() => setView('board')}>
-            Bảng
+            Board
           </button>
           <button type="button" className={view === 'calendar' ? 'active' : ''} onClick={() => setView('calendar')}>
-            Lịch
+            Calendar
           </button>
         </div>
 
         <div className="nt-day-nav" hidden={view !== 'board'}>
-          <button type="button" aria-label="Ngày trước" onClick={() => goToDay(toISODate(addDays(fromISODate(currentDate), -1)))}>
+          <button type="button" aria-label="Previous day" onClick={() => goToDay(toISODate(addDays(fromISODate(currentDate), -1)))}>
             ‹
           </button>
           <button
@@ -123,12 +146,12 @@ export default function NotesPage() {
           >
             {formatDayLabel(fromISODate(currentDate))}
           </button>
-          <button type="button" aria-label="Ngày sau" onClick={() => goToDay(toISODate(addDays(fromISODate(currentDate), 1)))}>
+          <button type="button" aria-label="Next day" onClick={() => goToDay(toISODate(addDays(fromISODate(currentDate), 1)))}>
             ›
           </button>
           {currentDate !== todayISO && (
             <button type="button" className="nt-day-nav-today" onClick={() => goToDay(todayISO)}>
-              Hôm nay
+              Today
             </button>
           )}
           <input
@@ -145,7 +168,7 @@ export default function NotesPage() {
         {view === 'board' && allTags.length > 0 && (
           <div className="nt-tag-filter">
             <button type="button" className={effectiveActiveTag === null ? 'active' : ''} onClick={() => setActiveTag(null)}>
-              Tất cả
+              All
             </button>
             {allTags.map((t) => (
               <button
@@ -161,15 +184,15 @@ export default function NotesPage() {
         )}
 
         <div className="nt-zoom-controls" hidden={view !== 'board'}>
-          <button type="button" aria-label="Thu nhỏ" onClick={() => setZoom((z) => clampZoom(z - ZOOM_STEP))}>
+          <button type="button" aria-label="Zoom out" onClick={() => setZoom((z) => clampZoom(z - ZOOM_STEP))}>
             −
           </button>
           <span>{Math.round(zoom * 100)}%</span>
-          <button type="button" aria-label="Phóng to" onClick={() => setZoom((z) => clampZoom(z + ZOOM_STEP))}>
+          <button type="button" aria-label="Zoom in" onClick={() => setZoom((z) => clampZoom(z + ZOOM_STEP))}>
             +
           </button>
           {zoom !== 1 && (
-            <button type="button" aria-label="Về 100%" onClick={() => setZoom(1)}>
+            <button type="button" aria-label="Reset to 100%" onClick={() => setZoom(1)}>
               ⟲
             </button>
           )}
@@ -182,9 +205,24 @@ export default function NotesPage() {
             onClick={() => {
               setTimelineOpen(true)
               setSidebarOpen(false)
+              setDailyOpen(false)
             }}
           >
-            Lịch trình
+            Timeline
+          </button>
+        )}
+
+        {view === 'board' && !dailyOpen && (
+          <button
+            type="button"
+            className="nt-sidebar-toggle"
+            onClick={() => {
+              setDailyOpen(true)
+              setSidebarOpen(false)
+              setTimelineOpen(false)
+            }}
+          >
+            Daily todo
           </button>
         )}
 
@@ -195,9 +233,10 @@ export default function NotesPage() {
             onClick={() => {
               setSidebarOpen(true)
               setTimelineOpen(false)
+              setDailyOpen(false)
             }}
           >
-            Danh sách
+            List
           </button>
         )}
       </header>
@@ -235,6 +274,8 @@ export default function NotesPage() {
               onClose={() => setSidebarOpen(false)}
             />
           )}
+
+          {dailyOpen && <DailyTodoPanel onClose={() => setDailyOpen(false)} />}
 
           {timelineOpen && (
             <TimelinePanel

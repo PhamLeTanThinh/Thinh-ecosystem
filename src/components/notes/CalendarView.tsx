@@ -12,7 +12,7 @@ interface DayTodo {
 }
 
 interface Props {
-  notes: StickyNote[] // TOÀN BỘ note — lịch tự gom todo theo ngày
+  notes: StickyNote[] // ALL notes — the calendar gathers todos by day itself
   todayISO: string
   initialDate: string
   onSelectDay: (date: string) => void
@@ -20,11 +20,12 @@ interface Props {
   onToggleDone: (noteId: string, blockId: string) => void
 }
 
-const WEEKDAY_HEADERS = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+const WEEKDAY_HEADERS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const MONTH_PREVIEW_LIMIT = 3
 
-// "Todo" ở đây = mọi TimeBlock của note kind 'timeline' (cả có giờ lẫn không giờ) — khác
-// TimelinePanel chỉ lấy việc có giờ. Có giờ xếp trước theo giờ, không giờ giữ nguyên thứ tự trong note.
+// A "todo" here = any TimeBlock from a 'timeline' note (both timed and untimed) — unlike
+// TimelinePanel which only takes timed items. Timed items sort first by time, untimed items keep
+// their order within the note.
 function buildTodoMap(notes: StickyNote[]): Map<string, DayTodo[]> {
   const map = new Map<string, DayTodo[]>()
   for (const n of notes) {
@@ -56,8 +57,9 @@ function dayStatus(dateISO: string, todayISO: string, total: number, pending: nu
   return 'pending'
 }
 
-// Lịch tháng/tuần để theo dõi việc chưa xong theo từng ngày — ngày đã qua mà còn việc tồn được tô
-// đỏ. Bấm vào ô ngày để mở board của ngày đó; tick checkbox ngay trên lịch cũng được.
+// Month/week calendar for tracking unfinished items day by day — a past day still carrying items
+// gets highlighted red. Click a day cell to open that day's board; the checkbox can also be ticked
+// right on the calendar.
 export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSelectNote, onToggleDone }: Props) {
   const [mode, setMode] = useState<CalendarMode>('month')
   const [anchor, setAnchor] = useState(initialDate)
@@ -72,7 +74,7 @@ export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSele
     const start = mode === 'month' ? startOfWeek(startOfMonth(a)) : startOfWeek(a)
     const count =
       mode === 'month'
-        ? // Đủ số tuần để phủ hết tháng (4–6 hàng), không cố định 6 hàng gây thừa 1 hàng trống.
+        ? // Enough weeks to cover the whole month (4–6 rows), not a fixed 6 rows that leaves an extra empty row.
           Math.ceil(((startOfMonth(a).getDay() + 6) % 7 + new Date(a.getFullYear(), a.getMonth() + 1, 0).getDate()) / 7) * 7
         : 7
     return Array.from({ length: count }, (_, i) => toISODate(addDays(start, i)))
@@ -105,7 +107,7 @@ export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSele
 
   const title =
     mode === 'month'
-      ? `Tháng ${anchorMonth + 1}, ${anchorDate.getFullYear()}`
+      ? `${anchorDate.toLocaleString('en-US', { month: 'short' })} ${anchorDate.getFullYear()}`
       : (() => {
           const s = fromISODate(days[0])
           const e = fromISODate(days[6])
@@ -119,43 +121,43 @@ export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSele
       <div className="nt-cal-header">
         <div className="nt-sidebar-tabs nt-cal-mode">
           <button type="button" className={mode === 'month' ? 'active' : ''} onClick={() => setMode('month')}>
-            Tháng
+            Month
           </button>
           <button type="button" className={mode === 'week' ? 'active' : ''} onClick={() => setMode('week')}>
-            Tuần
+            Week
           </button>
         </div>
 
         <div className="nt-day-nav">
-          <button type="button" aria-label={mode === 'month' ? 'Tháng trước' : 'Tuần trước'} onClick={() => shift(-1)}>
+          <button type="button" aria-label={mode === 'month' ? 'Previous month' : 'Previous week'} onClick={() => shift(-1)}>
             ‹
           </button>
           <span className="nt-cal-title">{title}</span>
-          <button type="button" aria-label={mode === 'month' ? 'Tháng sau' : 'Tuần sau'} onClick={() => shift(1)}>
+          <button type="button" aria-label={mode === 'month' ? 'Next month' : 'Next week'} onClick={() => shift(1)}>
             ›
           </button>
           {!todayInView && (
             <button type="button" className="nt-day-nav-today" onClick={() => setAnchor(todayISO)}>
-              Hôm nay
+              Today
             </button>
           )}
         </div>
 
         <label className="nt-cal-filter">
           <input type="checkbox" checked={onlyPending} onChange={(e) => setOnlyPending(e.target.checked)} />
-          Chỉ hiện việc chưa xong
+          Show only unfinished
         </label>
 
         <div className="nt-cal-summary">
           <span>
-            <b>{summary.done}</b>/{summary.total} đã xong
+            <b>{summary.done}</b>/{summary.total} done
           </span>
           <span className={summary.pending > 0 ? 'pending' : ''}>
-            <b>{summary.pending}</b> chưa xong
+            <b>{summary.pending}</b> unfinished
           </span>
           {summary.overdue > 0 && (
             <span className="overdue">
-              <b>{summary.overdue}</b> quá hạn ({summary.overdueDays} ngày)
+              <b>{summary.overdue}</b> overdue ({summary.overdueDays} days)
             </span>
           )}
         </div>
@@ -195,7 +197,7 @@ export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSele
               <div className="nt-cal-cell-head">
                 <span className="nt-cal-daynum">{mode === 'week' ? `${date.getDate()}/${date.getMonth() + 1}` : date.getDate()}</span>
                 {all.length > 0 && (
-                  <span className="nt-cal-badge" title={`${all.length - pending}/${all.length} việc đã xong`}>
+                  <span className="nt-cal-badge" title={`${all.length - pending}/${all.length} items done`}>
                     {pending === 0 ? '✓' : `${all.length - pending}/${all.length}`}
                   </span>
                 )}
@@ -213,7 +215,7 @@ export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSele
                     <button
                       type="button"
                       className="nt-cal-check"
-                      aria-label={block.done ? 'Đánh dấu chưa xong' : 'Đánh dấu đã xong'}
+                      aria-label={block.done ? 'Mark as not done' : 'Mark as done'}
                       onClick={(e) => {
                         e.stopPropagation()
                         onToggleDone(noteId, block.id)
@@ -231,12 +233,12 @@ export function CalendarView({ notes, todayISO, initialDate, onSelectDay, onSele
                       }}
                     >
                       {block.startTime && <span className="nt-cal-todo-time">{block.startTime}</span>}
-                      {block.text || 'Việc trống'}
+                      {block.text || 'Empty item'}
                     </button>
                   </li>
                 ))}
               </ul>
-              {hidden > 0 && <span className="nt-cal-more">+{hidden} việc nữa</span>}
+              {hidden > 0 && <span className="nt-cal-more">+{hidden} more</span>}
             </div>
           )
         })}

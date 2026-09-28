@@ -24,34 +24,36 @@ interface Props {
   onZoomChange: (zoom: number) => void
   onStartEdit: (id: string) => void
   onStopEdit: () => void
-  // id của note cần cuộn tới ngay khi board render (vd bấm 1 note từ danh sách "theo nhãn" ở
-  // sidebar) — chỉ 1 tín hiệu 1 lần, không phải state hiển thị liên tục.
+  // id of the note to scroll to as soon as the board renders (e.g. clicking a note from the "by
+  // tag" list in the sidebar) — a one-shot signal, not a persistent display state.
   focusNoteId?: string | null
 }
 
-// Canvas toàn màn hình của 1 ngày — mỗi ngày là 1 "space" riêng, note tạo mới gắn với `date`.
+// Full-screen canvas for a single day — each day is its own "space", new notes get attached to `date`.
 export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStartEdit, onStopEdit, focusNoteId }: Props) {
   const addNote = useNotesStore((s) => s.addNote)
   const outerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
-  // Toạ độ (hệ canvas, chưa scale) đang chờ chọn loại "Ghi chú" hay "Lịch trình" — null = không có
-  // popover nào đang mở. Chỉ tạo note THẬT SỰ sau khi người dùng chọn 1 trong 2 lựa chọn.
+  // Position (canvas coordinates, unscaled) waiting for a "Note" vs "Timeline" choice — null = no
+  // popover open. The note is only actually created after the user picks one of the two options.
   const [chooserAt, setChooserAt] = useState<{ x: number; y: number } | null>(null)
-  // Ghi lại target lúc mousedown — trình duyệt tổng hợp sự kiện "click" tại tổ tiên chung gần nhất
-  // của target mousedown/mouseup, nên nếu người dùng bôi đen chữ BẮT ĐẦU trong 1 note con rồi thả
-  // chuột ra ngoài (đè lên canvas trống), target của "click" vẫn là canvasRef (tổ tiên chung) dù
-  // hành động thật sự là bôi đen chữ, không phải click vùng trống — gây tạo nhầm note mới + mất
-  // selection do onStartEdit chuyển focus. Chỉ coi là "click vùng trống" khi CẢ mousedown lẫn click
-  // đều nhắm đúng canvasRef.
+  // Tracks the target at mousedown time — the browser synthesizes the "click" event at the nearest
+  // common ancestor of the mousedown/mouseup targets, so if the user starts selecting text INSIDE a
+  // child note and releases the mouse outside it (over the empty canvas), the "click" target is
+  // still canvasRef (the common ancestor) even though the real action was a text selection, not a
+  // click on empty space — this would wrongly create a new note and lose the selection since
+  // onStartEdit shifts focus. Only treat it as "clicked empty space" when BOTH mousedown and click
+  // target canvasRef exactly.
   const mouseDownTargetRef = useRef<EventTarget | null>(null)
   const [outerSize, setOuterSize] = useState({ width: 0, height: 0 })
-  // Chiều cao thật của từng note (đo bằng ResizeObserver) — cần để canvas tự giãn theo nội dung
-  // rich text (có thể dài nhiều dòng) khi note nằm gần đáy màn hình.
+  // Actual measured height of each note (via ResizeObserver) — needed so the canvas can grow to fit
+  // rich-text content (which can span many lines) when a note sits near the bottom of the screen.
   const [heights, setHeights] = useState<Record<string, number>>({})
-  // Kéo-để-cuộn kiểu "bàn tay" (Photoshop hand tool) khi note tràn ra ngoài vùng nhìn thấy — giữ
-  // toạ độ bắt đầu (con trỏ + scroll hiện tại) để tính delta mỗi lần di chuột, và cờ `moved` để phân
-  // biệt với 1 cú CLICK thật (mở popover chọn loại) — chỉ coi là pan nếu di chuyển vượt ngưỡng nhỏ,
-  // tránh biến 1 click bình thường (tay hơi run vài px) thành pan làm mất luôn thao tác tạo note.
+  // Photoshop-style "hand tool" drag-to-scroll when notes overflow the visible area — keeps the
+  // starting coordinates (pointer + current scroll) to compute the delta on every mouse move, and a
+  // `moved` flag to distinguish this from an actual CLICK (which opens the kind-picker popover) —
+  // only counts as a pan once movement exceeds a small threshold, so a normal click (a few px of
+  // hand tremor) doesn't get turned into a pan and swallow the note-creation action.
   const panRef = useRef<{ startX: number; startY: number; startScrollLeft: number; startScrollTop: number; moved: boolean } | null>(
     null,
   )
@@ -68,10 +70,10 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     return () => ro.disconnect()
   }, [])
 
-  // Cuộn tới đúng note khi được chọn từ nơi khác (vd danh sách "theo nhãn" ở sidebar) — note đó có
-  // thể nằm ngoài vùng nhìn thấy trên canvas tự do (toạ độ x/y tuỳ ý), nên chỉ đổi ngày/mở edit
-  // thôi chưa chắc đã nhìn thấy note. Đợi 1 nhịp cho note kịp render (nhất là khi vừa đổi `date`)
-  // rồi mới scrollIntoView.
+  // Scroll to the right note when it's selected from elsewhere (e.g. the "by tag" list in the
+  // sidebar) — that note may be outside the visible area of the free-form canvas (arbitrary x/y),
+  // so just switching the date/opening edit mode isn't enough to actually see it. Wait a frame for
+  // the note to render (especially right after `date` changes) before calling scrollIntoView.
   useEffect(() => {
     if (!focusNoteId) return
     const id = requestAnimationFrame(() => {
@@ -86,9 +88,9 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   }, [])
 
   function handleCanvasPointerDown(e: React.PointerEvent<HTMLDivElement>) {
-    if (e.button !== 0) return // chỉ nút trái mới pan/click — nút phải dành riêng cho việc mở popover chọn loại (xem handleCanvasContextMenu)
+    if (e.button !== 0) return // only the left button pans/clicks — right-click is reserved for opening the kind-picker (see handleCanvasContextMenu)
     mouseDownTargetRef.current = e.target
-    if (e.target !== canvasRef.current || !outerRef.current) return // chỉ pan khi bắt đầu từ vùng trống, không phải kéo note con
+    if (e.target !== canvasRef.current || !outerRef.current) return // only pan when starting from empty space, not while dragging a child note
     canvasRef.current.setPointerCapture(e.pointerId)
     panRef.current = {
       startX: e.clientX,
@@ -108,8 +110,8 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
       panRef.current.moved = true
       setIsPanning(true)
     }
-    // Kéo chuột sang phải/xuống = lộ ra phần nội dung bên trái/trên (giống kéo tờ giấy bằng tay) —
-    // scroll ngược dấu với delta con trỏ.
+    // Dragging right/down reveals content to the left/above (like dragging a sheet of paper by
+    // hand) — scroll moves opposite to the pointer delta.
     outerRef.current.scrollLeft = panRef.current.startScrollLeft - dx
     outerRef.current.scrollTop = panRef.current.startScrollTop - dy
   }
@@ -120,17 +122,17 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     const pan = panRef.current
     panRef.current = null
     setIsPanning(false)
-    if (pan?.moved) return // vừa pan xong thì thôi
+    if (pan?.moved) return // just finished panning, nothing else to do
 
     if (e.target !== canvasRef.current) return
-    if (mouseDownTargetRef.current !== canvasRef.current) return // drag bắt đầu từ nơi khác (vd bôi đen chữ trong note) — không phải 1 cú click thật
-    // Click trái vào vùng trống không còn mở popover chọn loại nữa (đã đổi sang bấm chuột phải, xem
-    // handleCanvasContextMenu) — chỉ dùng để đóng popover đang mở, giống thao tác "bấm ra ngoài để huỷ".
+    if (mouseDownTargetRef.current !== canvasRef.current) return // drag started elsewhere (e.g. selecting text in a note) — not a real click
+    // Left-click on empty space no longer opens the kind-picker popover (moved to right-click, see
+    // handleCanvasContextMenu) — it now only closes an open popover, like a "click outside to cancel".
     setChooserAt(null)
   }
 
-  // Bấm chuột phải vào vùng trống mới mở popover chọn "Ghi chú" hay "Lịch trình" — bấm phải lên 1
-  // note thì để mặc định (không can thiệp), phòng khi sau này cần menu ngữ cảnh riêng cho note.
+  // Right-clicking empty space opens the "Note" vs "Timeline" popover — right-clicking a note is
+  // left alone (no interception), in case a note-specific context menu is needed later.
   function handleCanvasContextMenu(e: React.MouseEvent<HTMLDivElement>) {
     if (e.target !== canvasRef.current) return
     e.preventDefault()
@@ -141,7 +143,8 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     setChooserAt({ x, y })
   }
 
-  // Người dùng chọn xong loại ("Ghi chú" hay "Lịch trình") ở popover — mới thật sự tạo note lúc này.
+  // The user finished picking a kind ("Note" or "Timeline") from the popover — this is when the
+  // note actually gets created.
   function handleChooseKind(kind: 'note' | 'timeline') {
     if (!chooserAt) return
     const note = addNote(date, chooserAt.x, chooserAt.y, kind)
@@ -149,9 +152,10 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     onStartEdit(note.id)
   }
 
-  // Đóng popover đang chờ chọn nếu người dùng chuyển sang chỉnh sửa 1 note khác (vd bấm thẳng vào 1
-  // note có sẵn) hoặc dừng chỉnh sửa hoàn toàn — click đó không đi qua handleCanvasPointerUp nên
-  // phải dọn popover ở đây thay vì chỉ dựa vào việc click mới ghi đè chooserAt.
+  // Close a pending popover if the user switches to editing a different note (e.g. clicks directly
+  // on an existing note) or stops editing entirely — that click doesn't go through
+  // handleCanvasPointerUp, so the popover has to be cleared here instead of relying solely on a
+  // click overwriting chooserAt.
   useEffect(() => {
     setChooserAt(null)
   }, [editingId])
@@ -166,14 +170,15 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     (max, n) => Math.max(max, n.y + (heights[n.id] ?? NOTE_HEIGHT_ESTIMATE) + BOARD_BOTTOM_GAP),
     0,
   )
-  // Note có thể bị kéo sang phải quá xa (handleDragPointerMove trong StickyNoteCard chỉ chặn cận
-  // dưới x >= 0, không chặn cận trên) — canvas phải tự giãn rộng ra theo đúng note xa nhất để còn
-  // pan/cuộn ngang tới được, không thì note đó coi như "biến mất" (nằm ngoài vùng có thể cuộn).
+  // A note can be dragged arbitrarily far right (handleDragPointerMove in StickyNoteCard only
+  // clamps the lower bound at x >= 0, not an upper bound) — the canvas must grow wide enough to
+  // reach the farthest note so it can still be panned/scrolled to, otherwise that note effectively
+  // "disappears" (sits outside the scrollable area).
   const contentWidth = notes.reduce((max, n) => Math.max(max, n.x + (n.width ?? NOTE_WIDTH) + BOARD_BOTTOM_GAP), 0)
-  // Ở mọi mức zoom, canvas (trước khi scale) tối thiểu phải đủ lớn để sau khi scale vẫn phủ kín
-  // outer — để "bấm bất kỳ đâu trên màn hình" luôn đúng, không để lại vùng chết không bấm được —
-  // nhưng vẫn có thể giãn RỘNG/CAO hơn theo nội dung thật (contentWidth/contentHeight) để pan/cuộn
-  // tới được note nằm ngoài vùng nhìn thấy ban đầu.
+  // At any zoom level, the canvas (before scaling) must be at least large enough that after scaling
+  // it still fully covers the outer container — so "click anywhere on screen" always works, with no
+  // dead zone that can't be clicked — but it can still grow WIDER/TALLER based on actual content
+  // (contentWidth/contentHeight) to pan/scroll to a note outside the initially visible area.
   const canvasWidth = Math.max(outerSize.width > 0 ? outerSize.width / zoom : 0, contentWidth) || undefined
   const canvasHeight = Math.max(outerSize.height > 0 ? outerSize.height / zoom : 0, contentHeight)
 
@@ -188,7 +193,7 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
         onPointerUp={handleCanvasPointerUp}
         onContextMenu={handleCanvasContextMenu}
       >
-        {notes.length === 0 && <p className="nt-board-empty">Nhấp chuột phải vào bất kỳ đâu để thêm ghi chú hoặc lịch trình</p>}
+        {notes.length === 0 && <p className="nt-board-empty">Right-click anywhere to add a note or timeline</p>}
         {notes.map((note) => (
           <StickyNoteCard
             key={note.id}
@@ -208,10 +213,10 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
             onClick={(e) => e.stopPropagation()}
           >
             <button type="button" onClick={() => handleChooseKind('note')}>
-              📝 Ghi chú
+              📝 Note
             </button>
             <button type="button" onClick={() => handleChooseKind('timeline')}>
-              🕐 Lịch trình
+              🕐 Timeline
             </button>
           </div>
         )}

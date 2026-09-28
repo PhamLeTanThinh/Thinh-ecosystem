@@ -208,7 +208,8 @@ export const DOMAIN_2: TheoryDomain = {
           items: [
             '**Domain**: quản lý hàng nghìn topic cho nhiều tenant — không cần cho một luồng đơn.',
             '**Partner topic**: sự kiện từ đối tác SaaS bên ngoài.',
-            'Webhook endpoint phải qua **validation handshake** (ValidationCode đồng bộ hoặc ValidationURL thủ công); SAS token có hạn dùng tự hết hiệu lực, còn access key thì dùng vô thời hạn tới khi tạo lại.',
+            '**Giao event tới webhook**: Event Grid xác nhận endpoint bằng **validation handshake** — **ValidationCode** (đồng bộ, endpoint do bạn viết code) hoặc **ValidationURL** (thủ công, cho dịch vụ không tự trả mã được).',
+            '**Publish lên topic**: client xác thực bằng **access key** hoặc **SAS token** — SAS token có hạn dùng, tự hết hiệu lực; access key dùng vô thời hạn tới khi tạo lại. Cần "hết hiệu lực sau một khoảng thời gian" → SAS token.',
           ],
         },
 

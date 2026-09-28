@@ -1,4 +1,4 @@
-// Dùng local date parts (không phải UTC) để tránh lệch ngày theo timezone.
+// Uses local date parts (not UTC) to avoid off-by-one-day errors across timezones.
 export function toISODate(d: Date): string {
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
@@ -17,14 +17,14 @@ export function addDays(d: Date, delta: number): Date {
   return next
 }
 
-const WEEKDAYS_VN = ['Chủ nhật', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7']
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 export function formatDayLabel(d: Date): string {
-  return `${WEEKDAYS_VN[d.getDay()]}, ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
+  return `${WEEKDAYS[d.getDay()]}, ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
 }
 
 export function formatDayShortLabel(d: Date): string {
-  return `${d.getDate()} — ${WEEKDAYS_VN[d.getDay()]}`
+  return `${d.getDate()} — ${WEEKDAYS[d.getDay()]}`
 }
 
 interface Season {
@@ -33,25 +33,25 @@ interface Season {
   color: string
 }
 
-// Chia mùa đơn giản theo quý dương lịch (Xuân/Hạ/Thu/Đông), không theo mốc khí tượng chính xác —
-// đủ dùng để nhóm + tô màu cho dễ quan sát trong danh sách phân cấp.
+// Simple calendar-quarter seasons (Spring/Summer/Fall/Winter), not exact meteorological dates —
+// good enough for grouping + coloring the hierarchical tree view.
 const SEASONS: Season[] = [
-  { key: 'xuan', label: 'Xuân', color: '#34B37A' },
-  { key: 'ha', label: 'Hạ', color: '#E0A62A' },
-  { key: 'thu', label: 'Thu', color: '#D9773E' },
-  { key: 'dong', label: 'Đông', color: '#3E7FE0' },
+  { key: 'spring', label: 'Spring', color: '#34B37A' },
+  { key: 'summer', label: 'Summer', color: '#E0A62A' },
+  { key: 'fall', label: 'Fall', color: '#D9773E' },
+  { key: 'winter', label: 'Winter', color: '#3E7FE0' },
 ]
 
 export function getSeason(month0: number): Season {
   return SEASONS[Math.floor(month0 / 3)]
 }
 
-// Tuần trong tháng (1-5), đơn giản theo thứ tự ngày, không phải tuần ISO.
+// Week of the month (1-5), simple day-order based, not ISO week.
 export function weekOfMonth(d: Date): number {
   return Math.ceil(d.getDate() / 7)
 }
 
-// Tuần bắt đầu từ Thứ 2 (theo thói quen VN), khác getDay() mặc định lấy Chủ nhật làm đầu tuần.
+// Week starts on Monday, unlike the default getDay() which treats Sunday as the first day.
 export function startOfWeek(d: Date): Date {
   return addDays(d, -((d.getDay() + 6) % 7))
 }
