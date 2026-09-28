@@ -832,6 +832,18 @@
   text-decoration: line-through;
 }
 
+/* Inline-editable variant of .nt-note-todo-text / .nt-note-block-text (see TimeBlockText in
+   StickyNoteCard.tsx) — same sizing/flex as the static span, just with input chrome stripped so it
+   reads identically until you click into it. */
+.nt-note-block-text-input {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  padding: 0;
+  min-width: 0;
+}
+
 .nt-note-block-delete {
   flex: none;
   font-size: 12px;

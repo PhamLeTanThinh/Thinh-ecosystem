@@ -58,10 +58,6 @@ function hasTag(notes: StickyNote[], date: string, tag: string) {
   return notes.some((n) => n.date === date && n.tags.includes(tag))
 }
 
-function isBlankHtml(html: string): boolean {
-  return html.replace(/<[^>]*>/g, '').trim() === ''
-}
-
 // Once a WORK/Personal day is over with nothing added to it, the empty placeholder note is no
 // longer useful — auto-remove it so old empty notes don't pile up. Daily is exempt (kept as-is even
 // empty) since its whole point is a per-day checklist the user ticks off over time, not a
@@ -69,8 +65,7 @@ function isBlankHtml(html: string): boolean {
 // today's (still in progress) or a future day's note.
 function isStaleEmptyAutoNote(n: StickyNote, todayISO: string): boolean {
   if (n.date >= todayISO) return false
-  if (n.tags.includes(WORK_TAG)) return n.timeBlocks.length === 0
-  if (n.tags.includes(PERSONAL_TAG)) return isBlankHtml(n.content)
+  if (n.tags.includes(WORK_TAG) || n.tags.includes(PERSONAL_TAG)) return n.timeBlocks.length === 0
   return false
 }
 
@@ -92,6 +87,7 @@ interface NotesState {
   addTimeBlock: (noteId: string, startTime: string | null, endTime: string | null, text: string) => void
   toggleTimeBlockDone: (noteId: string, blockId: string) => void
   deleteTimeBlock: (noteId: string, blockId: string) => void
+  updateTimeBlockText: (noteId: string, blockId: string, text: string) => void
 
   addDailyTodo: (text: string) => void
   updateDailyTodo: (id: string, text: string) => void
@@ -182,6 +178,16 @@ export const useNotesStore = create<NotesState>((set, get) => ({
   deleteTimeBlock: (noteId, blockId) => {
     const notes = get().notes.map((n) =>
       n.id === noteId ? { ...n, timeBlocks: n.timeBlocks.filter((b) => b.id !== blockId) } : n,
+    )
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  updateTimeBlockText: (noteId, blockId, text) => {
+    const notes = get().notes.map((n) =>
+      n.id === noteId
+        ? { ...n, timeBlocks: n.timeBlocks.map((b) => (b.id === blockId ? { ...b, text } : b)) }
+        : n,
     )
     set({ notes })
     scheduleSave(notes)
@@ -302,7 +308,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
     scheduleSave(next)
   },
 
-  // Empty rich-text note tagged Personal, ensured every day of the week.
+  // Empty timeline note tagged Personal, ensured every day of the week (unlike WORK, not limited to weekdays).
   syncPersonalNote: (date) => {
     const { notes } = get()
     if (hasTag(notes, date, PERSONAL_TAG)) return
@@ -313,7 +319,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       y: 40,
       width: null,
       height: null,
-      kind: 'note',
+      kind: 'timeline',
       header: 'Personal',
       content: '',
       color: 'pink',

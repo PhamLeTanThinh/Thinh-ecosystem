@@ -33,6 +33,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const addTimeBlock = useNotesStore((s) => s.addTimeBlock)
   const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
   const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
+  const updateTimeBlockText = useNotesStore((s) => s.updateTimeBlockText)
   const confirm = useNotesConfirm()
   const [tagDraft, setTagDraft] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
@@ -246,7 +247,12 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                   >
                     {b.done && '✓'}
                   </button>
-                  <span className="nt-note-todo-text">{b.text}</span>
+                  <TimeBlockText
+                    className="nt-note-todo-text"
+                    text={b.text}
+                    editable={editing}
+                    onSave={(text) => updateTimeBlockText(note.id, b.id, text)}
+                  />
                   {editing && (
                     <button
                       type="button"
@@ -279,7 +285,12 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                     {b.startTime}
                     {b.endTime && `–${b.endTime}`}
                   </span>
-                  <span className="nt-note-block-text">{b.text}</span>
+                  <TimeBlockText
+                    className="nt-note-block-text"
+                    text={b.text}
+                    editable={editing}
+                    onSave={(text) => updateTimeBlockText(note.id, b.id, text)}
+                  />
                   {editing && (
                     <button
                       type="button"
@@ -415,5 +426,45 @@ function TimeBlockAddForm({
         <button type="submit">+</button>
       </div>
     </form>
+  )
+}
+
+// An existing item's text — plain read-only text outside edit mode, an inline-editable input while
+// editing (click-to-rename, same pattern as DailyTodoText in DailyTodoPanel.tsx). Only commits on
+// blur/Enter (not per keystroke), and stopPropagation on click keeps the click from bubbling up to
+// the note root, which would otherwise treat it as "click empty note area" — harmless here since the
+// note is already editing, but stopping it is what lets a click land in the input and place the
+// caret instead of only ever focusing it at the start/end.
+function TimeBlockText({
+  className,
+  text,
+  editable,
+  onSave,
+}: {
+  className: string
+  text: string
+  editable: boolean
+  onSave: (text: string) => void
+}) {
+  const [value, setValue] = useState(text)
+
+  if (!editable) return <span className={className}>{text}</span>
+
+  function commit() {
+    const next = value.trim()
+    if (!next) setValue(text)
+    else if (next !== text) onSave(next)
+  }
+
+  return (
+    <input
+      className={`${className} nt-note-block-text-input`}
+      value={value}
+      onChange={(e) => setValue(e.target.value)}
+      onBlur={commit}
+      onClick={(e) => e.stopPropagation()}
+      onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+      aria-label="Edit item text"
+    />
   )
 }
