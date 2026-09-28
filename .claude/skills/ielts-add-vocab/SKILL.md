@@ -19,6 +19,15 @@ top-level vocab file — it's attached to the test it came from. `vocabForSkill(
 `src/lib/ielts/tests.ts` just flattens these across tests for the skill-wide vocab list page; you
 never edit that file directly, only the `vocab:` array on the relevant test object.
 
+**Topic sets with no test** (e.g. Writing vocab by topic — Environment, …): these are `VocabSet`
+objects (`src/lib/ielts/practice.ts`) in `src/data/ielts/vocab/<skill>.ts`, e.g.
+`WRITING_VOCAB_SETS` in `src/data/ielts/vocab/writing.ts`. Add a new topic as another entry in
+that array (`id: '<skill>-<topic>'`, `part: 'Topic N'`); the id is the URL and the key for saved
+"Đã thuộc" progress, so never rename it. A new skill's file must also be spread into
+`ALL_VOCAB_SETS` in `src/lib/ielts/tests.ts`. Put images for a topic set in their own folder,
+`public/ielts/images/vocab/<set-id>/<phrase-slug>.<ext>`, since topic entries are long phrases
+whose slugs could otherwise collide with the Reading vocab images.
+
 ## The PracticeVocab shape
 
 ```ts

@@ -13,6 +13,7 @@ export const PRACTICE_KEYS = {
   notes: 'ielts-practice-notes',
   learned: 'ielts-vocab-learned',
   prefs: 'ielts-run-prefs',
+  exerciseProgress: 'ielts-exercise-progress',
 } as const
 
 const META_KEY = 'ielts-sync-meta' // { [key]: thời điểm sửa cuối (epoch ms) }

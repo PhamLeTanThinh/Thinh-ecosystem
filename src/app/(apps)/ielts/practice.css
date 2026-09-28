@@ -4154,3 +4154,647 @@ body.ih-resizing {
     font-size: 30px;
   }
 }
+
+/* ── Bài tập ghép câu (ExerciseSetStudy) ─────────────────────────────────────── */
+.ih-sb-qnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ih-sb-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(43, 58, 85, 0.2);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sb-dot.active {
+  border-color: var(--color-ih-rose);
+  color: var(--color-ih-rose);
+}
+
+.ih-sb-dot.solved {
+  background: #2f9e57;
+  border-color: #2f9e57;
+  color: #fff;
+}
+
+.ih-sb-card {
+  padding: 28px clamp(16px, 4vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(60, 50, 90, 0.06);
+}
+
+.ih-sb-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.ih-sb-instruction {
+  margin: 0;
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--color-ih-ink);
+}
+
+.ih-sb-hint-btn {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  font-size: 18px;
+  color: var(--color-ih-ink-soft);
+  opacity: 0.7;
+}
+
+.ih-sb-hint-btn:hover,
+.ih-sb-hint-btn[aria-pressed='true'] {
+  opacity: 1;
+  background: #fff6e3;
+}
+
+.ih-sb-qrow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ih-sb-mascot {
+  flex: none;
+  width: 88px;
+  height: 88px;
+  object-fit: contain;
+}
+
+.ih-sb-sentence {
+  flex: 1;
+  margin: 0;
+  padding: 16px 24px;
+  border-radius: 999px;
+  border: 1.5px solid rgba(43, 58, 85, 0.16);
+  font-size: clamp(16px, 2vw, 19px);
+  font-weight: 500;
+  color: var(--color-ih-ink);
+}
+
+.ih-sb-divider {
+  width: 100%;
+  height: 1px;
+  margin: 0;
+  border: none;
+  background: rgba(43, 58, 85, 0.12);
+}
+
+.ih-sb-answer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+}
+
+.ih-sb-answer.correct .ih-sb-tag-picked {
+  background: #2f9e57;
+  border-color: #2f9e57;
+}
+
+.ih-sb-answer.incorrect .ih-sb-tag-picked {
+  background: #d6451f;
+  border-color: #d6451f;
+}
+
+.ih-sb-answer-placeholder {
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sb-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ih-sb-tag {
+  padding: 12px 20px;
+  border-radius: 14px;
+  border: 1px solid rgba(43, 58, 85, 0.14);
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(60, 50, 90, 0.08);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-ih-ink);
+}
+
+.ih-sb-tag:hover:not(:disabled) {
+  border-color: var(--color-ih-rose);
+}
+
+.ih-sb-tag:disabled {
+  opacity: 0.55;
+}
+
+.ih-sb-tag-picked {
+  background: var(--color-ih-ink);
+  border-color: var(--color-ih-ink);
+  color: #fff;
+}
+
+.ih-sb-actions {
+  margin: 0;
+}
+
+.ih-sb-hint {
+  margin: 0;
+  font-size: 13.5px;
+  color: #a9760f;
+  background: #fff6e3;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.ih-sb-result {
+  border-radius: 14px;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ih-sb-result.correct {
+  background: rgba(47, 158, 87, 0.1);
+}
+
+.ih-sb-result.incorrect {
+  background: rgba(214, 69, 31, 0.08);
+}
+
+.ih-sb-result-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.ih-sb-result.correct .ih-sb-result-title {
+  color: #23803f;
+}
+
+.ih-sb-result.incorrect .ih-sb-result-title {
+  color: #a8331a;
+}
+
+.ih-sb-result-answer {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--color-ih-ink);
+}
+
+.ih-sb-result-alt {
+  color: var(--color-ih-ink-soft);
+  font-weight: 400;
+}
+
+.ih-sb-explanation {
+  border-top: 1px solid rgba(43, 58, 85, 0.12);
+  padding-top: 10px;
+}
+
+.ih-sb-exp-divider {
+  width: 100%;
+  height: 1px;
+  margin: 10px 0;
+  border: none;
+  background: rgba(43, 58, 85, 0.12);
+}
+
+.ih-sb-exp-line {
+  margin: 0 0 6px;
+  font-size: 13.5px;
+  color: var(--color-ih-ink);
+}
+
+@media (max-width: 560px) {
+  .ih-sb-qrow {
+    gap: 12px;
+  }
+  .ih-sb-mascot {
+    width: 56px;
+    height: 56px;
+  }
+  .ih-sb-sentence {
+    padding: 12px 16px;
+  }
+}
+
+/* ── Bài tập nối nghĩa (MatchingSetStudy) ─────────────────────────────────────────────────────
+   Các thẻ collocation tiếng Anh nằm trên đầu (tái dùng .ih-sb-tag), 4 dòng nghĩa tiếng Việt bên dưới —
+   mỗi dòng có 1 ô "Chọn đáp án" dạng dropdown, tái dùng nguyên các lớp ih-bank-target và ih-bank-dropdown
+   của dạng câu hỏi "bank" ở màn làm đề Reading (xem TestRunner.tsx) để 2 nơi có cùng 1 kiểu tương tác. */
+.ih-sb-tag.used {
+  opacity: 0.4;
+}
+
+.ih-match-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ih-match-row2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ih-match-row2-vi {
+  flex: 1 1 220px;
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--color-ih-ink);
+}
+
+.ih-match-row2-line {
+  flex: 0 1 90px;
+  min-width: 40px;
+  height: 0;
+  border-top: 1.5px dotted rgba(43, 58, 85, 0.3);
+}
+
+.ih-match-row2.correct .ih-match-row2-vi {
+  color: #23803f;
+}
+
+.ih-match-row2.wrong .ih-match-row2-vi {
+  color: #a8331a;
+}
+
+.ih-match-ok {
+  border-color: #2f9e57 !important;
+  background: rgba(47, 158, 87, 0.12) !important;
+  color: #23803f !important;
+}
+
+.ih-match-bad {
+  border-color: #d6451f !important;
+  background: rgba(214, 69, 31, 0.08) !important;
+  color: #a8331a !important;
+}
+
+.ih-match-recap-row {
+  margin-bottom: 12px;
+}
+
+.ih-match-recap-row:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 560px) {
+  .ih-match-row2-line {
+    display: none;
+  }
+}
+
+/* ── Đề mẫu (WritingSampleView) ────────────────────────────────────────────────────────────── */
+.ih-sample {
+  /* Trang nội dung dài (TOC + bài mẫu + lưới vocab) — không giới hạn hẹp như .ih-pr (980px, dùng cho
+     trang danh sách) vì để trống nhiều 2 bên trên màn rộng. Vẫn giữ 1 trần để dòng chữ không kéo quá dài
+     trên màn siêu rộng. */
+  max-width: 1680px;
+}
+
+.ih-sample-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.ih-sample-toc {
+  position: sticky;
+  top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ih-sample-toc-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sample-toc-link {
+  padding: 6px 8px;
+  border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sample-toc-link:hover {
+  background: rgba(255, 255, 255, 0.6);
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-main {
+  min-width: 0;
+}
+
+.ih-sample-section {
+  margin-bottom: 40px;
+  scroll-margin-top: 18px;
+}
+
+.ih-sample-h2 {
+  margin: 0 0 14px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+/* Dòng chữ dài quá khó đọc — chỉ giới hạn bề rộng phần VĂN XUÔI (đề bài / dàn ý / bài mẫu), còn lưới
+   Vocabulary và khối Exercise vẫn dùng hết bề ngang có sẵn của trang. */
+.ih-sample-quote {
+  max-width: 820px;
+  margin: 0;
+  padding: 12px 18px;
+  border-left: 3px solid var(--color-ih-rose);
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 0 12px 12px 0;
+  font-size: 15px;
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-outline {
+  max-width: 820px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  background: rgba(43, 58, 85, 0.04);
+}
+
+.ih-sample-outline-intro {
+  max-width: 820px;
+  margin: 0 0 14px;
+  font-size: 13.5px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sample-outline-intro p {
+  margin: 0 0 6px;
+}
+
+.ih-sample-outline-thesis {
+  margin: 0 0 18px;
+  font-weight: 700;
+  font-size: 16px;
+  text-align: center;
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-outline-para {
+  margin-bottom: 16px;
+}
+
+.ih-sample-outline-para:last-child {
+  margin-bottom: 0;
+}
+
+.ih-sample-outline-heading {
+  margin: 0 0 6px;
+  font-weight: 700;
+  color: var(--color-ih-rose);
+}
+
+.ih-sample-outline-topic {
+  margin: 0 0 10px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-outline-idea-block {
+  margin: 0 0 10px;
+}
+
+.ih-sample-outline-idea-block:last-child {
+  margin-bottom: 0;
+}
+
+.ih-sample-outline-idea-num {
+  margin: 0 0 4px;
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sample-outline-idea-num span {
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-outline-bullets {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--color-ih-ink-soft);
+  font-size: 13.5px;
+}
+
+.ih-sample-p {
+  max-width: 820px;
+  font-size: 15px;
+  line-height: 1.8;
+  color: var(--color-ih-ink);
+  margin: 0 0 16px;
+}
+
+.ih-sample-vocab-span {
+  color: #c9662a;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-underline-offset: 3px;
+}
+
+.ih-sample-gloss {
+  display: inline-block;
+  margin: 0 4px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #fff1e6;
+  color: #a04f1e;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.ih-sample-gloss-ipa {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.ih-sample-idea-span {
+  color: #1f8a4c;
+}
+
+.ih-sample-muted {
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sample-vocab-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+@media (min-width: 1400px) {
+  .ih-sample-vocab-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ih-sample-vocab-card {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  align-items: start;
+  gap: 14px;
+  padding: 16px;
+}
+
+.ih-sample-vocab-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ih-sample-vocab-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ih-sample-vocab-card-img {
+  width: 96px;
+  height: 96px;
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(43, 58, 85, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+}
+
+.ih-sample-vocab-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ih-sample-exercise-intro {
+  margin: 0 0 20px;
+  color: var(--color-ih-ink-soft);
+  font-size: 14px;
+}
+
+.ih-sample-exercise-block {
+  max-width: 820px;
+  margin-bottom: 28px;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.ih-sample-exercise-title {
+  margin: 0 0 16px;
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-gap-row {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+}
+
+.ih-sample-gap-row.correct {
+  border-color: #2f9e57;
+  background: rgba(47, 158, 87, 0.08);
+}
+
+.ih-sample-gap-row.wrong {
+  border-color: #d6451f;
+  background: rgba(214, 69, 31, 0.06);
+}
+
+.ih-sample-gap-hint {
+  margin: 0 0 6px;
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-sample-gap-sentence {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.9;
+  color: var(--color-ih-ink);
+}
+
+.ih-sample-gap-answer {
+  font-size: 13px;
+  color: #a8331a;
+}
+
+.ih-sample-short-input {
+  width: 100%;
+  max-width: 360px;
+}
+
+.ih-sample-exercise-result {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+
+.ih-sample-exercise-result.correct {
+  color: #23803f;
+}
+
+.ih-sample-exercise-result.incorrect {
+  color: #a8331a;
+}
+
+@media (max-width: 880px) {
+  .ih-sample-layout {
+    grid-template-columns: 1fr;
+  }
+  .ih-sample-toc {
+    position: static;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .ih-sample-vocab-grid {
+    grid-template-columns: 1fr;
+  }
+  .ih-sample-vocab-card {
+    grid-template-columns: 72px 1fr;
+  }
+  .ih-sample-vocab-card-img {
+    width: 72px;
+    height: 72px;
+  }
+}

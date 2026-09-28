@@ -14,6 +14,8 @@ import { beginIeltsNavigation } from '@/lib/ielts/navigationLoading'
 export interface SkillCounts {
   tests: number
   vocabSets: number
+  exerciseSets: number
+  samples: number
 }
 
 interface Props {
@@ -53,6 +55,19 @@ const ICON_VOCAB = (
     <path d="M9 8.5h6M9 12h4" />
   </NavIcon>
 )
+const ICON_EXERCISE = (
+  <NavIcon>
+    <rect x="3.5" y="9" width="4" height="6" rx="1" />
+    <rect x="16.5" y="9" width="4" height="6" rx="1" />
+    <path d="M7.5 12h9" />
+  </NavIcon>
+)
+const ICON_SAMPLE = (
+  <NavIcon>
+    <path d="M6 3h9l3 3v15H6z" />
+    <path d="M15 3v3h3M9 12h6M9 15.5h6M9 8.5h3" />
+  </NavIcon>
+)
 
 // Menu trái của MỘT kỹ năng: Kiến thức (kèm danh sách bài học) / Làm đề / Vocab. Không còn menu chung
 // cho 4 kỹ năng — đổi kỹ năng bằng nút "Đổi kỹ năng" ở đáy (hoặc breadcrumb "IELTS Hub").
@@ -69,6 +84,8 @@ export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Pro
   const onLessons = pathname.startsWith(`${base}/lessons`)
   const onPractice = pathname.startsWith(`${base}/practice`)
   const onVocab = pathname.startsWith(`${base}/vocab`)
+  const onExercise = pathname.startsWith(`${base}/exercise`)
+  const onSample = pathname.startsWith(`${base}/sample`)
   // /ielts/<skill>/lessons/<id> → id (phần tử thứ 4 sau khi tách theo "/").
   const activePageId = onLessons ? (pathname.split('/')[4] ?? null) : null
 
@@ -208,6 +225,30 @@ export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Pro
             </span>
           </Link>
         </div>
+
+        {counts.samples > 0 && (
+          <div className={`ih-nav-item${onSample ? ' active' : ''}`}>
+            <Link href={`${base}/sample`} className="ih-nav-link" onClick={onNavigate} aria-current={onSample ? 'page' : undefined}>
+              <span className="ih-nav-tile">{ICON_SAMPLE}</span>
+              <span className="ih-nav-text">
+                <span className="ih-nav-label">Đề mẫu</span>
+                <span className="ih-nav-sub">{counts.samples} đề</span>
+              </span>
+            </Link>
+          </div>
+        )}
+
+        {counts.exerciseSets > 0 && (
+          <div className={`ih-nav-item${onExercise ? ' active' : ''}`}>
+            <Link href={`${base}/exercise`} className="ih-nav-link" onClick={onNavigate} aria-current={onExercise ? 'page' : undefined}>
+              <span className="ih-nav-tile">{ICON_EXERCISE}</span>
+              <span className="ih-nav-text">
+                <span className="ih-nav-label">Bài tập</span>
+                <span className="ih-nav-sub">{counts.exerciseSets} bài</span>
+              </span>
+            </Link>
+          </div>
+        )}
       </nav>
 
       {/* Ghim ở đáy sidebar: đổi kỹ năng không còn menu chung nên cần 1 lối ra rõ ràng. */}

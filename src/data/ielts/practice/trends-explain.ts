@@ -42,7 +42,7 @@ export const EXPLAIN: Record<string, Explanation> = {
       ],
     },
     notes:
-      'Áp dụng DOL’s Linearthinking 🤓\n**managers** (S) **often fail to recognize** (V1 = are unaware of) **the less obvious but profound ways** (profound = significant) **these trends** (S2) **are influencing** (V2) **consumers’ aspirations, attitudes, and behaviors.** (= consumers’ lives)\n→ Main idea: manager ko nhận ra những ảnh hưởng của trend lên consumers\' lives\nTóm lại, câu trên trùng ý với option D: are unaware of the significant impact that trends have on consumers\' lives.\n⇒ Chọn D {ok}',
+      'Áp dụng Linearthinking 🤓\n**managers** (S) **often fail to recognize** (V1 = are unaware of) **the less obvious but profound ways** (profound = significant) **these trends** (S2) **are influencing** (V2) **consumers’ aspirations, attitudes, and behaviors.** (= consumers’ lives)\n→ Main idea: manager ko nhận ra những ảnh hưởng của trend lên consumers\' lives\nTóm lại, câu trên trùng ý với option D: are unaware of the significant impact that trends have on consumers\' lives.\n⇒ Chọn D {ok}',
   },
 
   q2: {

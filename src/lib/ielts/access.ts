@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { eq } from 'drizzle-orm'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { ieltsInvites } from '@/db/schema'
@@ -40,7 +40,7 @@ export async function getIeltsAccess(): Promise<IeltsAccess> {
 // người chưa đăng nhập, nhưng KHÔNG đủ để chặn dữ liệu: Next render page song song với layout nên nội
 // dung page vẫn nằm trong phản hồi RSC gửi về client dù giao diện hiện màn khoá. Phải kiểm tra lại ở đây.
 export async function assertIeltsAccess(): Promise<void> {
-  if ((await getIeltsAccess()).mode === 'denied') notFound()
+  if ((await getIeltsAccess()).mode === 'denied') redirect('/ielts/login')
 }
 
 export async function isOwner(): Promise<boolean> {

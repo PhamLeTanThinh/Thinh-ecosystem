@@ -1,6 +1,6 @@
 import { cookies } from 'next/headers'
 import { eq } from 'drizzle-orm'
-import { notFound } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { certInvites } from '@/db/schema'
@@ -38,7 +38,7 @@ export async function getCertsAccess(): Promise<CertsAccess> {
 // Dùng ở đầu mọi PAGE (server component) trả dữ liệu đề luyện. Layout (protected) đã hiện màn khoá cho
 // người chưa đăng nhập, nhưng KHÔNG đủ để chặn dữ liệu — lý do xem lib/ielts/access.ts (assertIeltsAccess).
 export async function assertCertsAccess(): Promise<void> {
-  if ((await getCertsAccess()).mode === 'denied') notFound()
+  if ((await getCertsAccess()).mode === 'denied') redirect('/certs/login')
 }
 
 export async function isCertsOwner(): Promise<boolean> {

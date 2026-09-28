@@ -90,11 +90,13 @@ export function VocabSetStudy({ group }: { group: VocabGroup }) {
         >
           Xem thẻ lớn
         </button>
-        <Link href={`/ielts/${group.skill}/practice/${group.testId}`} className="ih-btn-outline ih-pr-push">
-          📝 Làm đề này
-        </Link>
+        {group.hasTest && (
+          <Link href={`/ielts/${group.skill}/practice/${group.testId}`} className="ih-btn-outline ih-pr-push">
+            📝 Làm đề này
+          </Link>
+        )}
       </div>
-      {flashOpen && <FlashModal words={group.vocab} start={flashStart} onClose={() => setFlashOpen(false)} />}
+      {flashOpen && <FlashModal words={group.vocab} start={flashStart} onClose={() => setFlashOpen(false)} showWatch={group.skill !== 'writing'} />}
 
       <div className="ih-pr-vocab-grid">
         {group.vocab.map((v, idx) => {

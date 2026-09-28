@@ -256,6 +256,9 @@ type Cert = {
   pdf: string
   verify: string
   logo: string
+  // Letter shown in the logo tile when there is no logo svg; defaults to the
+  // issuer's first letter (e.g. Coursera courses use "C", not the university's).
+  mark?: string
   brand: Brand
 }
 
@@ -268,13 +271,16 @@ const CERT_BRANDS = {
   microsoft: { c1: '#f25022', c2: '#7fba00', c3: '#00a4ef', c4: '#ffb900', tint: '#00a4ef' },
   // Anthropic's clay/terracotta brand tone (as used across claude.ai) fading to ink.
   anthropic: { c1: '#d97757', c2: '#cc785c', c3: '#1f1e1d' },
-  // Scrum.org's orange-on-black identity.
-  // c1/c2/c3 (orange/yellow/black) are the widely-seen Scrum.org bar colours,
-  // but couldn't be confirmed against an official brand guide (web search
-  // turned up nothing reliable, and no PDF rasterizer was available here to
-  // sample the real badge art) — tint is a light blue per direct request,
-  // used for the card's glow/hover accents instead of the unconfirmed orange.
-  scrumorg: { c1: '#f6821f', c2: '#fdb714', c3: '#1d1d1b', tint: '#4fa3d1' },
+  // Scrum.org's blues, sampled from the PSM I certificate itself: the cyan of
+  // the logo swirl, the steel blue of the "PSM I" badge text, and the slate
+  // navy of the wordmark / badge ring.
+  scrumorg: { c1: '#1fa3c9', c2: '#3a7fa3', c3: '#3d5068', tint: '#4fa3d1' },
+  // Google's four logo colours (blue, red, yellow, green), same four-slot idea as Microsoft.
+  google: { c1: '#4285f4', c2: '#ea4335', c3: '#34a853', c4: '#fbbc05', tint: '#4285f4' },
+  // University of Virginia's official Rotunda orange + Jefferson blue (Darden runs these Coursera courses).
+  uva: { c1: '#e57200', c2: '#f9dcbf', c3: '#232d4b', tint: '#e57200' },
+  // University of Colorado Boulder's official gold, dark gray and black.
+  cuboulder: { c1: '#cfb87c', c2: '#565a5c', c3: '#000000', tint: '#cfb87c' },
 } satisfies Record<string, Brand>
 
 const CERTIFICATIONS: { category: string; items: Cert[] }[] = [
@@ -282,19 +288,29 @@ const CERTIFICATIONS: { category: string; items: Cert[] }[] = [
     category: 'Technical',
     items: [
       {
-        code: 'GH-300', issuer: 'GitHub', name: 'GitHub Copilot', issued: '', credentialId: '',
+        code: 'GH-300', issuer: 'GitHub', name: 'GitHub Copilot', issued: 'Jun 27, 2026', credentialId: '',
         pdf: '/certs/gh-300/GH-300.pdf', verify: 'https://learn.microsoft.com/api/credentials/share/en-us/PhamLeTanThinhFHMADG-1729/D362F3C8204F7198?sharingId=7E590EFE89B7FD00',
         logo: '/logos/github.svg', brand: CERT_BRANDS.github,
       },
       {
-        code: 'AI-200', issuer: 'Microsoft', name: 'Developing AI Cloud Solutions on Azure', issued: '', credentialId: '',
+        code: 'AI-200', issuer: 'Microsoft', name: 'Developing AI Cloud Solutions on Azure', issued: 'Sep 27, 2026', credentialId: '',
         pdf: '/certs/ai-200/ThinhPLT_AI_200.pdf', verify: 'https://learn.microsoft.com/api/credentials/share/en-us/PhamLeTanThinhFHMADG-1729/2C4DC05E3A777DD?sharingId=7E590EFE89B7FD00',
         logo: '/logos/microsoft.svg', brand: CERT_BRANDS.microsoft,
       },
       {
-        code: 'CCA-F', issuer: 'Anthropic', name: 'Claude Certified Architect – Foundations', issued: '', credentialId: '',
+        code: 'CCA-F', issuer: 'Anthropic', name: 'Claude Certified Architect – Foundations', issued: 'Sep 26, 2026', credentialId: '',
         pdf: '/certs/ccaf/ClaudeCertifiedCertificate20260926-20-h9jgtk.pdf', verify: 'https://www.credly.com/badges/c89066d0-da2e-4707-86c5-c59087f5103d',
         logo: '', brand: CERT_BRANDS.anthropic,
+      },
+      {
+        code: 'Coursera', issuer: 'Google', name: 'Google AI Professional Certificate', issued: 'May 28, 2026', credentialId: '',
+        pdf: '/certs/google-ai/Coursera NZDIIUNDG5ET.pdf', verify: 'https://coursera.org/share/f2c8107dd944ccd72e77833e91e5f206',
+        logo: '/logos/google.svg', brand: CERT_BRANDS.google,
+      },
+      {
+        code: 'Coursera', issuer: 'University of Colorado Boulder', name: 'Data Mining Foundations and Practice', issued: 'Feb 11, 2026', credentialId: '',
+        pdf: '/certs/data-mining/Coursera PY27STBW5SMX.pdf', verify: 'https://coursera.org/share/21a36a856115018722954f8af2f058a2',
+        logo: '', mark: 'C', brand: CERT_BRANDS.cuboulder,
       },
     ],
   },
@@ -302,9 +318,19 @@ const CERTIFICATIONS: { category: string; items: Cert[] }[] = [
     category: 'Management',
     items: [
       {
-        code: 'PSM I', issuer: 'Scrum.org', name: 'Professional Scrum Master I', issued: '', credentialId: '',
+        code: 'PSM I', issuer: 'Scrum.org', name: 'Professional Scrum Master I', issued: 'Jun 21, 2023', credentialId: '',
         pdf: '/certs/psm-1/psm-1.pdf', verify: 'https://www.scrum.org/certificates/976078',
         logo: '', brand: CERT_BRANDS.scrumorg,
+      },
+      {
+        code: 'Coursera', issuer: 'University of Virginia Darden School of Business', name: 'Agile Meets Design Thinking', issued: 'Apr 11, 2026', credentialId: '',
+        pdf: '/certs/Agile/Coursera SKOQSGLJN6VE.pdf', verify: 'https://coursera.org/share/ead0996044f613daf58b3b59c8854aae',
+        logo: '', mark: 'C', brand: CERT_BRANDS.uva,
+      },
+      {
+        code: 'Coursera', issuer: 'University of Virginia Darden School of Business', name: 'Managing an Agile Team', issued: 'Feb 12, 2026', credentialId: '',
+        pdf: '/certs/Agile/Coursera OYU7RS51DDHZ.pdf', verify: 'https://coursera.org/share/846e00105412917c767c27a7a4e05585',
+        logo: '', mark: 'C', brand: CERT_BRANDS.uva,
       },
     ],
   },
@@ -374,7 +400,7 @@ function CertCard({ cert }: { cert: Cert }) {
         <div className="cert-head">
           {cert.logo
             ? <img className="cert-logo" src={cert.logo} alt="" />
-            : <div className="cert-logo cert-logo-text">{cert.issuer[0]}</div>}
+            : <div className="cert-logo cert-logo-text">{cert.mark ?? cert.issuer[0]}</div>}
           <div>
             <div className="cert-issuer">{cert.issuer} · {cert.code}</div>
             {cert.verify && <div className="cert-verified">✓ Verified</div>}
@@ -1272,7 +1298,7 @@ export default function PortfolioPage() {
                   <div className="cert-group-label">{group.category}</div>
                   {group.items.length > 0 ? (
                     <div className="cert-grid">
-                      {group.items.map(cert => <CertCard key={cert.code} cert={cert} />)}
+                      {group.items.map(cert => <CertCard key={cert.name} cert={cert} />)}
                     </div>
                   ) : (
                     <p className="story-placeholder">Coming soon.</p>
@@ -1387,7 +1413,7 @@ export default function PortfolioPage() {
               <div className="cert-group-label">{group.category}</div>
               {group.items.length > 0 ? (
                 <div className="cert-grid">
-                  {group.items.map(cert => <CertCard key={cert.code} cert={cert} />)}
+                  {group.items.map(cert => <CertCard key={cert.name} cert={cert} />)}
                 </div>
               ) : (
                 <p className="story-placeholder">Coming soon.</p>

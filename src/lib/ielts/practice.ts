@@ -178,7 +178,8 @@ export interface TestSummary {
   difficulty?: Difficulty
 }
 
-// 1 "Vocab set" = từ vựng của 1 đề.
+// 1 "Vocab set" = từ vựng của 1 đề, hoặc 1 set độc lập theo chủ đề (VocabSet bên dưới — vd Writing chưa có đề).
+// testId = id đề hoặc id set; hasTest = false thì trang học set không hiện nút "Làm đề này".
 export interface VocabGroup {
   testId: string
   testTitle: string
@@ -186,6 +187,186 @@ export interface VocabGroup {
   category: string
   part: string
   vocab: PracticeVocab[]
+  hasTest: boolean
+}
+
+// Vocab set không gắn với đề nào (theo chủ đề, vd Writing - Environment). Khai báo trong src/data/ielts/vocab/,
+// gom vào vocabForSkill() ở lib/ielts/tests.ts cùng với vocab của các đề.
+export interface VocabSet {
+  id: string // dùng làm URL /ielts/<skill>/vocab/<id> và key lưu tiến độ "Đã thuộc" — đổi id là mất tiến độ
+  skill: Skill
+  title: string
+  category: string
+  part: string // vd "Topic 1", hiện ở dòng phụ của thẻ set
+  vocab: PracticeVocab[]
+}
+
+// ── Bài tập "Ghép câu" (Sentence Building, Writing) ────────────────────────────────────────
+// Khác đề Reading (không có bài đọc) và khác Vocab (có chấm đúng/sai): mỗi câu là 1 câu tiếng Việt cần
+// dịch bằng cách CHỌN ĐÚNG THỨ TỰ vài thẻ từ cho sẵn — trong đó có cả thẻ nhiễu không dùng tới. Nguồn dữ
+// liệu: API "Exercise" (questionType SENTENCE_BUILDING) của DOL super LMS.
+export interface ExerciseWord {
+  key: string // id ổn định của thẻ trong câu này (dùng làm React key) — KHÔNG dùng để so khớp đáp án
+  value: string // chữ hiện trên thẻ, vd 'disagree' hoặc gộp vài cách nói 'completely/entirely'
+  distractor: boolean // true = thẻ nhiễu, không xuất hiện trong bất kỳ correctAnswers nào
+}
+
+export interface ExerciseQuestion {
+  id: string
+  sentenceVi: string // câu tiếng Việt cần dịch/ghép
+  words: ExerciseWord[] // trộn ngẫu nhiên ở UI lúc hiển thị, thứ tự khai báo ở đây không có ý nghĩa
+  // Chấm bằng cách NỐI value của các thẻ người học đã bấm (theo đúng thứ tự bấm) bằng dấu cách rồi so khớp
+  // không phân biệt hoa/thường với 1 trong các chuỗi này. Thường có 2 cách diễn đạt: theo động từ, theo
+  // danh từ cùng gốc.
+  correctAnswers: string[]
+  hint?: string
+  // Cùng cú pháp **đậm** / *nghiêng* / {ok} ✓ xanh với Explanation.notes ở Reading (xem AnswerReview.tsx).
+  explanation?: string
+}
+
+interface ExerciseSetBase {
+  id: string // dùng làm URL /ielts/<skill>/exercise/<id> và key lưu tiến độ — đổi id là mất tiến độ
+  skill: Skill
+  title: string
+  category: string // vd 'Writing exercise'
+  part: string // vd 'Writing 1 - Exercise 1', hiện ở dòng phụ của thẻ set
+}
+
+export interface SentenceBuildingSet extends ExerciseSetBase {
+  kind: 'sentence-building'
+  instruction?: string // câu hướng dẫn chung đầu bài (giống nhau cho mọi câu trong set)
+  questions: ExerciseQuestion[]
+}
+
+// ── Bài tập "Nối nghĩa" (Matching, Writing) ─────────────────────────────────────────────────
+// Dạng bài thứ 2 (khác Sentence Building): mỗi vòng cho sẵn N cụm tiếng Anh (options, gồm cả vài cụm
+// nhiễu không khớp nghĩa nào) và N nghĩa tiếng Việt (prompts) — nối đúng cặp. Nguồn: API "Exercise" của
+// DOL super LMS (questionType INFO_MATCHING), phần "recap" lấy từ trang TEXT hiện SAU mỗi vòng câu hỏi
+// (câu ví dụ thật, không phải tự soạn).
+export interface MatchingOption {
+  key: string
+  value: string // cụm tiếng Anh (collocation)
+  distractor: boolean // true = không khớp nghĩa nào trong prompts của vòng này (bẫy)
+}
+
+export interface MatchingPrompt {
+  key: string
+  value: string // nghĩa tiếng Việt cần nối với đúng 1 option
+}
+
+export interface MatchingRecap {
+  vi: string
+  en: string
+  example: string // câu ví dụ tiếng Anh thật dùng collocation này
+}
+
+export interface MatchingRound {
+  id: string
+  instruction: string // câu hướng dẫn của vòng này, vd 'Nối các collocations với ngữ nghĩa đúng'
+  options: MatchingOption[]
+  prompts: MatchingPrompt[]
+  correctMap: Record<string, string> // promptKey -> optionKey
+  recap?: MatchingRecap[] // ôn lại sau khi kiểm tra vòng — hiện collocation + nghĩa + câu ví dụ
+}
+
+export interface MatchingSet extends ExerciseSetBase {
+  kind: 'matching'
+  rounds: MatchingRound[]
+}
+
+export type ExerciseSet = SentenceBuildingSet | MatchingSet
+
+// Phần tối thiểu cho trang danh sách — KHÔNG có words/correctAnswers/explanation (giữ đúng nguyên tắc
+// TestSummary: dữ liệu có đáp án chỉ đi tới client ở màn làm bài, sau khi đã qua assertIeltsAccess).
+export interface ExerciseSummary {
+  id: string
+  skill: Skill
+  kind: ExerciseSet['kind']
+  title: string
+  category: string
+  part: string
+  // sentence-building: số câu. matching: số vòng (đơn vị "qua/chưa qua" thật sự được lưu tiến độ).
+  questionCount: number
+}
+
+// ── Đề mẫu (Writing Sample) ──────────────────────────────────────────────────────────────────
+// Khác cả Vocab set/Bài tập: đây là 1 bài luận mẫu hoàn chỉnh (đề bài + dàn ý + bài mẫu + từ vựng + 2 bài
+// tập ôn nhúng sẵn) — hiện thành 1 trang cuộn dài có mục lục, không phải trang "làm bài" chấm điểm tổng.
+// Nguồn: API "Sample" của DOL super LMS.
+export interface SampleSpan {
+  text: string
+  // Có mặt khi đoạn chữ này là 1 cụm được tô — ở chế độ "Từ vựng" (vocabWord có giá trị) tô cam gạch chân
+  // kèm nghĩa/IPA bấm vào xem; ở chế độ "Dàn ý" (highlight = true) tô xanh lá, phần chữ KHÔNG tô bị làm mờ.
+  vocabWord?: string
+  vocabMeaning?: string
+  vocabIpa?: string
+  highlight?: boolean
+}
+
+export interface SampleParagraph {
+  id: string
+  vocabView: SampleSpan[] // hiện khi bật chế độ "Từ vựng" (nguồn: samples[])
+  ideaView: SampleSpan[] // hiện khi bật chế độ "Dàn ý" (nguồn: ideas[]) — cùng 1 câu chữ, khác cụm được tô
+}
+
+export interface SampleOutlineIdea {
+  title: string
+  bullets: string[]
+}
+
+export interface SampleOutlineParagraph {
+  heading: string // vd 'Body paragraph 1:'
+  topicSentence: string // câu chủ đề của đoạn — có đề chỉ 1 ý (ideas.length === 1), có đề nêu 2 hướng lập luận
+  ideas: SampleOutlineIdea[]
+}
+
+export interface SampleGapFillItem {
+  hintVi: string // câu tiếng Việt gợi ý phía trên chỗ trống
+  before: string // phần câu tiếng Anh trước chỗ trống
+  after: string // phần câu tiếng Anh sau chỗ trống
+  correctValue: string // đáp án đúng — PHẢI có mặt trong SampleGapFill.bank
+}
+
+export interface SampleGapFill {
+  bank: string[] // các lựa chọn hiện trong dropdown mỗi chỗ trống — dùng chung, không lặp (1-1 với items)
+  items: SampleGapFillItem[]
+}
+
+export interface SampleShortAnswerItem {
+  prompt: string // nghĩa tiếng Việt của cụm cần điền
+  correctAnswer: string // so khớp không phân biệt hoa/thường, bỏ khoảng trắng thừa
+}
+
+export interface WritingSample {
+  id: string // dùng làm URL /ielts/<skill>/sample/<id>
+  skill: Skill
+  title: string
+  topic: string // vd 'Technology'
+  resourceLabel: string // vd 'Writing Task 2 Academic'
+  part: string // vd 'Writing 8', hiện ở dòng phụ của thẻ đề
+  description: string
+  question: string // đề bài
+  // Vài dòng "lộ trình" chung đầu mục Dàn ý (vd 'DOL sẽ trình bày quan điểm qua...') — không phải đề nào
+  // cũng có sẵn trong nguồn.
+  outlineIntro?: string[]
+  outlineThesis: string
+  outline: SampleOutlineParagraph[]
+  essay: SampleParagraph[]
+  vocab: PracticeVocab[]
+  gapFill: SampleGapFill
+  shortAnswer: SampleShortAnswerItem[]
+  // "Lời kết" — không phải đề nào cũng có sẵn trong nguồn, thiếu thì trang ẩn luôn mục này.
+  conclusion?: string[]
+}
+
+export interface SampleSummary {
+  id: string
+  skill: Skill
+  title: string
+  topic: string
+  resourceLabel: string
+  part: string
+  description: string
 }
 
 // Độ khó ước lượng của 1 đề (không quy ra band: mỗi đề chỉ ~13-14 câu nên không đủ để chấm band). Đánh giá theo độ
@@ -346,6 +527,19 @@ export function saveLearned(testId: string, words: string[]): void {
   const all = loadLearned()
   all[testId] = words
   writeJson(LEARNED_KEY, all)
+}
+
+// Các câu đã làm ĐÚNG của từng bộ Bài tập ghép câu (setId → id câu) — cùng cách lưu với "Đã thuộc" ở Vocab.
+const EXERCISE_PROGRESS_KEY = PRACTICE_KEYS.exerciseProgress
+
+export function loadExerciseProgress(): Record<string, string[]> {
+  return readJson<string[]>(EXERCISE_PROGRESS_KEY)
+}
+
+export function saveExerciseProgress(setId: string, solvedQuestionIds: string[]): void {
+  const all = loadExerciseProgress()
+  all[setId] = solvedQuestionIds
+  writeJson(EXERCISE_PROGRESS_KEY, all)
 }
 
 export type SetStatus = 'todo' | 'doing' | 'done'

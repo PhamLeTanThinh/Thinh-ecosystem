@@ -86,9 +86,20 @@ function shuffled(n: number): number[] {
   return arr
 }
 
+// Ảnh vocab đôi khi là hotlink từ CDN ngoài (vd đề mẫu Writing) — có thể chết bất cứ lúc nào. Lỗi tải thì
+// tự chuyển sang emoji thay vì để vỡ hình.
+function FallbackImg({ src, alt, fallback, className }: { src?: string; alt: string; fallback: string; className?: string }) {
+  const [failed, setFailed] = useState(false)
+  if (!src || failed) return <span className={className}>{fallback}</span>
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src={src} alt={alt} onError={() => setFailed(true)} />
+}
+
 // Thẻ lớn: 2 cột (trái = nghĩa/ví dụ, phải = hình) — dạng flashcard đầy đủ, không cần lật thẻ. Toolbar
 // ở góc phải có nút cài đặt (tự động đổi thẻ / trộn ngẫu nhiên / bỏ qua từ không hình / tự đọc term).
-export function FlashModal({ words, start, onClose }: { words: FlashWord[]; start: number; onClose: () => void }) {
+// showWatch = false ẩn link "Watch people use this?" (playphrase.me chỉ tìm ra clip cho từ/cụm ngắn — vocab
+// Writing là cả cụm dài nên gần như luôn ra trang trống).
+export function FlashModal({ words, start, onClose, showWatch = true }: { words: FlashWord[]; start: number; onClose: () => void; showWatch?: boolean }) {
   const [settings, setSettings] = useState<FlashSettings>(DEFAULT_FLASH_SETTINGS)
   const [settingsOpen, setSettingsOpen] = useState(false)
 
@@ -200,24 +211,21 @@ export function FlashModal({ words, start, onClose }: { words: FlashWord[]; star
               </div>
             )}
 
-            <a
-              className="ih-vocab-modal-watch"
-              href={`https://www.playphrase.me/#/search?q=${encodeURIComponent(v.word)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              🎬 Watch people use this?
-            </a>
+            {showWatch && (
+              <a
+                className="ih-vocab-modal-watch"
+                href={`https://www.playphrase.me/#/search?q=${encodeURIComponent(v.word)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                🎬 Watch people use this?
+              </a>
+            )}
           </div>
 
           <div className="ih-vocab-modal-right">
             <div className="ih-vocab-modal-image">
-              {v.image ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={v.image} alt={v.word} />
-              ) : (
-                <span className="ih-vocab-modal-emoji">{v.emoji ?? '📖'}</span>
-              )}
+              <FallbackImg src={v.image} alt={v.word} fallback={v.emoji ?? '📖'} className="ih-vocab-modal-emoji" />
             </div>
           </div>
         </div>

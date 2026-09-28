@@ -95,7 +95,7 @@ punctuation, curly quotes) so the substring match succeeds.
 
 ## When the user shares an official answer key
 
-Sometimes the user pastes a screenshot from an external platform (e.g. DOL) showing the confirmed
+Sometimes the user pastes a screenshot from an external platform showing the confirmed
 correct answer highlighted. When that happens:
 
 - Correct the `answer` field.

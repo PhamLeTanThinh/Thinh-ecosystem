@@ -35,7 +35,10 @@ const DEFAULT_RATE: Record<string, number> = {
   'ko-KR': 0.65,
 }
 
-export function speak(text: string, lang: string, rate?: number) {
+// onEnd (tuỳ chọn) — gọi khi đọc xong HOẶC bị huỷ giữa chừng (cancel()/stopSpeaking() cũng bắn 'end'),
+// dùng để nút gọi speak() tự trả về trạng thái "chưa đọc" (vd đổi lại icon 🔊 thay vì ⏹) mà không cần tự
+// theo dõi timer riêng.
+export function speak(text: string, lang: string, rate?: number, onEnd?: () => void) {
   if (typeof window === 'undefined' || !window.speechSynthesis) return
   const trimmed = text.trim()
   if (!trimmed) return
@@ -46,7 +49,18 @@ export function speak(text: string, lang: string, rate?: number) {
   utterance.rate = rate ?? DEFAULT_RATE[lang] ?? 1
   const voice = pickVoice(lang)
   if (voice) utterance.voice = voice
+  if (onEnd) {
+    utterance.onend = onEnd
+    utterance.onerror = onEnd
+  }
   window.speechSynthesis.speak(utterance)
+}
+
+// Dừng đọc giữa chừng (nút "⏹ Dừng" của speak()/speakQueue()) — cancel() cũng tự bắn sự kiện 'end' nên
+// onEnd truyền vào speak() vẫn được gọi, không cần dọn state thủ công ở nơi gọi.
+export function stopSpeaking() {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return
+  window.speechSynthesis.cancel()
 }
 
 // Đọc nối tiếp nhiều câu (vd term → định nghĩa EN → định nghĩa VI) — khác speak() ở chỗ các câu

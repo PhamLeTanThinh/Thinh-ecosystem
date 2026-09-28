@@ -216,7 +216,7 @@ type CompassRoseData = Record<string, never>
 // phải danh sách dọc theo chủ ngữ. verdict (tuỳ chọn) in dưới mỗi row — ✗/✓ kèm lý do ngắn.
 type PairFlowItem = { header: string; text: string; color: 'rose' | 'green' }
 // sectionLabel (tuỳ chọn) — in 1 dòng tiêu đề đậm ngay TRÊN row này, dùng để phân nhóm rõ ràng (vd
-// "TƯ DUY CŨ" cho 2 row đầu, "TƯ DUY MỚI CỦA DOL" cho row cuối) — thiếu label này người xem không
+// "TƯ DUY CŨ" cho 2 row đầu, "TƯ DUY MỚI" cho row cuối) — thiếu label này người xem không
 // biết row nào thuộc nhóm nào (bug đã gặp: 3 row liền nhau trông như cùng 1 nhóm).
 type PairFlowRow = { sectionLabel?: string; items: PairFlowItem[]; verdict?: string; verdictOk?: boolean }
 type PairFlowData = { rows: PairFlowRow[] }
@@ -2299,7 +2299,7 @@ function renderCompassRose(_data: CompassRoseData, title: string): string {
 
 // So sánh NGANG vài cách diễn đạt cho cùng 1 câu — mỗi row là 2+ cột kề nhau, mỗi cột 1 pill nhãn
 // màu + 1 khung nét đứt bên dưới chứa mảnh câu, verdict (✗/✓ + lý do ngắn) in dưới mỗi row — dựng
-// lại đúng bố cục sách cho "Tư duy cũ vs Tư duy mới của DOL" (khác flowChain ở chỗ không có mũi tên
+// lại đúng bố cục sách cho "Tư duy cũ vs Tư duy mới" (khác flowChain ở chỗ không có mũi tên
 // nối, vì đây là 2 mảnh câu ĐỨNG CẠNH NHAU chứ không phải 1 chuỗi tiếp nối). colW=190/wrapChars=30
 // đã verify trực quan (190/200/220) trước khi chốt — nhỏ gọn nhất mà vẫn đọc được.
 function renderPairFlow(data: PairFlowData, title: string): string {
