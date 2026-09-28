@@ -253,16 +253,18 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                     editable={editing}
                     onSave={(text) => updateTimeBlockText(note.id, b.id, text)}
                   />
-                  {editing && (
-                    <button
-                      type="button"
-                      aria-label="Delete item"
-                      className="nt-note-block-delete"
-                      onClick={() => deleteTimeBlock(note.id, b.id)}
-                    >
-                      ×
-                    </button>
-                  )}
+                  {/* Not gated behind `editing` like the note-level controls above — deleting one
+                     item is low-stakes enough to not require opening the note first, so it's always
+                     in the DOM and only revealed on hover (see .nt-note-todo:hover in notes.css).
+                     stopPropagation so this click doesn't also bubble to the root and open edit mode. */}
+                  <button
+                    type="button"
+                    aria-label="Delete item"
+                    className="nt-note-block-delete"
+                    onClick={(e) => { e.stopPropagation(); deleteTimeBlock(note.id, b.id) }}
+                  >
+                    ×
+                  </button>
                 </div>
               ))}
             </div>
@@ -291,16 +293,14 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                     editable={editing}
                     onSave={(text) => updateTimeBlockText(note.id, b.id, text)}
                   />
-                  {editing && (
-                    <button
-                      type="button"
-                      aria-label="Delete time entry"
-                      className="nt-note-block-delete"
-                      onClick={() => deleteTimeBlock(note.id, b.id)}
-                    >
-                      ×
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    aria-label="Delete time entry"
+                    className="nt-note-block-delete"
+                    onClick={(e) => { e.stopPropagation(); deleteTimeBlock(note.id, b.id) }}
+                  >
+                    ×
+                  </button>
                 </div>
               ))}
             </div>
@@ -429,12 +429,17 @@ function TimeBlockAddForm({
   )
 }
 
-// An existing item's text — plain read-only text outside edit mode, an inline-editable input while
-// editing (click-to-rename, same pattern as DailyTodoText in DailyTodoPanel.tsx). Only commits on
-// blur/Enter (not per keystroke), and stopPropagation on click keeps the click from bubbling up to
-// the note root, which would otherwise treat it as "click empty note area" — harmless here since the
-// note is already editing, but stopping it is what lets a click land in the input and place the
-// caret instead of only ever focusing it at the start/end.
+// An existing item's text — plain read-only text outside edit mode, an inline-editable field while
+// editing (click-to-rename, same pattern as DailyTodoText in DailyTodoPanel.tsx). A <textarea>
+// rather than an <input> on purpose: an <input> can't wrap, so a long item that wrapped across
+// multiple lines as a <span> would collapse to one scrolling line the moment you clicked to edit it
+// — a real "format changes under you" bug we hit. The height-matching effect below keeps it exactly
+// as tall as its wrapped content (no resize handle, no scrollbar), so switching in and out of edit
+// mode doesn't reflow the item at all. Only commits on blur/Enter (not per keystroke), and
+// stopPropagation on click keeps the click from bubbling up to the note root, which would otherwise
+// treat it as "click empty note area" — harmless here since the note is already editing, but
+// stopping it is what lets a click land in the field and place the caret instead of only ever
+// focusing it at the start/end.
 function TimeBlockText({
   className,
   text,
@@ -447,6 +452,14 @@ function TimeBlockText({
   onSave: (text: string) => void
 }) {
   const [value, setValue] = useState(text)
+  const ref = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }, [value, editable])
 
   if (!editable) return <span className={className}>{text}</span>
 
@@ -457,13 +470,22 @@ function TimeBlockText({
   }
 
   return (
-    <input
+    <textarea
+      ref={ref}
+      rows={1}
       className={`${className} nt-note-block-text-input`}
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onBlur={commit}
       onClick={(e) => e.stopPropagation()}
-      onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
+      onKeyDown={(e) => {
+        // Enter commits rather than inserting a line break — items created via TimeBlockAddForm are
+        // always single-line, so editing one stays single-line too.
+        if (e.key === 'Enter') {
+          e.preventDefault()
+          e.currentTarget.blur()
+        }
+      }}
       aria-label="Edit item text"
     />
   )

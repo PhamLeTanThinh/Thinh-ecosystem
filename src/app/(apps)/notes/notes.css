@@ -833,15 +833,33 @@
 }
 
 /* Inline-editable variant of .nt-note-todo-text / .nt-note-block-text (see TimeBlockText in
-   StickyNoteCard.tsx) — same sizing/flex as the static span, just with input chrome stripped so it
-   reads identically until you click into it. */
+   StickyNoteCard.tsx) — a <textarea>, not an <input>, specifically so it keeps wrapping across
+   multiple lines the same way the static span does (an <input> would collapse to one scrolling
+   line the moment you clicked to edit). Chrome/border/scrollbar/resize-handle all stripped, and the
+   height is set from JS to exactly match its content, so the item's on-screen size and wrapping stay
+   pixel-identical whether or not you're editing it. */
 .nt-note-block-text-input {
-  font: inherit;
+  display: block;
+  width: 100%;
+  /* NOT `font: inherit` — that shorthand resets EVERY font sub-property
+     (including font-size) to whatever the parent inherits, clobbering the
+     12px from .nt-note-todo-text/.nt-note-block-text (same specificity,
+     this rule just comes later in the file, so it was winning the tie) —
+     the textarea rendered visibly bigger than the static span the moment
+     you clicked into an item. Listing only the sub-properties actually
+     needed here leaves font-size alone. */
+  font-family: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  line-height: inherit;
   color: inherit;
   background: transparent;
   border: none;
   padding: 0;
+  margin: 0;
   min-width: 0;
+  resize: none;
+  overflow: hidden;
 }
 
 .nt-note-block-delete {
@@ -852,7 +870,8 @@
   opacity: 0;
 }
 
-.nt-note-block:hover .nt-note-block-delete {
+.nt-note-block:hover .nt-note-block-delete,
+.nt-note-todo:hover .nt-note-block-delete {
   opacity: 1;
 }
 
