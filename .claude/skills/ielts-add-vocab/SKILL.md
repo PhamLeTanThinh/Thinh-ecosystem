@@ -39,7 +39,7 @@ whose slugs could otherwise collide with the Reading vocab images.
   ipa: '/ˌkʌltɪˈveɪʃn/',
   definitionEn: 'the act of preparing land and growing crops on it, or the act of growing a particular crop',
   exampleVi: 'Sự trồng trọt lúa mì yêu cầu những vùng đất màu mỡ nhất.',
-  image: '/ielts/images/vocab/cultivation.jpg',   // preferred — see Images below
+  image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/cultivation.jpg',   // preferred — see Images below
   // emoji: '🌸',                                  // fallback ONLY if no image (see Images below)
 }
 ```
@@ -70,20 +70,21 @@ Prefer a real `image` over `emoji`. Where the image comes from, in priority orde
 1. **A local export folder** — if the user's HTML export references images from a sibling
    `..._files/` folder (common when someone saves a full webpage), those image files are already
    on disk next to the HTML. Copy the ones you need into
-   `public/ielts/images/vocab/<word-lowercase-hyphenated>.<ext>` (keep the original extension —
+   `public/ielts/images/vocab/<test-id>/<word-lowercase-hyphenated>.<ext>` (one folder per test,
+   named by the test `id`, e.g. `reading-oxytocin/` — never drop files in the `vocab/` root; keep the original extension —
    `.jpg`, `.avif`, etc. — no need to convert), matching the filename to the vocab word, not to
    whatever cryptic name the export gave it. Verify the copy isn't a 0-byte file before moving on.
 2. **No source image available** (self-added extra words, or the user asks you to fill in
    words that only ended up with an `emoji` fallback) — draw a simple flat-style SVG icon instead
    of leaving it on emoji. Established style, copy the pattern from
-   `public/ielts/images/vocab/fragrant.svg`, `anoint.svg`, `token.svg`, `additive.svg`,
+   `public/ielts/images/vocab/reading-bringing-cinnamon-to-europe/fragrant.svg`, `anoint.svg`, `token.svg`, `additive.svg`,
    `condiment.svg`, `ailment.svg`, `exorbitantly.svg`, `supersede.svg`:
    - `viewBox="0 0 300 300"`, rounded card background (`rx="24"`) in a soft pastel matching the
      word's theme,
    - 1–3 flat colored shapes illustrating the concept (no photorealism, no gradients-heavy
      detail, no text/labels baked into the image),
-   - save as `public/ielts/images/vocab/<word>.svg` and point `image` at
-     `/ielts/images/vocab/<word>.svg`.
+   - save as `public/ielts/images/vocab/<test-id>/<word>.svg` and point `image` at
+     `/ielts/images/vocab/<test-id>/<word>.svg`.
    Only use `emoji` (skip `image` entirely) if you're moving fast and the user hasn't asked for
    full polish — but default to the SVG icon, it's cheap and it's what's been done consistently so
    far.
@@ -94,7 +95,7 @@ Filename convention: lowercase, spaces → hyphens (`economic potential` → `ec
 
 1. `npx tsc --noEmit -p .` from the repo root — must be clean.
 2. If you copied image files, sanity-check sizes aren't 0 bytes (a failed/empty copy still creates
-   the file): e.g. `ls -la public/ielts/images/vocab/` and eyeball the sizes.
+   the file): e.g. `ls -la public/ielts/images/vocab/<test-id>/` and eyeball the sizes.
 3. Smoke-test: `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/ielts/<skill>/vocab`
    should return `200` (only start `npm run dev` if no dev server is already running for this
    session — check first rather than assuming).

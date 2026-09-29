@@ -360,36 +360,36 @@ export const READING_TESTS: PracticeTest[] = [
     ],
     // Vocab set (bản nháp do tôi soạn từ bài đọc — nghĩa tiếng Việt cần bạn rà soát).
     vocab: [
-      { word: 'cultivation', partOfSpeech: 'n', meaning: 'sự cày cấy / sự trồng trọt', example: 'The cultivation of wheat required the most fertile lands.', ipa: '/ˌkʌltɪˈveɪʃn/', definitionEn: 'the act of preparing land and growing crops on it, or the act of growing a particular crop', exampleVi: 'Sự trồng trọt lúa mì yêu cầu những vùng đất màu mỡ nhất.', image: '/ielts/images/vocab/cultivation.jpg' },
-      { word: 'ethnic', partOfSpeech: 'adj', meaning: 'thuộc dân tộc thiểu số', example: 'They are the second largest ethnic group in Kenya.', ipa: '/ˈeθnɪk/', definitionEn: 'relating or belonging to a group of people who can be seen as distinct (= different) because they have a shared culture, tradition, language, history, etc.', exampleVi: 'Họ là dân tộc thiểu số lớn thứ nhì ở Kenya.', image: '/ielts/images/vocab/ethnic.avif' },
-      { word: 'peel', partOfSpeech: 'v', meaning: 'lột', example: 'Carefully peel away the lining paper.', ipa: '/piːl/', definitionEn: 'to remove a layer, etc. from the surface of something; to come off the surface of something', exampleVi: 'Cẩn thận lột giấy dán tường.', image: '/ielts/images/vocab/peel.jpg' },
-      { word: 'shoot', partOfSpeech: 'n', meaning: 'chồi (cây)', example: 'Two weeks after we\'d planted the seeds, little green shoots started to appear.', ipa: '/ʃuːt/', definitionEn: 'the part that grows up from the ground when a plant starts to grow', exampleVi: 'Hai tuần sau khi chúng tôi gieo hạt, những chồi non đã bắt đầu xuất hiện.', image: '/ielts/images/vocab/shoot.avif' },
-      { word: 'pliable', partOfSpeech: 'adj', meaning: 'dễ uốn nắn, uốn cong', example: 'The plant has long pliable stems.', ipa: '/ˈplaɪəbl/', definitionEn: 'easy to bend without breaking', exampleVi: 'Cái cây có rễ dài dễ uốn.', image: '/ielts/images/vocab/pliable.jpg' },
-      { word: 'curl', partOfSpeech: 'v', meaning: 'cuộn lại', example: 'A new baby will automatically curl its fingers round any object it touches.', ipa: '/kɜːrl/', definitionEn: 'to make something into the shape of a curl', exampleVi: 'Trẻ sơ sinh sẽ tự động cuộn ngón tay lại xung quanh bất cứ thứ nào nó chạm vào.', image: '/ielts/images/vocab/curl.jpg' },
-      { word: 'tribute', partOfSpeech: 'n', meaning: 'cống phẩm', example: 'The king also often received tributes and offerings at these occasions.', ipa: '/ˈtrɪbjuːt/', definitionEn: 'money given by one country or political leader to another, especially in return for protection or for not being attacked', exampleVi: 'Vị vua cũng thường nhận cống phẩm và lễ vật trong những dịp này.', image: '/ielts/images/vocab/tribute.jpg' },
-      { word: 'enslave', partOfSpeech: 'v', meaning: 'nô dịch', example: 'The early settlers enslaved or killed much of the native population.', ipa: '/ɪnˈsleɪv/', definitionEn: 'to make a slave of someone', exampleVi: 'Những kẻ khai hoang đã nô dịch hoặc giết hầu hết người dân bản địa.', image: '/ielts/images/vocab/enslave.jpg' },
-      { word: 'fort', partOfSpeech: 'n', meaning: 'pháo đài', example: 'The remains of the Roman fort are well preserved.', ipa: '/fɔːrt/', definitionEn: 'a fortified building or position used by military troops for protection and defense.', exampleVi: 'Tàn tích của pháo đài La Mã được bảo quản kỹ lưỡng.', image: '/ielts/images/vocab/fort.jpg' },
-      { word: 'monopoly', partOfSpeech: 'n', meaning: 'sự độc quyền', example: 'In the past central government had a monopoly on television broadcasting.', ipa: '/məˈnɑːpəli/', definitionEn: 'the complete control of trade in particular goods or the supply of a particular service', exampleVi: 'Trong quá khứ chính quyền trung ương độc quyền về đài truyền hình.', image: '/ielts/images/vocab/monopoly.jpg' },
-      { word: 'generate', partOfSpeech: 'v', meaning: 'tạo ra', example: 'to generate revenue/income/profit', ipa: '/ˈdʒenəreɪt/', definitionEn: 'to produce or create something', exampleVi: 'tạo ra lợi nhuận / thu nhập', image: '/ielts/images/vocab/generate.jpg' },
-      { word: 'ally', partOfSpeech: 'v', meaning: 'liên minh', example: 'The prince allied himself with the Scots.', ipa: '/əˈlaɪ/', definitionEn: 'to give your support to another group or country', exampleVi: 'Hoàng tử đã liên minh với người Scotlands.', image: '/ielts/images/vocab/ally.jpg' },
-      { word: 'overrun', partOfSpeech: 'v', meaning: 'đánh bại hoặc áp đảo hoàn toàn một người hoặc thứ gì đó', example: 'The army was overrun by the enemy', ipa: '/ˌoʊvəˈrʌn/', definitionEn: 'to defeat or overwhelm someone or something completely', exampleVi: 'Quân đội bị kẻ thù đánh bại hoàn toàn', image: '/ielts/images/vocab/overrun.jpg' },
-      { word: 'expell', partOfSpeech: 'v', meaning: 'trục xuất', example: 'Thousands of Jews had been expelled from the city.', ipa: '/ɪkˈspel/', definitionEn: 'to force somebody to leave a country', exampleVi: 'Hàng nghìn người Do Thái bị trục xuất khỏi thành phố', image: '/ielts/images/vocab/expell.jpg' },
-      { word: 'lucrative', partOfSpeech: 'adj', meaning: 'có lời, sinh lời', example: 'The merger proved to be very lucrative for both companies.', ipa: '/ˈluːkrətɪv/', definitionEn: 'producing a large amount of money; making a large profit', exampleVi: 'Sự liên doanh đã chứng minh là có sinh lời cho cả 2 công ty.', image: '/ielts/images/vocab/lucrative.avif' },
-      { word: 'appetite', partOfSpeech: 'n', meaning: 'sự thèm khát', example: 'The public have an insatiable appetite for scandal.', ipa: '/ˈæpɪtaɪt/', definitionEn: 'a strong desire for something', exampleVi: 'Công chúng có sự thèm khát xì-căng-đan vô độ', image: '/ielts/images/vocab/appetite.avif' },
-      { word: 'supply', partOfSpeech: 'n', meaning: 'nguồn cung', example: 'Advances in agriculture increased the food supply.', ipa: '/səˈplaɪ/', definitionEn: 'an amount of something that is provided or available to be used', exampleVi: 'Những tiến bộ trong nông nghiệp đã tăng nguồn cung thực phẩm.', image: '/ielts/images/vocab/supply.avif' },
-      { word: 'exhausted', partOfSpeech: 'adj', meaning: 'cạn kiệt', example: 'financially exhausted countries', ipa: '/ɪɡˈzɔːstɪd/', definitionEn: 'completely used or finished', exampleVi: 'những quốc gia kiệt quệ về tài chính.', image: '/ielts/images/vocab/exhausted.jpg' },
-      { word: 'supplement', partOfSpeech: 'n', meaning: 'bổ sung', example: 'He supplements his income by giving private lessons.', ipa: '/ˈsʌplɪmənt/', definitionEn: 'to add something to something in order to improve it or make it more complete', exampleVi: 'Anh ta thêm vào thu nhập của mình bằng cách dạy thêm', image: '/ielts/images/vocab/supplement.jpg' },
-      { word: 'diminish', partOfSpeech: 'v', meaning: 'giảm', example: 'The world\'s resources are rapidly diminishing.', ipa: '/dɪˈmɪnɪʃ/', definitionEn: 'to become smaller, weaker, etc.', exampleVi: 'Những nguồn lực trên thế giới đang giảm nhanh.', image: '/ielts/images/vocab/diminish.avif' },
-      { word: 'displace', partOfSpeech: 'v', meaning: 'thay thế, chiếm chỗ', example: 'Gradually factory workers have been displaced by machines.', ipa: '/dɪsˈpleɪs/', definitionEn: 'to take the place of somebody/something', exampleVi: 'Công nhân nhà máy đã dần bị thay thế bởi máy móc', image: '/ielts/images/vocab/displace.jpg' },
-      { word: 'economic potential', partOfSpeech: 'n', meaning: 'tiềm năng kinh tế', example: 'It also leaves the country\'s economic potential unfulfilled.', ipa: '/ˌiːkəˈnɑːmɪk pəˈtenʃl/', definitionEn: 'the potential of a region, nation, or corporation for economic development and growth.', exampleVi: 'Nó cũng khiến cho quốc gia không thể đạt được tiềm năng kinh tế của bản thân.', image: '/ielts/images/vocab/economic-potential.jpg' },
-      { word: 'fragrant', partOfSpeech: 'adj', meaning: 'thơm, có hương thơm', example: 'Cinnamon is a sweet, fragrant spice.', ipa: '/ˈfreɪɡrənt/', definitionEn: 'having a pleasant smell', exampleVi: 'Quế là một loại gia vị ngọt, thơm.', image: '/ielts/images/vocab/fragrant.svg' },
-      { word: 'anoint', partOfSpeech: 'v', meaning: 'xức dầu (làm phép)', example: 'It was mixed with oils for anointing people’s bodies.', ipa: '/əˈnɔɪnt/', definitionEn: 'to put oil or water on someone as part of a religious ceremony', exampleVi: 'Nó được trộn với dầu để xức lên người.', image: '/ielts/images/vocab/anoint.svg' },
-      { word: 'token', partOfSpeech: 'n', meaning: 'vật tượng trưng, dấu hiệu', example: 'A token indicating friendship among lovers and friends.', ipa: '/ˈtoʊkən/', definitionEn: 'a thing that represents a feeling, fact or quality', exampleVi: 'Một vật tượng trưng cho tình bạn giữa những người yêu nhau và bạn bè.', image: '/ielts/images/vocab/token.svg' },
-      { word: 'additive', partOfSpeech: 'n', meaning: 'chất phụ gia, thứ thêm vào', example: 'The spice was used as an additive to food and drink.', ipa: '/ˈædətɪv/', definitionEn: 'a substance added to food or drink to improve it or preserve it', exampleVi: 'Gia vị được dùng như chất phụ gia cho đồ ăn thức uống.', image: '/ielts/images/vocab/additive.svg' },
-      { word: 'condiment', partOfSpeech: 'n', meaning: 'đồ gia vị (dùng nêm món ăn)', example: 'An expensive condiment from the ‘exotic’ East.', ipa: '/ˈkɑːndɪmənt/', definitionEn: 'a substance such as salt or a sauce that you add to food to give it more flavour', exampleVi: 'Một loại gia vị đắt đỏ từ phương Đông “kỳ lạ”.', image: '/ielts/images/vocab/condiment.svg' },
-      { word: 'ailment', partOfSpeech: 'n', meaning: 'bệnh vặt, chứng bệnh nhẹ', example: 'It was thought to cure various ailments, such as indigestion.', ipa: '/ˈeɪlmənt/', definitionEn: 'an illness that is not very serious', exampleVi: 'Người ta tin nó chữa được nhiều chứng bệnh nhẹ, như khó tiêu.', image: '/ielts/images/vocab/ailment.svg' },
-      { word: 'exorbitantly', partOfSpeech: 'adv', meaning: 'cắt cổ, quá đắt', example: 'The Venetians could set the price of cinnamon exorbitantly high.', ipa: '/ɪɡˈzɔːrbɪtəntli/', definitionEn: 'in a way that is much too high (of a price)', exampleVi: 'Người Venice có thể đẩy giá quế lên cực kỳ cao.', image: '/ielts/images/vocab/exorbitantly.svg' },
-      { word: 'supersede', partOfSpeech: 'v', meaning: 'thay thế (cái cũ lỗi thời)', example: 'The spice trade was eventually superseded by trade in coffee, tea, chocolate and sugar.', ipa: '/ˌsuːpərˈsiːd/', definitionEn: 'to take the place of something that is older or no longer considered best', exampleVi: 'Thương mại gia vị dần bị thay thế bởi cà phê, trà, sô-cô-la và đường.', image: '/ielts/images/vocab/supersede.svg' },
+      { word: 'cultivation', partOfSpeech: 'n', meaning: 'sự cày cấy / sự trồng trọt', example: 'The cultivation of wheat required the most fertile lands.', ipa: '/ˌkʌltɪˈveɪʃn/', definitionEn: 'the act of preparing land and growing crops on it, or the act of growing a particular crop', exampleVi: 'Sự trồng trọt lúa mì yêu cầu những vùng đất màu mỡ nhất.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/cultivation.jpg' },
+      { word: 'ethnic', partOfSpeech: 'adj', meaning: 'thuộc dân tộc thiểu số', example: 'They are the second largest ethnic group in Kenya.', ipa: '/ˈeθnɪk/', definitionEn: 'relating or belonging to a group of people who can be seen as distinct (= different) because they have a shared culture, tradition, language, history, etc.', exampleVi: 'Họ là dân tộc thiểu số lớn thứ nhì ở Kenya.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/ethnic.avif' },
+      { word: 'peel', partOfSpeech: 'v', meaning: 'lột', example: 'Carefully peel away the lining paper.', ipa: '/piːl/', definitionEn: 'to remove a layer, etc. from the surface of something; to come off the surface of something', exampleVi: 'Cẩn thận lột giấy dán tường.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/peel.jpg' },
+      { word: 'shoot', partOfSpeech: 'n', meaning: 'chồi (cây)', example: 'Two weeks after we\'d planted the seeds, little green shoots started to appear.', ipa: '/ʃuːt/', definitionEn: 'the part that grows up from the ground when a plant starts to grow', exampleVi: 'Hai tuần sau khi chúng tôi gieo hạt, những chồi non đã bắt đầu xuất hiện.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/shoot.avif' },
+      { word: 'pliable', partOfSpeech: 'adj', meaning: 'dễ uốn nắn, uốn cong', example: 'The plant has long pliable stems.', ipa: '/ˈplaɪəbl/', definitionEn: 'easy to bend without breaking', exampleVi: 'Cái cây có rễ dài dễ uốn.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/pliable.jpg' },
+      { word: 'curl', partOfSpeech: 'v', meaning: 'cuộn lại', example: 'A new baby will automatically curl its fingers round any object it touches.', ipa: '/kɜːrl/', definitionEn: 'to make something into the shape of a curl', exampleVi: 'Trẻ sơ sinh sẽ tự động cuộn ngón tay lại xung quanh bất cứ thứ nào nó chạm vào.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/curl.jpg' },
+      { word: 'tribute', partOfSpeech: 'n', meaning: 'cống phẩm', example: 'The king also often received tributes and offerings at these occasions.', ipa: '/ˈtrɪbjuːt/', definitionEn: 'money given by one country or political leader to another, especially in return for protection or for not being attacked', exampleVi: 'Vị vua cũng thường nhận cống phẩm và lễ vật trong những dịp này.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/tribute.jpg' },
+      { word: 'enslave', partOfSpeech: 'v', meaning: 'nô dịch', example: 'The early settlers enslaved or killed much of the native population.', ipa: '/ɪnˈsleɪv/', definitionEn: 'to make a slave of someone', exampleVi: 'Những kẻ khai hoang đã nô dịch hoặc giết hầu hết người dân bản địa.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/enslave.jpg' },
+      { word: 'fort', partOfSpeech: 'n', meaning: 'pháo đài', example: 'The remains of the Roman fort are well preserved.', ipa: '/fɔːrt/', definitionEn: 'a fortified building or position used by military troops for protection and defense.', exampleVi: 'Tàn tích của pháo đài La Mã được bảo quản kỹ lưỡng.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/fort.jpg' },
+      { word: 'monopoly', partOfSpeech: 'n', meaning: 'sự độc quyền', example: 'In the past central government had a monopoly on television broadcasting.', ipa: '/məˈnɑːpəli/', definitionEn: 'the complete control of trade in particular goods or the supply of a particular service', exampleVi: 'Trong quá khứ chính quyền trung ương độc quyền về đài truyền hình.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/monopoly.jpg' },
+      { word: 'generate', partOfSpeech: 'v', meaning: 'tạo ra', example: 'to generate revenue/income/profit', ipa: '/ˈdʒenəreɪt/', definitionEn: 'to produce or create something', exampleVi: 'tạo ra lợi nhuận / thu nhập', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/generate.jpg' },
+      { word: 'ally', partOfSpeech: 'v', meaning: 'liên minh', example: 'The prince allied himself with the Scots.', ipa: '/əˈlaɪ/', definitionEn: 'to give your support to another group or country', exampleVi: 'Hoàng tử đã liên minh với người Scotlands.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/ally.jpg' },
+      { word: 'overrun', partOfSpeech: 'v', meaning: 'đánh bại hoặc áp đảo hoàn toàn một người hoặc thứ gì đó', example: 'The army was overrun by the enemy', ipa: '/ˌoʊvəˈrʌn/', definitionEn: 'to defeat or overwhelm someone or something completely', exampleVi: 'Quân đội bị kẻ thù đánh bại hoàn toàn', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/overrun.jpg' },
+      { word: 'expell', partOfSpeech: 'v', meaning: 'trục xuất', example: 'Thousands of Jews had been expelled from the city.', ipa: '/ɪkˈspel/', definitionEn: 'to force somebody to leave a country', exampleVi: 'Hàng nghìn người Do Thái bị trục xuất khỏi thành phố', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/expell.jpg' },
+      { word: 'lucrative', partOfSpeech: 'adj', meaning: 'có lời, sinh lời', example: 'The merger proved to be very lucrative for both companies.', ipa: '/ˈluːkrətɪv/', definitionEn: 'producing a large amount of money; making a large profit', exampleVi: 'Sự liên doanh đã chứng minh là có sinh lời cho cả 2 công ty.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/lucrative.avif' },
+      { word: 'appetite', partOfSpeech: 'n', meaning: 'sự thèm khát', example: 'The public have an insatiable appetite for scandal.', ipa: '/ˈæpɪtaɪt/', definitionEn: 'a strong desire for something', exampleVi: 'Công chúng có sự thèm khát xì-căng-đan vô độ', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/appetite.avif' },
+      { word: 'supply', partOfSpeech: 'n', meaning: 'nguồn cung', example: 'Advances in agriculture increased the food supply.', ipa: '/səˈplaɪ/', definitionEn: 'an amount of something that is provided or available to be used', exampleVi: 'Những tiến bộ trong nông nghiệp đã tăng nguồn cung thực phẩm.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/supply.avif' },
+      { word: 'exhausted', partOfSpeech: 'adj', meaning: 'cạn kiệt', example: 'financially exhausted countries', ipa: '/ɪɡˈzɔːstɪd/', definitionEn: 'completely used or finished', exampleVi: 'những quốc gia kiệt quệ về tài chính.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/exhausted.jpg' },
+      { word: 'supplement', partOfSpeech: 'n', meaning: 'bổ sung', example: 'He supplements his income by giving private lessons.', ipa: '/ˈsʌplɪmənt/', definitionEn: 'to add something to something in order to improve it or make it more complete', exampleVi: 'Anh ta thêm vào thu nhập của mình bằng cách dạy thêm', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/supplement.jpg' },
+      { word: 'diminish', partOfSpeech: 'v', meaning: 'giảm', example: 'The world\'s resources are rapidly diminishing.', ipa: '/dɪˈmɪnɪʃ/', definitionEn: 'to become smaller, weaker, etc.', exampleVi: 'Những nguồn lực trên thế giới đang giảm nhanh.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/diminish.avif' },
+      { word: 'displace', partOfSpeech: 'v', meaning: 'thay thế, chiếm chỗ', example: 'Gradually factory workers have been displaced by machines.', ipa: '/dɪsˈpleɪs/', definitionEn: 'to take the place of somebody/something', exampleVi: 'Công nhân nhà máy đã dần bị thay thế bởi máy móc', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/displace.jpg' },
+      { word: 'economic potential', partOfSpeech: 'n', meaning: 'tiềm năng kinh tế', example: 'It also leaves the country\'s economic potential unfulfilled.', ipa: '/ˌiːkəˈnɑːmɪk pəˈtenʃl/', definitionEn: 'the potential of a region, nation, or corporation for economic development and growth.', exampleVi: 'Nó cũng khiến cho quốc gia không thể đạt được tiềm năng kinh tế của bản thân.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/economic-potential.jpg' },
+      { word: 'fragrant', partOfSpeech: 'adj', meaning: 'thơm, có hương thơm', example: 'Cinnamon is a sweet, fragrant spice.', ipa: '/ˈfreɪɡrənt/', definitionEn: 'having a pleasant smell', exampleVi: 'Quế là một loại gia vị ngọt, thơm.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/fragrant.svg' },
+      { word: 'anoint', partOfSpeech: 'v', meaning: 'xức dầu (làm phép)', example: 'It was mixed with oils for anointing people’s bodies.', ipa: '/əˈnɔɪnt/', definitionEn: 'to put oil or water on someone as part of a religious ceremony', exampleVi: 'Nó được trộn với dầu để xức lên người.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/anoint.svg' },
+      { word: 'token', partOfSpeech: 'n', meaning: 'vật tượng trưng, dấu hiệu', example: 'A token indicating friendship among lovers and friends.', ipa: '/ˈtoʊkən/', definitionEn: 'a thing that represents a feeling, fact or quality', exampleVi: 'Một vật tượng trưng cho tình bạn giữa những người yêu nhau và bạn bè.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/token.svg' },
+      { word: 'additive', partOfSpeech: 'n', meaning: 'chất phụ gia, thứ thêm vào', example: 'The spice was used as an additive to food and drink.', ipa: '/ˈædətɪv/', definitionEn: 'a substance added to food or drink to improve it or preserve it', exampleVi: 'Gia vị được dùng như chất phụ gia cho đồ ăn thức uống.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/additive.svg' },
+      { word: 'condiment', partOfSpeech: 'n', meaning: 'đồ gia vị (dùng nêm món ăn)', example: 'An expensive condiment from the ‘exotic’ East.', ipa: '/ˈkɑːndɪmənt/', definitionEn: 'a substance such as salt or a sauce that you add to food to give it more flavour', exampleVi: 'Một loại gia vị đắt đỏ từ phương Đông “kỳ lạ”.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/condiment.svg' },
+      { word: 'ailment', partOfSpeech: 'n', meaning: 'bệnh vặt, chứng bệnh nhẹ', example: 'It was thought to cure various ailments, such as indigestion.', ipa: '/ˈeɪlmənt/', definitionEn: 'an illness that is not very serious', exampleVi: 'Người ta tin nó chữa được nhiều chứng bệnh nhẹ, như khó tiêu.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/ailment.svg' },
+      { word: 'exorbitantly', partOfSpeech: 'adv', meaning: 'cắt cổ, quá đắt', example: 'The Venetians could set the price of cinnamon exorbitantly high.', ipa: '/ɪɡˈzɔːrbɪtəntli/', definitionEn: 'in a way that is much too high (of a price)', exampleVi: 'Người Venice có thể đẩy giá quế lên cực kỳ cao.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/exorbitantly.svg' },
+      { word: 'supersede', partOfSpeech: 'v', meaning: 'thay thế (cái cũ lỗi thời)', example: 'The spice trade was eventually superseded by trade in coffee, tea, chocolate and sugar.', ipa: '/ˌsuːpərˈsiːd/', definitionEn: 'to take the place of something that is older or no longer considered best', exampleVi: 'Thương mại gia vị dần bị thay thế bởi cà phê, trà, sô-cô-la và đường.', image: '/ielts/images/vocab/reading-bringing-cinnamon-to-europe/supersede.svg' },
     ],
   },
   {
@@ -644,7 +644,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/prəˈfaʊnd/',
         definitionEn: 'very great or intense; showing deep understanding or insight',
         exampleVi: 'Xu hướng đó có ảnh hưởng sâu sắc đến cách các công ty cạnh tranh để thu hút sự chú ý của người tiêu dùng.',
-        image: '/ielts/images/vocab/profound.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/profound.svg',
       },
       {
         word: 'peripheral',
@@ -654,7 +654,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pəˈrɪfərəl/',
         definitionEn: 'relating to or situated on the edge or fringes of something, rather than its main part',
         exampleVi: 'Nhiều nhà quản lý xem các xu hướng xã hội là thứ yếu, ngoài lề so với hoạt động kinh doanh cốt lõi, cho đến khi một đối thủ chứng minh điều ngược lại.',
-        image: '/ielts/images/vocab/peripheral.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/peripheral.svg',
       },
       {
         word: 'jeopardize',
@@ -664,7 +664,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈdʒepərdaɪz/',
         definitionEn: 'to put something valuable or important at risk of being damaged, lost, or destroyed',
         exampleVi: 'Việc phớt lờ một xu hướng mới nổi quá lâu có thể gây nguy hiểm cho toàn bộ vị thế thị trường của một công ty.',
-        image: '/ielts/images/vocab/jeopardize.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/jeopardize.svg',
       },
       {
         word: 'cede',
@@ -674,7 +674,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/siːd/',
         definitionEn: 'to give up power, control, or territory to someone else, often reluctantly',
         exampleVi: 'Vì chần chừ quá lâu, công ty đã nhường lại thị trường mới nổi cho một đối thủ nhanh nhạy hơn.',
-        image: '/ielts/images/vocab/cede.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/cede.svg',
       },
       {
         word: 'engender',
@@ -684,7 +684,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈdʒendər/',
         definitionEn: 'to cause a feeling, situation, or condition to exist',
         exampleVi: 'Xu hướng đang lên đó đã tạo ra một làn sóng ý tưởng sản phẩm mới trong toàn ngành.',
-        image: '/ielts/images/vocab/engender.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/engender.svg',
       },
       {
         word: 'infuse',
@@ -694,7 +694,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈfjuːz/',
         definitionEn: 'to fill something with a particular quality or feeling',
         exampleVi: 'Các nhà thiết kế đã thổi vào dòng sản phẩm cũ một nét hiện đại, vui tươi.',
-        image: '/ielts/images/vocab/infuse.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/infuse.svg',
       },
       {
         word: 'augment',
@@ -704,7 +704,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɔːɡˈment/',
         definitionEn: 'to make something greater by adding something to it',
         exampleVi: 'Công ty đã bổ sung vào thực đơn cổ điển của mình một loạt các lựa chọn lành mạnh hơn.',
-        image: '/ielts/images/vocab/augment.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/augment.svg',
       },
       {
         word: 'opulence',
@@ -714,7 +714,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɑːpjələns/',
         definitionEn: 'the quality of being expensively and luxuriously decorated or furnished',
         exampleVi: 'Thương hiệu này từ lâu đã gắn liền với sự xa hoa và đẳng cấp.',
-        image: '/ielts/images/vocab/opulence.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/opulence.svg',
       },
       {
         word: 'avert',
@@ -724,7 +724,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈvɜːrt/',
         definitionEn: 'to prevent something bad from happening',
         exampleVi: 'Một thương hiệu phụ khôn khéo đã giúp công ty tránh được một cuộc chiến giá cả gây thiệt hại.',
-        image: '/ielts/images/vocab/avert.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/avert.svg',
       },
       {
         word: 'tangible',
@@ -734,7 +734,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈtændʒəbl/',
         definitionEn: 'clear and definite; able to be perceived especially by touch',
         exampleVi: 'Khách hàng muốn thấy bằng chứng cụ thể rằng công ty thực sự quan tâm đến môi trường.',
-        image: '/ielts/images/vocab/tangible.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/tangible.svg',
       },
       {
         word: 'redeem',
@@ -744,7 +744,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈdiːm/',
         definitionEn: 'to exchange points, vouchers, etc. for goods, cash, or a discount',
         exampleVi: 'Khách hàng thân thiết có thể đổi điểm của mình để lấy nhiều sản phẩm gia dụng.',
-        image: '/ielts/images/vocab/redeem.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/redeem.svg',
       },
       {
         word: 'transcend',
@@ -754,7 +754,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/trænˈsend/',
         definitionEn: 'to go beyond the usual limits of something',
         exampleVi: 'Sự hợp tác đó giúp thương hiệu vượt hẳn lên trên ranh giới ngành hàng truyền thống của mình.',
-        image: '/ielts/images/vocab/transcend.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/transcend.svg',
       },
       {
         word: 'counteract',
@@ -764,7 +764,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkaʊntərˈækt/',
         definitionEn: 'to reduce or prevent the effect of something by doing something that has the opposite effect',
         exampleVi: 'Món đồ chơi được thiết kế để chống lại mối lo ngại ngày càng tăng về việc trẻ em thiếu vận động.',
-        image: '/ielts/images/vocab/counteract.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/counteract.svg',
       },
       {
         word: 'reaffirm',
@@ -774,7 +774,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌriːəˈfɜːrm/',
         definitionEn: 'to state again firmly that something is true or that you still support it',
         exampleVi: 'Chiến dịch đó đã tái khẳng định cam kết lâu dài của thương hiệu đối với chất lượng thủ công.',
-        image: '/ielts/images/vocab/reaffirm.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/reaffirm.svg',
       },
       {
         word: 'disparity',
@@ -784,7 +784,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈspærəti/',
         definitionEn: 'a great difference between two or more things that should be similar',
         exampleVi: 'Các nhà nghiên cứu nhận thấy sự chênh lệch ngày càng lớn giữa điều người tiêu dùng mong muốn và những gì ngành hàng đó cung cấp.',
-        image: '/ielts/images/vocab/disparity.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/disparity.svg',
       },
       {
         word: 'reinvigorate',
@@ -794,7 +794,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌriːɪnˈvɪɡəreɪt/',
         definitionEn: 'to give new energy or strength to something',
         exampleVi: 'Chỉ một ý tưởng táo bạo cũng có thể làm hồi sinh cả một ngành hàng sản phẩm.',
-        image: '/ielts/images/vocab/reinvigorate.svg',
+        image: '/ielts/images/vocab/reading-making-the-most-of-trends/reinvigorate.svg',
       },
     ],
   },
@@ -971,7 +971,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈpæsɪdʒ/',
         definitionEn: 'the action of going across, through or past something',
         exampleVi: 'Những cây lớn có thể gây cản trở đường đi của ánh sáng.',
-        image: '/ielts/images/vocab/passage.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/passage.jpg',
       },
       {
         word: 'astronomer',
@@ -981,7 +981,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈstrɑːnəmər/',
         definitionEn: 'a person who studies astronomy or whose job is connected with astronomy',
         exampleVi: 'Những nhà thiên văn vẫn tiếp tục phát hiện những ngôi sao mới.',
-        image: '/ielts/images/vocab/astronomer.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/astronomer.jpg',
       },
       {
         word: 'ultimate',
@@ -991,7 +991,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈʌltɪmət/',
         definitionEn: 'happening at the end of a long process',
         exampleVi: 'Quyết định sau cùng nằm ở phụ huynh.',
-        image: '/ielts/images/vocab/ultimate.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/ultimate.jpg',
       },
       {
         word: 'pin down',
@@ -1001,7 +1001,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pɪn daʊn/',
         definitionEn: 'to discover exact details about something',
         exampleVi: 'Chúng tôi không thể phát hiện chính xác sự rò rỉ đến từ đâu.',
-        image: '/ielts/images/vocab/pin-down.jpeg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/pin-down.jpeg',
       },
       {
         word: 'scale',
@@ -1011,7 +1011,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/skeɪl/',
         definitionEn: 'the size or level of something, especially when this is large',
         exampleVi: 'Vũ khí hạt nhân có thể hủy diệt ở quy mô khổng lồ.',
-        image: '/ielts/images/vocab/scale.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/scale.jpg',
       },
       {
         word: 'rare',
@@ -1021,7 +1021,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rer/',
         definitionEn: 'not common or frequent',
         exampleVi: 'Viện bảo tàng có đầy báu vật quý hiếm.',
-        image: '/ielts/images/vocab/rare.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/rare.jpg',
       },
       {
         word: 'besiege',
@@ -1031,7 +1031,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/bɪˈsiːdʒ/',
         definitionEn: 'to surround a place, especially with an army, to prevent people or supplies getting in or out',
         exampleVi: 'Thị trấn đã bị vây hãm trong 2 tháng nhưng vẫn chống trả kẻ xâm lược.',
-        image: '/ielts/images/vocab/besiege.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/besiege.jpg',
       },
       {
         word: 'flee',
@@ -1041,7 +1041,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/fliː/',
         definitionEn: 'to escape by running away, especially because of danger or fear',
         exampleVi: 'Để tránh bị bắt, ông ta đã bỏ trốn lên núi.',
-        image: '/ielts/images/vocab/flee.jpeg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/flee.jpeg',
       },
       {
         word: 'rule out',
@@ -1051,7 +1051,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ruːl aʊt/',
         definitionEn: 'to decide or say officially that something is impossible or will not happen',
         exampleVi: 'Lực lượng cảnh sát vẫn chưa loại anh ta khỏi diện tình nghi.',
-        image: '/ielts/images/vocab/rule-out.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/rule-out.jpg',
       },
       {
         word: 'cloud',
@@ -1061,7 +1061,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/klaʊd/',
         definitionEn: 'if glass, water, etc. clouds, or if something clouds it, it becomes less easy to see through',
         exampleVi: 'Mắt cô ấy nhòe đi bởi nước mắt.',
-        image: '/ielts/images/vocab/cloud.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/cloud.jpg',
       },
       {
         word: 'diffraction',
@@ -1071,7 +1071,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈfrækʃən/',
         definitionEn: 'process of breaking up a stream of light into a series of dark or light bands or into the different colours of the spectrum',
         exampleVi: 'Sự tán xạ ánh sáng của một lăng kính tạo ra sự hình thành cầu vồng.',
-        image: '/ielts/images/vocab/diffraction.jpeg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/diffraction.jpeg',
       },
       {
         word: 'smear',
@@ -1081,7 +1081,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/smɪr/',
         definitionEn: 'to make something dirty or greasy',
         exampleVi: 'Mắt kính của anh ta bị mờ.',
-        image: '/ielts/images/vocab/smear.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/smear.jpg',
       },
       {
         // Lưu ý: thẻ nguồn để trống phần EN definition (chỗ đó lại chứa 1 câu ví dụ) — definitionEn dưới
@@ -1093,7 +1093,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈfrækt/',
         definitionEn: 'if light refracts, or something refracts it, it changes direction slightly when it passes through the surface of something such as water or glass',
         exampleVi: 'Các tia sáng bị khúc xạ từ bề mặt nước làm cho đáy hồ dường như được nâng lên.',
-        image: '/ielts/images/vocab/refract.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/refract.jpg',
       },
       {
         word: 'exhibit',
@@ -1103,7 +1103,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪɡˈzɪbɪt/',
         definitionEn: 'to show something',
         exampleVi: 'Họ sẽ trưng bày những thiết kế ở buổi hội chợ thương mại.',
-        image: '/ielts/images/vocab/exhibit.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/exhibit.jpg',
       },
       {
         word: 'halo',
@@ -1113,7 +1113,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈheɪloʊ/',
         definitionEn: 'a bright circle of light around something, or something that looks like this',
         exampleVi: 'vầng sáng xung quanh mặt trăng',
-        image: '/ielts/images/vocab/halo.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/halo.jpg',
       },
       {
         word: 'determine',
@@ -1123,7 +1123,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈtɜːrmɪn/',
         definitionEn: 'to discover the facts or truth about something',
         exampleVi: 'Lực lượng cảnh sát chưa bao giờ xác định được nguyên nhân cái chết.',
-        image: '/ielts/images/vocab/determine.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/determine.jpg',
       },
       {
         word: 'supersede',
@@ -1133,7 +1133,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌsuːpərˈsiːd/',
         definitionEn: 'to replace something, especially something older or more old-fashioned',
         exampleVi: 'Hầu hết những con đường cũ đã bị thay thế bởi cao tốc liên bang.',
-        image: '/ielts/images/vocab/supersede-vocab.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/supersede-vocab.jpg',
       },
       {
         word: 'thwart',
@@ -1143,7 +1143,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/θwɔːrt/',
         definitionEn: 'to stop something from happening or someone from doing something',
         exampleVi: 'Kế hoạch nghỉ dưỡng của chúng tôi bị cản trở bởi cuộc đình công của phi công.',
-        image: '/ielts/images/vocab/thwart.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/thwart.jpg',
       },
       {
         word: 'pair',
@@ -1153,7 +1153,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/per/',
         definitionEn: 'in groups of two people or things',
         exampleVi: 'Những đứa trẻ làm việc theo cặp.',
-        image: '/ielts/images/vocab/pair.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/pair.jpg',
       },
       {
         word: 'accurately',
@@ -1163,7 +1163,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈækjərətli/',
         definitionEn: 'in a way that is correct, exact, and without any mistakes',
         exampleVi: 'Kế hoạch phải được soạn kỹ lưỡng / chính xác nhất có thể.',
-        image: '/ielts/images/vocab/accurately.jpg',
+        image: '/ielts/images/vocab/reading-venus-in-transit/accurately.jpg',
       },
     ],
   },
@@ -1352,7 +1352,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pɔɪzd/',
         definitionEn: 'ready and prepared to do something at any moment',
         exampleVi: 'Các nhà khoa học giờ đây đã sẵn sàng để trả lời một trong những câu hỏi lâu đời nhất của nhân loại.',
-        image: '/ielts/images/vocab/poised.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/poised.svg',
       },
       {
         word: 'brink',
@@ -1362,7 +1362,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/brɪŋk/',
         definitionEn: 'the point at which something, especially something exciting or dangerous, is about to happen',
         exampleVi: 'Các nhà nghiên cứu tin rằng chúng ta có thể đang đứng trước bờ vực phát hiện ra tín hiệu từ một nền văn minh khác.',
-        image: '/ielts/images/vocab/brink.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/brink.svg',
       },
       {
         word: 'acronym',
@@ -1372,7 +1372,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈækrənɪm/',
         definitionEn: 'a word formed from the first letters of the words that make up the name of something',
         exampleVi: "SETI là từ viết tắt của cụm 'Tìm kiếm Trí thông minh ngoài Trái Đất'.",
-        image: '/ielts/images/vocab/acronym.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/acronym.svg',
       },
       {
         word: 'intermittently',
@@ -1382,7 +1382,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪntərˈmɪtəntli/',
         definitionEn: 'happening occasionally rather than continuously',
         exampleVi: 'Các nhà thiên văn học đã quét bầu trời tìm tín hiệu một cách gián đoạn trong suốt ba mươi năm qua.',
-        image: '/ielts/images/vocab/intermittently.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/intermittently.svg',
       },
       {
         word: 'foster',
@@ -1392,7 +1392,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈfɔːstər/',
         definitionEn: 'to encourage the development or growth of ideas or feelings',
         exampleVi: 'Các nhà khoa học muốn biết điều kiện nào đã nuôi dưỡng sự xuất hiện của sự sống trên một hành tinh.',
-        image: '/ielts/images/vocab/foster.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/foster.svg',
       },
       {
         word: 'tenuous',
@@ -1402,7 +1402,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈtenjuəs/',
         definitionEn: 'very weak or slight; not strongly established',
         exampleVi: 'Vũ khí hạt nhân đã cho chúng ta thấy rằng sự tồn tại của loài người có thể mong manh hơn chúng ta nghĩ.',
-        image: '/ielts/images/vocab/tenuous.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/tenuous.svg',
       },
       {
         word: 'optimism',
@@ -1412,7 +1412,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɑːptɪmɪzəm/',
         definitionEn: 'a feeling of hopefulness about the future or the success of something',
         exampleVi: 'Việc phát hiện ra một nền văn minh lâu đời hơn vẫn còn tồn tại sẽ mang lại cho nhân loại lý do thực sự để lạc quan.',
-        image: '/ielts/images/vocab/optimism.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/optimism.svg',
       },
       {
         word: 'conservative',
@@ -1422,7 +1422,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈsɜːrvətɪv/',
         definitionEn: 'cautious and avoiding risk, especially in making an estimate or guess',
         exampleVi: 'Các nhà khoa học đã đưa ra một giả định thận trọng rằng sự sống ngoài hành tinh sẽ giống với sự sống trên Trái Đất.',
-        image: '/ielts/images/vocab/conservative.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/conservative.svg',
       },
       {
         word: 'resemble',
@@ -1432,7 +1432,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈzembl/',
         definitionEn: 'to look or be similar to somebody/something',
         exampleVi: 'Bất kỳ dạng sống nào chúng ta tìm kiếm đều được cho là sẽ giống chúng ta ở một vài điểm cơ bản.',
-        image: '/ielts/images/vocab/resemble.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/resemble.svg',
       },
       {
         word: 'inconceivable',
@@ -1442,7 +1442,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪnkənˈsiːvəbl/',
         definitionEn: 'impossible or very difficult to imagine or believe',
         exampleVi: 'Với hàng tỷ ngôi sao trong dải ngân hà, có vẻ như không thể tưởng tượng nổi rằng Trái Đất là hành tinh duy nhất có sự sống.',
-        image: '/ielts/images/vocab/inconceivable.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/inconceivable.svg',
       },
       {
         word: 'attenuate',
@@ -1452,7 +1452,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈtenjueɪt/',
         definitionEn: 'to reduce the force, effect, or value of something',
         exampleVi: 'Một tín hiệu radio sẽ bị suy yếu dần khi truyền đi qua những khoảng cách rộng lớn trong không gian.',
-        image: '/ielts/images/vocab/attenuate.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/attenuate.svg',
       },
       {
         word: 'traverse',
@@ -1462,7 +1462,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/trəˈvɜːrs/',
         definitionEn: 'to travel or extend across or over an area of land or water',
         exampleVi: 'Tín hiệu đó phải băng qua hàng ngàn năm ánh sáng trước khi đến được một hệ sao khác.',
-        image: '/ielts/images/vocab/traverse.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/traverse.svg',
       },
       {
         word: 'urgency',
@@ -1472,7 +1472,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɜːrdʒənsi/',
         definitionEn: 'the quality of needing immediate attention or action',
         exampleVi: 'Vì một câu trả lời sẽ mất hàng thế kỷ để đến nơi, nên không có tính cấp bách thực sự trong việc quyết định nên nói gì.',
-        image: '/ielts/images/vocab/urgency.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/urgency.svg',
       },
       {
         word: 'ethical',
@@ -1482,7 +1482,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈeθɪkl/',
         definitionEn: 'relating to principles of what is right and wrong',
         exampleVi: 'Việc phát hiện tín hiệu từ một nền văn minh khác sẽ đặt ra hàng loạt câu hỏi đạo đức hóc búa.',
-        image: '/ielts/images/vocab/ethical.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/ethical.svg',
       },
       {
         word: 'cog',
@@ -1492,7 +1492,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kɑːɡ/',
         definitionEn: 'a small part of a large system or organization, especially one that seems unimportant on its own',
         exampleVi: 'SETI chỉ là một bánh răng nhỏ trong cỗ máy khám phá khoa học rộng lớn hơn nhiều.',
-        image: '/ielts/images/vocab/cog.svg',
+        image: '/ielts/images/vocab/reading-the-search-for-extra-terrestrial-intelligence/cog.svg',
       },
     ],
   },
@@ -1689,7 +1689,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈfoʊliɪdʒ/',
         definitionEn: 'the leaves of a plant or tree, considered collectively',
         exampleVi: 'Cây nhục đậu khấu có tán lá xanh đậm rậm rạp quanh năm.',
-        image: '/ielts/images/vocab/foliage.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/foliage.svg',
       },
       {
         word: 'husk',
@@ -1699,7 +1699,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/hʌsk/',
         definitionEn: 'the dry outer covering of some fruits or seeds',
         exampleVi: 'Vỏ ngoài của quả tự tách ra khi quả đã chín hẳn.',
-        image: '/ielts/images/vocab/husk.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/husk.svg',
       },
       {
         word: 'aril',
@@ -1709,7 +1709,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈærɪl/',
         definitionEn: 'a often brightly coloured covering that partly or wholly surrounds some seeds',
         exampleVi: 'Mace, một loại gia vị khác với nhục đậu khấu, được lấy từ lớp áo hạt đỏ tươi bao quanh hạt.',
-        image: '/ielts/images/vocab/aril.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/aril.svg',
       },
       {
         word: 'prized',
@@ -1719,7 +1719,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/praɪzd/',
         definitionEn: 'greatly valued or admired',
         exampleVi: 'Nhục đậu khấu là một nguyên liệu được đánh giá rất cao trong các căn bếp châu Âu thời Trung cổ.',
-        image: '/ielts/images/vocab/prized.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/prized.svg',
       },
       {
         word: 'commodity',
@@ -1729,7 +1729,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kəˈmɑːdəti/',
         definitionEn: 'a raw material or product that can be bought and sold',
         exampleVi: 'Trong nhiều thế kỷ, nhục đậu khấu được xem là một loại hàng hóa vô cùng quý giá.',
-        image: '/ielts/images/vocab/commodity.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/commodity.svg',
       },
       {
         word: 'subcontract',
@@ -1739,7 +1739,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌsʌbkənˈtrækt/',
         definitionEn: 'to arrange for another company or person to do part of a piece of work that you have been given the job of doing',
         exampleVi: 'Người Bồ Đào Nha đã giao lại phần lớn việc phân phối gia vị cho các thương nhân Hà Lan.',
-        image: '/ielts/images/vocab/subcontract.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/subcontract.svg',
       },
       {
         word: 'soar',
@@ -1749,7 +1749,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/sɔːr/',
         definitionEn: 'to increase rapidly above the usual level',
         exampleVi: 'Khi giá gia vị tăng vọt khắp châu Âu, người Hà Lan quyết định giành quyền kiểm soát hoạt động buôn bán này.',
-        image: '/ielts/images/vocab/soar.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/soar.svg',
       },
       {
         word: 'contagious',
@@ -1759,7 +1759,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈteɪdʒəs/',
         definitionEn: '(of a disease) spreading by direct or indirect contact with an infected person',
         exampleVi: 'Bệnh dịch hạch là một căn bệnh truyền nhiễm cao khiến người dân khắp châu Âu khiếp sợ.',
-        image: '/ielts/images/vocab/contagious.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/contagious.svg',
       },
       {
         word: 'neutral',
@@ -1769,7 +1769,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈnuːtrəl/',
         definitionEn: 'not supporting or helping either side in a conflict, disagreement, etc.',
         exampleVi: 'Các quốc vương địa phương cố gắng duy trì một chính sách thương mại trung lập đối với các thế lực nước ngoài.',
-        image: '/ielts/images/vocab/neutral.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/neutral.svg',
       },
       {
         word: 'uproot',
@@ -1779,7 +1779,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ʌpˈruːt/',
         definitionEn: 'to pull a plant, including its roots, out of the ground',
         exampleVi: 'Người Hà Lan nhổ bỏ tận gốc bất kỳ cây nhục đậu khấu nào mọc ngoài các khu vực trồng được cho phép.',
-        image: '/ielts/images/vocab/uproot.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/uproot.svg',
       },
       {
         word: 'seedling',
@@ -1789,7 +1789,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈsiːdlɪŋ/',
         definitionEn: 'a young plant grown from a seed',
         exampleVi: 'Bất kỳ ai bị bắt gặp mang theo cây nhục đậu khấu con mà không được phép đều bị trừng phạt nặng nề.',
-        image: '/ielts/images/vocab/seedling.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/seedling.svg',
       },
       {
         word: 'monopoly',
@@ -1799,7 +1799,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/məˈnɑːpəli/',
         definitionEn: 'complete control of trade in particular goods or the supply of a particular service',
         exampleVi: 'Người Hà Lan nắm giữ thế độc quyền về buôn bán nhục đậu khấu trong gần một thế kỷ.',
-        image: '/ielts/images/vocab/monopoly.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/monopoly.svg',
       },
       {
         word: 'smuggle',
@@ -1809,7 +1809,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈsmʌɡl/',
         definitionEn: 'to take something or someone somewhere secretly and often illegally',
         exampleVi: 'Một người đàn ông Pháp đã xoay xở buôn lậu những cây nhục đậu khấu con ra khỏi các hòn đảo do Hà Lan kiểm soát.',
-        image: '/ielts/images/vocab/smuggle.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/smuggle.svg',
       },
       {
         word: 'thrive',
@@ -1819,7 +1819,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/θraɪv/',
         definitionEn: 'to grow, develop, or be successful',
         exampleVi: 'Những cây nhục đậu khấu bị buôn lậu ra phát triển mạnh trên đảo Grenada.',
-        image: '/ielts/images/vocab/thrive.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/thrive.svg',
       },
       {
         word: 'seize',
@@ -1829,7 +1829,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/siːz/',
         definitionEn: 'to take hold of something suddenly and forcibly',
         exampleVi: 'Năm 1809, người Anh quay trở lại Indonesia và chiếm lấy quần đảo Banda bằng vũ lực.',
-        image: '/ielts/images/vocab/seize.svg',
+        image: '/ielts/images/vocab/reading-nutmeg-a-valuable-spice/seize.svg',
       },
     ],
   },
@@ -2012,7 +2012,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈskruːtəni/',
         definitionEn: 'careful and complete examination',
         exampleVi: 'Những chính sách lạ lùng dạo gần đây được được kiễm tra kỹ lưỡng.',
-        image: '/ielts/images/vocab/scrutiny.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/scrutiny.jpg',
       },
       {
         word: 'constructive',
@@ -2022,7 +2022,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈstrʌktɪv/',
         definitionEn: 'having a useful and helpful effect rather than being negative or with no purpose',
         exampleVi: 'Bạn nên luôn luôn sẵn sàng tiếp nhận những phê bình có tính xây dựng về công việc của bạn',
-        image: '/ielts/images/vocab/constructive.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/constructive.jpg',
       },
       {
         word: 'governance',
@@ -2032,7 +2032,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɡʌvərnəns/',
         definitionEn: 'the way in which a country is governed or a company or institution is controlled',
         exampleVi: 'Chúng tôi nhắm đến việc thúc đẩy và duy trì những tiêu chuẩn cao nhất về đường lối chỉ đạo và quản trị công ty.',
-        image: '/ielts/images/vocab/governance.png',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/governance.png',
       },
       {
         word: 'tyranny',
@@ -2042,7 +2042,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈtɪrəni/',
         definitionEn: 'unnecessary harshness; cruelty.',
         exampleVi: 'Những đứa trẻ không có sự bảo vệ nào khỏi sự hà khắc từ người cha của chúng.',
-        image: '/ielts/images/vocab/tyranny.png',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/tyranny.png',
       },
       {
         word: 'distort',
@@ -2052,7 +2052,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈstɔːrt/',
         definitionEn: 'to change or affect something, especially in a way that makes it worse:',
         exampleVi: 'Có nguy cơ điều này sẽ chi phối quyết định của anh ta.',
-        image: '/ielts/images/vocab/distort.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/distort.jpg',
       },
       {
         word: 'matter',
@@ -2062,7 +2062,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈmætər/',
         definitionEn: 'a subject or situation that you must consider or deal with',
         exampleVi: 'Cô ấy có thể cần đến sự giúp đỡ của bạn về những vấn đề kinh doanh.',
-        image: '/ielts/images/vocab/matter.avif',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/matter.avif',
       },
       {
         word: 'metrics',
@@ -2072,7 +2072,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈmetrɪks/',
         definitionEn: 'a set of numbers or statistics used for measuring something',
         exampleVi: 'Bạn có bất kỳ số liệu nào về tỷ lệ sử dụng dịch vụ này không?',
-        image: '/ielts/images/vocab/metrics.png',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/metrics.png',
       },
       {
         word: 'dispute',
@@ -2082,7 +2082,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈspjuːt/',
         definitionEn: 'discussion about a subject on which people disagree',
         exampleVi: 'Liên đoàn đang tranh cãi với ban quản lý về vấn đề lương bổng.',
-        image: '/ielts/images/vocab/dispute.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/dispute.jpg',
       },
       {
         word: 'shareholder',
@@ -2092,7 +2092,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈʃerhoʊldər/',
         definitionEn: 'an owner of shares in a company or business',
         exampleVi: 'Những cổ đông lớn trong công ty',
-        image: '/ielts/images/vocab/shareholder.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/shareholder.jpg',
       },
       {
         word: 'compensation',
@@ -2102,7 +2102,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkɑːmpənˈseɪʃn/',
         definitionEn: 'money that an employee receives for doing their job',
         exampleVi: 'Gửi CV và mức lương hiện tại của bạn đến Phòng Tuyển Dụng Nhân Sự Cao Cấp',
-        image: '/ielts/images/vocab/compensation.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/compensation.jpg',
       },
       {
         word: 'executive',
@@ -2112,7 +2112,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪɡˈzekjətɪv/',
         definitionEn: 'a person who has an important job as a manager of a company or an organization',
         exampleVi: 'Cô ấy giờ đây là giám đốc điều hành cấp cao.',
-        image: '/ielts/images/vocab/executive.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/executive.jpg',
       },
       {
         word: 'transparency',
@@ -2122,7 +2122,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/trænsˈpærənsi/',
         definitionEn: 'the quality of something, such as a situation or an argument, that makes it easy to understand',
         exampleVi: 'Chúng tôi nhiều sự minh bạch hơn đến từ chính phủ',
-        image: '/ielts/images/vocab/transparency.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/transparency.jpg',
       },
       {
         word: 'corporate ethics',
@@ -2132,7 +2132,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkɔːrpərət ˈeθɪks/',
         definitionEn: 'rules, principles, and standards for deciding what is morally right or wrong when doing business',
         exampleVi: 'Nor là một sự thất bại toàn diện về đạo đức kinh doanh trong năm trước.',
-        image: '/ielts/images/vocab/corporate-ethics.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/corporate-ethics.jpg',
       },
       {
         word: 'erode',
@@ -2142,7 +2142,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪˈroʊd/',
         definitionEn: 'to gradually destroy something or make it weaker over a period of time',
         exampleVi: 'Trải nghiệm đó đã bào mòn nghiêm trọng sự tự tin của anh ấy.',
-        image: '/ielts/images/vocab/erode.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/erode.jpg',
       },
       {
         word: 'morality',
@@ -2152,7 +2152,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/məˈræləti/',
         definitionEn: 'the quality of being right, honest, or acceptable',
         exampleVi: 'Tôi phải xem xét về giá trị đạo đức của việc ép người nghèo trả tiền để được điều trị.',
-        image: '/ielts/images/vocab/morality.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/morality.jpg',
       },
       {
         word: 'capitalism',
@@ -2162,7 +2162,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkæpɪtəlɪzəm/',
         definitionEn: 'an economic system in which a country’s businesses and industry are controlled and run for profit by private owners rather than by the government',
         exampleVi: 'Cô ấy viết rằng chủ nghĩa tư bản là một môi trường kinh khủng',
-        image: '/ielts/images/vocab/capitalism.png',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/capitalism.png',
       },
       {
         word: 'encompass',
@@ -2172,7 +2172,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈkʌmpəs/',
         definitionEn: 'to include a large number or range of things',
         exampleVi: 'Nhóm đó bao gồm đủ mọi lứa tuổi',
-        image: '/ielts/images/vocab/encompass.avif',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/encompass.avif',
       },
       {
         word: 'devolve',
@@ -2182,7 +2182,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈvɑːlv/',
         definitionEn: 'to give a duty, responsibility, power, etc. to somebody who has less authority than you',
         exampleVi: 'Chính phủ trung ương ủy thác hầu hết quyền lực đánh thuế cho chính quyền địa phương',
-        image: '/ielts/images/vocab/devolve.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/devolve.jpg',
       },
       {
         word: 'address',
@@ -2192,7 +2192,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈdres/',
         definitionEn: 'to give attention to or deal with a matter or problem',
         exampleVi: 'Bài luận văn của bạn không giải quyết được những vấn đề đó.',
-        image: '/ielts/images/vocab/address.avif',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/address.avif',
       },
       {
         word: 'dedicated',
@@ -2202,7 +2202,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈdedɪkeɪtɪd/',
         definitionEn: 'believing that an activity or idea is important and giving a lot of energy and time to it',
         exampleVi: 'Tổ chứ The Boy Scouts tận tâm trong việc giúp đỡ những bé trai trở thành những người đàn ông có đạo đức và thành đạt.',
-        image: '/ielts/images/vocab/dedicated.jpeg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/dedicated.jpeg',
       },
       {
         word: 'remuneration',
@@ -2212,7 +2212,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˌmjuːnəˈreɪʃn/',
         definitionEn: 'an amount of money that is paid to somebody for the work they have done',
         exampleVi: 'Lương thưởng hào phóng thường gắn với việc đi công tác nước ngoài.',
-        image: '/ielts/images/vocab/remuneration.jpg',
+        image: '/ielts/images/vocab/reading-uk-companies-need-more-effective-boards-of-directors/remuneration.jpg',
       },
     ],
   },
@@ -2388,7 +2388,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/mɑːrˈsuːpiəl/',
         definitionEn: 'a mammal, such as a kangaroo or koala, that carries its young in a pouch',
         exampleVi: 'Thylacine là một loài thú có túi, mặc dù trông giống với loài chó.',
-        image: '/ielts/images/vocab/marsupial.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/marsupial.svg',
       },
       {
         word: 'distend',
@@ -2398,7 +2398,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈstend/',
         definitionEn: 'to become or make something become swollen or stretched, especially because of pressure from inside',
         exampleVi: 'Dạ dày của thylacine có thể phình to để chứa được lượng lớn thức ăn sau một lần săn thành công.',
-        image: '/ielts/images/vocab/distend.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/distend.svg',
       },
       {
         word: 'pursuit',
@@ -2408,7 +2408,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pərˈsuːt/',
         definitionEn: 'the act of following and trying to catch a person, animal, etc.',
         exampleVi: 'Thylacine làm kiệt sức con mồi bằng một cuộc truy đuổi kéo dài thay vì một pha rượt đuổi tốc độ.',
-        image: '/ielts/images/vocab/pursuit.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/pursuit.svg',
       },
       {
         word: 'nocturnal',
@@ -2418,7 +2418,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/nɑːkˈtɜːrnl/',
         definitionEn: 'active at night rather than during the day',
         exampleVi: 'Mặc dù chủ yếu hoạt động về đêm, thylacine thỉnh thoảng vẫn được thấy nghỉ ngơi dưới nắng vào ban ngày.',
-        image: '/ielts/images/vocab/nocturnal.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/nocturnal.svg',
       },
       {
         word: 'bask',
@@ -2428,7 +2428,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/bæsk/',
         definitionEn: 'to lie or sit relaxing in the warmth of the sun',
         exampleVi: 'Một vài con thylacine thậm chí còn được ghi nhận đang phơi nắng vào ban ngày.',
-        image: '/ielts/images/vocab/bask.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/bask.svg',
       },
       {
         word: 'pouch',
@@ -2438,7 +2438,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/paʊtʃ/',
         definitionEn: "a pocket of skin on the front of a female marsupial's body, in which the young are carried",
         exampleVi: 'Thylacine con mới sinh bò thẳng vào túi của mẹ để tiếp tục phát triển.',
-        image: '/ielts/images/vocab/pouch.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/pouch.svg',
       },
       {
         word: 'lair',
@@ -2448,7 +2448,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ler/',
         definitionEn: 'a place where a wild animal lives and hides',
         exampleVi: 'Thylacine con nằm ẩn mình trong hang ổ trong khi mẹ nó đi săn mồi.',
-        image: '/ielts/images/vocab/lair.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/lair.svg',
       },
       {
         word: 'widespread',
@@ -2458,7 +2458,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈwaɪdspred/',
         definitionEn: 'existing or happening in many places or among many people',
         exampleVi: 'Thylacine từng phân bố rộng rãi khắp lục địa Úc và New Guinea.',
-        image: '/ielts/images/vocab/widespread.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/widespread.svg',
       },
       {
         word: 'coincide',
@@ -2468,7 +2468,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkoʊɪnˈsaɪd/',
         definitionEn: 'to happen at the same time as something else',
         exampleVi: 'Sự biến mất của thylacine khỏi lục địa trùng hợp với thời điểm loài chó dingo xuất hiện.',
-        image: '/ielts/images/vocab/coincide.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/coincide.svg',
       },
       {
         word: 'relentless',
@@ -2478,7 +2478,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈlentləs/',
         definitionEn: 'harsh or continuing without stopping',
         exampleVi: 'Việc săn bắt không ngừng của nông dân và thợ săn tiền thưởng đã đẩy thylacine đến bờ tuyệt chủng.',
-        image: '/ielts/images/vocab/relentless.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/relentless.svg',
       },
       {
         word: 'captivity',
@@ -2488,7 +2488,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kæpˈtɪvəti/',
         definitionEn: 'the state of being kept in a place, especially a cage, that you cannot get out of',
         exampleVi: 'Chỉ có một lần sinh sản thành công của thylacine trong điều kiện nuôi nhốt từng được ghi nhận.',
-        image: '/ielts/images/vocab/captivity.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/captivity.svg',
       },
       {
         word: 'demise',
@@ -2498,7 +2498,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈmaɪz/',
         definitionEn: 'the end or failure of something',
         exampleVi: 'Một nhà tự nhiên học đã dự đoán chính xác sự diệt vong của thylacine từ nhiều thập kỷ trước khi điều đó thực sự xảy ra.',
-        image: '/ielts/images/vocab/demise.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/demise.svg',
       },
       {
         word: 'extermination',
@@ -2508,7 +2508,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪkˌstɜːrmɪˈneɪʃn/',
         definitionEn: 'the act of destroying or killing a whole group of people, animals, etc.',
         exampleVi: 'Nhà tự nhiên học cảnh báo rằng sự tận diệt sẽ sớm biến thylacine thành một sinh vật của quá khứ.',
-        image: '/ielts/images/vocab/extermination.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/extermination.svg',
       },
       {
         word: 'scarcity',
@@ -2518,7 +2518,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈskersəti/',
         definitionEn: 'a situation in which something is not easily found or obtained',
         exampleVi: 'Đến năm 1914, một vị giáo sư đã lo ngại trước sự khan hiếm của thylacine ngoài tự nhiên.',
-        image: '/ielts/images/vocab/scarcity.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/scarcity.svg',
       },
       {
         word: 'definitive',
@@ -2528,7 +2528,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈfɪnətɪv/',
         definitionEn: 'certain to be correct or complete, and not able to be changed',
         exampleVi: 'Chưa có cuộc thám hiểm nào đưa ra được bằng chứng chắc chắn rằng thylacine vẫn còn tồn tại.',
-        image: '/ielts/images/vocab/definitive.svg',
+        image: '/ielts/images/vocab/reading-the-thylacine/definitive.svg',
       },
     ],
   },
@@ -2741,7 +2741,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkɑːɡnətɪv/',
         definitionEn: 'connected with mental processes of understanding, such as thinking, knowing, remembering, judging, and problem-solving',
         exampleVi: 'Các nhà nghiên cứu đã phát hiện ra nhiều lợi ích về mặt nhận thức liên quan đến việc song ngữ.',
-        image: '/ielts/images/vocab/cognitive.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/cognitive.svg',
       },
       {
         word: 'compelling',
@@ -2751,7 +2751,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kəmˈpelɪŋ/',
         definitionEn: 'very convincing, or very interesting so that you have to pay attention',
         exampleVi: 'Các nghiên cứu theo dõi chuyển động mắt đưa ra bằng chứng rất thuyết phục rằng người song ngữ kích hoạt cả hai ngôn ngữ cùng lúc.',
-        image: '/ielts/images/vocab/compelling.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/compelling.svg',
       },
       {
         word: 'persistent',
@@ -2761,7 +2761,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pərˈsɪstənt/',
         definitionEn: 'continuing to exist or happen for a long time',
         exampleVi: 'Người song ngữ phải liên tục xử lý sự cạnh tranh dai dẳng giữa hai ngôn ngữ của họ.',
-        image: '/ielts/images/vocab/persistent.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/persistent.svg',
       },
       {
         word: 'juggle',
@@ -2771,7 +2771,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈdʒʌɡl/',
         definitionEn: 'to try to deal with two or more important activities or responsibilities at the same time',
         exampleVi: 'Việc liên tục xoay xở giữa hai ngôn ngữ dường như giúp tăng cường khả năng kiểm soát tinh thần của người song ngữ.',
-        image: '/ielts/images/vocab/juggle.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/juggle.svg',
       },
       {
         word: 'excel',
@@ -2781,7 +2781,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪkˈsel/',
         definitionEn: 'to be very good at something or to do something very well',
         exampleVi: 'Trẻ song ngữ có xu hướng làm rất tốt những nhiệm vụ đòi hỏi phải bỏ qua thông tin không liên quan.',
-        image: '/ielts/images/vocab/excel.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/excel.svg',
       },
       {
         word: 'perceptual',
@@ -2791,7 +2791,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pərˈseptʃuəl/',
         definitionEn: 'relating to the way that you notice things, especially through the physical senses',
         exampleVi: 'Bài kiểm tra Stroop đo lường mức độ mà con người có thể bỏ qua những thông tin tri giác gây nhiễu.',
-        image: '/ielts/images/vocab/perceptual.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/perceptual.svg',
       },
       {
         word: 'encode',
@@ -2801,7 +2801,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈkoʊd/',
         definitionEn: 'to change information into a system of signals that can be sent and later understood or processed',
         exampleVi: 'Não bộ của người song ngữ dường như mã hóa tần số âm thanh hiệu quả hơn trong môi trường ồn ào.',
-        image: '/ielts/images/vocab/encode.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/encode.svg',
       },
       {
         word: 'interference',
@@ -2811,7 +2811,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪntərˈfɪrəns/',
         definitionEn: 'the process of interrupting or disrupting a process, activity, or system',
         exampleVi: 'Việc học ngôn ngữ thứ ba có thể dễ dàng hơn một khi bạn giảm được sự gây nhiễu từ những ngôn ngữ mình đã biết.',
-        image: '/ielts/images/vocab/interference.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/interference.svg',
       },
       {
         word: 'recruit',
@@ -2821,7 +2821,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈkruːt/',
         definitionEn: 'to persuade someone or something to help or to be involved in an activity or organization',
         exampleVi: 'Kinh nghiệm song ngữ có thể giúp não bộ huy động các mạng lưới thay thế khi về già.',
-        image: '/ielts/images/vocab/recruit.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/recruit.svg',
       },
       {
         word: 'degenerative',
@@ -2831,7 +2831,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈdʒenərətɪv/',
         definitionEn: '(of a disease or condition) becoming gradually worse over time',
         exampleVi: 'Alzheimer là một căn bệnh thoái hóa não bộ ảnh hưởng đến trí nhớ và tư duy.',
-        image: '/ielts/images/vocab/degenerative.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/degenerative.svg',
       },
       {
         word: 'counterpart',
@@ -2841,7 +2841,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkaʊntərpɑːrt/',
         definitionEn: 'a person or thing that has the same purpose or role as another one elsewhere',
         exampleVi: 'Bệnh nhân song ngữ có triệu chứng xuất hiện muộn hơn so với những người đơn ngữ tương ứng.',
-        image: '/ielts/images/vocab/counterpart.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/counterpart.svg',
       },
       {
         word: 'impart',
@@ -2851,7 +2851,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪmˈpɑːrt/',
         definitionEn: 'to make information known; to give a particular quality to something',
         exampleVi: 'Lớn lên trong một gia đình song ngữ dường như mang lại những lợi thế về nhận thức từ rất sớm.',
-        image: '/ielts/images/vocab/impart.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/impart.svg',
       },
       {
         word: 'sequential',
@@ -2861,7 +2861,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/sɪˈkwenʃl/',
         definitionEn: 'following a particular order',
         exampleVi: 'Âm thanh của một từ được nói ra đến với não bộ theo trình tự, chứ không phải cùng một lúc.',
-        image: '/ielts/images/vocab/sequential.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/sequential.svg',
       },
       {
         word: 'monolingual',
@@ -2871,7 +2871,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌmɑːnoʊˈlɪŋɡwəl/',
         definitionEn: 'speaking or using only one language',
         exampleVi: 'Trẻ song ngữ từng được cho là gặp bất lợi hơn so với những bạn cùng lứa chỉ nói một ngôn ngữ.',
-        image: '/ielts/images/vocab/monolingual.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/monolingual.svg',
       },
       {
         word: 'peer',
@@ -2881,7 +2881,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pɪr/',
         definitionEn: 'a person who is the same age or has the same social status as you',
         exampleVi: 'Các nhà nghiên cứu so sánh kết quả của trẻ song ngữ với các bạn cùng trang lứa chỉ nói một ngôn ngữ.',
-        image: '/ielts/images/vocab/peer.svg',
+        image: '/ielts/images/vocab/reading-the-benefits-of-being-bilingual/peer.svg',
       },
     ],
   },
@@ -3106,7 +3106,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌepɪˈdemɪk/',
         definitionEn: 'the appearance of a particular disease in a large number of people at the same time',
         exampleVi: 'Một cuộc đại dịch bệnh sởi đã nổ ra và hơn 200 đứa trẻ đã thiệt mạng',
-        image: '/ielts/images/vocab/epidemic.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/epidemic.jpg',
       },
       {
         word: 'court',
@@ -3116,7 +3116,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kɔːrt/',
         definitionEn: 'the official home of a queen or king',
         exampleVi: 'Ông ta nhanh chóng mất đi danh tiếng ở triều đình',
-        image: '/ielts/images/vocab/court.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/court.jpg',
       },
       {
         word: 'merchant',
@@ -3126,7 +3126,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈmɜːrtʃənt/',
         definitionEn: 'a person whose job is to buy and sell products in large amounts, especially by trading with other countries',
         exampleVi: 'Venice đã từng là một thành phố của những thương nhân giàu có',
-        image: '/ielts/images/vocab/merchant.webp',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/merchant.webp',
       },
       {
         word: 'deploy',
@@ -3136,7 +3136,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈplɔɪ/',
         definitionEn: 'to move soldiers or equipment to a place where they can be used when they are needed',
         exampleVi: '2 nghìn quân đã được điều động đến khu vực đó.',
-        image: '/ielts/images/vocab/deploy.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/deploy.jpg',
       },
       {
         word: 'agent',
@@ -3146,7 +3146,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈeɪdʒənt/',
         definitionEn: 'someone who works secretly for the government or other organization',
         exampleVi: 'Hắn ta bị bắt bởi những đặc vụ liên bang',
-        image: '/ielts/images/vocab/agent.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/agent.avif',
       },
       {
         word: 'embassy',
@@ -3156,7 +3156,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈembəsi/',
         definitionEn: 'the group of people who represent their country in a foreign country:',
         exampleVi: 'Chúng tôi từng là bạn với một vài người làm việc tại đại sứ quán thụy điển.',
-        image: '/ielts/images/vocab/embassy.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/embassy.jpg',
       },
       {
         word: 'suspend',
@@ -3166,7 +3166,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/səˈspend/',
         definitionEn: 'to officially stop something for a time',
         exampleVi: 'Việc sản xuất đã bị đình chỉ trong khi việc kiểm tra về sự an toàn được tiến hành.',
-        image: '/ielts/images/vocab/suspend.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/suspend.jpg',
       },
       {
         word: 'isolation',
@@ -3176,7 +3176,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌaɪsəˈleɪʃn/',
         definitionEn: 'the act of separating somebody/something',
         exampleVi: 'Người tù đã bị biệt giam trong ba ngày.',
-        image: '/ielts/images/vocab/isolation.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/isolation.jpg',
       },
       {
         word: 'plague',
@@ -3186,7 +3186,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pleɪɡ/',
         definitionEn: 'a serious disease that kills many people',
         exampleVi: 'Họ mô tả về những bệnh dịch trong lịch sử đã giết hàng triệu người',
-        image: '/ielts/images/vocab/plague.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/plague.jpg',
       },
       {
         word: 'imposition',
@@ -3196,7 +3196,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪmpəˈzɪʃn/',
         definitionEn: 'the act of introducing something such as a new law or rule, or a new tax',
         exampleVi: 'Sự thi hành thiết quân luật',
-        image: '/ielts/images/vocab/imposition.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/imposition.avif',
       },
       {
         word: 'quarantine',
@@ -3206,7 +3206,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkwɔːrəntiːn/',
         definitionEn: 'a period of time when an animal or a person that has or may have a disease is kept away from others in order to prevent the disease from spreading',
         exampleVi: 'Chú chó đã bị cách lý trong 6 tháng',
-        image: '/ielts/images/vocab/quarantine.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/quarantine.jpg',
       },
       {
         word: 'distribution',
@@ -3216,7 +3216,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌdɪstrɪˈbjuːʃn/',
         definitionEn: 'the way that something is spread or exists over a particular area',
         exampleVi: 'Bản đồ cho thấy sự phân bố của chủng loài này trên khắp thế giới.',
-        image: '/ielts/images/vocab/distribution.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/distribution.avif',
       },
       {
         word: 'notice',
@@ -3226,7 +3226,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈnoʊtɪs/',
         definitionEn: 'a sheet of paper giving written or printed information, usually put in a public place',
         exampleVi: 'Có 1 tờ thông báo ở trên bảng nói rằng lớp học đã bị hủy',
-        image: '/ielts/images/vocab/notice.png',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/notice.png',
       },
       {
         word: 'outbreak',
@@ -3236,7 +3236,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈaʊtbreɪk/',
         definitionEn: 'the sudden start of something unpleasant, especially violence or a disease',
         exampleVi: 'Chiều nay được dự đoán sẽ có những cơn mưa bất chợt.',
-        image: '/ielts/images/vocab/outbreak.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/outbreak.jpg',
       },
       {
         word: 'enforce',
@@ -3246,7 +3246,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈfɔːrs/',
         definitionEn: 'to make sure that people obey a particular law or rule',
         exampleVi: 'Công việc của cảnh sát là thi hành pháp luật.',
-        image: '/ielts/images/vocab/enforce.png',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/enforce.png',
       },
       {
         word: 'contain',
@@ -3256,7 +3256,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈteɪn/',
         definitionEn: 'to prevent something harmful from spreading or getting worse',
         exampleVi: 'Kiếm soát một cơn đại dịch',
-        image: '/ielts/images/vocab/contain.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/contain.jpg',
       },
       {
         word: 'division',
@@ -3266,7 +3266,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈvɪʒn/',
         definitionEn: 'a unit of an army, consisting of several brigades or regiments',
         exampleVi: 'Chỉ huy của bốn sư đoàn bộ binh đã kháng lệnh.',
-        image: '/ielts/images/vocab/division.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/division.avif',
       },
       {
         word: 'cordon off',
@@ -3276,7 +3276,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkɔːrdn ɔːf/',
         definitionEn: 'to close an area to people and vehicles',
         exampleVi: 'Tòa nhà đã bị phong tỏa và chỉ nhân viên có thẻ id mới được phép vào.',
-        image: '/ielts/images/vocab/cordon-off.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/cordon-off.jpg',
       },
       {
         word: 'halt',
@@ -3286,7 +3286,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/hɔːlt/',
         definitionEn: 'to stop; to make somebody/something stop',
         exampleVi: 'Lực lượng cảnh sát đã chặn giao thông ở tuyến đường diễu hành',
-        image: '/ielts/images/vocab/halt.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/halt.jpg',
       },
       {
         word: 'roadblock',
@@ -3296,7 +3296,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈroʊdblɑːk/',
         definitionEn: 'a barrier put across the road by the police or army so that they can stop and search vehicles',
         exampleVi: 'Lực lượng cảnh sát thiết lập rào chắn trên cây cầu.',
-        image: '/ielts/images/vocab/roadblock.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/roadblock.jpg',
       },
       {
         word: 'coherent',
@@ -3306,7 +3306,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/koʊˈhɪrənt/',
         definitionEn: 'logical and well organized; easy to understand and clear',
         exampleVi: 'Chủ tịch vẫn chưa trình bày một kế hoạch chặt chẽ logic để giải quyết nó.',
-        image: '/ielts/images/vocab/coherent.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/coherent.jpg',
       },
       {
         word: 'systematically',
@@ -3316,7 +3316,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌsɪstəˈmætɪkli/',
         definitionEn: 'in a complete, efficient or determined way that follows a system or plan',
         exampleVi: 'Cuộc tìm kiếm được tiến hành một cách hệ thống.',
-        image: '/ielts/images/vocab/systematically.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/systematically.jpg',
       },
       {
         word: 'decree',
@@ -3326,7 +3326,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈkriː/',
         definitionEn: 'an official order from a leader or a government that becomes the law',
         exampleVi: 'Hơn 200 người đã được phóng thích bởi sắc lệnh của quân đội.',
-        image: '/ielts/images/vocab/decree.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/decree.avif',
       },
       {
         word: 'governor',
@@ -3336,7 +3336,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɡʌvərnər/',
         definitionEn: 'a person who is the official head of a country or region that is governed by another country',
         exampleVi: 'Ông ấy được xác nhận sẽ tiếp tục làm chủ tịch tỉnh thêm 5 năm nữa.',
-        image: '/ielts/images/vocab/governor.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/governor.jpg',
       },
       {
         word: 'inform',
@@ -3346,7 +3346,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈfɔːrm/',
         definitionEn: 'to tell somebody about something, especially in an official way',
         exampleVi: 'Anh ấy đã đi để thông báo cho họ về quyết định của mình.',
-        image: '/ielts/images/vocab/inform.jpeg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/inform.jpeg',
       },
       {
         word: 'government body',
@@ -3356,7 +3356,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɡʌvərnmənt ˈbɑːdi/',
         definitionEn: 'a group that manages or controls the activities of country, region, or organization',
         exampleVi: 'Tôi phải làm cách nào để nhận được phản hồi từ một cơ quan chính phủ mà không cung cấp những thứ đáng lẽ ra họ phải cung cấp?',
-        image: '/ielts/images/vocab/government-body.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/government-body.jpg',
       },
       {
         word: 'encircle',
@@ -3366,7 +3366,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈsɜːrkl/',
         definitionEn: 'to surround somebody/something completely in a circle',
         exampleVi: 'Hòn đảo được bao quanh bởi một rặng san hô.',
-        image: '/ielts/images/vocab/encircle.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/encircle.jpg',
       },
       {
         word: 'property',
@@ -3376,7 +3376,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈprɑːpərti/',
         definitionEn: 'a thing or things that are owned by somebody; a possession or possessions',
         exampleVi: 'Tòa nhà này là tài sản của chính phủ.',
-        image: '/ielts/images/vocab/property.jpg',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/property.jpg',
       },
       {
         word: 'neighbouring',
@@ -3386,7 +3386,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈneɪbərɪŋ/',
         definitionEn: 'located or living near or next to a place or person',
         exampleVi: 'Cô ấy kết hôn với một người đàn ông ở thành phố lân cận.',
-        image: '/ielts/images/vocab/neighbouring.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/neighbouring.avif',
       },
       {
         word: 'correspondence',
@@ -3396,7 +3396,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkɔːrəˈspɑːndəns/',
         definitionEn: 'letters, especially official or business letters',
         exampleVi: 'Hãy gửi những thư từ sau này đến địa chỉ mới của tôi.',
-        image: '/ielts/images/vocab/correspondence.avif',
+        image: '/ielts/images/vocab/reading-measures-to-combat-infectious-disease-in-tsarist-russia/correspondence.avif',
       },
     ],
   },
@@ -3624,7 +3624,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkwestɪŋ/',
         definitionEn: 'searching eagerly for something, especially knowledge or adventure',
         exampleVi: 'Bản tính ham tìm tòi khám phá đã giúp loài người lan rộng khắp mọi ngóc ngách trên thế giới.',
-        image: '/ielts/images/vocab/questing.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/questing.svg',
       },
       {
         word: 'nomadic',
@@ -3634,7 +3634,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/noʊˈmædɪk/',
         definitionEn: 'living the life of a person who moves from place to place rather than living in one place all the time',
         exampleVi: 'Những người Penan du mục cuối cùng vẫn còn lang thang trong những cánh rừng ở Borneo.',
-        image: '/ielts/images/vocab/nomadic.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/nomadic.svg',
       },
       {
         word: 'depleted',
@@ -3644,7 +3644,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈpliːtɪd/',
         definitionEn: 'reduced in quantity or force',
         exampleVi: 'Nạn khai thác gỗ đã khiến các khu rừng ở Borneo bị suy giảm nghiêm trọng.',
-        image: '/ielts/images/vocab/depleted.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/depleted.svg',
       },
       {
         word: 'negotiate',
@@ -3654,7 +3654,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/nɪˈɡoʊʃieɪt/',
         definitionEn: 'to successfully travel along or around a place that is difficult',
         exampleVi: 'Một người lần đầu đến thăm phải xoay xở tìm đường trong hệ thống tàu điện ngầm rối rắm của New York.',
-        image: '/ielts/images/vocab/negotiate.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/negotiate.svg',
       },
       {
         word: 'peculiar',
@@ -3664,7 +3664,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pɪˈkjuːliər/',
         definitionEn: 'strange or unusual, sometimes in an unpleasant way',
         exampleVi: 'Chúng ta thường xem các nhà thám hiểm là một kiểu người kỳ lạ, khác hẳn những du khách bình thường.',
-        image: '/ielts/images/vocab/peculiar.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/peculiar.svg',
       },
       {
         word: 'venture',
@@ -3674,7 +3674,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈventʃər/',
         definitionEn: 'to go somewhere that might be dangerous or unpleasant',
         exampleVi: 'Một số người vốn dĩ sẵn sàng mạo hiểm bước vào những điều chưa biết hơn người khác.',
-        image: '/ielts/images/vocab/venture.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/venture.svg',
       },
       {
         word: 'delve',
@@ -3684,7 +3684,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/delv/',
         definitionEn: 'to search or research deeply and carefully for information',
         exampleVi: 'Nhà văn đào sâu vào những nỗi sợ và khát khao mà tất cả chúng ta đều nhận ra.',
-        image: '/ielts/images/vocab/delve.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/delve.svg',
       },
       {
         word: 'puny',
@@ -3694,7 +3694,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈpjuːni/',
         definitionEn: 'small and weak; not powerful or effective',
         exampleVi: 'Khi ở xa quê nhà, người lữ hành có thể cảm thấy mình nhỏ bé và vô nghĩa giữa một vùng đất rộng lớn.',
-        image: '/ielts/images/vocab/puny.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/puny.svg',
       },
       {
         word: 'confine',
@@ -3704,7 +3704,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈfaɪn/',
         definitionEn: 'to keep someone or something within limits of space, action, subject, etc.',
         exampleVi: 'Tác giả đã giới hạn cuốn sách của mình chỉ trong những nhà thám hiểm có hành trình vừa có thật vừa có mục đích.',
-        image: '/ielts/images/vocab/confine.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/confine.svg',
       },
       {
         word: 'decline',
@@ -3714,7 +3714,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈklaɪn/',
         definitionEn: 'a continuous decrease in the number, value, or strength of something',
         exampleVi: 'Nhiều người lầm tưởng rằng hoạt động thám hiểm đã suy giảm kể từ thế kỷ 19.',
-        image: '/ielts/images/vocab/decline.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/decline.svg',
       },
       {
         word: 'dub',
@@ -3724,7 +3724,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dʌb/',
         definitionEn: 'to give someone or something a particular name or title, often in an informal way',
         exampleVi: 'Ran Fiennes đã được mệnh danh là nhà thám hiểm vĩ đại nhất còn sống.',
-        image: '/ielts/images/vocab/dub.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/dub.svg',
       },
       {
         word: 'stunt',
@@ -3734,7 +3734,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/stʌnt/',
         definitionEn: 'something unusual or difficult done to attract attention',
         exampleVi: 'Băng qua sa mạc bằng lạc đà trong khi có thể đi ô tô sẽ chỉ là một màn phô diễn gây chú ý.',
-        image: '/ielts/images/vocab/stunt.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/stunt.svg',
       },
       {
         word: 'endeavour',
@@ -3744,7 +3744,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈdevər/',
         definitionEn: 'an attempt to do something, especially something new or difficult',
         exampleVi: 'Định nghĩa về sự thám hiểm của mỗi người phản ánh chính lĩnh vực hoạt động riêng của họ.',
-        image: '/ielts/images/vocab/endeavour.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/endeavour.svg',
       },
       {
         word: 'disregard',
@@ -3754,7 +3754,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌdɪsrɪˈɡɑːrd/',
         definitionEn: 'to treat something as unimportant and pay no attention to it',
         exampleVi: 'Nói rằng mọi cuộc thám hiểm đã kết thúc là đang phớt lờ vai trò của những ý tưởng và cách diễn giải mới.',
-        image: '/ielts/images/vocab/disregard.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/disregard.svg',
       },
       {
         word: 'slant',
@@ -3764,7 +3764,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/slænt/',
         definitionEn: 'a particular way of thinking about or presenting a subject, which shows bias or a particular point of view',
         exampleVi: 'Một nhà văn có thể mang lại một góc nhìn mới mẻ ngay cả với những cung đường đã quá quen thuộc.',
-        image: '/ielts/images/vocab/slant.svg',
+        image: '/ielts/images/vocab/reading-what-is-exploration/slant.svg',
       },
     ],
   },
@@ -3954,7 +3954,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈven.ʃən.əl.i/',
         definitionEn: 'in a way that is traditional and ordinary',
         exampleVi: 'Cô ấy không xinh đẹp theo kiểu truyền thống, nhưng có thứ gì đó rất cuốn hút ở cô ấy.',
-        image: '/ielts/images/vocab/conventionally.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/conventionally.jpg',
       },
       {
         word: 'hierarchy',
@@ -3964,7 +3964,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈhaɪ.ə.rɑːr.ki/',
         definitionEn: 'a system in which people or things are arranged according to their importance',
         exampleVi: 'Ông ấy nhanh chóng vươn lên trong hệ thống cấp bậc chính trị để trở thành người lãnh đạo đảng phái.',
-        image: '/ielts/images/vocab/hierarchy.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/hierarchy.jpg',
       },
       {
         word: 'productive',
@@ -3974,7 +3974,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/prəˈdʌk.tɪv/',
         definitionEn: 'doing or achieving a lot',
         exampleVi: 'Khoảng thời gian tôi ở thư viện có năng suất rất tốt.',
-        image: '/ielts/images/vocab/productive.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/productive.avif',
       },
       {
         word: 'fall short of',
@@ -3984,7 +3984,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/fɔːl ʃɔːrt əv/',
         definitionEn: 'to fail to reach an amount or standard that was expected or hoped for, causing disappointment',
         exampleVi: 'Doanh số bán xe trong tháng 8 không đạt được kỳ vọng.',
-        image: '/ielts/images/vocab/fall-short-of.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/fall-short-of.jpg',
       },
       {
         word: 'misguided',
@@ -3994,7 +3994,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌmɪsˈɡaɪ.dɪd/',
         definitionEn: 'wrong because you have understood or judged a situation badly',
         exampleVi: 'Công ty đổ lỗi sự thể hiện đáng thật vọng của mình cho một kế hoạch sai lầm.',
-        image: '/ielts/images/vocab/misguided.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/misguided.avif',
       },
       {
         word: 'diminishing returns',
@@ -4004,7 +4004,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈmɪn.ɪ.ʃɪŋ rɪˈtɜːrnz/',
         definitionEn: 'a situation in which less and less is achieved despite the use of increasing amounts of effort or money',
         exampleVi: 'Bởi vì quy luật hiệu suất giảm dần sẽ xảy ra ở bất cứ chiến lược quảng cáo nào, doanh thu sẽ vượt qua chi phí ngày một ít (= doanh thu ngày càng ít).',
-        image: '/ielts/images/vocab/diminishing-returns.png',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/diminishing-returns.png',
       },
       {
         word: 'yield',
@@ -4014,7 +4014,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/jiːld/',
         definitionEn: 'to produce or provide something, for example a profit, result or crop',
         exampleVi: 'Cuộc nghiên cứu đã thu được những thông tin hữu ích.',
-        image: '/ielts/images/vocab/yield.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/yield.jpg',
       },
       {
         word: 'devoid of',
@@ -4024,7 +4024,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈvɔɪd əv/',
         definitionEn: 'to lack or be without something that is necessary or usual',
         exampleVi: 'Ông ta dường như thiếu đi lòng trắc ẩn',
-        image: '/ielts/images/vocab/devoid-of.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/devoid-of.avif',
       },
       {
         word: 'mechanism',
@@ -4034,7 +4034,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈmek.ə.nɪ.zəm/',
         definitionEn: 'a way of doing something that is planned or part of a system',
         exampleVi: 'Phương pháp thu thuế cần được xem xét lại.',
-        image: '/ielts/images/vocab/mechanism.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/mechanism.jpg',
       },
       {
         word: 'rigid',
@@ -4044,7 +4044,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈrɪdʒ.ɪd/',
         definitionEn: 'not permitting any change',
         exampleVi: 'Tôi tuân theo một lịch trình cứng nhắc.',
-        image: '/ielts/images/vocab/rigid.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/rigid.jpg',
       },
       {
         word: 'scrap',
@@ -4054,7 +4054,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/skræp/',
         definitionEn: 'to cancel or get rid of something that is no longer practical or useful',
         exampleVi: 'Họ bị ép phải loại bỏ những kế hoạch cho việc xây ngôi trường mới.',
-        image: '/ielts/images/vocab/scrap.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/scrap.jpg',
       },
       {
         word: 'ownership',
@@ -4064,7 +4064,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈoʊ.nər.ʃɪp/',
         definitionEn: 'the fact of owning something',
         exampleVi: 'Nhà hàng này thuộc quyền sở hữu mới.',
-        image: '/ielts/images/vocab/ownership.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/ownership.avif',
       },
       {
         word: 'barrier',
@@ -4074,7 +4074,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈber.i.ər/',
         definitionEn: 'something that exists between one thing or person and another and keeps them separate',
         exampleVi: 'Không có rào chắn nào giữa thực tế và ảo mộng trong tâm trí anh ta.',
-        image: '/ielts/images/vocab/barrier.jpeg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/barrier.jpeg',
       },
       {
         word: 'collaboration',
@@ -4084,7 +4084,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kəˌlæb.əˈreɪ.ʃən/',
         definitionEn: 'the act of working with another person or group of people to create or produce something',
         exampleVi: 'Chính nhờ sự hợp tác mới có được những kết quả cực kỳ hữu ích',
-        image: '/ielts/images/vocab/collaboration.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/collaboration.avif',
       },
       {
         word: 'innovation',
@@ -4094,7 +4094,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪn.əˈveɪ.ʃən/',
         definitionEn: 'a new idea, way of doing something, etc. that has been introduced or discovered',
         exampleVi: 'Những sáng kiến công nghệ nhằm tiết kiệm năng lượng.',
-        image: '/ielts/images/vocab/innovation.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/innovation.jpg',
       },
       {
         word: 'outcome',
@@ -4104,7 +4104,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈaʊt.kʌm/',
         definitionEn: 'the result or effect of an action or event',
         exampleVi: 'Chúng tôi chắc chắn về một kết quả tích cực.',
-        image: '/ielts/images/vocab/outcome.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/outcome.avif',
       },
       {
         word: 'embrace',
@@ -4114,7 +4114,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪmˈbreɪs/',
         definitionEn: 'to accept something enthusiastically',
         exampleVi: 'Có rất ít khả năng là những quốc gia đó sẽ đi theo chủ nghĩa tư bản.',
-        image: '/ielts/images/vocab/embrace.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/embrace.jpg',
       },
       {
         word: 'facet',
@@ -4124,7 +4124,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈfæs.ət/',
         definitionEn: 'a particular part or aspect of something',
         exampleVi: 'Bản báo cáo xét về mọi khía cạnh của hệ thống nhà giam.',
-        image: '/ielts/images/vocab/facet.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/facet.jpg',
       },
       {
         word: 'diminishing utility',
@@ -4134,7 +4134,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈmɪn.ɪ.ʃɪŋ juːˈtɪl.ə.t̬i/',
         definitionEn: 'a situation in which less and less is achieved despite the use of increasing amounts of effort or money',
         exampleVi: 'Khi Jane tiếp tục ăn chiếc bánh ngon lành, cô nhận thấy rằng với mỗi miếng cắn, lợi ích giảm dần của món tráng miệng trở nên rõ ràng hơn, khi sự phấn khích ban đầu của cô nhường chỗ cho cảm giác hài lòng.',
-        image: '/ielts/images/vocab/diminishing-utility.jpg',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/diminishing-utility.jpg',
       },
       {
         word: 'venerate',
@@ -4144,7 +4144,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈven.ər.eɪt/',
         definitionEn: 'to honor or have great respect for a person or thing',
         exampleVi: 'Tác giả người mỹ mark twain đã được vinh danh gần một thế kỷ.',
-        image: '/ielts/images/vocab/venerate.avif',
+        image: '/ielts/images/vocab/reading-why-companies-should-welcome-disorder/venerate.avif',
       },
     ],
   },
@@ -4354,7 +4354,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈteɪn/',
         definitionEn: 'to reach or succeed in getting something',
         exampleVi: 'Bạn cần sự an toàn tài chính để đạt được hạnh phúc cảm xúc.',
-        image: '/ielts/images/vocab/attain.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/attain.jpg',
       },
       {
         word: 'artificial',
@@ -4364,7 +4364,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɑːrtɪˈfɪʃl/',
         definitionEn: 'made by people, often as a copy of something natural',
         exampleVi: 'Quần áo được làm từ sợi nhân tạo.',
-        image: '/ielts/images/vocab/artificial.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/artificial.jpg',
       },
       {
         word: 'enraptured',
@@ -4374,7 +4374,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈræptʃərd/',
         definitionEn: 'filled with great pleasure or joy',
         exampleVi: 'Khán giả bị mê mẩn bởi màn trình diễn của người nghệ sĩ độc diễn trẻ.',
-        image: '/ielts/images/vocab/enraptured.avif',
+        image: '/ielts/images/vocab/reading-artificial-artists/enraptured.avif',
       },
       {
         word: 'prestigious',
@@ -4384,7 +4384,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/preˈstiːdʒəs/',
         definitionEn: 'respected and admired as very important or of very high quality',
         exampleVi: 'Cha mẹ tôi muốn tôi đến một trường đại học danh giá hơn.',
-        image: '/ielts/images/vocab/prestigious.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/prestigious.jpg',
       },
       {
         word: 'subject matter',
@@ -4394,7 +4394,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈsʌbdʒɪkt ˌmætər/',
         definitionEn: 'the ideas or information contained in a book, speech, painting, etc.',
         exampleVi: 'Người nghệ sĩ có những sự đổi mới về cả đề tài lẫn kỹ thuật.',
-        image: '/ielts/images/vocab/subject-matter.avif',
+        image: '/ielts/images/vocab/reading-artificial-artists/subject-matter.avif',
       },
       {
         word: 'trawl',
@@ -4404,7 +4404,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/trɔːl/',
         definitionEn: 'to search through a large amount of information or a large number of people, places, etc. looking for a particular thing or person',
         exampleVi: 'Những công ty lớn lùng sục khắp các trường đại học để tìm kiếm sinh viên thực tập tiềm năng.',
-        image: '/ielts/images/vocab/trawl.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/trawl.jpg',
       },
       {
         word: 'composition',
@@ -4414,7 +4414,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkɑːmpəˈzɪʃn/',
         definitionEn: 'a piece of music that someone has written',
         exampleVi: 'Bản công-xec-tô này là một trong những bản nhạc thời kỳ ban đầu của bà ấy',
-        image: '/ielts/images/vocab/composition.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/composition.jpg',
       },
       {
         word: 'revere',
@@ -4424,7 +4424,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈvɪr/',
         definitionEn: 'to very much respect and admire someone or something',
         exampleVi: 'Nelson Mandela được kính trọng vì lòng cản đảm chống lại chế độ a-pác-thai.',
-        image: '/ielts/images/vocab/revere.png',
+        image: '/ielts/images/vocab/reading-artificial-artists/revere.png',
       },
       {
         word: 'computational',
@@ -4434,7 +4434,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkɑːmpjuˈteɪʃənl/',
         definitionEn: 'used to describe the process of computing',
         exampleVi: 'Người sử dụng máy tính ngày nay có khả năng sở hữu thứ sức mạnh máy tính mà trước đây chỉ có những lập trình viên mới có được.',
-        image: '/ielts/images/vocab/computational.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/computational.jpg',
       },
       {
         word: 'undermine',
@@ -4444,7 +4444,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌʌndərˈmaɪn/',
         definitionEn: 'to gradually weaken or destroy someone or something',
         exampleVi: 'Sự yếu kém và ngạo mạn của chính quyền quản lý thành phố đã làm suy giảm niềm tin của công chúng vào chính phủ.',
-        image: '/ielts/images/vocab/undermine.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/undermine.jpg',
       },
       {
         word: 'fundamental',
@@ -4454,7 +4454,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌfʌndəˈmentl/',
         definitionEn: 'being the most basic or most important thing on which other things depend',
         exampleVi: 'Chúng ta cần thực hiện những sự thay đổi nền tảng trong cách chúng ta đối xử với môi trường.',
-        image: '/ielts/images/vocab/fundamental.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/fundamental.jpg',
       },
       {
         word: 'mechanical',
@@ -4464,7 +4464,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/məˈkænɪkl/',
         definitionEn: 'done as if by machine (seemingly uninfluenced by the mind or emotions)',
         exampleVi: 'Sự cố là do lỗi cơ học.',
-        image: '/ielts/images/vocab/mechanical.png',
+        image: '/ielts/images/vocab/reading-artificial-artists/mechanical.png',
       },
       {
         word: 'blast',
@@ -4474,7 +4474,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/blæst/',
         definitionEn: 'to criticize someone or something severely',
         exampleVi: 'Chính quyền bị chỉ trích vì không tạo được việc làm.',
-        image: '/ielts/images/vocab/blast.avif',
+        image: '/ielts/images/vocab/reading-artificial-artists/blast.avif',
       },
       {
         word: 'pseudoscience',
@@ -4484,7 +4484,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌsuːdoʊˈsaɪəns/',
         definitionEn: 'a system of thought or a theory that is not formed in a scientific way',
         exampleVi: 'Thiếu vắng khoa học, anh ấy có thể nhận thấy rằng đủ kiểu thần thoại và ngụy khoa học đang chiếm ưu thế.',
-        image: '/ielts/images/vocab/pseudoscience.avif',
+        image: '/ielts/images/vocab/reading-artificial-artists/pseudoscience.avif',
       },
       {
         word: 'recoil',
@@ -4494,7 +4494,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈkɔɪl/',
         definitionEn: 'to refuse to accept an idea or principle, feeling strong dislike or disapproval',
         exampleVi: 'Cô ấy tự hỏi cảm giác ra sao khi chạm vào anh ta và cảm thấy ghê tởm về suy nghĩ đó.',
-        image: '/ielts/images/vocab/recoil.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/recoil.jpg',
       },
       {
         word: 'outrage',
@@ -4504,7 +4504,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈaʊtreɪdʒ/',
         definitionEn: 'to make somebody very shocked and angry',
         exampleVi: 'Anh ta cảm thấy phẫn nộ về cái cách bản thân bị đối xử.',
-        image: '/ielts/images/vocab/outrage.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/outrage.jpg',
       },
       {
         word: 'double standard',
@@ -4514,7 +4514,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌdʌbl ˈstændərd/',
         definitionEn: 'a rule or standard of good behaviour that, unfairly, some people are expected to follow or achieve but other people are not',
         exampleVi: 'Nói cách khác phụ, phụ nữ đã đối mặt với tiêu chuẩn kép trên mạng xã hội.',
-        image: '/ielts/images/vocab/double-standard.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/double-standard.jpg',
       },
       {
         word: 'art appreciation',
@@ -4524,7 +4524,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɑːrt əˌpriːʃiˈeɪʃn/',
         definitionEn: 'the act of recognizing or understanding that a piece of art is valuable or important',
         exampleVi: 'Sự cống hiến như vậy để đánh giá cao nghệ thuật và tự giáo dục nên được tôn vinh.',
-        image: '/ielts/images/vocab/art-appreciation.avif',
+        image: '/ielts/images/vocab/reading-artificial-artists/art-appreciation.avif',
       },
       {
         word: 'irresistible',
@@ -4534,7 +4534,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪrɪˈzɪstəbl/',
         definitionEn: 'impossible to refuse, oppose, or avoid because it is too pleasant, attractive, or strong',
         exampleVi: 'Cô ấy cho tôi một nụ cười không thể cưỡng lại và tôi đã phải đồng ý.',
-        image: '/ielts/images/vocab/irresistible.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/irresistible.jpg',
       },
       {
         word: 'essence',
@@ -4544,7 +4544,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈesns/',
         definitionEn: 'the most important quality or feature of something, that makes it what it is',
         exampleVi: 'Những bức tranh của ông ta thể hiện được cốt lõi của nước Pháp.',
-        image: '/ielts/images/vocab/essence.jpg',
+        image: '/ielts/images/vocab/reading-artificial-artists/essence.jpg',
       },
     ],
   },
@@ -4732,7 +4732,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈledʒənderi/',
         definitionEn: 'very famous, or famous for being the best of its kind',
         exampleVi: 'Bồ câu viễn khách từng là một loài chim huyền thoại, bay thành từng đàn hàng triệu con.',
-        image: '/ielts/images/vocab/legendary.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/legendary.svg',
       },
       {
         word: 'spectacle',
@@ -4742,7 +4742,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈspektəkl/',
         definitionEn: 'a performance or event that is very impressive to look at or watch',
         exampleVi: 'Cuộc di cư của loài chim bồ câu đó từng là một trong những cảnh tượng thiên nhiên hoành tráng nhất.',
-        image: '/ielts/images/vocab/spectacle.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/spectacle.svg',
       },
       {
         word: 'premise',
@@ -4752,7 +4752,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈpremɪs/',
         definitionEn: 'an idea or theory on which a statement or action is based',
         exampleVi: 'Tiền đề cơ bản của việc tái sinh tuyệt chủng là hồi sinh lại ADN đã biến mất.',
-        image: '/ielts/images/vocab/premise.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/premise.svg',
       },
       {
         word: 'abundant',
@@ -4762,7 +4762,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈbʌndənt/',
         definitionEn: 'existing in large quantities; more than enough',
         exampleVi: 'Các nhà khoa học dùng loài bồ câu đuôi dải vốn có số lượng dồi dào làm vật mang thai hộ cho loài bồ câu viễn khách đã tuyệt chủng.',
-        image: '/ielts/images/vocab/abundant.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/abundant.svg',
       },
       {
         word: 'pioneering',
@@ -4772,7 +4772,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌpaɪəˈnɪrɪŋ/',
         definitionEn: 'involving new ideas or methods that other people have not used before',
         exampleVi: 'Bồ câu viễn khách là một trong những loài tiên phong trong nghiên cứu tái sinh tuyệt chủng.',
-        image: '/ielts/images/vocab/pioneering.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/pioneering.svg',
       },
       {
         word: 'trial',
@@ -4782,7 +4782,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈtraɪəl/',
         definitionEn: 'to test a product, method, etc. before it is used or made available generally',
         exampleVi: 'Công nghệ tiên tiến này hiện đang được thử nghiệm trên nhiều loài đã tuyệt chủng.',
-        image: '/ielts/images/vocab/trial.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/trial.svg',
       },
       {
         word: 'niche',
@@ -4792,7 +4792,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/nɪtʃ/',
         definitionEn: 'the natural role or position of a plant or animal in its environment',
         exampleVi: 'Không có loài ăn thịt nào hiện nay lấp đầy được vị trí sinh thái mà thylacine từng chiếm giữ.',
-        image: '/ielts/images/vocab/niche.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/niche.svg',
       },
       {
         word: 'debilitating',
@@ -4802,7 +4802,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈbɪlɪteɪtɪŋ/',
         definitionEn: 'making someone very weak and infirm',
         exampleVi: 'Một khối u mặt gây suy nhược đã đe dọa quần thể quỷ Tasmania.',
-        image: '/ielts/images/vocab/debilitating.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/debilitating.svg',
       },
       {
         word: 'notorious',
@@ -4812,7 +4812,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/noʊˈtɔːriəs/',
         definitionEn: 'famous for something bad',
         exampleVi: 'Quỷ Tasmania là cư dân khét tiếng khác của hòn đảo này.',
-        image: '/ielts/images/vocab/notorious.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/notorious.svg',
       },
       {
         word: 'hybrid',
@@ -4822,7 +4822,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈhaɪbrɪd/',
         definitionEn: 'something that is a mixture of two very different things',
         exampleVi: 'Các nhà khoa học có thể tạo ra một giống lai trông và hành xử giống loài đã tuyệt chủng.',
-        image: '/ielts/images/vocab/hybrid.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/hybrid.svg',
       },
       {
         word: 'stagnant',
@@ -4832,7 +4832,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈstæɡnənt/',
         definitionEn: 'not developing or making progress',
         exampleVi: 'Nếu không có sự xáo trộn thường xuyên, nhiều khu rừng ở miền đông nước Mỹ đã trở nên trì trệ.',
-        image: '/ielts/images/vocab/stagnant.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/stagnant.svg',
       },
       {
         word: 'regenerate',
@@ -4842,7 +4842,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/rɪˈdʒenəreɪt/',
         definitionEn: 'to grow again, or to make a plant, cell, etc. grow again',
         exampleVi: 'Một số loài thực vật và động vật đã tiến hóa để giúp một khu rừng tái sinh sau khi bị xáo trộn.',
-        image: '/ielts/images/vocab/regenerate.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/regenerate.svg',
       },
       {
         word: 'candidate',
@@ -4852,7 +4852,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkændɪdeɪt/',
         definitionEn: 'a person or thing suitable for or being considered for a particular purpose',
         exampleVi: 'Voi ma mút lông cừu là một ứng cử viên phổ biến khác cho công nghệ tái sinh tuyệt chủng.',
-        image: '/ielts/images/vocab/candidate.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/candidate.svg',
       },
       {
         word: 'insulating',
@@ -4862,7 +4862,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈɪnsəleɪtɪŋ/',
         definitionEn: 'preventing the loss of heat, electricity, or sound by surrounding something with a covering material',
         exampleVi: 'Lớp lông dày và mỡ cách nhiệt thêm đã giúp voi ma mút lông cừu sống sót qua vùng lãnh nguyên băng giá.',
-        image: '/ielts/images/vocab/insulating.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/insulating.svg',
       },
       {
         word: 'mitigate',
@@ -4872,7 +4872,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈmɪtɪɡeɪt/',
         definitionEn: 'to make something less harmful, serious, or unpleasant',
         exampleVi: 'Việc khôi phục các loài thú ăn cỏ lớn về vùng lãnh nguyên có thể giúp giảm nhẹ lượng khí thải từ lớp băng vĩnh cửu đang tan chảy.',
-        image: '/ielts/images/vocab/mitigate.svg',
+        image: '/ielts/images/vocab/reading-should-we-try-to-bring-extinct-species-back-to-life/mitigate.svg',
       },
     ],
   },
@@ -5047,7 +5047,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkʌtɔːf/',
         definitionEn: 'a point or level beyond which something is not allowed or does not happen',
         exampleVi: "Một điểm số cao hơn ngưỡng được chọn sẽ xếp một đứa trẻ vào diện 'năng khiếu' trên bài kiểm tra IQ.",
-        image: '/ielts/images/vocab/cutoff.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/cutoff.svg',
       },
       {
         word: 'manipulate',
@@ -5057,7 +5057,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/məˈnɪpjuleɪt/',
         definitionEn: 'to control or use something in a skilful way',
         exampleVi: 'Bài kiểm tra IQ phần nào đo lường mức độ trẻ có thể vận dụng khéo léo kiến thức đã có.',
-        image: '/ielts/images/vocab/manipulate.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/manipulate.svg',
       },
       {
         word: 'tuition',
@@ -5067,7 +5067,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/tuˈɪʃn/',
         definitionEn: 'teaching, especially given to one person or a small group',
         exampleVi: 'Những đứa trẻ có năng lực đặc biệt cần được dạy kèm một cách tập trung, thử thách để đạt trình độ xuất sắc.',
-        image: '/ielts/images/vocab/tuition.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/tuition.svg',
       },
       {
         word: 'qualitative',
@@ -5077,7 +5077,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈkwɑːlɪteɪtɪv/',
         definitionEn: 'connected with how good or bad something is, rather than with how much of it there is',
         exampleVi: 'Dường như có một sự khác biệt về chất trong cách những đứa trẻ có năng lực cao tư duy.',
-        image: '/ielts/images/vocab/qualitative.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/qualitative.svg',
       },
       {
         word: 'metacognition',
@@ -5087,7 +5087,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌmetəkɑːɡˈnɪʃn/',
         definitionEn: "awareness and understanding of one's own thought processes",
         exampleVi: 'Siêu nhận thức giúp trẻ tự nhận ra chiến lược riêng của mình trong việc lập kế hoạch và đánh giá quá trình học.',
-        image: '/ielts/images/vocab/metacognition.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/metacognition.svg',
       },
       {
         word: 'curiosity',
@@ -5097,7 +5097,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌkjʊriˈɑːsəti/',
         definitionEn: 'a strong desire to know or learn something',
         exampleVi: 'Sự tò mò là một động lực mạnh mẽ thúc đẩy những khám phá khoa học.',
-        image: '/ielts/images/vocab/curiosity.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/curiosity.svg',
       },
       {
         word: 'succinctly',
@@ -5107,7 +5107,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/səkˈsɪŋktli/',
         definitionEn: 'in a way that is clear and expressed in a few words',
         exampleVi: 'Các nhà nghiên cứu đã tóm gọn vấn đề nan giải của giáo viên một cách ngắn gọn chỉ trong hai câu.',
-        image: '/ielts/images/vocab/succinctly.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/succinctly.svg',
       },
       {
         word: 'diminish',
@@ -5117,7 +5117,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈmɪnɪʃ/',
         definitionEn: 'to become smaller or weaker, or to make something smaller or weaker',
         exampleVi: 'Những giáo viên liên tục chỉ đạo quá mức có thể làm giảm tính tự chủ trong học tập của học sinh năng khiếu.',
-        image: '/ielts/images/vocab/diminish.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/diminish.svg',
       },
       {
         word: 'autonomy',
@@ -5127,7 +5127,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɔːˈtɑːnəmi/',
         definitionEn: 'the ability to make your own decisions without being controlled by anyone else',
         exampleVi: 'Việc phụ thuộc quá nhiều vào giáo viên có nguy cơ làm mất đi quyền tự chủ trong học tập.',
-        image: '/ielts/images/vocab/autonomy.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/autonomy.svg',
       },
       {
         word: 'spoon-feed',
@@ -5137,7 +5137,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈspuːn fiːd/',
         definitionEn: 'to give someone so much help or information that they do not need to think for themselves',
         exampleVi: 'Việc dạy theo kiểu đút sẵn có thể mang lại kết quả thi tốt nhưng không đảm bảo thành công sau này trong cuộc sống.',
-        image: '/ielts/images/vocab/spoon-feed.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/spoon-feed.svg',
       },
       {
         word: 'deprived',
@@ -5147,7 +5147,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈpraɪvd/',
         definitionEn: 'not having enough food, money, education, etc.',
         exampleVi: 'Phương pháp kèm cặp giữa bạn học đã chứng minh đặc biệt hữu ích cho những trẻ thông minh đến từ khu vực khó khăn.',
-        image: '/ielts/images/vocab/deprived.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/deprived.svg',
       },
       {
         word: 'domain',
@@ -5157,7 +5157,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/doʊˈmeɪn/',
         definitionEn: 'an area of interest or an area over which a person has control',
         exampleVi: 'Những người có hiểu biết sâu rộng về một lĩnh vực cụ thể thường có kết quả thực hiện cao hơn.',
-        image: '/ielts/images/vocab/domain.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/domain.svg',
       },
       {
         word: 'expertise',
@@ -5167,7 +5167,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌekspɜːrˈtiːz/',
         definitionEn: 'expert skill or knowledge in a particular subject',
         exampleVi: 'Đạt đến trình độ chuyên môn cao nhất đòi hỏi rất nhiều thời gian và công sức.',
-        image: '/ielts/images/vocab/expertise.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/expertise.svg',
       },
       {
         word: 'inhibit',
@@ -5177,7 +5177,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈhɪbɪt/',
         definitionEn: 'to prevent something, or to prevent someone from doing something',
         exampleVi: 'Những cảm xúc tiêu cực như sợ hãi có thể kìm hãm sự tò mò tự nhiên của trẻ.',
-        image: '/ielts/images/vocab/inhibit.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/inhibit.svg',
       },
       {
         word: 'facilitate',
@@ -5187,7 +5187,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/fəˈsɪlɪteɪt/',
         definitionEn: 'to make an action or process possible or easier',
         exampleVi: 'Những cảm xúc tích cực tạo điều kiện thuận lợi cho các khía cạnh sáng tạo hơn trong học tập.',
-        image: '/ielts/images/vocab/facilitate.svg',
+        image: '/ielts/images/vocab/reading-gifted-children-and-learning/facilitate.svg',
       },
     ],
   },
@@ -5373,7 +5373,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈneɪzl/',
         definitionEn: 'connected with the nose',
         exampleVi: 'Thứ thuốc này đáng lẽ ra có thể giảm triệu chứng nghẹt mũi',
-        image: '/ielts/images/vocab/nasal.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/nasal.jpg',
       },
       {
         word: 'placebo',
@@ -5383,7 +5383,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/pləˈsiboʊ/',
         definitionEn: 'a substance that is not medicine, but that is given to someone who is told that it is a medicine, used to test the effect of a drug or to please a patient',
         exampleVi: 'Cô ấy chỉ được đưa giả dược, nhưng cô ấy nói rằng cô ấy cảm thấy tốt hơn - đó là hiệu ứng giả dược.',
-        image: '/ielts/images/vocab/placebo.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/placebo.jpg',
       },
       {
         word: 'implication',
@@ -5393,7 +5393,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɪmplɪˈkeɪʃn/',
         definitionEn: 'the effect that an action or decision will have on something else in the future',
         exampleVi: 'Những ảnh hưởng của điều luật này là gì?',
-        image: '/ielts/images/vocab/implication.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/implication.jpg',
       },
       {
         word: 'charitable',
@@ -5403,7 +5403,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈtʃærətəbl/',
         definitionEn: 'giving money, food, or help free to those who are in need because they are ill, poor, or have no home',
         exampleVi: 'Toàn bộ tổ chức được tài trợ bởi sự quyên góp từ thiện.',
-        image: '/ielts/images/vocab/charitable.png',
+        image: '/ielts/images/vocab/reading-oxytocin/charitable.png',
       },
       {
         word: 'constructively',
@@ -5413,7 +5413,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/kənˈstrʌktɪvli/',
         definitionEn: 'in a useful or helpful way',
         exampleVi: 'Không phải tất cả học sinh đều làm việc với những đứa trẻ khác ở trong lớp một cách xây dựng.',
-        image: '/ielts/images/vocab/constructively.png',
+        image: '/ielts/images/vocab/reading-oxytocin/constructively.png',
       },
       {
         word: 'inhale',
@@ -5423,7 +5423,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ɪnˈheɪl/',
         definitionEn: 'to breathe air, smoke, or gas into your lungs',
         exampleVi: 'Cô ấy mở tung cửa sổ và hít thở thật sâu.',
-        image: '/ielts/images/vocab/inhale.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/inhale.jpg',
       },
       {
         word: 'envy',
@@ -5433,7 +5433,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈenvi/',
         definitionEn: 'the feeling of wanting something that somebody else has',
         exampleVi: 'Hắn ta không thể che giấu sự ganh tị với tôi.',
-        image: '/ielts/images/vocab/envy.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/envy.jpg',
       },
       {
         word: 'disposition',
@@ -5443,7 +5443,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌdɪspəˈzɪʃn/',
         definitionEn: 'the natural qualities of a person’s character',
         exampleVi: 'Những người có tính khí vui vẻ thường được yêu quá bởi những người khác.',
-        image: '/ielts/images/vocab/disposition.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/disposition.jpg',
       },
       {
         word: 'adept',
@@ -5453,7 +5453,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/əˈdept/',
         definitionEn: 'good at doing something that is quite difficult',
         exampleVi: 'Anh ta đã trở nên giỏi trong việc khiến cho những học sinh bẽn lẽn nhất phải nói chuyện',
-        image: '/ielts/images/vocab/adept.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/adept.jpg',
       },
       {
         word: 'subject',
@@ -5463,7 +5463,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈsʌbdʒɪkt/',
         definitionEn: 'a person or thing being used to study something, especially in an experiment',
         exampleVi: 'Chúng ta cần đối tượng nghiên cứu nam giới từ 18 đến 25 cho thí nghiệm.',
-        image: '/ielts/images/vocab/subject.avif',
+        image: '/ielts/images/vocab/reading-oxytocin/subject.avif',
       },
       {
         word: 'sensitive',
@@ -5473,7 +5473,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈsensətɪv/',
         definitionEn: 'aware of and able to understand other people and their feelings',
         exampleVi: 'Trường học phải nhạy cảm đối với những nhu cầu của học sinh đến từ những hoàn cảnh khác nhau.',
-        image: '/ielts/images/vocab/sensitive.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/sensitive.jpg',
       },
       {
         word: 'vary',
@@ -5483,7 +5483,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈveri/',
         definitionEn: 'to be different from each other in size, shape, etc.',
         exampleVi: 'Những căn phòng khác nhau về kích cỡ.',
-        image: '/ielts/images/vocab/vary.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/vary.jpg',
       },
       {
         word: 'cooperative',
@@ -5493,7 +5493,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/koʊˈɑːpərətɪv/',
         definitionEn: 'involving doing something together or working together with others towards a shared aim',
         exampleVi: 'Bộ phim tài liệu là một nỗ lực hợp tác của những nhà làm phim từ 5 quốc gia.',
-        image: '/ielts/images/vocab/cooperative.avif',
+        image: '/ielts/images/vocab/reading-oxytocin/cooperative.avif',
       },
       {
         word: 'favouritism',
@@ -5503,7 +5503,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈfeɪvərɪtɪzəm/',
         definitionEn: 'the unjust favoring of one group or person over another.',
         exampleVi: 'Những học sinh buộc tội giáo viên về sự thiên vị.',
-        image: '/ielts/images/vocab/favouritism.avif',
+        image: '/ielts/images/vocab/reading-oxytocin/favouritism.avif',
       },
       {
         word: 'social circle',
@@ -5513,7 +5513,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈsoʊʃl ˈsɜːrkl/',
         definitionEn: 'a group of people who are socially connected',
         exampleVi: 'John từ chối bị lôi kéo vào vòng tròn xã hội của cô ta',
-        image: '/ielts/images/vocab/social-circle.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/social-circle.jpg',
       },
       {
         word: 'defend',
@@ -5523,7 +5523,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/dɪˈfend/',
         definitionEn: 'to protect somebody/something from attack',
         exampleVi: 'Những khẩu đại pháo đã phòng thủ hòn đảo khỏi sự tấn công bằng đường biển.',
-        image: '/ielts/images/vocab/defend.avif',
+        image: '/ielts/images/vocab/reading-oxytocin/defend.avif',
       },
       {
         word: 'bias',
@@ -5533,7 +5533,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈbaɪəs/',
         definitionEn: 'an inclination or preference that influences judgment',
         exampleVi: 'Nhà tuyển dụng phải cân nhắc tất cả ứng viên ngang bằng nhau và không thiên vị.',
-        image: '/ielts/images/vocab/bias.png',
+        image: '/ielts/images/vocab/reading-oxytocin/bias.png',
       },
       {
         word: 'goodwill',
@@ -5543,7 +5543,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌɡʊdˈwɪl/',
         definitionEn: 'friendly or helpful feelings towards other people or countries',
         exampleVi: 'Rạp (kịch/hát) ngày càng phải phụ thuộc vào thiện chí của những nhà tài trợ tư nhân để tồn tại.',
-        image: '/ielts/images/vocab/goodwill.jpg',
+        image: '/ielts/images/vocab/reading-oxytocin/goodwill.jpg',
       },
     ],
   },
@@ -5750,7 +5750,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/suːð/',
         definitionEn: 'to make someone feel calmer or less upset, angry, or anxious; to relieve pain',
         exampleVi: 'Con người đã dùng các phương thuốc tự nhiên để xoa dịu cơn đau và bệnh tật trong hàng ngàn năm.',
-        image: '/ielts/images/vocab/soothe.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/soothe.svg',
       },
       {
         word: 'toxin',
@@ -5760,7 +5760,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈtɑːksɪn/',
         definitionEn: 'a poisonous substance, especially one produced by living cells or organisms',
         exampleVi: 'Khỉ mũ đầu vuông tự chà xát cơ thể bằng loài cuốn chiếu tiết ra chất độc để xua đuổi muỗi.',
-        image: '/ielts/images/vocab/toxin.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/toxin.svg',
       },
       {
         word: 'noxious',
@@ -5770,7 +5770,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈnɑːkʃəs/',
         definitionEn: 'poisonous or very harmful',
         exampleVi: 'Tinh tinh ăn một số loại thực vật độc hại để loại bỏ ký sinh trùng khỏi cơ thể.',
-        image: '/ielts/images/vocab/noxious.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/noxious.svg',
       },
       {
         word: 'parasite',
@@ -5780,7 +5780,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈpærəsaɪt/',
         definitionEn: 'an animal or plant that lives on or in another animal or plant and gets its food from it',
         exampleVi: 'Một số loài thực vật giúp tinh tinh loại bỏ ký sinh trùng đường ruột.',
-        image: '/ielts/images/vocab/parasite.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/parasite.svg',
       },
       {
         word: 'hurdle',
@@ -5790,7 +5790,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈhɜːrdl/',
         definitionEn: 'a problem or difficulty that must be dealt with before further progress can be made',
         exampleVi: 'Việc tách chiết và sản xuất đủ số lượng một hợp chất tự nhiên đặt ra những trở ngại đáng kể cho các nhà nghiên cứu.',
-        image: '/ielts/images/vocab/hurdle.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/hurdle.svg',
       },
       {
         word: 'bioprospecting',
@@ -5800,7 +5800,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌbaɪoʊˈprɑːspektɪŋ/',
         definitionEn: 'the search for useful chemical compounds or genetic material in nature, especially in plants and other organisms',
         exampleVi: 'Khảo sát sinh học đã trở thành một chiến lược quan trọng trong việc tìm kiếm các loại thuốc mới.',
-        image: '/ielts/images/vocab/bioprospecting.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/bioprospecting.svg',
       },
       {
         word: 'terrestrial',
@@ -5810,7 +5810,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/təˈrestriəl/',
         definitionEn: 'relating to or living on the land, as opposed to the sea or the air',
         exampleVi: 'Côn trùng được xem là những bậc thầy của lãnh thổ trên cạn.',
-        image: '/ielts/images/vocab/terrestrial.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/terrestrial.svg',
       },
       {
         word: 'therapeutic',
@@ -5820,7 +5820,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌθerəˈpjuːtɪk/',
         definitionEn: 'helping to cure a disease or take care of the body',
         exampleVi: 'Các nhà khoa học mới chỉ bắt đầu tìm hiểu tiềm năng của côn trùng như nguồn cung cấp hợp chất trị liệu.',
-        image: '/ielts/images/vocab/therapeutic.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/therapeutic.svg',
       },
       {
         word: 'antimicrobial',
@@ -5830,7 +5830,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌæntimaɪˈkroʊbiəl/',
         definitionEn: 'able to destroy or prevent the growth of microorganisms, especially bacteria',
         exampleVi: 'Ấu trùng côn trùng sống trong môi trường bẩn thỉu tạo ra nhiều hợp chất kháng khuẩn mạnh.',
-        image: '/ielts/images/vocab/antimicrobial.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/antimicrobial.svg',
       },
       {
         word: 'venom',
@@ -5840,7 +5840,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈvenəm/',
         definitionEn: 'the poisonous liquid that some snakes, spiders, scorpions, etc. produce and put into your body when they bite or sting you',
         exampleVi: 'Một hợp chất tìm thấy trong nọc độc của một loài ong bắp cày cho thấy tiềm năng trong điều trị ung thư.',
-        image: '/ielts/images/vocab/venom.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/venom.svg',
       },
       {
         word: 'daunting',
@@ -5850,7 +5850,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈdɔːntɪŋ/',
         definitionEn: 'seeming difficult to deal with in prospect; intimidating',
         exampleVi: 'Nghiên cứu hàng triệu loài côn trùng mà không có phương pháp tiếp cận có mục tiêu là một nhiệm vụ đầy khó khăn.',
-        image: '/ielts/images/vocab/daunting.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/daunting.svg',
       },
       {
         word: 'ubiquity',
@@ -5860,7 +5860,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/juːˈbɪkwəti/',
         definitionEn: 'the fact of appearing everywhere or of being very common',
         exampleVi: 'Sự hiện diện khắp nơi tưởng chừng của côn trùng thực chất đến từ số lượng khổng lồ của chỉ một vài loài phổ biến.',
-        image: '/ielts/images/vocab/ubiquity.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/ubiquity.svg',
       },
       {
         word: 'subdue',
@@ -5870,7 +5870,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/səbˈduː/',
         definitionEn: 'to bring someone or something under control, typically by force',
         exampleVi: 'Một số loài côn trùng tiết ra chất độc mạnh để khuất phục con mồi trước khi ăn.',
-        image: '/ielts/images/vocab/subdue.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/subdue.svg',
       },
       {
         word: 'pathogenic',
@@ -5880,7 +5880,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˌpæθəˈdʒenɪk/',
         definitionEn: 'capable of causing disease',
         exampleVi: 'Côn trùng sống trên xác chết thường xuyên tiếp xúc với vi khuẩn và nấm gây bệnh.',
-        image: '/ielts/images/vocab/pathogenic.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/pathogenic.svg',
       },
       {
         word: 'precedent',
@@ -5890,7 +5890,7 @@ export const READING_TESTS: PracticeTest[] = [
         ipa: '/ˈpresɪdənt/',
         definitionEn: 'an earlier event or action that is regarded as an example or guide for a later one',
         exampleVi: 'Những loại thuốc có nguồn gốc từ động vật đã thành công trên thị trường cho thấy có một tiền lệ đáng để khám phá.',
-        image: '/ielts/images/vocab/precedent.svg',
+        image: '/ielts/images/vocab/reading-saving-bugs-to-find-new-drugs/precedent.svg',
       },
     ],
   },

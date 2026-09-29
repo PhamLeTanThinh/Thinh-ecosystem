@@ -48,3 +48,19 @@ next-env.d.ts
 
 # local db dumps
 /backups
+
+# raw JSON tải từ LMS (scripts/lms-download.console.js) — data đã sinh sang src/data/ielts/exercises/writing-lms.ts
+/scripts/lms-exercises/*
+!/scripts/lms-exercises/.gitkeep
+
+# raw JSON tải từ LMS (scripts/lms-download-vocab.console.js) — data đã sinh sang src/data/ielts/vocab/<skill>.ts
+/scripts/lms-vocab/*
+!/scripts/lms-vocab/.gitkeep
+
+# raw JSON tải từ LMS (scripts/lms-download-samples.console.js) — data đã sinh sang src/data/ielts/samples/<skill>.ts
+/scripts/lms-samples/*
+!/scripts/lms-samples/.gitkeep
+
+# raw JSON bài thi thử Listening tải từ LMS (nội dung Cambridge IELTS có bản quyền — không commit)
+/scripts/lms-listening/*
+!/scripts/lms-listening/.gitkeep

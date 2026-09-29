@@ -206,15 +206,18 @@ export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Pro
           </div>
         )}
 
-        <div className={`ih-nav-item${onPractice ? ' active' : ''}`}>
-          <Link href={`${base}/practice`} className="ih-nav-link" onClick={onNavigate} aria-current={onPractice ? 'page' : undefined}>
-            <span className="ih-nav-tile">{ICON_PRACTICE}</span>
-            <span className="ih-nav-text">
-              <span className="ih-nav-label">Làm đề</span>
-              <span className="ih-nav-sub">{counts.tests} đề</span>
-            </span>
-          </Link>
-        </div>
+        {/* Writing không có mục Làm đề (chỉ có Đề mẫu + Bài tập) */}
+        {skill !== 'writing' && (
+          <div className={`ih-nav-item${onPractice ? ' active' : ''}`}>
+            <Link href={`${base}/practice`} className="ih-nav-link" onClick={onNavigate} aria-current={onPractice ? 'page' : undefined}>
+              <span className="ih-nav-tile">{ICON_PRACTICE}</span>
+              <span className="ih-nav-text">
+                <span className="ih-nav-label">Làm đề</span>
+                <span className="ih-nav-sub">{counts.tests} đề</span>
+              </span>
+            </Link>
+          </div>
+        )}
 
         <div className={`ih-nav-item${onVocab ? ' active' : ''}`}>
           <Link href={`${base}/vocab`} className="ih-nav-link" onClick={onNavigate} aria-current={onVocab ? 'page' : undefined}>

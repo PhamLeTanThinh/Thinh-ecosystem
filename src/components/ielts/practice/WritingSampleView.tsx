@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import Link from 'next/link'
 import type { SampleParagraph, SampleShortAnswerItem, SampleSpan, WritingSample } from '@/lib/ielts/practice'
 import { skillLabel } from '@/lib/ielts/skills'
@@ -15,6 +15,13 @@ const TOC = [
   { id: 'exercise', icon: '✨', label: 'Bài tập Exercise' },
 ] as const
 const CONCLUSION_TOC = { id: 'loi-ket', icon: '💡', label: 'Lời kết' } as const
+// Đề mẫu Speaking dùng bố cục của LMS: danh sách câu hỏi → mỗi câu hỏi 1 thẻ (nghe + đáp án mẫu) → từ vựng → bài tập.
+const SPEAKING_TOC = [
+  { id: 'de-bai', icon: '🚀', label: 'Danh sách câu hỏi' },
+  { id: 'bai-mau', icon: '📝', label: 'Sample từng câu' },
+  { id: 'vocab', icon: '📚', label: 'Vocabulary' },
+  { id: 'exercise', icon: '✨', label: 'Bài tập exercise' },
+] as const
 
 // So khớp không phân biệt hoa/thường, bỏ khoảng trắng thừa đầu/cuối và dấu câu cuối câu.
 function normalize(s: string): string {
@@ -25,13 +32,82 @@ function paragraphText(p: SampleParagraph): string {
   return p.vocabView.map((sp) => sp.text).join('')
 }
 
-// Ảnh vocab lấy hotlink từ CDN ngoài của nguồn DOL — có thể chết bất cứ lúc nào (không do app này lưu).
+// Ảnh vocab lấy hotlink từ CDN ngoài của nguồn LMS — có thể chết bất cứ lúc nào (không do app này lưu).
 // Lỗi tải thì tự chuyển sang icon thay vì để trống/vỡ hình.
 function FallbackImg({ src, alt, fallback }: { src?: string; alt: string; fallback: string }) {
   const [failed, setFailed] = useState(false)
   if (!src || failed) return <span>{fallback}</span>
   // eslint-disable-next-line @next/next/no-img-element
   return <img src={src} alt={alt} onError={() => setFailed(true)} />
+}
+
+// Nút nghe dạng viên thuốc ▶ (bật/tắt): đọc bằng giọng của trình duyệt; đang đọc thì đổi thành ⏹ để dừng.
+function ListenPill({ text, label }: { text: string; label: string }) {
+  const [playing, setPlaying] = useState(false)
+  return (
+    <button
+      type="button"
+      className="ih-sample-listen"
+      aria-pressed={playing}
+      aria-label={playing ? `Dừng nghe: ${label}` : `Nghe câu trả lời mẫu: ${label}`}
+      onClick={() => {
+        if (playing) {
+          stopSpeaking()
+          setPlaying(false)
+          return
+        }
+        setPlaying(true)
+        speak(text, 'en-US', undefined, () => setPlaying(false))
+      }}
+    >
+      <span className="ih-sample-listen-btn" aria-hidden>
+        {playing ? '⏹' : '▶'}
+      </span>
+      <span>{playing ? 'Đang đọc… bấm để dừng' : 'Nghe câu trả lời mẫu'}</span>
+    </button>
+  )
+}
+
+// essay phẳng (câu hỏi → nhãn → đoạn trả lời…) → nhóm theo từng câu hỏi để mỗi câu hỏi là 1 thẻ
+function groupByQuestion(essay: SampleParagraph[]): { q: SampleParagraph; body: SampleParagraph[] }[] {
+  const groups: { q: SampleParagraph; body: SampleParagraph[] }[] = []
+  for (const p of essay) {
+    if (p.headingKind === 'question') groups.push({ q: p, body: [] })
+    else groups[groups.length - 1]?.body.push(p)
+  }
+  return groups
+}
+
+// "Sample từng câu" của đề Speaking: mỗi câu hỏi 1 thẻ gồm câu hỏi, nút nghe, rồi đáp án mẫu (có các nhãn Answer 1/2…).
+function SpeakingCards({ essay, mode }: { essay: SampleParagraph[]; mode: 'idea' | 'vocab' }) {
+  useEffect(() => () => stopSpeaking(), []) // rời trang thì thôi đọc
+  return (
+    <div className="ih-sample-qcards">
+      {groupByQuestion(essay).map(({ q, body }) => (
+        <article key={q.id} id={q.id} className="ih-sample-qcard">
+          <h3 className="ih-sample-qcard-title">{q.heading}</h3>
+          <ListenPill
+            text={body
+              .filter((p) => !p.heading)
+              .map(paragraphText)
+              .join(' ')}
+            label={q.heading ?? ''}
+          />
+          {body.map((p) =>
+            p.heading ? (
+              <p key={p.id} className="ih-sample-heading-label">
+                {p.heading}
+              </p>
+            ) : mode === 'vocab' ? (
+              <VocabModeParagraph key={p.id} paragraph={p} />
+            ) : (
+              <IdeaModeParagraph key={p.id} paragraph={p} />
+            ),
+          )}
+        </article>
+      ))}
+    </div>
+  )
 }
 
 // 1 đoạn văn ở chế độ "Từ vựng": cụm được đánh dấu tô cam gạch chân, bấm vào hiện/ẩn nghĩa + IPA ngay bên
@@ -118,10 +194,13 @@ function GapFillBlock({ sample }: { sample: WritingSample }) {
         const ok = checked ? normalize(value ?? '') === normalize(it.correctValue) : null
         return (
           <div key={i} className={`ih-sample-gap-row${ok === true ? ' correct' : ok === false ? ' wrong' : ''}`}>
-            <p className="ih-sample-gap-hint">
-              {i + 1}. {it.hintVi}
-            </p>
+            {it.hintVi && (
+              <p className="ih-sample-gap-hint">
+                {i + 1}. {it.hintVi}
+              </p>
+            )}
             <div className="ih-sample-gap-sentence">
+              {!it.hintVi && `${i + 1}. `}
               {it.before}{' '}
               <span className="ih-bank-target-wrap">
                 <button type="button" className={`ih-bank-target${value ? ' filled' : ''}`} onClick={() => setOpenIdx((cur) => (cur === i ? null : i))}>
@@ -218,6 +297,9 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
   const [mode, setMode] = useState<'idea' | 'vocab'>('idea')
   const [reading, setReading] = useState(false)
   const [flashStart, setFlashStart] = useState<number | null>(null)
+  // Đề Speaking không có dàn ý riêng (ý chính nằm ngay ở chế độ "Dàn ý" của bài mẫu) → ẩn mục này
+  const hasOutline = sample.outline.length > 0 || !!sample.outlineThesis || !!sample.outlineIntro?.length
+  const isSpeaking = sample.skill === 'speaking'
 
   return (
     <div className="ih-pr ih-sample">
@@ -228,12 +310,12 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
         {skillLabel(sample.skill)} - Đề mẫu · {sample.part} · {sample.resourceLabel}
       </p>
       <h1 className="ih-font-hand ih-pr-dialog-title">{sample.title}</h1>
-      <p className="ih-pr-sub">{sample.description}</p>
+      {!isSpeaking && <p className="ih-pr-sub">{sample.description}</p>}
 
       <div className="ih-sample-layout">
         <nav className="ih-sample-toc" aria-label="Mục lục">
           <p className="ih-sample-toc-label">Table of content</p>
-          {[...TOC, ...(sample.conclusion ? [CONCLUSION_TOC] : [])].map((t) => (
+          {(isSpeaking ? [...SPEAKING_TOC] : [...TOC.filter((t) => t.id !== 'dan-y' || hasOutline), ...(sample.conclusion ? [CONCLUSION_TOC] : [])]).map((t) => (
             <a key={t.id} href={`#${t.id}`} className="ih-sample-toc-link">
               {t.icon} {t.label}
             </a>
@@ -242,10 +324,32 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
 
         <div className="ih-sample-main">
           <section id="de-bai" className="ih-sample-section">
-            <h2 className="ih-sample-h2">🚀 Đề bài</h2>
-            <blockquote className="ih-sample-quote">{sample.question}</blockquote>
+            {isSpeaking ? (
+              <>
+                <h2 className="ih-sample-h2">🚀 Danh sách câu hỏi</h2>
+                <ol className="ih-sample-qlist">
+                  {sample.essay
+                    .filter((e) => e.headingKind === 'question')
+                    .map((e) => (
+                      <li key={e.id}>
+                        <a href={`#${e.id}`}>{e.heading}</a>
+                      </li>
+                    ))}
+                </ol>
+              </>
+            ) : (
+              <>
+                <h2 className="ih-sample-h2">🚀 Đề bài</h2>
+                <blockquote className="ih-sample-quote">{sample.question}</blockquote>
+              </>
+            )}
+            {sample.questionImage && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={sample.questionImage} alt={sample.title} className="ih-sample-question-image" />
+            )}
           </section>
 
+          {hasOutline && (
           <section id="dan-y" className="ih-sample-section">
             <h2 className="ih-sample-h2">😵 Dàn ý</h2>
             {sample.outlineIntro && (
@@ -256,11 +360,11 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
               </div>
             )}
             <div className="ih-sample-outline">
-              <p className="ih-sample-outline-thesis">{sample.outlineThesis}</p>
+              {sample.outlineThesis && <p className="ih-sample-outline-thesis">{sample.outlineThesis}</p>}
               {sample.outline.map((o, i) => (
                 <div key={i} className="ih-sample-outline-para">
                   <p className="ih-sample-outline-heading">{o.heading}</p>
-                  <p className="ih-sample-outline-topic">{o.topicSentence}</p>
+                  {o.topicSentence && <p className="ih-sample-outline-topic">{o.topicSentence}</p>}
                   {o.ideas.map((idea, j) => (
                     <div key={j} className="ih-sample-outline-idea-block">
                       {o.ideas.length > 1 && (
@@ -280,13 +384,16 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
               ))}
             </div>
           </section>
+          )}
 
           <section id="bai-mau" className="ih-sample-section">
-            <h2 className="ih-sample-h2">📝 Bài mẫu</h2>
+            <h2 className="ih-sample-h2">📝 {isSpeaking ? 'Sample từng câu' : 'Bài mẫu'}</h2>
+            {isSpeaking && <p className="ih-pr-sub">{sample.description}</p>}
             <div className="ih-pr-filters">
               <button type="button" className="ih-btn-outline" onClick={() => setMode(mode === 'idea' ? 'vocab' : 'idea')}>
                 👁 {mode === 'idea' ? 'Từ vựng' : 'Dàn ý'}
               </button>
+              {!isSpeaking && (
               <button
                 type="button"
                 className="ih-btn-outline"
@@ -297,13 +404,28 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
                     return
                   }
                   setReading(true)
-                  speak(sample.essay.map(paragraphText).join(' '), 'en-US', undefined, () => setReading(false))
+                  speak(sample.essay.map((p) => p.heading ?? paragraphText(p)).join(' '), 'en-US', undefined, () => setReading(false))
                 }}
               >
                 {reading ? '⏹ Dừng đọc' : '🔊 Đọc cả bài'}
               </button>
+              )}
             </div>
-            {sample.essay.map((p) => (mode === 'vocab' ? <VocabModeParagraph key={p.id} paragraph={p} /> : <IdeaModeParagraph key={p.id} paragraph={p} />))}
+            {isSpeaking ? (
+              <SpeakingCards essay={sample.essay} mode={mode} />
+            ) : (
+              sample.essay.map((p) =>
+              p.heading ? (
+                <p key={p.id} className={`ih-sample-heading-${p.headingKind ?? 'label'}`}>
+                  {p.heading}
+                </p>
+              ) : mode === 'vocab' ? (
+                <VocabModeParagraph key={p.id} paragraph={p} />
+              ) : (
+                <IdeaModeParagraph key={p.id} paragraph={p} />
+              ),
+              )
+            )}
           </section>
 
           <section id="vocab" className="ih-sample-section">
@@ -350,8 +472,8 @@ export function WritingSampleView({ sample }: { sample: WritingSample }) {
           <section id="exercise" className="ih-sample-section">
             <h2 className="ih-sample-h2">✨ Bài tập Exercise</h2>
             <p className="ih-sample-exercise-intro">Mình cùng làm 2 bài tập sau đây để ôn lại các từ vựng và cấu trúc đã được dùng trong bài mẫu nhé!</p>
-            <GapFillBlock sample={sample} />
-            <ShortAnswerBlock items={sample.shortAnswer} />
+            {sample.gapFill.items.length > 0 && <GapFillBlock sample={sample} />}
+            {sample.shortAnswer.length > 0 && <ShortAnswerBlock items={sample.shortAnswer} />}
           </section>
 
           {sample.conclusion && (

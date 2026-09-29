@@ -1,6 +1,6 @@
 import type { ExerciseSet } from '@/lib/ielts/practice'
 
-// Bài tập "Ghép câu" (Sentence Building) của Writing — nguồn: API "Exercise" của DOL super LMS. Mỗi câu:
+// Bài tập "Ghép câu" (Sentence Building) của Writing — nguồn: API "Exercise" của LMS. Mỗi câu:
 // 1 câu tiếng Việt cần dịch bằng cách CHỌN ĐÚNG THỨ TỰ các thẻ từ cho sẵn (đã gộp cả từ nhiễu). Xem
 // ExerciseSet / ExerciseQuestion trong lib/ielts/practice.ts để biết cách chấm (nối value các thẻ đã chọn).
 export const WRITING_EXERCISES: ExerciseSet[] = [

@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { loadExerciseProgress, type ExerciseSummary, type SetStatus } from '@/lib/ielts/practice'
 import { accentVars, skillLabel } from '@/lib/ielts/skills'
 import type { Skill } from '@/lib/ielts/types'
+import { Pager, pageQuery, paginate, replaceQuery } from './Pager'
 import { ProgressBanner } from './ProgressBanner'
 
 // Cùng quy tắc trạng thái với Vocab set: làm đúng hết câu = xong, đúng ≥1 câu = đang làm, chưa câu nào = chưa làm.
@@ -14,10 +15,12 @@ function setStatus(solved: number, total: number): SetStatus {
 }
 
 // Trang danh sách Bài tập (ghép câu) của 1 kỹ năng — cùng khung với PracticeVocab, chỉ đổi nguồn tiến độ.
-export function PracticeExercise({ skill, sets }: { skill: Skill; sets: ExerciseSummary[] }) {
+// Số trang nằm trên URL (?page=) để bấm Back từ trang làm bài quay lại đúng trang đang xem.
+export function PracticeExercise({ skill, sets, initialPage = 1 }: { skill: Skill; sets: ExerciseSummary[]; initialPage?: number }) {
   const [progress, setProgress] = useState<Record<string, string[]>>({})
   const [query, setQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<SetStatus | 'all'>('all')
+  const [page, setPage] = useState(initialPage)
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -43,6 +46,19 @@ export function PracticeExercise({ skill, sets }: { skill: Skill; sets: Exercise
     return statusFilter === 'all' || r.status === statusFilter
   })
 
+  const { current, pageCount, start, visible } = paginate(filtered, page)
+
+  function goTo(p: number) {
+    setPage(p)
+    replaceQuery(pageQuery(p))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  // Đổi bộ lọc thì về trang 1 (danh sách đã lọc ngắn lại, trang cũ có thể không còn)
+  function resetPage() {
+    if (current !== 1) goTo(1)
+  }
+
   const title = done + doing === 0 ? 'Bạn chưa làm Bài tập nào' : done === 0 ? `Bạn đang làm ${doing} bài` : `Bạn đã hoàn thành ${done} bài và đang làm ${doing} bài`
 
   return (
@@ -50,15 +66,24 @@ export function PracticeExercise({ skill, sets }: { skill: Skill; sets: Exercise
       <ProgressBanner
         heading={`Bài tập ${skillLabel(skill)}`}
         title={title}
-        sub={done + doing === 0 ? 'Chọn một bài bên dưới để bắt đầu ghép câu nhé!' : 'Tiếp tục hoàn thành các bài còn lại nhé!'}
+        sub={done + doing === 0 ? 'Chọn một bài bên dưới để bắt đầu nhé!' : 'Tiếp tục hoàn thành các bài còn lại nhé!'}
         done={done}
         doing={doing}
         total={sets.length}
       />
 
       <div className="ih-pr-filters">
-        <input className="ih-pr-search" placeholder="Tìm bài…" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <select className="ih-pr-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as SetStatus | 'all')} aria-label="Trạng thái">
+        <input className="ih-pr-search" placeholder="Tìm bài…" value={query} onChange={(e) => {
+            setQuery(e.target.value)
+            resetPage()
+          }}
+        />
+        <select className="ih-pr-select" value={statusFilter} onChange={(e) => {
+            setStatusFilter(e.target.value as SetStatus | 'all')
+            resetPage()
+          }}
+          aria-label="Trạng thái"
+        >
           <option value="all">Trạng thái</option>
           <option value="todo">Chưa làm</option>
           <option value="doing">Đang làm</option>
@@ -67,9 +92,9 @@ export function PracticeExercise({ skill, sets }: { skill: Skill; sets: Exercise
       </div>
 
       <div className="ih-les-grid">
-        {filtered.map(({ s, solved, status }, i) => (
+        {visible.map(({ s, solved, status }, i) => (
           <Link key={s.id} href={`/ielts/${skill}/exercise/${s.id}`} className="ih-les-card">
-            <span className="ih-les-num">{i + 1}</span>
+            <span className="ih-les-num">{start + i + 1}</span>
             <span className="ih-les-body">
               <span className="ih-les-cap ih-les-cap-row">
                 <span className={`ih-pr-status ${status}`} aria-hidden>
@@ -81,7 +106,7 @@ export function PracticeExercise({ skill, sets }: { skill: Skill; sets: Exercise
               <span className="ih-les-part">↳ {s.part}</span>
               <span className="ih-pr-chips">
                 <span className={`ih-pr-chip ${status === 'done' ? 'ih-pr-chip-score' : status === 'doing' ? 'ih-pr-chip-doing' : 'ih-pr-chip-todo'}`}>
-                  Đã đúng {solved}/{s.questionCount} {s.kind === 'matching' ? 'vòng' : 'câu'}
+                  Đã đúng {solved}/{s.questionCount} {s.kind === 'matching' ? 'vòng' : s.kind === 'quiz' ? 'màn' : 'câu'}
                 </span>
               </span>
             </span>
@@ -92,6 +117,8 @@ export function PracticeExercise({ skill, sets }: { skill: Skill; sets: Exercise
         ))}
         {filtered.length === 0 && <p className="ih-pr-empty">{sets.length === 0 ? 'Chưa có Bài tập nào.' : 'Không có bài khớp bộ lọc.'}</p>}
       </div>
+
+      <Pager current={current} pageCount={pageCount} start={start} shown={visible.length} total={filtered.length} onPage={goTo} />
     </div>
   )
 }

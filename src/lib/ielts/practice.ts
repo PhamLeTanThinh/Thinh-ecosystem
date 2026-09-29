@@ -204,7 +204,7 @@ export interface VocabSet {
 // ── Bài tập "Ghép câu" (Sentence Building, Writing) ────────────────────────────────────────
 // Khác đề Reading (không có bài đọc) và khác Vocab (có chấm đúng/sai): mỗi câu là 1 câu tiếng Việt cần
 // dịch bằng cách CHỌN ĐÚNG THỨ TỰ vài thẻ từ cho sẵn — trong đó có cả thẻ nhiễu không dùng tới. Nguồn dữ
-// liệu: API "Exercise" (questionType SENTENCE_BUILDING) của DOL super LMS.
+// liệu: API "Exercise" (questionType SENTENCE_BUILDING) của LMS.
 export interface ExerciseWord {
   key: string // id ổn định của thẻ trong câu này (dùng làm React key) — KHÔNG dùng để so khớp đáp án
   value: string // chữ hiện trên thẻ, vd 'disagree' hoặc gộp vài cách nói 'completely/entirely'
@@ -241,7 +241,7 @@ export interface SentenceBuildingSet extends ExerciseSetBase {
 // ── Bài tập "Nối nghĩa" (Matching, Writing) ─────────────────────────────────────────────────
 // Dạng bài thứ 2 (khác Sentence Building): mỗi vòng cho sẵn N cụm tiếng Anh (options, gồm cả vài cụm
 // nhiễu không khớp nghĩa nào) và N nghĩa tiếng Việt (prompts) — nối đúng cặp. Nguồn: API "Exercise" của
-// DOL super LMS (questionType INFO_MATCHING), phần "recap" lấy từ trang TEXT hiện SAU mỗi vòng câu hỏi
+// LMS (questionType INFO_MATCHING), phần "recap" lấy từ trang TEXT hiện SAU mỗi vòng câu hỏi
 // (câu ví dụ thật, không phải tự soạn).
 export interface MatchingOption {
   key: string
@@ -263,10 +263,12 @@ export interface MatchingRecap {
 export interface MatchingRound {
   id: string
   instruction: string // câu hướng dẫn của vòng này, vd 'Nối các collocations với ngữ nghĩa đúng'
+  context?: string // dữ kiện/đề bài đi kèm vòng (vd số liệu cần diễn đạt), hiện dưới câu hướng dẫn
   options: MatchingOption[]
   prompts: MatchingPrompt[]
   correctMap: Record<string, string> // promptKey -> optionKey
   recap?: MatchingRecap[] // ôn lại sau khi kiểm tra vòng — hiện collocation + nghĩa + câu ví dụ
+  explanation?: string // giải thích sau khi kiểm tra — cùng cú pháp **đậm** / *nghiêng* / {ok} / --- với ExerciseQuestion.explanation
 }
 
 export interface MatchingSet extends ExerciseSetBase {
@@ -274,7 +276,78 @@ export interface MatchingSet extends ExerciseSetBase {
   rounds: MatchingRound[]
 }
 
-export type ExerciseSet = SentenceBuildingSet | MatchingSet
+// ── Bài tập "Quiz" (nhiều dạng câu trong 1 bộ, Writing) ─────────────────────────────────────
+// Bộ trộn nhiều dạng câu (trắc nghiệm / điền chỗ trống từ ngân hàng / nối endings / sắp xếp câu / gõ tự do) — thường là các bài
+// "Full Essay", "Paraphrasing"... Nguồn: API "Exercise" của LMS (MULTIPLE_CHOICE,
+// COMPLETION_WITH_HINTS, INFO_MATCHING, SENTENCE_ARRANGEMENT, COMPLETION_WITHOUT_HINTS). Mỗi item = 1 màn: đúng hết mới tính qua (lưu tiến độ theo item.id).
+interface QuizItemBase {
+  id: string
+  instruction: string // câu hướng dẫn của màn này
+  context?: string // đề bài/dữ kiện đi kèm (hiện dưới câu hướng dẫn); nhiều dòng ngăn bằng \n
+  explanation?: string // cùng cú pháp với ExerciseQuestion.explanation
+}
+
+export interface QuizChoiceItem extends QuizItemBase {
+  type: 'choice'
+  multiple: boolean // true = chọn nhiều đáp án (MULTIPLE), false = chọn 1
+  options: { key: string; value: string }[] // giữ nguyên thứ tự nguồn
+  correct: string[] // key các đáp án đúng
+}
+
+// Đoạn văn có chỗ trống: mỗi đoạn là dãy phần tử chữ / chỗ trống. Người học chọn cho mỗi chỗ trống 1 mục
+// trong bank (mỗi mục dùng tối đa 1 lần, có thể có mục nhiễu).
+export type QuizSegment = { text: string; bold?: boolean } | { blank: string }
+export interface QuizCompletionItem extends QuizItemBase {
+  type: 'completion'
+  body: QuizSegment[][]
+  bank: { key: string; value: string }[]
+  correctMap: Record<string, string> // blankKey -> bankKey
+}
+
+export interface QuizMatchingItem extends QuizItemBase {
+  type: 'matching'
+  options: MatchingOption[]
+  prompts: MatchingPrompt[]
+  correctMap: Record<string, string> // promptKey -> optionKey
+}
+
+// Sắp xếp các câu (đoạn văn) theo đúng thứ tự — thường là các đoạn của 1 bài Full Essay.
+export interface QuizOrderItem extends QuizItemBase {
+  type: 'order'
+  options: { key: string; value: string }[] // thứ tự nguồn (không có nghĩa)
+  correct: string[] // key theo thứ tự đúng
+}
+
+// Gõ tự do vào chỗ trống (không có ngân hàng đáp án): chấm bằng cách so với các đáp án chấp nhận sau khi bỏ
+// khác biệt hoa/thường, khoảng trắng thừa và dấu câu ở hai đầu.
+export interface QuizTypingItem extends QuizItemBase {
+  type: 'typing'
+  body: QuizSegment[][]
+  answers: Record<string, string[]> // blankKey -> các đáp án chấp nhận
+}
+
+// Bài nói lặp lại (Speaking, REPEATING): nghe câu gốc (prompt, thường là cách nói đơn giản) rồi NÓI câu mẫu (script,
+// cách diễn đạt tự nhiên hơn). Chấm bằng nhận diện giọng nói của trình duyệt, hoặc người học tự đánh giá.
+export interface QuizRepeatChunk {
+  text: string
+  meaning?: string // nghĩa tiếng Việt của cụm (chỉ có ở các cụm đáng chú ý)
+  punct?: boolean // dấu câu: dính vào từ đứng trước, không cách dòng
+}
+export interface QuizRepeatItem extends QuizItemBase {
+  type: 'repeat'
+  prompt: string
+  script: string
+  chunks: QuizRepeatChunk[]
+}
+
+export type QuizItem = QuizChoiceItem | QuizCompletionItem | QuizMatchingItem | QuizOrderItem | QuizTypingItem | QuizRepeatItem
+
+export interface QuizSet extends ExerciseSetBase {
+  kind: 'quiz'
+  items: QuizItem[]
+}
+
+export type ExerciseSet = SentenceBuildingSet | MatchingSet | QuizSet
 
 // Phần tối thiểu cho trang danh sách — KHÔNG có words/correctAnswers/explanation (giữ đúng nguyên tắc
 // TestSummary: dữ liệu có đáp án chỉ đi tới client ở màn làm bài, sau khi đã qua assertIeltsAccess).
@@ -285,14 +358,14 @@ export interface ExerciseSummary {
   title: string
   category: string
   part: string
-  // sentence-building: số câu. matching: số vòng (đơn vị "qua/chưa qua" thật sự được lưu tiến độ).
+  // sentence-building: số câu. matching: số vòng. quiz: số màn (đơn vị "qua/chưa qua" thật sự được lưu tiến độ).
   questionCount: number
 }
 
 // ── Đề mẫu (Writing Sample) ──────────────────────────────────────────────────────────────────
 // Khác cả Vocab set/Bài tập: đây là 1 bài luận mẫu hoàn chỉnh (đề bài + dàn ý + bài mẫu + từ vựng + 2 bài
 // tập ôn nhúng sẵn) — hiện thành 1 trang cuộn dài có mục lục, không phải trang "làm bài" chấm điểm tổng.
-// Nguồn: API "Sample" của DOL super LMS.
+// Nguồn: API "Sample" của LMS.
 export interface SampleSpan {
   text: string
   // Có mặt khi đoạn chữ này là 1 cụm được tô — ở chế độ "Từ vựng" (vocabWord có giá trị) tô cam gạch chân
@@ -305,6 +378,10 @@ export interface SampleSpan {
 
 export interface SampleParagraph {
   id: string
+  // Dòng tiêu đề chen giữa bài mẫu (Speaking: câu hỏi của giám khảo và nhãn "Answer 1"…) — có thì đoạn này chỉ hiện dòng chữ
+  // này (vocabView / ideaView để rỗng). headingKind 'question' = câu hỏi (in đậm, to), 'label' = nhãn nhỏ.
+  heading?: string
+  headingKind?: 'question' | 'label'
   vocabView: SampleSpan[] // hiện khi bật chế độ "Từ vựng" (nguồn: samples[])
   ideaView: SampleSpan[] // hiện khi bật chế độ "Dàn ý" (nguồn: ideas[]) — cùng 1 câu chữ, khác cụm được tô
 }
@@ -346,10 +423,14 @@ export interface WritingSample {
   part: string // vd 'Writing 8', hiện ở dòng phụ của thẻ đề
   description: string
   question: string // đề bài
-  // Vài dòng "lộ trình" chung đầu mục Dàn ý (vd 'DOL sẽ trình bày quan điểm qua...') — không phải đề nào
+  // Ảnh biểu đồ/bản đồ/quy trình đi kèm đề — chỉ có ở Writing Task 1 (Map/Process/Chart/Diagram...).
+  questionImage?: string
+  chartType?: string // vd 'MAP', 'PROCESS', 'BAR_CHART', 'PIE_CHART', 'LINE', 'TABLE', 'MIXED' — chỉ có ở Task 1
+  // Vài dòng "lộ trình" chung đầu mục Dàn ý (vd 'Chúng tôi sẽ trình bày quan điểm qua...') — không phải đề nào
   // cũng có sẵn trong nguồn.
   outlineIntro?: string[]
-  outlineThesis: string
+  // Task 2 luôn có (luận điểm agree/disagree...); Task 1 không có (chỉ mô tả số liệu, không nêu quan điểm).
+  outlineThesis?: string
   outline: SampleOutlineParagraph[]
   essay: SampleParagraph[]
   vocab: PracticeVocab[]
@@ -367,6 +448,7 @@ export interface SampleSummary {
   resourceLabel: string
   part: string
   description: string
+  task?: 1 | 2 | 3 // Writing Task 1/2 hoặc Speaking Part 1/2/3, suy từ resourceLabel — dùng cho bộ lọc ở trang Đề mẫu
 }
 
 // Độ khó ước lượng của 1 đề (không quy ra band: mỗi đề chỉ ~13-14 câu nên không đủ để chấm band). Đánh giá theo độ

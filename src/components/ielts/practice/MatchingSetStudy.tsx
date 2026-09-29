@@ -5,10 +5,11 @@ import Link from 'next/link'
 import { loadExerciseProgress, saveExerciseProgress, type MatchingRound, type MatchingSet } from '@/lib/ielts/practice'
 import { skillLabel } from '@/lib/ielts/skills'
 import { speak } from '@/lib/shared/speech'
+import { renderExplanation } from './ExerciseSetStudy'
 
 // Trộn 1 lần cho mỗi vòng (giữ nguyên nhờ useMemo khoá theo id vòng) — không trộn lại giữa các lần render
 // để các thẻ trên đầu không nhảy vị trí khi chọn.
-function shuffle<T>(arr: T[]): T[] {
+export function shuffle<T>(arr: T[]): T[] {
   const a = [...arr]
   for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -31,6 +32,7 @@ export function MatchingSetStudy({ set }: { set: MatchingSet }) {
   const [openPrompt, setOpenPrompt] = useState<string | null>(null)
   const [checked, setChecked] = useState<'idle' | 'correct' | 'incorrect'>('idle')
   const [showRecap, setShowRecap] = useState(false)
+  const [showExplanation, setShowExplanation] = useState(false)
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -46,6 +48,7 @@ export function MatchingSetStudy({ set }: { set: MatchingSet }) {
     setOpenPrompt(null)
     setChecked('idle')
     setShowRecap(false)
+    setShowExplanation(false)
   }
 
   function goTo(idx: number) {
@@ -140,6 +143,7 @@ export function MatchingSetStudy({ set }: { set: MatchingSet }) {
         <div className="ih-sb-topbar">
           <h2 className="ih-sb-instruction">{round.instruction}</h2>
         </div>
+        {round.context && <p className="ih-match-context">{round.context}</p>}
 
         <div className="ih-sb-pool">
           {options.map((o) => (
@@ -210,7 +214,7 @@ export function MatchingSetStudy({ set }: { set: MatchingSet }) {
         {openPrompt && <div className="ih-bank-backdrop" onClick={() => setOpenPrompt(null)} />}
 
         <div className="ih-pr-filters ih-sb-actions">
-          {checked !== 'correct' && (
+          {checked === 'idle' && (
             <button type="button" className="ih-btn-solid ih-pr-push" onClick={check} disabled={round.prompts.some((p) => !pairs[p.key])}>
               Kiểm tra
             </button>
@@ -221,7 +225,7 @@ export function MatchingSetStudy({ set }: { set: MatchingSet }) {
             </button>
           )}
           {checked === 'incorrect' && (
-            <button type="button" className="ih-pr-push ih-btn-outline" onClick={resetRoundState}>
+            <button type="button" className="ih-btn-solid ih-pr-push" onClick={resetRoundState}>
               ↺ Làm lại
             </button>
           )}
@@ -230,6 +234,12 @@ export function MatchingSetStudy({ set }: { set: MatchingSet }) {
         {checked !== 'idle' && (
           <div className={`ih-sb-result${checked === 'correct' ? ' correct' : ' incorrect'}`}>
             <p className="ih-sb-result-title">{checked === 'correct' ? 'Chính xác!' : 'Còn sai vài cặp — anh chị xem lại rồi thử lại nhé'}</p>
+            {round.explanation && (
+              <button type="button" className="ih-vocab-expand" onClick={() => setShowExplanation((v) => !v)}>
+                {showExplanation ? 'Ẩn giải thích ▴' : 'Xem giải thích ▾'}
+              </button>
+            )}
+            {showExplanation && round.explanation && <div className="ih-sb-explanation">{renderExplanation(round.explanation)}</div>}
             {round.recap && (
               <button type="button" className="ih-vocab-expand" onClick={() => setShowRecap((v) => !v)}>
                 {showRecap ? 'Ẩn ôn lại ▴' : 'Xem lại collocation + ví dụ ▾'}

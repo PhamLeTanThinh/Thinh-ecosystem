@@ -1,9 +1,10 @@
 import { notFound } from 'next/navigation'
+import { ListeningRunner } from '@/components/ielts/practice/ListeningRunner'
 import { TestRunner } from '@/components/ielts/practice/TestRunner'
 import { assertIeltsAccess } from '@/lib/ielts/access'
 import { type PracticeMode } from '@/lib/ielts/practice'
 import { parseSkill } from '@/lib/ielts/skills'
-import { findTest } from '@/lib/ielts/tests'
+import { findListeningTest, findTest } from '@/lib/ielts/tests'
 
 // Màn làm bài: nằm ngoài nhóm (shell) nên không có topbar — TestRunner tự chiếm toàn màn hình.
 export default async function RunPage({ params, searchParams }: { params: Promise<{ skill: string; testId: string }>; searchParams: Promise<{ mode?: string | string[] }> }) {
@@ -11,6 +12,8 @@ export default async function RunPage({ params, searchParams }: { params: Promis
   await assertIeltsAccess()
   const { skill: rawSkill, testId } = await params
   const skill = parseSkill(rawSkill)
+  const listening = skill === 'listening' ? findListeningTest(testId) : undefined
+  if (listening) return <ListeningRunner key={listening.id} test={listening} />
   const test = findTest(testId)
   if (!skill || !test || test.skill !== skill) notFound()
   // Thiếu / sai ?mode= thì mặc định luyện tập (chế độ an toàn, không tính giờ).

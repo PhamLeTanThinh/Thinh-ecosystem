@@ -36,7 +36,7 @@ function shuffle<T>(arr: T[]): T[] {
 // AnswerReview.tsx's inline()) — viết lại cục bộ ở đây vì 2 màn không dùng chung 1 rich-text component.
 // Thêm 1 quy ước riêng cho màn này: 1 dòng chỉ có "---" = đường kẻ ngăn (dùng để tách phần "Cách tra"
 // khỏi phần giải thích 2 lựa chọn phía trên).
-function renderExplanation(text: string): ReactNode {
+export function renderExplanation(text: string): ReactNode {
   return text.split('\n').map((line, i) => {
     if (line === '---') return <hr key={i} className="ih-sb-exp-divider" />
     return (
@@ -209,7 +209,7 @@ export function ExerciseSetStudy({ set }: { set: SentenceBuildingSet }) {
           <button type="button" className="ih-btn-outline" onClick={() => speak(selected.map((k) => byKey.get(k)?.value ?? '').join(' '), 'en-US')} disabled={selected.length === 0}>
             🔊 Đọc câu đã ghép
           </button>
-          {checked !== 'correct' && (
+          {checked === 'idle' && (
             <button type="button" className="ih-btn-solid ih-pr-push" onClick={check} disabled={selected.length === 0}>
               Kiểm tra
             </button>
@@ -222,7 +222,7 @@ export function ExerciseSetStudy({ set }: { set: SentenceBuildingSet }) {
           {checked === 'incorrect' && (
             <button
               type="button"
-              className="ih-pr-push ih-btn-outline"
+              className="ih-btn-solid ih-pr-push"
               onClick={() => {
                 setSelected([])
                 setChecked('idle')
