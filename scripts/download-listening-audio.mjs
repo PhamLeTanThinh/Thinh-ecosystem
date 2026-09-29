@@ -24,11 +24,27 @@ let ok = 0
 let skipped = 0
 let failed = 0
 
-for (const f of fs.readdirSync(dir).filter((x) => x.endsWith('.json')).sort()) {
-  for (const entry of JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))) {
-    const t = entry.data.test
-    const id = 'listening-' + slug(t.testID || t.name)
-    for (const [i, sec] of entry.data.testSections.entries()) {
+// Đọc cả bản POST (scripts/lms-listening: { data: { test, testSections } }) lẫn bản chi tiết (scripts/lms-listening-detail: { detail })
+const detailDir = path.join(path.dirname(dir), 'lms-listening-detail')
+const seen = new Set()
+const jobs = []
+for (const [d, isDetail] of [[detailDir, true], [dir, false]]) {
+  if (!fs.existsSync(d)) continue
+  for (const f of fs.readdirSync(d).filter((x) => x.endsWith('.json')).sort()) {
+    for (const entry of JSON.parse(fs.readFileSync(path.join(d, f), 'utf8'))) {
+      const sections = isDetail ? entry.detail.testSections : entry.data.testSections
+      const t = isDetail ? { testID: sections[0].testSectionId.replace(/_S\d+$/, ''), name: entry.detail.name } : entry.data.test
+      const id = 'listening-' + slug(t.testID || t.name)
+      if (seen.has(id)) continue
+      seen.add(id)
+      jobs.push({ id, sections })
+    }
+  }
+}
+
+for (const { id, sections } of jobs) {
+  {
+    for (const [i, sec] of sections.entries()) {
       const a = sec.script?.audio
       if (!a?.path) {
         console.warn(`  ${id} s${i + 1}: không có đường dẫn âm thanh`)

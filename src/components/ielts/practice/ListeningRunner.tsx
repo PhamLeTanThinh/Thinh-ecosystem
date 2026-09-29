@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
-import { clearDraft, loadAttempts, loadDrafts, saveAttempt, saveDraft } from '@/lib/ielts/practice'
+import { clearDraft, loadAttempts, loadDrafts, saveAttempt, saveDraft, type PracticeMode, type QuizSegment } from '@/lib/ielts/practice'
 import {
   formatClock,
   gradeListening,
@@ -50,35 +50,47 @@ function Mark({ r }: { r: QuestionResult | undefined }) {
 // ── Từng dạng câu hỏi ───────────────────────────────────────────────────────────────────────────
 function FillItem({ item, answers, onChange, locked, results }: ItemProps & { item: Extract<LItem, { type: 'fill' }> }) {
   const numOf = new Map(item.blanks.map((id, i) => [id, item.num + i]))
+  const segs = (list: QuizSegment[]) =>
+    list.map((s, j) => {
+      if ('blank' in s) {
+        const n = numOf.get(s.blank) ?? 0
+        const r = results?.get(n)
+        return (
+          <span key={j} className="ih-l-blank">
+            <b>{n}.</b>
+            <input
+              className={`ih-l-input${r && r.ok !== null ? (r.ok ? ' ok' : ' bad') : ''}`}
+              value={answers[String(n)] ?? ''}
+              disabled={locked}
+              autoComplete="off"
+              spellCheck={false}
+              aria-label={`Câu ${n}`}
+              onChange={(e) => onChange(String(n), e.target.value)}
+            />
+            <Mark r={r} />
+          </span>
+        )
+      }
+      return s.bold ? <strong key={j}>{s.text}</strong> : <span key={j}>{s.text}</span>
+    })
   return (
     <div className="ih-l-card" id={`lq-${item.num}`}>
       {item.heading && <p className="ih-l-heading">{item.heading}</p>}
-      {item.body.map((p, i) => (
-        <p key={i} className={`ih-l-para${p.bullet ? ' bullet' : ''}`}>
-          {p.segs.map((s, j) => {
-            if ('blank' in s) {
-              const n = numOf.get(s.blank) ?? 0
-              const r = results?.get(n)
-              return (
-                <span key={j} className="ih-l-blank">
-                  <b>{n}.</b>
-                  <input
-                    className={`ih-l-input${r && r.ok !== null ? (r.ok ? ' ok' : ' bad') : ''}`}
-                    value={answers[String(n)] ?? ''}
-                    disabled={locked}
-                    autoComplete="off"
-                    spellCheck={false}
-                    aria-label={`Câu ${n}`}
-                    onChange={(e) => onChange(String(n), e.target.value)}
-                  />
-                  <Mark r={r} />
-                </span>
-              )
-            }
-            return s.bold ? <strong key={j}>{s.text}</strong> : <span key={j}>{s.text}</span>
-          })}
-        </p>
-      ))}
+      {item.body.map((p, i) =>
+        p.cells ? (
+          <div key={i} className="ih-l-trow" style={{ gridTemplateColumns: `repeat(${p.cells.length}, minmax(0, 1fr))` }}>
+            {p.cells.map((c, k) => (
+              <div key={k} className={`ih-l-tcell${c.th ? ' th' : ''}`}>
+                {segs(c.segs)}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p key={i} className={`ih-l-para${p.bullet ? ' bullet' : ''}`}>
+            {segs(p.segs)}
+          </p>
+        ),
+      )}
     </div>
   )
 }
@@ -214,6 +226,17 @@ function MatchItem({ item, answers, onChange, locked, results }: ItemProps & { i
   return (
     <div className="ih-l-card ih-l-match" id={`lq-${item.num}`}>
       <div className="ih-l-match-rows">
+        {item.image && (
+          <div className="ih-l-map-img" style={{ aspectRatio: `${item.image.width} / ${item.image.height}` }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={item.image.url} alt="Sơ đồ cần gán nhãn" />
+            {item.spots?.map((s) => (
+              <span key={s.label} className="ih-l-spot" style={{ left: `${(s.x / item.image!.width) * 100}%`, top: `${(s.y / item.image!.height) * 100}%` }}>
+                {s.label}
+              </span>
+            ))}
+          </div>
+        )}
         {item.labels.map((label, i) => {
           const n = item.num + i
           const r = results?.get(n)
@@ -418,6 +441,8 @@ export function locateSection(starts: number[], t: number): { index: number; off
 // Nạp cả file âm thanh bằng fetch rồi phát từ địa chỉ blob:. Thẻ <audio> trỏ thẳng tới file .mp3 sẽ bị các trình tải (IDM…) bắt
 // request và hiện hộp thoại tải xuống; với blob: thì trình duyệt không còn request media nào để chúng chen vào. Cache theo URL
 // nên phần đo thời lượng và phần phát dùng chung 1 lần tải. Fetch lỗi (file thiếu, CDN chặn CORS…) thì chỗ gọi tự lùi về URL gốc.
+// File cục bộ /ielts/audio/<đề>/sN.mp3 → route /api/ielts/audio/<đề>/sN (không đuôi .mp3, octet-stream): xem route.ts
+const localSrc = (sec: LSection) => sec.audioLocal?.replace(/^\/ielts\/audio\/(.+)\.mp3$/, '/api/ielts/audio/$1')
 const blobCache = new Map<string, Promise<string>>()
 function blobUrlFor(src: string): Promise<string> {
   let p = blobCache.get(src)
@@ -451,7 +476,8 @@ function useTestAudio(test: ListeningTest, secIdx: number, setSecIdx: (i: number
   const [badLocal, setBadLocal] = useState<ReadonlySet<number>>(() => new Set())
   const srcFor = (i: number) => {
     const sec = test.sections[i]
-    return sec.audioLocal && !badLocal.has(i) ? sec.audioLocal : sec.audioUrl
+    const local = localSrc(sec)
+    return local && !badLocal.has(i) ? local : sec.audioUrl
   }
   const url = srcFor(secIdx)
 
@@ -475,7 +501,7 @@ function useTestAudio(test: ListeningTest, secIdx: number, setSecIdx: (i: number
         a.src = src
         probes.push(a)
       }
-      blobUrlFor(sec.audioLocal ?? sec.audioUrl).then(measure, () => measure(sec.audioUrl))
+      blobUrlFor(localSrc(sec) ?? sec.audioUrl).then(measure, () => measure(sec.audioUrl))
     })
     return () => {
       cancelled = true
@@ -506,7 +532,8 @@ function useTestAudio(test: ListeningTest, secIdx: number, setSecIdx: (i: number
       // Đang phát file cục bộ mà lỗi → đánh dấu để chuyển sang CDN (effect nạp lại theo url mới; giữ nguyên vị trí cần tua)
       const i = secRef.current
       const sec = test.sections[i]
-      if (sec.audioLocal && a.getAttribute('src') === sec.audioLocal) {
+      const local = localSrc(sec)
+      if (local && a.getAttribute('src') === local) {
         pending.current ??= { offset: a.currentTime, play: !a.paused }
         setBadLocal((prev) => new Set(prev).add(i))
       }
@@ -541,16 +568,18 @@ function useTestAudio(test: ListeningTest, secIdx: number, setSecIdx: (i: number
       a.src = src
       a.load()
     }
+    // blob: chỉ là cách né trình tải (IDM…). Nếu fetch lỗi (bị chặn/hỏng) hoặc chưa xong sau 3 giây thì phát thẳng URL gốc để KHÔNG
+    // bao giờ bị kẹt không có âm thanh; file cục bộ thiếu thì handler 'error' của <audio> tự lùi về CDN.
+    const fallback = window.setTimeout(() => {
+      if (!cancelled && !a.getAttribute('src')) direct(url)
+    }, 3000)
     blobUrlFor(url).then(
       (b) => {
-        if (!cancelled) direct(b)
+        if (!cancelled && !a.getAttribute('src')) direct(b)
       },
       () => {
-        if (cancelled) return
-        const i = test.sections.findIndex((sec) => sec.audioLocal === url)
-        if (i >= 0) setBadLocal((prev) => new Set(prev).add(i)) // file cục bộ thiếu → effect chạy lại với URL CDN
-        else direct(url)
-      }
+        if (!cancelled && !a.getAttribute('src')) direct(url)
+      },
     )
     const apply = () => {
       const p = pending.current
@@ -562,6 +591,7 @@ function useTestAudio(test: ListeningTest, secIdx: number, setSecIdx: (i: number
     a.addEventListener('loadedmetadata', apply, { once: true })
     return () => {
       cancelled = true
+      window.clearTimeout(fallback)
       a.removeEventListener('loadedmetadata', apply)
     }
   }, [url, test.sections])
@@ -629,7 +659,14 @@ function useTestAudio(test: ListeningTest, secIdx: number, setSecIdx: (i: number
     seekGlobal,
     goSection,
   }
-  return { ref, api, play: () => void ref.current?.play().catch(() => {}) }
+  // Phát ngay nếu đã có nguồn; chưa nạp xong (blob đang tải) thì hẹn phát khi có metadata — không để lệnh phát rơi vào khoảng trống
+  const play = () => {
+    const a = ref.current
+    if (!a) return
+    if (a.getAttribute('src')) void a.play().catch(() => {})
+    else pending.current = { offset: 0, play: true }
+  }
+  return { ref, api, play }
 }
 
 // Sóng âm 1 section thành n cột: có `wave` của LMS thì lấy đỉnh theo từng đoạn; chưa có thì vẽ tạm theo transcript (đoạn có
@@ -654,7 +691,7 @@ function waveColumns(sec: LSection, durationSec: number, n: number): number[] {
 const TOTAL_BARS = 220
 
 // Thanh phát dạng sóng âm chạy suốt cả đề: phần đã nghe màu đỏ, còn lại xám; mốc S1…S4 ở dưới; bấm/kéo để tua.
-export function WaveBar({ test, audio }: { test: ListeningTest; audio: AudioApi }) {
+export function WaveBar({ test, audio, readOnly = false }: { test: ListeningTest; audio: AudioApi; readOnly?: boolean }) {
   const wrapRef = useRef<HTMLDivElement | null>(null)
   const [drag, setDrag] = useState(false)
   const columns = useMemo(
@@ -668,16 +705,17 @@ export function WaveBar({ test, audio }: { test: ListeningTest; audio: AudioApi 
   const progress = audio.total ? Math.min(1, audio.globalTime / audio.total) : 0
   const seekTo = (clientX: number) => {
     const el = wrapRef.current
-    if (!el) return
+    if (!el || readOnly) return
     const r = el.getBoundingClientRect()
     audio.seekGlobal(Math.max(0, Math.min(1, (clientX - r.left) / r.width)) * audio.total)
   }
   return (
     <div
       ref={wrapRef}
-      className="ih-l-wave"
+      className={`ih-l-wave${readOnly ? ' readonly' : ''}`}
       role="slider"
-      tabIndex={0}
+      aria-disabled={readOnly}
+      tabIndex={readOnly ? -1 : 0}
       aria-label="Tua âm thanh cả đề"
       aria-valuemin={0}
       aria-valuemax={Math.round(audio.total)}
@@ -692,6 +730,7 @@ export function WaveBar({ test, audio }: { test: ListeningTest; audio: AudioApi 
       onPointerUp={() => setDrag(false)}
       onPointerCancel={() => setDrag(false)}
       onKeyDown={(e) => {
+        if (readOnly) return
         if (e.key === 'ArrowRight') audio.seekGlobal(audio.globalTime + 5)
         else if (e.key === 'ArrowLeft') audio.seekGlobal(audio.globalTime - 5)
         else return
@@ -804,7 +843,11 @@ function scrollToQuestion(n: number) {
 // ── Màn làm bài (trạng thái: bắt đầu → làm bài → kết quả) ──────────────────────────────────────
 export function ListeningRunner({ test, initialView = 'start' }: { test: ListeningTest; initialView?: 'start' | 'review' }) {
   const total = totalQuestions(test)
-  const [view, setView] = useState<'start' | 'taking' | 'result'>(initialView === 'review' ? 'result' : 'start')
+  // Luồng như LMS: chọn chế độ → hướng dẫn → kiểm tra thiết bị nghe → làm bài (hộp "Lưu ý" + Start) → kết quả
+  const [view, setView] = useState<'mode' | 'intro' | 'device' | 'taking' | 'result'>(initialView === 'review' ? 'result' : 'mode')
+  const [mode, setMode] = useState<PracticeMode>('practice')
+  const [ready, setReady] = useState(false) // đã bấm Start trong hộp "Lưu ý" (âm thanh phát, thi thật bắt đầu tính giờ)
+  const [beeping, setBeeping] = useState(false)
   const [answers, setAnswers] = useState<Answers>({})
   const [secIdx, setSecIdx] = useState(0)
   const [deadline, setDeadline] = useState<number | null>(null)
@@ -816,6 +859,7 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
   const finishedRef = useRef(false)
   const section = test.sections[secIdx]
   const { ref: audioRef, api: audio, play } = useTestAudio(test, secIdx, setSecIdx, view === 'taking')
+  const locked = mode === 'real' // thi thật: không tua / đổi tốc độ
   const listUrl = '/ielts/listening/practice'
 
   // Nạp bài nháp (đang làm dở) hoặc lần làm gần nhất (xem lại)
@@ -831,7 +875,9 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
     } else if (draft) {
       setAnswers(draft.answers)
       setDeadline(draft.deadline)
+      setMode(draft.mode)
       setResumed(true)
+      setView('taking')
     }
     /* eslint-enable react-hooks/set-state-in-effect */
   }, [test.id, initialView])
@@ -842,39 +888,78 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
       finishedRef.current = true
       audioRef.current?.pause()
       const g = gradeListening(test, a)
-      if (g.graded) saveAttempt(test.id, { score: g.score, total: g.total, mode: 'real', answers: a })
+      if (g.graded) saveAttempt(test.id, { score: g.score, total: g.total, mode, answers: a })
       clearDraft(test.id)
       setSavedAt(new Date().toISOString())
       setSecIdx(0)
       setView('result')
       window.scrollTo({ top: 0 })
     },
-    [test, audioRef],
+    [test, audioRef, mode],
   )
 
   // Đồng hồ: đếm ngược theo MỐC GIỜ (F5 / thoát ra vào lại không reset được); hết giờ tự nộp
   useEffect(() => {
-    if (view !== 'taking' || deadline === null) return
+    if (view !== 'taking' || !ready || deadline === null) return
     const id = window.setInterval(() => setNow(Date.now()), 1000)
     return () => window.clearInterval(id)
-  }, [view, deadline])
+  }, [view, ready, deadline])
   const remaining = deadline === null ? test.durationMin * 60 : Math.max(0, Math.round((deadline - now) / 1000))
   useEffect(() => {
-    if (view === 'taking' && deadline !== null && remaining <= 0) finish(answers)
-  }, [view, deadline, remaining, answers, finish])
+    if (view === 'taking' && ready && deadline !== null && remaining <= 0) finish(answers)
+  }, [view, ready, deadline, remaining, answers, finish])
 
   // Lưu nháp mỗi khi đổi đáp án
   useEffect(() => {
-    if (view === 'taking' && deadline !== null) saveDraft(test.id, { mode: 'real', answers, deadline })
-  }, [view, answers, deadline, test.id])
+    if (view === 'taking' && ready) saveDraft(test.id, { mode, answers, deadline })
+  }, [view, ready, mode, answers, deadline, test.id])
 
-  function start() {
-    const d = deadline ?? Date.now() + test.durationMin * 60_000
-    setDeadline(d)
-    setNow(Date.now())
-    setView('taking')
+  function pickMode(m: PracticeMode) {
+    setMode(m)
+    setView('intro')
+  }
+  // Nút Start trong hộp "Lưu ý": phát âm thanh (cần thao tác của người dùng) và, nếu thi thật, bắt đầu tính giờ
+  function begin() {
+    if (mode === 'real') {
+      setDeadline(deadline ?? Date.now() + test.durationMin * 60_000)
+      setNow(Date.now())
+    }
+    setReady(true)
     play()
   }
+  // Kiểm tra loa/tai nghe: chuỗi 4 nốt ngắn tạo bằng WebAudio (không cần file âm thanh)
+  function playTestSound() {
+    try {
+      const AC = window.AudioContext ?? (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+      const ctx = new AC()
+      const notes = [523.25, 659.25, 783.99, 1046.5]
+      const t0 = ctx.currentTime
+      notes.forEach((f, i) => {
+        const o = ctx.createOscillator()
+        const g = ctx.createGain()
+        o.type = 'sine'
+        o.frequency.value = f
+        const a = t0 + i * 0.28
+        g.gain.setValueAtTime(0.0001, a)
+        g.gain.exponentialRampToValueAtTime(0.25, a + 0.03)
+        g.gain.exponentialRampToValueAtTime(0.0001, a + 0.26)
+        o.connect(g).connect(ctx.destination)
+        o.start(a)
+        o.stop(a + 0.28)
+      })
+      setBeeping(true)
+      window.setTimeout(() => {
+        setBeeping(false)
+        void ctx.close()
+      }, notes.length * 280 + 200)
+    } catch {
+      setBeeping(false)
+    }
+  }
+  const kindLabels = useMemo(() => {
+    const names: Record<string, string> = { fill: 'Completion', choice: 'Single Answer', multi: 'Multiple Answer', map: 'Map/Plan Labeling', match: 'Matching' }
+    return [...new Set(test.sections.flatMap((sec) => sec.groups.flatMap((g) => g.items.map((it) => names[it.type]))))]
+  }, [test])
 
   // Chuyển section (âm thanh nhảy theo, đang làm bài thì phát luôn) — nút "Section N →", viên S1–S4 và bảng câu hỏi
   const goSection = (i: number) => audio.goSection(i, view === 'taking')
@@ -901,33 +986,113 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
     <div className={`ih-l-root ih-l-${view}`}>
       <audio ref={audioRef} preload="metadata" />
 
-      {view === 'start' && (
-        <div className="ih-l-start">
-          <p className="ih-pr-dialog-cap">Listening · {test.part}</p>
-          <h1 className="ih-font-hand ih-pr-dialog-title">{test.title}</h1>
-          <p className="ih-pr-sub">
-            {test.sections.length} section · {total} câu · {test.durationMin} phút
-          </p>
-          {resumed ? (
-            <p className="ih-l-note">
-              Bạn đang làm dở bài này (đã trả lời {answeredAll}/{total} câu). Thời gian còn lại: <b>{formatClock(remaining)}</b>
-            </p>
-          ) : (
-            <div className="ih-l-notice">
-              <p>
-                <b>Lưu ý:</b> âm thanh sẽ phát và đồng hồ bắt đầu chạy ngay khi bạn bấm “Bắt đầu”. Bạn có thể tua, đổi tốc độ và chuyển qua lại giữa các section.
-              </p>
-              <p>Bài chỉ nghe được khi có mạng (âm thanh phát trực tiếp từ máy chủ của LMS). Bài làm dở được lưu tự động trên máy này.</p>
+      {(view === 'mode' || view === 'intro' || view === 'device') && (
+        <div className="ih-l-flow">
+          <header className="ih-l-flowbar">
+            <Link href={listUrl} className="ih-l-flowback" aria-label="Danh sách đề">
+              ←
+            </Link>
+            <span className="ih-l-flowtitle">{test.title}</span>
+          </header>
+
+          {view === 'mode' && (
+            <div className="ih-l-modes">
+              <div className="ih-l-modecard practice">
+                <span className="ih-l-modebadge">🎓 LUYỆN TẬP</span>
+                <span className="ih-l-modeart" aria-hidden>
+                  🎧
+                </span>
+                <h2>
+                  Chế độ
+                  <br />
+                  Luyện tập
+                </h2>
+                <p className="ih-l-modesub">Gợi ý sẵn, làm bài có hỗ trợ</p>
+                <ul>
+                  <li>⌛ Không tính giờ</li>
+                  <li>✅ Có hỗ trợ khi làm bài (tua, đổi tốc độ)</li>
+                </ul>
+                <button type="button" className="ih-l-modego" onClick={() => pickMode('practice')}>
+                  <span className="ih-l-modeplay">▶</span> Bắt đầu luyện
+                </button>
+              </div>
+              <div className="ih-l-modecard real">
+                <span className="ih-l-modebadge">🛡 THI THẬT</span>
+                <span className="ih-l-modeart" aria-hidden>
+                  ⏱
+                </span>
+                <h2>
+                  Chế độ
+                  <br />
+                  Thi thật
+                </h2>
+                <p className="ih-l-modesub">Tính giờ như đang thi thật</p>
+                <ul>
+                  <li>🕒 Tính thời gian chuẩn ({test.durationMin} phút)</li>
+                  <li>🔒 Không có hỗ trợ khi làm bài (không tua, tốc độ 1x)</li>
+                </ul>
+                <button type="button" className="ih-l-modego" onClick={() => pickMode('real')}>
+                  <span className="ih-l-modeplay">▶</span> Thi thử tính giờ
+                </button>
+              </div>
             </div>
           )}
-          <div className="ih-pr-filters">
-            <button type="button" className="ih-btn-solid" onClick={start}>
-              {resumed ? 'Tiếp tục làm bài' : 'Bắt đầu'}
-            </button>
-            <Link href={listUrl} className="ih-btn-outline">
-              ← Danh sách đề
-            </Link>
-          </div>
+
+          {view === 'intro' && (
+            <div className="ih-l-intro">
+              <h1>
+                <span aria-hidden>🎧</span> {test.title}
+              </h1>
+              <p className="ih-l-intrometa">
+                <span>❔ {total} câu hỏi</span>
+                <span>📄 {test.sections.length} bài nghe</span>
+                <span>⏱ {test.durationMin} phút</span>
+              </p>
+              <hr />
+              <h2>Hướng dẫn làm bài</h2>
+              <p>Bài nghe sẽ phát ngay khi bắt đầu bài test và bạn sẽ trả lời các câu hỏi, hết bài nghe sẽ tự động chuyển sang bài nghe tiếp theo, bạn có thể nộp sớm bài nghe nếu làm xong.</p>
+              <p>Một câu hỏi có thể có một hoặc nhiều đáp án tùy theo yêu cầu, bạn có thể di chuyển qua lại giữa các bài nghe và thay đổi câu trả lời trong quá trình làm bài.</p>
+              {mode === 'practice' ? (
+                <p>Ở chế độ luyện tập: Bài làm sẽ không bị giới hạn thời gian. Bạn có thể tua, đổi tốc độ, làm và nộp bài bất cứ khi nào hoàn thành.</p>
+              ) : (
+                <p>
+                  Ở chế độ thi thật: Bài làm được tính giờ {test.durationMin} phút, hết giờ bài sẽ tự nộp. Bạn không thể tua hay đổi tốc độ âm thanh.
+                </p>
+              )}
+              <h2>Thông tin bài test</h2>
+              <p>
+                Bài test này bao gồm {total} câu hỏi thuộc {test.sections.length} bài nghe, thời gian làm bài là {test.durationMin} phút.
+              </p>
+              <p>Các dạng câu hỏi có trong bài test: {kindLabels.join(', ')}</p>
+              <div className="ih-l-flowactions">
+                <button type="button" className="ih-l-flowbtn ghost" onClick={() => setView('mode')}>
+                  ← Đổi chế độ
+                </button>
+                <button type="button" className="ih-l-flowbtn" onClick={() => setView('device')}>
+                  Bắt đầu →
+                </button>
+              </div>
+            </div>
+          )}
+
+          {view === 'device' && (
+            <div className="ih-l-intro device">
+              <h1>Kiểm tra thiết bị nghe</h1>
+              <p>Thử phát âm thanh bên dưới để kiểm tra thiết bị nghe của bạn.</p>
+              <button type="button" className={`ih-l-soundtest${beeping ? ' on' : ''}`} onClick={playTestSound}>
+                <span aria-hidden>🔊</span> {beeping ? 'Đang phát…' : 'Nhấn để nghe'}
+              </button>
+              <p>Nếu bạn không thể nghe được âm thanh, hãy thử kiểm tra lại tai nghe, loa ngoài xem đã kết nối ổn định, hay có trục trặc gì không</p>
+              <div className="ih-l-flowactions">
+                <button type="button" className="ih-l-flowbtn ghost" onClick={() => setView('intro')}>
+                  ← Quay lại
+                </button>
+                <button type="button" className="ih-l-flowbtn" onClick={() => setView('taking')}>
+                  Tiếp tục →
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
@@ -938,7 +1103,8 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
               ✕
             </button>
             <p className="ih-l-top-title">
-              Làm bài section {secIdx + 1} <span className={`ih-l-clock${remaining <= 300 ? ' low' : ''}`}>⏱ {formatClock(remaining)}</span>
+              Làm bài section {secIdx + 1}{' '}
+              {mode === 'real' ? <span className={`ih-l-clock${remaining <= 300 ? ' low' : ''}`}>⏱ {formatClock(remaining)}</span> : <span className="ih-l-clock">Luyện tập</span>}
             </p>
             <span />
           </header>
@@ -948,19 +1114,19 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
           </main>
           <footer className="ih-l-foot">
             <div className="ih-l-player">
-              <button type="button" className="ih-l-abtn" aria-label="Lùi 15 giây" onClick={() => audio.seekGlobal(audio.globalTime - 15)}>
+              <button type="button" className="ih-l-abtn" aria-label="Lùi 15 giây" disabled={locked} onClick={() => audio.seekGlobal(audio.globalTime - 15)}>
                 ⟲<small>15</small>
               </button>
               <button type="button" className="ih-l-abtn play" aria-label={audio.playing ? 'Tạm dừng' : 'Phát'} onClick={audio.toggle}>
                 {audio.playing ? '⏸' : '▶'}
               </button>
-              <button type="button" className="ih-l-abtn" aria-label="Tới 15 giây" onClick={() => audio.seekGlobal(audio.globalTime + 15)}>
+              <button type="button" className="ih-l-abtn" aria-label="Tới 15 giây" disabled={locked} onClick={() => audio.seekGlobal(audio.globalTime + 15)}>
                 ⟳<small>15</small>
               </button>
               <span className="ih-l-time now">{formatClock(audio.globalTime)}</span>
-              <WaveBar test={test} audio={audio} />
+              <WaveBar test={test} audio={audio} readOnly={locked} />
               <span className="ih-l-time">{formatClock(audio.total)}</span>
-              <button type="button" className="ih-l-rate" aria-label="Tốc độ phát" onClick={audio.cycleRate}>
+              <button type="button" className="ih-l-rate" aria-label="Tốc độ phát" disabled={locked} onClick={audio.cycleRate}>
                 {audio.rate}x
               </button>
             </div>
@@ -1069,6 +1235,41 @@ export function ListeningRunner({ test, initialView = 'start' }: { test: Listeni
               savedAt={savedAt}
             />
           )}
+        </div>
+      )}
+
+      {view === 'taking' && !ready && (
+        <div className="ih-cf-overlay ih-l-startdlg">
+          <div className="ih-cf ih-l-startbox" role="alertdialog" aria-modal="true" aria-label="Lưu ý">
+            <h2 className="ih-cf-title">Lưu ý</h2>
+            <div className="ih-cf-body">
+              {resumed ? (
+                <p>
+                  Bạn đang làm dở bài này (đã trả lời {answeredAll}/{total} câu).
+                  {mode === 'real' && (
+                    <>
+                      {' '}
+                      Thời gian còn lại: <b>{formatClock(remaining)}</b>.
+                    </>
+                  )}{' '}
+                  Audio sẽ play sau khi bạn bấm nút “Start”.
+                </p>
+              ) : mode === 'real' ? (
+                <p>Audio sẽ play và thời gian sẽ bắt đầu chạy sau khi bạn bấm nút “Start”.</p>
+              ) : (
+                <p>Audio sẽ play sau khi bạn bấm nút “Start”. Chế độ luyện tập không giới hạn thời gian.</p>
+              )}
+              <p>Bắt đầu ngay khi bạn sẵn sàng nhé !</p>
+            </div>
+            <div className="ih-cf-actions">
+              <Link href={listUrl} className="ih-cf-btn">
+                ← Danh sách đề
+              </Link>
+              <button type="button" className="ih-cf-btn primary" autoFocus onClick={begin}>
+                Start
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

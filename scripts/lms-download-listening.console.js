@@ -5,7 +5,7 @@
 // (POST .../online-tests/<userCourseOnlineTestId>?mode=ONLINE), và CHỈ cho đề có trạng thái IN_PROGRESS. Nó KHÔNG bắt đầu đề
 // mới, KHÔNG động tới đề đã hoàn thành/chưa bắt đầu (các đề đó sẽ được liệt kê để bạn biết), và không nộp bài.
 // Đáp án (correctAnswers) do LMS ẩn cho tới khi nộp bài nên file này KHÔNG có đáp án — chỉ có câu hỏi, transcript, link âm thanh.
-var BASE = location.hostname.split('.').slice(1).join('.') // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
+var BASE = location.hostname.split('.').slice(1).join('.'); // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
 (async () => {
   const ROADMAP_ID = '6762fd34aecbd638ad575330' // roadmap Listening (từ URL .../course-roadmap/progress/<id>)
   const DELAY_MS = 1000

@@ -12,6 +12,8 @@ export interface LSpan {
 export interface LPara {
   bullet?: boolean
   segs: QuizSegment[]
+  // Hàng của bảng (dạng Table Completion): mỗi ô là 1 dãy đoạn chữ/ô trống; th = ô tiêu đề/nhãn. Có cells thì bỏ qua segs.
+  cells?: { segs: QuizSegment[]; th?: boolean }[]
 }
 
 // Điền ghi chú / form / bảng: cả khối là 1 mục, mỗi ô trống là 1 câu (số câu = num + thứ tự ô trống).
@@ -51,6 +53,9 @@ export interface LMatchItem {
   num: number
   options: string[]
   labels: string[]
+  // Nối vào hình (Diagram Labeling kéo thả): ảnh + số câu đặt đúng vị trí trên ảnh (label = số câu, x/y theo pixel ảnh gốc).
+  image?: { url: string; width: number; height: number }
+  spots?: { label: string; x: number; y: number }[]
 }
 export type LItem = LFillItem | LChoiceItem | LMultiItem | LMapItem | LMatchItem
 
