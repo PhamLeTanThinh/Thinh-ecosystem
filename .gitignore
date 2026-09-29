@@ -64,3 +64,7 @@ next-env.d.ts
 # raw JSON bài thi thử Listening tải từ LMS (nội dung Cambridge IELTS có bản quyền — không commit)
 /scripts/lms-listening/*
 !/scripts/lms-listening/.gitkeep
+/scripts/lms-listening-detail/*
+!/scripts/lms-listening-detail/.gitkeep
+/scripts/lms-dictation/*
+!/scripts/lms-dictation/.gitkeep

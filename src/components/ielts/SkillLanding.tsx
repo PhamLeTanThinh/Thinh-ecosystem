@@ -6,6 +6,14 @@ import { SKILLS } from '@/lib/ielts/skills'
 import { useIeltsStore } from '@/lib/ielts/store'
 import { useIeltsAccess } from './AccessContext'
 
+// Mục có trong khu riêng của từng kỹ năng (khớp menu trái ở Sidebar.tsx) — hiện dưới tên kỹ năng để biết bên trong có gì.
+const SKILL_DESC: Record<string, string> = {
+  listening: 'Đề CAM · Dictation · Vocab',
+  speaking: 'Bài tập · Đề mẫu · Vocab',
+  reading: 'Làm đề · Vocab',
+  writing: 'Đề mẫu · Bài tập · Vocab',
+}
+
 // Màn hình đầu /ielts: 4 kỹ năng dạng card. Mỗi card dẫn vào khu riêng của kỹ năng đó (/ielts/<skill>,
 // có menu Kiến thức / Làm đề / Vocab). Bên dưới là lối vào kho từ vựng chung (và Admin nếu là chủ).
 export function SkillLanding() {
@@ -22,11 +30,17 @@ export function SkillLanding() {
         {SKILLS.map((skill, i) => {
           const count = pages.filter((p) => p.skill === skill.key).length
           return (
-            <Link key={skill.key} href={`/ielts/${skill.key}/lessons`} className="ih-glass ih-landing-card" style={{ '--i': i } as CSSProperties}>
-              <span className="ih-landing-icon">{skill.icon}</span>
+            <Link key={skill.key} href={`/ielts/${skill.key}/lessons`} className="ih-glass ih-landing-card" style={{ '--i': i, '--sk': skill.accent } as CSSProperties}>
+              <span className="ih-landing-icon" aria-hidden>
+                {skill.icon}
+              </span>
               <span className="ih-font-hand ih-landing-label">{skill.label}</span>
+              <span className="ih-landing-desc">{SKILL_DESC[skill.key]}</span>
               {/* Chưa tải xong danh sách trang thì để trống (giữ chiều cao) thay vì hiện "0 trang" sai. */}
-              <span className="ih-landing-count">{hydrated ? `${count} trang` : ' '}</span>
+              <span className="ih-landing-count">{hydrated ? `${count} trang kiến thức` : ' '}</span>
+              <span className="ih-landing-go" aria-hidden>
+                →
+              </span>
             </Link>
           )
         })}

@@ -140,7 +140,7 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
                   {content}
                 </span>
               ) : (
-                <Link href={item.href} className="sb-crumb">
+                <Link href={item.href} prefetch={false} className="sb-crumb">
                   {content}
                 </Link>
               )}
@@ -150,6 +150,7 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
                     <Link
                       key={option.href}
                       href={option.href}
+                      prefetch={false}
                       role="menuitem"
                       className={`sb-crumb-option${option.active ? ' active' : ''}`}
                       aria-current={option.active ? 'page' : undefined}

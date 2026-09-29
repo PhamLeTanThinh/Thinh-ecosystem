@@ -4,7 +4,7 @@
 // Lưu ý: nội dung đề mẫu chỉ lấy được qua POST .../samples/<id>/sessions (chính request mà trang web gọi khi bạn mở đề).
 // Nó tạo (hoặc lấy lại) 1 "phiên đọc" của đề đó trên tài khoản → LMS có thể đánh dấu các đề đã tải là "đang đọc"
 // (READING) thay vì "chưa đọc" (UNREAD). Điểm số/tiến độ khác không đổi. Cách nhau ~1s.
-var BASE = location.hostname.split('.').slice(1).join('.') // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
+var BASE = location.hostname.split('.').slice(1).join('.'); // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
 (async () => {
   // Khóa Writing: 'bbcbda1e4' · Khóa Speaking: 'bbcbda1e3' (lấy từ URL request trong tab Network: /courses/<id>/…)
   const COURSE_ID = 'bbcbda1e3'

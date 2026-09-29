@@ -3,7 +3,7 @@
 //
 // Lưu ý: mỗi lần gọi /start tạo (hoặc lấy lại) 1 lượt làm bài IN_PROGRESS trên tài khoản — điểm/tiến độ
 // không đổi, nhưng LMS sẽ hiện các bài đó là "đang làm". Script gọi isStartOver=false, cách nhau ~1s.
-var BASE = location.hostname.split('.').slice(1).join('.') // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
+var BASE = location.hostname.split('.').slice(1).join('.'); // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
 (async () => {
   // Khóa Writing: 'bbcbda1e4' · Khóa Speaking: 'bbcbda1e3' (lấy từ URL request trong tab Network: /courses/<id>/…)
   const COURSE_ID = 'bbcbda1e3'
