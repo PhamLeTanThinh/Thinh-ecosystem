@@ -2,7 +2,7 @@
 // 1 file lms-vocab-<mã khóa>.json → bỏ vào scripts/lms-vocab/ rồi chạy: node scripts/import-lms-vocab.mjs
 //
 // Chỉ ĐỌC danh sách từ (GET), không ghi gì lên tài khoản. Ảnh không tải ở đây — script Node sẽ tải từ URL công khai.
-var BASE = location.hostname.split('.').slice(1).join('.') // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
+var BASE = location.hostname.split('.').slice(1).join('.'); // trang LMS có dạng <tên>.<miền>; api. và auth-v2. dùng chung <miền>
 (async () => {
   // Khóa Writing: 'bbcbda1e4' · Khóa Speaking: 'bbcbda1e3' (lấy từ URL request trong tab Network: /courses/<id>/…)
   const COURSE_ID = 'bbcbda1e3'

@@ -13,6 +13,7 @@ const IMG_ROOT = 'public/ielts/images/vocab'
 
 const SKILLS = {
   speaking: { label: 'Speaking', file: 'src/data/ielts/vocab/speaking.ts', constName: 'SPEAKING_VOCAB_SETS' },
+  listening: { label: 'Listening', file: 'src/data/ielts/vocab/listening.ts', constName: 'LISTENING_VOCAB_SETS' },
 }
 const skillOf = (name) => (name.match(/^IELTS\s*[\d.]+\s*-\s*(Writing|Speaking|Reading|Listening)\s*-/i)?.[1] ?? '').toLowerCase()
 
@@ -72,7 +73,8 @@ let skippedSets = 0
 
 for (const f of files) {
   for (const set of JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))) {
-    const skill = skillOf(set.name)
+    // Set tải từ roadmap có thể không đặt tên theo mẫu "IELTS 7.0 - <Skill> - …" → ưu tiên trường skill do script tải ghi kèm
+    const skill = String(set.skill ?? '').toLowerCase() || skillOf(set.name)
     const cfg = SKILLS[skill]
     if (!cfg) {
       console.warn(`BỎ QUA "${set.name}" (kỹ năng "${skill || '?'}" chưa cấu hình / đã nhập tay)`)
@@ -81,8 +83,12 @@ for (const f of files) {
     }
     const rest = set.name.replace(new RegExp(`^IELTS\\s*[\\d.]+\\s*-\\s*${cfg.label}\\s*-\\s*`, 'i'), '')
     const lm = rest.match(/^L(\d+)\s*-\s*(.*)$/i)
-    const title = (lm ? lm[2] : rest).trim()
+    const title = (lm ? lm[2] : rest).replace(/^Vocab\s*-\s*/i, '').trim()
     const id = `${skill}-${slug(title)}`
+    // Tên set roadmap có dạng "W1: Art Projects" / "Section 4: Health" → nhóm theo tuần/section, tiêu đề chỉ giữ phần sau dấu ':'
+    const gm = title.match(/^(W\d+|Section\s*\d+)\s*:\s*(.+)$/i)
+    const shownTitle = gm ? gm[2].trim() : title
+    const shownPart = gm ? gm[1].replace(/^w/i, 'W').replace(/^section\s*/i, 'Section ') : lm ? `Topic ${lm[1]}` : 'Topic'
     if (usedIds.has(id)) {
       console.warn('TRÙNG id, bỏ qua:', id)
       continue
@@ -114,7 +120,7 @@ for (const f of files) {
       }
       vocab.push(item)
     }
-    ;(built[skill] ??= []).push({ id, skill, title, category: 'Vocab topic', part: lm ? `Topic ${lm[1]}` : 'Topic', vocab })
+    ;(built[skill] ??= []).push({ id, skill, title: shownTitle, category: 'Vocab topic', part: shownPart, vocab })
   }
 }
 

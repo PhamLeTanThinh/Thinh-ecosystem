@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { loadLearned, type SetStatus, type VocabGroup } from '@/lib/ielts/practice'
 import { accentVars, skillLabel } from '@/lib/ielts/skills'
 import type { Skill } from '@/lib/ielts/types'
+import { Pager, pageQuery, paginate, replaceQuery } from './Pager'
 import { ProgressBanner } from './ProgressBanner'
 
 // Mỗi đề = 1 Vocab set. Thuộc hết từ = xong, đã thuộc ≥1 từ = đang làm, chưa thuộc từ nào = chưa làm.
@@ -13,11 +14,13 @@ function setStatus(learned: number, total: number): SetStatus {
   return learned > 0 ? 'doing' : 'todo'
 }
 
-// Trang Vocab của 1 kỹ năng: banner tiến độ + danh sách Vocab set (bấm vào để học từng set).
-export function PracticeVocab({ skill, groups }: { skill: Skill; groups: VocabGroup[] }) {
+// Trang Vocab của 1 kỹ năng: banner tiến độ + danh sách Vocab set (bấm vào để học từng set), phân trang.
+// Số trang nằm trên URL (?page=) để bấm Back từ trang học quay lại đúng trang đang xem.
+export function PracticeVocab({ skill, groups, initialPage = 1 }: { skill: Skill; groups: VocabGroup[]; initialPage?: number }) {
   const [learned, setLearned] = useState<Record<string, string[]>>({})
   const [query, setQuery] = useState('')
   const [statusFilter, setStatusFilter] = useState<SetStatus | 'all'>('all')
+  const [page, setPage] = useState(initialPage)
 
   // localStorage chỉ đọc được ở client; trang mount lại mỗi lần quay về từ trang học nên tiến độ luôn mới.
   useEffect(() => {
@@ -45,6 +48,13 @@ export function PracticeVocab({ skill, groups }: { skill: Skill; groups: VocabGr
     return statusFilter === 'all' || r.status === statusFilter
   })
 
+  const { current, pageCount, start, visible } = paginate(filtered, page)
+  function goTo(p: number) {
+    setPage(p)
+    replaceQuery(pageQuery(p))
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const title = done + doing === 0 ? 'Bạn chưa học Vocab set nào' : done === 0 ? `Bạn đang làm ${doing} set` : `Bạn đã hoàn thành ${done} set và đang làm ${doing} set`
 
   return (
@@ -59,8 +69,17 @@ export function PracticeVocab({ skill, groups }: { skill: Skill; groups: VocabGr
       />
 
       <div className="ih-pr-filters">
-        <input className="ih-pr-search" placeholder="Tìm set hoặc từ…" value={query} onChange={(e) => setQuery(e.target.value)} />
-        <select className="ih-pr-select" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value as SetStatus | 'all')} aria-label="Trạng thái">
+        <input className="ih-pr-search" placeholder="Tìm set hoặc từ…" value={query} onChange={(e) => {
+            setQuery(e.target.value)
+            if (current !== 1) goTo(1)
+          }}
+        />
+        <select className="ih-pr-select" value={statusFilter} onChange={(e) => {
+            setStatusFilter(e.target.value as SetStatus | 'all')
+            if (current !== 1) goTo(1)
+          }}
+          aria-label="Trạng thái"
+        >
           <option value="all">Trạng thái</option>
           <option value="todo">Chưa làm</option>
           <option value="doing">Đang làm</option>
@@ -69,9 +88,9 @@ export function PracticeVocab({ skill, groups }: { skill: Skill; groups: VocabGr
       </div>
 
       <div className="ih-les-grid">
-        {filtered.map(({ g, count, status }, i) => (
+        {visible.map(({ g, count, status }, i) => (
           <Link key={g.testId} href={`/ielts/${skill}/vocab/${g.testId}`} className="ih-les-card">
-            <span className="ih-les-num">{i + 1}</span>
+            <span className="ih-les-num">{start + i + 1}</span>
             <span className="ih-les-body">
               <span className="ih-les-cap ih-les-cap-row">
                 <span className={`ih-pr-status ${status}`} aria-hidden>
@@ -94,6 +113,8 @@ export function PracticeVocab({ skill, groups }: { skill: Skill; groups: VocabGr
         ))}
         {filtered.length === 0 && <p className="ih-pr-empty">{groups.length === 0 ? 'Chưa có Vocab set nào.' : 'Không có set khớp bộ lọc.'}</p>}
       </div>
+
+      <Pager current={current} pageCount={pageCount} start={start} shown={visible.length} total={filtered.length} onPage={goTo} />
     </div>
   )
 }
