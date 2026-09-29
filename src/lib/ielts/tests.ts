@@ -1,6 +1,8 @@
 import 'server-only'
+import { DICTATIONS } from '@/data/ielts/dictation/lms'
 import { LISTENING_TESTS } from '@/data/ielts/listening/lms'
 import { READING_TESTS } from '@/data/ielts/practice/reading'
+import { LISTENING_VOCAB_SETS } from '@/data/ielts/vocab/listening'
 import { SPEAKING_VOCAB_SETS } from '@/data/ielts/vocab/speaking'
 import { WRITING_VOCAB_SETS } from '@/data/ielts/vocab/writing'
 import { WRITING_EXERCISES } from '@/data/ielts/exercises/writing'
@@ -11,6 +13,7 @@ import { WRITING_SAMPLES } from '@/data/ielts/samples/writing'
 import { WRITING_TASK1_SAMPLES } from '@/data/ielts/samples/writing-task1'
 import { flatQuestions, type ExerciseSet, type QuestionType, type ExerciseSummary, type PracticeTest, type SampleSummary, type TestSummary, type VocabGroup, type VocabSet, type WritingSample } from './practice'
 import { itemCount, totalQuestions, type ListeningTest } from './listening'
+import { dictationSummary, type Dictation, type DictationSummary } from './dictation'
 import type { Skill } from './types'
 
 // CHỈ chạy ở server ('server-only' làm build lỗi nếu client component lỡ import): dữ liệu đề gồm cả
@@ -22,6 +25,14 @@ const ALL_TESTS: PracticeTest[] = [...READING_TESTS]
 
 export function findTest(id: string): PracticeTest | undefined {
   return ALL_TESTS.find((t) => t.id === id)
+}
+
+// Dictation (nghe chép chính tả) chỉ có ở Listening: mỗi bài = 1 section của 1 đề CAM.
+export function dictationSummariesForSkill(skill: Skill): DictationSummary[] {
+  return skill === 'listening' ? DICTATIONS.map(dictationSummary) : []
+}
+export function findDictation(id: string): Dictation | undefined {
+  return DICTATIONS.find((d) => d.id === id)
 }
 
 // Đề Listening có cấu trúc riêng (nhiều section + âm thanh + transcript) nên tách khỏi PracticeTest của Reading.
@@ -62,7 +73,7 @@ export function summariesForSkill(skill: Skill): TestSummary[] {
 }
 
 // Vocab set độc lập (không gắn đề). Kỹ năng mới có set theo chủ đề: import mảng của nó vào đây.
-const ALL_VOCAB_SETS: VocabSet[] = [...WRITING_VOCAB_SETS, ...SPEAKING_VOCAB_SETS]
+const ALL_VOCAB_SETS: VocabSet[] = [...WRITING_VOCAB_SETS, ...SPEAKING_VOCAB_SETS, ...LISTENING_VOCAB_SETS]
 
 export function vocabForSkill(skill: Skill): VocabGroup[] {
   const fromTests = ALL_TESTS.filter((t) => t.skill === skill).map((t) => ({ testId: t.id, testTitle: t.title, skill: t.skill, category: t.category, part: t.part, vocab: t.vocab, hasTest: true }))

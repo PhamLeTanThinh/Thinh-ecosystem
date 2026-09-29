@@ -14,6 +14,7 @@ export const PRACTICE_KEYS = {
   learned: 'ielts-vocab-learned',
   prefs: 'ielts-run-prefs',
   exerciseProgress: 'ielts-exercise-progress',
+  dictation: 'ielts-dictation-progress',
 } as const
 
 const META_KEY = 'ielts-sync-meta' // { [key]: thời điểm sửa cuối (epoch ms) }

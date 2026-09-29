@@ -16,6 +16,7 @@ export interface SkillCounts {
   vocabSets: number
   exerciseSets: number
   samples: number
+  dictations: number
 }
 
 interface Props {
@@ -69,6 +70,15 @@ const ICON_SAMPLE = (
   </NavIcon>
 )
 
+const ICON_DICTATION = (
+  <NavIcon>
+    <path d="M4 14v-2a8 8 0 0 1 16 0v2" />
+    <rect x="3.5" y="13" width="4" height="6" rx="1.2" />
+    <rect x="16.5" y="13" width="4" height="6" rx="1.2" />
+    <path d="M9.5 9.5h5M9.5 12.5h3" />
+  </NavIcon>
+)
+
 // Menu trái của MỘT kỹ năng: Kiến thức (kèm danh sách bài học) / Làm đề / Vocab. Không còn menu chung
 // cho 4 kỹ năng — đổi kỹ năng bằng nút "Đổi kỹ năng" ở đáy (hoặc breadcrumb "IELTS Hub").
 export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Props) {
@@ -86,6 +96,7 @@ export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Pro
   const onVocab = pathname.startsWith(`${base}/vocab`)
   const onExercise = pathname.startsWith(`${base}/exercise`)
   const onSample = pathname.startsWith(`${base}/sample`)
+  const onDictation = pathname.startsWith(`${base}/dictation`)
   // /ielts/<skill>/lessons/<id> → id (phần tử thứ 4 sau khi tách theo "/").
   const activePageId = onLessons ? (pathname.split('/')[4] ?? null) : null
 
@@ -236,6 +247,18 @@ export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Pro
               <span className="ih-nav-text">
                 <span className="ih-nav-label">Đề mẫu</span>
                 <span className="ih-nav-sub">{counts.samples} đề</span>
+              </span>
+            </Link>
+          </div>
+        )}
+
+        {counts.dictations > 0 && (
+          <div className={`ih-nav-item${onDictation ? ' active' : ''}`}>
+            <Link href={`${base}/dictation`} className="ih-nav-link" onClick={onNavigate} aria-current={onDictation ? 'page' : undefined}>
+              <span className="ih-nav-tile">{ICON_DICTATION}</span>
+              <span className="ih-nav-text">
+                <span className="ih-nav-label">Dictation</span>
+                <span className="ih-nav-sub">{counts.dictations} bài</span>
               </span>
             </Link>
           </div>

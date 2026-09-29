@@ -624,4 +624,21 @@ export function saveExerciseProgress(setId: string, solvedQuestionIds: string[])
   writeJson(EXERCISE_PROGRESS_KEY, all)
 }
 
+// Tiến độ Dictation của từng bài (id → các câu đã làm đúng + câu đang làm dở) — cùng cách lưu với "Đã thuộc" ở Vocab.
+export interface DictationProgress {
+  done: number[]
+  last: number
+}
+const DICTATION_KEY = PRACTICE_KEYS.dictation
+
+export function loadDictationProgress(): Record<string, DictationProgress> {
+  return readJson<DictationProgress>(DICTATION_KEY)
+}
+
+export function saveDictationProgress(id: string, p: DictationProgress): void {
+  const all = loadDictationProgress()
+  all[id] = p
+  writeJson(DICTATION_KEY, all)
+}
+
 export type SetStatus = 'todo' | 'doing' | 'done'
