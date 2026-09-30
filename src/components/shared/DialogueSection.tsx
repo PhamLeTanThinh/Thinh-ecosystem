@@ -42,11 +42,13 @@ export function DialogueSection({
   lang = 'zh-CN',
   prefix = 'cn',
   title = '🗣️ Nói như người bản xứ',
+  showVi = false,
 }: {
   dialogues: Dialogue[]
   lang?: string
   prefix?: string
   title?: string
+  showVi?: boolean // true = nghĩa tiếng Việt hiện sẵn dưới mỗi câu (vẫn bấm "Ẩn nghĩa" được)
 }) {
   return (
     <>
@@ -55,7 +57,7 @@ export function DialogueSection({
       </p>
       <div className="cn-dlg-list">
         {dialogues.map((d, i) => (
-          <DialogueCard key={i} dialogue={d} lang={lang} glass={`${prefix}-glass`} />
+          <DialogueCard key={i} dialogue={d} lang={lang} glass={`${prefix}-glass`} showVi={showVi} />
         ))}
       </div>
     </>
@@ -66,10 +68,10 @@ type Kind = 'py' | 'vi'
 
 const KIND_LABEL: Record<Kind, string> = { py: 'pinyin', vi: 'nghĩa' }
 
-function DialogueCard({ dialogue, lang, glass }: { dialogue: Dialogue; lang: string; glass: string }) {
+function DialogueCard({ dialogue, lang, glass, showVi }: { dialogue: Dialogue; lang: string; glass: string; showVi: boolean }) {
   // Pinyin và nghĩa tiếng Việt đều ẩn mặc định để tự đọc chữ Hán / tự đoán nghĩa trước; mỗi loại có trạng thái riêng:
   // bật cho cả hội thoại (nút ở đầu thẻ) hoặc từng câu (bấm vào nút nhỏ / bấm lại vào chữ đang hiện để ẩn).
-  const [all, setAll] = useState<Record<Kind, boolean>>({ py: false, vi: false })
+  const [all, setAll] = useState<Record<Kind, boolean>>({ py: false, vi: showVi })
   const [shown, setShown] = useState<Record<Kind, Set<number>>>({ py: new Set(), vi: new Set() })
   const bilingual = dialogue.variant === 'bilingual'
   const has: Record<Kind, boolean> = { py: dialogue.lines.some((l) => l.py), vi: dialogue.lines.some((l) => l.vi) }

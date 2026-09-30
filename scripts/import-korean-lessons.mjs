@@ -38,6 +38,23 @@ for (const g of fs.readdirSync(DIR).filter((x) => /^glossary-.+\.json$/.test(x))
 }
 
 // Hội thoại 말하기 (dialogues-<book>.json: { lessons: { <bookLesson>: Dialogue[] } }) — gộp vào mọi bài theo bookLesson.
+// Quy tắc tô màu ngữ pháp trong hội thoại (grammar-marks.json: { lessons: { <bookLesson>: [n, regex][] } }).
+const marksPath = path.join(DIR, 'grammar-marks.json')
+const grammarMarks = fs.existsSync(marksPath) ? JSON.parse(fs.readFileSync(marksPath, 'utf8')).lessons : {}
+
+// Bọc các đoạn khớp regex thành [n:đoạn] (cú pháp của DialogueSection), bỏ qua phần đã được bọc trước đó.
+function applyMarks(text, rules, used) {
+  let out = text
+  for (const [n, pattern] of rules) {
+    const re = new RegExp(pattern, 'g')
+    out = out
+      .split(/(\[\d:[^\]]*\])/)
+      .map((part) => (/^\[\d:/.test(part) ? part : part.replace(re, (m) => { used.add(n); return `[${n}:${m}]` })))
+      .join('')
+  }
+  return out
+}
+
 const dialoguesByBookLesson = {}
 for (const g of fs.readdirSync(DIR).filter((x) => /^dialogues-.+.json$/.test(x))) {
   Object.assign(dialoguesByBookLesson, JSON.parse(fs.readFileSync(path.join(DIR, g), 'utf8')).lessons)
@@ -91,7 +108,12 @@ for (const f of files) {
       if (!line.ko || !line.vi) err(where, `hội thoại ${di + 1} câu ${li + 1} thiếu ko/vi`)
       else if (!HANGUL.test(line.ko)) err(where, `hội thoại ${di + 1} câu ${li + 1} không có chữ Hangul`)
     })
-    return { title: d.title, lines: d.lines.map((line) => ({ who: line.who ?? '', zh: line.ko, vi: line.vi })) }
+    const rules = grammarMarks[L.bookLesson] ?? []
+    const used = new Set()
+    const lines = d.lines.map((line) => ({ who: line.who ?? '', zh: applyMarks(line.ko, rules, used), vi: line.vi }))
+    rules.forEach(([n]) => { if (!L.grammar?.[n - 1]) err(where, `grammar-marks: không có điểm ngữ pháp số ${n}`) })
+    const legend = [...used].sort((a, b) => a - b).map((n) => ({ n, label: L.grammar[n - 1].front, np: `NP ${L.bookLesson}.${n}` }))
+    return { title: d.title, lines, ...(legend.length ? { legend } : {}) }
   })
   lessons.push({ lesson: L.lesson, title: L.title, titleVi: L.titleVi, dialogues })
 }

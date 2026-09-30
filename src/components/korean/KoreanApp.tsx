@@ -516,7 +516,7 @@ function LessonContent({
 
           {hasSpeaking && (
             <div className={`kr-mobile-section${effectiveMobileTab === 'speaking' ? ' active' : ''}`}>
-              {dialogues && <DialogueSection dialogues={dialogues} lang="ko-KR" prefix="kr" title="💬 Hội thoại" />}
+              {dialogues && <DialogueSection dialogues={dialogues} lang="ko-KR" prefix="kr" title="💬 Hội thoại" showVi />}
               {speaking && <SpeakingPracticeSection data={speaking} />}
             </div>
           )}
