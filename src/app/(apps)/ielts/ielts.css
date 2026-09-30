@@ -10,6 +10,18 @@
 }
 
 .ielts-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần tử bên trong luôn
+     lấy đúng màu của app này, bất kể thứ tự nạp stylesheet (xem cùng chú thích ở chinese.css / korean.css). */
+  --color-ih-bg: #fdfcfa;
+  --color-ih-surface: #ffffff;
+  --color-ih-ink: #2b3a55;
+  --color-ih-ink-soft: #5b6884;
+  --color-ih-rose: #c9667a;
+  --color-ih-border: rgba(43, 58, 85, 0.14);
+}
+
+.ielts-root {
   min-height: 100dvh;
   background-color: var(--color-ih-bg);
   /* Nền "aurora" — vài khối màu lớn được blur, rải rác trên nền trắng ngà. Độ đậm thấp (~0.15) để tổng

@@ -17,6 +17,22 @@
 }
 
 .it-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần tử bên trong luôn
+     lấy đúng màu của app này, bất kể thứ tự nạp stylesheet (xem cùng chú thích ở chinese.css / korean.css). */
+  --color-bg: #e8eaeb;
+  --color-card: #ffffff;
+  --color-card-soft: #e3d7bf;
+  --color-border: #ddd0b4;
+  --color-accent: #0f3d2e;
+  --color-accent-soft: #dbe9e1;
+  --color-muted: #8c8172;
+  --color-text: #0b1f16;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}
+
+.it-root {
   background-color: var(--color-bg);
   /* Texture: vệt màu teal (góc trên-trái) + mocha (góc dưới-phải) mờ trên nền bạc, gợi hình ảnh 2
      mảng da "Teal & Mocha" trong moodboard — kèm noise hạt mịn tạo chất liệu, nền vẫn sáng là chính. */

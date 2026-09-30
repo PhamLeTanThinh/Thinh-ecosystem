@@ -18,6 +18,25 @@
 }
 
 .habits-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần tử bên trong luôn
+     lấy đúng màu của app này, bất kể thứ tự nạp stylesheet (xem cùng chú thích ở chinese.css / korean.css). */
+  --color-bg: #f4f4f5;
+  --color-card: #ffffff;
+  --color-card-soft: #edeef0;
+  --color-border: #e4e4e7;
+  --color-accent: #16a34a;
+  --color-accent-soft: #dcfce7;
+  --color-danger: #dc2626;
+  --color-danger-soft: #fee2e2;
+  --color-income: #2563eb;
+  --color-muted: #71717a;
+  --color-text: #18181b;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}
+
+.habits-root {
   background: var(--color-bg);
   color: var(--color-text);
   min-height: 100dvh;

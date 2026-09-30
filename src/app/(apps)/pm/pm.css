@@ -15,6 +15,22 @@
 }
 
 .pm-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần tử bên trong luôn
+     lấy đúng màu của app này, bất kể thứ tự nạp stylesheet (xem cùng chú thích ở chinese.css / korean.css). */
+  --color-bg: #faf8ff;
+  --color-card: #ffffff;
+  --color-card-soft: #f3effc;
+  --color-border: #e6ddf7;
+  --color-accent: #7c3aed;
+  --color-accent-soft: #ede9fe;
+  --color-muted: #6b6280;
+  --color-text: #1e1b2e;
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}
+
+.pm-root {
   background: var(--color-bg);
   color: var(--color-text);
   min-height: 100dvh;

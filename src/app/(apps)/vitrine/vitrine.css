@@ -29,6 +29,30 @@
 }
 
 .vitrine-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần tử bên trong luôn
+     lấy đúng màu của app này, bất kể thứ tự nạp stylesheet (xem cùng chú thích ở chinese.css / korean.css). */
+  --color-vt-bg: #f5f3ee;
+  --color-vt-bg-deep: #eae6db;
+  --color-vt-surface: #fcfcfa;
+  --color-vt-surface-2: #eeece2;
+  --color-vt-ink: #17241f;
+  --color-vt-ink-soft: #57645b;
+  --color-vt-ink-faint: #8d968a;
+  --color-vt-border: #e2ddcc;
+  --color-vt-teal: #0d9c78;
+  --color-vt-teal-deep: #086b52;
+  --color-vt-teal-soft: #d3f0e5;
+  --color-vt-brass: #c9a227;
+  --color-vt-brass-deep: #96751a;
+  --color-vt-brass-soft: #f6ecc6;
+  --color-vt-plum: #7c2f56;
+  --color-vt-plum-deep: #5c2140;
+  --color-vt-plum-soft: #f1dde9;
+  --color-vt-shadow: rgba(20, 30, 24, 0.18);
+}
+
+.vitrine-root {
   background-color: var(--color-vt-bg);
   /* "Mesh" ánh sáng: 3 quầng màu lớn, mờ, chồng lên nền ivory — làm nền cho các mặt
      kính (.vt-glass) phía trên nổi bật thay vì bị chìm trên nền phẳng 1 màu. */

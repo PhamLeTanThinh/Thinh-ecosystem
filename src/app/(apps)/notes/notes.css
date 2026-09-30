@@ -11,6 +11,19 @@
 }
 
 .notes-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần tử bên trong luôn
+     lấy đúng màu của app này, bất kể thứ tự nạp stylesheet (xem cùng chú thích ở chinese.css / korean.css). */
+  --color-nt-bg: #fafaf9;
+  --color-nt-surface: #ffffff;
+  --color-nt-border: #e4e4e1;
+  --color-nt-note-border: #cfcfc8;
+  --color-nt-ink: #18181b;
+  --color-nt-ink-soft: #71717a;
+  --color-nt-accent: #3e63dd;
+}
+
+.notes-root {
   height: 100dvh;
   overflow: hidden;
   display: flex;
