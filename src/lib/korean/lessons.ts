@@ -22,3 +22,25 @@ export const LESSON_TITLES: Record<number, string> = {
 }
 
 export const LESSON_NUMBERS = Object.keys(LESSON_TITLES).map(Number).sort((a, b) => a - b)
+
+// Bản dịch tiếng Việt của tên bài — hiện dưới tên Hangul ở lưới bài học, sidebar và tiêu đề bài.
+export const LESSON_TITLES_VI: Record<number, string> = {
+  1: 'Rất hân hạnh được gặp bạn',
+  2: 'Sở thích của bạn là gì?',
+  3: 'Bạn đã từng đi xem concert chưa?',
+  4: 'Hình như áo hơi rộng',
+  5: 'Nên đi đâu thì hay nhỉ?',
+  6: 'Gửi bằng máy bay thì bao nhiêu tiền?',
+  7: 'Bạn có biết làng Hanok ở đâu không?',
+  8: 'Chắc bạn buồn lắm',
+  9: 'Tôi có việc muốn hỏi',
+  10: 'Ăn gì đây?',
+  11: 'Thử tập thể dục một chút thì sao?',
+  12: 'Tôi thuộc kiểu người khá trầm tính',
+  13: 'Xung quanh yên tĩnh nên sống rất thích',
+  14: 'Ở đây chụp ảnh có được không?',
+  15: 'Tôi đã quen với cuộc sống ở Hàn Quốc',
+  16: 'Ngày Tết ăn canh bánh gạo thay cho cơm',
+  17: 'Suýt nữa thì lỡ chuyến bay',
+  18: 'Đến Hàn Quốc đã được 6 tháng rồi',
+}

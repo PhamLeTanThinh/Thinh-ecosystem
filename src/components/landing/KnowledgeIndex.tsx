@@ -4,6 +4,7 @@ export interface KnowledgeItem {
   number: number // giá trị trả về onPick
   label?: number // số hiển thị "Bài n" (mặc định = number) — vd HSK 3 lưu lesson 26 nhưng là Bài 1
   title: string
+  titleVi?: string // bản dịch hiện dưới tiêu đề (vd tên bài chữ Hán → tiếng Việt)
   meta?: string
 }
 
@@ -40,6 +41,7 @@ export function KnowledgeIndex({ icon, title, subtitle, items, onPick, emptyMess
               <span className="lv-knowledge-body">
                 <span className="lv-knowledge-cap">Bài {item.label ?? item.number}</span>
                 <span className="lv-knowledge-card-title">{item.title}</span>
+                {item.titleVi && <span className="lv-knowledge-card-vi">{item.titleVi}</span>}
                 {item.meta && <span className="lv-knowledge-meta">{item.meta}</span>}
               </span>
               <span className="lv-knowledge-arrow" aria-hidden>

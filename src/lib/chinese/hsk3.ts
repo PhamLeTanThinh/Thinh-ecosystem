@@ -5,103 +5,128 @@ import type { LessonMeta } from './lessons'
 export const HSK3_LESSON_META: Record<number, LessonMeta> = {
   "26": {
     "level": "hsk3",
-    "title": "你最近怎么样了？"
+    "title": "你最近怎么样了？",
+    "titleVi": "Bạn gần đây thế nào?"
   },
   "27": {
     "level": "hsk3",
-    "title": "我是来看房子的"
+    "title": "我是来看房子的",
+    "titleVi": "Tôi đến xem nhà"
   },
   "28": {
     "level": "hsk3",
-    "title": "房间都收拾好了"
+    "title": "房间都收拾好了",
+    "titleVi": "Phòng đã dọn xong rồi"
   },
   "29": {
     "level": "hsk3",
-    "title": "哪条裙子更适合我？"
+    "title": "哪条裙子更适合我？",
+    "titleVi": "Cái váy nào hợp với tớ"
   },
   "30": {
     "level": "hsk3",
-    "title": "你有什么爱好？"
+    "title": "你有什么爱好？",
+    "titleVi": "Bạn có sở thích gì?"
   },
   "31": {
     "level": "hsk3",
-    "title": "很多汉字看起来很像"
+    "title": "很多汉字看起来很像",
+    "titleVi": "Rất nhiều chữ Hán nhìn giống nhau"
   },
   "32": {
     "level": "hsk3",
-    "title": "那儿的饭菜很新鲜"
+    "title": "那儿的饭菜很新鲜",
+    "titleVi": "Món ăn ở đó rất tươi ngon"
   },
   "33": {
     "level": "hsk3",
-    "title": "春节是最重要的节日"
+    "title": "春节是最重要的节日",
+    "titleVi": "Tết là dịp lễ quan trọng nhất"
   },
   "34": {
     "level": "hsk3",
-    "title": "你想要什么样的爱情？"
+    "title": "你想要什么样的爱情？",
+    "titleVi": "Cậu muốn có một tình yêu như thế nào?"
   },
   "35": {
     "level": "hsk3",
-    "title": "靠关系找工作是以前的事了"
+    "title": "靠关系找工作是以前的事了",
+    "titleVi": "Dựa vào quan hệ để tìm việc là chuyện của trước đây rồi"
   },
   "36": {
     "level": "hsk3",
-    "title": "想请几天假去旅游"
+    "title": "想请几天假去旅游",
+    "titleVi": "Muốn xin nghỉ mấy ngày đi du lịch"
   },
   "37": {
     "level": "hsk3",
-    "title": "师傅，我要去地铁站"
+    "title": "师傅，我要去地铁站",
+    "titleVi": "Bác tài ơi, cháu muốn đến bến tàu điện ngầm"
   },
   "38": {
     "level": "hsk3",
-    "title": "教室没有图书馆安静"
+    "title": "教室没有图书馆安静",
+    "titleVi": "Phòng học không yên tĩnh bằng thư viện"
   },
   "39": {
     "level": "hsk3",
-    "title": "健康最重要"
+    "title": "健康最重要",
+    "titleVi": "Sức khỏe quan trọng nhất"
   },
   "40": {
     "level": "hsk3",
-    "title": "欢迎参加今天的面试"
+    "title": "欢迎参加今天的面试",
+    "titleVi": "Chào mừng bạn đến tham gia buổi phỏng vấn hôm nay"
   },
   "41": {
     "level": "hsk3",
-    "title": "第一天上班"
+    "title": "第一天上班",
+    "titleVi": "Ngày đầu tiên đi làm"
   },
   "42": {
     "level": "hsk3",
-    "title": "生意终于谈成了"
+    "title": "生意终于谈成了",
+    "titleVi": "Việc kinh doanh cuối cùng đã đàm phán xong"
   },
   "43": {
     "level": "hsk3",
-    "title": "爸，我想换工作"
+    "title": "爸，我想换工作",
+    "titleVi": "Bố, con muốn đổi công việc"
   },
   "44": {
     "level": "hsk3",
-    "title": "节约小钱，却是浪费大钱"
+    "title": "节约小钱，却是浪费大钱",
+    "titleVi": "Tiết kiệm khoản nhỏ lại là lãng phí món to"
   },
   "45": {
     "level": "hsk3",
-    "title": "工作再忙也坚持阅读习惯"
+    "title": "工作再忙也坚持阅读习惯",
+    "titleVi": "Bận đến đâu cũng giữ thói quen đọc sách"
   },
   "46": {
     "level": "hsk3",
-    "title": "你在看偶像的电视剧吧？"
+    "title": "你在看偶像的电视剧吧？",
+    "titleVi": "Bạn đang xem phim của thần tượng à?"
   },
   "47": {
     "level": "hsk3",
-    "title": "其实教育孩子很简单"
+    "title": "其实教育孩子很简单",
+    "titleVi": "Thực ra dạy con rất đơn giản"
   },
   "48": {
     "level": "hsk3",
-    "title": "互联网的发展"
+    "title": "互联网的发展",
+    "titleVi": "Sự phát triển của internet"
   },
   "49": {
     "level": "hsk3",
-    "title": "现代社会的压力挺大的"
+    "title": "现代社会的压力挺大的",
+    "titleVi": "Áp lực của xã hội hiện đại lớn quá"
   },
   "50": {
     "level": "hsk3",
-    "title": "放弃一切，离开城市"
+    "title": "放弃一切，离开城市",
+    "titleVi": "Từ bỏ tất cả, rời xa thành phố"
   }
 }
 

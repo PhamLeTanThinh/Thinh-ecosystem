@@ -108,6 +108,202 @@
   color: var(--color-muted);
 }
 
+/* ── Kiểu card nhấn màu (LandingItem.accent — Chinese) ───────────────────────────────────────────────
+   Mỗi card mang 1 màu riêng (--acc): nền gradient nhạt, dải màu ở mép trên, ô icon bo vuông nhuộm màu, chữ Hán chìm
+   cỡ lớn ở góc phải dưới, thanh tiến độ "đã thuộc". Lưới 3 cột để 6 cấp độ xếp gọn 2 hàng thay vì 5 + 1. */
+.lv-grid--accent {
+  width: min(980px, 100%);
+  /* Tối đa 310px/card: 6 card (Chinese) xếp 3 cột, 2 card (Korean) không bị kéo giãn nửa màn hình. */
+  grid-template-columns: repeat(auto-fit, minmax(250px, 310px));
+  justify-content: center;
+  gap: 20px;
+}
+
+.lv-card--accent {
+  --acc: var(--color-brand);
+  position: relative;
+  overflow: hidden;
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+  padding: 26px 24px 22px;
+  background: linear-gradient(160deg, color-mix(in srgb, var(--acc) 11%, #fff) 0%, rgba(255, 255, 255, 0.86) 62%);
+  border: 1px solid color-mix(in srgb, var(--acc) 18%, rgba(255, 255, 255, 0.7));
+}
+
+.lv-card--accent::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--acc), color-mix(in srgb, var(--acc) 40%, #fff));
+}
+
+.lv-card--accent:hover,
+.lv-card--accent:focus-visible {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--acc) 55%, #fff);
+  box-shadow: 0 20px 42px -14px color-mix(in srgb, var(--acc) 45%, transparent), 0 6px 14px rgba(40, 30, 30, 0.07);
+  outline: none;
+}
+
+.lv-card--accent .lv-card-icon {
+  width: 54px;
+  border-radius: 16px;
+  font-size: 21px;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(145deg, var(--acc), color-mix(in srgb, var(--acc) 65%, #000));
+  box-shadow: 0 8px 18px -8px color-mix(in srgb, var(--acc) 70%, transparent);
+  transition: transform 0.22s ease;
+}
+
+.lv-card--accent:hover .lv-card-icon {
+  transform: scale(1.06) rotate(-4deg);
+}
+
+.lv-card--accent .lv-card-label {
+  margin-top: 8px;
+  font-size: 22px;
+  color: color-mix(in srgb, var(--acc) 82%, #111);
+}
+
+.lv-card-desc {
+  position: relative;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--color-text);
+  opacity: 0.78;
+}
+
+.lv-card--accent .lv-card-meta {
+  position: relative;
+  margin-top: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--acc) 80%, #222);
+  background: color-mix(in srgb, var(--acc) 12%, #fff);
+}
+
+.lv-card-glyph {
+  position: absolute;
+  right: -6px;
+  bottom: -26px;
+  font-family: 'Noto Serif SC', 'Songti SC', 'SimSun', serif;
+  font-size: 128px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--acc);
+  opacity: 0.09;
+  pointer-events: none;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.lv-card--accent:hover .lv-card-glyph {
+  opacity: 0.15;
+  transform: translateY(-6px) rotate(-6deg);
+}
+
+.lv-card-progress-row {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.lv-card-pct {
+  flex: none;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--acc, var(--color-brand)) 80%, #222);
+}
+
+.lv-card-progress {
+  position: relative;
+  flex: 1;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--acc, var(--color-brand)) 12%, #fff);
+}
+
+.lv-card-progress > span {
+  display: block;
+  height: 100%;
+  min-width: 6px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--acc, var(--color-brand)) 65%, #fff), var(--acc, var(--color-brand)));
+}
+
+.lv-card-go {
+  position: absolute;
+  right: 20px;
+  top: 24px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--acc);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.lv-card--accent:hover .lv-card-go,
+.lv-card--accent:focus-visible .lv-card-go {
+  opacity: 1;
+  transform: none;
+}
+
+.lv-card--accent.lv-card--muted {
+  opacity: 1;
+  filter: saturate(0.35);
+}
+
+.lv-card--accent.lv-card--muted .lv-card-meta {
+  font-weight: 600;
+}
+
+/* Điện thoại: 2 cột gọn thay vì 6 card xếp dọc 1 cột. */
+@media (max-width: 560px) {
+  .lv-grid--accent {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .lv-card--accent {
+    padding: 18px 14px 16px;
+    border-radius: 20px;
+  }
+
+  .lv-card--accent .lv-card-icon {
+    width: 42px;
+    border-radius: 13px;
+    font-size: 17px;
+  }
+
+  .lv-card--accent .lv-card-label {
+    margin-top: 4px;
+    font-size: 17px;
+  }
+
+  .lv-card-desc {
+    font-size: 11.5px;
+  }
+
+  .lv-card--accent .lv-card-meta {
+    padding: 3px 9px;
+    font-size: 10.5px;
+  }
+
+  .lv-card-glyph {
+    font-size: 92px;
+    bottom: -18px;
+  }
+}
+
 @keyframes lv-rise {
   from {
     opacity: 0;

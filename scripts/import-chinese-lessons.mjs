@@ -95,7 +95,7 @@ for (const f of files) {
     })
     return { ...(d.title ? { title: d.title } : {}), ...(d.variant ? { variant: d.variant } : {}), lines: d.lines, ...(d.legend ? { legend: d.legend } : {}), ...(d.note ? { note: d.note } : {}) }
   })
-  lessons.push({ lesson: L.lesson, title: L.title, dialogues })
+  lessons.push({ lesson: L.lesson, title: L.title, titleVi: L.titleVi, dialogues })
 }
 
 const ids = new Set()
@@ -109,7 +109,7 @@ if (errors.length) {
 }
 
 // Sinh file .ts
-const meta = Object.fromEntries(lessons.map((l) => [l.lesson, { level, title: l.title }]))
+const meta = Object.fromEntries(lessons.map((l) => [l.lesson, { level, title: l.title, ...(l.titleVi ? { titleVi: l.titleVi } : {}) }]))
 const dlg = Object.fromEntries(lessons.filter((l) => l.dialogues.length).map((l) => [l.lesson, l.dialogues]))
 fs.writeFileSync(
   OUT,

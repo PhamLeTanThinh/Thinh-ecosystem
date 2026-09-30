@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useChineseStore } from '@/lib/chinese/store'
 import { useChineseUIStore } from '@/lib/chinese/uiStore'
-import { HSK_LEVELS, LESSON_META, LESSON_TITLES, levelLabel, lessonDisplayNumber, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
+import { HSK_LEVELS, LESSON_META, LESSON_TITLES, levelLabel, lessonDisplayNumber, lessonNumbersForLevel, lessonTitleVi, type HskLevel } from '@/lib/chinese/lessons'
 import { Sidebar, type Selection } from '@/components/chinese/Sidebar'
 import { LearnerProfile } from '@/components/learner/LearnerProfile'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
@@ -51,6 +51,17 @@ const KIND_OPTIONS: { value: 'all' | ChineseCardKind; label: string }[] = [
 ]
 
 type StatusFilter = 'all' | 'learned' | 'unlearned'
+
+// Màu, chữ Hán chìm và mô tả của từng card ở màn hình chọn cấp độ (LevelLanding kiểu nhấn màu). Số từ là
+// lượng từ vựng chuẩn HSK 2.0 của mỗi cấp.
+const LEVEL_STYLE: Record<'phonetics' | HskLevel, Pick<LandingItem, 'accent' | 'glyph' | 'desc'>> = {
+  phonetics: { accent: '#0b7285', glyph: '音', desc: 'Thanh mẫu · Vận mẫu · Thanh điệu' },
+  hsk12: { accent: '#c92a2a', glyph: '初', desc: 'Nhập môn · 300 từ' },
+  hsk3: { accent: '#e8590c', glyph: '进', desc: 'Sơ cấp · 600 từ' },
+  hsk4: { accent: '#2b8a3e', glyph: '中', desc: 'Trung cấp · 1.200 từ' },
+  hsk5: { accent: '#1864ab', glyph: '高', desc: 'Trung cao cấp · 2.500 từ' },
+  hsk6: { accent: '#6741d9', glyph: '精', desc: 'Cao cấp · 5.000 từ' },
+}
 
 // Đường dẫn thật cho từng loại lựa chọn — /chinese/vocab (tổng quan), /chinese/lessons/<n>,
 // /chinese/phonetics/<n>, /chinese/decks/<id>. Mỗi bài giờ có URL riêng (chia sẻ được, back/forward
@@ -186,19 +197,23 @@ export function ChineseApp() {
   const landingItems: LandingItem[] = [
     {
       key: 'phonetics',
-      icon: '🔤',
+      icon: '拼',
       label: 'Ngữ âm cơ bản',
       meta: `${PHONETICS_LESSONS.length} bài`,
+      ...LEVEL_STYLE.phonetics,
     },
     ...HSK_LEVELS.map(({ key, label }) => {
       const lessons = lessonNumbersForLevel(key)
-      const cardCount = sortedCards.filter((c) => lessons.includes(c.lesson)).length
+      const levelCards = sortedCards.filter((c) => lessons.includes(c.lesson))
+      const learned = levelCards.filter((c) => isLearned(c.id)).length
       return {
         key,
         icon: label.replace('HSK ', ''),
         label,
-        meta: lessons.length === 0 ? 'Sắp ra mắt' : lessons.length + ' bài · ' + cardCount + ' thẻ',
+        meta: lessons.length === 0 ? 'Sắp ra mắt' : `${lessons.length} bài · ${levelCards.length} thẻ`,
         muted: lessons.length === 0,
+        progress: levelCards.length ? learned / levelCards.length : 0,
+        ...LEVEL_STYLE[key],
       }
     }),
   ]
@@ -283,6 +298,7 @@ export function ChineseApp() {
                 number: lesson,
                 label: lessonDisplayNumber(lesson),
                 title: LESSON_TITLES[lesson],
+                titleVi: lessonTitleVi(lesson),
                 meta: `${lessonCards.filter((card) => isLearned(card.id)).length}/${lessonCards.length} thuộc`,
               }
             }))}
@@ -615,6 +631,7 @@ function LessonContent({
         <div>
           <p className="cn-eyebrow">{lesson === 0 ? '学中文' : `学中文 · ${levelLabel(lesson)}`}</p>
           <h1 className="cn-page-title">{LESSON_TITLES[lesson] ?? ''}</h1>
+          {lessonTitleVi(lesson) && <p className="cn-page-title-vi">{lessonTitleVi(lesson)}</p>}
         </div>
         <div className="cn-content-header-actions">
           <Link href={`/chinese/study?lesson=${lesson}`} className="cn-btn-outline">

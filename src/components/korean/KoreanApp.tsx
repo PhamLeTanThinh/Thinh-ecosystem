@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
-import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LESSON_NUMBERS, LESSON_TITLES, LESSON_TITLES_VI } from '@/lib/korean/lessons'
 import { Sidebar, type Selection, type TopikKey } from '@/components/korean/Sidebar'
 import { LearnerProfile } from '@/components/learner/LearnerProfile'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
@@ -129,8 +129,17 @@ export function KoreanApp() {
   }
 
   const landingItems: LandingItem[] = [
-    { key: 'topik1', icon: 'I', label: 'TOPIK I', meta: 'Sắp ra mắt', muted: true },
-    { key: 'topik2', icon: 'II', label: 'TOPIK II', sublabel: 'Seoul Korean 2', meta: LESSON_NUMBERS.length + ' bài · ' + sortedCards.length + ' thẻ' },
+    { key: 'topik1', icon: 'I', label: 'TOPIK I', meta: 'Sắp ra mắt', muted: true, accent: '#0c8599', glyph: '초', desc: 'Sơ cấp · Cấp 1–2' },
+    {
+      key: 'topik2',
+      icon: 'II',
+      label: 'TOPIK II',
+      meta: `${LESSON_NUMBERS.length} bài · ${sortedCards.length} thẻ`,
+      accent: '#1f4fd6',
+      glyph: '중',
+      desc: 'Trung – cao cấp · Giáo trình Seoul Korean 2',
+      progress: sortedCards.length ? sortedCards.filter((card) => isLearned(card.id)).length / sortedCards.length : 0,
+    },
   ]
 
   return (
@@ -207,6 +216,7 @@ export function KoreanApp() {
                     return {
                       number: lesson,
                       title: LESSON_TITLES[lesson],
+                      titleVi: LESSON_TITLES_VI[lesson],
                       meta: `${lessonCards.filter((card) => isLearned(card.id)).length}/${lessonCards.length} thuộc`,
                     }
                   })
@@ -429,6 +439,7 @@ function LessonContent({
         <div>
           <p className="kr-eyebrow">한국어 공부 · 제{lesson}과</p>
           <h1 className="kr-page-title">{LESSON_TITLES[lesson] ?? ''}</h1>
+          {LESSON_TITLES_VI[lesson] && <p className="kr-page-title-vi">{LESSON_TITLES_VI[lesson]}</p>}
         </div>
         <div className="kr-content-header-actions">
           <Link href={`/korean/study?lesson=${lesson}`} className="kr-btn-outline">

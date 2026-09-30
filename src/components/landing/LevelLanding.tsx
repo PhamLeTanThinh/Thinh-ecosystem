@@ -10,6 +10,12 @@ export interface LandingItem {
   sublabel?: string
   meta: string
   muted?: boolean // chưa có nội dung ("sắp ra mắt") — vẫn bấm được nhưng mờ hơn
+  // Kiểu card "nhấn màu" (hiện chỉ Chinese dùng): có accent thì card nhuộm màu riêng, chữ chìm to ở góc,
+  // dòng mô tả và thanh tiến độ. Không truyền accent thì card giữ kiểu cũ (Korean, Music).
+  accent?: string
+  glyph?: string
+  desc?: string
+  progress?: number // 0..1 — tỉ lệ thẻ đã thuộc
 }
 
 interface Props {
@@ -33,19 +39,38 @@ export function LevelLanding({ eyebrow, title, subtitle, items, transitionPrefix
       <h1 className="lv-title">{title}</h1>
       <p className="lv-sub">{subtitle}</p>
 
-      <div className="lv-grid">
+      <div className={`lv-grid${items.some((item) => item.accent) ? ' lv-grid--accent' : ''}`}>
         {items.map((item, i) => (
           <button
             key={item.key}
             type="button"
-            className={`lv-card${item.muted ? ' lv-card--muted' : ''}`}
-            style={{ viewTransitionName: `${transitionPrefix}-level-${item.key}`, '--i': i } as CSSProperties}
+            className={`lv-card${item.accent ? ' lv-card--accent' : ''}${item.muted ? ' lv-card--muted' : ''}`}
+            style={{ viewTransitionName: `${transitionPrefix}-level-${item.key}`, '--i': i, ...(item.accent ? { '--acc': item.accent } : {}) } as CSSProperties}
             onClick={() => onPick(item.key)}
           >
+            {item.glyph && (
+              <span className="lv-card-glyph" aria-hidden>
+                {item.glyph}
+              </span>
+            )}
             <span className="lv-card-icon">{item.icon}</span>
             <span className="lv-card-label">{item.label}</span>
             {item.sublabel && <span className="lv-card-sub">{item.sublabel}</span>}
+            {item.desc && <span className="lv-card-desc">{item.desc}</span>}
             <span className="lv-card-meta">{item.meta}</span>
+            {item.progress !== undefined && !item.muted && (
+              <span className="lv-card-progress-row">
+                <span className="lv-card-progress" aria-hidden>
+                  <span style={{ width: `${Math.round(item.progress * 100)}%` }} />
+                </span>
+                <span className="lv-card-pct">{Math.round(item.progress * 100)}% thuộc</span>
+              </span>
+            )}
+            {item.accent && (
+              <span className="lv-card-go" aria-hidden>
+                →
+              </span>
+            )}
           </button>
         ))}
       </div>

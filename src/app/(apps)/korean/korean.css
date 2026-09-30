@@ -27,6 +27,28 @@
 }
 
 .korean-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app (vd Chinese → Korean) CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần
+     tử bên trong luôn lấy đúng màu của app này, bất kể thứ tự nạp stylesheet. */
+  --color-bg: #f4f6fb;
+  --color-card: #ffffff;
+  --color-card-soft: #eaeef8;
+  --color-border: #dde3f0;
+  --color-text: #1c2333;
+  --color-muted: #7c869c;
+  --color-accent: #d63447;
+  --color-accent-soft: #fbdfe3;
+  --color-accent-strong: #a8283a;
+  --color-brand: #1f4fd6;
+  --color-brand-soft: #dde6ff;
+  --color-brand-strong: #163aa3;
+  --color-gold: #2f9e6e;
+  --color-gold-soft: #d9f2e6;
+  --color-danger: #e11d48;
+  --color-danger-soft: #ffe1e7;
+  --radius-card: 24px;
+  --radius-pill: 999px;
+
   /* Nền "aurora" cố định theo viewport (fixed) — cùng convention với .ielts-root — để mảng màu
      không bị kéo giãn/lặp lại khi trang rất dài (~650 thẻ) như cách làm cũ dùng % chiều cao. */
   background-color: var(--color-bg);
@@ -635,6 +657,15 @@
   text-overflow: ellipsis;
 }
 
+.kr-lesson-row-vi {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .kr-lesson-row-meta {
   min-height: 14px;
   font-size: 11.5px;
@@ -726,6 +757,13 @@
   letter-spacing: 0.01em;
   color: var(--color-text);
   margin: 2px 0 0;
+}
+
+.kr-page-title-vi {
+  margin: 2px 0 0;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--color-muted);
 }
 
 .kr-content-header-actions {
@@ -1560,6 +1598,19 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+}
+
+.lv-knowledge-card-vi {
+  display: block;
+  margin-top: -2px;
+  overflow: hidden;
+  color: var(--color-text);
+  opacity: 0.72;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .lv-knowledge-meta {

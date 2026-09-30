@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LESSON_NUMBERS, LESSON_TITLES, LESSON_TITLES_VI } from '@/lib/korean/lessons'
 import type { KoreanCard } from '@/lib/korean/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { GrammarNavIcon, LessonNavIcon, NavChevronIcon, VocabNavIcon } from '@/components/shared/SidebarIcons'
@@ -171,6 +171,7 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
                       <span className="kr-lesson-badge">{n}과</span>
                       <span className="kr-lesson-row-body">
                         <span className="kr-lesson-row-title">{LESSON_TITLES[n]}</span>
+                        {LESSON_TITLES_VI[n] && <span className="kr-lesson-row-vi">{LESSON_TITLES_VI[n]}</span>}
                         <span className="kr-lesson-row-meta">
                           {learnedCount}/{lessonCards.length} thuộc
                         </span>

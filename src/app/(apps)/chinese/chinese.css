@@ -27,6 +27,28 @@
 }
 
 .chinese-root {
+  /* Khai lại bảng màu của app ngay trên root: @theme gắn biến vào :root DÙNG CHUNG, nên khi chuyển trang
+     client-side giữa các app (vd Chinese → Korean) CSS app trước vẫn còn và ghi đè màu. Khai ở đây thì mọi phần
+     tử bên trong luôn lấy đúng màu của app này, bất kể thứ tự nạp stylesheet. */
+  --color-bg: #faf8f3;
+  --color-card: #ffffff;
+  --color-card-soft: #f1ece0;
+  --color-border: #e7e0cf;
+  --color-text: #241f1a;
+  --color-muted: #8a8272;
+  --color-accent: #059669;
+  --color-accent-soft: #d6f5e8;
+  --color-accent-strong: #047857;
+  --color-brand: #b3222b;
+  --color-brand-soft: #fbe1df;
+  --color-brand-strong: #8a1b22;
+  --color-gold: #c9932c;
+  --color-gold-soft: #f6e9cf;
+  --color-danger: #e11d48;
+  --color-danger-soft: #ffe1e7;
+  --radius-card: 24px;
+  --radius-pill: 999px;
+
   background:
     radial-gradient(circle at 10% -10%, color-mix(in srgb, var(--color-brand) 5%, transparent), transparent 50%),
     radial-gradient(circle at 100% 0%, color-mix(in srgb, var(--color-gold) 8%, transparent), transparent 45%),
@@ -620,6 +642,15 @@
   text-overflow: ellipsis;
 }
 
+.cn-lesson-row-vi {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .cn-lesson-row-meta {
   min-height: 14px;
   font-size: 11.5px;
@@ -711,6 +742,13 @@
   letter-spacing: 0.01em;
   color: var(--color-text);
   margin: 2px 0 0;
+}
+
+.cn-page-title-vi {
+  margin: 2px 0 0;
+  font-size: 15px;
+  font-style: italic;
+  color: var(--color-muted);
 }
 
 .cn-content-header-actions {
@@ -2285,6 +2323,19 @@
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
+}
+
+.lv-knowledge-card-vi {
+  display: block;
+  margin-top: -2px;
+  overflow: hidden;
+  color: var(--color-text);
+  opacity: 0.72;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.35;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .lv-knowledge-meta {
