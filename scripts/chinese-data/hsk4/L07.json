@@ -1,0 +1,90 @@
+{
+  "level": "hsk4",
+  "lesson": 57,
+  "bookLesson": 7,
+  "title": "选择职业",
+  "titleVi": "Lựa chọn nghề nghiệp",
+  "pages": [73, 81],
+  "vocab": [
+    { "hanzi": "职业", "pinyin": "zhíyè", "pos": "dt.", "meaning": "nghề nghiệp" },
+    { "hanzi": "看重", "pinyin": "kànzhòng", "pos": "đt.", "meaning": "xem trọng" },
+    { "hanzi": "将来", "pinyin": "jiānglái", "pos": "dt.", "meaning": "tương lai", "hanViet": "tương lai" },
+    { "hanzi": "减轻", "pinyin": "jiǎnqīng", "pos": "đt.", "meaning": "giảm nhẹ" },
+    { "hanzi": "律师", "pinyin": "lǜshī", "pos": "dt.", "meaning": "luật sư", "hanViet": "luật sư" },
+    { "hanzi": "警察", "pinyin": "jǐngchá", "pos": "dt.", "meaning": "cảnh sát", "hanViet": "cảnh sát" },
+    { "hanzi": "大夫", "pinyin": "dàifu", "pos": "dt.", "meaning": "bác sĩ", "hanViet": "đại phu" },
+    { "hanzi": "记者", "pinyin": "jìzhě", "pos": "dt.", "meaning": "nhà báo", "hanViet": "ký giả" },
+    { "hanzi": "管理", "pinyin": "guǎnlǐ", "pos": "đt.", "meaning": "quản lý", "hanViet": "quản lý" },
+    { "hanzi": "作家", "pinyin": "zuòjiā", "pos": "dt.", "meaning": "tác giả", "hanViet": "tác giả" },
+    { "hanzi": "能够", "pinyin": "nénggòu", "pos": "đtnn.", "meaning": "có thể" },
+    { "hanzi": "申请", "pinyin": "shēnqǐng", "pos": "đt.", "meaning": "xin" },
+    { "hanzi": "奖学金", "pinyin": "jiǎngxuéjīn", "pos": "dt.", "meaning": "học bổng" },
+    { "hanzi": "硕士", "pinyin": "shuòshì", "pos": "dt.", "meaning": "thạc sĩ", "hanViet": "thạc sỹ" },
+    { "hanzi": "博士", "pinyin": "bóshì", "pos": "dt.", "meaning": "tiến sĩ" },
+    { "hanzi": "重点", "pinyin": "zhòngdiǎn", "pos": "dt.", "meaning": "trọng điểm", "hanViet": "trọng điểm" },
+    { "hanzi": "判断", "pinyin": "pànduàn", "pos": "đt.", "meaning": "phán đoán", "hanViet": "phán đoán" },
+    { "hanzi": "符合", "pinyin": "fúhé", "pos": "đt.", "meaning": "phù hợp", "hanViet": "phù hợp" },
+    { "hanzi": "美好", "pinyin": "měihǎo", "pos": "tt.", "meaning": "đẹp đẽ" }
+  ],
+  "expand": [
+    { "hanzi": "护士", "pinyin": "hùshi", "meaning": "Y tá" },
+    { "hanzi": "翻译员", "pinyin": "fānyì yuán", "meaning": "Phiên dịch viên" },
+    { "hanzi": "售货员", "pinyin": "shòuhuòyuán", "meaning": "Nhân viên bán hàng" },
+    { "hanzi": "工程师", "pinyin": "gōngchéngshī", "meaning": "Kỹ sư" },
+    { "hanzi": "销售员", "pinyin": "xiāoshòu yuán", "meaning": "Nhân viên sale" },
+    { "hanzi": "画家", "pinyin": "huàjiā", "meaning": "Họa sĩ" },
+    { "hanzi": "主持人", "pinyin": "zhǔchí rén", "meaning": "MC" },
+    { "hanzi": "科学家", "pinyin": "kēxuéjiā", "meaning": "Nhà khoa học" }
+  ],
+  "tree": {
+    "hanzi": "合",
+    "pinyin": "hé",
+    "meaning": "Hợp",
+    "words": [
+      { "hanzi": "合金", "pinyin": "héjīn", "meaning": "Hợp kim" },
+      { "hanzi": "合奏", "pinyin": "hézòu", "meaning": "Hợp tấu" },
+      { "hanzi": "集合", "pinyin": "jíhé", "meaning": "Tập hợp" },
+      { "hanzi": "合唱", "pinyin": "héchàng", "meaning": "Hợp xướng" },
+      { "hanzi": "结合", "pinyin": "jiéhé", "meaning": "Kết hợp" },
+      { "hanzi": "合理", "pinyin": "hélǐ", "meaning": "Hợp lý" },
+      { "hanzi": "配合", "pinyin": "pèihé", "meaning": "Phối hợp" },
+      { "hanzi": "合法", "pinyin": "héfǎ", "meaning": "Hợp pháp" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "7.1",
+      "hanzi": "在……看来",
+      "pinyin": "zài…… kànlái",
+      "meaning": "theo… thấy, theo quan điểm của…, đối với… mà nói",
+      "note": "Cấu trúc: 在…看来 · Nghĩa: ý kiến, quan điểm và sự đánh giá của ai đó về một sự vật, sự việc, dịch là \"theo… thấy, theo quan điểm của…, đối với… mà nói\" · So với 对…来说: 对…来说 mang sắc thái cá nhân (ý nghĩa, cảm xúc đối với một cá nhân); 在…看来 thường chỉ ý kiến, đánh giá khách quan",
+      "theory": "Cấu trúc 在…看来 /zài… kànlái/ biểu thị ý kiến, quan điểm và sự đánh giá của ai đó về một sự vật, sự việc, thường dịch là \"theo… thấy, theo quan điểm của…, đối với … mà nói\".\n\nSo sánh 在…看来 với 对…来说:\n\n对…来说 mang sắc thái cá nhân, ý chỉ một sự việc hoặc sự vật nào đó có ý nghĩa hay đem lại cảm xúc như thế nào đối với một cá nhân.\n\n在…看来 thường chỉ ý kiến hoặc đánh giá khách quan về một sự việc, sự vật.\n\nNgữ pháp đã học ở cuốn Tăng tốc xuất hiện lại trong bài: 不管 (NP 16.5), 首先…其次… (NP 16.4), 不仅 (NP 14.3).",
+      "examples": [
+        { "zh": "在他看来，可以出国留学是一件非常好的事。", "pinyin": "Zài tā kàn lái, kěyǐ chū guó liúxué shì yí jiàn fēicháng hǎo de shì.", "vi": "Theo quan điểm của anh ấy, được đi du học là một điều rất tốt.", "vocab": "留学: du học", "breakdown": "在 + 他 + 看来" },
+        { "zh": "在我看来，这次比赛他一定能拿到第一名。", "pinyin": "Zài wǒ kàn lái, zhè cì bǐsài tā yídìng néng ná dào dì yī míng.", "vi": "Theo tôi thấy, anh ấy chắc chắn sẽ đứng nhất trong cuộc thi này.", "vocab": "", "breakdown": "在 + 我 + 看来" },
+        { "zh": "这本书是我爷爷送给我的，所以对我来说是非常重要的。", "pinyin": "Zhè běn shū shì wǒ yéye sòng gěi wǒ de, suǒyǐ duì wǒ lái shuō shì fēicháng zhòngyào de.", "vi": "Quyển sách này là ông nội tặng cho tôi nên với tôi nó vô cùng quan trọng.", "vocab": "", "breakdown": "So sánh: 对…来说 mang sắc thái cá nhân" },
+        { "zh": "在很多人看来人生就像一场比赛。", "pinyin": "Zài hěn duō rén kàn lái rénshēng jiù xiàng yì chǎng bǐsài.", "vi": "Đối với rất nhiều người cuộc đời giống như một cuộc thi.", "vocab": "人生: cuộc đời", "breakdown": "在…看来: đánh giá khách quan" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Khi lựa chọn [0:职业] để làm và nuôi sống bản thân và gia đình, bạn xem [0:重] điều gì nhất? Lương, thưởng hay sự phát triển trong [0:将来] 5-10 năm nữa? Theo tôi, kiếm tiền không phải là điều quan trọng nhất, sự hứng thú mới là điều quan trọng. Làm công việc mình thích một cách nhiệt tình, bạn sẽ không cảm thấy mệt mỏi, áp lực được [0:减轻]. Không cần biết bạn là [0:律师] biện hộ, [0:警察] điều tra vụ án, [0:大夫] khám chữa bệnh, [0:记者] đưa tin báo chí, nhà [0:管理] doanh nghiệp hay [0:作家] viết tiểu thuyết, chỉ cần mỗi ngày vẫn [0:能够] làm việc vui vẻ, thì bạn thật hạnh phúc!" },
+        { "who": "", "zh": "Sau khi tốt nghiệp Đại học, nhiều người muốn [0:申请] học bổng để học tiếp lên bậc [0:硕士] hoặc cao hơn là bậc [0:博士]. Trước tiên, chúng ta nên hiểu rõ về bản thân, không chỉ để biết mình muốn làm gì, mà còn cần dựa trên tính cách và sở thích của mình để [0:判断] nghề nghiệp nào sẽ [0:符合] với bản thân. Như vậy bạn có thể tìm được một chuyên ngành ưng ý và có khoảng thời gian du học đầy những kỷ niệm [0:美好]." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "选择职业时，你最看重什么？工资、奖金还是将来的发展？[1:在我看来]，赚钱多少不是最重要的，兴趣才是关键。带着热情去做自己喜欢的工作既不会觉得累，又能减轻压力。不管现在你是律师、警察、大夫、记者、管理者还是作家，如果你每天都能够愉快地工作，那你太幸福了！", "py": "Xuǎnzé zhíyè shí, nǐ zuì kànzhòng shénme? Gōngzī, jiǎngjīn háishi jiānglái de fāzhǎn? [1:Zài wǒ kàn lái], zhuànqián duōshǎo búshì zuì zhòngyào de, xìngqù cái shì guānjiàn. Dài zhe rèqíng qù zuò zìjǐ xǐhuan de gōngzuò jì bú huì juéde lèi, yòu néng jiǎnqīng yālì. Bùguǎn xiànzài nǐ shì lǜshī, jǐngchá, dàifu, jìzhě, guǎnlǐzhě háishi zuòjiā, rúguǒ nǐ měitiān dōu nénggòu yúkuài de gōngzuò, nà nǐ tài xìngfú le!", "vi": "Khi chọn nghề, bạn coi trọng nhất điều gì? Lương, thưởng hay sự phát triển trong tương lai? [1:Theo tôi], kiếm tiền không phải là điều quan trọng nhất, sự hứng thú mới là điều quan trọng. Làm công việc mình yêu thích với lòng nhiệt huyết vừa không cảm thấy mệt mỏi vừa giảm bớt áp lực. Cho dù bạn là luật sư, cảnh sát, bác sĩ, phóng viên, nhà quản lý hay nhà văn, nếu bạn có thể làm việc vui vẻ mỗi ngày, thì bạn thật hạnh phúc!" },
+        { "who": "", "zh": "大学毕业后，很多人想申请奖学金，出国留学硕士、博士，积累专业的知识。我们首先应该对自己有清楚的认识，不仅要知道自己想做什么，重点还要根据自己的性格、爱好去判断什么样的职业符合自己，这样才能找到满意的专业，才会有美好的留学时间。", "py": "Dàxué bìyè hòu, hěn duō rén xiǎng shēnqǐng jiǎngxuéjīn, chūguó liúxué shuòshì, bóshì, jīlěi zhuānyè de zhīshi. Wǒmen shǒuxiān yīnggāi duì zìjǐ yǒu qīngchu de rènshi, bùjǐn yào zhīdào zìjǐ xiǎng zuò shénme, zhòngdiǎn hái yào gēnjù zìjǐ de xìnggé, àihào qù pànduàn shénme yàng de zhíyè fúhé zìjǐ, zhèyàng cáinéng zhǎodào mǎnyì de zhuānyè, cái huì yǒu měihǎo de liúxué shíjiān.", "vi": "Sau khi tốt nghiệp đại học, nhiều người muốn xin học bổng, đi du học thạc sĩ, tiến sĩ, tích lũy kiến thức chuyên môn. Trước tiên, chúng ta nên hiểu rõ về bản thân, không chỉ để biết mình muốn làm gì mà còn dựa trên tính cách và sở thích của mình để phán đoán nghề nghiệp phù hợp với bản thân, có như vậy mới tìm được ngành học ưng ý và có khoảng thời gian du học tốt đẹp." }
+      ],
+      "legend": [
+        { "n": 1, "label": "在…看来", "np": "NP 7.1" }
+      ]
+    }
+  ]
+}

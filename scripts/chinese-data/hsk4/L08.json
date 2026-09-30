@@ -1,0 +1,76 @@
+{
+  "level": "hsk4",
+  "lesson": 58,
+  "bookLesson": 8,
+  "title": "办公室生活",
+  "titleVi": "Đời sống công sở",
+  "pages": [82, 89],
+  "vocab": [
+    { "hanzi": "热闹", "pinyin": "rènao", "pos": "tt.", "meaning": "náo nhiệt" },
+    { "hanzi": "人才", "pinyin": "réncái", "pos": "dt.", "meaning": "nhân tài", "hanViet": "nhân tài" },
+    { "hanzi": "企业", "pinyin": "qǐyè", "pos": "dt.", "meaning": "doanh nghiệp" },
+    { "hanzi": "成败", "pinyin": "chéngbài", "pos": "dt.", "meaning": "thành bại", "hanViet": "thành bại" },
+    { "hanzi": "因素", "pinyin": "yīnsù", "pos": "dt.", "meaning": "nhân tố", "hanViet": "nhân tố" },
+    { "hanzi": "赢", "pinyin": "yíng", "pos": "đt.", "meaning": "thắng" },
+    { "hanzi": "暂时", "pinyin": "zànshí", "pos": "phó.", "meaning": "tạm thời", "hanViet": "tạm thời" },
+    { "hanzi": "选取", "pinyin": "xuǎnqǔ", "pos": "đt.", "meaning": "lựa chọn" },
+    { "hanzi": "增多", "pinyin": "zēngduō", "pos": "đt.", "meaning": "tăng thêm" },
+    { "hanzi": "方向", "pinyin": "fāngxiàng", "pos": "dt.", "meaning": "phương hướng", "hanViet": "phương hướng" },
+    { "hanzi": "调查", "pinyin": "diàochá", "pos": "đt.", "meaning": "điều tra", "hanViet": "điều tra" },
+    { "hanzi": "加入", "pinyin": "jiārù", "pos": "đt.", "meaning": "gia nhập", "hanViet": "gia nhập" },
+    { "hanzi": "专门", "pinyin": "zhuānmén", "pos": "phó.", "meaning": "chuyên môn", "hanViet": "chuyên môn" },
+    { "hanzi": "传真", "pinyin": "chuánzhēn", "pos": "đt.", "meaning": "fax" },
+    { "hanzi": "打印", "pinyin": "dǎyìn", "pos": "đt.", "meaning": "in ấn" },
+    { "hanzi": "复印", "pinyin": "fùyìn", "pos": "đt.", "meaning": "photocopy" },
+    { "hanzi": "能干", "pinyin": "nénggàn", "pos": "tt.", "meaning": "tài giỏi" },
+    { "hanzi": "细心", "pinyin": "xìxīn", "pos": "tt.", "meaning": "tinh tế" },
+    { "hanzi": "友谊", "pinyin": "yǒuyì", "pos": "dt.", "meaning": "hữu nghị", "hanViet": "hữu nghị" }
+  ],
+  "expand": [
+    { "hanzi": "扫描仪", "pinyin": "sǎomiáo yí", "meaning": "Máy scanner" },
+    { "hanzi": "文件夹", "pinyin": "wénjiàn jiá", "meaning": "Kẹp tài liệu" },
+    { "hanzi": "打孔机", "pinyin": "dǎ kǒng jī", "meaning": "Bấm lỗ" },
+    { "hanzi": "投影仪", "pinyin": "tóuyǐng yí", "meaning": "Máy chiếu" },
+    { "hanzi": "考勤机", "pinyin": "kǎoqín jī", "meaning": "Máy chấm công" },
+    { "hanzi": "碎纸机", "pinyin": "suì zhǐ jī", "meaning": "Máy hủy giấy" },
+    { "hanzi": "会议室", "pinyin": "huìyì shì", "meaning": "Phòng hội nghị" },
+    { "hanzi": "印章", "pinyin": "yìnzhāng", "meaning": "Con dấu" }
+  ],
+  "tree": {
+    "hanzi": "传",
+    "pinyin": "chuán",
+    "meaning": "Truyền",
+    "words": [
+      { "hanzi": "传诵", "pinyin": "chuánsòng", "meaning": "Truyền tụng" },
+      { "hanzi": "流传", "pinyin": "liúchuán", "meaning": "Lưu truyền" },
+      { "hanzi": "遗传", "pinyin": "yíchuán", "meaning": "Di truyền" },
+      { "hanzi": "传达", "pinyin": "chuándá", "meaning": "Truyền đạt" },
+      { "hanzi": "宣传", "pinyin": "xuānchuán", "meaning": "Tuyên truyền" },
+      { "hanzi": "传说", "pinyin": "chuánshuō", "meaning": "Truyền thuyết" },
+      { "hanzi": "传统", "pinyin": "chuántǒng", "meaning": "Truyền thống" },
+      { "hanzi": "传染", "pinyin": "chuánrǎn", "meaning": "Truyền nhiễm" }
+    ]
+  },
+  "grammar": [],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Thị trường lao động càng đông, thì sự cạnh tranh càng trở nên [0:热闹], bởi nhân sự tốt chính là [0:因素] quyết định tới sự [0:成败] của doanh nghiệp, bất kể đó là [0:企业] lớn hay vừa và nhỏ, chỉ có tìm cách giữ chân [0:人才] mới có thể giúp doanh nghiệp giành chiến [0:赢] trong cuộc cạnh tranh. Lương cao chỉ là giải pháp [0:暂时] để giữ chân nhân tài một thời gian thôi. Để phát triển trong tương lai, giữa nhiều cách khác nhau, các công ty cần [0:选取] ra các cách giúp cải thiện chất lượng môi trường làm việc, [0:增多] cơ hội học tập và phát triển nhiều hơn cho nhân sự. Đây nên là [0:方向] đúng đắn đi tới sự phát triển lâu dài của doanh nghiệp." },
+        { "who": "", "zh": "Một kết quả [0:调查] thị trường cho biết, khi mới [0:加入] một công ty mới, các bạn trẻ ngoài việc làm tốt công việc theo [0:专门] mà mình đã học tại Đại học, học thêm cách gửi fax qua máy [0:传真], cách sử dụng máy [0:打印] để in tài liệu, [0:复印] tài liệu ra thành nhiều bản,... mà còn phải chú ý vấn đề giao tiếp với đồng nghiệp, kéo gần khoảng cách, chứng tỏ rằng bạn là một người hiểu chuyện, [0:能干] mọi việc được giao, [0:细心] đến từng chi tiết nhỏ. Thực tế chứng minh con người nhờ những trò chuyện mà thắt chặt tình [0:友谊] giữa bạn bè đồng nghiệp với nhau, từ đó công việc càng thêm suôn sẻ." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "在越来越热闹的市场竞争中，人才是决定企业发展成败的关键因素，留住人才才能帮企业在竞争中赢来成功。高工资只能暂时留住人才。考虑到将来的发展，企业必须选取有效办法提高工作环境的质量，增多人才发展的机会。这应该是企业努力的方向。", "py": "Zài yuè lái yuè rènao de shìchǎng jìngzhēng zhōng, réncái shì juédìng qǐyè fāzhǎn chéngbài de guānjiàn yīnsù, liú zhù réncái cái néng bāng qǐyè zài jìngzhēng zhōng yíng lái chénggōng. Gāo gōngzī zhǐ néng zànshí liú zhù réncái. Kǎolǜ dào jiānglái de fāzhǎn, qǐyè bìxū xuǎnqǔ yǒuxiào bànfǎ tígāo gōngzuò huánjìng de zhìliàng, zēngduō réncái fāzhǎn de jīhuì. Zhè yīnggāi shì qǐyè nǔlì de fāngxiàng.", "vi": "Trong thị trường cạnh tranh ngày càng sôi động, nhân tài chính là nhân tố quyết định sự thành bại của sự phát triển của một doanh nghiệp, chỉ có giữ chân nhân tài mới có thể giúp doanh nghiệp giành được thành công trong cạnh tranh. Lương cao chỉ có thể tạm thời giữ chân nhân tài. Cân nhắc đến sự phát triển trong tương lai, các công ty phải lựa chọn cách cải thiện chất lượng môi trường làm việc và tăng cơ hội phát triển nhân tài. Đây nên là hướng nỗ lực của doanh nghiệp." },
+        { "who": "", "zh": "一个调查结果表示，加入新公司的时候，年轻人除了专门做好自己的工作，学会发传真，打印，复印材料等事情以外，还要注意与同事交流问题，拉近距离，表示出你是个又懂事能干，又细心友好的人。因为人们还可以通过聊天获得友谊，所以友好的同事关系几乎成为顺利完成工作的重要条件。", "py": "Yí ge diàochá jiéguǒ biǎoshì, jiārù xīn gōngsī de shíhou, niánqīng rén chúle zhuānmén zuò hǎo zìjǐ de gōngzuò, xuéhuì fā chuánzhēn, dǎyìn, fùyìn cáiliào děng shìqing yǐwài, hái yào zhùyì yǔ tóngshì jiāoliú wèntí, lā jìn jùlí, biǎoshì chū nǐ shì ge yòu dǒngshì nénggàn, yòu xìxīn yǒuhǎo de rén. Yīnwèi rénmen hái kěyǐ tōngguò liáotiān huòdé yǒuyì, suǒyǐ yǒuhǎo de tóngshì guānxi jīhū chéngwéi shùnlì wánchéng gōngzuò de zhòngyào tiáojiàn.", "vi": "Một kết quả khảo sát cho biết, khi gia nhập một công ty mới, các bạn trẻ ngoài việc làm tốt công việc chuyên môn của mình, học cách gửi fax, in ấn, sao chép tài liệu,... mà còn phải chú ý vấn đề giao tiếp với đồng nghiệp, kéo gần khoảng cách, chứng tỏ rằng bạn là người vừa hiểu chuyện, có năng lực, lại vừa tinh tế, thân thiện. Bởi vì con người thông qua trò chuyện mà có được tình bạn, vì vậy có mối quan hệ đồng nghiệp tốt dường như đã trở thành điều kiện quan trọng để hoàn thành công việc một cách suôn sẻ." }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 必须 (NP 11.2, Tăng tốc): 企业必须选取办法提高工作环境的质量 · 除了…(以外) (NP 5.4, Tăng tốc): 年轻人除了专门做好自己的工作… · 几乎 (NP 13.1, Tăng tốc): 友好的同事关系几乎成为顺利完成…"
+      }
+    }
+  ]
+}

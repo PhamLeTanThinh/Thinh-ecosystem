@@ -1,0 +1,91 @@
+{
+  "level": "hsk4",
+  "lesson": 59,
+  "bookLesson": 9,
+  "title": "互联网",
+  "titleVi": "Internet",
+  "pages": [90, 97],
+  "vocab": [
+    { "hanzi": "证明", "pinyin": "zhèngmíng", "pos": "dt.", "meaning": "chứng minh", "hanViet": "chứng minh" },
+    { "hanzi": "指出", "pinyin": "zhǐchū", "pos": "đt.", "meaning": "chỉ ra" },
+    { "hanzi": "指", "pinyin": "zhǐ", "pos": "đt.", "meaning": "chỉ" },
+    { "hanzi": "答案", "pinyin": "dá'àn", "pos": "dt.", "meaning": "đáp án", "hanViet": "đáp án" },
+    { "hanzi": "网址", "pinyin": "wǎngzhǐ", "pos": "dt.", "meaning": "địa chỉ web" },
+    { "hanzi": "回忆", "pinyin": "huíyì", "pos": "dt., đt.", "meaning": "nhớ lại, hồi ức", "hanViet": "hồi ức" },
+    { "hanzi": "邮局", "pinyin": "yóujú", "pos": "dt.", "meaning": "bưu điện", "hanViet": "bưu cục" },
+    { "hanzi": "信封", "pinyin": "xìnfēng", "pos": "dt.", "meaning": "phong bì thư" },
+    { "hanzi": "短信", "pinyin": "duǎnxìn", "pos": "dt.", "meaning": "tin nhắn" },
+    { "hanzi": "外地", "pinyin": "wàidì", "pos": "dt.", "meaning": "vùng ngoài", "hanViet": "ngoại địa" },
+    { "hanzi": "网页", "pinyin": "wǎngyè", "pos": "dt.", "meaning": "trang web" },
+    { "hanzi": "页", "pinyin": "yè", "pos": "dt.", "meaning": "trang" },
+    { "hanzi": "直接", "pinyin": "zhíjiē", "pos": "phó.", "meaning": "trực tiếp", "hanViet": "trực tiếp" },
+    { "hanzi": "科技", "pinyin": "kējì", "pos": "dt.", "meaning": "khoa học kỹ thuật" },
+    { "hanzi": "作用", "pinyin": "zuòyòng", "pos": "dt.", "meaning": "tác dụng", "hanViet": "tác dụng" },
+    { "hanzi": "转", "pinyin": "zhuǎn", "pos": "dt.", "meaning": "chuyển", "hanViet": "chuyển" },
+    { "hanzi": "数字", "pinyin": "shùzì", "pos": "dt.", "meaning": "chữ số" },
+    { "hanzi": "密码", "pinyin": "mìmǎ", "pos": "dt.", "meaning": "mật khẩu", "hanViet": "mật mã" },
+    { "hanzi": "网络", "pinyin": "wǎngluò", "pos": "dt.", "meaning": "mạng" },
+    { "hanzi": "规定", "pinyin": "guīdìng", "pos": "dt.", "meaning": "quy định", "hanViet": "quy định" },
+    { "hanzi": "号码", "pinyin": "hàomǎ", "pos": "dt.", "meaning": "số" },
+    { "hanzi": "文字", "pinyin": "wénzì", "pos": "dt.", "meaning": "văn tự", "hanViet": "văn tự" }
+  ],
+  "expand": [
+    { "hanzi": "搜索引擎", "pinyin": "sōusuǒ yǐnqíng", "meaning": "Công cụ tìm kiếm" },
+    { "hanzi": "社交软件", "pinyin": "shèjiāo ruǎnjiàn", "meaning": "Phần mềm mạng xã hội" },
+    { "hanzi": "链接", "pinyin": "liànjiē", "meaning": "Link" },
+    { "hanzi": "下载", "pinyin": "xiàzài", "meaning": "Tải về" },
+    { "hanzi": "黑客", "pinyin": "hēikè", "meaning": "Hacker" },
+    { "hanzi": "网民", "pinyin": "wǎngmín", "meaning": "Cư dân mạng" },
+    { "hanzi": "评论区", "pinyin": "pínglùn qū", "meaning": "Khu bình luận" },
+    { "hanzi": "点赞", "pinyin": "diǎn zàn", "meaning": "Like, thích" }
+  ],
+  "tree": {
+    "hanzi": "规",
+    "pinyin": "guī",
+    "meaning": "Quy",
+    "words": [
+      { "hanzi": "规律", "pinyin": "guīlǜ", "meaning": "Quy luật" },
+      { "hanzi": "规范", "pinyin": "guīfàn", "meaning": "Quy phạm" },
+      { "hanzi": "正规", "pinyin": "zhèngguī", "meaning": "Chính quy" },
+      { "hanzi": "规则", "pinyin": "guīzé", "meaning": "Quy tắc" },
+      { "hanzi": "合规", "pinyin": "héguī", "meaning": "Hợp quy" },
+      { "hanzi": "规划", "pinyin": "guīhuà", "meaning": "Quy hoạch" },
+      { "hanzi": "犯规", "pinyin": "fànguī", "meaning": "Phạm quy" },
+      { "hanzi": "规模", "pinyin": "guīmó", "meaning": "Quy mô" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "9.1",
+      "hanzi": "Động + 着 (zháo)",
+      "pinyin": "zháo",
+      "meaning": "được, tới (làm được, chạm tới — bổ ngữ kết quả / khả năng)",
+      "note": "Khẳng định: Động + 着 · Phủ định BNKQ: 没 + Động + 着 · Phủ định BNKN: Động + 不着 · Nghĩa: làm được, hoàn thành, chạm tới, tiếp xúc tới sự vật, dịch là \"được, tới\" · Tương đương 到 (miền Nam Trung Quốc hay dùng 到, miền Bắc hay dùng 着)",
+      "theory": "Trợ từ 着 /zháo/ dùng trong Bổ ngữ kết quả / Bổ ngữ khả năng, biểu thị ý nghĩa làm được, hoàn thành được một sự việc hoặc chạm tới, tiếp xúc tới một sự vật nào đó, thường dịch \"được, tới…\". Trợ từ 着 dùng trong Bổ ngữ kết quả / Bổ ngữ khả năng mang ý nghĩa tương đương với trợ từ 到. Người phía Nam Trung Quốc thường dùng trợ từ 到, trong khi người phía Bắc thường dùng trợ từ 着.\n\nCấu trúc:\nDạng khẳng định: Động + 着\nDạng phủ định: BNKQ: 没 + Động + 着; BNKN: Động + 不着\n\nNgữ pháp đã học ở cuốn Tăng tốc xuất hiện lại trong bài: 并 (NP 16.3), 百分之 (NP 21.3), 连 (NP 20.3), 越来越 (NP 1.1), 为 / 为了 (NP 8.1), 必须 (NP 11.2).",
+      "examples": [
+        { "zh": "想着你睡不着，就是爱情的味道。", "pinyin": "Xiǎng zhe nǐ shuì bù zháo, jiùshì àiqíng de wèidào.", "vi": "Nhớ anh không ngủ được, chính là hương vị của tình yêu.", "vocab": "", "breakdown": "BNKN phủ định: 睡 + 不着" },
+        { "zh": "我找了半天还没找着，你到底把我的东西放哪儿啊？", "pinyin": "Zhǎo le bàntiān hái méi zhǎo zháo, nǐ dàodǐ bǎ wǒ de dōngxi fàng nǎr a?", "vi": "Tôi tìm mãi không thấy, rốt cuộc bạn để đồ của tôi ở đâu vậy?", "vocab": "到底: rốt cuộc", "breakdown": "BNKQ phủ định: 没 + 找 + 着" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Một kết quả khảo sát đã [0:证明] một thực tế và [0:指出] rằng 70% mọi người khi gặp câu hỏi khó thì điều đầu tiên họ nghĩ đến là tìm [0:答案] ở trên mạng, tất nhiên, quen thuộc nhất chính là [0:网址] Google.com.vn. [0:回忆] về kỷ niệm chỉ chục năm trước đây, để gửi một lá thư cần mất vài ngày, nhưng bây giờ thậm chí không cần đến [0:邮局] gửi thư, cũng không cần dùng [0:信封] và dán tem lên, chỉ cần gửi [0:短信] qua tin nhắn hoặc lên mạng gửi email là được rồi. Tin tức ở [0:外地] nhiều khi phải vài ngày sau mới được cập nhật địa phương mình, thì bây giờ lên mạng và truy cập vào một [0:网页], bất kỳ thông tin nào cũng có thể được trao đổi một cách [0:直接] không giới hạn với mọi người trên khắp thế giới. Cuộc cách mạng [0:科技] 4.0 mang đến nhiều [0:作用] tích cực cho đời sống, giúp xã hội [0:转] sang nền kinh tế số, mang đến cho con người ngày càng nhiều sự lựa chọn." },
+        { "who": "", "zh": "Làm thế nào để có thể nhớ được nhiều [0:密码] được sử dụng khi lên mạng? Không ít người sử dụng mật khẩu là một chuỗi [0:数字] dễ nhớ, ví dụ 123456. Nhưng để nâng cao an ninh khi lên [0:网络], nhiều trang web đưa ra [0:规定] mật khẩu phải là 1 dãy [0:号码] phức tạp và có chứa [0:文字] đặc biệt như @, #, *..." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "一个调查结果证明并指出，百分之七十的人遇到问题时，首先想到的就是上网找答案，当然最熟悉的就是Google网址了。回忆以前，寄信需要好几天，现在连邮局都不用去，信封都[1:用不着]，只要发短信或上网发个电子邮件。以前外地的新闻要几天后才能知道，现在有了网页，任何消息都可以在第一时间和全世界的人们直接交流。科技发展的积极作用让社会转向数字经济，让人们的选择越来越多了。", "py": "Yí ge diàochá jiéguǒ zhèngmíng bìng zhǐchū, bǎi fēn zhī qīshí de rén yù dào wèntí shí, shǒuxiān xiǎng dào de jiùshì shàng wǎng zhǎo dá'àn, dāngrán zuì shúxī de jiùshì Google wǎngzhǐ le. Huíyì yǐqián, jì xìn xūyào hǎo jǐ tiān, xiànzài lián yóujú dōu búyòng qù, xìnfēng dōu [1:yòng bù zháo], zhǐyào fā duǎnxìn huò shàng wǎng fā ge diànzǐ yóujiàn. Yǐqián wàidì de xīnwén yào jǐ tiān hòu cáinéng zhīdào, xiànzài yǒu le wǎngyè, rènhé xiāoxi dōu kěyǐ zài dì yī shíjiān hé quán shìjiè de rénmen zhíjiē jiāoliú. Kējì fāzhǎn de jījí zuòyòng ràng shèhuì zhuǎnxiàng shùzì jīngjì, ràng rénmen de xuǎnzé yuè lái yuè duō le.", "vi": "Một kết quả khảo sát đã chứng minh và chỉ ra rằng 70% số người khi gặp vấn đề thì điều đầu tiên họ nghĩ đến là tìm câu trả lời trên mạng, tất nhiên, quen thuộc nhất chính là trang web Google. Nhớ lại trước đây, để gửi một lá thư cần mất vài ngày, bây giờ thậm chí không cần đến bưu điện, [1:cũng không cần dùng tới] phong bì, chỉ cần gửi tin nhắn hoặc lên mạng gửi email. Trước đây, tin tức ở nơi khác phải vài ngày sau mới biết, giờ có web, bất kỳ tin tức nào cũng có thể được trao đổi trực tiếp với mọi người trên khắp thế giới ngay lúc đầu tiên. Những tác động tích cực của sự phát triển công nghệ đã chuyển xã hội sang nền kinh tế số, con người càng nhiều sự lựa chọn." },
+        { "who": "", "zh": "很多人都遇到过这样的问题：怎么才能记住上网用的很多密码呢？不少人为了方便，直接用了\"123456\"这样好记的\"懒人密码\"。为了提高网络安全，很多网站规定密码必须是一段复杂号码和特别文字。", "py": "Hěn duō rén dōu yù dào guo zhèyàng de wèntí: Zěnme cáinéng jì zhù shàng wǎng yòng de hěn duō mìmǎ ne? Bù shǎo rén wèile fāngbiàn, zhíjiē yòng le \"123456\" zhèyàng hǎo jì de \"lǎn rén mìmǎ\". Wèile tígāo wǎngluò ānquán, hěn duō wǎngzhàn guīdìng mìmǎ bìxū shì yí duàn fùzá hàomǎ hé tèbié wénzì.", "vi": "Nhiều người đã gặp câu hỏi này: Làm thế nào có thể nhớ được nhiều mật khẩu được sử dụng khi lên mạng? Để thuận tiện, không ít người đã đưa ra \"mật khẩu dành cho người lười\" dễ nhớ như \"123456\". Để nâng cao an ninh mạng, nhiều trang web quy định mật khẩu phải là 1 dãy số phức và ký tự đặc biệt." }
+      ],
+      "legend": [
+        { "n": 1, "label": "用不着", "np": "NP 9.1" }
+      ]
+    }
+  ]
+}

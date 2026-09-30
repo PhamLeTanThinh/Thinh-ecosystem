@@ -32,6 +32,26 @@ export const HSK4_LESSON_META: Record<number, LessonMeta> = {
     "level": "hsk4",
     "title": "结婚成家",
     "titleVi": "Hôn nhân – Gia đình"
+  },
+  "57": {
+    "level": "hsk4",
+    "title": "选择职业",
+    "titleVi": "Lựa chọn nghề nghiệp"
+  },
+  "58": {
+    "level": "hsk4",
+    "title": "办公室生活",
+    "titleVi": "Đời sống công sở"
+  },
+  "59": {
+    "level": "hsk4",
+    "title": "互联网",
+    "titleVi": "Internet"
+  },
+  "60": {
+    "level": "hsk4",
+    "title": "经济",
+    "titleVi": "Kinh tế"
   }
 }
 
@@ -371,6 +391,163 @@ export const HSK4_DIALOGUES: Record<number, Dialogue[]> = {
           "n": 4,
           "label": "对于",
           "np": "NP 6.4"
+        }
+      ]
+    }
+  ],
+  "57": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Khi lựa chọn [0:职业] để làm và nuôi sống bản thân và gia đình, bạn xem [0:重] điều gì nhất? Lương, thưởng hay sự phát triển trong [0:将来] 5-10 năm nữa? Theo tôi, kiếm tiền không phải là điều quan trọng nhất, sự hứng thú mới là điều quan trọng. Làm công việc mình thích một cách nhiệt tình, bạn sẽ không cảm thấy mệt mỏi, áp lực được [0:减轻]. Không cần biết bạn là [0:律师] biện hộ, [0:警察] điều tra vụ án, [0:大夫] khám chữa bệnh, [0:记者] đưa tin báo chí, nhà [0:管理] doanh nghiệp hay [0:作家] viết tiểu thuyết, chỉ cần mỗi ngày vẫn [0:能够] làm việc vui vẻ, thì bạn thật hạnh phúc!"
+        },
+        {
+          "who": "",
+          "zh": "Sau khi tốt nghiệp Đại học, nhiều người muốn [0:申请] học bổng để học tiếp lên bậc [0:硕士] hoặc cao hơn là bậc [0:博士]. Trước tiên, chúng ta nên hiểu rõ về bản thân, không chỉ để biết mình muốn làm gì, mà còn cần dựa trên tính cách và sở thích của mình để [0:判断] nghề nghiệp nào sẽ [0:符合] với bản thân. Như vậy bạn có thể tìm được một chuyên ngành ưng ý và có khoảng thời gian du học đầy những kỷ niệm [0:美好]."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "选择职业时，你最看重什么？工资、奖金还是将来的发展？[1:在我看来]，赚钱多少不是最重要的，兴趣才是关键。带着热情去做自己喜欢的工作既不会觉得累，又能减轻压力。不管现在你是律师、警察、大夫、记者、管理者还是作家，如果你每天都能够愉快地工作，那你太幸福了！",
+          "py": "Xuǎnzé zhíyè shí, nǐ zuì kànzhòng shénme? Gōngzī, jiǎngjīn háishi jiānglái de fāzhǎn? [1:Zài wǒ kàn lái], zhuànqián duōshǎo búshì zuì zhòngyào de, xìngqù cái shì guānjiàn. Dài zhe rèqíng qù zuò zìjǐ xǐhuan de gōngzuò jì bú huì juéde lèi, yòu néng jiǎnqīng yālì. Bùguǎn xiànzài nǐ shì lǜshī, jǐngchá, dàifu, jìzhě, guǎnlǐzhě háishi zuòjiā, rúguǒ nǐ měitiān dōu nénggòu yúkuài de gōngzuò, nà nǐ tài xìngfú le!",
+          "vi": "Khi chọn nghề, bạn coi trọng nhất điều gì? Lương, thưởng hay sự phát triển trong tương lai? [1:Theo tôi], kiếm tiền không phải là điều quan trọng nhất, sự hứng thú mới là điều quan trọng. Làm công việc mình yêu thích với lòng nhiệt huyết vừa không cảm thấy mệt mỏi vừa giảm bớt áp lực. Cho dù bạn là luật sư, cảnh sát, bác sĩ, phóng viên, nhà quản lý hay nhà văn, nếu bạn có thể làm việc vui vẻ mỗi ngày, thì bạn thật hạnh phúc!"
+        },
+        {
+          "who": "",
+          "zh": "大学毕业后，很多人想申请奖学金，出国留学硕士、博士，积累专业的知识。我们首先应该对自己有清楚的认识，不仅要知道自己想做什么，重点还要根据自己的性格、爱好去判断什么样的职业符合自己，这样才能找到满意的专业，才会有美好的留学时间。",
+          "py": "Dàxué bìyè hòu, hěn duō rén xiǎng shēnqǐng jiǎngxuéjīn, chūguó liúxué shuòshì, bóshì, jīlěi zhuānyè de zhīshi. Wǒmen shǒuxiān yīnggāi duì zìjǐ yǒu qīngchu de rènshi, bùjǐn yào zhīdào zìjǐ xiǎng zuò shénme, zhòngdiǎn hái yào gēnjù zìjǐ de xìnggé, àihào qù pànduàn shénme yàng de zhíyè fúhé zìjǐ, zhèyàng cáinéng zhǎodào mǎnyì de zhuānyè, cái huì yǒu měihǎo de liúxué shíjiān.",
+          "vi": "Sau khi tốt nghiệp đại học, nhiều người muốn xin học bổng, đi du học thạc sĩ, tiến sĩ, tích lũy kiến thức chuyên môn. Trước tiên, chúng ta nên hiểu rõ về bản thân, không chỉ để biết mình muốn làm gì mà còn dựa trên tính cách và sở thích của mình để phán đoán nghề nghiệp phù hợp với bản thân, có như vậy mới tìm được ngành học ưng ý và có khoảng thời gian du học tốt đẹp."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "在…看来",
+          "np": "NP 7.1"
+        }
+      ]
+    }
+  ],
+  "58": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Thị trường lao động càng đông, thì sự cạnh tranh càng trở nên [0:热闹], bởi nhân sự tốt chính là [0:因素] quyết định tới sự [0:成败] của doanh nghiệp, bất kể đó là [0:企业] lớn hay vừa và nhỏ, chỉ có tìm cách giữ chân [0:人才] mới có thể giúp doanh nghiệp giành chiến [0:赢] trong cuộc cạnh tranh. Lương cao chỉ là giải pháp [0:暂时] để giữ chân nhân tài một thời gian thôi. Để phát triển trong tương lai, giữa nhiều cách khác nhau, các công ty cần [0:选取] ra các cách giúp cải thiện chất lượng môi trường làm việc, [0:增多] cơ hội học tập và phát triển nhiều hơn cho nhân sự. Đây nên là [0:方向] đúng đắn đi tới sự phát triển lâu dài của doanh nghiệp."
+        },
+        {
+          "who": "",
+          "zh": "Một kết quả [0:调查] thị trường cho biết, khi mới [0:加入] một công ty mới, các bạn trẻ ngoài việc làm tốt công việc theo [0:专门] mà mình đã học tại Đại học, học thêm cách gửi fax qua máy [0:传真], cách sử dụng máy [0:打印] để in tài liệu, [0:复印] tài liệu ra thành nhiều bản,... mà còn phải chú ý vấn đề giao tiếp với đồng nghiệp, kéo gần khoảng cách, chứng tỏ rằng bạn là một người hiểu chuyện, [0:能干] mọi việc được giao, [0:细心] đến từng chi tiết nhỏ. Thực tế chứng minh con người nhờ những trò chuyện mà thắt chặt tình [0:友谊] giữa bạn bè đồng nghiệp với nhau, từ đó công việc càng thêm suôn sẻ."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "在越来越热闹的市场竞争中，人才是决定企业发展成败的关键因素，留住人才才能帮企业在竞争中赢来成功。高工资只能暂时留住人才。考虑到将来的发展，企业必须选取有效办法提高工作环境的质量，增多人才发展的机会。这应该是企业努力的方向。",
+          "py": "Zài yuè lái yuè rènao de shìchǎng jìngzhēng zhōng, réncái shì juédìng qǐyè fāzhǎn chéngbài de guānjiàn yīnsù, liú zhù réncái cái néng bāng qǐyè zài jìngzhēng zhōng yíng lái chénggōng. Gāo gōngzī zhǐ néng zànshí liú zhù réncái. Kǎolǜ dào jiānglái de fāzhǎn, qǐyè bìxū xuǎnqǔ yǒuxiào bànfǎ tígāo gōngzuò huánjìng de zhìliàng, zēngduō réncái fāzhǎn de jīhuì. Zhè yīnggāi shì qǐyè nǔlì de fāngxiàng.",
+          "vi": "Trong thị trường cạnh tranh ngày càng sôi động, nhân tài chính là nhân tố quyết định sự thành bại của sự phát triển của một doanh nghiệp, chỉ có giữ chân nhân tài mới có thể giúp doanh nghiệp giành được thành công trong cạnh tranh. Lương cao chỉ có thể tạm thời giữ chân nhân tài. Cân nhắc đến sự phát triển trong tương lai, các công ty phải lựa chọn cách cải thiện chất lượng môi trường làm việc và tăng cơ hội phát triển nhân tài. Đây nên là hướng nỗ lực của doanh nghiệp."
+        },
+        {
+          "who": "",
+          "zh": "一个调查结果表示，加入新公司的时候，年轻人除了专门做好自己的工作，学会发传真，打印，复印材料等事情以外，还要注意与同事交流问题，拉近距离，表示出你是个又懂事能干，又细心友好的人。因为人们还可以通过聊天获得友谊，所以友好的同事关系几乎成为顺利完成工作的重要条件。",
+          "py": "Yí ge diàochá jiéguǒ biǎoshì, jiārù xīn gōngsī de shíhou, niánqīng rén chúle zhuānmén zuò hǎo zìjǐ de gōngzuò, xuéhuì fā chuánzhēn, dǎyìn, fùyìn cáiliào děng shìqing yǐwài, hái yào zhùyì yǔ tóngshì jiāoliú wèntí, lā jìn jùlí, biǎoshì chū nǐ shì ge yòu dǒngshì nénggàn, yòu xìxīn yǒuhǎo de rén. Yīnwèi rénmen hái kěyǐ tōngguò liáotiān huòdé yǒuyì, suǒyǐ yǒuhǎo de tóngshì guānxi jīhū chéngwéi shùnlì wánchéng gōngzuò de zhòngyào tiáojiàn.",
+          "vi": "Một kết quả khảo sát cho biết, khi gia nhập một công ty mới, các bạn trẻ ngoài việc làm tốt công việc chuyên môn của mình, học cách gửi fax, in ấn, sao chép tài liệu,... mà còn phải chú ý vấn đề giao tiếp với đồng nghiệp, kéo gần khoảng cách, chứng tỏ rằng bạn là người vừa hiểu chuyện, có năng lực, lại vừa tinh tế, thân thiện. Bởi vì con người thông qua trò chuyện mà có được tình bạn, vì vậy có mối quan hệ đồng nghiệp tốt dường như đã trở thành điều kiện quan trọng để hoàn thành công việc một cách suôn sẻ."
+        }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 必须 (NP 11.2, Tăng tốc): 企业必须选取办法提高工作环境的质量 · 除了…(以外) (NP 5.4, Tăng tốc): 年轻人除了专门做好自己的工作… · 几乎 (NP 13.1, Tăng tốc): 友好的同事关系几乎成为顺利完成…"
+      }
+    }
+  ],
+  "59": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Một kết quả khảo sát đã [0:证明] một thực tế và [0:指出] rằng 70% mọi người khi gặp câu hỏi khó thì điều đầu tiên họ nghĩ đến là tìm [0:答案] ở trên mạng, tất nhiên, quen thuộc nhất chính là [0:网址] Google.com.vn. [0:回忆] về kỷ niệm chỉ chục năm trước đây, để gửi một lá thư cần mất vài ngày, nhưng bây giờ thậm chí không cần đến [0:邮局] gửi thư, cũng không cần dùng [0:信封] và dán tem lên, chỉ cần gửi [0:短信] qua tin nhắn hoặc lên mạng gửi email là được rồi. Tin tức ở [0:外地] nhiều khi phải vài ngày sau mới được cập nhật địa phương mình, thì bây giờ lên mạng và truy cập vào một [0:网页], bất kỳ thông tin nào cũng có thể được trao đổi một cách [0:直接] không giới hạn với mọi người trên khắp thế giới. Cuộc cách mạng [0:科技] 4.0 mang đến nhiều [0:作用] tích cực cho đời sống, giúp xã hội [0:转] sang nền kinh tế số, mang đến cho con người ngày càng nhiều sự lựa chọn."
+        },
+        {
+          "who": "",
+          "zh": "Làm thế nào để có thể nhớ được nhiều [0:密码] được sử dụng khi lên mạng? Không ít người sử dụng mật khẩu là một chuỗi [0:数字] dễ nhớ, ví dụ 123456. Nhưng để nâng cao an ninh khi lên [0:网络], nhiều trang web đưa ra [0:规定] mật khẩu phải là 1 dãy [0:号码] phức tạp và có chứa [0:文字] đặc biệt như @, #, *..."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "一个调查结果证明并指出，百分之七十的人遇到问题时，首先想到的就是上网找答案，当然最熟悉的就是Google网址了。回忆以前，寄信需要好几天，现在连邮局都不用去，信封都[1:用不着]，只要发短信或上网发个电子邮件。以前外地的新闻要几天后才能知道，现在有了网页，任何消息都可以在第一时间和全世界的人们直接交流。科技发展的积极作用让社会转向数字经济，让人们的选择越来越多了。",
+          "py": "Yí ge diàochá jiéguǒ zhèngmíng bìng zhǐchū, bǎi fēn zhī qīshí de rén yù dào wèntí shí, shǒuxiān xiǎng dào de jiùshì shàng wǎng zhǎo dá'àn, dāngrán zuì shúxī de jiùshì Google wǎngzhǐ le. Huíyì yǐqián, jì xìn xūyào hǎo jǐ tiān, xiànzài lián yóujú dōu búyòng qù, xìnfēng dōu [1:yòng bù zháo], zhǐyào fā duǎnxìn huò shàng wǎng fā ge diànzǐ yóujiàn. Yǐqián wàidì de xīnwén yào jǐ tiān hòu cáinéng zhīdào, xiànzài yǒu le wǎngyè, rènhé xiāoxi dōu kěyǐ zài dì yī shíjiān hé quán shìjiè de rénmen zhíjiē jiāoliú. Kējì fāzhǎn de jījí zuòyòng ràng shèhuì zhuǎnxiàng shùzì jīngjì, ràng rénmen de xuǎnzé yuè lái yuè duō le.",
+          "vi": "Một kết quả khảo sát đã chứng minh và chỉ ra rằng 70% số người khi gặp vấn đề thì điều đầu tiên họ nghĩ đến là tìm câu trả lời trên mạng, tất nhiên, quen thuộc nhất chính là trang web Google. Nhớ lại trước đây, để gửi một lá thư cần mất vài ngày, bây giờ thậm chí không cần đến bưu điện, [1:cũng không cần dùng tới] phong bì, chỉ cần gửi tin nhắn hoặc lên mạng gửi email. Trước đây, tin tức ở nơi khác phải vài ngày sau mới biết, giờ có web, bất kỳ tin tức nào cũng có thể được trao đổi trực tiếp với mọi người trên khắp thế giới ngay lúc đầu tiên. Những tác động tích cực của sự phát triển công nghệ đã chuyển xã hội sang nền kinh tế số, con người càng nhiều sự lựa chọn."
+        },
+        {
+          "who": "",
+          "zh": "很多人都遇到过这样的问题：怎么才能记住上网用的很多密码呢？不少人为了方便，直接用了\"123456\"这样好记的\"懒人密码\"。为了提高网络安全，很多网站规定密码必须是一段复杂号码和特别文字。",
+          "py": "Hěn duō rén dōu yù dào guo zhèyàng de wèntí: Zěnme cáinéng jì zhù shàng wǎng yòng de hěn duō mìmǎ ne? Bù shǎo rén wèile fāngbiàn, zhíjiē yòng le \"123456\" zhèyàng hǎo jì de \"lǎn rén mìmǎ\". Wèile tígāo wǎngluò ānquán, hěn duō wǎngzhàn guīdìng mìmǎ bìxū shì yí duàn fùzá hàomǎ hé tèbié wénzì.",
+          "vi": "Nhiều người đã gặp câu hỏi này: Làm thế nào có thể nhớ được nhiều mật khẩu được sử dụng khi lên mạng? Để thuận tiện, không ít người đã đưa ra \"mật khẩu dành cho người lười\" dễ nhớ như \"123456\". Để nâng cao an ninh mạng, nhiều trang web quy định mật khẩu phải là 1 dãy số phức và ký tự đặc biệt."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "用不着",
+          "np": "NP 9.1"
+        }
+      ]
+    }
+  ],
+  "60": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Siêu thị là nơi [0:提供] thực phẩm và các mặt hàng [0:消费] cho người dân. Vì thế, để tìm hiểu nhu cầu và thu hút thêm [0:顾客] đến siêu thị [0:购买] các loại [0:商品] đa dạng chủng loại, nhiều siêu thị đã [0:推] ra thị trường dịch vụ mới lạ, chính là [0:服务] \"cho khách ăn thử\": Bên này cho ăn thử [0:饼干] Danisa giòn rụm loại mới, đằng kia thấy loa từ hệ thống đài [0:广播] của siêu thị mời qua uống thử [0:矿泉水] LaVie. Vì những \"bữa [0:午餐] miễn phí\" mỗi buổi trưa ngày càng trở nên phổ biến, những người đi siêu thị chỉ để ăn thử đồ mà không mua hàng được [0:叫作] \"người nếm thử chuyên nghiệp\"."
+        },
+        {
+          "who": "",
+          "zh": "Việc cạnh tranh cũng giống như một [0:场] thi đấu thể thao, có cạnh tranh thì người xem mới thấy trận đấu [0:精彩] và hấp dẫn. Thương trường cũng vậy, giữa một rừng sản phẩm, tại sao người tiêu dùng lại nên chọn mua [0:产品] này mà không phải sản phẩm kia. Để cạnh tranh, các doanh nghiệp đã [0:进行] nhiều biện pháp như nghiên cứu cải tiến [0:特点] đặc trưng riêng của mỗi sản phẩm, [0:降低] giá bán xuống cho vừa túi tiền phổ thông hơn, bổ sung phương thức [0:付款] nhiều hơn tiền mặt, qua thẻ, quét mã... Những điều này [0:说明]: Khi các doanh nghiệp cạnh tranh, người được lợi chính là người tiêu dùng."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "为了了解顾客的需要，吸引顾客购买商品，很多超市推出了\"试吃\"服务：这边有新出的饼干免费试吃，那边超市广播说有新出的矿泉水免费试喝。由于这样\"免费的午餐\"越来越普遍，人们[1:把]到超市只吃不买的人[1:叫作]\"专业试吃族\"。",
+          "py": "Wèile liǎojiě gùkè de xūyào, xīyǐn gùkè gòumǎi shāngpǐn, hěn duō chāoshì tuīchū le \"shì chī\" fúwù: Zhè biān yǒu xīn chū de bǐnggān miǎnfèi shì chī, nà biān chāoshì guǎngbō shuō yǒu xīn chū de kuàngquán shuǐ miǎnfèi shì hē. Yóuyú zhèyàng \"miǎnfèi de wǔcān\" yuè lái yuè pǔbiàn, rénmen [1:bǎ] dào chāoshì zhǐ chī bù mǎi de rén [1:jiàozuò] \"zhuānyè shì chī zú\".",
+          "vi": "Để tìm hiểu nhu cầu của khách hàng và thu hút khách mua hàng, nhiều siêu thị đã tung ra dịch vụ \"ăn thử\": Bên này siêu thị có bánh quy mới cho nếm thử miễn phí, đằng kia đài phát thanh siêu thị nói có nước khoáng mới miễn phí uống thử. Vì những \"bữa trưa miễn phí\" ngày càng trở nên phổ biến, những người đi siêu thị để ăn thử nhưng không mua hàng [1:được gọi là] \"người nếm thử chuyên nghiệp\"."
+        },
+        {
+          "who": "",
+          "zh": "竞争对一个国家的经济发展有很大的好处，就好像一场体育比赛，有了竞争，比赛才会更精彩。对一个企业也是这样。为了竞争，各企业都进行很多方法，比如注意研究提高产品的质量，降低产品的价格，注意提供更多售后服务，方便顾客的付款方式等。这些说明：企业竞争，赢家就是消费者。",
+          "py": "Jìngzhēng duì yí ge guójiā de jīngjì fāzhǎn yǒu hěn dà de hǎochu, jiù hǎoxiàng yì chǎng tǐyù bǐsài, yǒu le jìngzhēng, bǐsài cái huì gèng jīngcǎi. Duì yí ge qǐyè yěshì zhèyàng. Wèile jìngzhēng, gè qǐyè dōu jìnxíng hěn duō fāngfǎ, bǐrú zhùyì yánjiū tígāo chǎnpǐn de zhìliàng, jiàngdī chǎnpǐn de jiàgé, zhùyì tígōng gèng duō shòuhòu fúwù, fāngbiàn gùkè de fùkuǎn fāngshì děng. Zhèxiē shuōmíng: Qǐyè jìngzhēng, yíngjiā jiù shì xiāofèizhě.",
+          "vi": "Cạnh tranh mang lại lợi ích to lớn cho sự phát triển kinh tế của một quốc gia, cũng giống như một trò chơi thể thao, có cạnh tranh thì trò chơi sẽ thú vị hơn. Điều này cũng đúng đối với một doanh nghiệp. Để cạnh tranh, các công ty đều áp dụng nhiều phương pháp như chú ý nghiên cứu nâng cao chất lượng sản phẩm, giảm giá thành sản phẩm, cung cấp thêm nhiều dịch vụ hậu mãi, cung cấp phương thức thanh toán thuận tiện cho khách hàng. Những điều này cho thấy rõ: Doanh nghiệp cạnh tranh, người chiến thắng chính là người tiêu dùng."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "把…叫作",
+          "np": "NP 10.1"
         }
       ]
     }
