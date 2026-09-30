@@ -1,0 +1,152 @@
+{
+  "level": "hsk3",
+  "lesson": 30,
+  "bookLesson": 5,
+  "title": "你有什么爱好？",
+  "titleVi": "Bạn có sở thích gì?",
+  "pages": [59, 67],
+  "vocab": [
+    { "hanzi": "发现", "pinyin": "fāxiàn", "pos": "đt.", "meaning": "phát hiện", "hanViet": "phát hiện" },
+    { "hanzi": "自己", "pinyin": "zìjǐ", "pos": "đại.", "meaning": "bản thân, tự mình", "hanViet": "tự kỉ" },
+    { "hanzi": "懒", "pinyin": "lǎn", "pos": "tt.", "meaning": "lười", "hanViet": "lãn" },
+    { "hanzi": "关", "pinyin": "guān", "pos": "đt.", "meaning": "đóng", "hanViet": "quan" },
+    { "hanzi": "电视剧", "pinyin": "diànshìjù", "pos": "dt.", "meaning": "phim truyền hình" },
+    { "hanzi": "游戏", "pinyin": "yóuxì", "pos": "dt.", "meaning": "trò chơi", "hanViet": "du hí" },
+    { "hanzi": "节目", "pinyin": "jiémù", "pos": "dt.", "meaning": "tiết mục, chương trình", "hanViet": "tiết mục" },
+    { "hanzi": "除了……以外", "pinyin": "chúle…… yǐwài", "meaning": "ngoài… ra" },
+    { "hanzi": "爱好", "pinyin": "àihào", "pos": "dt.", "meaning": "sở thích" },
+    { "hanzi": "照相机", "pinyin": "zhàoxiàngjī", "pos": "dt.", "meaning": "máy ảnh" },
+    { "hanzi": "爬山", "pinyin": "páshān", "meaning": "leo núi" },
+    { "hanzi": "停", "pinyin": "tíng", "pos": "đt.", "meaning": "dừng lại", "hanViet": "đình" },
+    { "hanzi": "树木花草", "pinyin": "shùmù huācǎo", "pos": "dt.", "meaning": "cây cối hoa cỏ", "hanViet": "thụ mộc hoa thảo" },
+    { "hanzi": "锻炼", "pinyin": "duànliàn", "pos": "đt.", "meaning": "tập luyện" },
+    { "hanzi": "放松", "pinyin": "fàngsōng", "pos": "đt.", "meaning": "thư giãn" },
+    { "hanzi": "画", "pinyin": "huà", "pos": "đt.", "meaning": "vẽ", "hanViet": "họa" },
+    { "hanzi": "画儿", "pinyin": "huàr", "pos": "dt.", "meaning": "tranh" },
+    { "hanzi": "聊天儿", "pinyin": "liáo tiānr", "pos": "đt.", "meaning": "tán gẫu" },
+    { "hanzi": "其实", "pinyin": "qíshí", "pos": "phó.", "meaning": "thực ra", "hanViet": "kì thực" },
+    { "hanzi": "地址", "pinyin": "dìzhǐ", "pos": "dt.", "meaning": "địa chỉ", "hanViet": "địa chỉ" },
+    { "hanzi": "发", "pinyin": "fā", "pos": "đt.", "meaning": "gửi", "hanViet": "phát" }
+  ],
+  "expand": [
+    { "hanzi": "追剧", "pinyin": "zhuī jù", "meaning": "Cày phim" },
+    { "hanzi": "网上购物", "pinyin": "wǎngshang gòu wù", "meaning": "Mua hàng online" },
+    { "hanzi": "逛街", "pinyin": "guàng jiē", "meaning": "Dạo phố" },
+    { "hanzi": "做美容", "pinyin": "zuò měiróng", "meaning": "Làm đẹp" },
+    { "hanzi": "弹钢琴", "pinyin": "tán gāngqín", "meaning": "Đánh piano" },
+    { "hanzi": "弹吉他", "pinyin": "tán jítā", "meaning": "Đánh ghi-ta" },
+    { "hanzi": "做慈善", "pinyin": "zuò císhàn", "meaning": "Làm từ thiện" },
+    { "hanzi": "拍照", "pinyin": "pāizhào", "meaning": "Chụp ảnh" }
+  ],
+  "tree": {
+    "hanzi": "对",
+    "pinyin": "duì",
+    "meaning": "Đối",
+    "words": [
+      { "hanzi": "对答", "pinyin": "duìdá", "meaning": "Đối đáp" },
+      { "hanzi": "对话", "pinyin": "duìhuà", "meaning": "Đối thoại" },
+      { "hanzi": "对待", "pinyin": "duìdài", "meaning": "Đối đãi" },
+      { "hanzi": "对象", "pinyin": "duìxiàng", "meaning": "Đối tượng" },
+      { "hanzi": "对立", "pinyin": "duìlì", "meaning": "Đối lập" },
+      { "hanzi": "对手", "pinyin": "duìshǒu", "meaning": "Đối thủ" },
+      { "hanzi": "对抗", "pinyin": "duìkàng", "meaning": "Đối kháng" },
+      { "hanzi": "对面", "pinyin": "duìmiàn", "meaning": "Đối diện" },
+      { "hanzi": "对方", "pinyin": "duìfāng", "meaning": "Đối phương" },
+      { "hanzi": "反对", "pinyin": "fǎnduì", "meaning": "Phản đối" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "5.1",
+      "hanzi": "能……吗？",
+      "pinyin": "néng…… ma?",
+      "meaning": "sao có thể… chứ? (câu phản vấn)",
+      "note": "Cấu trúc: 能…吗？ · Nghĩa: nhấn mạnh sự khẳng định, chỉ ra kỳ vọng không thực tế của người khác, dịch là \"sao có thể… chứ?\" · Lưu ý: câu trả lời rõ ràng là \"không\"",
+      "theory": "Câu phản vấn 能……吗？ dùng để nhấn mạnh sự khẳng định, chỉ ra những kỳ vọng không thực tế của người khác, thường dịch là \"sao có thể… chứ?\" (câu trả lời rõ ràng là \"không\").",
+      "examples": [
+        { "zh": "天这么冷，你穿那么少，能不生病吗？", "pinyin": "Tiān zhème lěng, nǐ chuān nàme shǎo, néng bù shēng bìng ma?", "vi": "Trời lạnh thế này mà bạn mặc ít như vậy, sao có thể không ốm chứ?", "vocab": "生病: bị ốm", "breakdown": "能不 + 生病 + 吗？ → chắc chắn sẽ ốm" },
+        { "zh": "你这么可爱，老公能不爱吗？", "pinyin": "Nǐ zhème kě'ài, lǎogōng néng bú ài ma?", "vi": "Em dễ thương như thế, chồng em có thể không yêu sao?", "vocab": "老公: chồng", "breakdown": "能不 + 爱 + 吗？ → chắc chắn yêu" }
+      ]
+    },
+    {
+      "np": "5.2",
+      "hanzi": "越A越B",
+      "pinyin": "yuè A yuè B",
+      "meaning": "càng… càng… (mức độ tăng cường)",
+      "note": "Cấu trúc: Chủ + 越 + Động / Tính + 越 + Động / Tính · Nghĩa: mức độ tăng cường của hiện tượng, dịch là \"càng… càng…\" · Lưu ý: hai vế có thể chung chủ ngữ hoặc không",
+      "theory": "越 /yuè/ A 越 /yuè/ B biểu thị mức độ tăng cường của hiện tượng, hai vế câu có thể có chung chủ ngữ hoặc không, thường dịch là \"càng… càng…\".\n\nCấu trúc: Chủ + 越 + Động / Tính + 越 + Động / Tính",
+      "examples": [
+        { "zh": "雨越下越大。", "pinyin": "Yǔ yuè xià yuè dà.", "vi": "Mưa ngày càng nặng hạt.", "vocab": "", "breakdown": "越 + 下 (động) + 越 + 大 (tính)" },
+        { "zh": "钱是不是越多越好？", "pinyin": "Qián shìbushì yuè duō yuè hǎo?", "vi": "Có phải càng nhiều tiền càng tốt?", "vocab": "", "breakdown": "越 + 多 + 越 + 好" },
+        { "zh": "越是漂亮的女孩，越容易追。", "pinyin": "Yuè shì piàoliang de nǚhái, yuè róngyì zhuī.", "vi": "Con gái càng xinh càng dễ theo đuổi.", "vocab": "追 (zhuī): theo đuổi", "breakdown": "越是… 越…" }
+      ]
+    },
+    {
+      "np": "5.3",
+      "hanzi": "把 (1)",
+      "pinyin": "bǎ",
+      "meaning": "câu chữ 把 (tác động làm di chuyển / thay đổi sự vật)",
+      "note": "Cấu trúc 1: Chủ + 把 + Tân + Động + 了 / 着 · Cấu trúc 2: Chủ + 把 + Tân + Động + 在 / 到 / 给 + Địa điểm / Đối tượng · Nghĩa: hành vi tác động lên người hoặc sự vật cụ thể, tạo ra sự di chuyển hay thay đổi",
+      "theory": "Câu chữ 把 biểu thị hành vi động tác tác động lên người hoặc sự vật cụ thể, tạo ra sự di chuyển hay thay đổi của người hoặc sự vật đó.\n\nCấu trúc 1: Chủ + 把 + Tân + Động + 了 / 着\n\nCấu trúc 2: Chủ + 把 + Tân + Động + 在 / 到 / 给 + Địa điểm / Đối tượng",
+      "examples": [
+        { "zh": "离开办公室前她把空调关了。", "pinyin": "Líkāi bàngōngshì qián tā bǎ kōngtiáo guān le.", "vi": "Cô ấy đã tắt điều hòa trước khi rời khỏi văn phòng.", "vocab": "空调: điều hòa", "breakdown": "Cấu trúc 1: 把 + 空调 + 关 + 了" },
+        { "zh": "天可能会下雨，你出去就把雨伞带着吧！", "pinyin": "Tiān kěnéng huì xià yǔ, nǐ chūqu jiù bǎ yǔsǎn dàizhe ba!", "vi": "Trời có lẽ sẽ mưa, cậu ra ngoài thì mang theo ô nhé!", "vocab": "雨伞: ô", "breakdown": "Cấu trúc 1: 把 + 雨伞 + 带 + 着" },
+        { "zh": "我把火车票放在客厅的桌子上了。", "pinyin": "Wǒ bǎ huǒchē piào fàng zài kètīng de zhuōzi shàng le.", "vi": "Tớ để vé tàu hoả để trên bàn của phòng khách rồi.", "vocab": "火车票: vé tàu hỏa", "breakdown": "Cấu trúc 2: 把 + 火车票 + 放在 + 桌子上" },
+        { "zh": "他决定把手机送给弟弟。", "pinyin": "Tā juédìng bǎ shǒujī sòng gěi dìdi.", "vi": "Anh ấy quyết định tặng điện thoại cho em trai.", "vocab": "送: tặng", "breakdown": "Cấu trúc 2: 把 + 手机 + 送给 + 弟弟" }
+      ]
+    },
+    {
+      "np": "5.4",
+      "hanzi": "除了……(以外)，……",
+      "pinyin": "chúle…… (yǐwài), ……",
+      "meaning": "ngoài… ra, … (loại trừ / bổ sung)",
+      "note": "Cấu trúc 1 (loại trừ): 除了…… (以外), 都…… · Cấu trúc 2 (bổ sung): 除了…… (以外), 还 / 也…… · Nghĩa: ngoài sự việc / tình huống này còn có sự việc khác, dịch là \"Ngoài… ra, …\" · Lưu ý: có hay không có 以外 đều được",
+      "theory": "Cấu trúc 除了……(以外), …… dùng để diễn tả ngoài sự việc / tình huống này, còn có sự việc, tình huống khác, thường dịch là \"Ngoài… ra, …\". Có hay không có 以外 đều được.\n\nCấu trúc 1: 除了…… (以外), 都……。(Biểu thị sự loại trừ)\n\nCấu trúc 2: 除了…… (以外), 还 / 也……。(Biểu thị sự bổ sung)",
+      "examples": [
+        { "zh": "除了你，我谁都不爱。", "pinyin": "Chúle nǐ, wǒ shéi dōu bú ài.", "vi": "Ngoài em ra, anh không yêu ai hết.", "vocab": "", "breakdown": "Loại trừ: 除了 + 你, 谁都不…" },
+        { "zh": "除了喜欢你，我什么都不会。", "pinyin": "Chúle xǐhuan nǐ, wǒ shénme dōu bú huì.", "vi": "Ngoại trừ việc thích em, anh chẳng biết làm gì khác.", "vocab": "", "breakdown": "Loại trừ: 除了…, 什么都不…" },
+        { "zh": "这个房间除了冰箱以外，什么都没有，我们怎么住啊！", "pinyin": "Zhè ge fángjiān chúle bīngxiāng yǐwài, shénme dōu méiyǒu, wǒmen zěnme zhù a!", "vi": "Phòng này ngoài tủ lạnh, cái gì cũng không có, chúng tôi sống thế nào đây.", "vocab": "", "breakdown": "Loại trừ: 除了… 以外, 什么都没有" },
+        { "zh": "除了王一博以外，我心里还有肖战。", "pinyin": "Chúle Wáng Yībó yǐwài, wǒ xīnlǐ hái yǒu Xiāo Zhàn.", "vi": "Ngoài Vương Nhất Bác ra, trong lòng em còn có cả Tiêu Chiến.", "vocab": "王一博, 肖战: tên hai nam diễn viên nổi tiếng Trung Quốc", "breakdown": "Bổ sung: 除了… 以外, 还…" },
+        { "zh": "除了喜欢帅哥，我也喜欢美男。", "pinyin": "Chúle xǐhuan shuàigē, wǒ yě xǐhuan měinán.", "vi": "Ngoài thích soái ca ra, tớ cũng thích các chàng xinh trai nữa.", "vocab": "帅哥: soái ca · 美男: mỹ nam", "breakdown": "Bổ sung: 除了…, 也…" },
+        { "zh": "我不知道我除了爱你到老以外还能做些什么。", "pinyin": "Wǒ bù zhīdào wǒ chúle ài nǐ dào lǎo yǐwài hái néng zuò xiē shénme.", "vi": "Anh không biết mình có thể làm gì khác ngoài việc yêu em đến già.", "vocab": "到老: đến già", "breakdown": "Bổ sung: 除了… 以外, 还…" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Dạo này [0:发现] mình lại béo lên, [0:自己] cảm thấy buồn quá." },
+        { "who": "B", "zh": "[0:越] béo sẽ càng [0:懒] vận động, mau [0:关] cái tivi đi, không là tớ [0:把] cái điều khiển vứt đi bây giờ." },
+        { "who": "A", "zh": "Xem tivi cũng [0:蛮] thú vị chứ bộ, có thể xem phim, cày những [0:电视剧] đang hot, còn xem cả những [0:游戏节目] như The Voice, Ai là triệu phú, cái gì cũng có." },
+        { "who": "B", "zh": "[0:除了] xem tivi [0:以外], bạn không có [0:爱好] nào khác nữa à, như chơi nhạc cụ, hát hò, chăm cây cảnh chẳng hạn. Như tớ này, cuối tuần đều đi Ba Vì leo núi. [0:山] không quá cao nên [0:爬] cũng không quá vất vả, thỉnh thoảng có thể [0:停] chân ngắm những [0:树木] xanh cao vút, hít hà hương [0:花] thơm ngát, mệt thì ngả lưng xuống bãi [0:草] xanh mát, thích là giơ [0:照相机] lên chụp. Vừa là cơ hội [0:锻炼] sức khỏe, vừa để mình được [0:放松] sau một tuần làm việc. Không đi thì có thể ở nhà nghe nhạc, [0:画画儿] thủy mặc chẳng hạn." },
+        { "who": "A", "zh": "Tớ không xem tivi, thì cũng lên mạng [0:聊天儿] với hội bạn. [0:其实] tớ cũng không biết đi đâu chơi cả." },
+        { "who": "B", "zh": "Để tớ qua đưa cậu đi. [0:地址] nhà cậu ở đâu nhỉ, [0:发] cho tớ đi, tớ chạy qua đón luôn." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "我发现自己越来越胖了，真难过！", "py": "Wǒ fāxiàn zìjǐ yuè lái yuè pàng le, zhēn nánguò!", "vi": "Tớ phát hiện là tớ ngày càng béo, thật buồn quá!" },
+        { "who": "B", "zh": "你整天在家躺着看电视，[1:能]不胖[1:吗]？[2:越]胖[2:越]懒，快[3:把]电视关了吧。", "py": "Nǐ zhěng tiān zài jiā tǎngzhe kàn diànshì, [1:néng] bú pàng [1:ma]? [2:Yuè] pàng [2:yuè] lǎn, kuài [3:bǎ] diànshì guān le ba.", "vi": "Cậu nằm ở nhà xem tivi cả ngày, [1:có thể] không béo [1:không]? [2:Càng] béo [2:càng] lười, nhanh tắt tivi đi." },
+        { "who": "A", "zh": "看电视也蛮有意思的。电影、电视剧、游戏节目，什么都有。", "py": "Kàn diànshì yě mán yǒuyìsi de. Diànyǐng, diànshìjù, yóuxì jiémù, shénme dōu yǒu.", "vi": "Xem tivi cũng khá thú vị mà. Phim, kịch truyền hình, chương trình giải trí, cái gì cũng có." },
+        { "who": "B", "zh": "[4:除了]看电视[4:以外]，你没有别的爱好吗？", "py": "[4:Chúle] kàn diànshì [4:yǐwài], nǐ méiyǒu bié de àihào ma?", "vi": "[4:Ngoài] xem tivi [4:ra] cậu còn có sở thích nào khác không?" },
+        { "who": "A", "zh": "没有。你呢，有空儿的时候，你喜欢做什么？", "py": "Méiyǒu. Nǐ ne, yǒu kòngr de shíhou, nǐ xǐhuan zuò shénme?", "vi": "Tớ không, còn cậu thì sao? Lúc rảnh cậu thường làm gì?" },
+        { "who": "B", "zh": "有空儿的时候，我经常带着照相机去爬爬山，路上停下来看看树木花草，一边锻炼身体，一边放松自己。如果在家里，我会听音乐，画画儿或者看书。我今天刚买回来了很多书。", "py": "Yǒu kòngr de shíhou, wǒ jīngcháng dài zhe zhàoxiàngjī qù pá páshān, lùshang tíng xiàlai kànkan shùmù huācǎo, yìbiān duànliàn shēntǐ, yìbiān fàngsōng zìjǐ. Rúguǒ zài jiāli, wǒ huì tīng yīnyuè, huà huàr huòzhě kànshū. Wǒ jīntiān mǎi huílai le hěn duō shū.", "vi": "Lúc rảnh tớ thường mang theo máy ảnh đi leo núi, trên đường dừng lại ngắm cây cối hoa cỏ, vừa rèn luyện sức khoẻ vừa thư giãn. Nếu ở nhà thì tớ sẽ nghe nhạc, vẽ tranh hoặc đọc sách. Hôm nay tớ vừa mua về bao nhiêu là sách đây." },
+        { "who": "A", "zh": "我在家不是看电视，就是上网聊天儿。其实我也不知道应该去哪儿玩儿。", "py": "Wǒ zài jiā búshì kàn diànshì, jiùshì shàngwǎng liáotiānr. Qíshí wǒ yě bù zhīdào yīnggāi qù nǎr wánr.", "vi": "Còn tớ ở nhà không xem tivi thì cũng lên mạng tán gẫu. Thực ra tớ cũng không biết nên đi đâu chơi." },
+        { "who": "B", "zh": "没问题，我带你去。[3:把]你家的地址发给我，我马上过去接你。", "py": "Méi wèntí, wǒ dài nǐ qù. [3:Bǎ] nǐ jiā de dìzhǐ fā gěi wǒ, wǒ mǎshàng guòqu jiē nǐ.", "vi": "Không vấn đề, tớ dẫn cậu đi. Gửi địa chỉ của cậu cho tớ, tớ lập tức qua đón cậu." }
+      ],
+      "legend": [
+        { "n": 1, "label": "能不胖吗", "np": "NP 5.1" },
+        { "n": 2, "label": "越胖越懒", "np": "NP 5.2" },
+        { "n": 3, "label": "把", "np": "NP 5.3" },
+        { "n": 4, "label": "除了…以外", "np": "NP 5.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "蛮 /mán/ dùng trong khẩu ngữ, để biểu đạt mức độ cao của tính từ hay động từ tâm lý, cách dùng tương tự như 挺 /tǐng/, nhưng có hoặc không có 的 đều được, thường dịch là \"khá, khá là, hơi\"."
+      }
+    }
+  ]
+}

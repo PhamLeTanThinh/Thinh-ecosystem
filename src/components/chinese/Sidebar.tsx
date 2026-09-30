@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { HSK_LEVELS, LESSON_META, LESSON_TITLES, UNSORTED_LESSON, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
+import { HSK_LEVELS, LESSON_META, LESSON_TITLES, UNSORTED_LESSON, lessonDisplayNumber, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
 import { PHONETICS_LESSONS } from '@/lib/chinese/phonetics'
 import type { ChineseCard, ChineseDeck } from '@/lib/chinese/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
@@ -235,7 +235,7 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onOpenKn
                       return (
                         <div key={n} className={`cn-lesson-row${active ? ' active' : ''}`}>
                           <button type="button" className="cn-lesson-row-btn" onClick={() => handleSelect({ type: 'lesson', lesson: n })}>
-                            <span className="cn-lesson-badge">{n}</span>
+                            <span className="cn-lesson-badge">{lessonDisplayNumber(n)}</span>
                             <span className="cn-lesson-row-body">
                               <span className="cn-lesson-row-title">{LESSON_TITLES[n]}</span>
                               <span className="cn-lesson-row-meta">

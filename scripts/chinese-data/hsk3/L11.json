@@ -1,0 +1,161 @@
+{
+  "level": "hsk3",
+  "lesson": 36,
+  "bookLesson": 11,
+  "title": "想请几天假去旅游",
+  "titleVi": "Muốn xin nghỉ mấy ngày đi du lịch",
+  "pages": [113, 121],
+  "vocab": [
+    { "hanzi": "压力", "pinyin": "yālì", "pos": "dt.", "meaning": "áp lực", "hanViet": "áp lực" },
+    { "hanzi": "终于", "pinyin": "zhōngyú", "pos": "phó.", "meaning": "cuối cùng" },
+    { "hanzi": "请假", "pinyin": "qǐng jià", "pos": "đt.", "meaning": "xin nghỉ" },
+    { "hanzi": "云南", "pinyin": "Yúnnán", "pos": "dt.", "meaning": "Vân Nam", "hanViet": "Vân Nam" },
+    { "hanzi": "照片", "pinyin": "zhàopiàn", "pos": "dt.", "meaning": "ảnh" },
+    { "hanzi": "空气", "pinyin": "kōngqì", "pos": "dt.", "meaning": "không khí", "hanViet": "không khí" },
+    { "hanzi": "必须", "pinyin": "bìxū", "pos": "phó.", "meaning": "nhất định, bắt buộc" },
+    { "hanzi": "站", "pinyin": "zhàn", "pos": "đt.", "meaning": "đứng", "hanViet": "trạm" },
+    { "hanzi": "千万", "pinyin": "qiānwàn", "pos": "phó.", "meaning": "tuyệt đối" },
+    { "hanzi": "借", "pinyin": "jiè", "pos": "đt.", "meaning": "mượn, vay" },
+    { "hanzi": "了解", "pinyin": "liǎojiě", "pos": "đt.", "meaning": "tìm hiểu" },
+    { "hanzi": "历史", "pinyin": "lìshǐ", "pos": "dt.", "meaning": "lịch sử", "hanViet": "lịch sử" },
+    { "hanzi": "文化", "pinyin": "wénhuà", "pos": "dt.", "meaning": "văn hóa", "hanViet": "văn hóa" },
+    { "hanzi": "影响", "pinyin": "yǐngxiǎng", "pos": "đt.", "meaning": "ảnh hưởng", "hanViet": "ảnh hưởng" },
+    { "hanzi": "四合院", "pinyin": "sìhéyuàn", "pos": "dt.", "meaning": "tứ hợp viện", "hanViet": "tứ hợp viện" },
+    { "hanzi": "院子", "pinyin": "yuànzi", "pos": "dt.", "meaning": "sân" },
+    { "hanzi": "故事", "pinyin": "gùshi", "pos": "dt.", "meaning": "câu chuyện", "hanViet": "cố sự" },
+    { "hanzi": "简单", "pinyin": "jiǎndān", "pos": "tt.", "meaning": "đơn giản", "hanViet": "giản đơn" },
+    { "hanzi": "中间", "pinyin": "zhōngjiān", "pos": "dt.", "meaning": "ở giữa", "hanViet": "trung gian" },
+    { "hanzi": "世界", "pinyin": "shìjiè", "pos": "dt.", "meaning": "thế giới", "hanViet": "thế giới" },
+    { "hanzi": "地方", "pinyin": "dìfang", "pos": "dt.", "meaning": "nơi, địa phương", "hanViet": "địa phương" }
+  ],
+  "expand": [
+    { "hanzi": "南京", "pinyin": "Nánjīng", "meaning": "Nam Kinh" },
+    { "hanzi": "丽江", "pinyin": "Lìjiāng", "meaning": "Lệ Giang" },
+    { "hanzi": "西藏", "pinyin": "Xīzàng", "meaning": "Tây Tạng" },
+    { "hanzi": "新疆", "pinyin": "Xīnjiāng", "meaning": "Tân Cương" },
+    { "hanzi": "西安", "pinyin": "Xī'ān", "meaning": "Tây An" },
+    { "hanzi": "成都", "pinyin": "Chéngdū", "meaning": "Thành Đô" },
+    { "hanzi": "杭州", "pinyin": "Hángzhōu", "meaning": "Hàng Châu" },
+    { "hanzi": "苏州", "pinyin": "Sūzhōu", "meaning": "Tô Châu" },
+    { "hanzi": "正房", "pinyin": "zhèngfáng", "meaning": "Nhà chính (tứ hợp viện)" },
+    { "hanzi": "厢房", "pinyin": "xiāngfáng", "meaning": "Nhà ngang (tứ hợp viện)" },
+    { "hanzi": "倒座", "pinyin": "dàozuò", "meaning": "Dãy nhà quay lưng ra phố (tứ hợp viện)" },
+    { "hanzi": "大门", "pinyin": "dàmén", "meaning": "Cổng chính" }
+  ],
+  "tree": {
+    "hanzi": "才",
+    "pinyin": "cái",
+    "meaning": "Tài",
+    "words": [
+      { "hanzi": "才华", "pinyin": "cáihuá", "meaning": "Tài hoa" },
+      { "hanzi": "才能", "pinyin": "cáinéng", "meaning": "Tài năng" },
+      { "hanzi": "才智", "pinyin": "cáizhì", "meaning": "Tài trí" },
+      { "hanzi": "多才", "pinyin": "duōcái", "meaning": "Đa tài" },
+      { "hanzi": "才艺", "pinyin": "cáiyì", "meaning": "Tài nghệ" },
+      { "hanzi": "英才", "pinyin": "yīngcái", "meaning": "Anh tài" },
+      { "hanzi": "才子", "pinyin": "cáizǐ", "meaning": "Tài tử" },
+      { "hanzi": "天才", "pinyin": "tiāncái", "meaning": "Thiên tài" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "11.1",
+      "hanzi": "终于",
+      "pinyin": "zhōngyú",
+      "meaning": "cuối cùng (sau nhiều thay đổi / chờ đợi)",
+      "note": "Loại từ: phó từ · Nghĩa: tình huống xuất hiện sau khi trải qua nhiều sự thay đổi hoặc chờ đợi, dịch là \"cuối cùng\"",
+      "theory": "Phó từ 终于 /zhōngyú/ thể hiện tình huống xuất hiện sau khi trải qua nhiều sự thay đổi hoặc chờ đợi, thường dịch là \"cuối cùng\".",
+      "examples": [
+        { "zh": "我终于懂了，谢谢你！", "pinyin": "Wǒ zhōngyú dǒng le, xièxie nǐ!", "vi": "Cuối cùng tôi đã hiểu, cảm ơn bạn!", "vocab": "懂: hiểu", "breakdown": "终于 + 懂了" },
+        { "zh": "饭终于做好了，大家快来一起吃吧。", "pinyin": "Fàn zhōngyú zuò hǎo le, dàjiā kuài lái yìqǐ chī ba.", "vi": "Cơm cuối cùng đã nấu xong, mọi người nhanh đến cùng ăn thôi.", "vocab": "", "breakdown": "终于 + 做好了" }
+      ]
+    },
+    {
+      "np": "11.2",
+      "hanzi": "必须",
+      "pinyin": "bìxū",
+      "meaning": "phải, nhất định phải",
+      "note": "Loại từ: phó từ · Nghĩa: sự cần thiết trên thực tế, dịch là \"phải / nhất định phải\"",
+      "theory": "Phó từ 必须 /bìxū/ thể hiện sự cần thiết trên thực tế, thường dịch là \"phải / nhất định phải\".",
+      "examples": [
+        { "zh": "想坐火车必须要先买火车票。", "pinyin": "Xiǎng zuò huǒchē bìxū yào xiān mǎi huǒchēpiào.", "vi": "Muốn ngồi tàu hoả phải mua vé tàu trước.", "vocab": "", "breakdown": "必须 + 要先买…" },
+        { "zh": "想把汉语说得好，你必须要努力学习。", "pinyin": "Xiǎng bǎ Hànyǔ shuō de hǎo, nǐ bìxū yào nǔlì xuéxí.", "vi": "Muốn nói giỏi Tiếng Trung, bạn nhất định phải nỗ lực học tập.", "vocab": "努力: nỗ lực", "breakdown": "必须 + 要努力学习" }
+      ]
+    },
+    {
+      "np": "11.3",
+      "hanzi": "千万",
+      "pinyin": "qiānwàn",
+      "meaning": "nhất định, nhất thiết (nhắc nhở khẩn thiết)",
+      "note": "Loại từ: phó từ · Nghĩa: ngữ điệu nhắc nhở khẩn thiết, chân thành, dịch là \"nhất định / nhất thiết\" · Lưu ý: theo sau thường là cấu trúc phủ định (千万不要, 千万不…)",
+      "theory": "Phó từ 千万 /qiānwàn/ thể hiện ngữ điệu nhắc nhở khẩn thiết, chân thành, theo sau 千万 thường là cấu trúc phủ định, thường được dịch là \"nhất định / nhất thiết\".",
+      "examples": [
+        { "zh": "这道菜很难吃，千万不要点！", "pinyin": "Zhè dào cài hěn nánchī, qiānwàn búyào diǎn!", "vi": "Món ăn này khó ăn lắm, đừng gọi!", "vocab": "道 (dào): món", "breakdown": "千万 + 不要 + 点" },
+        { "zh": "喝酒以后千万不开车。", "pinyin": "Hējiǔ yǐhòu qiānwàn bù kāichē.", "vi": "Sau khi uống rượu, nhất định không lái xe.", "vocab": "", "breakdown": "千万 + 不 + 开车" },
+        { "zh": "妈妈经常跟我说：\"孩子，想有好朋友的话，千万记住：你对别人好，别人一定也会对你好\"。", "pinyin": "Māma jīngcháng gēn wǒ shuō: \"Háizi, xiǎng yǒu hǎopéngyou dehuà, qiānwàn jì zhù: Nǐ duì biérén hǎo, biérén yídìng yě huì duì nǐ hǎo\".", "vi": "Mẹ thường nói với tôi: \"Con à, nếu muốn có bạn tốt, nhất định nhớ kĩ: con đối tốt với người khác, người khác nhất định cũng sẽ đối tốt với con\".", "vocab": "记住: nhớ kĩ", "breakdown": "千万 + 记住" }
+      ]
+    },
+    {
+      "np": "11.4",
+      "hanzi": "在……下",
+      "pinyin": "zài…… xià",
+      "meaning": "dưới / với / cùng với… (điều kiện)",
+      "note": "Cấu trúc: 在…下 · Nghĩa: sự việc xảy ra hoặc thay đổi dưới điều kiện nào đó, dịch là \"dưới / với / cùng với…\"",
+      "theory": "Cấu trúc 在……下 /zài… xià/ dùng để biểu thị sự việc xảy ra hoặc thay đổi dưới điều kiện nào đó, thường được dịch là \"dưới / với / cùng với…\".",
+      "examples": [
+        { "zh": "在爸爸妈妈的照顾下，我们慢慢地长大。", "pinyin": "Zài bàba māma de zhàogù xià, wǒmen mànman de zhǎngdà.", "vi": "Chúng tôi dần lớn lên dưới sự chăm sóc của bố mẹ.", "vocab": "", "breakdown": "在 + 爸爸妈妈的照顾 + 下" },
+        { "zh": "在老师的关心下，我的汉语有了很大提高。", "pinyin": "Zài lǎoshī de guānxīn xià, wǒ de Hànyǔ yǒu le hěn dà tígāo.", "vi": "Cùng với sự quan tâm của cô giáo, Tiếng Trung của tôi đã có rất nhiều tiến bộ.", "vocab": "", "breakdown": "在 + 老师的关心 + 下" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Gần đây làm dự án, [0:压力] mà công việc tạo ra lớn quá, [0:终于] cũng có thời gian rảnh xả hơi rồi, tớ muốn [0:请假] mấy ngày phép đi du lịch." },
+        { "who": "B", "zh": "Đi Vân Nam đi. Cậu xem này, đây là [0:照片] bạn tớ chụp ở [0:云南] này. Nghe nói [0:空气] ở đó trong lành, thích lắm." },
+        { "who": "A", "zh": "Hay quá, đến Vân Nam chúng mình nhất định [0:必须] đi leo núi, [0:站] trên đỉnh cao, phóng tầm mắt ra xa, chắc chắn là thích lắm." },
+        { "who": "B", "zh": "[0:千万] không được quên mang theo máy ảnh nhé, trên đường đi mình có thể vừa ngắm cảnh vừa chụp ảnh." },
+        { "who": "A", "zh": "Vậy chiều nay tớ đến nhà anh trai tớ [0:借] máy ảnh về mình mang đi." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Cậu có hiểu biết về lịch sử và [0:文化] Trung Quốc không?" },
+        { "who": "B", "zh": "Tớ có [0:了解] một chút. Lúc nhỏ, bố có [0:影响] đến tớ, nên tớ rất hứng thú với [0:历史] văn hóa Trung Quốc." },
+        { "who": "A", "zh": "Vậy cậu có biết Tứ hợp viện của Thủ đô [0:北京] không?" },
+        { "who": "B", "zh": "Biết chứ. Bố hay kể cho tớ các [0:故事] về Tứ hợp viện. Tứ hợp viện nói một cách [0:简单] dễ hiểu và ngắn gọn là: Ở [0:中间] có một cái sân, bốn phía là phòng ở. Ngoài Trung Quốc, những [0:地方] khác trên khắp [0:世界] đều không có Tứ hợp viện." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "最近工作压力太大，[1:终于]有空儿了，我想请几天假去旅游。", "py": "Zuìjìn gōngzuò yālì tài dà, [1:zhōngyú] yǒu kòngr le, wǒ xiǎng qǐng jǐ tiān jià qù lǚyóu.", "vi": "Gần đây áp lực công việc lớn quá, [1:cuối cùng] cũng có thời gian rảnh rồi, tớ muốn xin nghỉ mấy ngày phép đi du lịch." },
+        { "who": "B", "zh": "去云南吧。你看，这是云南的照片。听说那儿的空气很好。", "py": "Qù Yúnnán ba. Nǐ kàn, zhè shì Yúnnán de zhàopiàn. Tīng shuō nàr de kōngqì hěn hǎo.", "vi": "Đi Vân Nam đi. Cậu xem này, đây là ảnh chụp Vân Nam. Nghe nói không khí ở đó rất tốt." },
+        { "who": "A", "zh": "好啊。到了云南我们还[2:必须]去爬山，站得高，看得远，一定很舒服。", "py": "Hǎo a. Dào le Yúnnán wǒmen hái [2:bìxū] qù páshān, zhàn de gāo, kàn de yuǎn, yídìng hěn shūfu.", "vi": "Hay quá, đến Vân Nam chúng mình nhất định [2:phải] đi leo núi, đứng trên cao, nhìn ra xa, chắc chắn là thích lắm." },
+        { "who": "B", "zh": "[3:千万]不要忘了带上照相机，路上可以一边看一边照相。", "py": "[3:Qiānwàn] búyào wàngle dài shàng zhàoxiàngjī, lùshang kěyǐ yìbiān kàn yìbiān zhàoxiàng.", "vi": "[3:Nhất định] không được quên mang theo máy ảnh nhé, trên đường đi mình có thể vừa ngắm cảnh vừa chụp ảnh." },
+        { "who": "A", "zh": "那下午我就去哥哥家把照相机借回来。", "py": "Nà xiàwǔ wǒ jiù qù gēge jiā bǎ zhàoxiàngjī jiè huílai.", "vi": "Vậy chiều nay tớ đến nhà anh trai tớ mượn máy ảnh về." }
+      ],
+      "legend": [
+        { "n": 1, "label": "终于", "np": "NP 11.1" },
+        { "n": 2, "label": "必须", "np": "NP 11.2" },
+        { "n": 3, "label": "千万", "np": "NP 11.3" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "你了解中国的历史文化吗？", "py": "Nǐ liǎojiě Zhōngguó de lìshǐ wénhuà ma?", "vi": "Cậu có hiểu biết về lịch sử văn hóa Trung Quốc không?" },
+        { "who": "B", "zh": "我了解一点儿。小时候，[4:在爸爸的影响下]，我对历史和文化都很感兴趣。", "py": "Wǒ liǎojiě yìdiǎnr. Xiǎoshíhou, [4:zài bàba de yǐngxiǎng xià], wǒ duì lìshǐ hé wénhuà dōu hěn gǎn xìngqù.", "vi": "Tớ có hiểu biết một chút. Lúc nhỏ, [4:bố có ảnh hưởng đến tớ], nên tớ rất hứng thú với lịch sử văn hóa Trung Quốc." },
+        { "who": "A", "zh": "那你知道北京四合院吗？", "py": "Nà nǐ zhīdào Běijīng sìhéyuàn ma?", "vi": "Vậy cậu có biết Tứ hợp viện Bắc Kinh không?" },
+        { "who": "B", "zh": "知道。爸爸常给我讲四合院的故事。简单地说就是：院子在中间，四面有房子。除了北京，世界上别的地方都没有四合院。", "py": "Zhīdào. Bàba cháng gěi wǒ jiǎng sìhéyuàn de gùshi. Jiǎndān de shuō jiùshì: Yuànzi zài zhōngjiān, sìmiàn yǒu fángzi. Chúle Běijīng, shìjiè shàng bié de dìfang dōu méiyǒu sìhéyuàn.", "vi": "Biết. Bố hay kể cho tớ các câu chuyện về Tứ hợp viện. Nói một cách đơn giản là: Ở giữa có một cái sân, bốn phía là phòng ở. Ngoài Bắc Kinh, những nơi khác trên thế giới đều không có Tứ hợp viện." }
+      ],
+      "legend": [
+        { "n": 4, "label": "在……下", "np": "NP 11.4" }
+      ]
+    }
+  ]
+}

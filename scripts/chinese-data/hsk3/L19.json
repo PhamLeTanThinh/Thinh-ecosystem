@@ -1,0 +1,145 @@
+{
+  "level": "hsk3",
+  "lesson": 44,
+  "bookLesson": 19,
+  "title": "节约小钱，却是浪费大钱",
+  "titleVi": "Tiết kiệm khoản nhỏ lại là lãng phí món to",
+  "pages": [186, 194],
+  "vocab": [
+    { "hanzi": "方面", "pinyin": "fāngmiàn", "pos": "dt.", "meaning": "phương diện", "hanViet": "phương diện" },
+    { "hanzi": "质量", "pinyin": "zhìliàng", "pos": "dt.", "meaning": "chất lượng", "hanViet": "chất lượng" },
+    { "hanzi": "值得", "pinyin": "zhídé", "pos": "tt.", "meaning": "đáng" },
+    { "hanzi": "另外", "pinyin": "lìngwài", "pos": "liên.", "meaning": "ngoài ra" },
+    { "hanzi": "负责", "pinyin": "fùzé", "pos": "đt.", "meaning": "phụ trách", "hanViet": "phụ trách" },
+    { "hanzi": "修理", "pinyin": "xiūlǐ", "pos": "đt.", "meaning": "sửa chữa" },
+    { "hanzi": "家具", "pinyin": "jiājù", "pos": "dt.", "meaning": "đồ gia dụng", "hanViet": "gia cụ" },
+    { "hanzi": "购物", "pinyin": "gòuwù", "pos": "đt.", "meaning": "mua sắm" },
+    { "hanzi": "流行", "pinyin": "liúxíng", "pos": "tt.", "meaning": "thịnh hành", "hanViet": "lưu hành" },
+    { "hanzi": "任何", "pinyin": "rènhé", "pos": "đại.", "meaning": "bất cứ, bất kỳ" },
+    { "hanzi": "寄", "pinyin": "jì", "pos": "đt.", "meaning": "gửi", "hanViet": "ký" },
+    { "hanzi": "逛", "pinyin": "guàng", "pos": "đt.", "meaning": "dạo" },
+    { "hanzi": "举行", "pinyin": "jǔxíng", "pos": "đt.", "meaning": "tổ chức", "hanViet": "cử hành" },
+    { "hanzi": "打折", "pinyin": "dǎzhé", "pos": "đt.", "meaning": "giảm giá" },
+    { "hanzi": "活动", "pinyin": "huódòng", "pos": "dt.", "meaning": "hoạt động", "hanViet": "hoạt động" },
+    { "hanzi": "顺便", "pinyin": "shùnbiàn", "pos": "phó.", "meaning": "tiện", "hanViet": "thuận tiện" },
+    { "hanzi": "掉", "pinyin": "diào", "pos": "đt.", "meaning": "phai (màu)" },
+    { "hanzi": "是否", "pinyin": "shìfǒu", "meaning": "hay không, hay chưa" },
+    { "hanzi": "节约", "pinyin": "jiéyuē", "pos": "đt.", "meaning": "tiết kiệm" },
+    { "hanzi": "却", "pinyin": "què", "pos": "liên.", "meaning": "lại, mà lại" },
+    { "hanzi": "浪费", "pinyin": "làngfèi", "pos": "tt.", "meaning": "lãng phí", "hanViet": "lãng phí" }
+  ],
+  "expand": [
+    { "hanzi": "品牌", "pinyin": "pǐnpái", "meaning": "Thương hiệu" },
+    { "hanzi": "名牌", "pinyin": "míngpái", "meaning": "Thương hiệu nổi tiếng" },
+    { "hanzi": "优惠价", "pinyin": "yōuhuì jià", "meaning": "Giá ưu đãi" },
+    { "hanzi": "尺码", "pinyin": "chǐmǎ", "meaning": "Kích thước" },
+    { "hanzi": "退货", "pinyin": "tuìhuò", "meaning": "Trả lại hàng" },
+    { "hanzi": "运费", "pinyin": "yùnfèi", "meaning": "Phí vận chuyển" },
+    { "hanzi": "包邮", "pinyin": "bāo yóu", "meaning": "Miễn phí vận chuyển" },
+    { "hanzi": "快递", "pinyin": "kuàidì", "meaning": "Chuyển phát nhanh" }
+  ],
+  "tree": {
+    "hanzi": "质",
+    "pinyin": "zhì",
+    "meaning": "Chất",
+    "words": [
+      { "hanzi": "变质", "pinyin": "biànzhì", "meaning": "Biến chất" },
+      { "hanzi": "地质", "pinyin": "dìzhì", "meaning": "Địa chất" },
+      { "hanzi": "品质", "pinyin": "pǐnzhì", "meaning": "Phẩm chất" },
+      { "hanzi": "性质", "pinyin": "xìngzhì", "meaning": "Tính chất" },
+      { "hanzi": "气质", "pinyin": "qìzhì", "meaning": "Khí chất" },
+      { "hanzi": "物质", "pinyin": "wùzhì", "meaning": "Vật chất" },
+      { "hanzi": "素质", "pinyin": "sùzhì", "meaning": "Tố chất" },
+      { "hanzi": "本质", "pinyin": "běnzhì", "meaning": "Bản chất" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "19.1",
+      "hanzi": "从……来看",
+      "pinyin": "cóng…… láikàn",
+      "meaning": "từ / theo… có thể thấy",
+      "note": "Cấu trúc: 从…来看 · Nghĩa: thể hiện một ý kiến, quan điểm về một vấn đề, sự kiện hay ai đó, dịch là \"Từ / theo… có thể thấy\"",
+      "theory": "Cấu trúc 从…来看 /cóng… láikàn/ được sử dụng để thể hiện một ý kiến, quan điểm về một vấn đề, sự kiện hay ai đó…, thường dịch là \"Từ / theo… có thể thấy\".",
+      "examples": [
+        { "zh": "从她的脸色来看，应该还要休息几天吧。", "pinyin": "Cóng tā de liǎnsè láikàn, yīnggāi hái yào xiūxi jǐ tiān ba.", "vi": "Nhìn sắc mặt cô ấy có thể thấy, có lẽ vẫn còn phải nghỉ ngơi vài hôm.", "vocab": "脸色: sắc mặt", "breakdown": "从 + 她的脸色 + 来看" },
+        { "zh": "从他地址来看，他家离学校不太远。", "pinyin": "Cóng tā dìzhǐ láikàn, tā jiā lí xuéxiào bú tài yuǎn.", "vi": "Từ địa chỉ của cậu ấy có thể thấy, nhà cậu ấy cách trường không quá xa.", "vocab": "", "breakdown": "从 + 他地址 + 来看" },
+        { "zh": "从我来看，中国菜很好吃。", "pinyin": "Cóng wǒ láikàn, Zhōngguó cài hěn hǎochī.", "vi": "Theo tôi thấy, món ăn Trung Quốc rất ngon.", "vocab": "", "breakdown": "从 + 我 + 来看" }
+      ]
+    },
+    {
+      "np": "19.2",
+      "hanzi": "另外",
+      "pinyin": "lìngwài",
+      "meaning": "ngoài ra, hơn nữa; cái khác",
+      "note": "Phó từ: 另外 + (还 / 再 / 又) + Động · Liên từ: nối các vế câu hoặc các câu, dịch là \"ngoài ra, hơn nữa\" · Đại từ: 另外 + Số + Lượng + Danh, dịch là \"cái khác\"",
+      "theory": "另外 /lìngwài/ được dùng để chỉ sự vật, hiện tượng nằm ngoài phạm vi của việc đã được nhắc đến trước đó, thường dịch là \"Ngoài ra, hơn nữa\".\n\nKhi là phó từ, 另外 thường được đặt trước một cụm động từ, có thể dùng kết hợp với các từ như 还 / 再 / 又 theo cấu trúc: 另外 + (还 / 再 / 又) + Động.\n\nKhi là liên từ, 另外 được sử dụng để nối các vế câu hoặc các câu.\n\nKhi là đại từ, 另外 thường đặt trong cấu trúc \"另外 + Số + Lượng + Danh\", thường dịch là \"Cái khác\".",
+      "examples": [
+        { "zh": "我可以另外带一个朋友过去吗？", "pinyin": "Wǒ kěyǐ lìngwài dài yí ge péngyou guò qù ma?", "vi": "Tớ có thể dẫn một người bạn khác đến được không?", "vocab": "", "breakdown": "Phó từ: 另外 + 带…" },
+        { "zh": "我没时间参加这个活动。另外，我也不太感兴趣。", "pinyin": "Wǒ méi shíjiān cānjiā zhè ge huódòng. Lìngwài, wǒ yě bú tài gǎn xìngqù.", "vi": "Tôi không có thời gian để tham gia hoạt động này. Ngoài ra, tôi cũng không hứng thú lắm.", "vocab": "", "breakdown": "Liên từ: nối hai câu" },
+        { "zh": "今年我打算去南京旅行。另外，我也很想去云南爬山。", "pinyin": "Jīnnián wǒ dǎsuàn qù Nánjīng lǚxíng. Lìngwài, wǒ yě hěn xiǎng qù Yúnnán pá shān.", "vi": "Năm nay tôi dự định đi Nam Kinh du lịch. Ngoài ra, tôi cũng rất muốn đi Vân Nam leo núi.", "vocab": "", "breakdown": "Liên từ" },
+        { "zh": "我买了三张票，一张是我的，另外两张是给朋友的。", "pinyin": "Wǒ mǎi le sān zhāng piào, yì zhāng shì wǒ de, lìngwài liǎng zhāng shì gěi péngyou de.", "vi": "Tôi đã mua ba vé, một vé là của tôi và hai vé còn lại dành cho bạn tôi.", "vocab": "", "breakdown": "Đại từ: 另外 + 两 + 张" },
+        { "zh": "跟她一起去的另外两个人都已经是两个孩子的妈妈了。", "pinyin": "Gēn tā yìqǐ qù de lìngwài liǎng ge rén dōu yǐjīng shì liǎng ge háizi de māma le.", "vi": "Hai người còn lại đi cùng cô ấy đều đã là mẹ của hai đứa trẻ rồi.", "vocab": "", "breakdown": "Đại từ: 另外 + 两 + 个 + 人" }
+      ]
+    },
+    {
+      "np": "19.3",
+      "hanzi": "是否",
+      "pinyin": "shìfǒu",
+      "meaning": "hay chưa, hay không (văn viết)",
+      "note": "Loại từ: phó từ · Nghĩa: như 是不是, phía sau có thể đi cùng động từ hoặc tính từ, dịch là \"hay chưa, hay không\" · Lưu ý: thường dùng trong văn viết (cả câu trần thuật và câu hỏi)",
+      "theory": "Phó từ 是否 /shìfǒu/ có ý nghĩa như 是不是 /shìbushì/, phía sau có thể đi cùng động từ hoặc tính từ, thường được sử dụng trong văn viết (cả câu trần thuật và câu hỏi), thường dịch là \"hay chưa, hay không\".",
+      "examples": [
+        { "zh": "你是否爱过我？", "pinyin": "Nǐ shìfǒu ài guo wǒ?", "vi": "Anh đã từng yêu em chưa?", "vocab": "", "breakdown": "是否 + 爱过" },
+        { "zh": "他是否清楚这样做的结果？", "pinyin": "Tā shìfǒu qīngchu zhèyàng zuò de jiéguǒ?", "vi": "Anh ta biết rõ kết quả của việc làm này hay chưa?", "vocab": "", "breakdown": "是否 + 清楚" },
+        { "zh": "一个人是否成功，要看他每天晚上8点到10点在做什么。", "pinyin": "Yí ge rén shìfǒu chénggōng, yào kàn tā měitiān wǎnshang bā diǎn dào shí diǎn zài zuò shénme.", "vi": "Một người có thành công hay không, hãy xem những gì anh ta làm từ 8 đến 10 giờ mỗi tối.", "vocab": "成功: thành công", "breakdown": "是否 + 成功 (câu trần thuật)" }
+      ]
+    },
+    {
+      "np": "19.4",
+      "hanzi": "却",
+      "pinyin": "què",
+      "meaning": "lại, mà lại (chuyển ý nhẹ nhàng)",
+      "note": "Loại từ: phó từ · Nghĩa: chuyển ý nhẹ nhàng, đứng sau chủ ngữ hoặc vế câu sau, dịch là \"lại, mà lại\"",
+      "theory": "Phó từ 却 /què/ biểu thị sự chuyển ý nhẹ nhàng, đứng sau chủ ngữ hoặc vế câu sau, thường dịch là \"lại, mà lại\".",
+      "examples": [
+        { "zh": "虽然今天风很大，可我却觉得很热。", "pinyin": "Suīrán jīntiān fēng hěn dà, kě wǒ què juédé hěn rè.", "vi": "Tuy rằng hôm nay gió rất to nhưng tôi trái lại còn cảm thấy rất nóng.", "vocab": "风: gió", "breakdown": "Chủ ngữ 我 + 却 + 觉得…" },
+        { "zh": "喜欢人家却从来不和人家说，你什么意思呢？", "pinyin": "Xǐhuan rénjiā què cónglái bù hé rénjiā shuō, nǐ shénme yìsi ne?", "vi": "Thích người ta nhưng lại chẳng bao giờ nói ra, ý anh là sao đây?", "vocab": "人家: người ta", "breakdown": "却 + 从来不…" },
+        { "zh": "这件衣服虽然是在大商店买的，但是质量却不怎么样。", "pinyin": "Zhè jiàn yīfu suīrán shì zài dà shāngdiàn mǎi de, dànshì zhìliàng què bù zěnmeyàng.", "vi": "Tuy bộ quần áo này mua ở cửa hàng lớn, nhưng chất lượng lại chẳng ra làm sao.", "vocab": "商店: cửa hàng", "breakdown": "质量 + 却 + 不怎么样" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Em nhìn chiếc ghế sofa này xem, dù đánh giá từ [0:方面] nào: mẫu mã, giá cả hay là [0:质量] sản phẩm thì cũng thấy rất [0:值得] để chúng ta cân nhắc mua. [0:另外], họ còn có chính sách hậu mãi cam kết sẽ [0:负责] hoàn toàn việc [0:修理] miễn phí sản phẩm khi bị hỏng trong vòng một năm." },
+        { "who": "B", "zh": "Em không ngờ lên mạng cũng có thể mua được [0:家具] để trang trí nhà cửa đó." },
+        { "who": "A", "zh": "Đúng vậy, hiện nay [0:购物] trực tuyến đang ngày càng trở nên [0:流行] hơn. Hầu hết mọi thứ em đều có thể mua trên mạng. Người bán còn có thể [0:寄] hàng em mua đến tận nhà cho em [0:任何] lúc nào, rất tiện lợi." },
+        { "who": "B", "zh": "Hôm qua em đi [0:逛] trung tâm mua sắm, đang vào mùa [0:打折] để kích cầu mua sắm cuối năm, các cửa hàng ở đó [0:举行] rất nhiều [0:活动] giảm giá, thế là [0:顺便] em mua luôn một cái váy. Về đến nhà mới phát hiện nhỏ quá, không mặc được, giặt xong còn phát hiện bị [0:掉] màu nữa." },
+        { "who": "A", "zh": "Nhiều người mua đồ rẻ khi được giảm giá, nhưng họ ít khi nghĩ xem những thứ đó có thực sự phù hợp với mình [0:是否], cũng không chú ý nhiều đến chất lượng của nó. Nếu không phù hợp với mình, mua đồ rẻ để [0:节约] khoản tiền nhỏ, [0:却] thành ra [0:浪费] món tiền to." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "你看看这个沙发，不管[1:从价格方面来看]，还是从质量方面来看，都值得考虑的。[2:另外]，一年内他们都负责免费修理。", "py": "Nǐ kànkan zhè ge shāfā, bùguǎn [1:cóng jiàgé fāngmiàn lái kàn], háishi cóng zhìliàng fāngmiàn lái kàn, dōu zhídé kǎolǜ de. [2:Lìngwài], yì nián nèi tāmen dōu fùzé miǎnfèi xiūlǐ.", "vi": "Em nhìn chiếc ghế sofa này xem, dù [1:xét từ góc độ giá cả] hay chất lượng thì cũng rất đáng cân nhắc. [2:Ngoài ra], họ còn chịu trách nhiệm sửa chữa miễn phí trong vòng một năm." },
+        { "who": "B", "zh": "没想到上网也可以买到家具。", "py": "Méi xiǎngdào shàng wǎng yě kěyǐ mǎi dào jiājù.", "vi": "Em không ngờ lên mạng cũng có thể mua đồ nội thất." },
+        { "who": "A", "zh": "是啊，现在网上购物变得越来越流行了。网上几乎什么都可以买到。卖家还可以在任何时间把你买的东西寄到你家里，非常方便。", "py": "Shì a, xiànzài wǎngshang gòu wù biàn de yuè lái yuè liúxíng le. Wǎngshang jīhū shénme dōu kěyǐ mǎi dào. Màijiā hái kěyǐ zài rènhé shíjiān bǎ nǐ mǎi de dōngxi jì dào nǐ jiāli, fēicháng fāngbiàn.", "vi": "Đúng vậy, hiện nay mua sắm trực tuyến đang ngày càng trở nên phổ biến hơn. Hầu hết mọi thứ em đều có thể mua trên mạng. Người bán cũng có thể gửi hàng mua đến tận nhà cho em bất cứ lúc nào, rất tiện lợi." },
+        { "who": "B", "zh": "昨天我去逛购物中心了，那儿的商店正好举行了很多打折活动，我顺便买了一条裙子。回到家后才发现太小了，穿不了，洗完后还发现掉色了。", "py": "Zuótiān wǒ qù guàng gòu wù zhōng xīn le, nàr de shāngdiàn zhènghǎo jǔxíng le hěn duō dǎ zhé huódòng, wǒ shùnbiàn mǎi le yì tiáo qúnzi. Huí dào jiā hòu cái fāxiàn tài xiǎo le, chuān bù liǎo, xǐ wán hòu hái fāxiàn diàosè le.", "vi": "Hôm qua em đi dạo trung tâm mua sắm, các cửa hàng ở đó đang tổ chức rất nhiều hoạt động giảm giá, nhân tiện em mua một cái váy. Về đến nhà mới phát hiện nhỏ quá, không mặc được, giặt xong còn phát hiện bị phai màu nữa." },
+        { "who": "A", "zh": "很多人在打折的时候买便宜的东西，但他们很少考虑到那些东西[3:是否]适合自己，也不太注意到它的质量。如果不适合自己，节约小钱，[4:却]是浪费大钱。", "py": "Hěn duō rén zài dǎ zhé de shíhou mǎi piányi de dōngxi, dàn tāmen hěn shǎo kǎolǜ dào nàxiē dōngxi [3:shìfǒu] shìhé zìjǐ, yě bú tài zhùyì dào tā de zhìliàng. Rúguǒ bú shìhé zìjǐ, jiéyuē xiǎoqián, [4:què] shì làngfèi dàqián.", "vi": "Nhiều người mua đồ rẻ khi được giảm giá, nhưng họ ít khi nghĩ xem những thứ đó có phù hợp với mình [3:hay không], cũng không chú ý nhiều đến chất lượng của nó. Nếu không phù hợp với mình, tiết kiệm khoản tiền nhỏ [4:lại] là lãng phí món tiền to." }
+      ],
+      "legend": [
+        { "n": 1, "label": "从…来看", "np": "NP 19.1" },
+        { "n": 2, "label": "另外", "np": "NP 19.2" },
+        { "n": 3, "label": "是否", "np": "NP 19.3" },
+        { "n": 4, "label": "却", "np": "NP 19.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "没想到 /méi xiǎngdào/ được dùng trong khẩu ngữ, mang ngữ khí bất ngờ, thường dịch là \"không ngờ rằng\"."
+      }
+    }
+  ]
+}

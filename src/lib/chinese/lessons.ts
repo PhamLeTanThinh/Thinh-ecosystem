@@ -1,6 +1,9 @@
+import { HSK3_LESSON_META } from './hsk3'
+
 // Bài học tiếng Trung chia theo cấp độ HSK — CHỈ thêm bài vào đây khi đã có nội dung thật (xác nhận
 // qua ảnh giáo trình), giống cách lib/korean/lessons.ts lấy từ "Seoul Korean 2". Chưa có bài nào
 // thì KHÔNG tạo placeholder rỗng — tránh hiển thị bài học giả trong Sidebar.
+// HSK 3 (cuốn "Tăng tốc", bài 26-50) sinh tự động vào ./hsk3.ts bởi scripts/import-chinese-lessons.mjs.
 export type HskLevel = 'hsk12' | 'hsk3' | 'hsk4' | 'hsk5' | 'hsk6'
 
 export const HSK_LEVELS: { key: HskLevel; label: string }[] = [
@@ -11,7 +14,7 @@ export const HSK_LEVELS: { key: HskLevel; label: string }[] = [
   { key: 'hsk6', label: 'HSK 6' },
 ]
 
-interface LessonMeta {
+export interface LessonMeta {
   level: HskLevel
   title: string
 }
@@ -43,6 +46,7 @@ export const LESSON_META: Record<number, LessonMeta> = {
   23: { level: 'hsk12', title: '年轻人得多运动运动' },
   24: { level: 'hsk12', title: '她工作又认真又热情' },
   25: { level: 'hsk12', title: '时间过得真快' },
+  ...HSK3_LESSON_META,
 }
 
 // Thẻ chưa được gán vào bài nào (vd: dữ liệu cũ trước khi có khái niệm "bài học") nằm ở đây,
@@ -59,6 +63,12 @@ export const LESSON_NUMBERS = Object.keys(LESSON_META).map(Number).sort((a, b) =
 
 export function lessonNumbersForLevel(level: HskLevel): number[] {
   return LESSON_NUMBERS.filter((n) => LESSON_META[n].level === level)
+}
+
+// Số bài HIỂN THỊ trong cấp độ của nó (HSK 3 lưu lesson 26-50 nhưng giáo trình ghi Bài 1-25).
+export function lessonDisplayNumber(lesson: number): number {
+  const meta = LESSON_META[lesson]
+  return meta ? lessonNumbersForLevel(meta.level).indexOf(lesson) + 1 : lesson
 }
 
 export function levelLabel(lesson: number): string {

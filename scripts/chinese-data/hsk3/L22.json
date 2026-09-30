@@ -1,0 +1,127 @@
+{
+  "level": "hsk3",
+  "lesson": 47,
+  "bookLesson": 22,
+  "title": "其实教育孩子很简单",
+  "titleVi": "Thực ra dạy con rất đơn giản",
+  "pages": [213, 221],
+  "vocab": [
+    { "hanzi": "自信", "pinyin": "zìxìn", "pos": "tt.", "meaning": "tự tin", "hanViet": "tự tin" },
+    { "hanzi": "积极", "pinyin": "jījí", "pos": "tt.", "meaning": "tích cực", "hanViet": "tích cực" },
+    { "hanzi": "报名", "pinyin": "bàomíng", "pos": "đt.", "meaning": "báo danh", "hanViet": "báo danh" },
+    { "hanzi": "害羞", "pinyin": "hàixiū", "pos": "đt.", "meaning": "xấu hổ" },
+    { "hanzi": "活泼", "pinyin": "huópō", "pos": "tt.", "meaning": "hoạt bát", "hanViet": "hoạt bát" },
+    { "hanzi": "教育", "pinyin": "jiàoyù", "pos": "dt.", "meaning": "giáo dục", "hanViet": "giáo dục" },
+    { "hanzi": "正确", "pinyin": "zhèngquè", "pos": "tt.", "meaning": "chính xác", "hanViet": "chính xác" },
+    { "hanzi": "鼓励", "pinyin": "gǔlì", "pos": "đt.", "meaning": "cổ vũ, khích lệ" },
+    { "hanzi": "看法", "pinyin": "kànfǎ", "pos": "dt.", "meaning": "nhận định" },
+    { "hanzi": "及时", "pinyin": "jíshí", "pos": "tt.", "meaning": "kịp thời", "hanViet": "kịp thời" },
+    { "hanzi": "表扬", "pinyin": "biǎoyáng", "pos": "đt.", "meaning": "biểu dương", "hanViet": "biểu dương" },
+    { "hanzi": "平时", "pinyin": "píngshí", "pos": "dt.", "meaning": "ngày thường" },
+    { "hanzi": "养成", "pinyin": "yǎng chéng", "pos": "đt.", "meaning": "nuôi dưỡng" },
+    { "hanzi": "困", "pinyin": "kùn", "pos": "tt.", "meaning": "buồn ngủ" },
+    { "hanzi": "不如", "pinyin": "bùrú", "pos": "liên.", "meaning": "không bằng" },
+    { "hanzi": "有趣", "pinyin": "yǒuqù", "pos": "tt.", "meaning": "thú vị" },
+    { "hanzi": "按照", "pinyin": "ànzhào", "pos": "giới.", "meaning": "dựa theo" },
+    { "hanzi": "年龄", "pinyin": "niánlíng", "pos": "dt.", "meaning": "tuổi tác" },
+    { "hanzi": "真正", "pinyin": "zhēnzhèng", "pos": "tt.", "meaning": "thực sự", "hanViet": "chân chính" }
+  ],
+  "expand": [
+    { "hanzi": "软技能", "pinyin": "ruǎn jìnéng", "meaning": "Kỹ năng mềm" },
+    { "hanzi": "拉小提琴", "pinyin": "lā xiǎotíqín", "meaning": "Kéo violon" },
+    { "hanzi": "弹钢琴", "pinyin": "tán gāngqín", "meaning": "Chơi piano" },
+    { "hanzi": "领导能力", "pinyin": "lǐngdǎo nénglì", "meaning": "Năng lực lãnh đạo" },
+    { "hanzi": "时间管理", "pinyin": "shíjiān guǎnlǐ", "meaning": "Quản lý thời gian" },
+    { "hanzi": "团队合作", "pinyin": "tuánduì hézuò", "meaning": "Hợp tác đội nhóm" },
+    { "hanzi": "演说技巧", "pinyin": "yǎnshuō jìqiǎo", "meaning": "Kỹ năng diễn thuyết" },
+    { "hanzi": "跳芭蕾舞", "pinyin": "tiào bālěiwǔ", "meaning": "Múa ballet" }
+  ],
+  "tree": {
+    "hanzi": "点",
+    "pinyin": "diǎn",
+    "meaning": "Điểm",
+    "words": [
+      { "hanzi": "弱点", "pinyin": "ruòdiǎn", "meaning": "Nhược điểm" },
+      { "hanzi": "重点", "pinyin": "zhòngdiǎn", "meaning": "Trọng điểm" },
+      { "hanzi": "点心", "pinyin": "diǎnxin", "meaning": "Điểm tâm" },
+      { "hanzi": "优点", "pinyin": "yōudiǎn", "meaning": "Ưu điểm" },
+      { "hanzi": "观点", "pinyin": "guāndiǎn", "meaning": "Quan điểm" },
+      { "hanzi": "缺点", "pinyin": "quēdiǎn", "meaning": "Khuyết điểm" },
+      { "hanzi": "特点", "pinyin": "tèdiǎn", "meaning": "Đặc điểm" },
+      { "hanzi": "地点", "pinyin": "dìdiǎn", "meaning": "Địa điểm" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "22.1",
+      "hanzi": "不如",
+      "pinyin": "bùrú",
+      "meaning": "không bằng, chẳng thà",
+      "note": "① Đặt đầu mệnh đề phía sau: sau khi cân nhắc, so sánh, làm việc A không bằng làm việc B, dịch là \"không bằng / chẳng thà\" · ② Câu so sánh: A + 不如 + B (+ Tính), cách dùng như 比, dịch là \"không bằng\"",
+      "theory": "不如 /bùrú/ mang ý nghĩa sau khi cân nhắc, so sánh đưa ra được kết quả làm việc A không bằng làm việc B, 不如 được đặt tại đầu mệnh đề phía sau trong câu, thường dịch là \"Không bằng / chẳng thà\".\n\n不如 còn dùng trong câu so sánh, cách dùng như 比, thường dịch \"không bằng\".\n\nCấu trúc: A + 不如 + B (+ Tính)",
+      "examples": [
+        { "zh": "一直在这儿等不如我们打车去吧。", "pinyin": "Yìzhí zài zhèr děng bùrú wǒmen dǎ chē qù ba.", "vi": "Cứ đợi mãi ở đây không bằng chúng mình gọi xe đi đi.", "vocab": "打车: gọi xe", "breakdown": "① A 不如 B" },
+        { "zh": "整天在家躺着，不如出去走走吧。", "pinyin": "Zhěng tiān zài jiā tǎng zhe, bùrú chūqù zǒuzou ba.", "vi": "Cả ngày nằm ở nhà chẳng thà ra ngoài đi dạo chút.", "vocab": "躺: nằm", "breakdown": "① …, 不如…" },
+        { "zh": "看电影不如看原著好。", "pinyin": "Kàn diànyǐng bùrú kàn yuánzhù hǎo.", "vi": "Xem phim không hay bằng đọc nguyên tác.", "vocab": "原著 (yuánzhù): nguyên tác", "breakdown": "② A + 不如 + B + 好" },
+        { "zh": "这么贵的一个新手机都不如一个二手的呢。", "pinyin": "Zhème guì de yí ge xīn shǒujī dōu bùrú yí ge èrshǒu de ne.", "vi": "Một cái điện thoại mới đắt như này cũng không bằng cái điện thoại cũ.", "vocab": "二手 (èrshǒu): second-hand", "breakdown": "② A + 不如 + B" }
+      ]
+    },
+    {
+      "np": "22.2",
+      "hanzi": "什么的",
+      "pinyin": "shénme de",
+      "meaning": "vân vân, gì cũng được (đặt sau chuỗi liệt kê)",
+      "note": "Nghĩa: đặt sau một chuỗi liệt kê các từ cùng trường từ vựng, dịch là \"vân vân / gì cũng được\"",
+      "theory": "Cụm từ 什么的 /shénme de/ đặt sau một chuỗi liệt kê các từ cùng trường từ vựng, thường dịch là \"vân vân / gì cũng được\".",
+      "examples": [
+        { "zh": "我想吃水果，你帮我买点儿苹果、西瓜什么的都可以。", "pinyin": "Wǒ xiǎng chī shuǐguǒ, nǐ bāng wǒ mǎi diǎnr píngguǒ, xīguā shénme de dōu kěyǐ.", "vi": "Tớ muốn ăn hoa quả, cậu giúp tớ mua ít táo, dưa hấu gì cũng được.", "vocab": "", "breakdown": "liệt kê + 什么的" },
+        { "zh": "书包里有一些笔，几本书和几张纸什么的。", "pinyin": "Shūbāo lǐ yǒu yìxiē bǐ, jǐ běn shū hé jǐ zhāng zhǐ shénme de.", "vi": "Trong cặp sách có vài cây bút, hai thỏi son và mấy tờ giấy v.v…", "vocab": "书包: cặp sách · 纸: giấy", "breakdown": "liệt kê + 什么的" },
+        { "zh": "我们见面一般就是吃饭、看电影什么的。", "pinyin": "Wǒmen jiàn miàn yìbān jiùshì chī fàn, kàn diànyǐng shénme de.", "vi": "Chúng tôi thường gặp nhau để ăn tối, xem phim hay gì đó.", "vocab": "", "breakdown": "liệt kê + 什么的" }
+      ]
+    },
+    {
+      "np": "22.3",
+      "hanzi": "按照",
+      "pinyin": "ànzhào",
+      "meaning": "theo, căn cứ vào, dựa vào",
+      "note": "Loại từ: giới từ · Nghĩa: dẫn ra căn cứ để thực hiện hành động, dịch là \"theo / căn cứ vào / dựa vào\" · Lưu ý: theo sau thường là từ hai âm tiết trở lên hoặc cụm từ",
+      "theory": "Giới từ 按照 /ànzhào/ dẫn ra căn cứ để thực hiện hành động, theo sau 按照 thường là từ hai âm tiết trở lên hoặc cụm từ, thường dịch là \"theo / căn cứ vào / dựa vào\".",
+      "examples": [
+        { "zh": "你们按照我给的地图走就行。", "pinyin": "Nǐmen ànzhào wǒ gěi de dìtú zǒu jiù xíng le.", "vi": "Các cậu cứ đi theo bản đồ tôi cho là được.", "vocab": "", "breakdown": "按照 + 我给的地图" },
+        { "zh": "按照学校的计划，下个周一就到我们班表演节目了。", "pinyin": "Ànzhào xuéxiào de jìhuà, xià gè zhōu yī jiù dào wǒmen bān biǎoyǎo jiémù le.", "vi": "Theo kế hoạch của nhà trường, thứ 2 tuần sau là đến lớp chúng mình biểu diễn tiết mục rồi.", "vocab": "节目: tiết mục", "breakdown": "按照 + 学校的计划" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Con tôi rất rụt rè, chẳng [0:自信] như các bạn. Nhà trường biết con hát hay, mời [0:报名] tham gia hoạt động, bé cũng không [0:积极] tham gia. Bé luôn [0:害羞] như cây, không năng động [0:活泼] như anh trai." },
+        { "who": "B", "zh": "Thực ra [0:教育] con rất đơn giản, chỉ cần dùng cách [0:正确] là được. Bạn nên thường xuyên [0:鼓励] bé bày tỏ [0:看法] của mình. Bé đã làm được bạn nên [0:表扬] bé, thưởng cho bé [0:及时]. Làm như vậy bé sẽ ngày càng tự tin hơn." },
+        { "who": "A", "zh": "Thế [0:平时] làm thế nào để bạn [0:养成] thói quen đọc sách cho con bạn? Con tôi cứ đọc sách là [0:困] díu cả mắt lại." },
+        { "who": "B", "zh": "Đọc những cuốn sách bổ ích [0:不如] đọc những cuốn sách thú vị, hãy cho bé đọc một số cuốn sách [0:有趣] chẳng hạn như động vật, thực vật, lịch sử và văn hóa [0:什么的]. Nhất định phải chọn sách [0:按照] hứng thú, sở thích và [0:年龄] của trẻ. Khi trẻ đang đọc sách, cha mẹ cũng nên ngồi bên cạnh đọc sách của chính chúng, làm vậy chắc chắn sẽ mang lại hiệu quả khích lệ con [0:真正]." },
+        { "who": "A", "zh": "Bạn hiểu về cách dạy con như vậy, ngưỡng mộ quá." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "我的孩子不够自信。她不积极报名参加学校的活动。她总是害羞，不像她哥哥那样活泼。", "py": "Wǒ de háizi búgòu zìxìn. Tā bù jījí bàomíng cānjiā xuéxiào de huódòng. Tā zǒngshì hàixiū, bú xiàng tā gēge nàyàng huópō.", "vi": "Con tôi không đủ tự tin. Cô bé không tích cực đăng ký các hoạt động của trường. Bé luôn nhút nhát, không hoạt bát như anh trai." },
+        { "who": "B", "zh": "其实教育孩子很简单，使用正确的方法就好。你应该经常鼓励她说出自己的看法。她做到了你应该及时表扬她。这样做她就越来越自信了。", "py": "Qíshí jiàoyù háizi hěn jiǎndān, shǐyòng zhèngquè de fāngfǎ jiù hǎo. Nǐ yīnggāi jīngcháng gǔlì tā shuō chū zìjǐ de kànfǎ. Tā zuò dào le nǐ yīnggāi jíshí biǎoyáng tā. Zhèyàng zuò tā jiù yuè lái yuè zìxìn le.", "vi": "Thực ra dạy con rất đơn giản, chỉ cần dùng đúng cách là được. Bạn nên thường xuyên khuyến khích bé bày tỏ ý kiến của mình. Bé đã làm được bạn nên khen ngợi bé kịp thời. Làm như vậy bé sẽ ngày càng tự tin hơn." },
+        { "who": "A", "zh": "那你平时怎么让你孩子养成读书的习惯呢？我孩子一看书就困。", "py": "Nà nǐ píngshí zěnme ràng nǐ háizi yǎng chéng dú shū de xíguàn ne? Wǒ háizi yí kàn shū jiù kùn.", "vi": "Thế bình thường làm thế nào để bạn hình thành thói quen đọc sách cho con bạn? Con tôi cứ đọc sách là buồn ngủ." },
+        { "who": "B", "zh": "读有用的书[1:不如]读有趣的书，你让她读一些有趣的书吧，动物，植物，历史，文化[2:什么的]。一定要[3:按照]孩子的兴趣、爱好、年龄来选书。当孩子读书时，父母也应该在旁边读自己的书，这样做一定会带来真正的鼓励效果。", "py": "Dú yǒu yòng de shū [1:bùrú] dú yǒuqù de shū, nǐ ràng tā dú yìxiē yǒuqù de shū ba, dòngwù, zhíwù, lìshǐ, wénhuà [2:shénme de]. Yídìng yào [3:ànzhào] háizi de xìngqù, àihào, niánlíng lái xuǎn shū. Dāng háizi dú shū shí, fùmǔ yě yīnggāi zài pángbiān dú zìjǐ de shū, zhèyàng zuò yídìng huì dài lái zhēnzhèng de gǔlì xiàoguǒ.", "vi": "Đọc những cuốn sách bổ ích [1:không bằng] đọc những cuốn sách thú vị, hãy cho bé đọc một số cuốn sách thú vị, chẳng hạn như động vật, thực vật, lịch sử và văn hóa [2:v.v…] Nhất định phải chọn sách [3:theo] hứng thú, sở thích và độ tuổi của trẻ. Khi trẻ đang đọc sách, cha mẹ cũng nên ngồi bên cạnh đọc sách của chính chúng, làm vậy chắc chắn sẽ mang lại hiệu quả khích lệ con thực sự." },
+        { "who": "A", "zh": "你太了解怎样教育孩子了，好羡慕！", "py": "Nǐ tài liǎojiě zěnyàng jiàoyù háizi le, hǎo xiànmù!", "vi": "Bạn hiểu về cách dạy con như thế nào quá, ngưỡng mộ quá." }
+      ],
+      "legend": [
+        { "n": 1, "label": "不如", "np": "NP 22.1" },
+        { "n": 2, "label": "什么的", "np": "NP 22.2" },
+        { "n": 3, "label": "按照", "np": "NP 22.3" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "Cấu trúc 当…时 /dāng… shí/, 当…的时候 /dāng… de shíhou/ biểu đạt ý \"Lúc / khi…\", giống với việc chỉ sử dụng 时候 hoặc 时."
+      }
+    }
+  ]
+}

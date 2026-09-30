@@ -1,0 +1,129 @@
+{
+  "level": "hsk3",
+  "lesson": 45,
+  "bookLesson": 20,
+  "title": "工作再忙也坚持阅读习惯",
+  "titleVi": "Bận đến đâu cũng giữ thói quen đọc sách",
+  "pages": [195, 203],
+  "vocab": [
+    { "hanzi": "满", "pinyin": "mǎn", "pos": "tt.", "meaning": "đầy", "hanViet": "mãn" },
+    { "hanzi": "厚", "pinyin": "hòu", "pos": "tt.", "meaning": "dày", "hanViet": "hậu" },
+    { "hanzi": "法律", "pinyin": "fǎlǜ", "pos": "dt.", "meaning": "pháp luật", "hanViet": "pháp luật" },
+    { "hanzi": "著名", "pinyin": "zhùmíng", "pos": "tt.", "meaning": "nổi tiếng", "hanViet": "trứ danh" },
+    { "hanzi": "教授", "pinyin": "jiàoshòu", "pos": "dt.", "meaning": "giáo sư" },
+    { "hanzi": "内容", "pinyin": "nèiróng", "pos": "dt.", "meaning": "nội dung", "hanViet": "nội dung" },
+    { "hanzi": "解释", "pinyin": "jiěshì", "pos": "đt.", "meaning": "giải thích", "hanViet": "giải thích" },
+    { "hanzi": "杂志", "pinyin": "zázhì", "pos": "dt.", "meaning": "tạp chí", "hanViet": "tạp chí" },
+    { "hanzi": "小说", "pinyin": "xiǎoshuō", "pos": "dt.", "meaning": "tiểu thuyết", "hanViet": "tiểu thuyết" },
+    { "hanzi": "无论", "pinyin": "wúlùn", "pos": "liên.", "meaning": "bất kể, cho dù" },
+    { "hanzi": "普通", "pinyin": "pǔtōng", "pos": "tt.", "meaning": "phổ thông", "hanViet": "phổ thông" },
+    { "hanzi": "科学", "pinyin": "kēxué", "pos": "dt.", "meaning": "khoa học", "hanViet": "khoa học" },
+    { "hanzi": "生活", "pinyin": "shēnghuó", "pos": "dt.", "meaning": "cuộc sống", "hanViet": "sinh hoạt" },
+    { "hanzi": "部分", "pinyin": "bùfen", "pos": "dt.", "meaning": "bộ phận, phần", "hanViet": "bộ phận" },
+    { "hanzi": "除此以外", "pinyin": "chú cǐ yǐwài", "pos": "liên.", "meaning": "ngoài điều này ra" },
+    { "hanzi": "阅读", "pinyin": "yuèdú", "pos": "đt.", "meaning": "đọc hiểu" },
+    { "hanzi": "习惯", "pinyin": "xíguàn", "pos": "dt., đt.", "meaning": "thói quen, quen", "hanViet": "tập quán" },
+    { "hanzi": "连", "pinyin": "lián", "pos": "liên.", "meaning": "đến cả" },
+    { "hanzi": "增加", "pinyin": "zēngjiā", "pos": "đt.", "meaning": "tăng", "hanViet": "tăng gia" },
+    { "hanzi": "知识", "pinyin": "zhīshi", "pos": "dt.", "meaning": "kiến thức", "hanViet": "tri thức" }
+  ],
+  "expand": [
+    { "hanzi": "漫画", "pinyin": "mànhuà", "meaning": "Truyện tranh" },
+    { "hanzi": "经管书", "pinyin": "jīngguǎn shū", "meaning": "Sách quản trị" },
+    { "hanzi": "常识书", "pinyin": "chángshí shū", "meaning": "Sách thường thức" },
+    { "hanzi": "自助书", "pinyin": "zìzhù shū", "meaning": "Sách tự lực (self-help)" },
+    { "hanzi": "武侠", "pinyin": "wǔxiá", "meaning": "Võ hiệp" },
+    { "hanzi": "言情", "pinyin": "yánqíng", "meaning": "Ngôn tình" },
+    { "hanzi": "回忆录", "pinyin": "huíyìlù", "meaning": "Hồi ký" },
+    { "hanzi": "青春校园", "pinyin": "qīngchūn xiàoyuán", "meaning": "Thanh xuân vườn trường" }
+  ],
+  "tree": {
+    "hanzi": "法",
+    "pinyin": "fǎ",
+    "meaning": "Pháp",
+    "words": [
+      { "hanzi": "非法", "pinyin": "fēifǎ", "meaning": "Phi pháp" },
+      { "hanzi": "书法", "pinyin": "shūfǎ", "meaning": "Thư pháp" },
+      { "hanzi": "宪法", "pinyin": "xiànfǎ", "meaning": "Hiến pháp" },
+      { "hanzi": "合法", "pinyin": "héfǎ", "meaning": "Hợp pháp" },
+      { "hanzi": "司法", "pinyin": "sīfǎ", "meaning": "Tư pháp" },
+      { "hanzi": "语法", "pinyin": "yǔfǎ", "meaning": "Ngữ pháp" },
+      { "hanzi": "法人", "pinyin": "fǎrén", "meaning": "Pháp nhân" },
+      { "hanzi": "方法", "pinyin": "fāngfǎ", "meaning": "Phương pháp" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "20.1",
+      "hanzi": "无论",
+      "pinyin": "wúlùn",
+      "meaning": "bất kể, cho dù (kết quả luôn không đổi)",
+      "note": "Loại từ: liên từ · Nghĩa: trong bất cứ mọi trường hợp kết quả luôn không đổi, dịch là \"bất kể, cho dù\" · Thường đi với 都 / 也 ở vế sau",
+      "theory": "Liên từ 无论 /wúlùn/ biểu đạt ý nghĩa trong bất cứ mọi trường hợp kết quả luôn không đổi, thường dịch là \"bất kể, cho dù\".",
+      "examples": [
+        { "zh": "无论是做人还是做事，都要学会拒绝。", "pinyin": "Wúlùn shì zuòrén háishi zuòshì, dōu yào xuéhuì jùjué.", "vi": "Dù là làm người hay làm việc, cũng phải học cách từ chối.", "vocab": "", "breakdown": "无论 A 还是 B, 都…" },
+        { "zh": "无论做什么事情，只要坚持努力，没有不成功的。", "pinyin": "Wúlùn zuò shénme shìqing, zhǐyào jiānchí nǔlì, méiyǒu bù chénggōng de.", "vi": "Bất kể làm gì, chỉ cần kiên trì nỗ lực, không việc gì không thành công.", "vocab": "", "breakdown": "无论 + 什么…" },
+        { "zh": "无论路有多远，只要你说想我，我会马上来到你身边。", "pinyin": "Wúlùn lù yǒu duō yuǎn, zhǐyào nǐ shuō xiǎng wǒ, wǒ huì mǎshàng lái dào nǐ shēnbiān.", "vi": "Dù đường xa thế nào, chỉ cần em nói nhớ anh, anh sẽ ngay lập tức đến bên em.", "vocab": "路: đường", "breakdown": "无论 + 多远…" }
+      ]
+    },
+    {
+      "np": "20.2",
+      "hanzi": "除此以外",
+      "pinyin": "chú cǐ yǐwài",
+      "meaning": "ngoài điều này ra, ngoài ra, không chỉ vậy",
+      "note": "Loại từ: cụm từ liên kết câu · Nghĩa: dùng trong văn viết, dịch là \"ngoài điều này ra, ngoài ra, không chỉ vậy, không những thế\"",
+      "theory": "Cụm từ 除此以外 /chú cǐ yǐwài/ đóng vai trò liên kết câu, dùng trong văn viết, thường dịch là \"ngoài điều này ra, ngoài ra, không chỉ vậy, không những thế\".",
+      "examples": [
+        { "zh": "除此以外也没别的办法了。", "pinyin": "Chú cǐ yǐ wài yě méi bié de bànfǎ le.", "vi": "Ngoài ra cách này ra cũng không còn cách khác nữa rồi.", "vocab": "", "breakdown": "除此以外 + 也没…" },
+        { "zh": "这几双鞋很贵，除此以外都很便宜。", "pinyin": "Zhè jǐ shuāng xié hěn guì, chú cǐ yǐ wài dōu hěn piányi.", "vi": "Mấy đôi giày này rất đắt, ngoài ra thì đều rất rẻ.", "vocab": "双: đôi · 鞋: giày", "breakdown": "除此以外 + 都…" }
+      ]
+    },
+    {
+      "np": "20.3",
+      "hanzi": "连……都 / 也……",
+      "pinyin": "lián…… dōu / yě……",
+      "meaning": "thậm chí, ngay cả, đến cả",
+      "note": "Cấu trúc: 连 + Đối tượng + 都 / 也 (+ 不 / 没) + Động · Nghĩa: dẫn ra đối tượng, biểu đạt ý nhấn mạnh, như 甚至 (thậm chí), dịch là \"thậm chí, ngay cả, đến cả\"",
+      "theory": "Giới từ 连 /lián/ được dùng để dẫn ra đối tượng, biểu đạt ý nhấn mạnh, mang nghĩa như 甚至 (/shènzhì/ thậm chí), thường phối hợp sử dụng với 也, 都, có nghĩa là \"thậm chí, ngay cả, đến cả\".\n\nCấu trúc: 连 + Đối tượng + 都 / 也 (+ 不 / 没) + Động",
+      "examples": [
+        { "zh": "你就像风一样，连我的心都能带走。", "pinyin": "Nǐ jiù xiàng fēng yíyàng, lián wǒ de xīn dōu néng dài zǒu.", "vi": "Em hệt như cơn gió, ngay cả trái tim anh cũng có thể cuốn đi.", "vocab": "带走: mang đi", "breakdown": "连 + 我的心 + 都…" },
+        { "zh": "看到爱豆的时候，我连话都说不出来了。", "pinyin": "Kàn dào àidòu de shíhou, wǒ lián huà dōu shuō bù chūlai le.", "vi": "Khi nhìn thấy idol, tôi thậm chí không thể thốt nên lời.", "vocab": "爱豆: thần tượng", "breakdown": "连 + 话 + 都 + 说不出来" },
+        { "zh": "连美女你也不爱，那你爱谁？", "pinyin": "Lián měinǚ nǐ yě bú ài, nà nǐ ài shéi?", "vi": "Đến cô gái đẹp thế bạn còn không yêu, thế thì yêu ai?", "vocab": "美女: mỹ nữ", "breakdown": "连 + 美女 + 也不…" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "[0:哇塞], cả căn phòng chất [0:满] sách, lại còn là sách [0:厚] cồm cộp thế này. Đây đều là những cuốn bạn thích đọc à?" },
+        { "who": "B", "zh": "Tớ có hứng thú với Luật học, như [0:法律] Hình sự và Lịch sử, cho nên đã mua rất nhiều sách. Đây đều là sách [0:著名] cả trong và ngoài nước, do các [0:教授] đầu ngành viết ra, [0:内容] phong phú, các giáo sư [0:解释] rất rõ ràng, nên đều dày như vậy." },
+        { "who": "A", "zh": "Bạn đỉnh thế! Thứ tớ đọc nhiều nhất mỗi ngày chỉ là [0:杂志] thời trang và [0:小说] tình yêu kinh điển." },
+        { "who": "B", "zh": "[0:无论] là đọc các sách [0:普通] thường thức hay sách [0:科学] tự nhiên, dù ít dù nhiều đều có ích cho chúng ta. Tớ một ngày không đọc sách giống như thiếu đi một [0:部分] niềm vui trong [0:生活] vậy. [0:除此以外], những người có thói quen [0:阅读] không chỉ dễ kiếm việc làm, mà mức lương cũng tương đối cao." },
+        { "who": "A", "zh": "Còn phải nói, thế nên dù bận rộn đến đâu, tớ vẫn kiên trì [0:习惯] đọc sách của mình." },
+        { "who": "B", "zh": "Những người thích đọc chắc chắn sẽ tìm thấy thời gian để đọc. Nhờ đọc sách mà [0:连] trong thời gian thư giãn mà vẫn có thể tích lũy thêm [0:知识], vốn kiến thức của bản thân không ngừng [0:增加], thật tiện lợi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "哇塞，房间里放满了书，还很厚。这些都是你喜欢看的吗？", "py": "Wāsāi, fángjiān lǐ fàng mǎn le shū, hái hěn hòu. Zhèxiē dōu shì nǐ xǐhuan kàn de ma?", "vi": "Chà, căn phòng để đầy sách, lại còn là sách dày. Đây đều là những cuốn bạn thích đọc à?" },
+        { "who": "B", "zh": "我对法律和历史很感兴趣，所以买了很多书。这些都是著名教授写的，内容丰富，解释清楚，所以都这么厚的。", "py": "Wǒ duì fǎlǜ hé lìshǐ hěn gǎn xìngqù, suǒyǐ mǎi le hěn duō shū. Zhèxiē dōu shì zhùmíng jiàoshòu xiě de, nèiróng fēngfù, jiěshì qīngchu, suǒyǐ dōu zhème hòu de.", "vi": "Tớ có hứng thú với pháp luật và lịch sử, cho nên đã mua rất nhiều sách. Đây đều là do các giáo sư nổi tiếng viết, nội dung phong phú, giải thích rõ ràng, nên đều dày như vậy." },
+        { "who": "A", "zh": "你真棒！我每天看的最多的只是杂志和著名小说。", "py": "Nǐ zhēn bàng! Wǒ měitiān kàn de zuìduō de zhǐshì zázhì hé zhùmíng xiǎoshuō.", "vi": "Bạn đỉnh thế! Thứ tớ đọc nhiều nhất mỗi ngày là tạp chí và tiểu thuyết nổi tiếng." },
+        { "who": "B", "zh": "[1:无论]是普通的还是科学的，看或多或少对我们都有好处。我一天不看书就好像生活中缺少了快乐的一部分。[2:除此以外]，阅读能力好的人不仅容易找到工作，而且工资也比较高。", "py": "[1:Wúlùn] shì pǔtōng de háishi kēxué de, kàn huò duō huò shǎo duì wǒmen dōu yǒu hǎochu. Wǒ yì tiān bú kàn shū jiù hǎoxiàng shēnghuó zhōng quēshǎo le kuàilè de yí bùfen. [2:Chú cǐ yǐwài], yuèdú nénglì hǎo de rén bùjǐn róngyì zhǎo dào gōngzuò, érqiě gōngzī yě bǐjiào gāo.", "vi": "[1:Bất kể] là sách thông thường hay sách khoa học, dù ít dù nhiều đều có ích cho chúng ta. Tớ một ngày không đọc sách giống như thiếu đi một phần niềm vui trong cuộc sống vậy. [2:Ngoài ra], những người có khả năng đọc hiểu tốt không chỉ dễ kiếm việc làm, mà mức lương cũng tương đối cao." },
+        { "who": "A", "zh": "可不是嘛，所以尽管工作再忙，我还会坚持阅读的习惯。", "py": "Kě búshì ma, suǒyǐ jǐnguǎn gōngzuò zài máng, wǒ hái huì jiānchí yuèdú de xíguàn.", "vi": "Còn phải nói, thế nên dù bận rộn đến đâu, tớ vẫn kiên trì thói quen đọc sách của mình." },
+        { "who": "B", "zh": "喜欢看书的人一定会找出时间来看书的。[3:连]放松的时间也能增加自己的知识，太方便了。", "py": "Xǐhuan kàn shū de rén yídìng huì zhǎo chū shíjiān lái kàn shū de. [3:Lián] fàngsōng de shíjiān yě néng zēngjiā zìjǐ de zhīshi, tài fāngbiàn le.", "vi": "Những người thích đọc chắc chắn sẽ tìm thấy thời gian để đọc. [3:Ngay cả] thời gian thư giãn cũng có thể làm tăng kiến thức của bản thân, thật tiện lợi." }
+      ],
+      "legend": [
+        { "n": 1, "label": "无论", "np": "NP 20.1" },
+        { "n": 2, "label": "除此以外", "np": "NP 20.2" },
+        { "n": 3, "label": "连", "np": "NP 20.3" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "1. 哇塞 /wā sāi/ vốn là phương ngữ Mân Nam (hay tiếng Phúc Kiến), ngày nay được sử dụng rộng rãi trong cộng đồng người nói Tiếng Trung, với ý thể hiện sự kinh ngạc, thường dịch là \"Wow, chà, ôi chao…\"\n2. Cụm từ 可不是 /kěbúshì/ được dùng để biểu thị sự tán đồng của người nói với ý kiến đối phương đưa ra, thường dịch là \"chính xác đấy, đúng rồi, còn phải nói\"."
+      }
+    }
+  ]
+}

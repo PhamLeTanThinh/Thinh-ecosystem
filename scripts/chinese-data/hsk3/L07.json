@@ -1,0 +1,147 @@
+{
+  "level": "hsk3",
+  "lesson": 32,
+  "bookLesson": 7,
+  "title": "那儿的饭菜很新鲜",
+  "titleVi": "Món ăn ở đó rất tươi ngon",
+  "pages": [77, 85],
+  "vocab": [
+    { "hanzi": "成绩", "pinyin": "chéngjì", "pos": "dt.", "meaning": "thành tích", "hanViet": "thành tích" },
+    { "hanzi": "被", "pinyin": "bèi", "pos": "giới.", "meaning": "bị", "hanViet": "bị" },
+    { "hanzi": "批评", "pinyin": "pīpíng", "pos": "đt.", "meaning": "phê bình", "hanViet": "phê bình" },
+    { "hanzi": "心情", "pinyin": "xīnqíng", "pos": "dt.", "meaning": "tâm trạng", "hanViet": "tâm tình" },
+    { "hanzi": "需要", "pinyin": "xūyào", "pos": "đt.", "meaning": "cần" },
+    { "hanzi": "餐厅", "pinyin": "cāntīng", "pos": "dt.", "meaning": "nhà hàng" },
+    { "hanzi": "新鲜", "pinyin": "xīnxiān", "pos": "tt.", "meaning": "tươi mới" },
+    { "hanzi": "饿", "pinyin": "è", "pos": "tt.", "meaning": "đói" },
+    { "hanzi": "渴", "pinyin": "kě", "pos": "tt.", "meaning": "khát", "hanViet": "khát" },
+    { "hanzi": "尝", "pinyin": "cháng", "pos": "đt.", "meaning": "nếm" },
+    { "hanzi": "座位", "pinyin": "zuòwèi", "pos": "dt.", "meaning": "chỗ ngồi" },
+    { "hanzi": "羊肉", "pinyin": "yángròu", "pos": "dt.", "meaning": "thịt dê" },
+    { "hanzi": "面包", "pinyin": "miànbāo", "pos": "dt.", "meaning": "bánh mì" },
+    { "hanzi": "饮料", "pinyin": "yǐnliào", "pos": "dt.", "meaning": "đồ uống" },
+    { "hanzi": "饱", "pinyin": "bǎo", "pos": "tt.", "meaning": "no" },
+    { "hanzi": "盘子", "pinyin": "pánzi", "pos": "dt.", "meaning": "đĩa" },
+    { "hanzi": "筷子", "pinyin": "kuàizi", "pos": "dt.", "meaning": "đũa" },
+    { "hanzi": "感兴趣", "pinyin": "gǎn xìngqù", "pos": "cụm.", "meaning": "cảm thấy hứng thú" },
+    { "hanzi": "兴趣", "pinyin": "xìngqù", "pos": "dt.", "meaning": "hứng thú", "hanViet": "hứng thú" },
+    { "hanzi": "满意", "pinyin": "mǎnyì", "pos": "tt.", "meaning": "hài lòng" },
+    { "hanzi": "口", "pinyin": "kǒu", "pos": "lượng.", "meaning": "miếng", "hanViet": "khẩu" },
+    { "hanzi": "打包", "pinyin": "dǎbāo", "pos": "đt.", "meaning": "gói mang về" }
+  ],
+  "expand": [
+    { "hanzi": "醋", "pinyin": "cù", "meaning": "Giấm" },
+    { "hanzi": "盐", "pinyin": "yán", "meaning": "Muối" },
+    { "hanzi": "胡椒", "pinyin": "hújiāo", "meaning": "Tiêu" },
+    { "hanzi": "辣椒", "pinyin": "làjiāo", "meaning": "Ớt" },
+    { "hanzi": "酱油", "pinyin": "jiàngyóu", "meaning": "Xì dầu" },
+    { "hanzi": "鱼露", "pinyin": "yú lù", "meaning": "Nước mắm" },
+    { "hanzi": "叉子", "pinyin": "chāzi", "meaning": "Dĩa" },
+    { "hanzi": "刀子", "pinyin": "dāozi", "meaning": "Dao" }
+  ],
+  "tree": {
+    "hanzi": "意",
+    "pinyin": "yì",
+    "meaning": "Ý",
+    "words": [
+      { "hanzi": "主意", "pinyin": "zhǔyi", "meaning": "Chủ ý" },
+      { "hanzi": "意义", "pinyin": "yìyì", "meaning": "Ý nghĩa" },
+      { "hanzi": "意识", "pinyin": "yìshí", "meaning": "Ý thức" },
+      { "hanzi": "故意", "pinyin": "gùyì", "meaning": "Cố ý" },
+      { "hanzi": "意图", "pinyin": "yìtú", "meaning": "Ý đồ" },
+      { "hanzi": "得意", "pinyin": "déyì", "meaning": "Đắc ý" },
+      { "hanzi": "意志", "pinyin": "yìzhì", "meaning": "Ý chí" },
+      { "hanzi": "注意", "pinyin": "zhùyì", "meaning": "Chú ý" },
+      { "hanzi": "意中人", "pinyin": "yìzhōngrén", "meaning": "Ý trung nhân" },
+      { "hanzi": "同意", "pinyin": "tóngyì", "meaning": "Đồng ý" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "7.1",
+      "hanzi": "被",
+      "pinyin": "bèi",
+      "meaning": "câu bị động với 被 (được, bị)",
+      "note": "Cấu trúc: Chủ (chịu tác động) + 被 + Tân (gây tác động) + Động + Thành phần khác · Nghĩa: chủ ngữ chịu tác động của hành vi mà có sự thay đổi, dịch là \"được, bị\" · Lưu ý: tân ngữ sau 被 có thể lược bỏ; không được lược thành phần khác sau động từ (了, 过, bổ ngữ); động từ năng nguyện, 没, 不 đặt trước 被",
+      "theory": "Câu chữ 被 /bèi/ là câu bị động do giới từ 被 tạo thành, biểu thị chủ ngữ chịu sự tác động của động tác, hành vi nào đó mà tạo ra sự thay đổi, thường dịch là \"được, bị\". Chỉ khi nào cần nhấn mạnh ý nghĩa bị động thì mới cần dùng câu chữ 被.\n\nCấu trúc: Chủ (chịu tác động) + 被 + Tân (gây tác động) + Động + Thành phần khác\n\nChú ý: Nếu đối tượng tạo ra động tác không phải là đối tượng đã được nói đến hoặc không thực sự quan trọng thì tân ngữ đằng sau 被 có thể lược bỏ.\n\nTrong câu chữ 被, không được lược bỏ thành phần khác đằng sau động từ chính của câu. Thành phần khác có thể là 了, 过, bổ ngữ trạng thái hoặc bổ ngữ kết quả.\n\nĐộng từ năng nguyện (会、想、要、能、可以、可能), phó từ 没、没有 (phủ định quá khứ), 不 (phủ định hiện tại, tương lai) phải được đặt trước 被.",
+      "examples": [
+        { "zh": "你们做的坏事早晚也被发现。", "pinyin": "Nǐmen zuò de huàishì zǎowǎn yě bèi fāxiàn.", "vi": "Những chuyện tồi tệ các bạn làm sớm muộn gì cũng bị phát hiện thôi.", "vocab": "坏事: việc xấu · 早晚: sớm muộn", "breakdown": "Chủ (坏事) + 被 + 发现" },
+        { "zh": "工资拿了但不给老婆，今天他被老婆骂了一顿。", "pinyin": "Gōngzī ná le dàn bù gěi lǎopó, jīntiān tā bèi lǎopó mà le yí dùn.", "vi": "Lương đã lấy mà chưa đưa cho vợ, hôm nay anh ta bị vợ mắng cho một trận.", "vocab": "骂 (mà): mắng · 顿 (dùn): trận", "breakdown": "他 + 被 + 老婆 (tân ngữ gây tác động) + 骂了一顿" },
+        { "zh": "房间已经被打扫干净了。", "pinyin": "Fángjiān yǐjīng bèi dǎsǎo gānjìng le.", "vi": "Căn phòng đã được quét dọn sạch sẽ rồi. (không cần biết ai quét)", "vocab": "打扫 (dǎsǎo): quét dọn", "breakdown": "Lược bỏ tân ngữ sau 被" },
+        { "zh": "我的钱包被偷走了。", "pinyin": "Wǒ de qiánbāo bèi tōu zǒu le.", "vi": "Ví của tôi đã bị đánh cắp. (không biết ai lấy)", "vocab": "偷 (tōu): trộm", "breakdown": "Lược bỏ tân ngữ sau 被" },
+        { "zh": "香蕉被拿走了。", "pinyin": "Xiāngjiāo bèi ná zǒu le.", "vi": "Chuối bị lấy đi mất rồi.", "vocab": "", "breakdown": "Không được nói 香蕉被拿。— phải có thành phần khác sau động từ (走了)" },
+        { "zh": "礼物没被发出去。", "pinyin": "Lǐwù méi bèi fā chūqù.", "vi": "Quà chưa được phát đi.", "vocab": "礼物: quà", "breakdown": "没 đặt trước 被" },
+        { "zh": "那件事我不说，你不说，一定不会被他发现的。", "pinyin": "Nà jiàn shì wǒ bù shuō nǐ bù shuō, yídìng bú huì bèi tā fāxiàn de.", "vi": "Việc đó cậu không nói, tớ không nói, chắc chắn không bị anh ấy phát hiện đâu.", "vocab": "", "breakdown": "不会 (động từ năng nguyện) đặt trước 被" }
+      ]
+    },
+    {
+      "np": "7.2",
+      "hanzi": "只有……，才……",
+      "pinyin": "zhǐyǒu……, cái……",
+      "meaning": "chỉ có… mới… (điều kiện cần)",
+      "note": "Cấu trúc: 只有…, 才… · Nghĩa: biểu thị điều kiện cần, dịch là \"chỉ có… mới…\"",
+      "theory": "Cấu trúc 只有…, 才… /zhǐyǒu…, cái…/ biểu thị điều kiện cần, thường được dịch là \"chỉ có… mới…\".",
+      "examples": [
+        { "zh": "只有你才能给我带来幸福。", "pinyin": "Zhǐyǒu nǐ cái néng gěi wǒ dài lái xìngfú.", "vi": "Chỉ có em mới đem lại hạnh phúc cho anh.", "vocab": "幸福: hạnh phúc", "breakdown": "只有 + 你, 才 + 能…" },
+        { "zh": "很多人认为只有去旅行才能放松自己，但是我不那样想。", "pinyin": "Hěn duō rén rènwéi zhǐyǒu qù lǚxíng cái néng fàngsōng zìjǐ, dànshì wǒ bú nàyàng xiǎng.", "vi": "Rất nhiều người cho rằng chỉ có đi du lịch mới có thể thư giãn, tôi không nghĩ như vậy.", "vocab": "认为: cho rằng · 旅行: du lịch", "breakdown": "只有 + 去旅行, 才 + 能放松" }
+      ]
+    },
+    {
+      "np": "7.3",
+      "hanzi": "A 对 B 感兴趣",
+      "pinyin": "A duì B gǎn xìngqù",
+      "meaning": "A có hứng thú với B",
+      "note": "Cấu trúc: A + 对 + B + 感兴趣 · Phủ định: A + 对 + B + 不感兴趣 · Nghĩa: \"A có hứng thú với B\"",
+      "theory": "Cấu trúc A + 对 /duì/ + B + 感兴趣 /gǎn xìngqù/ biểu thị \"A có hứng thú với B\".\n\nDạng phủ định: A + 对 + B + 不感兴趣.",
+      "examples": [
+        { "zh": "我对画画儿感兴趣，但是我不会画。", "pinyin": "Wǒ duì huà huàr gǎn xìngqù, dànshì wǒ bú huì huà.", "vi": "Tôi quan tâm đến hội họa, nhưng tôi không biết vẽ.", "vocab": "画画儿: vẽ tranh", "breakdown": "我 + 对 + 画画儿 + 感兴趣" },
+        { "zh": "我对别人的婚礼不感兴趣，只对和你结婚的事感兴趣。", "pinyin": "Wǒ duì biérén de hūnlǐ bù gǎn xìngqù, zhǐ duì hé nǐ jiéhūn de shì gǎn xìngqù.", "vi": "Anh không hứng thú với đám cưới của người khác, chỉ hứng thú với việc kết hôn với em.", "vocab": "别人: người khác", "breakdown": "Phủ định: 对 + 别人的婚礼 + 不感兴趣" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Hôm nay trả bài thi, thành tích kỳ này lại kém hơn [0:成绩] kỳ trước, tớ vừa [0:被] cô chủ nhiệm gọi lên văn phòng [0:批评] nghiêm khắc một trận. Giờ chắc [0:只有] ăn thịt [0:才] làm [0:心情] đang tuột dốc của tớ lúc này vui trở lại." },
+        { "who": "B", "zh": "Thế giờ cậu [0:需要] ăn gì? Tớ biết một [0:餐厅] mới khai trương, thực phẩm nhập trong ngày nên [0:新鲜] roi rói. Chưa ăn sáng nên giờ tớ [0:饿] lắm rồi, [0:渴] khô cả cổ, cùng đi [0:尝] thử hương vị món ăn ở nhà hàng đó đi." },
+        { "who": "A", "zh": "Thế cậu gọi điện đặt chỗ luôn đi, kẻo gần giờ ăn trưa đến lại không có [0:座位]." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Món ăn hôm nay ngon quá, nghe danh đặc sản [0:羊肉] Ninh Bình và cơm cháy đã lâu, nay mới được thưởng thức. Món [0:面包] đặc ruột thơm bơ cũng ưng. [0:饮料] nhà hàng pha cũng ngon, tớ uống no căng." },
+        { "who": "B", "zh": "Ừ, tớ cũng ăn đến [0:饱] căng cả bụng rồi. [0:盘子] sứ tròn để đồ ăn cùng [0:筷子] gắp thức ăn làm đẹp nhỉ, tớ rất [0:感兴趣] với cách thiết kế ứng dụng mỹ thuật cổ như vậy. Thái độ phục vụ chu đáo cũng làm tớ thấy rất [0:满意], sau này sẽ lại tới đây." },
+        { "who": "A", "zh": "Còn cả đĩa cá chua ngọt chúng mình chưa ăn [0:口] nào, sao giờ?" },
+        { "who": "B", "zh": "Nhờ nhân viên giúp mình [0:打包] lại rồi xách về thôi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "今天考试成绩不好，我[1:被]老师批评了。现在[2:只有]吃肉[2:才]能让我的心情好起来。", "py": "Jīntiān kǎoshì chéngjì bù hǎo, wǒ [1:bèi] lǎoshī pīpíng le. Xiànzài [2:zhǐyǒu] chī ròu [2:cái] néng ràng wǒ de xīnqíng hǎo qǐlai.", "vi": "Tớ [1:bị] giáo viên phê bình vì kết quả kiểm tra không tốt hôm nay. Bây giờ [2:chỉ có] ăn thịt [2:mới] có thể khiến tâm trạng của tớ dễ chịu hơn." },
+        { "who": "B", "zh": "你需要吃什么？我知道一家餐厅，那儿的饭菜很新鲜。酸的，甜的，咸的，辣的，想吃什么就有什么。正好我又饿又渴，我带你去尝尝吧。", "py": "Nǐ xūyào chī shénme? Wǒ zhīdào yì jiā cāntīng, nàr de fàncài hěn xīnxiān. Suān de, tián de, xián de, là de, xiǎng chī shénme jiù yǒu shénme. Zhènghǎo wǒ yòu è yòu kě, wǒ dài nǐ qù chángchang ba.", "vi": "Bạn muốn ăn gì? Tớ biết một nhà hàng này thức ăn rất tươi. Món chua, món ngọt, món mặn, món cay, thích ăn món nào là có món đấy. Đúng lúc tớ vừa đói vừa khát, tớ đưa bạn đi ăn thử nhé." },
+        { "who": "A", "zh": "那你打电话订座位吧。", "py": "Nà nǐ dǎ diànhuà dìng zuòwèi ba.", "vi": "Thế bạn gọi điện đặt chỗ đi." }
+      ],
+      "legend": [
+        { "n": 1, "label": "被", "np": "NP 7.1" },
+        { "n": 2, "label": "只有……才……", "np": "NP 7.2" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "今天的菜太好吃了，我吃了很多羊肉和面包，也喝了不少饮料。", "py": "Jīntiān de cài tài hǎochī le, wǒ chī le hěn duō yángròu hé miànbāo, yě hē le bù shǎo yǐnliào.", "vi": "Đồ ăn hôm nay rất ngon, tớ đã ăn rất nhiều thịt dê và bánh mì, cũng uống rất nhiều đồ uống." },
+        { "who": "B", "zh": "我也吃得太饱了。我[3:对]这家餐厅的碗、盘子和筷子很[3:感兴趣]。我对他们的服务也特别满意，以后有机会我们再来这里吃吧。", "py": "Wǒ yě chī de tài bǎo le. Wǒ [3:duì] zhè jiā cāntīng de wǎn, pánzi hé kuàizi hěn [3:gǎn xìngqù]. Wǒ duì tāmen de fúwù yě tèbié mǎnyì, yǐhòu yǒu jīhuì wǒmen zàilái zhèlǐ chī ba.", "vi": "Tớ cũng quá no luôn. Tớ [3:rất thích thú với] bát, đĩa, đũa ở nhà hàng này. Tớ cũng rất hài lòng với cách phục vụ của họ, sau này có cơ hội lại đến đây ăn nhé." },
+        { "who": "A", "zh": "还有一盘酸辣鱼一口也没吃呢，怎么办？", "py": "Hái yǒu yì pán suān là yú yì kǒu yě méi chī ne, zěnme bàn?", "vi": "Vẫn còn một đĩa cá chua ngọt chưa ăn miếng nào, phải làm sao?" },
+        { "who": "B", "zh": "那把酸辣鱼打包带回去吧。", "py": "Nà bǎ suān là yú dǎbāo dài huíqu ba.", "vi": "Thế thì gói cá chua ngọt mang về thôi." }
+      ],
+      "legend": [
+        { "n": 3, "label": "对……感兴趣", "np": "NP 7.3" }
+      ]
+    }
+  ]
+}

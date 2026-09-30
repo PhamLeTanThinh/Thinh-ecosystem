@@ -1,0 +1,158 @@
+{
+  "level": "hsk3",
+  "lesson": 28,
+  "bookLesson": 3,
+  "title": "房间都收拾好了",
+  "titleVi": "Phòng đã dọn xong rồi",
+  "pages": [39, 48],
+  "vocab": [
+    { "hanzi": "行李箱", "pinyin": "xínglixiāng", "pos": "dt.", "meaning": "vali, hành lí" },
+    { "hanzi": "楼", "pinyin": "lóu", "pos": "dt.", "meaning": "lầu, tầng", "hanViet": "lầu" },
+    { "hanzi": "衣柜", "pinyin": "yīguì", "pos": "dt.", "meaning": "tủ quần áo" },
+    { "hanzi": "卧室", "pinyin": "wòshì", "pos": "dt.", "meaning": "phòng ngủ" },
+    { "hanzi": "经常", "pinyin": "jīngcháng", "pos": "phó.", "meaning": "thường xuyên" },
+    { "hanzi": "环境", "pinyin": "huánjìng", "pos": "dt.", "meaning": "môi trường, khung cảnh", "hanViet": "hoàn cảnh" },
+    { "hanzi": "公园", "pinyin": "gōngyuán", "pos": "dt.", "meaning": "công viên", "hanViet": "công viên" },
+    { "hanzi": "安静", "pinyin": "ānjìng", "pos": "tt.", "meaning": "yên tĩnh", "hanViet": "an tĩnh" },
+    { "hanzi": "音乐", "pinyin": "yīnyuè", "pos": "dt.", "meaning": "âm nhạc", "hanViet": "âm nhạc" },
+    { "hanzi": "收拾", "pinyin": "shōushi", "pos": "đt.", "meaning": "thu dọn", "hanViet": "thu thập" },
+    { "hanzi": "眼镜", "pinyin": "yǎnjìng", "pos": "dt.", "meaning": "kính" },
+    { "hanzi": "当然", "pinyin": "dāngrán", "pos": "phó.", "meaning": "đương nhiên", "hanViet": "đương nhiên" },
+    { "hanzi": "清楚", "pinyin": "qīngchu", "pos": "tt.", "meaning": "rõ ràng" },
+    { "hanzi": "麻烦", "pinyin": "máfan", "pos": "tt.", "meaning": "phiền phức" },
+    { "hanzi": "附近", "pinyin": "fùjìn", "pos": "dt.", "meaning": "gần đây", "hanViet": "phụ cận" },
+    { "hanzi": "挺", "pinyin": "tǐng", "pos": "phó.", "meaning": "khá, khá là, hơi" },
+    { "hanzi": "有意思", "pinyin": "yǒuyìsi", "meaning": "thú vị" }
+  ],
+  "expand": [
+    { "hanzi": "抬", "pinyin": "tái", "meaning": "Khiêng; nâng" },
+    { "hanzi": "提", "pinyin": "tí", "meaning": "Xách; cầm" },
+    { "hanzi": "推", "pinyin": "tuī", "meaning": "Đẩy" },
+    { "hanzi": "拉", "pinyin": "lā", "meaning": "Lôi; kéo" },
+    { "hanzi": "扔", "pinyin": "rēng", "meaning": "Vứt" },
+    { "hanzi": "挂", "pinyin": "guà", "meaning": "Treo" },
+    { "hanzi": "擦", "pinyin": "cā", "meaning": "Lau, chùi" },
+    { "hanzi": "捡", "pinyin": "jiǎn", "meaning": "Nhặt" }
+  ],
+  "tree": {
+    "hanzi": "心",
+    "pinyin": "xīn",
+    "meaning": "Tâm",
+    "words": [
+      { "hanzi": "心病", "pinyin": "xīnbìng", "meaning": "Tâm bệnh" },
+      { "hanzi": "心得", "pinyin": "xīndé", "meaning": "Tâm đắc" },
+      { "hanzi": "心理", "pinyin": "xīnlǐ", "meaning": "Tâm lí" },
+      { "hanzi": "心思", "pinyin": "xīnsi", "meaning": "Tâm tư" },
+      { "hanzi": "心血", "pinyin": "xīnxuè", "meaning": "Tâm huyết" },
+      { "hanzi": "心情", "pinyin": "xīnqíng", "meaning": "Tâm tình" },
+      { "hanzi": "重心", "pinyin": "zhòngxīn", "meaning": "Trọng tâm" },
+      { "hanzi": "心意", "pinyin": "xīnyì", "meaning": "Tâm ý" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "3.1",
+      "hanzi": "一边……一边……",
+      "pinyin": "yìbiān…… yìbiān……",
+      "meaning": "vừa… vừa… (hai hành động đồng thời)",
+      "note": "Cấu trúc: 一边… 一边… · Nghĩa: hai hành động diễn ra đồng thời, dịch là \"vừa… vừa…\" · Lưu ý: hai vế có thể cùng hoặc không cùng chủ ngữ; cùng chủ ngữ thì có thể lược \"一\" thành 边… 边…",
+      "theory": "Cấu trúc 一边 /yìbiān/… 一边… thể hiện hai hành động diễn ra đồng thời, thường dịch là \"vừa… vừa…\". Hai vế có thể có cùng hoặc không cùng chủ ngữ.\n\nChú ý: Khi hai vế có cùng chủ ngữ thì \"一\" trong \"一边\" có thể lược bỏ mà không làm thay đổi ý nghĩa câu.",
+      "examples": [
+        { "zh": "他喜欢一边上网，一边打电话。", "pinyin": "Tā xǐhuan yìbiān shàngwǎng, yìbiān dǎ diànhuà.", "vi": "Anh ấy thích vừa lên mạng, vừa gọi điện thoại.", "vocab": "上网: lên mạng", "breakdown": "Cùng chủ ngữ 他" },
+        { "zh": "老师一边说，我们一边听。", "pinyin": "Lǎoshī yìbiān shuō, wǒmen yìbiān tīng.", "vi": "Thầy vừa nói, chúng tôi vừa nghe.", "vocab": "", "breakdown": "Khác chủ ngữ: 老师 / 我们" },
+        { "zh": "他喜欢边吃饭，边玩儿手机。", "pinyin": "Tā xǐhuan biān chīfàn, biān wánr shǒujī.", "vi": "Anh ấy thích vừa ăn cơm, vừa chơi điện thoại.", "vocab": "玩儿手机: chơi điện thoại", "breakdown": "Cùng chủ ngữ nên lược \"一\": 边… 边…" }
+      ]
+    },
+    {
+      "np": "3.2",
+      "hanzi": "Động + 得 / 不 + Bổ",
+      "pinyin": "de / bu",
+      "meaning": "bổ ngữ khả năng (có thể / không thể đạt kết quả)",
+      "note": "Khẳng định: Chủ + Động + 得 + Bổ · Phủ định: Chủ + Động + 不 + Bổ · Nghi vấn: Chủ + Động + 得 + Bổ + 吗？ hoặc Chủ + Động + 得 + Bổ + Động + 不 + Bổ？ · Ví dụ: 吃得完 / 吃不完, 进得来 / 拿不出来",
+      "theory": "Bổ ngữ khả năng là bổ ngữ thể hiện khả năng động tác có thể tạo ra kết quả nào đó không. Có thể tạo lập bổ ngữ khả năng bằng việc thêm 得 /de/ hoặc 不 /bu/ vào giữa động từ và bổ ngữ kết quả hoặc bổ ngữ xu hướng.\n\nDạng khẳng định: Chủ + Động + 得 + Bổ\nDạng phủ định: Chủ + Động + 不 + Bổ\nDạng nghi vấn: (1) Chủ + Động + 得 + Bổ + 吗？ hoặc (2) Chủ + Động + 得 + Bổ + Động + 不 + Bổ？\n\nVí dụ: bổ ngữ kết quả 吃完 /chī wán/ (ăn xong) → bổ ngữ khả năng 吃得完 /chī de wán/ (có thể ăn xong), 吃不完 /chī bu wán/ (không thể ăn xong). Bổ ngữ xu hướng 进来 /jìnlai/ (tiến vào) → 进得来 /jìn de lái/ (có thể vào được); 拿出来 /ná chūlai/ (lấy ra) → 拿不出来 /ná bu chūlai/ (không thể lấy ra).",
+      "examples": [
+        { "zh": "你跟他说什么也没用，他哪听得进去你的话？", "pinyin": "Nǐ gēn tā shuō shénme yě méi yòng, tā nǎ tīng de jìnqu nǐ de huà?", "vi": "Bạn nói gì với anh ta cũng chẳng ích gì hết, anh ta nào có để lọt tai lời của bạn?", "vocab": "没用: vô ích", "breakdown": "听 + 得 + 进去 (bổ ngữ xu hướng)" },
+        { "zh": "我才学三个月汉语，看不懂中文小说。", "pinyin": "Wǒ cái xué sān ge yuè Hànyǔ, kàn bu dǒng Zhōngwén xiǎoshuō.", "vi": "Tôi mới chỉ học Tiếng Trung được ba tháng, không thể đọc hiểu tiểu thuyết Trung Quốc.", "vocab": "中文 (Zhōngwén): Tiếng Trung · 小说: tiểu thuyết", "breakdown": "看 + 不 + 懂 (bổ ngữ kết quả)" },
+        { "zh": "这么多菜你一个人吃得完吗？", "pinyin": "Zhème duō cài nǐ yí ge rén chī de wán ma?", "vi": "Nhiều đồ ăn thế này mình bạn có thể ăn hết không?", "vocab": "", "breakdown": "Nghi vấn (1): 吃得完 + 吗？" },
+        { "zh": "这么多菜你一个人吃得完吃不完？", "pinyin": "Zhème duō cài nǐ yí ge rén chī de wán chī bu wán?", "vi": "Nhiều đồ ăn thế này mình bạn có thể ăn hết không?", "vocab": "", "breakdown": "Nghi vấn (2): 吃得完 + 吃不完？" }
+      ]
+    },
+    {
+      "np": "3.3",
+      "hanzi": "挺",
+      "pinyin": "tǐng",
+      "meaning": "khá, khá là, hơi (phó từ, khẩu ngữ)",
+      "note": "Cấu trúc: 挺 + Tính / Động (tâm lý) + (的) · Nghĩa: \"khá, khá là, hơi\", ngữ khí nhẹ hơn 很 · Lưu ý: dùng trong khẩu ngữ, cuối câu có thể thêm 的 hoặc không",
+      "theory": "Phó từ 挺 /tǐng/ thường dùng trong khẩu ngữ, mang nghĩa \"khá, khá là, hơi\", ngữ khí nhẹ hơn 很 /hěn/, thường đi kèm với tính từ hoặc động từ tâm lý ở sau, cuối câu có thể thêm 的 hoặc không.\n\nCấu trúc: 挺 + Tính / Động (tâm lý) + (的)",
+      "examples": [
+        { "zh": "我挺喜欢跟你在一起的。", "pinyin": "Wǒ tǐng xǐhuan gēn nǐ zài yìqǐ de.", "vi": "Tớ khá là thích ở bên cạnh cậu.", "vocab": "在一起: ở bên nhau", "breakdown": "挺 + 喜欢 (động từ tâm lý) + 的" },
+        { "zh": "快到春节，大家都挺忙的。", "pinyin": "Kuài dào Chūnjié, dàjiā dōu tǐng máng de.", "vi": "Sắp đến Tết, mọi người đều khá bận rộn.", "vocab": "春节: Tết Nguyên đán", "breakdown": "挺 + 忙 (tính từ) + 的" },
+        { "zh": "这个房间挺大的。", "pinyin": "Zhè ge fángjiān tǐng dà de.", "vi": "Cái phòng này khá to.", "vocab": "", "breakdown": "挺 + 大 (tính từ) + 的" }
+      ]
+    },
+    {
+      "np": "3.4",
+      "hanzi": "还是",
+      "pinyin": "háishi",
+      "meaning": "vẫn (hành vi, trạng thái duy trì không đổi)",
+      "note": "Loại từ: phó từ · Nghĩa: trong câu trần thuật thể hiện hành vi động tác hoặc trạng thái duy trì không đổi, dịch là \"vẫn\"",
+      "theory": "Phó từ 还是 /háishi/ khi dùng trong câu trần thuật thể hiện hành vi động tác hoặc trạng thái duy trì không đổi, thường dịch là \"vẫn\".",
+      "examples": [
+        { "zh": "虽然工作很忙，但我每天还是去跑步。", "pinyin": "Suīrán gōngzuò hěn máng, dàn wǒ měitiān háishi qù pǎo bù.", "vi": "Mặc dù công việc rất bận, nhưng mỗi ngày tôi vẫn đi chạy bộ.", "vocab": "虽然…但…: mặc dù… nhưng…", "breakdown": "还是 + 去跑步" },
+        { "zh": "我叫了他很久，但是他还是不开门。", "pinyin": "Wǒ jiào le tā hěn jiǔ, dànshì tā háishi bù kāi mén.", "vi": "Em gọi anh ta rất lâu, nhưng anh ta vẫn không mở cửa.", "vocab": "开门: mở cửa", "breakdown": "还是 + 不开门" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Anh giúp em kéo cái [0:行李箱] du lịch này lên [0:楼] hai với ạ." },
+        { "who": "B", "zh": "Được. Thế cái [0:衣柜] bốn cánh đựng quần áo kia để đâu?" },
+        { "who": "A", "zh": "Anh để ở [0:卧室] có sẵn cái giường to kia đi ạ. Anh cẩn thận nhé." },
+        { "who": "B", "zh": "Yên tâm, chúng tôi [0:经常] làm thế này suốt rồi." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Nhà mới xa thành phố nên chẳng lo ô nhiễm [0:环境] nhỉ, xung quanh còn có siêu thị, quán ăn, [0:公园] thì rộng và xanh mát tha hồ vui chơi và tập thể dục." },
+        { "who": "B", "zh": "Cách xa đường phố nên còn rất [0:安静] nữa. Vừa mở [0:音乐] cổ điển, vừa đọc sách thích lắm." },
+        { "who": "A", "zh": "Lúc nãy phòng còn bừa bộn mà giờ đã [0:收拾] xong rồi này. Mà bạn có thấy kính của tớ đâu không?" },
+        { "who": "B", "zh": "[0:眼镜] của cậu lúc nãy còn ở trên bàn mà nhỉ. Cận như cậu không có kính nhìn có [0:清楚] không?" },
+        { "who": "A", "zh": "[0:当然] là nhìn không rõ rồi. Giờ mà không thấy kính là gây ra bao [0:麻烦] đấy." },
+        { "who": "B", "zh": "Yên tâm, tớ cùng tìm. Mà lát đi uống cà phê đi. Ở [0:附近] có quán cà phê mở nhạc nghe [0:挺] hay [0:的], phong cách thiết kế cũng rất [0:有意思]." },
+        { "who": "A", "zh": "Tớ cứ uống cà phê là lại [0:睡不着觉], thôi tớ uống sinh tố thôi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "你帮我搬这个行李箱到二楼去吧。", "py": "Nǐ bāng wǒ bān zhè ge xínglixiāng dào èr lóu qù ba.", "vi": "Anh giúp tôi đưa cái vali này lên tầng 2 với." },
+        { "who": "B", "zh": "好，外面的冰箱放在哪儿？", "py": "Hǎo, wàimian de bīngxiāng fàng zài nǎr?", "vi": "Được, cái tủ lạnh bên ngoài đặt ở đâu?" },
+        { "who": "A", "zh": "先放我这儿吧。还有那个大衣柜放在卧室里，小心点儿。", "py": "Xiān fàng wǒ zhèr ba. Hái yǒu nà ge dà yīguì fàng zài wòshì lǐ, xiǎoxīn diǎnr.", "vi": "Trước hết cứ đặt ở chỗ tôi đây. Còn cái tủ quần áo to kia để ở trong phòng ngủ, anh cẩn thận chút nhé." },
+        { "who": "B", "zh": "放心，我们经常做这些。", "py": "Nǐ fàngxīn, wǒmen jīngcháng zuò zhèxiē.", "vi": "Cứ yên tâm, chúng tôi vẫn thường làm thế này." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "新家的环境真好，楼下还有公园、超市和饭店，多方便啊！", "py": "Xīnjiā de huánjìng zhēn hǎo, lóu xià hái yǒu gōngyuán, chāoshì hé fàndiàn, duō fāngbiàn a!", "vi": "Không gian nhà mới đẹp thật, dưới tầng còn có công viên, siêu thị và quán ăn, tiện thế!" },
+        { "who": "B", "zh": "还很安静啊。[1:一边]听音乐[1:一边]看书特别舒服。", "py": "Hái hěn ānjìng a. [1:Yìbiān] tīng yīnyuè [1:yìbiān] kànshū tèbié shūfu.", "vi": "Còn rất yên tĩnh nữa. [1:Vừa] nghe nhạc, [1:vừa] đọc sách, rất thoải mái." },
+        { "who": "A", "zh": "房间都收拾好了。你看见我的眼镜了吗？", "py": "Fángjiān dōu shōushi hǎo le. Nǐ kànjiàn wǒ de yǎnjìng le ma?", "vi": "Phòng dọn xong rồi. Cậu thấy kính của tớ đâu không?" },
+        { "who": "B", "zh": "刚才还在桌子上呢。没有眼镜你[2:看得清楚吗]？", "py": "Gāngcái hái zài zhuōzi shàng ne. Méiyǒu yǎnjìng nǐ [2:kàn de qīngchu ma]?", "vi": "Lúc nãy còn ở trên bàn mà. Không có kính cậu [2:nhìn rõ không]?" },
+        { "who": "A", "zh": "当然[2:看不清楚]了。这么多东西，不知道放哪儿了，[2:找不到]就麻烦了。", "py": "Dāngrán [2:kàn bù qīngchu] le. Zhème duō dōngxi, bù zhīdào fàng nǎr le, [2:zhǎo bu dào] jiù máfan le.", "vi": "Đương nhiên là [2:nhìn không rõ] rồi. Nhiều đồ thế này, không biết để đâu rồi, [2:không tìm được] thì phiền rồi." },
+        { "who": "B", "zh": "我帮你找。找到了我们一起去喝咖啡吧，附近有一个[3:挺]有意思的咖啡店，环境也不错。", "py": "Wǒ bāng nǐ zhǎo. Zhǎodào le wǒmen yìqǐ qù hē kāfēi ba, fùjìn yǒu yí gè [3:tǐng] yǒuyìsi de kāfēi diàn, huánjìng yě búcuò.", "vi": "Tớ giúp cậu tìm. Tìm được rồi chúng mình cùng đi uống cà phê đi, gần đây có một quán cà phê [3:khá] thú vị, khung cảnh cũng rất tuyệt." },
+        { "who": "A", "zh": "我一喝咖啡就[2:睡不着觉]，我[4:还是]喝果汁吧。", "py": "Wǒ yì hē kāfēi jiù [2:shuì bù zháo jiào], wǒ [4:háishi] hē guǒzhī ba.", "vi": "Tớ cứ uống cà phê là [2:không ngủ được], tớ [4:vẫn] uống nước quả thôi." }
+      ],
+      "legend": [
+        { "n": 1, "label": "一边", "np": "NP 3.1" },
+        { "n": 2, "label": "看得清楚吗", "np": "NP 3.2" },
+        { "n": 3, "label": "挺", "np": "NP 3.3" },
+        { "n": 4, "label": "还是", "np": "NP 3.4" }
+      ]
+    }
+  ]
+}

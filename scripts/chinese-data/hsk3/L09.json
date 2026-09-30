@@ -1,0 +1,171 @@
+{
+  "level": "hsk3",
+  "lesson": 34,
+  "bookLesson": 9,
+  "title": "你想要什么样的爱情？",
+  "titleVi": "Cậu muốn có một tình yêu như thế nào?",
+  "pages": [95, 103],
+  "vocab": [
+    { "hanzi": "爱情", "pinyin": "àiqíng", "pos": "dt.", "meaning": "tình yêu", "hanViet": "ái tình" },
+    { "hanzi": "感情", "pinyin": "gǎnqíng", "pos": "dt.", "meaning": "tình cảm", "hanViet": "cảm tình" },
+    { "hanzi": "而是", "pinyin": "ér shì", "pos": "liên.", "meaning": "mà là" },
+    { "hanzi": "关心", "pinyin": "guānxīn", "pos": "đt.", "meaning": "quan tâm", "hanViet": "quan tâm" },
+    { "hanzi": "奶奶", "pinyin": "nǎinai", "pos": "dt.", "meaning": "bà nội" },
+    { "hanzi": "讲", "pinyin": "jiǎng", "pos": "đt.", "meaning": "giảng, kể", "hanViet": "giảng" },
+    { "hanzi": "头发", "pinyin": "tóufa", "pos": "dt.", "meaning": "tóc" },
+    { "hanzi": "个子", "pinyin": "gèzi", "pos": "dt.", "meaning": "dáng người" },
+    { "hanzi": "鼻子", "pinyin": "bízi", "pos": "dt.", "meaning": "mũi" },
+    { "hanzi": "声音", "pinyin": "shēngyīn", "pos": "dt.", "meaning": "âm thanh, giọng nói", "hanViet": "thanh âm" },
+    { "hanzi": "遇到", "pinyin": "yù dào", "pos": "đt.", "meaning": "gặp được" },
+    { "hanzi": "记得", "pinyin": "jìde", "pos": "đt.", "meaning": "nhớ" },
+    { "hanzi": "邻居", "pinyin": "línjū", "pos": "dt.", "meaning": "hàng xóm" },
+    { "hanzi": "高中", "pinyin": "gāozhōng", "pos": "dt.", "meaning": "trung học phổ thông", "hanViet": "cao trung" },
+    { "hanzi": "年级", "pinyin": "niánjí", "pos": "dt.", "meaning": "năm, lớp", "hanViet": "niên cấp" },
+    { "hanzi": "表白", "pinyin": "biǎobái", "pos": "đt.", "meaning": "tỏ tình" },
+    { "hanzi": "拒绝", "pinyin": "jùjué", "pos": "đt.", "meaning": "từ chối", "hanViet": "cự tuyệt" },
+    { "hanzi": "脸", "pinyin": "liǎn", "pos": "dt.", "meaning": "mặt" },
+    { "hanzi": "耳朵", "pinyin": "ěrduo", "pos": "dt.", "meaning": "tai" },
+    { "hanzi": "哭", "pinyin": "kū", "pos": "đt.", "meaning": "khóc" },
+    { "hanzi": "突然", "pinyin": "tūrán", "pos": "tt.", "meaning": "đột nhiên", "hanViet": "đột nhiên" }
+  ],
+  "expand": [
+    { "hanzi": "谈恋爱", "pinyin": "tán liàn'ài", "meaning": "Yêu đương" },
+    { "hanzi": "初恋", "pinyin": "chūliàn", "meaning": "Mối tình đầu" },
+    { "hanzi": "暗恋", "pinyin": "ànliàn", "meaning": "Yêu thầm" },
+    { "hanzi": "单恋", "pinyin": "dānliàn", "meaning": "Yêu đơn phương" },
+    { "hanzi": "失恋", "pinyin": "shīliàn", "meaning": "Thất tình" },
+    { "hanzi": "异地恋", "pinyin": "yìdìliàn", "meaning": "Yêu xa" },
+    { "hanzi": "姐弟恋", "pinyin": "jiě dì liàn", "meaning": "Mối tình chị em" },
+    { "hanzi": "前任", "pinyin": "qiánrèn", "meaning": "Người cũ" },
+    { "hanzi": "脖子", "pinyin": "bózi", "meaning": "Cổ" },
+    { "hanzi": "肩膀", "pinyin": "jiānbǎng", "meaning": "Vai" },
+    { "hanzi": "肚子", "pinyin": "dùzi", "meaning": "Bụng" },
+    { "hanzi": "膝盖", "pinyin": "xīgài", "meaning": "Đầu gối" },
+    { "hanzi": "嘴巴", "pinyin": "zuǐbā", "meaning": "Miệng" },
+    { "hanzi": "胸", "pinyin": "xiōng", "meaning": "Ngực" },
+    { "hanzi": "腿", "pinyin": "tuǐ", "meaning": "Đùi" },
+    { "hanzi": "脚", "pinyin": "jiǎo", "meaning": "Chân" }
+  ],
+  "tree": {
+    "hanzi": "行",
+    "pinyin": "xíng",
+    "meaning": "Hành",
+    "words": [
+      { "hanzi": "实行", "pinyin": "shíxíng", "meaning": "Thực hành" },
+      { "hanzi": "行动", "pinyin": "xíngdòng", "meaning": "Hành động" },
+      { "hanzi": "行政", "pinyin": "xíngzhèng", "meaning": "Hành chính" },
+      { "hanzi": "发行", "pinyin": "fāxíng", "meaning": "Phát hành" },
+      { "hanzi": "行李", "pinyin": "xíngli", "meaning": "Hành lý" },
+      { "hanzi": "执行", "pinyin": "zhíxíng", "meaning": "Chấp hành" },
+      { "hanzi": "运行", "pinyin": "yùnxíng", "meaning": "Vận hành" },
+      { "hanzi": "旅行", "pinyin": "lǚxíng", "meaning": "Lữ hành" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "9.1",
+      "hanzi": "不是……，而是……",
+      "pinyin": "búshì……, érshì……",
+      "meaning": "không phải… mà là…",
+      "note": "Cấu trúc: 不是…, 而是… · Nghĩa: đối chiếu hai vế câu trước sau để nói rõ một sự việc hoặc hai phương diện của một sự việc, dịch là \"không phải… mà là…\"",
+      "theory": "Cấu trúc 不是……, 而是…… (/búshì…, érshì…/) dùng để đối chiếu hai vế câu trước sau để nói rõ một sự việc hoặc hai phương diện của một sự việc, thường dịch là \"không phải… mà là…\".",
+      "examples": [
+        { "zh": "你不是不聪明，而是不认真。", "pinyin": "Nǐ búshì bù cōngmíng, érshì bú rènzhēn.", "vi": "Cậu không phải là không thông minh, mà là không chịu khó.", "vocab": "聪明: thông minh · 认真: chăm chỉ, nghiêm túc", "breakdown": "不是 + 不聪明, 而是 + 不认真" },
+        { "zh": "小明不是一个坏孩子，而是一个人见人爱，花见花开的好孩子。", "pinyin": "Xiǎo Míng búshì yí ge huài háizi, ér shì yí ge rén jiàn rén ài, huā jiàn huā kāi de hǎo háizi.", "vi": "Tiểu Minh không phải là một cậu bé hư, mà là một cậu bé ngoan ai gặp cũng yêu.", "vocab": "坏: hư, xấu", "breakdown": "不是 + 坏孩子, 而是 + 好孩子" }
+      ]
+    },
+    {
+      "np": "9.2",
+      "hanzi": "Động + 上",
+      "pinyin": "shang",
+      "meaning": "bổ ngữ 上 (kết thúc / đạt được mục đích, kết quả)",
+      "note": "Bổ ngữ xu hướng: Động + 上 diễn tả hành động đã kết thúc hoặc đạt được mục đích, kết quả · Bổ ngữ khả năng: Động + 得 + 上 (khẳng định) / Động + 不 + 上 (phủ định) — có đạt được mục đích hay không",
+      "theory": "Động + 上 /shang/ có thể dùng trong bổ ngữ xu hướng hoặc bổ ngữ khả năng.\n\nTrong bổ ngữ xu hướng, Động + 上 diễn tả hành động đã kết thúc hay đạt được mục đích, kết quả.\n\nTrong bổ ngữ khả năng, Động + 得 /de/ + 上 (khẳng định) hoặc Động + 不 /bu/ + 上 (phủ định) diễn tả ý người nói có đạt được mục đích hay không khi thực hiện hành động.",
+      "examples": [
+        { "zh": "你把门关上了吗？", "pinyin": "Nǐ bǎ mén guān shang le ma?", "vi": "Bạn đã đóng cửa chưa?", "vocab": "门: cửa", "breakdown": "关 + 上: hành động đã kết thúc" },
+        { "zh": "怎样才能让你爱的人爱上你？", "pinyin": "Zěnyàng cái néng ràng nǐ ài de rén ài shang nǐ?", "vi": "Làm thế nào để người bạn yêu yêu bạn?", "vocab": "", "breakdown": "爱 + 上: đạt được kết quả" },
+        { "zh": "他终于考上了北京大学。", "pinyin": "Tā zhōngyú kǎo shang le Běijīng dàxué.", "vi": "Cuối cùng anh ấy đã thi đỗ vào Đại học Bắc Kinh.", "vocab": "终于: cuối cùng", "breakdown": "考 + 上: đạt được mục đích" },
+        { "zh": "早就听说这儿的菜很好吃，今天终于吃得上了。", "pinyin": "Zǎo jiù tīng shuō zhèr de cài hěn hǎochī, jīntiān zhōngyú chī de shàng le.", "vi": "Từ lâu đã nghe nói đồ ăn ở đây rất ngon, hôm nay cuối cùng đã được thưởng thức.", "vocab": "", "breakdown": "Bổ ngữ khả năng: 吃 + 得 + 上" }
+      ]
+    },
+    {
+      "np": "9.3",
+      "hanzi": "Động + 起来",
+      "pinyin": "qǐlai",
+      "meaning": "cách dùng mở rộng của bổ ngữ 起来",
+      "note": "① Bắt đầu và tiếp tục của động tác / trạng thái (冷起来, 看起书来) · ② Đánh giá, bình phẩm, phỏng đoán (看起来, 吃起来) · ③ Hồi tưởng sự việc trong quá khứ (想起来, 想不起来)",
+      "theory": "Động + 起来 /qǐlai/ ngoài cách dùng trong bổ ngữ xu hướng kép, còn mang nhiều cách dùng mở rộng. Dưới đây là một số cách dùng mở rộng phổ biến:\n\n① Biểu thị sự bắt đầu và tiếp tục của động tác hoặc trạng thái nào đó.\n\n② Biểu thị sự đánh giá, bình phẩm hoặc phỏng đoán sự vật, sự việc.\n\n③ Biểu thị sự hồi tưởng sự việc trong quá khứ.",
+      "examples": [
+        { "zh": "冬天到了，天气冷起来了。", "pinyin": "Dōngtiān dào le, tiānqì lěng qǐlai le.", "vi": "Trời vào đông rồi, bắt đầu lạnh rồi.", "vocab": "", "breakdown": "① 冷 + 起来: bắt đầu lạnh" },
+        { "zh": "吃饭以后，陈老师看起书来了。", "pinyin": "Chīfàn yǐhòu, Chén lǎoshī kàn qǐ shū lái le.", "vi": "Sau khi ăn cơm, thầy Trần bắt đầu đọc sách.", "vocab": "", "breakdown": "① 看 + 起 + 书 (tân ngữ) + 来" },
+        { "zh": "前面有个小哥哥，看起来他对你很感兴趣。", "pinyin": "Qiánmiàn yǒu ge xiǎo gēge, kàn qǐlai tā duì nǐ hěn gǎn xìngqù.", "vi": "Phía trước có một cậu chàng có vẻ rất quan tâm đến bạn.", "vocab": "小哥哥: anh chàng", "breakdown": "② 看起来: phỏng đoán" },
+        { "zh": "中国菜看起来好看，吃起来好吃，不过做起来很难。", "pinyin": "Zhōngguó cài kàn qǐlai hǎokàn, chī qǐlai hǎochī, búguò zuò qǐlai hěn nán.", "vi": "Món ăn Trung Quốc trông đẹp và ngon, nhưng rất khó nấu.", "vocab": "", "breakdown": "② 看起来 / 吃起来 / 做起来: đánh giá" },
+        { "zh": "你叫什么名字呢？我怎么突然想不起来了呢。", "pinyin": "Nǐ jiào shénme míngzi ne? Wǒ zěnme tūrán xiǎng bù qǐlai le ne.", "vi": "Bạn tên là gì ý nhỉ, sao tớ lại không nhớ ra cơ chứ!", "vocab": "", "breakdown": "③ 想不起来: không hồi tưởng được" }
+      ]
+    },
+    {
+      "np": "9.4",
+      "hanzi": "突然",
+      "pinyin": "tūrán",
+      "meaning": "đột nhiên, bỗng nhiên (tính từ / phó từ)",
+      "note": "Tính từ 突然: tình huống phát sinh rất nhanh và bất ngờ (很突然, 太突然了) · Phó từ 突然: đứng trước động từ, dịch là \"đột nhiên, bỗng nhiên\"",
+      "theory": "① Tính từ 突然 /tūrán/ biểu thị tình huống phát sinh rất nhanh và bất ngờ, thường dịch là \"đột nhiên, bỗng nhiên\".\n\n② Phó từ 突然 /tūrán/ biểu thị tình huống phát sinh rất nhanh và bất ngờ, thường dịch là \"đột nhiên, bỗng nhiên\".",
+      "examples": [
+        { "zh": "对我来说，她和那个男孩子结婚是一件很突然的事。", "pinyin": "Duì wǒ lái shuō, tā hé nàge nánháizi jiéhūn shì yí jiàn hěn tūrán de shì.", "vi": "Đối với tôi mà nói, cô ấy kết hôn với cậu trai đó là một việc rất bất ngờ.", "vocab": "", "breakdown": "① Tính từ: 很突然的事" },
+        { "zh": "你来得太突然了，我还没准备好呢。", "pinyin": "Nǐ lái de tài tūrán le, wǒ hái méi zhǔnbèi hǎo ne.", "vi": "Em đến bất ngờ quá, anh còn chưa chuẩn bị xong.", "vocab": "准备: chuẩn bị", "breakdown": "① Tính từ làm bổ ngữ trạng thái: 来得太突然" },
+        { "zh": "昨天晚上他突然来我家，然后什么也没说就回去了。", "pinyin": "Zuótiān wǎnshang tā tūrán lái wǒ jiā, ránhòu shénme yě méi shuō jiù huíqu le.", "vi": "Tối qua anh ấy đột nhiên đến nhà tôi, sau đó không nói năng gì đã về rồi.", "vocab": "", "breakdown": "② Phó từ: 突然 + 来" },
+        { "zh": "下午天突然下雨了。", "pinyin": "Xiàwǔ tiān tūrán xià yǔ le.", "vi": "Buổi chiều trời đột nhiên mưa rồi.", "vocab": "", "breakdown": "② Phó từ: 突然 + 下雨" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Cậu muốn một tình yêu như thế nào?" },
+        { "who": "B", "zh": "Tớ muốn một [0:爱情] giống như ông nội và [0:奶奶] của tớ, bao nhiêu năm đã qua mà [0:感情] giữa hai người vẫn đẹp như thế. Có lúc, tớ cảm thấy ông bà [0:不是] những người già đã kết hôn hơn năm chục năm, [0:而是] giống như thanh niên vừa mới kết hôn thôi." },
+        { "who": "A", "zh": "Có phải là [0:爷爷] cậu rất [0:关心] đến bà nội của cậu không?" },
+        { "who": "B", "zh": "Đúng vậy. Ông thường hay [0:讲] cho tớ nghe chuyện về lần đầu tiên ông bà gặp nhau, lúc đó bà nội có mái [0:头发] dài đen tuyền, [0:个子] gầy gầy, [0:鼻子] thẳng và cao. Bà cất lời chào, ông nghe [0:声音] của bà là thích bà liền." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Hôm qua tớ tình cờ [0:遇到] Tiểu Bạch trên đường, bạn học cũ của chúng mình ấy, cậu còn [0:记得] không?" },
+        { "who": "B", "zh": "Tiểu Bạch á? À, tớ nhớ [0:起来] rồi, bạn ấy là con gái nhà [0:邻居] sát vách với nhà tớ, hồi chúng mình mới từ cấp 2 lên [0:年级] 10, bạn ấy thầm thích cậu, chả [0:表白] với cậu hôm Valentine, còn chuẩn bị cả hoa và chocolate mà bị cậu [0:拒绝] thẳng thừng, đúng không?" },
+        { "who": "A", "zh": "Đúng vậy. Còn nhớ lúc đó bạn ấy ngại quá nên [0:脸] đỏ ửng như cà chua chín, hai [0:耳朵] cũng đỏ hết cả. Lúc đấy bạn ấy còn [0:哭] rơm rớm nữa. Chuyện qua đã lâu mà đến lúc này [0:突然] nghĩ lại tớ vẫn còn cảm thấy có lỗi với bạn ấy." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "你想要什么样的爱情？", "py": "Nǐ xiǎng yào shénme yàng de àiqíng?", "vi": "Cậu muốn một tình yêu như thế nào?" },
+        { "who": "B", "zh": "我想要像我爷爷奶奶一样的爱情，这么多年来感情还是那么好。有时候，我觉得他们[1:不是]结婚五十多年的老人，[1:而是]像刚结婚的年轻人。", "py": "Wǒ xiǎng yào xiàng wǒ yéye nǎinai yíyàng de àiqíng, zhème duōnián lái gǎnqíng háishi nàme hǎo. Yǒu shíhou, wǒ juéde tāmen [1:búshì] jiéhūn wǔshí duō nián de lǎorén, [1:érshì] xiàng gāng jiéhūn de niánqīng rén.", "vi": "Tớ muốn một tình yêu giống như ông bà nội tớ, bao nhiêu năm nay tình cảm vẫn tốt đẹp như thế. Có lúc, tớ cảm thấy ông bà [1:không giống] như những người già đã kết hôn hơn năm chục năm, [1:mà giống] như thanh niên vừa mới kết hôn thôi." },
+        { "who": "A", "zh": "你爷爷是不是很关心你奶奶？", "py": "Nǐ yéye shì búshì hěn guānxīn nǐ nǎinai?", "vi": "Có phải là ông cậu rất quan tâm đến bà cậu?" },
+        { "who": "B", "zh": "对的。爷爷常跟我讲，第一次见面时，奶奶头发长长的，个子瘦瘦的，鼻子高高的。爷爷一听奶奶说话的声音就[2:喜欢上]她了。", "py": "Duì de. Yéye cháng gēn wǒ jiǎng, dì yī cì jiàn miàn shí, nǎinai tóufa cháng cháng de, gèzi shòu shòu de, bízi gāo gāo de. Yéye yì tīng nǎinai shuō huà de shēngyīn jiù [2:xǐhuan shàng] tā le.", "vi": "Đúng vậy. Ông thường hay kể với tớ, lần đầu tiên gặp nhau, tóc bà nội dài dài, vóc dáng gầy gầy, mũi cao cao. Ông nghe thấy giọng nói của bà là [2:thích] bà liền." }
+      ],
+      "legend": [
+        { "n": 1, "label": "不是……而是……", "np": "NP 9.1" },
+        { "n": 2, "label": "喜欢上", "np": "NP 9.2" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "昨天我遇到了小白，你记得她吗？", "py": "Zuótiān wǒ yùdào le Xiǎo Bái, nǐ jìde tā ma?", "vi": "Hôm qua tớ tình cờ gặp Tiểu Bạch, cậu còn nhớ cô ấy không?" },
+        { "who": "B", "zh": "小白？啊，我[3:想起来]了，她是我们邻居的女儿。咱们上高中一年级的时候，她向你表白，但是你拒绝了，对吧？", "py": "Xiǎo Bái? À, wǒ [3:xiǎng qǐlai] le, tā shì wǒmen línjū de nǚ'ér. Zánmen shàng gāozhōng yī niánjí de shíhou, tā xiàng nǐ biǎobái, dànshì nǐ jùjué le, duì ba?", "vi": "Tiểu Bạch á? À, tớ [3:nhớ ra] rồi, cô ấy là con gái hàng xóm của chúng ta, hồi chúng mình học lớp 10, cô ấy tỏ tình với cậu, nhưng mà cậu từ chối, đúng không?" },
+        { "who": "A", "zh": "对。还记得那时她的脸和耳朵都[3:红了起来]，还哭了。现在[4:突然][3:想起来]还是觉得很对不起她。", "py": "Duì. Hái jìde nà shí tā de liǎn hé ěrduo dōu [3:hóng le qǐlai], hái kū le. Xiànzài [4:tūrán] [3:xiǎng qǐlai] háishi juéde hěn duìbuqǐ tā.", "vi": "Đúng vậy. Còn nhớ lúc đó mặt và tai cô ấy đều [3:đỏ ửng lên], cô ấy còn khóc nữa. Bây giờ [4:đột nhiên] [3:nghĩ lại] tớ vẫn cảm thấy có lỗi với cô ấy." }
+      ],
+      "legend": [
+        { "n": 3, "label": "想起来", "np": "NP 9.3" },
+        { "n": 4, "label": "突然", "np": "NP 9.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "高一 /gāo yī/ là cách nói gọn lại trong khẩu ngữ của 高中一年级 /gāozhōng yì niánjí/ - Năm thứ nhất bậc Trung học phổ thông, tương đương với lớp 10 trong hệ thống giáo dục phổ thông Việt Nam. Cách nói gọn này có thể áp dụng cho các bậc học khác, bằng cách nói [chữ đầu bậc học] + [năm học]. Ví dụ: 大二 /dà èr/ tức là Năm thứ hai Đại học."
+      }
+    }
+  ]
+}

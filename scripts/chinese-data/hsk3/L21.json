@@ -1,0 +1,140 @@
+{
+  "level": "hsk3",
+  "lesson": 46,
+  "bookLesson": 21,
+  "title": "你在看偶像的电视剧吧？",
+  "titleVi": "Bạn đang xem phim của thần tượng à?",
+  "pages": [204, 212],
+  "vocab": [
+    { "hanzi": "偶像", "pinyin": "ǒuxiàng", "pos": "dt.", "meaning": "thần tượng" },
+    { "hanzi": "红", "pinyin": "hóng", "pos": "tt.", "meaning": "nổi tiếng, hot", "hanViet": "hồng" },
+    { "hanzi": "受", "pinyin": "shòu", "pos": "đt.", "meaning": "nhận được" },
+    { "hanzi": "观众", "pinyin": "guānzhòng", "pos": "dt.", "meaning": "khán giả" },
+    { "hanzi": "喜爱", "pinyin": "xǐ'ài", "pos": "dt.", "meaning": "sự yêu thích" },
+    { "hanzi": "不得不", "pinyin": "bù dé bù", "meaning": "không thể không" },
+    { "hanzi": "演员", "pinyin": "yǎnyuán", "pos": "dt.", "meaning": "diễn viên", "hanViet": "diễn viên" },
+    { "hanzi": "穷", "pinyin": "qióng", "pos": "tt.", "meaning": "nghèo" },
+    { "hanzi": "父母", "pinyin": "fùmǔ", "pos": "dt.", "meaning": "bố mẹ", "hanViet": "phụ mẫu" },
+    { "hanzi": "艺术", "pinyin": "yìshù", "pos": "dt.", "meaning": "nghệ thuật", "hanViet": "nghệ thuật" },
+    { "hanzi": "放弃", "pinyin": "fàngqì", "pos": "đt.", "meaning": "bỏ cuộc" },
+    { "hanzi": "表演", "pinyin": "biǎoyǎn", "pos": "đt.", "meaning": "biểu diễn", "hanViet": "biểu diễn" },
+    { "hanzi": "苦练", "pinyin": "kǔliàn", "pos": "đt.", "meaning": "khổ luyện", "hanViet": "khổ luyện" },
+    { "hanzi": "成为", "pinyin": "chéngwéi", "pos": "đt.", "meaning": "trở thành" },
+    { "hanzi": "粉丝", "pinyin": "fěnsī", "pos": "dt.", "meaning": "fan" },
+    { "hanzi": "羡慕", "pinyin": "xiànmù", "pos": "đt.", "meaning": "ngưỡng mộ" },
+    { "hanzi": "为……而", "pinyin": "wèi… ér", "meaning": "vì… mà" },
+    { "hanzi": "理想", "pinyin": "lǐxiǎng", "pos": "dt.", "meaning": "lý tưởng", "hanViet": "lý tưởng" },
+    { "hanzi": "确实", "pinyin": "quèshí", "pos": "tt.", "meaning": "thực sự", "hanViet": "xác thực" },
+    { "hanzi": "愉快", "pinyin": "yúkuài", "pos": "đt.", "meaning": "vui vẻ" }
+  ],
+  "expand": [
+    { "hanzi": "艺人", "pinyin": "yìrén", "meaning": "Nghệ sĩ" },
+    { "hanzi": "娱乐圈", "pinyin": "yúlè quān", "meaning": "Showbiz" },
+    { "hanzi": "记者发布会", "pinyin": "jìzhě fābù huì", "meaning": "Họp báo" },
+    { "hanzi": "狂粉", "pinyin": "kuáng fěn", "meaning": "Fan cuồng" },
+    { "hanzi": "主角", "pinyin": "zhǔjiǎo", "meaning": "Vai chính" },
+    { "hanzi": "编剧", "pinyin": "biānjù", "meaning": "Biên kịch" },
+    { "hanzi": "剧本", "pinyin": "jùběn", "meaning": "Kịch bản" },
+    { "hanzi": "绯闻", "pinyin": "fēiwén", "meaning": "Scandal" }
+  ],
+  "tree": {
+    "hanzi": "演",
+    "pinyin": "yǎn",
+    "meaning": "Diễn",
+    "words": [
+      { "hanzi": "演说", "pinyin": "yǎnshuō", "meaning": "Diễn thuyết" },
+      { "hanzi": "演奏", "pinyin": "yǎnzòu", "meaning": "Diễn tấu" },
+      { "hanzi": "导演", "pinyin": "dǎoyǎn", "meaning": "Đạo diễn" },
+      { "hanzi": "演习", "pinyin": "yǎnxí", "meaning": "Diễn tập" },
+      { "hanzi": "公演", "pinyin": "gōngyǎn", "meaning": "Công diễn" },
+      { "hanzi": "演绎", "pinyin": "yǎnyì", "meaning": "Diễn dịch" },
+      { "hanzi": "演变", "pinyin": "yǎnbiàn", "meaning": "Diễn biến" },
+      { "hanzi": "演出", "pinyin": "yǎnchū", "meaning": "Diễn xuất" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "21.1",
+      "hanzi": "不得不",
+      "pinyin": "bùdébù",
+      "meaning": "không thể không (bất đắc dĩ phải làm)",
+      "note": "Nghĩa: hành động được làm một cách không tình nguyện, bất đắc dĩ mới phải làm, dịch là \"không thể không\"",
+      "theory": "Cụm từ 不得不 /bùdébù/ thể hiện hành động được làm một cách không tình nguyện, bất đắc dĩ mới phải làm, thường dịch là \"không thể không\".",
+      "examples": [
+        { "zh": "想写出内容丰富的书，你不得不读很多书。", "pinyin": "Xiǎng xiě chū nèiróng fēngfù de shū, nǐ bùdébù dú hěn duō shū.", "vi": "Muốn viết sách có nội dung phong phú, bạn không thể không đọc nhiều sách.", "vocab": "", "breakdown": "不得不 + 读…" },
+        { "zh": "现在经济压力很大，所以女生们不得不出来工作赚钱。", "pinyin": "Xiànzài jīngjì yālì hěn dà, suǒyǐ nǚshēngmen bùdébù chūlai gōngzuò zhuànqián.", "vi": "Hiện nay áp lực kinh tế rất lớn, vì vậy phụ nữ không thể không ra ngoài làm việc kiếm tiền.", "vocab": "", "breakdown": "不得不 + 出来工作…" }
+      ]
+    },
+    {
+      "np": "21.2",
+      "hanzi": "为……而……",
+      "pinyin": "wèi…… ér……",
+      "meaning": "vì… mà… (mục đích của hành động)",
+      "note": "Cấu trúc: 为 + mục đích + 而 + hành động · Nghĩa: sau 为 là mục đích của hành động, sau 而 là hành động, dịch là \"vì… mà…\"",
+      "theory": "Với cấu trúc 为…而… /wèi… ér…/, sau 为 thể hiện mục đích của hành động, sau 而 biểu thị hành động, thường dịch là \"vì… mà…\".",
+      "examples": [
+        { "zh": "她为她的偶像而去学汉语的。", "pinyin": "Tā wèi tā de ǒuxiàng ér qù xué Hànyǔ de.", "vi": "Cô ấy vì thần tượng của cô ấy mà học Tiếng Trung.", "vocab": "", "breakdown": "为 + 她的偶像 + 而 + 去学汉语" },
+        { "zh": "他为成为一个好演员而去学表演的。", "pinyin": "Tā wèi chéngwéi yí ge hǎo yǎnyuán ér qù xué biǎoyǎn de.", "vi": "Anh ấy vì muốn trở một diễn viên giỏi mà đi học biểu diễn.", "vocab": "", "breakdown": "为 + 成为好演员 + 而 + 去学表演" }
+      ]
+    },
+    {
+      "np": "21.3",
+      "hanzi": "百分之 + Con số",
+      "pinyin": "bǎi fēn zhī",
+      "meaning": "cách diễn đạt số phần trăm (%)",
+      "note": "Cấu trúc: 百分之 + Con số = % · Ví dụ: 5% = 百分之五 (bǎi fēn zhī wǔ), 68% = 百分之六十八 (bǎi fēn zhī liù shí bā), 100% = 百分之百 (bǎi fēn zhī bǎi)",
+      "theory": "百分之 /bǎi fēn zhī/ + Con số là cụm từ dùng để diễn tả phần trăm % trong Tiếng Trung.\n\n5% → 百分之五 /bǎi fēn zhī wǔ/\n68% → 百分之六十八 /bǎi fēn zhī liù shí bā/\n100% → 百分之百 /bǎi fēn zhī bǎi/",
+      "examples": [
+        { "zh": "教授说的话你听懂百分之多少？百分之七八十左右吧。", "pinyin": "Jiàoshòu shuō dehuà nǐ tīng dǒng bǎi fēn zhī duōshao? Bǎi fēn zhī qībāshí zuǒyòu ba.", "vi": "Lời giáo sư nói cậu nghe hiểu bao nhiêu phần trăm? Khoảng 70-80%.", "vocab": "", "breakdown": "百分之 + 七八十" },
+        { "zh": "今年选择经济专业的学生只有百分之二十五，比去年少了很多。", "pinyin": "Jīnnián xuǎnzé jīngjì zhuānyè de xuéshēng zhǐyǒu bǎi fēn zhī èrshíwǔ, bǐ qùnián shǎo le hěn duō.", "vi": "Năm nay học sinh chọn lựa chuyên ngành kinh tế chỉ có 25%, ít hơn năm trước nhiều.", "vocab": "去年: năm ngoái", "breakdown": "百分之 + 二十五" }
+      ]
+    },
+    {
+      "np": "21.4",
+      "hanzi": "确实",
+      "pinyin": "quèshí",
+      "meaning": "thực sự",
+      "note": "Loại từ: phó từ · Nghĩa: sự xác thực của sự vật, sự việc, dịch là \"thực sự\"",
+      "theory": "Phó từ 确实 /quèshí/ thể hiện sự xác thực của sự vật, sự việc, thường dịch là \"thực sự\".",
+      "examples": [
+        { "zh": "这个字确实很熟悉，但是我想不起来是什么字了。", "pinyin": "Zhè ge zì quèshí hěn shúxī, dànshì wǒ xiǎng bù qǐlai shì shénme zì le.", "vi": "Cái chữ này thực sự là rất quen, nhưng tớ không nhớ ra được là chữ gì.", "vocab": "", "breakdown": "确实 + 很熟悉" },
+        { "zh": "面试的时候他给我的印象确实很不错，我同意给他一个机会。", "pinyin": "Miànshì de shíhou tā gěi wǒ de yìnxiàng quèshí hěn búcuò, wǒ tóngyì gěi tā yí ge jīhuì.", "vi": "Lúc phỏng vấn cậu ấy để lại ấn tượng cho tôi thực sự khá tốt, tôi đồng ý cho cậu ấy một cơ hội.", "vocab": "", "breakdown": "确实 + 很不错" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Bạn đang xem phim truyền hình của [0:偶像] mà bạn hâm mộ à?" },
+        { "who": "B", "zh": "Đúng rồi, bộ này đang rất [0:红], còn [0:受] được sự [0:喜爱] của [0:观众] khắp cả nước." },
+        { "who": "A", "zh": "Tại sao bạn thích anh ấy đến vậy?" },
+        { "who": "B", "zh": "Sau khi nghe tớ kể câu chuyện của anh ấy, bạn [0:不得不] yêu quý anh ấy. Từ nhỏ anh ấy đã thích nghệ thuật và trở thành [0:演员] để được đóng phim, nhưng gia cảnh [0:穷], chạy ăn từng bữa, [0:父母] không đồng ý cho anh ấy theo học ngành [0:艺术]. Nhưng anh ấy chưa từng [0:放弃], vừa làm việc để kiếm tiền, vừa học [0:表演]. Sau nhiều năm [0:苦练], anh ấy cuối cùng đã [0:成为] một diễn viên nổi tiếng." },
+        { "who": "A", "zh": "Nghe những gì bạn nói, tớ đã dần trở thành [0:粉丝] của anh ấy rồi. Tớ rất [0:羡慕] những người không ngừng nỗ lực vì [0:理想] mà họ luôn đau đáu hướng tới." },
+        { "who": "B", "zh": "Tớ cũng vậy, thành công có được [0:确实] là nhờ đến 99% trên tổng [0:百分] nỗ lực của chính mình. Tôi học được rất nhiều điều từ anh ấy, người trẻ trước hết phải hiểu mình muốn gì, thứ hai là kiên định với lựa chọn của mình, không được dễ dàng từ bỏ. Có như vậy mỗi ngày mới có thể trôi qua [0:愉快]." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "你在看偶像的电视剧吧？", "py": "Nǐ zài kàn ǒuxiàng de diànshìjù ba?", "vi": "Bạn đang xem phim truyền hình của thần tượng à?" },
+        { "who": "B", "zh": "对啊，这部现在很红，受到全国观众的喜爱。", "py": "Duì a, zhè bù xiànzài hěn hóng, shòudào quánguó guānzhòng de xǐ'ài.", "vi": "Đúng rồi, bộ này đang rất nổi tiếng, được khán giả cả nước yêu thích." },
+        { "who": "A", "zh": "你为什么这么喜欢他呢？", "py": "Nǐ wèishénme zhème xǐhuan tā ne?", "vi": "Tại sao bạn thích anh ấy đến vậy?" },
+        { "who": "B", "zh": "听我讲他的故事后，你[1:不得不]爱上他。他从小就喜欢当演员，但家里很穷，他父母不让他学艺术。但他从来没放弃过，每天都一边工作赚钱一边学表演。经过多年苦练，他终于成为著名演员。", "py": "Tīng wǒ jiǎng tā de gùshi hòu, nǐ [1:bù dé bú] ài shàng tā. Tā cóngxiǎo jiù xǐhuan dāng yǎnyuán, dàn jiālǐ hěn qióng, tā fùmǔ bú ràng tā xué yìshù. Dàn tā cónglái méi fàngqì guo, měitiān dōu yìbiān gōngzuò zhuàn qián yìbiān xué biǎoyǎn. Jīngguò duōnián kǔliàn, tā zhōngyú chéngwéi zhùmíng yǎnyuán.", "vi": "Sau khi nghe tớ kể câu chuyện của anh ấy, bạn [1:nhất định] sẽ yêu anh ấy. Anh ấy từ nhỏ đã thích trở thành diễn viên, nhưng gia đình anh ấy rất nghèo, bố mẹ anh ấy không cho anh ấy theo học nghệ thuật. Nhưng anh ấy trước nay chưa từng bỏ cuộc, mỗi ngày vừa làm việc để kiếm tiền vừa học diễn xuất. Sau nhiều năm khổ luyện, anh ấy cuối cùng đã trở thành một diễn viên nổi tiếng." },
+        { "who": "A", "zh": "听你这么一说，我也慢慢成为他的粉丝了。我很羡慕能[2:为]自己的理想[2:而]不停努力的人。", "py": "Tīng nǐ zhème yì shuō, wǒ yě màn màn chéngwéi tā de fěnsī le. Wǒ hěn xiànmù néng [2:wèi] zìjǐ de lǐxiǎng [2:ér] bù tíng nǔlì de rén.", "vi": "Nghe những gì bạn nói, tớ đã dần trở thành fan của anh ấy rồi. Tớ rất ngưỡng mộ những người không ngừng nỗ lực [2:vì] lý tưởng của họ." },
+        { "who": "B", "zh": "我也是，一个人成功的[3:百分之九十九][4:确实]是靠自己的努力。我从他身上学到很多东西，年轻人首先要了解自己想要什么，其次是坚持自己的选择，不要容易放弃。这样每天才能过得愉快。", "py": "Wǒ yěshì, yí ge rén chénggōng de [3:bǎi fēn zhī jiǔshíjiǔ] [4:quèshí] shì kào zìjǐ de nǔlì. Wǒ cóng tā shēnshang xué dào hěn duō dōngxi, niánqīng rén shǒuxiān yào liǎojiě zìjǐ xiǎng yào shénme, qícì shì jiānchí zìjǐ de xuǎnzé, búyào róngyì fàngqì. Zhèyàng měitiān cáinéng guò de yúkuài.", "vi": "Tớ cũng vậy, [4:thực sự] thì [3:chín mươi chín phần trăm] thành công đạt được là nhờ nỗ lực của chính mình. Tôi học được rất nhiều điều từ anh ấy, người trẻ trước hết phải hiểu mình muốn gì, thứ hai là kiên định với lựa chọn của mình, không được dễ dàng từ bỏ. Có như vậy mỗi ngày mới có thể trôi qua vui vẻ." }
+      ],
+      "legend": [
+        { "n": 1, "label": "不得不", "np": "NP 21.1" },
+        { "n": 2, "label": "为…而…", "np": "NP 21.2" },
+        { "n": 3, "label": "百分之", "np": "NP 21.3" },
+        { "n": 4, "label": "确实", "np": "NP 21.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "Cấu trúc 受…的喜爱 /shòu… de xǐ'ài/, 受…的欢迎 /shòu… de huānyíng/ biểu đạt ý nhận được sự yêu quý, đón chào của ai, 受 /shòu/ mang nghĩa \"nhận, được\", thường đi cùng tân ngữ là những điều trừu tượng (giáo dục, chào mừng, yêu thích…)."
+      }
+    }
+  ]
+}

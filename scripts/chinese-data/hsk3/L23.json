@@ -1,0 +1,121 @@
+{
+  "level": "hsk3",
+  "lesson": 48,
+  "bookLesson": 23,
+  "title": "互联网的发展",
+  "titleVi": "Sự phát triển của internet",
+  "pages": [221, 228],
+  "vocab": [
+    { "hanzi": "现代", "pinyin": "xiàndài", "pos": "tt.", "meaning": "hiện đại", "hanViet": "hiện đại" },
+    { "hanzi": "互联网", "pinyin": "hùliánwǎng", "pos": "dt.", "meaning": "mạng internet" },
+    { "hanzi": "发展", "pinyin": "fāzhǎn", "pos": "đt.", "meaning": "phát triển", "hanViet": "phát triển" },
+    { "hanzi": "网站", "pinyin": "wǎngzhàn", "pos": "dt.", "meaning": "trang web" },
+    { "hanzi": "人们", "pinyin": "rénmen", "pos": "dt.", "meaning": "mọi người" },
+    { "hanzi": "日记", "pinyin": "rìjì", "pos": "dt.", "meaning": "nhật ký", "hanViet": "nhật ký" },
+    { "hanzi": "约会", "pinyin": "yuēhuì", "pos": "đt.", "meaning": "hẹn hò" },
+    { "hanzi": "普遍", "pinyin": "pǔbiàn", "pos": "tt.", "meaning": "phổ biến", "hanViet": "phổ biến" },
+    { "hanzi": "甚至", "pinyin": "shènzhì", "pos": "phó.", "meaning": "thậm chí", "hanViet": "thậm chí" },
+    { "hanzi": "使", "pinyin": "shǐ", "pos": "giới.", "meaning": "khiến" },
+    { "hanzi": "方式", "pinyin": "fāngshì", "pos": "dt.", "meaning": "phương thức", "hanViet": "phương thức" },
+    { "hanzi": "发生", "pinyin": "fāshēng", "pos": "đt.", "meaning": "xảy ra", "hanViet": "phát sinh" },
+    { "hanzi": "词语", "pinyin": "cíyǔ", "pos": "dt.", "meaning": "từ ngữ", "hanViet": "từ ngữ" },
+    { "hanzi": "俩", "pinyin": "liǎ", "pos": "số.", "meaning": "hai", "hanViet": "lưỡng" },
+    { "hanzi": "作者", "pinyin": "zuòzhě", "pos": "dt.", "meaning": "tác giả", "hanViet": "tác giả" },
+    { "hanzi": "火", "pinyin": "huǒ", "pos": "tt.", "meaning": "hot", "hanViet": "hỏa" },
+    { "hanzi": "既", "pinyin": "jì", "pos": "liên.", "meaning": "đã" },
+    { "hanzi": "纸", "pinyin": "zhǐ", "pos": "dt.", "meaning": "giấy" },
+    { "hanzi": "保护", "pinyin": "bǎohù", "pos": "đt.", "meaning": "bảo vệ", "hanViet": "bảo hộ" }
+  ],
+  "expand": [
+    { "hanzi": "交网友", "pinyin": "jiāo wǎngyǒu", "meaning": "Kết bạn qua mạng" },
+    { "hanzi": "网购", "pinyin": "wǎnggòu", "meaning": "Mua sắm online" },
+    { "hanzi": "网上支付", "pinyin": "wǎngshàng zhīfù", "meaning": "Thanh toán online" },
+    { "hanzi": "上网课", "pinyin": "shàng wǎngkè", "meaning": "Học online" },
+    { "hanzi": "注册", "pinyin": "zhùcè", "meaning": "Đăng ký" },
+    { "hanzi": "账号", "pinyin": "zhànghào", "meaning": "Tài khoản" },
+    { "hanzi": "登录", "pinyin": "dēnglù", "meaning": "Đăng nhập" },
+    { "hanzi": "退出", "pinyin": "tuìchū", "meaning": "Đăng xuất" }
+  ],
+  "tree": {
+    "hanzi": "保",
+    "pinyin": "bǎo",
+    "meaning": "Bảo",
+    "words": [
+      { "hanzi": "保管", "pinyin": "bǎoguǎn", "meaning": "Bảo quản" },
+      { "hanzi": "保密", "pinyin": "bǎomì", "meaning": "Bảo mật" },
+      { "hanzi": "保姆", "pinyin": "bǎomǔ", "meaning": "Bảo mẫu" },
+      { "hanzi": "保险", "pinyin": "bǎoxiǎn", "meaning": "Bảo hiểm" },
+      { "hanzi": "保守", "pinyin": "bǎoshǒu", "meaning": "Bảo thủ" },
+      { "hanzi": "保存", "pinyin": "bǎocún", "meaning": "Bảo tồn" },
+      { "hanzi": "保养", "pinyin": "bǎoyǎng", "meaning": "Bảo dưỡng" },
+      { "hanzi": "保持", "pinyin": "bǎochí", "meaning": "Bảo trì" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "23.1",
+      "hanzi": "甚至",
+      "pinyin": "shènzhì",
+      "meaning": "thậm chí (nhấn mạnh, làm nổi bật ý kiến)",
+      "note": "Loại từ: phó từ · Nghĩa: sự nhấn mạnh, nhằm nổi bật ý kiến đi theo nó, dịch là \"thậm chí\"",
+      "theory": "Phó từ 甚至 /shènzhì/ thể hiện sự nhấn mạnh, nhằm nổi bật ý kiến đi theo nó, thường dịch là \"thậm chí\".",
+      "examples": [
+        { "zh": "今天的作业很难，甚至连小美也不会做。", "pinyin": "Jīntiān de zuòyè hěn nán, shènzhì lián Xiǎo Měi yě bú huì zuò.", "vi": "Bài tập hôm nay rất khó, thậm chí đến Tiểu Mỹ cũng không biết làm.", "vocab": "", "breakdown": "甚至 + 连…也…" },
+        { "zh": "她很爱看书，甚至坐公交车时也会拿着书看。", "pinyin": "Tā hěn ài kànshū, shènzhì zuò gōngjiāo chē shí yě huì ná zhe shū kàn.", "vi": "Cô ấy rất thích đọc, thậm chí ngồi trên xe bus cũng cầm sách đọc.", "vocab": "公交车: xe buýt", "breakdown": "甚至 + … 也…" }
+      ]
+    },
+    {
+      "np": "23.2",
+      "hanzi": "叫 / 让 / 使 (câu kiêm ngữ)",
+      "pinyin": "jiào / ràng / shǐ",
+      "meaning": "câu kiêm ngữ: ai đó khiến / yêu cầu ai đó làm gì",
+      "note": "Cấu trúc: Chủ + Động 1 (叫 / 让 / 使) + Tân 1 (Kiêm ngữ) + Động 2 (+ Tân 2) · Nghĩa: \"ai đó khiến / yêu cầu ai đó làm gì\" · Lưu ý: luôn có hai động từ; động từ thứ nhất là 叫 / 让 / 使",
+      "theory": "Câu kiêm ngữ dùng để thể hiện ý \"ai đó khiến / yêu cầu ai đó làm gì\". Kiểu câu này luôn có hai động từ, động từ thứ nhất thường là: 叫 /jiào/, 让 /ràng/, 使 /shǐ/ đứng ngay sau chủ ngữ, động từ thứ hai đứng sau tân ngữ chỉ đối tượng bị yêu cầu thực hiện (hay còn gọi là kiêm ngữ).\n\nCấu trúc: Chủ + Động 1 (叫 / 让 / 使) + Tân 1 (Kiêm ngữ) + Động 2 (+ Tân 2)",
+      "examples": [
+        { "zh": "你叫他下来吃饭吧。", "pinyin": "Nǐ jiào tā xiàlai chī fàn ba.", "vi": "Cậu gọi anh ấy xuống ăn cơm đi.", "vocab": "", "breakdown": "叫 + 他 (kiêm ngữ) + 下来吃饭" },
+        { "zh": "他让我告诉你这件事。", "pinyin": "Tā ràng wǒ gàosù nǐ zhè jiàn shì.", "vi": "Anh ấy bảo tôi nói với bạn chuyện này.", "vocab": "", "breakdown": "让 + 我 (kiêm ngữ) + 告诉…" },
+        { "zh": "经理使我两天内完成这个任务。", "pinyin": "Jīnglǐ shǐ wǒ liǎng tiān nèi wánchéng zhè ge rènwù.", "vi": "Giám đốc yêu cầu tôi trong hai ngày hoàn thành nhiệm vụ này.", "vocab": "", "breakdown": "使 + 我 (kiêm ngữ) + 完成…" }
+      ]
+    },
+    {
+      "np": "23.3",
+      "hanzi": "既……又 / 也 / 还……",
+      "pinyin": "jì…… yòu / yě / hái……",
+      "meaning": "vừa… vừa… (hai tính chất tồn tại đồng thời)",
+      "note": "Cấu trúc: Chủ + 既 + Tính / Động + 又 / 也 / 还 + Tính / Động · Nghĩa: hai tính chất, hai trạng thái tồn tại đồng thời của sự vật, sự việc, dịch là \"vừa… vừa…\"",
+      "theory": "Cấu trúc 既 /jì/… 又 /yòu/ / 也 /yě/ / 还 /hái/… diễn đạt hai tính chất, hai trạng thái tồn tại đồng thời của sự vật, sự việc, thường dịch là \"vừa… vừa…\".\n\nCấu trúc: Chủ + 既 + Tính / Động + 又 / 也 / 还 + Tính / Động",
+      "examples": [
+        { "zh": "读书对每个人都很好，读书既可以获得知识，又可以获得快乐。", "pinyin": "Dúshū duì měigerén dōu hěn hǎo, dúshū jì kěyǐ huòdé zhīshi, yòu kěyǐ huòdé kuàilè.", "vi": "Đọc sách tốt cho tất cả mọi người, vừa có thể thu lượm kiến thức, vừa cảm thấy vui vẻ.", "vocab": "获得: thu được", "breakdown": "既 + 可以… 又 + 可以…" },
+        { "zh": "微信既快也方便，用微信既可以联系朋友还可以购物，多好啊！", "pinyin": "Wēixìn jì kuài yě fāngbiàn, yòng wēixìn jì kěyǐ liánxì péngyou hái kěyǐ gòuwù, duō hǎo a!", "vi": "Wechat vừa nhanh vừa tiện, dùng Wechat vừa có thể liên lạc bạn bè còn có thể mua đồ, tốt quá!", "vocab": "", "breakdown": "既 + 快 + 也 + 方便; 既… 还…" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Điện thoại của tớ lại không thấy đâu rồi, phải làm sao đây?" },
+        { "who": "B", "zh": "Người hiện đại ơi là người [0:现代], ngày càng không thể tách rời điện thoại di động ra rồi đấy." },
+        { "who": "A", "zh": "Còn phải nói, sự [0:发展] không ngừng của [0:互联网] đã mang lại cho chúng ta bao tiện ích. Chỉ cần sử dụng một chiếc điện thoại di động nho nhỏ để mở app, mở trình duyệt để truy cập vào các [0:网站], là bạn đã có thể xem tin tức, nghe nhạc, xem phim, đọc tiểu thuyết, chơi game, v.v… Giờ đây, [0:人们] không chỉ có thể lên mạng viết [0:日记] ghi lại cảm xúc mỗi ngày, mà việc [0:约会] với người khác trên mạng cũng trở nên [0:普遍], [0:甚至] còn có thể tỏ tình với thần tượng của mình." },
+        { "who": "B", "zh": "Tất nhiên tớ biết điều này, bởi vì internet cũng đã [0:使] cho [0:方式] học tập của học sinh [0:发生] rất nhiều thay đổi. Học ngoại ngữ giờ đến từ điển cũng chẳng cần dùng, hầu hết các [0:词语] đều có thể tra trực tuyến, thực sự thuận tiện hơn nhiều so với thời mà [0:俩] chúng ta còn đi học." },
+        { "who": "A", "zh": "Đúng đấy. Cũng có rất nhiều [0:作者] viết tiểu thuyết trên mạng, nhờ tốc độ lan truyền mạnh mà tiếng tăm [0:火] lên rất nhanh. Điều này [0:既] giúp dễ dàng viết ra câu truyện, còn vừa tiết kiệm [0:纸], giúp [0:保护] môi trường." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "我的手机又不见了，怎么办？", "py": "Wǒ de shǒujī yòu bú jiàn le, zěnmebàn?", "vi": "Điện thoại của tớ lại không thấy đâu rồi, phải làm sao đây?" },
+        { "who": "B", "zh": "现代人啊现代人，越来越离不开手机了。", "py": "Xiàndài rén a xiàndài rén, yuè lái yuè lí bu kāi shǒujī le.", "vi": "Người hiện đại ơi là người hiện đại, ngày càng không thể tách rời điện thoại di động ra rồi đấy." },
+        { "who": "A", "zh": "可不是嘛，互联网的发展给我们带来很多方便。只要使用小小的手机打开网站，就可以看新闻，听音乐，看电影，读小说，玩儿游戏等。现在，人们不仅可以在网上写日记，而且在网上与别人约会也很普遍，[1:甚至]还可以向偶像表白呢。", "py": "Kě búshì ma, hùliánwǎng de fāzhǎn gěi wǒmen dài lái hěn duō fāngbiàn. Zhǐyào shǐyòng xiǎo xiǎo de shǒujī dǎ kāi wǎngzhàn, jiù kěyǐ kàn xīnwén, tīng yīnyuè, kàn diànyǐng, dú xiǎoshuō, wánr yóuxì děng. Xiànzài, rénmen bùjǐn kěyǐ zài wǎngshang xiě rìjì, érqiě zài wǎngshang yǔ biérén yuēhuì yě hěn pǔbiàn, [1:shènzhì] hái kěyǐ xiàng ǒuxiàng biǎobái ne.", "vi": "Còn phải nói, sự phát triển của internet đã mang lại cho chúng ta bao tiện ích. Chỉ cần sử dụng một chiếc điện thoại di động nho nhỏ để mở trang web, bạn có thể xem tin tức, nghe nhạc, xem phim, đọc tiểu thuyết, chơi game, v.v… Giờ đây, mọi người không chỉ có thể viết nhật ký trên mạng, mà việc hẹn hò với người khác trên mạng cũng trở nên phổ biến, [1:thậm chí] còn có thể tỏ tình với thần tượng của mình." },
+        { "who": "B", "zh": "这我当然知道，因为互联网也[2:使]学生们的学习方式发生了很多变化。学外语时连词典也不用了，大部分词语都能在网上查，确实比我们俩上学的时候方便多了。", "py": "Zhè wǒ dāngrán zhīdao, yīnwèi hùliánwǎng yě [2:shǐ] xuéshēngmen de xuéxí fāngshì fāshēng le hěn duō biànhuà. Xué wàiyǔ shí lián cídiǎn yě búyòng le, dà bùfen cíyǔ dōu néng zài wǎngshang chá, quèshí bǐ wǒmen liǎ shàng xué de shíhou fāngbiàn duō le.", "vi": "Tất nhiên tớ biết điều này, bởi vì internet cũng đã [2:khiến] cho cách học của học sinh thay đổi rất nhiều. Học ngoại ngữ giờ đến từ điển cũng chẳng cần dùng, hầu hết các từ đều có thể tra trực tuyến, thực sự thuận tiện hơn nhiều so với thời hai chúng ta còn đi học." },
+        { "who": "A", "zh": "对啊。还有很多作者在网上写小说，非常火。这样[3:既]能容易写出故事，[3:还]能节约用纸，保护环境。", "py": "Duì a. Hái yǒu hěn duō zuòzhě zài wǎngshang xiě xiǎoshuō, fēicháng huǒ. Zhèyàng [3:jì] néng róngyì xiě chū gùshi, [3:hái] néng jiéyuē yòng zhǐ, bǎohù huánjìng.", "vi": "Đúng đấy. Cũng có rất nhiều tác giả viết tiểu thuyết trên mạng, rất được yêu thích. Điều này [3:vừa] giúp dễ dàng viết ra câu truyện, [3:còn vừa] tiết kiệm giấy và bảo vệ môi trường." }
+      ],
+      "legend": [
+        { "n": 1, "label": "甚至", "np": "NP 23.1" },
+        { "n": 2, "label": "使", "np": "NP 23.2" },
+        { "n": 3, "label": "既…还…", "np": "NP 23.3" }
+      ]
+    }
+  ]
+}

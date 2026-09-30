@@ -1,0 +1,149 @@
+{
+  "level": "hsk3",
+  "lesson": 35,
+  "bookLesson": 10,
+  "title": "靠关系找工作是以前的事了",
+  "titleVi": "Dựa vào quan hệ để tìm việc là chuyện của trước đây rồi",
+  "pages": [104, 112],
+  "vocab": [
+    { "hanzi": "南", "pinyin": "nán", "pos": "dt.", "meaning": "phía Nam", "hanViet": "nam" },
+    { "hanzi": "电子邮件", "pinyin": "diànzǐ yóujiàn", "pos": "cụm.", "meaning": "thư điện tử" },
+    { "hanzi": "面试", "pinyin": "miànshì", "pos": "đt.", "meaning": "phỏng vấn" },
+    { "hanzi": "有名", "pinyin": "yǒumíng", "pos": "tt.", "meaning": "nổi tiếng", "hanViet": "hữu danh" },
+    { "hanzi": "害怕", "pinyin": "hàipà", "pos": "đt.", "meaning": "sợ" },
+    { "hanzi": "棒", "pinyin": "bàng", "pos": "tt.", "meaning": "giỏi" },
+    { "hanzi": "靠", "pinyin": "kào", "pos": "đt.", "meaning": "dựa vào" },
+    { "hanzi": "关系", "pinyin": "guānxi", "pos": "dt.", "meaning": "mối quan hệ", "hanViet": "quan hệ" },
+    { "hanzi": "愿意", "pinyin": "yuànyì", "pos": "đt.", "meaning": "bằng lòng, đồng ý", "hanViet": "nguyện ý" },
+    { "hanzi": "认为", "pinyin": "rènwéi", "pos": "đt.", "meaning": "cho rằng" },
+    { "hanzi": "根据", "pinyin": "gēnjù", "pos": "giới., dt.", "meaning": "dựa theo, căn cứ", "hanViet": "căn cứ" },
+    { "hanzi": "加油", "pinyin": "jiāyóu", "pos": "đt.", "meaning": "cố gắng" },
+    { "hanzi": "回答", "pinyin": "huídá", "pos": "đt.", "meaning": "trả lời", "hanViet": "hồi đáp" },
+    { "hanzi": "考虑", "pinyin": "kǎolǜ", "pos": "đt.", "meaning": "suy nghĩ" },
+    { "hanzi": "经理", "pinyin": "jīnglǐ", "pos": "dt.", "meaning": "Giám đốc" },
+    { "hanzi": "开会", "pinyin": "kāihuì", "pos": "đt.", "meaning": "họp", "hanViet": "khai hội" },
+    { "hanzi": "要求", "pinyin": "yāoqiú", "pos": "dt.", "meaning": "yêu cầu", "hanViet": "yêu cầu" },
+    { "hanzi": "解决", "pinyin": "jiějué", "pos": "đt.", "meaning": "giải quyết", "hanViet": "giải quyết" },
+    { "hanzi": "事情", "pinyin": "shìqing", "pos": "dt.", "meaning": "việc", "hanViet": "sự tình" },
+    { "hanzi": "完成", "pinyin": "wánchéng", "pos": "đt.", "meaning": "hoàn thành", "hanViet": "hoàn thành" },
+    { "hanzi": "加班", "pinyin": "jiābān", "pos": "đt.", "meaning": "tăng ca" }
+  ],
+  "expand": [
+    { "hanzi": "项目", "pinyin": "xiàngmù", "meaning": "Dự án" },
+    { "hanzi": "合作伙伴", "pinyin": "hézuò huǒbàn", "meaning": "Đối tác" },
+    { "hanzi": "竞争对手", "pinyin": "jìngzhēng duìshǒu", "meaning": "Đối thủ cạnh tranh" },
+    { "hanzi": "招待", "pinyin": "zhāodài", "meaning": "Chiêu đãi" },
+    { "hanzi": "打卡", "pinyin": "dǎkǎ", "meaning": "Quẹt thẻ, chấm công" },
+    { "hanzi": "打印", "pinyin": "dǎyìn", "meaning": "In ấn" },
+    { "hanzi": "复印", "pinyin": "fùyìn", "meaning": "Photocopy" },
+    { "hanzi": "打字", "pinyin": "dǎzì", "meaning": "Đánh máy" }
+  ],
+  "tree": {
+    "hanzi": "想",
+    "pinyin": "xiǎng",
+    "meaning": "Tưởng",
+    "words": [
+      { "hanzi": "感想", "pinyin": "gǎnxiǎng", "meaning": "Cảm tưởng" },
+      { "hanzi": "理想", "pinyin": "lǐxiǎng", "meaning": "Lý tưởng" },
+      { "hanzi": "幻想", "pinyin": "huànxiǎng", "meaning": "Huyễn tưởng" },
+      { "hanzi": "联想", "pinyin": "liánxiǎng", "meaning": "Liên tưởng" },
+      { "hanzi": "梦想", "pinyin": "mèngxiǎng", "meaning": "Mộng tưởng" },
+      { "hanzi": "回想", "pinyin": "huíxiǎng", "meaning": "Hồi tưởng" },
+      { "hanzi": "假想", "pinyin": "jiǎxiǎng", "meaning": "Giả tưởng" },
+      { "hanzi": "思想", "pinyin": "sīxiǎng", "meaning": "Tư tưởng" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "10.1",
+      "hanzi": "认为",
+      "pinyin": "rènwéi",
+      "meaning": "cho rằng (phán đoán thận trọng, khẳng định)",
+      "note": "Loại từ: động từ · Nghĩa: phán đoán thận trọng hoặc chính diện, đã qua suy xét, ngữ khí khẳng định, nghiêm túc, dịch là \"cho rằng\"",
+      "theory": "Động từ 认为 /rènwéi/ biểu thị những phán đoán thận trọng hoặc chính diện, đã qua suy xét, có ngữ khí khẳng định, nghiêm túc; thường dịch là \"cho rằng\".",
+      "examples": [
+        { "zh": "小陈一直认为他是最棒的。", "pinyin": "Xiǎo Chén yìzhí rènwéi tā shì zuì bàng de.", "vi": "Tiểu Trần luôn nghĩ mình là người giỏi nhất.", "vocab": "一直: luôn luôn", "breakdown": "认为 + 他是最棒的" },
+        { "zh": "这么好的房子，我认为你的老婆一定很喜欢。", "pinyin": "Zhème hǎo de fángzi, wǒ rènwéi nǐ de lǎopó yídìng hěn xǐhuan.", "vi": "Căn nhà tốt thế này, tôi cho rằng vợ anh sẽ rất thích nó.", "vocab": "", "breakdown": "我认为 + nhận định" }
+      ]
+    },
+    {
+      "np": "10.2",
+      "hanzi": "根据",
+      "pinyin": "gēnjù",
+      "meaning": "dựa vào, dựa theo, theo như",
+      "note": "Loại từ: giới từ · Nghĩa: dẫn ra tiền đề hoặc cơ sở của sự việc hoặc động tác, hành vi, dịch là \"dựa vào, dựa theo, theo như\"",
+      "theory": "Giới từ 根据 /gēnjù/ dùng để dẫn ra tiền đề hoặc cơ sở của sự việc hoặc động tác, hành vi, thường dịch là \"dựa vào, dựa theo, theo như\".",
+      "examples": [
+        { "zh": "根据学校的要求，明天我们要早来半个小时。", "pinyin": "Gēnjù xuéxiào de yāoqiú, míngtiān wǒmen yào zǎo lái bàn ge xiǎoshí.", "vi": "Theo yêu cầu của nhà trường, ngày mai chúng tôi cần đến sớm nửa tiếng đồng hồ.", "vocab": "", "breakdown": "根据 + 学校的要求" },
+        { "zh": "根据网上说的，这个药应该是吃完饭后才能吃。", "pinyin": "Gēnjù wǎngshang shuō de, zhè ge yào yīnggāi shì chī wán fàn hòu cáinéng chī.", "vi": "Dựa theo những gì trên mạng internet nói, thuốc này ăn cơm xong mới nên uống.", "vocab": "药: thuốc", "breakdown": "根据 + 网上说的" }
+      ]
+    },
+    {
+      "np": "10.3",
+      "hanzi": "把 (3)",
+      "pinyin": "bǎ",
+      "meaning": "câu chữ 把 với bổ ngữ xu hướng / hai tân ngữ",
+      "note": "Dạng 4: Chủ + 把 + Tân + Động + Bổ ngữ xu hướng · Dạng 5: Chủ + 把 + Tân 1 + Động + Tân 2",
+      "theory": "Câu chữ 把 (tiếp theo NP 5.3, NP 6.2).\n\nDạng 4: Chủ + 把 + Tân + Động + Bổ ngữ xu hướng\n\nDạng 5: Chủ + 把 + Tân 1 + Động + Tân 2",
+      "examples": [
+        { "zh": "你帮我把一瓶牛奶拿过来。", "pinyin": "Nǐ bāng wǒ bǎ yì píng niúnǎi ná guòlai.", "vi": "Bạn cầm giúp tớ một hộp sữa qua đây.", "vocab": "牛奶: sữa bò", "breakdown": "Dạng 4: 把 + 一瓶牛奶 + 拿 + 过来" },
+        { "zh": "你帮我把菜放进冰箱里去，好吗？", "pinyin": "Nǐ bāng wǒ bǎ cài fàng jìn bīngxiāng li qù, hǎo ma?", "vi": "Cậu giúp tớ để rau vào trong tủ lạnh được không?", "vocab": "", "breakdown": "Dạng 4: 把 + 菜 + 放进 + 冰箱里 + 去" },
+        { "zh": "请把这件事告诉她。", "pinyin": "Qǐng bǎ zhè jiàn shì gàosù tā.", "vi": "Xin hãy nói với cô ấy về chuyện này.", "vocab": "", "breakdown": "Dạng 5: 把 + 这件事 (Tân 1) + 告诉 + 她 (Tân 2)" },
+        { "zh": "请把椅子上的铅笔给我，谢谢。", "pinyin": "Qǐng bǎ yǐzi shàng de qiānbǐ gěi wǒ, xièxie.", "vi": "Xin hãy đưa bút chì ở trên ghế cho tôi.", "vocab": "铅笔: bút chì", "breakdown": "Dạng 5: 把 + 铅笔 (Tân 1) + 给 + 我 (Tân 2)" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Ngân hàng Phương [0:南] vừa gửi [0:电子邮件] đến hòm thư điện tử cho tớ, thông báo tớ đã qua phòng thi viết, rồi mời tớ đến tham gia [0:面试] trực tiếp. Tớ hơi hồi hộp." },
+        { "who": "B", "zh": "Cơ hội tốt quá, ngân hàng đó rất [0:有名] trong giới ngân hàng. Cậu đừng [0:害怕], cậu giỏi mà." },
+        { "who": "A", "zh": "Ôi [0:棒] gì chứ, cậu quá lời rồi, nhưng cảm ơn cậu nhé. Cậu tìm được việc chưa?" },
+        { "who": "B", "zh": "Vẫn chưa. Công việc tớ thích thì bố mẹ không đồng ý cho tớ làm. Còn công việc mà bố mẹ dựa vào mối [0:关系] để tìm cho tớ thì lại không phải việc tớ thích, tớ không [0:愿意] nên từ chối luôn." },
+        { "who": "A", "zh": "[0:靠] vào quan hệ để tìm việc là chuyện trước đây rồi. Tớ thì [0:认为], khi chọn việc trước hết phải [0:根据] trên cơ sở là hứng thú và sở thích của bản thân. Cậu [0:加油] nhé!" }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Cậu sao đó, vừa nãy tớ hỏi sao cậu không [0:回答]?" },
+        { "who": "B", "zh": "Xin lỗi, tớ đang [0:考虑] mấy vấn đề, đau cả đầu." },
+        { "who": "A", "zh": "Là vấn đề công việc à?" },
+        { "who": "B", "zh": "Ừ. Cả sáng chúng tớ vừa [0:开会] các phòng ban với [0:经理] điều hành công ty, [0:要求] mà giám đốc đưa ra ngày càng nhiều, chưa kịp [0:解决] xong việc cũ thì [0:事情] mới đã tới. Để [0:完成] công việc tháng này, chúng tớ phải thường xuyên [0:加班], 9-10 giờ tối mới từ công ty về." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "南方银行给我发电子邮件，让我去面试。我有点儿紧张。", "py": "Nánfāng yínháng gěi wǒ fā diànzǐ yóujiàn, ràng wǒ qù miànshì. Wǒ yǒudiǎnr jǐnzhāng.", "vi": "Ngân hàng Phương Nam gửi email cho tớ, hẹn tớ đi phỏng vấn. Tớ hơi hồi hộp." },
+        { "who": "B", "zh": "那么好的机会啊，那家银行很有名。你不用害怕，你很棒的。", "py": "Nàme hǎo de jīhuì a, nà jiā yínháng hěn yǒumíng. Nǐ búyòng hàipà, nǐ hěn bàng de.", "vi": "Cơ hội tốt quá, ngân hàng đó rất nổi tiếng. Cậu đừng sợ, cậu giỏi mà." },
+        { "who": "A", "zh": "谢谢你。你找到工作了吗？", "py": "Xièxie nǐ. Nǐ zhǎodào gōngzuò le ma?", "vi": "Cảm ơn cậu, cậu tìm được việc chưa?" },
+        { "who": "B", "zh": "还没呢。我喜欢的工作爸妈不同意让我做。爸妈靠关系帮我找的工作，我又不愿意做。", "py": "Hái méi ne. Wǒ xǐhuan de gōngzuò bà mā bù tóngyì ràng wǒ zuò. Bà mā kào guānxi bāng wǒ zhǎo de gōngzuò, wǒ yòu bú yuànyì zuò.", "vi": "Vẫn chưa. Công việc tớ thích thì bố mẹ không đồng ý cho tớ làm. Còn công việc mà bố mẹ dựa vào quan hệ để tìm cho tớ thì tớ lại không thích." },
+        { "who": "A", "zh": "靠关系找工作是以前的事了。我[1:认为]要[2:根据]自己的兴趣爱好来选择工作。加油吧！", "py": "Kào guānxi zhǎo gōngzuò shì yǐqián de shì le. Wǒ [1:rènwéi] yào [2:gēnjù] zìjǐ de xìngqù àihào lái xuǎnzé gōngzuò. Jiāyóu ba!", "vi": "Dựa vào quan hệ để tìm việc là chuyện của trước đây rồi. Tớ [1:cho rằng] phải [2:dựa vào] hứng thú và sở thích của bản thân để chọn việc. Cố lên!" }
+      ],
+      "legend": [
+        { "n": 1, "label": "认为", "np": "NP 10.1" },
+        { "n": 2, "label": "根据", "np": "NP 10.2" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "你很棒的！/Nǐ hěn bàng de/ và 加油吧！/Jiāyóu ba/ là cách nói cổ vũ tinh thần, thường dịch tương ứng là \"Bạn rất giỏi\" và \"Cố lên\". 棒 /bàng/ là tính từ, thường dịch là \"khoẻ; vâm; đô (thể lực), giỏi; cao (trình độ), tốt; cao; cừ; xịn (thành tích)\". 加油 /jiā yóu/ là cụm động – tân, có nghĩa đen là \"thêm dầu; đổ xăng\"; khi dùng để cổ vũ ai đó, thường dịch là \"cố gắng\"."
+      }
+    },
+    {
+      "title": "Nói như người bản xứ 2 (在咖啡店 — Tại quán cà phê)",
+      "lines": [
+        { "who": "A", "zh": "你怎么了，刚才问你话，怎么不回答？", "py": "Nǐ zěnmele, gāngcái wèn nǐ huà, zěnme bù huídá?", "vi": "Cậu sao đó, vừa nãy tớ hỏi cậu sao cậu không trả lời?" },
+        { "who": "B", "zh": "不好意思，我在考虑几个问题。", "py": "Bù hǎoyìsi, wǒ zài kǎolǜ jǐ gè wèntí.", "vi": "Xin lỗi, tớ đang suy nghĩ mấy vấn đề." },
+        { "who": "A", "zh": "是工作的问题吗？", "py": "Shì gōngzuò de wèntí ma?", "vi": "Là vấn đề công việc à?" },
+        { "who": "B", "zh": "是。我们刚跟经理开会，经理的要求越来越多了，还没把旧的问题解决好，经理又[3:把新的事情交给我们]了。为了完成这个月的工作，我们经常要加班。", "py": "Shì. Wǒmen gāng gēn jīnglǐ kāihuì, jīnglǐ de yāoqiú yuè lái yuè duō le, hái méi bǎ jiù de wèntí jiějué hǎo, jīnglǐ yòu [3:bǎ xīn de shìqing jiāo gěi wǒmen] le. Wèile wánchéng zhè ge yuè de gōngzuò, wǒmen jīngcháng yào jiā bān.", "vi": "Ừ. Chúng tớ vừa họp với giám đốc, yêu cầu của giám đốc ngày càng nhiều, chưa kịp giải quyết việc cũ thì giám đốc lại [3:giao thêm việc mới cho chúng tớ]. Để hoàn thành công việc tháng này, chúng tớ phải thường xuyên tăng ca." }
+      ],
+      "legend": [
+        { "n": 3, "label": "把 (3)", "np": "NP 10.3" }
+      ]
+    }
+  ]
+}

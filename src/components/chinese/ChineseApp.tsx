@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useChineseStore } from '@/lib/chinese/store'
 import { useChineseUIStore } from '@/lib/chinese/uiStore'
-import { HSK_LEVELS, LESSON_META, LESSON_TITLES, levelLabel, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
+import { HSK_LEVELS, LESSON_META, LESSON_TITLES, levelLabel, lessonDisplayNumber, lessonNumbersForLevel, type HskLevel } from '@/lib/chinese/lessons'
 import { Sidebar, type Selection } from '@/components/chinese/Sidebar'
 import { LearnerProfile } from '@/components/learner/LearnerProfile'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
@@ -281,6 +281,7 @@ export function ChineseApp() {
               const lessonCards = sortedCards.filter((card) => card.lesson === lesson)
               return {
                 number: lesson,
+                label: lessonDisplayNumber(lesson),
                 title: LESSON_TITLES[lesson],
                 meta: `${lessonCards.filter((card) => isLearned(card.id)).length}/${lessonCards.length} thuộc`,
               }

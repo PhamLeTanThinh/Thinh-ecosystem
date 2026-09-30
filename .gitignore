@@ -68,3 +68,6 @@ next-env.d.ts
 !/scripts/lms-listening-detail/.gitkeep
 /scripts/lms-dictation/*
 !/scripts/lms-dictation/.gitkeep
+
+# PDF giáo trình tiếng Trung + ảnh trang render (scripts/chinese-render-pdf.mjs) — nguồn để trích nội dung, không commit
+/scripts/chinese-src/

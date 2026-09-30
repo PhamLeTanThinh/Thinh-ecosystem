@@ -1,0 +1,144 @@
+{
+  "level": "hsk3",
+  "lesson": 26,
+  "bookLesson": 1,
+  "title": "你最近怎么样了？",
+  "titleVi": "Bạn gần đây thế nào?",
+  "pages": [20, 28],
+  "vocab": [
+    { "hanzi": "班", "pinyin": "bān", "pos": "dt.", "meaning": "lớp" },
+    { "hanzi": "差不多", "pinyin": "chàbuduō", "pos": "phó.", "meaning": "khoảng, gần" },
+    { "hanzi": "同学", "pinyin": "tóngxué", "pos": "dt.", "meaning": "bạn học" },
+    { "hanzi": "变化", "pinyin": "biànhuà", "pos": "dt.", "meaning": "thay đổi", "hanViet": "biến hóa" },
+    { "hanzi": "最近", "pinyin": "zuìjìn", "pos": "dt.", "meaning": "gần đây" },
+    { "hanzi": "一切", "pinyin": "yíqiè", "pos": "đại.", "meaning": "tất cả" },
+    { "hanzi": "越来越", "pinyin": "yuè lái yuè", "meaning": "ngày càng" },
+    { "hanzi": "多么…啊", "pinyin": "duōme… a", "meaning": "…biết bao nhiêu" },
+    { "hanzi": "公斤", "pinyin": "gōngjīn", "pos": "lượng.", "meaning": "kilogram" },
+    { "hanzi": "瘦", "pinyin": "shòu", "pos": "tt.", "meaning": "gầy" },
+    { "hanzi": "国际", "pinyin": "guójì", "pos": "dt.", "meaning": "quốc tế", "hanViet": "quốc tế" },
+    { "hanzi": "城市", "pinyin": "chéngshì", "pos": "dt.", "meaning": "thành phố", "hanViet": "thành thị" },
+    { "hanzi": "工资", "pinyin": "gōngzī", "pos": "dt.", "meaning": "lương" },
+    { "hanzi": "一定", "pinyin": "yídìng", "pos": "phó.", "meaning": "nhất định", "hanViet": "nhất định" },
+    { "hanzi": "好不容易", "pinyin": "hǎobù róngyì", "meaning": "khó khăn lắm" },
+    { "hanzi": "机会", "pinyin": "jīhuì", "pos": "dt.", "meaning": "cơ hội", "hanViet": "cơ hội" },
+    { "hanzi": "单身狗", "pinyin": "dānshēn gǒu", "pos": "cụm.", "meaning": "độc thân, FA", "hanViet": "đơn thân cẩu" },
+    { "hanzi": "狗", "pinyin": "gǒu", "pos": "dt.", "meaning": "chó", "hanViet": "cẩu" },
+    { "hanzi": "同事", "pinyin": "tóngshì", "pos": "dt.", "meaning": "đồng nghiệp", "hanViet": "đồng sự" },
+    { "hanzi": "可爱", "pinyin": "kě'ài", "pos": "tt.", "meaning": "đáng yêu", "hanViet": "khả ái" }
+  ],
+  "expand": [
+    { "hanzi": "剩男", "pinyin": "shèngnán", "meaning": "Trai ế" },
+    { "hanzi": "剩女", "pinyin": "shèngnǚ", "meaning": "Gái ế" },
+    { "hanzi": "哥们儿", "pinyin": "gēmenr", "meaning": "Người anh em" },
+    { "hanzi": "闺蜜", "pinyin": "guīmì", "meaning": "Bạn thân (nữ)" },
+    { "hanzi": "收入", "pinyin": "shōurù", "meaning": "Thu nhập" },
+    { "hanzi": "苗条", "pinyin": "miáotiáo", "meaning": "Duyên dáng" },
+    { "hanzi": "高富帅", "pinyin": "gāo fù shuài", "meaning": "Cao, giàu, đẹp trai" },
+    { "hanzi": "白富美", "pinyin": "bái fù měi", "meaning": "Trắng, giàu, xinh đẹp" }
+  ],
+  "tree": {
+    "hanzi": "同",
+    "pinyin": "tóng",
+    "meaning": "Đồng",
+    "words": [
+      { "hanzi": "同意", "pinyin": "tóngyì", "meaning": "Đồng ý" },
+      { "hanzi": "相同", "pinyin": "xiāngtóng", "meaning": "Tương đồng" },
+      { "hanzi": "合同", "pinyin": "hétong", "meaning": "Hợp đồng" },
+      { "hanzi": "同时", "pinyin": "tóngshí", "meaning": "Đồng thời" },
+      { "hanzi": "赞同", "pinyin": "zàntóng", "meaning": "Tán đồng" },
+      { "hanzi": "同胞", "pinyin": "tóngbāo", "meaning": "Đồng bào" },
+      { "hanzi": "同行", "pinyin": "tóngxíng", "meaning": "Đồng hành" },
+      { "hanzi": "同志", "pinyin": "tóngzhì", "meaning": "Đồng chí" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "1.1",
+      "hanzi": "越来越",
+      "pinyin": "yuè lái yuè",
+      "meaning": "ngày càng… (mức độ tăng dần theo thời gian)",
+      "note": "Cấu trúc: 越来越 + Tính từ / Động từ tâm lý · Nghĩa: mức độ tăng dần theo thời gian, dịch là \"ngày càng…\"",
+      "theory": "越来越 + Tính từ / Động từ tâm lý biểu thị mức độ tăng dần theo thời gian, thường dịch là \"ngày càng…\".",
+      "examples": [
+        { "zh": "天气越来越冷，冬天真来了。", "pinyin": "Tiānqì yuè lái yuè lěng, dōngtiān zhēn lái le.", "vi": "Thời tiết ngày càng lạnh, mùa đông đến thật rồi.", "vocab": "冬天: mùa đông", "breakdown": "越来越 + 冷 (tính từ)" },
+        { "zh": "你汉语说得越来越好了。", "pinyin": "Nǐ Hànyǔ shuō de yuè lái yuè hǎo le.", "vi": "Bạn nói Tiếng Trung ngày càng tốt hơn.", "vocab": "", "breakdown": "越来越 + 好 (tính từ) làm bổ ngữ trình độ sau 说得" }
+      ]
+    },
+    {
+      "np": "1.2",
+      "hanzi": "多(么)……啊！",
+      "pinyin": "duō(me)…… a!",
+      "meaning": "…quá, …lắm (câu cảm thán, mức độ cao)",
+      "note": "Cấu trúc: 多(么) + Tính từ / Động từ tâm lý + 啊！ · Nghĩa: câu cảm thán, mức độ cao, sắc thái cảm xúc mạnh mẽ, dịch là \"…quá, lắm\"",
+      "theory": "Câu cảm thán dùng 多(么) biểu thị mức độ cao, mang sắc thái cảm xúc mạnh mẽ, thường dịch là \"… quá, lắm\".\n\nCấu trúc: 多(么) + Tính từ / Động từ tâm lý + 啊！",
+      "examples": [
+        { "zh": "你新买的衣服多么漂亮啊，在哪儿买的？", "pinyin": "Nǐ xīn mǎi de yīfu duōme piàoliang a, zài nǎr mǎi de?", "vi": "Bộ quần áo bạn mới mua đẹp thế, mua ở đâu đấy?", "vocab": "衣服: quần áo", "breakdown": "多么 + 漂亮 (tính từ) + 啊" },
+        { "zh": "我多么想和你见一面，最近过得还好吗？", "pinyin": "Wǒ duōme xiǎng hé nǐ jiàn yí miàn, zuìjìn guò de hái hǎo ma?", "vi": "Tôi muốn gặp bạn lắm, dạo này bạn thế nào?", "vocab": "见一面: gặp mặt một lần", "breakdown": "多么 + 想 (động từ tâm lý)" }
+      ]
+    },
+    {
+      "np": "1.3",
+      "hanzi": "一定",
+      "pinyin": "yídìng",
+      "meaning": "nhất định, chắc chắn (phó từ)",
+      "note": "Loại từ: phó từ · Nghĩa: sự kiên quyết hoặc chắc chắn, dịch là \"nhất định, chắc chắn\" · Phủ định: 不一定 = chưa chắc",
+      "theory": "Phó từ 一定 /yídìng/ thể hiện sự kiên quyết hoặc chắc chắn, thường dịch là \"nhất định, chắc chắn\".",
+      "examples": [
+        { "zh": "你要休息一定的时间后才能去洗澡。", "pinyin": "Nǐ yào xiūxi yídìng de shíjiān hòu cái néng qù xǐzǎo.", "vi": "Bạn cần nghỉ một khoảng thời gian nhất định mới được đi tắm.", "vocab": "洗澡: tắm", "breakdown": "一定的时间: khoảng thời gian nhất định" },
+        { "zh": "骑白马的不一定是王子，他可能是唐僧。", "pinyin": "Qí báimǎ de bù yídìng shì wángzǐ, tā kěnéng shì Tángsēng.", "vi": "Người cưỡi bạch mã chưa chắc đã là hoàng tử, anh ta có thể là Đường Tăng.", "vocab": "王子 (wángzǐ): hoàng tử · 唐僧 (Tángsēng): Đường Tăng", "breakdown": "不一定: chưa chắc" }
+      ]
+    },
+    {
+      "np": "1.4",
+      "hanzi": "好不容易才 / 好容易才",
+      "pinyin": "hǎobù róngyì cái / hǎo róngyì cái",
+      "meaning": "khó khăn lắm mới…",
+      "note": "Cấu trúc: 好不容易 / 好容易 + 才 + Động từ · Nghĩa: việc gì đó khó khăn lắm mới làm được, dịch là \"Thật không dễ mới… / khó khăn lắm mới…\" · Lưu ý: 好不容易 và 好容易 có ý nghĩa như nhau",
+      "theory": "好不容易 / 好容易 + 才 + Động từ dùng để chỉ việc gì đó khó khăn lắm mới làm được, thường dịch là \"Thật không dễ mới… / khó khăn lắm mới…\".\n\nỞ đây \"好不容易\" và \"好容易\" có ý nghĩa như nhau.",
+      "examples": [
+        { "zh": "我好不容易才找到真爱。", "pinyin": "Wǒ hǎobù róngyì cái zhǎodào zhēn'ài.", "vi": "Khó khăn lắm tôi mới tìm thấy tình yêu đích thực.", "vocab": "真爱: tình yêu đích thực", "breakdown": "好不容易 + 才 + 找到 (động từ)" },
+        { "zh": "老板今天交给我的工作，我好容易才做完。", "pinyin": "Lǎobǎn jīntiān jiāo gěi wǒ de gōngzuò, wǒ hǎo róngyì cái zuò wán.", "vi": "Công việc hôm nay sếp giao cho tôi, tôi khó khăn lắm mới hoàn thành xong.", "vocab": "交 (jiāo): giao", "breakdown": "好容易 + 才 + 做完 (động từ)" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "[0:班] cấp 3 chúng mình hình như đã [0:差不多] mười năm không gặp nhau rồi nhỉ. Các [0:同学] ai cũng [0:变化] nhiều, gặp ngoài đường khó mà nhận ra. Tiểu Mã, cuộc sống [0:最近] của bạn thế nào?" },
+        { "who": "B", "zh": "Cảm ơn cậu, tớ [0:一切] đều tốt cả. Còn cậu trước đã xinh, giờ [0:越来越] xinh hơn. Đang làm ở đâu rồi?" },
+        { "who": "A", "zh": "Đâu có, tớ béo hơn hồi trước phải đến 5 [0:公斤] ấy, hồi trước tớ [0:瘦] lắm, trông xinh [0:多么啊]. Tớ đang làm việc cho một công ty liên doanh [0:国际] trụ sở ở Trung Quốc nhưng có văn phòng ở Hà Nội." },
+        { "who": "B", "zh": "Rời quê ra [0:城市] lập nghiệp, giờ còn làm ở công ty quốc tế nữa, lương [0:一定] là phải cao lắm nhỉ haha." },
+        { "who": "A", "zh": "[0:工资] cũng được, nhưng mà bận lắm. Kết hôn xong thì còn bận hơn, không ở công ty làm việc thì cũng là ở nhà chăm con, [0:好不容易] mới tìm được [0:机会] \"ngàn năm có một\" này để ra ngoài gặp mọi người đấy." },
+        { "who": "B", "zh": "Cậu đã kết hôn rồi à? Chẳng bù cho tớ vẫn là [0:单身狗] đây." },
+        { "who": "A", "zh": "Thế tớ có một em [0:同事] cùng công ty cũng còn độc thân đấy, vừa xinh vừa [0:可爱], có cần tớ giới thiệu không?" },
+        { "who": "B", "zh": "Thế thì còn gì bằng. Hôm nào rảnh tớ mời hai người café, cậu giới thiệu cho tớ nhé." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "好久不见，咱们班同学差不多十年没见了吧？同学们应该都变化很大。小马，最近你怎么样？", "py": "Hǎojiǔ bújiàn, zánmen bān tóngxué chàbuduō shí nián méi jiàn le ba? Tóngxuémen yīnggāi dōu biànhuà hěn dà. Xiǎo Mǎ, zuìjìn nǐ zěnmeyàng?", "vi": "Lâu lắm không gặp, lớp chúng ta gần 10 năm chưa gặp ấy nhỉ? Các bạn học chắc hẳn đều có nhiều thay đổi. Tiểu Mã, gần đây bạn thế nào rồi?" },
+        { "who": "B", "zh": "谢谢，我一切都好。你啊，真是[1:越来越]漂亮了。现在在哪儿工作？", "py": "Xièxie, wǒ yíqiè dōu hǎo. Nǐ a, zhēnshi [1:yuè lái yuè] piàoliang le. Xiànzài zài nǎr gōngzuò?", "vi": "Cảm ơn, tớ mọi thứ đều ổn. Cậu này, đúng là [1:ngày càng] xinh đẹp. Bây giờ đang làm ở đâu?" },
+        { "who": "A", "zh": "哪有，我比以前胖了五公斤，以前我[2:多么]瘦[2:啊]！我现在在河内的一家国际公司工作。", "py": "Nǎ yǒu, wǒ bǐ yǐqián pàngle wǔ gōngjīn, yǐqián wǒ [2:duōme] shòu [2:a]! Wǒ xiànzài zài Hénèi de yì jiā guójì gōngsī gōngzuò.", "vi": "Đâu có, tớ mập hơn trước kia 5 kg, trước đây tớ gầy [2:lắm mà]. Tớ đang làm cho một công ty quốc tế ở Hà Nội." },
+        { "who": "B", "zh": "在大城市工作，还是国际公司，你的工资[3:一定]很高吧？", "py": "Zài dà chéngshì gōngzuò, háishi guójì gōngsī, nǐ de gōngzī [3:yídìng] hěn gāo ba?", "vi": "Làm việc ở thành phố lớn, còn là công ty quốc tế, lương của cậu [3:chắc chắn] rất cao nhỉ?" },
+        { "who": "A", "zh": "工资还好，但是忙死了！结婚以后就更忙了，不是在公司工作，就是回家忙着带孩子，[4:好不容易才]有机会出来见见你们。", "py": "Gōngzī hái hǎo, dànshì máng sǐ le! Jiéhūn yǐhòu jiù gèng máng le, búshì zài gōngsī gōngzuò, jiùshì huí jiā mángzhe dài háizi, [4:hǎobù róngyì cái] yǒu jīhuì chūlái jiànjian nǐmen.", "vi": "Lương cũng ổn, nhưng bận chết đi được! Sau khi kết hôn còn bận hơn, không phải làm việc ở công ty, thì lại về nhà bận chăm con, [4:khó khăn lắm] mới có cơ hội ra ngoài gặp gỡ các cậu." },
+        { "who": "B", "zh": "你结婚了？我现在还是单身狗呢。", "py": "Nǐ jiéhūn le? Wǒ xiànzài háishi dānshēn gǒu ne.", "vi": "Cậu kết hôn rồi? Tớ bây giờ vẫn còn độc thân đây." },
+        { "who": "A", "zh": "我有一个单身的女同事，她又漂亮又可爱，要不要我给你介绍？", "py": "Wǒ yǒu yí ge dānshēn de nǚ tóngshì, tā yòu piàoliang yòu kě'ài, yào bu yào wǒ gěi nǐ jièshào?", "vi": "Tớ có một cô đồng nghiệp cũng độc thân, cô ấy vừa xinh lại đáng yêu, có cần tớ giới thiệu cho cậu không?" },
+        { "who": "B", "zh": "那太好了，你给我介绍吧！找时间我请你们喝咖啡。", "py": "Nà tài hǎo le, nǐ gěi wǒ jièshào ba! Zhǎo shíjiān wǒ qǐng nǐmen hē kāfēi.", "vi": "Thế thì tốt quá, cậu giới thiệu cho tớ nhé! Lúc nào tớ mời hai chị em đi uống cà phê." }
+      ],
+      "legend": [
+        { "n": 1, "label": "越来越", "np": "NP 1.1" },
+        { "n": 2, "label": "多么……啊", "np": "NP 1.2" },
+        { "n": 3, "label": "一定", "np": "NP 1.3" },
+        { "n": 4, "label": "好不容易才", "np": "NP 1.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "哪有 /nǎ yǒu/ dùng để nhẹ nhàng phản đối ý kiến đối phương đưa ra, mang sắc thái khiêm tốn, thường dịch là \"đâu có\"."
+      }
+    }
+  ]
+}

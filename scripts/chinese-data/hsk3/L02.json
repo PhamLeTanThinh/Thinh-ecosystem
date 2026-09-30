@@ -1,0 +1,148 @@
+{
+  "level": "hsk3",
+  "lesson": 27,
+  "bookLesson": 2,
+  "title": "我是来看房子的",
+  "titleVi": "Tôi đến xem nhà",
+  "pages": [29, 38],
+  "vocab": [
+    { "hanzi": "叔叔", "pinyin": "shūshu", "pos": "dt.", "meaning": "chú", "hanViet": "thúc thúc" },
+    { "hanzi": "先生", "pinyin": "xiānsheng", "pos": "dt.", "meaning": "ông, ngài", "hanViet": "tiên sinh" },
+    { "hanzi": "不但…而且…", "pinyin": "búdàn… érqiě…", "pos": "liên.", "meaning": "không những… mà còn…" },
+    { "hanzi": "冰箱", "pinyin": "bīngxiāng", "pos": "dt.", "meaning": "tủ lạnh" },
+    { "hanzi": "客厅", "pinyin": "kètīng", "pos": "dt.", "meaning": "phòng khách" },
+    { "hanzi": "洗手间", "pinyin": "xǐshǒujiān", "pos": "dt.", "meaning": "nhà vệ sinh" },
+    { "hanzi": "干净", "pinyin": "gānjìng", "pos": "tt.", "meaning": "sạch sẽ" },
+    { "hanzi": "如果", "pinyin": "rúguǒ", "pos": "liên.", "meaning": "nếu" },
+    { "hanzi": "客人", "pinyin": "kèren", "pos": "dt.", "meaning": "khách", "hanViet": "khách nhân" },
+    { "hanzi": "方便", "pinyin": "fāngbiàn", "pos": "tt.", "meaning": "thuận tiện" },
+    { "hanzi": "窗户", "pinyin": "chuānghu", "pos": "dt.", "meaning": "cửa sổ" },
+    { "hanzi": "树", "pinyin": "shù", "pos": "dt.", "meaning": "cây", "hanViet": "thụ" },
+    { "hanzi": "租", "pinyin": "zū", "pos": "đt.", "meaning": "thuê" },
+    { "hanzi": "留学", "pinyin": "liúxué", "pos": "đt.", "meaning": "du học", "hanViet": "lưu học" },
+    { "hanzi": "谈", "pinyin": "tán", "pos": "đt.", "meaning": "nói, nói chuyện", "hanViet": "đàm" },
+    { "hanzi": "决定", "pinyin": "juédìng", "pos": "đt., dt.", "meaning": "quyết định", "hanViet": "quyết định" },
+    { "hanzi": "告诉", "pinyin": "gàosu", "pos": "đt.", "meaning": "thông báo, nói với…", "hanViet": "cáo tố" }
+  ],
+  "expand": [
+    { "hanzi": "厨房", "pinyin": "chúfáng", "meaning": "Bếp" },
+    { "hanzi": "餐厅", "pinyin": "cāntīng", "meaning": "Phòng ăn" },
+    { "hanzi": "浴室", "pinyin": "yùshì", "meaning": "Phòng tắm" },
+    { "hanzi": "卧室", "pinyin": "wòshì", "meaning": "Phòng ngủ" },
+    { "hanzi": "平方米", "pinyin": "píngfāng mǐ", "meaning": "Mét vuông" },
+    { "hanzi": "房租", "pinyin": "fángzū", "meaning": "Tiền thuê phòng" },
+    { "hanzi": "房东", "pinyin": "fángdōng", "meaning": "Chủ nhà thuê" },
+    { "hanzi": "阳台", "pinyin": "yángtái", "meaning": "Ban công" }
+  ],
+  "tree": {
+    "hanzi": "客",
+    "pinyin": "kè",
+    "meaning": "Khách",
+    "words": [
+      { "hanzi": "客气", "pinyin": "kèqi", "meaning": "Khách khí" },
+      { "hanzi": "好客", "pinyin": "hàokè", "meaning": "Hiếu khách" },
+      { "hanzi": "游客", "pinyin": "yóukè", "meaning": "Du khách" },
+      { "hanzi": "客观", "pinyin": "kèguān", "meaning": "Khách quan" },
+      { "hanzi": "贵客", "pinyin": "guìkè", "meaning": "Quý khách" },
+      { "hanzi": "客套", "pinyin": "kètào", "meaning": "Khách sáo" },
+      { "hanzi": "旅客", "pinyin": "lǚkè", "meaning": "Lữ khách" },
+      { "hanzi": "食客", "pinyin": "shíkè", "meaning": "Thực khách" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "2.1",
+      "hanzi": "谁 / 什么 / 哪儿 + 都",
+      "pinyin": "shéi / shénme / nǎr",
+      "meaning": "đại từ nghi vấn phiếm chỉ (ai / cái gì / đâu cũng…)",
+      "note": "Loại từ: đại từ nghi vấn 谁, 什么, 哪儿… dùng trong câu trần thuật · Nghĩa: phiếm chỉ, thay thế tất cả đối tượng trong phạm vi nào đó, dịch là \"ai, cái gì, đâu\"",
+      "theory": "Đại từ nghi vấn như 谁 /shéi/, 什么 /shénme/, 哪儿 /nǎr/… có thể dùng trong câu trần thuật với ý phiếm chỉ, dùng để thay thế tất cả đối tượng trong phạm vi nào đó, thường dịch tương ứng là \"ai, cái gì, đâu\".",
+      "examples": [
+        { "zh": "谁都喜欢吃好吃的。", "pinyin": "Shéi dōu xǐhuan chī hǎochī de.", "vi": "Ai cũng thích ăn những món ăn ngon.", "vocab": "", "breakdown": "谁 + 都: ai cũng" },
+        { "zh": "他这两天病了，什么都不想吃。", "pinyin": "Tā zhè liǎng tiān bìng le, shénme dōu bù xiǎng chī.", "vi": "Hai ngày nay anh ấy bị ốm, không muốn ăn gì.", "vocab": "病: ốm", "breakdown": "什么 + 都 + 不: không … gì cả" },
+        { "zh": "今年因为疫情，我哪儿都不能去。", "pinyin": "Jīnnián yīnwèi yìqíng, wǒ nǎr dōu bùnéng qù.", "vi": "Vì dịch bệnh, năm nay tôi chẳng thể đi đâu được.", "vocab": "疫情 (yìqíng): tình hình dịch bệnh", "breakdown": "哪儿 + 都 + 不: không … đâu cả" }
+      ]
+    },
+    {
+      "np": "2.2",
+      "hanzi": "不但……，而且……",
+      "pinyin": "búdàn……, érqiě……",
+      "meaning": "không những…, mà còn… (quan hệ tăng tiến)",
+      "note": "Cùng chủ ngữ: Chủ + 不但…, 而且… · Khác chủ ngữ: 不但 + Chủ 1…, 而且 + Chủ 2… · Nghĩa: quan hệ tăng tiến, dịch là \"không những…, mà còn…\" · Lưu ý: sau 而且 có thể thêm phó từ 也, 还",
+      "theory": "Cặp quan hệ từ 不但……, 而且…… (/búdàn…, érqiě…/) dùng để liên kết hai vế câu, chỉ quan hệ tăng tiến, thường dịch là \"không những…, mà còn…\". Phía sau 而且 có thể thêm các phó từ 也 /yě/, 还 /hái/.\n\nDạng 1 — Cùng chủ ngữ: Chủ + 不但…, 而且…\n\nDạng 2 — Khác chủ ngữ: 不但 + Chủ 1…, 而且 + Chủ 2…",
+      "examples": [
+        { "zh": "他不但有钱，而且还很帅！", "pinyin": "Tā búdàn yǒu qián, érqiě hái hěn shuài!", "vi": "Anh ta không chỉ có tiền, mà còn rất đẹp trai.", "vocab": "帅: đẹp trai", "breakdown": "Dạng 1 — cùng chủ ngữ 他" },
+        { "zh": "他不但会踢足球，而且也会打篮球。", "pinyin": "Tā búdàn huì tī zúqiú, érqiě yě huì dǎ lánqiú.", "vi": "Cậu ấy không những biết đá bóng, mà còn biết chơi bóng rổ.", "vocab": "篮球: bóng rổ", "breakdown": "Dạng 1 — 而且 + 也" },
+        { "zh": "老师对我们不但很热情，而且很关心。", "pinyin": "Lǎoshī duì wǒmen búdàn hěn rèqíng, érqiě hěn guānxīn.", "vi": "Cô giáo không chỉ rất nhiệt tình, mà còn rất quan tâm tới chúng tôi.", "vocab": "关心: quan tâm", "breakdown": "Dạng 1 — cùng chủ ngữ 老师" },
+        { "zh": "不但他爸爸不会游泳，而且他的儿子也不会游泳。", "pinyin": "Búdàn tā bàba bú huì yóuyǒng, érqiě tā de érzi yě bú huì yóuyǒng.", "vi": "Không những bố anh ấy không biết bơi, mà con trai anh ấy cũng không biết bơi.", "vocab": "游泳: bơi", "breakdown": "Dạng 2 — khác chủ ngữ: 不但 + 他爸爸…, 而且 + 他的儿子…" },
+        { "zh": "不但孩子们喜欢这个电影，而且大人也很喜欢。", "pinyin": "Búdàn háizimen xǐhuan zhè ge diànyǐng, érqiě dàrén yě hěn xǐhuan.", "vi": "Bộ phim này không chỉ trẻ em yêu thích, mà người lớn cũng yêu thích.", "vocab": "大人: người lớn", "breakdown": "Dạng 2 — khác chủ ngữ: 孩子们 / 大人" }
+      ]
+    },
+    {
+      "np": "2.3",
+      "hanzi": "如果……(的话)，就……",
+      "pinyin": "rúguǒ…… (dehuà), jiù……",
+      "meaning": "nếu… thì… (giả định)",
+      "note": "Cấu trúc: 如果… (的话), (就)… · Nghĩa: nêu giả định, giả thuyết, dịch là \"Nếu\" · Lưu ý: khẩu ngữ có thể lược bỏ 如果 chỉ dùng 的话; 就 (\"thì\") có thể xuất hiện ở vế thứ 2 hoặc không",
+      "theory": "Cấu trúc 如果 /rúguǒ/… (的话 /dehuà/) nêu giả định, giả thuyết, thường dịch là \"Nếu\". Trong khẩu ngữ, có thể lược bỏ 如果 và chỉ cần sử dụng 的话.\n\n就 /jiù/ dùng với nghĩa \"thì\" có thể xuất hiện ở vế thứ 2 hoặc không.",
+      "examples": [
+        { "zh": "如果你不想来的话，那你不用来了。", "pinyin": "Rúguǒ nǐ bù xiǎng lái dehuà, nà nǐ búyòng lái le.", "vi": "Nếu cậu không muốn đến, thì cậu không cần đến đâu.", "vocab": "不用: không cần", "breakdown": "如果 … 的话, 那 …" },
+        { "zh": "你爱的人想走的话，就让他走吧。", "pinyin": "Nǐ ài de rén xiǎng zǒu dehuà, jiù ràng tā zǒu ba.", "vi": "Nếu người mà bạn yêu muốn ra đi, hãy để họ đi.", "vocab": "让: để, cho phép", "breakdown": "Lược bỏ 如果, chỉ dùng … 的话, 就 …" }
+      ]
+    },
+    {
+      "np": "2.4",
+      "hanzi": "Động từ + bổ ngữ xu hướng kép",
+      "pinyin": "",
+      "meaning": "bổ ngữ xu hướng kép (上来, 下去, 进来, 出去…)",
+      "note": "Cấu trúc: Động + BNXH kép · BNXH kép: 上来, 下来, 进来, 出来, 回来, 过来, 起来 / 上去, 下去, 进去, 出去, 回去, 过去 · Tân ngữ chỉ địa điểm: đặt trước 来/去 · Tân ngữ chỉ sự vật: đứng trước hoặc sau 来/去",
+      "theory": "Bổ ngữ xu hướng kép do các động từ chỉ xu hướng \"上、下、进、出、回、过、起\" kết hợp với \"来\" hoặc \"去\" đảm nhận, đứng sau một động từ khác để miêu tả xu hướng của động tác.\n\nCấu trúc: Động + BNXH kép.\n\nCác bổ ngữ xu hướng kép thường gặp: 上来 /shànglai/, 下来 /xiàlai/, 进来 /jìnlai/, 出来 /chūlai/, 回来 /huílai/, 过来 /guòlai/, 起来 /qǐlai/; 上去 /shàngqu/, 下去 /xiàqu/, 进去 /jìnqu/, 出去 /chūqu/, 回去 /huíqu/, 过去 /guòqu/.\n\nChú ý 1: Khi tân ngữ của động từ là từ chỉ địa điểm, nhất định phải đặt trước 来/去.\n\nChú ý 2: Khi tân ngữ là sự vật, sự việc thì tân ngữ có thể đứng trước hoặc sau 来/去.",
+      "examples": [
+        { "zh": "我累了，我们坐下来休息一下，好吗？", "pinyin": "Wǒ lèi le, wǒmen zuò xiàlai xiūxi yíxià, hǎo ma?", "vi": "Tôi mệt rồi, chúng ta ngồi xuống nghỉ ngơi một chút được không?", "vocab": "休息: nghỉ ngơi", "breakdown": "坐 + 下来" },
+        { "zh": "你在公司等我，我马上跑过去。", "pinyin": "Nǐ zài gōngsī děng wǒ, wǒ mǎshàng pǎo guòqu.", "vi": "Anh đợi tôi ở công ty, tôi sẽ chạy qua ngay.", "vocab": "马上: ngay lập tức", "breakdown": "跑 + 过去" },
+        { "zh": "太晚了，没有车了，我们走回家去吧。", "pinyin": "Tài wǎn le, méiyǒu chē le, wǒmen zǒu huí jiā qù ba.", "vi": "Muộn quá, không có xe rồi, chúng ta đi bộ về nhà đi.", "vocab": "", "breakdown": "Tân ngữ chỉ địa điểm 家 đặt trước 去: 走回 + 家 + 去" },
+        { "zh": "他从包里拿出两张机票来。", "pinyin": "Tā cóng bāo lǐ ná chū liǎng zhāng jīpiào lái.", "vi": "Anh ấy lấy hai tấm vé máy bay ra từ trong túi.", "vocab": "机票: vé máy bay", "breakdown": "Tân ngữ sự vật đứng trước 来: 拿出 + 两张机票 + 来" },
+        { "zh": "他从包里拿出来两张机票。", "pinyin": "Tā cóng bāo lǐ ná chūlai liǎng zhāng jīpiào.", "vi": "Anh ấy lấy hai tấm vé máy bay ra từ trong túi.", "vocab": "", "breakdown": "Tân ngữ sự vật đứng sau 来: 拿出来 + 两张机票" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Cháu chào chú Cao ạ. [0:叔叔] ơi, cháu là đồng nghiệp của ông Trần. [0:先生] ấy giới thiệu cháu đến xem nhà ạ." },
+        { "who": "B", "zh": "Cậu ấy cũng nói với chú rồi, cháu vào đi. Nhà chú gì cũng có, [0:不但] có [0:冰箱] mini loại 90 lít, tivi, điều hòa, [0:而且] phòng cũng mới sửa, chú lát lại gạch trắng sáng bóng nhìn cho [0:干净]. Vì là nhà chú xây để ở, nên có [0:客厅] rộng rãi đón khách, mỗi phòng đều có [0:卫生间] riêng trong phòng, [0:如果] có [0:客人] từ xa đến chơi, nhà rộng rãi thế này sẽ rất [0:方便]." },
+        { "who": "A", "zh": "Mở [0:窗户] ra ngắm được hồ Tây luôn, thích quá ạ." },
+        { "who": "B", "zh": "Gần hồ, xung quanh lại có nhiều [0:树] cổ thụ, bốn mùa đều mát mẻ, dễ chịu." },
+        { "who": "A", "zh": "Căn nhà tốt thế này sao chú lại muốn cho [0:租] đi ạ?" },
+        { "who": "B", "zh": "Con gái chú sắp đi Trung Quốc [0:留学], nhà chú cùng đi. Giờ chú cháu mình [0:谈] giá thuê nhé. Nhà này tiền thuê một tháng là 1000 tệ." },
+        { "who": "A", "zh": "Dạ cháu đã rõ, cháu cũng muốn chuyển vào ở sớm. Khi nào [0:决定] xong cháu sẽ [0:告诉] chú luôn." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "高叔叔，您好，我是陈先生的同事，我是来看房子的。", "py": "Gāo shūshu, nín hǎo, wǒ shì Chén xiānsheng de tóngshì, wǒ shì lái kàn fángzi de.", "vi": "Chú Cao, xin chào, cháu là đồng nghiệp của anh Trần, cháu đến xem nhà ạ." },
+        { "who": "B", "zh": "他跟我说过，你进来吧。我的房子[1:什么都有]，[2:不但]有床、桌子、椅子、空调，[2:而且]还有冰箱、电视。客厅和洗手间也很大，很干净，[3:如果]有客人来[3:就]很方便。", "py": "Tā gēn wǒ shuō guo, nǐ jìnlai ba. Wǒ de fángzi [1:shénme dōu yǒu], [2:búdàn] yǒu chuáng, zhuōzi, yǐzi, kōngtiáo, [2:érqiě] hái yǒu bīngxiāng, diànshì. Kètīng hé xǐshǒujiān yě hěn dà, hěn gānjìng, [3:rúguǒ] yǒu kèren lái [3:jiù] hěn fāngbiàn.", "vi": "Cậu ấy cũng nói với chú rồi, cháu vào đi. Trong nhà [1:cái gì cũng có], [2:không những] có giường, bàn, ghế, điều hòa, [2:mà còn] có tủ lạnh, tivi. Phòng khách và nhà vệ sinh cũng rất to, rất sạch, [3:nếu] có khách đến [3:thì] rất tiện." },
+        { "who": "A", "zh": "窗户有点儿小，夏天会不会很热？", "py": "Chuānghu yǒudiǎnr xiǎo, xiàtiān huì bu huì hěn rè?", "vi": "Cửa sổ hơi nhỏ, mùa hè có nóng không ạ?" },
+        { "who": "B", "zh": "前面和后面有很多树，一年四季这个房间都会住得很舒服，不冷也不热。", "py": "Qiánmian hé hòumian yǒu hěn duō shù, yì nián sì jì zhè ge fángjiān dōu huì zhù de hěn shūfu, bù lěng yě bú rè.", "vi": "Phía trước và phía sau có nhiều cây, căn phòng này quanh năm đều rất dễ chịu, không lạnh cũng không nóng." },
+        { "who": "A", "zh": "这么好的房子，您为什么想[4:租出去]？", "py": "Zhème hǎo de fángzi, nín wèishénme xiǎng [4:zū chūqu]?", "vi": "Nhà tốt thế này, sao chú lại muốn [4:cho thuê đi] ạ?" },
+        { "who": "B", "zh": "因为我女儿快要出国留学了，我们想跟她一起去。如果你没有什么问题，我们谈谈价格吧。", "py": "Yīnwèi wǒ nǚ'ér kuàiyào chūguó liúxué le, wǒmen xiǎng gēn tā yìqǐ qù. Rúguǒ nǐ méiyǒu shénme wèntí, wǒmen tántan jiàgé ba.", "vi": "Vì con gái chú sắp đi nước ngoài du học, nhà chú sẽ cùng đi với em. Nếu cháu thấy không có vấn đề gì, mình cùng bàn về giá thuê nhé." },
+        { "who": "A", "zh": "好的。这个房子一个月多少钱？", "py": "Hǎo de. Zhè ge fángzi yí ge yuè duōshao qián?", "vi": "Vâng ạ. Nhà này một tháng bao nhiêu tiền ạ?" },
+        { "who": "B", "zh": "一个月一千块。", "py": "Yí ge yuè yì qiān kuài.", "vi": "Một nghìn tệ một tháng." },
+        { "who": "A", "zh": "我知道了，我也想早点儿搬进来。决定好以后我就告诉您。", "py": "Wǒ zhīdào le, wǒ yě xiǎng zǎodiǎnr bān jìnlai. Juédìng hǎo yǐhòu wǒ jiù gàosu nín.", "vi": "Cháu biết rồi ạ, cháu cũng muốn sớm chuyển vào. Có quyết định cháu sẽ nói với chú ạ." }
+      ],
+      "legend": [
+        { "n": 1, "label": "什么都有", "np": "NP 2.1" },
+        { "n": 2, "label": "不但；而且", "np": "NP 2.2" },
+        { "n": 3, "label": "如果；就", "np": "NP 2.3" },
+        { "n": 4, "label": "租出去", "np": "NP 2.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "(1) 好的 /hǎode/ khi dùng để trả lời sẽ thể hiện sự tôn trọng và khách sáo của người nói với người nghe, thường dịch là \"Vâng ạ, Dạ\". 好 /hǎo/ thường được người bề trên dùng khi trả lời lại yêu cầu của người dưới, thường dịch là \"Ừ\".\n(2) 一年四季 /yì nián sì jì/ là cụm từ bốn chữ, chỉ chung về mùa, thường dịch là \"Một năm bốn mùa\"."
+      }
+    }
+  ]
+}

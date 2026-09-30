@@ -1,0 +1,133 @@
+{
+  "level": "hsk3",
+  "lesson": 50,
+  "bookLesson": 25,
+  "title": "放弃一切，离开城市",
+  "titleVi": "Từ bỏ tất cả, rời xa thành phố",
+  "pages": [238, 245],
+  "vocab": [
+    { "hanzi": "既然", "pinyin": "jìrán", "pos": "liên.", "meaning": "nếu đã" },
+    { "hanzi": "烦恼", "pinyin": "fánnǎo", "pos": "dt.", "meaning": "phiền muộn" },
+    { "hanzi": "郊区", "pinyin": "jiāoqū", "pos": "dt.", "meaning": "ngoại ô" },
+    { "hanzi": "美丽", "pinyin": "měilì", "pos": "tt.", "meaning": "đẹp", "hanViet": "mỹ lệ" },
+    { "hanzi": "景色", "pinyin": "jǐngsè", "pos": "dt.", "meaning": "cảnh sắc", "hanViet": "cảnh sắc" },
+    { "hanzi": "周围", "pinyin": "zhōuwéi", "pos": "dt.", "meaning": "xung quanh", "hanViet": "chu vi" },
+    { "hanzi": "冷静", "pinyin": "lěngjìng", "pos": "tt.", "meaning": "bình tĩnh" },
+    { "hanzi": "森林", "pinyin": "sēnlín", "pos": "dt.", "meaning": "rừng sâu" },
+    { "hanzi": "勇敢", "pinyin": "yǒnggǎn", "pos": "tt.", "meaning": "dũng cảm", "hanViet": "dũng cảm" },
+    { "hanzi": "梦", "pinyin": "mèng", "pos": "dt.", "meaning": "mơ", "hanViet": "mộng" },
+    { "hanzi": "醒", "pinyin": "xǐng", "pos": "đt.", "meaning": "tỉnh", "hanViet": "tỉnh" },
+    { "hanzi": "叶子", "pinyin": "yèzi", "pos": "dt.", "meaning": "lá" },
+    { "hanzi": "降落", "pinyin": "jiàngluò", "pos": "đt.", "meaning": "rơi" },
+    { "hanzi": "难受", "pinyin": "nánshòu", "pos": "tt.", "meaning": "khó chịu" },
+    { "hanzi": "其中", "pinyin": "qízhōng", "pos": "dt.", "meaning": "trong đó" },
+    { "hanzi": "仍然", "pinyin": "réngrán", "pos": "phó.", "meaning": "vẫn" },
+    { "hanzi": "敢", "pinyin": "gǎn", "pos": "đt.", "meaning": "dám" },
+    { "hanzi": "合适", "pinyin": "héshì", "pos": "tt.", "meaning": "thích hợp" },
+    { "hanzi": "后悔", "pinyin": "hòuhuǐ", "pos": "đt.", "meaning": "hối hận" }
+  ],
+  "expand": [
+    { "hanzi": "家乡", "pinyin": "jiāxiāng", "meaning": "Quê hương" },
+    { "hanzi": "农村", "pinyin": "nóngcūn", "meaning": "Nông thôn" },
+    { "hanzi": "农民", "pinyin": "nóngmín", "meaning": "Nông dân" },
+    { "hanzi": "农场", "pinyin": "nóngchǎng", "meaning": "Nông trường" },
+    { "hanzi": "种植", "pinyin": "zhòngzhí", "meaning": "Trồng trọt" },
+    { "hanzi": "饲养", "pinyin": "sìyǎng", "meaning": "Chăn nuôi" },
+    { "hanzi": "庄稼", "pinyin": "zhuāngjia", "meaning": "Hoa màu" },
+    { "hanzi": "山区", "pinyin": "shānqū", "meaning": "Vùng núi" }
+  ],
+  "tree": {
+    "hanzi": "然",
+    "pinyin": "rán",
+    "meaning": "Nhiên",
+    "words": [
+      { "hanzi": "偶然", "pinyin": "ǒurán", "meaning": "Ngẫu nhiên" },
+      { "hanzi": "显然", "pinyin": "xiǎnrán", "meaning": "Hiển nhiên" },
+      { "hanzi": "天然", "pinyin": "tiānrán", "meaning": "Thiên nhiên" },
+      { "hanzi": "必然", "pinyin": "bìrán", "meaning": "Tất nhiên" },
+      { "hanzi": "坦然", "pinyin": "tǎnrán", "meaning": "Thản nhiên" },
+      { "hanzi": "果然", "pinyin": "guǒrán", "meaning": "Quả nhiên" },
+      { "hanzi": "当然", "pinyin": "dāngrán", "meaning": "Đương nhiên" },
+      { "hanzi": "自然", "pinyin": "zìrán", "meaning": "Tự nhiên" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "25.1",
+      "hanzi": "既然……，(就)……",
+      "pinyin": "jìrán……, (jiù)……",
+      "meaning": "nếu đã… (thì…)",
+      "note": "Cấu trúc: Chủ + 既然…, (就)… hoặc Chủ 1 + 既然…, Chủ 2 + (就)… · Nghĩa: dẫn ra một gợi ý hoặc suy luận chủ quan được người nói suy ra từ thực tế, dịch là \"nếu đã…\"",
+      "theory": "既然 /jìrán/ dùng để dẫn ra một gợi ý hoặc suy luận chủ quan được người nói suy ra từ thực tế, thường dịch là \"nếu đã…\".\n\nCấu trúc: Chủ ngữ + 既然…, (就)… hoặc Chủ 1 + 既然…, Chủ 2 + (就)…",
+      "examples": [
+        { "zh": "你们的关系既然那么好，那他肯定能帮你吧。", "pinyin": "Nǐmen de guānxì jìrán nàme hǎo, nà tā kěndìng néng bāng nǐ ba.", "vi": "Mối quan hệ của bạn nếu đã tốt như thế, anh ấy chắc chắn có thể giúp bạn.", "vocab": "", "breakdown": "既然…, 那…" },
+        { "zh": "既然他对你一点儿感情都没有了，那就不要去麻烦人家了。", "pinyin": "Jìrán tā duì nǐ yìdiǎnr gǎnqíng dōu méiyǒu le, nà jiù búyào qù máfan rénjiā le.", "vi": "Anh ấy đã không hề có tình cảm với bạn, thì đừng đến làm phiền người ta nữa.", "vocab": "", "breakdown": "既然…, 那就…" }
+      ]
+    },
+    {
+      "np": "25.2",
+      "hanzi": "一天比一天",
+      "pinyin": "yìtiān bǐ yìtiān",
+      "meaning": "mỗi ngày một…, ngày càng… (tăng tiến)",
+      "note": "Cấu trúc: 一天比一天 + Tính từ · Nghĩa: quan hệ tăng tiến, dịch là \"mỗi ngày một… / ngày càng…\" · Tương tự: 一年比一年 (mỗi năm một…)",
+      "theory": "一天比一天 /yìtiān bǐ yìtiān/ + Tính từ biểu thị quan hệ tăng tiến, thường dịch là \"mỗi ngày một… / ngày càng…\". Cách nói tương tự là 一年比一年 (/yì nián bǐ yì nián/ mỗi năm một…).",
+      "examples": [
+        { "zh": "有汽车的人一年比一年多了。", "pinyin": "Yǒu qìchē de rén yì nián bǐ yì nián duō le.", "vi": "Người có ô tô mỗi năm một nhiều hơn.", "vocab": "", "breakdown": "一年比一年 + 多" },
+        { "zh": "你怎么一天比一天瘦？有新的减肥方法吧？", "pinyin": "Nǐ zěnme yìtiān bǐ yìtiān shòu? Yǒu xīn de jiǎnféi fāngfǎ ba?", "vi": "Sao bạn lại gầy đi mỗi ngày vậy? Có cách mới để giảm cân à?", "vocab": "", "breakdown": "一天比一天 + 瘦" }
+      ]
+    },
+    {
+      "np": "25.3",
+      "hanzi": "其中",
+      "pinyin": "qízhōng",
+      "meaning": "trong đó",
+      "note": "Nghĩa: cái gì đó thuộc về hoặc là một phần của một nhóm lớn hơn, dịch là \"trong đó\" · Lưu ý: trong Tiếng Hán cổ, 其 có nghĩa là 那个 / 那 / 那些",
+      "theory": "Trong Tiếng Hán cổ, 其 /qí/ có nghĩa là 那个 /nàgè/, 那 /nà/ hoặc 那些 /nàxiē/, dùng để chỉ người hoặc vật được đề cập trước đó trong câu. Từ cách sử dụng đó, 其中 /qízhōng/ cũng mang nghĩa biểu thị rằng cái gì đó thuộc về hoặc là một phần của một nhóm lớn hơn, thường dịch là \"trong đó\".",
+      "examples": [
+        { "zh": "你没有结过婚，不知道其中的辛苦。", "pinyin": "Nǐ méiyǒu jié guo hūn, bù zhīdào qízhōng de xīnkǔ.", "vi": "Bạn chưa từng kết hôn, chưa biết những vất vả trong đó.", "vocab": "辛苦: vất vả", "breakdown": "其中 + 的 + 辛苦" },
+        { "zh": "这么多人，我只认识其中的一个。", "pinyin": "Zhème duō rén, wǒ zhǐ rènshi qízhōng de yí ge.", "vi": "Nhiều người như thế này, tôi chỉ biết có một người trong số họ.", "vocab": "", "breakdown": "其中 + 的 + 一个" }
+      ]
+    },
+    {
+      "np": "25.4",
+      "hanzi": "仍然",
+      "pinyin": "réngrán",
+      "meaning": "vẫn, vẫn cứ…",
+      "note": "Loại từ: phó từ · Nghĩa: nhấn mạnh hành vi hoặc trạng thái không có gì thay đổi, dịch là \"vẫn, vẫn cứ…\"",
+      "theory": "仍然 /réngrán/ dùng để nhấn mạnh hành vi hoặc trạng thái không có gì thay đổi, thường dịch là \"vẫn, vẫn cứ…\".",
+      "examples": [
+        { "zh": "教了他这么长时间，他仍然不会做。", "pinyin": "Jiāo le tā zhème cháng shíjiān, tā réngrán bú huì zuò.", "vi": "Dạy nó lâu như vậy rồi mà nó vẫn không làm được.", "vocab": "", "breakdown": "仍然 + 不会做" },
+        { "zh": "虽然我们不一样，但我们仍然是好朋友。", "pinyin": "Suīrán wǒmen bù yíyàng, dàn wǒmen réngrán shì hǎo péngyou.", "vi": "Dù khác nhau nhưng chúng tôi vẫn là bạn tốt.", "vocab": "", "breakdown": "仍然 + 是好朋友" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Cuộc sống ở thành phố [0:既然] mang tới quá nhiều áp lực và [0:烦恼] cho chúng ta, chi bằng chúng ta từ bỏ mọi thứ, về sống ở vùng [0:郊区] cách thành phố 40-50 km đi. Cứ về với thiên nhiên là sẽ cảm thấy rất thoải mái. [0:景色] miền thôn quê vô cùng [0:美丽], [0:周围] đầy hoa cỏ sẽ khiến bản thân [0:冷静] hơn trước những bon chen phiền muộn." },
+        { "who": "B", "zh": "Sếp cũ của tớ cũng rời thành phố, chuyển vào sống trong [0:森林] sâu. Tớ rất ngưỡng mộ sự [0:勇敢] của anh ấy!" },
+        { "who": "A", "zh": "Trong giấc [0:梦] của tớ, ngôi nhà lý tưởng cũng sẽ ở trong rừng, mỗi ngày [0:醒] dậy đều nhìn thấy màu xanh của cây cối, đọc sách dưới tán cây, nhìn [0:叶子] từ từ [0:降落] xuống mặt đất, khi thấy [0:难受] trong lòng thì ôm lấy những con vật nhỏ. Cứ như vậy phiền não sẽ ngày một ít hơn." },
+        { "who": "B", "zh": "Khi gặp điều phiền não, chúng ta đều nên tìm cách giải quyết. Rời thành phố chỉ là một [0:其中] nhiều giải pháp. Tớ [0:仍然] chọn tiếp tục nỗ lực để làm tốt công việc hiện tại. Không phải không muốn, mà là tớ không [0:敢] từ bỏ hết mọi thứ đi như vậy." },
+        { "who": "A", "zh": "\"Giày [0:合适] hay không, chỉ có chân mới biết\", mỗi người đều có sự lựa chọn của riêng mình, chỉ cần chọn điều không khiến bạn [0:后悔] là được." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "[1:既然]城市里的生活有这么多烦恼，还是我们放弃一切，到郊区住吧。一回到大自然就会觉得很舒服。美丽的景色，周围满是鲜花绿草会让自己冷静下来。", "py": "[1:Jìrán] chéngshì lǐ de shēnghuó yǒu zhème duō fánnǎo, háishi wǒmen fàngqì yíqiè, dào jiāoqū zhù ba. Yì huí dào dà zìrán jiù huì juéde hěn shūfu. Měilì de jǐngsè, zhōuwéi mǎn shì xiān huā lǜ cǎo huì ràng zìjǐ lěngjìng xiàlai.", "vi": "[1:Nếu] cuộc sống ở thành phố đã có quá nhiều phiền não như vậy, chi bằng chúng ta từ bỏ mọi thứ, về sống ở vùng ngoại ô đi. Cứ về với thiên nhiên là sẽ cảm thấy rất thoải mái. Cảnh sắc tuyệt đẹp, xung quanh đầy hoa cỏ sẽ khiến bản thân bình tĩnh hơn." },
+        { "who": "B", "zh": "我的前老板也离开了城市，搬到森林里住。好羡慕他的勇敢！", "py": "Wǒ de qián lǎobǎn yě líkāi le chéngshì, bān dào sēnlín lǐ zhù. Hǎo xiànmù tā de yǒnggǎn!", "vi": "Sếp cũ của tớ cũng rời thành phố, chuyển vào sống trong rừng. Tớ rất ngưỡng mộ sự dũng cảm của anh ấy!" },
+        { "who": "A", "zh": "在我梦里，理想的房子也要在森林里，每天醒来都看到绿色的树木，在树下读书，看叶子慢慢降落，难受时抱着小动物。这样烦恼就[2:一天比一天]少。", "py": "Zài wǒ mèng lǐ, lǐxiǎng de fángzi yě yào zài sēnlín lǐ, měitiān xǐng lái dōu kàn dào lǜsè de shùmù, zài shù xià dú shū, kàn yèzi màn màn jiàngluò, nánshòu shí bàozhe xiǎo dòngwù. Zhèyàng fánnǎo jiù [2:yì tiān bǐ yì tiān] shǎo.", "vi": "Trong giấc mơ của tớ, ngôi nhà lý tưởng cũng sẽ ở trong rừng, mỗi ngày thức dậy đều nhìn thấy màu xanh của cây cối, đọc sách dưới tán cây, nhìn lá rơi từ từ, khi khó chịu thì ôm những con vật nhỏ vào lòng. Cứ như vậy phiền não sẽ [2:ngày một] ít hơn." },
+        { "who": "B", "zh": "遇到烦恼时，咱们都应该找办法来解决。离开城市是[3:其中]的一个办法。我[4:仍然]选择继续努力做好现在的工作吧。我不敢放弃所有。", "py": "Yù dào fánnǎo shí, zánmen dōu yīnggāi zhǎo bànfǎ lái jiějué. Líkāi chéngshì shì [3:qízhōng] de yí ge bànfǎ. Wǒ [4:réngrán] xuǎnzé jìxù nǔlì zuò hǎo xiànzài de gōngzuò ba. Wǒ bù gǎn fàngqì suǒyǒu.", "vi": "Khi gặp điều phiền não, chúng ta đều nên tìm cách giải quyết. Rời thành phố là [3:một trong những] cách như vậy. Tớ [4:vẫn] chọn tiếp tục nỗ lực để làm tốt công việc hiện tại. Tớ không dám từ bỏ mọi thứ." },
+        { "who": "A", "zh": "\"鞋合不合适，只有脚知道\"，每个人都有自己的选择，选择不让你后悔就好。", "py": "\"Xié hé bu héshì, zhǐyǒu jiǎo zhīdao\", měi ge rén dōu yǒu zìjǐ de xuǎnzé, xuǎnzé bú ràng nǐ hòuhuǐ jiù hǎo.", "vi": "\"Giày hợp hay không, chỉ có chân mới biết\", mỗi người đều có sự lựa chọn của riêng mình, chỉ cần chọn điều không khiến bạn hối hận là được." }
+      ],
+      "legend": [
+        { "n": 1, "label": "既然", "np": "NP 25.1" },
+        { "n": 2, "label": "一天比一天", "np": "NP 25.2" },
+        { "n": 3, "label": "其中", "np": "NP 25.3" },
+        { "n": 4, "label": "仍然", "np": "NP 25.4" }
+      ]
+    }
+  ]
+}

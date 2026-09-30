@@ -1,0 +1,136 @@
+{
+  "level": "hsk3",
+  "lesson": 31,
+  "bookLesson": 6,
+  "title": "很多汉字看起来很像",
+  "titleVi": "Rất nhiều chữ Hán nhìn giống nhau",
+  "pages": [68, 76],
+  "vocab": [
+    { "hanzi": "作业", "pinyin": "zuòyè", "pos": "dt.", "meaning": "bài tập", "hanViet": "tác nghiệp" },
+    { "hanzi": "好像", "pinyin": "hǎoxiàng", "pos": "phó.", "meaning": "dường như" },
+    { "hanzi": "一般", "pinyin": "yìbān", "pos": "phó.", "meaning": "thường" },
+    { "hanzi": "船", "pinyin": "chuán", "pos": "dt.", "meaning": "thuyền", "hanViet": "thuyền" },
+    { "hanzi": "黑板", "pinyin": "hēibǎn", "pos": "dt.", "meaning": "bảng đen" },
+    { "hanzi": "正常", "pinyin": "zhèngcháng", "pos": "tt.", "meaning": "bình thường" },
+    { "hanzi": "花", "pinyin": "huā", "pos": "đt.", "meaning": "tiêu, tốn", "hanViet": "hoa" },
+    { "hanzi": "练习", "pinyin": "liànxí", "pos": "đt.", "meaning": "luyện tập", "hanViet": "luyện tập" },
+    { "hanzi": "可是", "pinyin": "kěshì", "pos": "liên.", "meaning": "nhưng" },
+    { "hanzi": "忘记", "pinyin": "wàngjì", "pos": "đt.", "meaning": "quên" },
+    { "hanzi": "水平", "pinyin": "shuǐpíng", "pos": "dt.", "meaning": "trình độ" },
+    { "hanzi": "想象", "pinyin": "xiǎngxiàng", "pos": "đt.", "meaning": "tưởng tượng", "hanViet": "tưởng tượng" },
+    { "hanzi": "办法", "pinyin": "bànfǎ", "pos": "dt.", "meaning": "biện pháp", "hanViet": "biện pháp" },
+    { "hanzi": "主要", "pinyin": "zhǔyào", "pos": "phó.", "meaning": "chủ yếu", "hanViet": "chủ yếu" },
+    { "hanzi": "中文", "pinyin": "Zhōngwén", "pos": "dt.", "meaning": "Tiếng Trung", "hanViet": "trung văn" },
+    { "hanzi": "句子", "pinyin": "jùzi", "pos": "dt.", "meaning": "câu", "hanViet": "cú tự" },
+    { "hanzi": "提高", "pinyin": "tígāo", "pos": "đt.", "meaning": "nâng cao", "hanViet": "đề cao" },
+    { "hanzi": "向", "pinyin": "xiàng", "pos": "giới.", "meaning": "hướng đến", "hanViet": "hướng" },
+    { "hanzi": "继续", "pinyin": "jìxù", "pos": "đt.", "meaning": "tiếp tục", "hanViet": "kế tục" },
+    { "hanzi": "相信", "pinyin": "xiāngxìn", "pos": "đt.", "meaning": "tin, tin tưởng" }
+  ],
+  "expand": [
+    { "hanzi": "教室", "pinyin": "jiàoshì", "meaning": "Phòng học" },
+    { "hanzi": "数学", "pinyin": "shùxué", "meaning": "Toán học" },
+    { "hanzi": "语文", "pinyin": "yǔwén", "meaning": "Ngữ văn" },
+    { "hanzi": "科学", "pinyin": "kēxué", "meaning": "Khoa học" },
+    { "hanzi": "历史", "pinyin": "lìshǐ", "meaning": "Lịch sử" },
+    { "hanzi": "地理", "pinyin": "dìlǐ", "meaning": "Địa lý" },
+    { "hanzi": "物理", "pinyin": "wùlǐ", "meaning": "Vật lý" },
+    { "hanzi": "化学", "pinyin": "huàxué", "meaning": "Hóa học" }
+  ],
+  "tree": {
+    "hanzi": "动",
+    "pinyin": "dòng",
+    "meaning": "Động",
+    "words": [
+      { "hanzi": "动静", "pinyin": "dòngjìng", "meaning": "Động tĩnh" },
+      { "hanzi": "感动", "pinyin": "gǎndòng", "meaning": "Cảm động" },
+      { "hanzi": "活动", "pinyin": "huódòng", "meaning": "Hoạt động" },
+      { "hanzi": "动机", "pinyin": "dòngjī", "meaning": "Động cơ" },
+      { "hanzi": "劳动", "pinyin": "láodòng", "meaning": "Lao động" },
+      { "hanzi": "动力", "pinyin": "dònglì", "meaning": "Động lực" },
+      { "hanzi": "自动", "pinyin": "zìdòng", "meaning": "Tự động" },
+      { "hanzi": "动作", "pinyin": "dòngzuò", "meaning": "Động tác" },
+      { "hanzi": "主动", "pinyin": "zhǔdòng", "meaning": "Chủ động" },
+      { "hanzi": "动物", "pinyin": "dòngwù", "meaning": "Động vật" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "6.1",
+      "hanzi": "好像",
+      "pinyin": "hǎoxiàng",
+      "meaning": "hình như, dường như (phán đoán không chắc chắn)",
+      "note": "Loại từ: phó từ · Nghĩa: sự phán đoán, không chắc chắn, dịch là \"hình như, dường như\"",
+      "theory": "Phó từ 好像 /hǎoxiàng/ thể hiện sự phán đoán, không chắc chắn, thường dịch là \"hình như, dường như\".",
+      "examples": [
+        { "zh": "你好像很喜欢跳舞，对吗？", "pinyin": "Nǐ hǎoxiàng hěn xǐhuan tiàowǔ, duì ma?", "vi": "Hình như cậu rất thích nhảy múa, đúng không?", "vocab": "跳舞: nhảy múa", "breakdown": "好像 + 很喜欢…" },
+        { "zh": "他一个人坐在那儿，好像在想什么事。", "pinyin": "Tā yí ge rén zuò zài nàr, hǎoxiàng zài xiǎng shénme shì.", "vi": "Anh ấy ngồi đó một mình, như đang suy nghĩ chuyện gì.", "vocab": "", "breakdown": "好像 + 在想…" }
+      ]
+    },
+    {
+      "np": "6.2",
+      "hanzi": "把 (2)",
+      "pinyin": "bǎ",
+      "meaning": "câu chữ 把 với bổ ngữ kết quả / xu hướng",
+      "note": "Dạng 3: Chủ + 把 + Tân + Động + Bổ ngữ kết quả / xu hướng · Ví dụ: 把名字读错了, 把眼镜拿过来",
+      "theory": "Câu chữ 把 (tiếp theo NP 5.3).\n\nDạng 3: Chủ + 把 + Tân + Động + Bổ ngữ kết quả / xu hướng.",
+      "examples": [
+        { "zh": "老师把我的名字读错了。", "pinyin": "Lǎoshī bǎ wǒ de míngzi dú cuò le.", "vi": "Giáo viên đã đọc sai tên của tôi.", "vocab": "读: đọc", "breakdown": "把 + 我的名字 + 读 + 错 (bổ ngữ kết quả)" },
+        { "zh": "把我的眼镜拿过来。", "pinyin": "Bǎ wǒ de yǎnjìng ná guòlai.", "vi": "Mang kính của tôi lại đây.", "vocab": "", "breakdown": "把 + 我的眼镜 + 拿 + 过来 (bổ ngữ xu hướng)" }
+      ]
+    },
+    {
+      "np": "6.3",
+      "hanzi": "下去 / 下来 (mở rộng)",
+      "pinyin": "xiàqu / xiàlai",
+      "meaning": "cách dùng mở rộng của bổ ngữ xu hướng kép (1)",
+      "note": "Động + 下去: động tác tiếp tục được tiến hành, kéo dài tới tương lai · Động + 下来: động tác làm cho sự vật cố định hoặc dừng lại",
+      "theory": "Động + 下去 /xiàqu/ biểu thị động tác, hành vi tiếp tục được tiến hành hoặc thực hiện, từ hiện tại tiếp tục kéo dài tới tương lai.\n\nĐộng + 下来 /xiàlai/ biểu thị động tác làm cho sự vật cố định hoặc dừng lại.",
+      "examples": [
+        { "zh": "虽然汉语不容易，但是我要学下去。", "pinyin": "Suīrán Hànyǔ bù róngyì, dànshì wǒ yào xué xiàqu.", "vi": "Mặc dù tiếng Hán không dễ, nhưng tôi muốn tiếp tục học.", "vocab": "", "breakdown": "学 + 下去: tiếp tục học" },
+        { "zh": "今天太累了，吃不下去了。", "pinyin": "Jīntiān tài lèi le, chī bú xiàqu le.", "vi": "Hôm nay mệt quá, không muốn ăn nữa.", "vocab": "", "breakdown": "吃不下去: không thể ăn tiếp" },
+        { "zh": "我跟他过不下去了，我要离婚。", "pinyin": "Wǒ gēn tā guò bú xiàqu le, wǒ yào líhūn.", "vi": "Tôi không thể sống với anh ấy được nữa, tôi muốn ly hôn.", "vocab": "离婚 (líhūn): ly hôn", "breakdown": "过不下去: không thể sống tiếp" },
+        { "zh": "如果能把这些花画下来，那多好啊！", "pinyin": "Rúguǒ néng bǎ zhè xiē huā huà xiàlai, nà duō hǎo a!", "vi": "Nếu có thể vẽ lại những bông hoa này thì thật tuyệt!", "vocab": "", "breakdown": "画 + 下来: vẽ lại (cố định lại)" },
+        { "zh": "选来选去，我们决定在那家酒店住下来。", "pinyin": "Xuǎn lái xuǎn qù, wǒmen juédìng zài nà jiā jiǔdiàn zhù xiàlai.", "vi": "Chọn đi chọn lại, chúng tôi quyết định ở khách sạn đó.", "vocab": "住 (zhù): lưu lại, sống, ở", "breakdown": "住 + 下来: ở lại (dừng lại)" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "[0:作业] về nhà hôm nay thầy giao có câu này tớ chẳng biết làm, cậu giúp tớ với." },
+        { "who": "B", "zh": "Hừm, [0:好像] cậu viết nhầm chữ hay sao ấy. Thôi đúng rồi, viết nhầm chữ \"Bình thường\" thành chữ \"Thuyền\" trong tên tác phẩm \"Chiếc [0:船] ngoài xa\"." },
+        { "who": "A", "zh": "Hóa ra đấy là chữ [0:一般] à. Chữ viết bằng phấn trắng trên [0:黑板] mà lại hơi nhỏ, nên nhìn không có ra." },
+        { "who": "B", "zh": "Nhiều chữ Hán trông giống nhau, nên viết sai cũng là điều [0:正常] như cân đường hộp sữa." },
+        { "who": "A", "zh": "Tớ đã [0:花] rất nhiều thời gian luyện tập, [0:可是] cứ học được vài từ, sáng hôm sau là [0:忘记] sạch, nhìn lại như mới. Bài kiểm tra mới đây khiến tớ [0:发现] ra rằng [0:水平] Tiếng Trung của tớ cũng không được tốt như tớ vẫn [0:想象]. Cậu có [0:办法] nào giúp dễ nhớ chữ, chỉ tớ với!" },
+        { "who": "B", "zh": "Để luyện Tiếng Trung tớ áp dụng [0:主要] một số cách như: dành thời gian đọc sách [0:中文], xem phim Trung, nghe nhạc Trung v.v... Đọc, xem hay nghe được từ nào, [0:句子] nào hay là ghi lại luôn, biết đâu được status chất. Dần dần khả năng Tiếng Trung cũng từng bước được [0:提高]." },
+        { "who": "A", "zh": "Được, tớ cũng sẽ học [0:向] cách của cậu, nhất định [0:继续] nỗ lực không bỏ cuộc!" },
+        { "who": "B", "zh": "Với quyết tâm ấy, tớ [0:相信] cậu sẽ học tốt." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "今天的作业我不知道怎么做，请你帮帮我。", "py": "Jīntiān de zuòyè wǒ bù zhīdào zěnme zuò, qǐng nǐ bāngbang wǒ.", "vi": "Bài tập hôm nay tớ không biết làm thế nào, cậu giúp tớ với." },
+        { "who": "B", "zh": "[1:好像]你写错了，你[2:把]\"一般\"的\"般\"写成\"船\"了。", "py": "[1:Hǎoxiàng] nǐ xiě cuò le, nǐ [2:bǎ] \"yìbān\" de \"bān\" xiě chéng \"chuán\" le.", "vi": "[1:Hình như] cậu viết sai rồi, cậu viết chữ \"般\" trong từ \"一般\" thành chữ \"船\" rồi." },
+        { "who": "A", "zh": "黑板上写的字有点儿小，我看不清楚，也不想麻烦老师。", "py": "Hēibǎn shang xiě de zì yǒudiǎnr xiǎo, wǒ kàn bu qīngchu, yě bù xiǎng máfan lǎoshī.", "vi": "Chữ viết trên bảng hơi nhỏ, tớ nhìn không rõ, cũng không muốn làm phiền thầy cô." },
+        { "who": "B", "zh": "写错字也是正常的，因为很多汉字看起来很像。", "py": "Xiě cuò zì yěshì zhèngcháng de, yīnwèi hěn duō hànzì kàn qǐlai hěn xiàng.", "vi": "Viết sai chữ cũng là điều bình thường, bởi vì nhiều chữ Hán trông rất giống nhau." },
+        { "who": "A", "zh": "我花很多时间练习，可是总是学了就忘记。最近考试才发现我的水平没有自己想象的那么好。你有什么办法吗？", "py": "Wǒ huā hěn duō shíjiān liànxí, kěshì zǒng shì xué le jiù wàngjì. Zuìjìn kǎoshì cái fāxiàn wǒ de shuǐpíng méiyǒu zìjǐ xiǎngxiàng de nàme hǎo. Nǐ yǒu shénme bànfǎ ma?", "vi": "Tớ dành rất nhiều thời gian để luyện viết chữ Hán, nhưng mà toàn học rồi lại quên. Gần đây đi thi mới phát hiện ra là trình độ Tiếng Trung của tớ không tốt như những gì tớ đã tưởng tượng. Cậu có cách nào không?" },
+        { "who": "B", "zh": "练习汉语的时候，我主要看中文书、中国电影，听中国音乐等等。每次听到好句子就马上写[3:下来]。过了几个月，我的中文慢慢就提高了。你试试吧！", "py": "Liànxí Hànyǔ de shíhou, wǒ zhǔyào kàn Zhōngwén shū, Zhōngguó diànyǐng, tīng Zhōngguó yīnyuè děngděng. Měi cì tīng dào hǎo jùzi jiù mǎshàng xiě [3:xiàlai]. Guò le jǐ ge yuè, wǒ de Zhōngwén mànmàn jiù tígāo le. Nǐ shìshi ba!", "vi": "Lúc luyện Tiếng Trung tớ chủ yếu đọc sách Tiếng Trung, xem phim Trung Quốc và nghe nhạc Trung Quốc v.v... Mỗi khi nghe thấy câu nào hay liền lập tức [3:ghi lại]. Qua mấy tháng, Tiếng Trung của tớ dần tốt lên. Cậu thử xem." },
+        { "who": "A", "zh": "好，我向你学习，继续努力[3:下去]！", "py": "Hǎo, wǒ xiàng nǐ xuéxí, jìxù nǔlì [3:xiàqu]!", "vi": "Được, tớ phải học tập cậu, [3:tiếp tục] cố gắng thôi!" },
+        { "who": "B", "zh": "万事开头难，我相信你能学好的。", "py": "Wàn shì kāi tóu nán, wǒ xiāngxìn nǐ néng xué hǎo de.", "vi": "Vạn sự khởi đầu nan, tớ tin cậu có thể học tốt." }
+      ],
+      "legend": [
+        { "n": 1, "label": "好像", "np": "NP 6.1" },
+        { "n": 2, "label": "把", "np": "NP 6.2" },
+        { "n": 3, "label": "下来 / 下去", "np": "NP 6.3" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "1. 万事开头难 /wànshì kāitóu nán/, thành ngữ, thường dịch là \"Vạn sự khởi đầu nan\".\n2. 等等 /děng děng/ đặt phía sau các từ hay cụm từ để nhấn mạnh ý liệt kê, thường dịch là \"vân vân\". 等等 không đặt sau tên người hay địa danh, lúc đó cần dùng 等. Khi đã dùng từ 等 hay 等等 thì không cần dùng dấu chấm lửng."
+      }
+    }
+  ]
+}

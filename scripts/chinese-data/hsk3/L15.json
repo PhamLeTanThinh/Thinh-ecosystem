@@ -1,0 +1,143 @@
+{
+  "level": "hsk3",
+  "lesson": 40,
+  "bookLesson": 15,
+  "title": "欢迎参加今天的面试",
+  "titleVi": "Chào mừng bạn đến tham gia buổi phỏng vấn hôm nay",
+  "pages": [148, 156],
+  "vocab": [
+    { "hanzi": "经济", "pinyin": "jīngjì", "pos": "dt.", "meaning": "kinh tế", "hanViet": "kinh tế" },
+    { "hanzi": "毕业", "pinyin": "bìyè", "pos": "đt.", "meaning": "tốt nghiệp" },
+    { "hanzi": "专业", "pinyin": "zhuānyè", "pos": "dt., tt.", "meaning": "chuyên ngành; chuyên nghiệp", "hanViet": "chuyên nghiệp" },
+    { "hanzi": "经验", "pinyin": "jīngyàn", "pos": "dt.", "meaning": "kinh nghiệm", "hanViet": "kinh nghiệm" },
+    { "hanzi": "招聘", "pinyin": "zhāopìn", "pos": "đt.", "meaning": "tuyển dụng" },
+    { "hanzi": "应聘", "pinyin": "yìngpìn", "pos": "đt.", "meaning": "ứng tuyển" },
+    { "hanzi": "主动", "pinyin": "zhǔdòng", "pos": "tt.", "meaning": "chủ động", "hanViet": "chủ động" },
+    { "hanzi": "缺点", "pinyin": "quēdiǎn", "pos": "dt.", "meaning": "khuyết điểm", "hanViet": "khuyết điểm" },
+    { "hanzi": "重视", "pinyin": "zhòngshì", "pos": "đt.", "meaning": "coi trọng", "hanViet": "trọng thị" },
+    { "hanzi": "结果", "pinyin": "jiéguǒ", "pos": "dt.", "meaning": "kết quả", "hanViet": "kết quả" },
+    { "hanzi": "好处", "pinyin": "hǎochù", "pos": "dt.", "meaning": "điểm tốt" },
+    { "hanzi": "本来", "pinyin": "běnlái", "pos": "phó.", "meaning": "vốn dĩ" },
+    { "hanzi": "当", "pinyin": "dāng", "pos": "đt.", "meaning": "làm, đảm nhiệm", "hanViet": "đương" },
+    { "hanzi": "研究员", "pinyin": "yánjiūyuán", "pos": "dt.", "meaning": "nghiên cứu viên", "hanViet": "nghiên cứu viên" },
+    { "hanzi": "研究", "pinyin": "yánjiū", "pos": "đt.", "meaning": "nghiên cứu", "hanViet": "nghiên cứu" },
+    { "hanzi": "经过", "pinyin": "jīngguò", "pos": "đt., giới.", "meaning": "trải qua, đi qua; thông qua", "hanViet": "kinh qua" },
+    { "hanzi": "市场", "pinyin": "shìchǎng", "pos": "dt.", "meaning": "thị trường, chợ", "hanViet": "thị trường" },
+    { "hanzi": "部", "pinyin": "bù", "pos": "dt.", "meaning": "ban, bộ, phòng", "hanViet": "bộ" },
+    { "hanzi": "熟悉", "pinyin": "shúxī", "pos": "đt., tt.", "meaning": "quen thuộc" },
+    { "hanzi": "出差", "pinyin": "chūchāi", "pos": "đt.", "meaning": "công tác" },
+    { "hanzi": "关于", "pinyin": "guānyú", "pos": "giới.", "meaning": "về" },
+    { "hanzi": "通知", "pinyin": "tōngzhī", "pos": "đt.", "meaning": "thông báo" }
+  ],
+  "expand": [
+    { "hanzi": "投简历", "pinyin": "tóu jiǎnlì", "meaning": "Gửi hồ sơ" },
+    { "hanzi": "笔试", "pinyin": "bǐshì", "meaning": "Thi viết" },
+    { "hanzi": "录取", "pinyin": "lùqǔ", "meaning": "Trúng tuyển" },
+    { "hanzi": "通知书", "pinyin": "tōngzhīshū", "meaning": "Giấy thông báo" },
+    { "hanzi": "签合同", "pinyin": "qiān hétong", "meaning": "Ký hợp đồng" },
+    { "hanzi": "试用期", "pinyin": "shìyòngqī", "meaning": "Thời gian thử việc" },
+    { "hanzi": "待遇", "pinyin": "dàiyù", "meaning": "Đãi ngộ" },
+    { "hanzi": "月薪", "pinyin": "yuèxīn", "meaning": "Lương tháng" }
+  ],
+  "tree": {
+    "hanzi": "主",
+    "pinyin": "zhǔ",
+    "meaning": "Chủ",
+    "words": [
+      { "hanzi": "主席", "pinyin": "zhǔxí", "meaning": "Chủ tịch" },
+      { "hanzi": "主权", "pinyin": "zhǔquán", "meaning": "Chủ quyền" },
+      { "hanzi": "主义", "pinyin": "zhǔyì", "meaning": "Chủ nghĩa" },
+      { "hanzi": "主题", "pinyin": "zhǔtí", "meaning": "Chủ đề" },
+      { "hanzi": "自主", "pinyin": "zìzhǔ", "meaning": "Tự chủ" },
+      { "hanzi": "主观", "pinyin": "zhǔguān", "meaning": "Chủ quan" },
+      { "hanzi": "民主", "pinyin": "mínzhǔ", "meaning": "Dân chủ" },
+      { "hanzi": "主动", "pinyin": "zhǔdòng", "meaning": "Chủ động" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "15.1",
+      "hanzi": "在……上",
+      "pinyin": "zài…… shàng",
+      "meaning": "trên / về phương diện / khía cạnh / phạm vi…",
+      "note": "Cấu trúc: 在 + Danh từ + 上 · Nghĩa: ngoài vị trí trên bề mặt vật nào đó, còn dùng với ý \"trên / về phương diện / khía cạnh / phạm vi…\" · Lưu ý: 在 có thể được lược bỏ",
+      "theory": "Cấu trúc 在 + Danh từ + 上 ngoài thể hiện vị trí trên bề mặt của vật nào đó, còn được sử dụng với ý \"trên / về phương diện / khía cạnh / phạm vi…\". 在 có thể được lược bỏ.",
+      "examples": [
+        { "zh": "在学习上，只要你努力，我相信你可以做到。", "pinyin": "Zài xuéxí shàng, zhǐyào nǐ nǔlì, wǒ xiāngxìn nǐ kěyǐ zuò dào.", "vi": "Về phương diện học tập, chỉ cần cậu cố gắng, tớ tin cậu có thể làm được.", "vocab": "只要: chỉ cần", "breakdown": "在 + 学习 + 上" },
+        { "zh": "工作上，我们要学会拒绝。", "pinyin": "Gōngzuò shang wǒmen yào xuéhuì jùjué.", "vi": "Trong công việc, chúng ta cần học cách từ chối.", "vocab": "", "breakdown": "Lược bỏ 在: 工作 + 上" },
+        { "zh": "猫和狗在性格上很不一样。", "pinyin": "Māo hé gǒu zài xìnggé shang hěn bù yíyàng.", "vi": "Chó và mèo rất khác nhau về tính cách.", "vocab": "性格: tính cách", "breakdown": "在 + 性格 + 上" }
+      ]
+    },
+    {
+      "np": "15.2",
+      "hanzi": "本来",
+      "pinyin": "běnlái",
+      "meaning": "vốn có, ban đầu, trước đây; lẽ ra, đáng ra",
+      "note": "Tính từ 本来: so sánh hiện tại với trạng thái ban đầu, trước đây, dịch là \"vốn có, ban đầu, trước đây\" · Phó từ 本来: sự việc / tình huống đáng lẽ phải / nên như vậy, dịch là \"lẽ ra, đáng ra\"",
+      "theory": "Tính từ 本来 /běnlái/ thể hiện ý so sánh hiện tại với trạng thái ban đầu, trước đây, thường dịch là \"vốn có, ban đầu, trước đây\".\n\nKhi là phó từ 本来 /běnlái/ thể hiện sự việc / tình huống đáng lẽ phải / nên như vậy, thường dịch là \"lẽ ra, đáng ra\".",
+      "examples": [
+        { "zh": "我本来在经济大学学银行专业。", "pinyin": "Wǒ běnlái zài Jīngjì dàxué xué yínháng zhuānyè.", "vi": "Tôi vốn học ngành Ngân hàng tại Đại học Kinh tế.", "vocab": "银行: ngân hàng", "breakdown": "Tính từ: trước đây" },
+        { "zh": "他本来的成绩很好，但是昨天有点儿紧张所以影响到最后结果。", "pinyin": "Tā de běnlái chéngjì hěn hǎo, dànshì zuótiān yǒudiǎnr jǐnzhāng suǒyǐ yǐngxiǎng dào zuìhòu jiéguǒ.", "vi": "Thành tích ban đầu của anh ấy vốn rất tốt, nhưng hôm qua có hơi căng thẳng nên ảnh hưởng đến kết quả cuối cùng.", "vocab": "", "breakdown": "Tính từ làm định ngữ: 本来的成绩" },
+        { "zh": "我本来应该认真学习汉语。", "pinyin": "Wǒ běnlái yīnggāi rènzhēn xuéxí Hànyǔ.", "vi": "Lẽ ra tôi phải học Tiếng Trung một cách nghiêm túc.", "vocab": "", "breakdown": "Phó từ: 本来 + 应该" },
+        { "zh": "这小事本来不应该麻烦别人。", "pinyin": "Zhè xiǎoshì běnlái bù yīnggāi máfan biérén.", "vi": "Chuyện nhỏ này đáng ra không nên làm phiền người khác.", "vocab": "", "breakdown": "Phó từ: 本来 + 不应该" }
+      ]
+    },
+    {
+      "np": "15.3",
+      "hanzi": "要是……，就……",
+      "pinyin": "yàoshi……, jiù……",
+      "meaning": "nếu, nếu như…, thì…",
+      "note": "Cấu trúc: 要是…, 就… = 如果…, 就… · Nghĩa: \"Nếu / nếu như…, thì…\"",
+      "theory": "Cấu trúc 要是 /yàoshi/…, 就… = 如果 /rúguǒ/…, 就… = Nếu / nếu như…, thì…",
+      "examples": [
+        { "zh": "要是我妈知道这件事，我就死定了！", "pinyin": "Yàoshi wǒ mā zhīdào zhè jiàn shì, wǒ jiù sǐ dìng le!", "vi": "Nếu mẹ tớ mà biết chuyện, thì tớ chết chắc!", "vocab": "死定了: chết chắc", "breakdown": "要是…, 就…" },
+        { "zh": "要是我能亲眼看到你，就多么好啊！", "pinyin": "Yàoshi wǒ néng qīnyǎn kàn dào nǐ, jiù duōme hǎo a!", "vi": "Nếu được tận mắt nhìn thấy anh, thì tốt biết mấy!", "vocab": "", "breakdown": "要是…, 就…" }
+      ]
+    },
+    {
+      "np": "15.4",
+      "hanzi": "关于",
+      "pinyin": "guānyú",
+      "meaning": "về… (giới thiệu đối tượng được nói đến)",
+      "note": "Cấu trúc: 关于 + Danh từ · Nghĩa: giới thiệu về đối tượng được nói đến, dịch là \"về…\" · Lưu ý: dùng trong kết cấu định ngữ thì phía sau phải có 的 (关于…的 + danh từ)",
+      "theory": "Cấu trúc 关于 /guānyú/ + Danh từ để giới thiệu về đối tượng được nói đến, thường dịch là \"về…\".\n\n关于 còn dùng trong kết cấu định ngữ, phía sau phải có 的 để tạo thành vị ngữ.",
+      "examples": [
+        { "zh": "关于这个问题，你们还是问他吧。", "pinyin": "Guānyú zhè ge wèntí, nǐmen háishi wèn tā ba.", "vi": "Về vấn đề này, hay là các bạn cứ hỏi anh ấy đi.", "vocab": "", "breakdown": "关于 + 这个问题" },
+        { "zh": "这是一份关于中国市场的报告。", "pinyin": "Zhè shì yí fèn guānyú Zhōngguó shìchǎng de bàogào.", "vi": "Đây là một báo cáo về thị trường Trung Quốc.", "vocab": "报告 (bàogào): báo cáo", "breakdown": "Định ngữ: 关于 + 中国市场 + 的 + 报告" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Chào anh, chào mừng anh đến tham gia buổi phỏng vấn hôm nay, xin mời anh tự giới thiệu về mình." },
+        { "who": "B", "zh": "Chào anh, tôi họ Lí, tên Lí Tiểu Bạch, tôi đã hoàn thành chương trình cử nhân và [0:毕业] từ trường Đại học [0:经济] Quốc dân, [0:专业] học tại trường là Kinh tế Quốc tế. Tôi có ba năm [0:经验] làm việc [0:实际] trong môi trường công ty. Biết quý công ty đang có nhu cầu [0:招聘] nhân sự, tôi liền nộp đơn để [0:应聘]." },
+        { "who": "A", "zh": "Anh cho rằng anh là một người như thế nào?" },
+        { "who": "B", "zh": "Tôi là một người chăm chỉ, [0:主动] làm việc không để bị nhắc nhở, nhưng [0:缺点] là yêu cầu đối với bản thân rất cao. Trong công việc, tôi coi trọng [0:结果] cuối cùng, không quá [0:重视] quá trình thực hiện." },
+        { "who": "A", "zh": "Kinh nghiệm làm việc của anh có [0:好处] gì cho công ty của chúng tôi?" },
+        { "who": "B", "zh": "Như đã nói, tôi đã có 3 năm kinh nghiệm làm việc. [0:本来] tôi làm việc tại công ty A, [0:当] vị trí nhân viên [0:研究] thị trường. [0:经过] nhiều năm làm việc ở phòng [0:市场] của họ, bây giờ tôi rất [0:熟悉] thị trường Hà Nội. Nếu công ty có yêu cầu, tôi cũng sẵn sàng làm thêm giờ và đi [0:出差] các tỉnh xa." },
+        { "who": "A", "zh": "Rất tốt, nếu anh không còn thắc mắc gì [0:关于] công việc này nữa, chúng ta dừng ở đây nhé. Có kết quả chúng tôi sẽ [0:通知] ngay tới anh." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "你好，欢迎参加今天的面试，请自我介绍一下。", "py": "Nǐ hǎo, huānyíng cānjiā jīntiān de miànshì, qǐng zìwǒ jièshào yíxià.", "vi": "Chào bạn, chào mừng bạn đến tham gia buổi phỏng vấn hôm nay, xin mời bạn tự giới thiệu về mình." },
+        { "who": "B", "zh": "您好！我姓李，叫李小白。我是从经济大学毕业的，学国际经济专业。我有三年工作经验了。知道贵公司在招聘，我就马上来应聘的。", "py": "Nín hǎo! Wǒ xìng Lǐ, jiào Lǐ Xiǎobái. Wǒ shì cóng jīngjì dàxué bì yè de, xué guójì jīngjì zhuānyè. Wǒ yǒu sān nián gōngzuò jīngyàn le. Zhīdào guì gōngsī zài zhāopìn, wǒ jiù mǎshàng lái yìngpìn de.", "vi": "Chào anh, tôi họ Lý, tên Lý Tiểu Bạch, tôi tốt nghiệp trường Đại học Kinh tế, chuyên ngành Kinh tế Quốc tế. Tôi có ba năm kinh nghiệm làm việc thực tế. Biết quý công ty đang tuyển dụng, tôi liền đến ứng tuyển." },
+        { "who": "A", "zh": "你自己认为你是怎么样的人？", "py": "Nǐ zìjǐ rènwéi nǐ shì zěnmeyàng de rén?", "vi": "Bạn cho rằng bạn là một người như thế nào?" },
+        { "who": "B", "zh": "我是一个认真、主动工作的人，但缺点是对自己要求太高。[1:在工作上]，我最重视工作的结果。", "py": "Wǒ shì yí ge rènzhēn, zhǔdòng gōngzuò de rén, dàn quēdiǎn shì duì zìjǐ yāoqiú tài gāo. [1:Zài gōngzuò shang], wǒ zuì zhòngshì gōngzuò de jiéguǒ.", "vi": "Tôi là một người chăm chỉ, chủ động làm việc, nhưng khuyết điểm là yêu cầu đối với bản thân rất cao. [1:Về phương diện công việc], tôi rất coi trọng kết quả công việc." },
+        { "who": "A", "zh": "你的工作经验对公司有什么好处？", "py": "Nǐ de gōngzuò jīngyàn duì gōngsī yǒu shén me hǎochù?", "vi": "Kinh nghiệm làm việc của bạn có lợi gì cho công ty của chúng tôi?" },
+        { "who": "B", "zh": "我[2:本来]在A公司当研究员。经过多年在市场部工作，我现在对河内市场很熟悉。[3:要是]公司要求，我也愿意加班和出差。", "py": "Wǒ [2:běnlái] zài A gōngsī dāng yánjiūyuán. Jīngguò duōnián zài shìchǎngbù gōngzuò, wǒ xiànzài duì Hénèi shìchǎng hěn shúxī. [3:Yàoshi] gōngsī yāoqiú, wǒ yě yuànyì jiābān hé chūchāi.", "vi": "Tôi [2:trước đây] làm nhân viên nghiên cứu cho công ty A. Qua nhiều năm làm việc ở phòng thị trường, bây giờ tôi rất quen thuộc thị trường Hà Nội. [3:Nếu] công ty có yêu cầu, tôi cũng sẵn sàng làm thêm giờ và đi công tác." },
+        { "who": "A", "zh": "好的。[4:关于]这份工作，如果没有别的问题，面试就到这儿吧。有结果再通知你。", "py": "Hǎo de. [4:Guānyú] zhè fèn gōngzuò, rúguǒ méiyǒu bié de wèntí, miànshì jiù dào zhèr ba. Yǒu jiéguǒ zài tōngzhī nǐ.", "vi": "Rất tốt, [4:về] công việc này, nếu không còn vấn đề gì nữa, cuộc phỏng vấn sẽ kết thúc tại đây. Có kết quả chúng tôi sẽ thông báo cho bạn." }
+      ],
+      "legend": [
+        { "n": 1, "label": "在…上", "np": "NP 15.1" },
+        { "n": 2, "label": "本来", "np": "NP 15.2" },
+        { "n": 3, "label": "要是", "np": "NP 15.3" },
+        { "n": 4, "label": "关于", "np": "NP 15.4" }
+      ]
+    }
+  ]
+}

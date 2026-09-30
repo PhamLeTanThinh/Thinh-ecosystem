@@ -1,0 +1,159 @@
+{
+  "level": "hsk3",
+  "lesson": 29,
+  "bookLesson": 4,
+  "title": "哪条裙子更适合我？",
+  "titleVi": "Cái váy nào hợp với tớ",
+  "pages": [49, 58],
+  "vocab": [
+    { "hanzi": "条", "pinyin": "tiáo", "pos": "lượng.", "meaning": "chiếc" },
+    { "hanzi": "适合", "pinyin": "shìhé", "pos": "đt.", "meaning": "phù hợp, hợp", "hanViet": "thích hợp" },
+    { "hanzi": "选择", "pinyin": "xuǎnzé", "pos": "đt., dt.", "meaning": "lựa chọn" },
+    { "hanzi": "矮", "pinyin": "ǎi", "pos": "tt.", "meaning": "thấp, lùn" },
+    { "hanzi": "参加", "pinyin": "cānjiā", "pos": "đt.", "meaning": "tham gia", "hanViet": "tham gia" },
+    { "hanzi": "婚礼", "pinyin": "hūnlǐ", "pos": "dt.", "meaning": "hôn lễ, đám cưới", "hanViet": "hôn lễ" },
+    { "hanzi": "像…一样", "pinyin": "xiàng… yíyàng", "meaning": "giống như…" },
+    { "hanzi": "新娘", "pinyin": "xīnniáng", "pos": "dt.", "meaning": "cô dâu", "hanViet": "tân nương" },
+    { "hanzi": "短", "pinyin": "duǎn", "pos": "tt.", "meaning": "ngắn", "hanViet": "đoản" },
+    { "hanzi": "深", "pinyin": "shēn", "pos": "tt.", "meaning": "đậm, sâu", "hanViet": "thâm" },
+    { "hanzi": "挂", "pinyin": "guà", "pos": "đt.", "meaning": "treo, mắc" },
+    { "hanzi": "结束", "pinyin": "jiéshù", "pos": "đt.", "meaning": "kết thúc", "hanViet": "kết thúc" },
+    { "hanzi": "恐怕", "pinyin": "kǒngpà", "pos": "phó.", "meaning": "chỉ sợ" },
+    { "hanzi": "阿姨", "pinyin": "āyí", "pos": "dt.", "meaning": "cô, dì" },
+    { "hanzi": "串", "pinyin": "chuàn", "pos": "lượng.", "meaning": "nải" },
+    { "hanzi": "香蕉", "pinyin": "xiāngjiāo", "pos": "dt.", "meaning": "chuối" },
+    { "hanzi": "香", "pinyin": "xiāng", "pos": "tt.", "meaning": "thơm", "hanViet": "hương" },
+    { "hanzi": "甜", "pinyin": "tián", "pos": "tt.", "meaning": "ngọt" },
+    { "hanzi": "新鲜", "pinyin": "xīnxiān", "pos": "tt.", "meaning": "tươi, trong lành" },
+    { "hanzi": "元", "pinyin": "yuán", "pos": "dt.", "meaning": "đồng (đơn vị tiền)", "hanViet": "nguyên" },
+    { "hanzi": "同意", "pinyin": "tóngyì", "pos": "đt.", "meaning": "đồng ý", "hanViet": "đồng ý" }
+  ],
+  "expand": [
+    { "hanzi": "新郎", "pinyin": "xīnláng", "meaning": "Chú rể" },
+    { "hanzi": "婚纱", "pinyin": "hūnshā", "meaning": "Váy cưới" },
+    { "hanzi": "戒指", "pinyin": "jièzhi", "meaning": "Nhẫn" },
+    { "hanzi": "腰带", "pinyin": "yāodài", "meaning": "Thắt lưng" },
+    { "hanzi": "项链", "pinyin": "xiàngliàn", "meaning": "Dây chuyền" },
+    { "hanzi": "耳环", "pinyin": "ěrhuán", "meaning": "Bông tai" },
+    { "hanzi": "手镯", "pinyin": "shǒuzhuó", "meaning": "Vòng đeo tay" },
+    { "hanzi": "墨镜", "pinyin": "mòjìng", "meaning": "Kính mát" }
+  ],
+  "tree": {
+    "hanzi": "成",
+    "pinyin": "chéng",
+    "meaning": "Thành",
+    "words": [
+      { "hanzi": "成熟", "pinyin": "chéngshú", "meaning": "Thành thục" },
+      { "hanzi": "完成", "pinyin": "wánchéng", "meaning": "Hoàn thành" },
+      { "hanzi": "赞成", "pinyin": "zànchéng", "meaning": "Tán thành" },
+      { "hanzi": "成绩", "pinyin": "chéngjì", "meaning": "Thành tích" },
+      { "hanzi": "形成", "pinyin": "xíngchéng", "meaning": "Hình thành" },
+      { "hanzi": "成就", "pinyin": "chéngjiù", "meaning": "Thành tựu" },
+      { "hanzi": "合成", "pinyin": "héchéng", "meaning": "Hợp thành" },
+      { "hanzi": "成功", "pinyin": "chénggōng", "meaning": "Thành công" },
+      { "hanzi": "构成", "pinyin": "gòuchéng", "meaning": "Cấu thành" },
+      { "hanzi": "成语", "pinyin": "chéngyǔ", "meaning": "Thành ngữ" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "4.1",
+      "hanzi": "Tính 是 Tính，但是……",
+      "pinyin": "… shì …, dànshì……",
+      "meaning": "…thì…, nhưng… (không vừa ý một cách khéo léo)",
+      "note": "Cấu trúc: Tính 是 Tính, 但是 / 可是 / 不过 / 就是 / 只是…… · Nghĩa: thể hiện sự không vừa ý, hài lòng, không đồng ý một cách khéo léo, dịch là \"…thì…, nhưng…\"",
+      "theory": "Để thể hiện sự không vừa ý, hài lòng, không đồng ý một cách khéo léo, có thể sử dụng cấu trúc: Tính 是 Tính, 但是 /dànshì/ / 可是 /kěshì/ / 不过 /búguò/ / 就是 /jiùshì/ / 只是 /zhǐshì/ ……, thường dịch là \"…thì…, nhưng…\".",
+      "examples": [
+        { "zh": "这个房间安静是安静，不过离我的学校太远了。", "pinyin": "Zhè ge fángjiān ānjìng shì ānjìng, búguò lí wǒ de xuéxiào tài yuǎn le.", "vi": "Phòng này yên tĩnh thì yên tĩnh đấy, nhưng mà xa trường tớ quá.", "vocab": "离: cách", "breakdown": "安静是安静 + 不过…" },
+        { "zh": "苹果新鲜是新鲜，就是不太大。", "pinyin": "Píngguǒ xīnxiān shì xīnxiān, jiùshì bú tài dà.", "vi": "Táo tươi thì tươi thật đấy, nhưng mà không được to lắm.", "vocab": "苹果: táo", "breakdown": "新鲜是新鲜 + 就是…" }
+      ]
+    },
+    {
+      "np": "4.2",
+      "hanzi": "A 像 B 一样",
+      "pinyin": "A xiàng B yíyàng",
+      "meaning": "A giống như B (so sánh ngang bằng)",
+      "note": "Khẳng định: A + 像 + B + 一样 (+ Tính / Động từ tâm lý) · Phủ định: A + 不像 + B + (……) 这么 / 那么 + Tính / Động từ tâm lý · Nghĩa: hai người hoặc sự vật rất tương đồng ở phương diện nào đó, dịch là \"A giống như B\"",
+      "theory": "A 像 /xiàng/ B 一样 /yíyàng/ là cấu trúc so sánh ngang bằng, biểu thị hai người hoặc sự vật, sự việc rất tương đồng ở phương diện nào đó, thường dịch là \"A giống như B\".\n\nDạng khẳng định: A + 像 + B + 一样 (+ Tính / Động từ tâm lý)\n\nDạng phủ định: A + 不像 + B + (……) 这么 / 那么 + Tính / Động từ tâm lý",
+      "examples": [
+        { "zh": "他写的字像医生写的字一样，一点儿也不好看。", "pinyin": "Tā xiě de zì xiàng yīshēng xiě de zì yíyàng, yìdiǎnr yě bù hǎokàn.", "vi": "Chữ cậu ấy viết không đẹp chút nào, giống như chữ bác sỹ viết vậy.", "vocab": "医生: bác sĩ", "breakdown": "A (他写的字) + 像 + B (医生写的字) + 一样" },
+        { "zh": "我像你一样大的时候，还不知道手机是什么。", "pinyin": "Wǒ xiàng nǐ yíyàng dà de shíhou, hái bù zhīdào shǒujī shì shénme.", "vi": "Hồi anh bằng tuổi em, anh còn không biết điện thoại di động là cái gì.", "vocab": "手机: điện thoại di động", "breakdown": "像你一样 + 大 (tính từ)" },
+        { "zh": "你也像我一样喜欢他吗？", "pinyin": "Nǐ yě xiàng wǒ yíyàng xǐhuan tā ma?", "vi": "Cậu có thích anh ấy nhiều như tôi không?", "vocab": "", "breakdown": "像我一样 + 喜欢 (động từ tâm lý)" },
+        { "zh": "高铁不像飞机那么快。", "pinyin": "Gāotiě bú xiàng fēijī nàme kuài.", "vi": "Đường sắt cao tốc không nhanh bằng máy bay.", "vocab": "高铁: tàu cao tốc", "breakdown": "Phủ định: A + 不像 + B + 那么 + 快" },
+        { "zh": "我不像我父母那么喜欢看电视。", "pinyin": "Wǒ bú xiàng wǒ fùmǔ nàme xǐhuan kàn diànshì.", "vi": "Tôi không thích xem TV như bố mẹ tôi.", "vocab": "父母: bố mẹ", "breakdown": "Phủ định: A + 不像 + B + 那么 + 喜欢" }
+      ]
+    },
+    {
+      "np": "4.3",
+      "hanzi": "又 + Động",
+      "pinyin": "yòu",
+      "meaning": "lại (lặp lại hành động đã từng xảy ra)",
+      "note": "Cấu trúc: 又 + Động từ · Nghĩa: lặp lại cùng một hành động đã từng xảy ra, dịch là \"lại\" · So sánh: 又 dùng cho việc đã xảy ra (hoặc sắp lặp lại trong 又要…了, 又是…了, 又得…了), đặt TRƯỚC động từ năng nguyện; 再 dùng cho việc sẽ xảy ra ở tương lai, đặt SAU động từ năng nguyện",
+      "theory": "Cấu trúc 又 /yòu/ + Động từ biểu thị sự lặp lại của cùng một hành động, dùng cho sự việc đã từng xảy ra, thường dịch là \"lại\".\n\nSo sánh 又 /yòu/ và 再 /zài/:\n\n又 dùng cho sự việc, hành động đã từng xảy ra được lặp lại hoặc sắp xảy ra một lần nữa. Khi biểu thị hành động sắp xảy ra trong tương lai, 又 thường được sử dụng trong các cấu trúc như \"又要……了\", \"又是……了\" và \"又得 /děi/……了\". 又 thường đặt trước động từ năng nguyện.\n\n再 dùng cho sự việc, hành động sẽ xảy ra ở tương lai. 再 thường đặt sau động từ năng nguyện.",
+      "examples": [
+        { "zh": "又下雨了。今天已经下过两次了，这是第三次了。", "pinyin": "Yòu xià yǔ le. Jīntiān yǐjīng xià guo liǎng cì le, zhè shì dì sān cì le.", "vi": "Trời lại mưa rồi, hôm nay đã mưa hai lần rồi, đây là lần thứ ba.", "vocab": "已经: đã", "breakdown": "又 + 下雨 (việc đã từng xảy ra)" },
+        { "zh": "你又忘我的生日了。", "pinyin": "Nǐ yòu wàng wǒ de shēngrì le.", "vi": "Anh lại quên mất sinh nhật của em rồi.", "vocab": "忘: quên", "breakdown": "又 + 忘" },
+        { "zh": "明天又是周末了，太高兴了！", "pinyin": "Míngtiān yòu shì zhōumò le, tài gāoxìng le!", "vi": "Ngày mai lại là cuối tuần rồi vui quá!", "vocab": "", "breakdown": "又是……了: việc sắp lặp lại" },
+        { "zh": "夏天到了，又可以去海边旅游了。", "pinyin": "Xiàtiān dào le, yòu kěyǐ qù hǎibiān lǚyóu le.", "vi": "Hè đến rồi, lại được đi biển du lịch rồi.", "vocab": "海边: bờ biển", "breakdown": "又 đặt trước động từ năng nguyện 可以" },
+        { "zh": "谢谢您，欢迎您下次再来。", "pinyin": "Xièxie nín, huānyíng nín xià cì zài lái.", "vi": "Cảm ơn quý khách, chào mừng quý khách lần sau lại tới.", "vocab": "", "breakdown": "再: việc sẽ xảy ra ở tương lai" },
+        { "zh": "老师，您能再说一遍吗？", "pinyin": "Lǎoshī, nín néng zàishuō yí biàn ma?", "vi": "Thầy ơi, thầy nói lại một lần được không ạ?", "vocab": "遍: lần, lượt", "breakdown": "再 đặt sau động từ năng nguyện 能" },
+        { "zh": "这儿的菜很好吃，我还要再来！", "pinyin": "Zhèr de cài hěn hǎochī, wǒ hái yào zài lái!", "vi": "Đồ ăn ở đây rất ngon, tôi muốn đến lần nữa!", "vocab": "", "breakdown": "再 đặt sau động từ năng nguyện 要" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Trong mấy [0:条] váy liền này, cậu nghĩ tớ nên [0:选择] cái nào để mua mặc đi đám cưới." },
+        { "who": "B", "zh": "Cái màu trắng với màu đỏ tớ thấy đều rất [0:适合] với vóc dáng [0:矮] như nấm của cậu." },
+        { "who": "A", "zh": "Nhưng váy đỏ hơi [0:长] nhỉ, giẫm vào váy có mà ngã sấp mặt, giá mà có cái nào [0:短] hơn một chút thì xinh. Váy trắng đẹp đấy, nhưng đến [0:参加] đám cưới ai lại mặc màu trắng [0:像] váy cưới của [0:新娘] nhà người ta, phải mặc màu không [0:一样] mới phải.." },
+        { "who": "B", "zh": "Lo gì, thiệp mời dự [0:婚礼] cũng đâu có quy định khắt khe gì về trang phục. Cứ đẹp là được." },
+        { "who": "A", "zh": "Tớ còn thích cái này, nhưng màu của nó lại hơi [0:深], tớ lại thích cái nào màu nhạt thôi." },
+        { "who": "B", "zh": "Cả cái [0:衣柜] của cửa hàng quần áo to như vậy, trên móc [0:挂] đầy quần áo thế này, thích cái nào cứ chọn đại đi. Chứ tình hình này tớ [0:恐怕] cứ ngắm lên ngắm xuống mãi, đám cưới người ta [0:结束] rồi cậu còn chưa chốt mua được cái nào cũng nên." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Cô ơi, chuối bao nhiêu một nải ạ?" },
+        { "who": "B", "zh": "Một [0:串] có 50 tệ thôi. [0:香蕉] miền Nam chuyển ra, kiểm định [0:安全] thực phẩm rất gắt gao, cuống còn [0:新鲜] thế này cơ mà." },
+        { "who": "A", "zh": "Chuối này chín chắc [0:甜] như mật ấy cô nhỉ. Nhưng để cháu giá 45 được không cô, cô [0:同意] giá này là cháu mua cho cô cả buồng luôn." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "你觉得哪条裙子更适合我？", "py": "Nǐ juéde nǎ tiáo qúnzi gèng shìhé wǒ?", "vi": "Cậu thấy cái váy nào hợp với tớ?" },
+        { "who": "B", "zh": "白的、红的我觉得都挺好看的。", "py": "Bái de, hóng de wǒ juéde dōu tǐng hǎokàn de.", "vi": "Cái màu trắng và màu đỏ tớ thấy rất đẹp." },
+        { "who": "A", "zh": "红的有点儿长，穿上去很矮。白的[1:好看是好看]，不过参加婚礼谁穿白色啊，不能穿得[2:像]新娘[2:一样]。", "py": "Hóng de yǒudiǎnr cháng, chuān shàngqu hěn ǎi. Bái de [1:hǎokàn shì hǎokàn], búguò cānjiā hūnlǐ shéi chuān báisè a, bùnéng chuān de [2:xiàng] xīnniáng [2:yíyàng].", "vi": "Cái màu đỏ hơi dài, mặc lên trông rất thấp. Cái trắng [1:đẹp thì có đẹp], nhưng đi đám cưới ai lại mặc đồ trắng, không thể mặc [2:giống] cô dâu được." },
+        { "who": "B", "zh": "那这条红的怎么样？", "py": "Nà zhè tiáo hóng de zěnmeyàng?", "vi": "Vậy cái màu đỏ này thế nào?" },
+        { "who": "A", "zh": "太短了吧。", "py": "Tài duǎn le ba.", "vi": "Ngắn quá nhỉ." },
+        { "who": "B", "zh": "衣柜挂着这么多衣服，你喜欢哪个就买哪个。", "py": "Yīguì guàzhe zhème duō yīfu, nǐ xǐhuan nǎ ge jiù mǎi nǎ ge.", "vi": "Trên giá treo nhiều quần áo thế, cậu thích cái nào thì mua cái đó." },
+        { "who": "A", "zh": "看来看去还不知道选择哪一个，明天我们再来看吧。", "py": "Kàn lái kàn qù hái bù zhīdào xuǎnzé nǎ yí ge, míngtiān wǒmen zàilái kàn ba.", "vi": "Nhìn đi nhìn lại vẫn không biết chọn cái nào, ngày mai chúng ta lại đến xem nhé." },
+        { "who": "B", "zh": "你啊，昨天看了，今天[3:又]看，明天再来看，婚礼结束了恐怕你还没选好呢。", "py": "Nǐ a, zuótiān kàn le, jīntiān [3:yòu] kàn, míngtiān zài lái kàn, hūnlǐ jiéshù le kǒngpà nǐ hái méi xuǎn hǎo ne.", "vi": "Cậu hôm qua xem rồi, hôm nay [3:lại] xem, ngày mai lại đến xem, đám cưới kết thúc rồi, e là cậu vẫn chưa chọn được." }
+      ],
+      "legend": [
+        { "n": 1, "label": "好看是好看", "np": "NP 4.1" },
+        { "n": 2, "label": "像……一样", "np": "NP 4.2" },
+        { "n": 3, "label": "又", "np": "NP 4.3" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "阿姨，一串香蕉多少钱？", "py": "Āyí, yí chuàn xiāngjiāo duōshao qián?", "vi": "Cô ơi, 1 nải chuối bao nhiêu tiền?" },
+        { "who": "B", "zh": "50块一串，你买几串？", "py": "Wǔshí kuài yí chuàn, nǐ mǎi jǐ chuàn?", "vi": "50 đồng một nải, cháu mua mấy nải?" },
+        { "who": "A", "zh": "怎么这么贵？", "py": "Zěnme zhème guì?", "vi": "Sao mà đắt thế?" },
+        { "who": "B", "zh": "这是最便宜的价格了。这香蕉又香又甜，还很新鲜。", "py": "Zhè shì zuì piányi de jiàgé le. Zhè xiāngjiāo yòu xiāng yòu tián, hái hěn xīnxiān.", "vi": "Đây là giá rẻ nhất rồi. Chuối này vừa thơm vừa ngọt, còn rất tươi." },
+        { "who": "A", "zh": "45元一串可以吗？你同意我就买两串。", "py": "Sìshíwǔ yuán yí chuàn kěyǐ ma? Nǐ tóngyì wǒ jiù mǎi liǎng chuàn.", "vi": "45 đồng một nải được không ạ? Cô đồng ý thì cháu mua hai nải." }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "再说 /zàishuō/ dùng để đưa ra thêm lý do bổ sung, lý do đi cùng với 再说 không phải lý do quan trọng nhất."
+      }
+    }
+  ]
+}

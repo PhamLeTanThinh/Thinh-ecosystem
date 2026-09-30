@@ -1540,6 +1540,7 @@
   line-height: 1.7;
   color: var(--color-text);
   background: rgba(179, 34, 43, 0.05);
+  white-space: pre-line; /* chú thích nhiều mục (1)(2)… nối bằng \n */
 }
 
 /* ── Buttons ──────────────────────────────────────────────────────────────────────────── */

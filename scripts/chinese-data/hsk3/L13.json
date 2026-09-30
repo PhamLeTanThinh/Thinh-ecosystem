@@ -1,0 +1,158 @@
+{
+  "level": "hsk3",
+  "lesson": 38,
+  "bookLesson": 13,
+  "title": "教室没有图书馆安静",
+  "titleVi": "Phòng học không yên tĩnh bằng thư viện",
+  "pages": [130, 139],
+  "vocab": [
+    { "hanzi": "奇怪", "pinyin": "qíguài", "pos": "tt.", "meaning": "kỳ lạ", "hanViet": "kỳ quái" },
+    { "hanzi": "太阳", "pinyin": "tàiyáng", "pos": "dt.", "meaning": "mặt trời", "hanViet": "thái dương" },
+    { "hanzi": "西", "pinyin": "xī", "pos": "dt.", "meaning": "phía Tây", "hanViet": "tây" },
+    { "hanzi": "体育", "pinyin": "tǐyù", "pos": "dt.", "meaning": "thể dục", "hanViet": "thể dục" },
+    { "hanzi": "几乎", "pinyin": "jīhū", "pos": "phó.", "meaning": "dường như", "hanViet": "cơ hồ" },
+    { "hanzi": "新闻", "pinyin": "xīnwén", "pos": "dt.", "meaning": "thời sự" },
+    { "hanzi": "提", "pinyin": "tí", "pos": "đt.", "meaning": "đề cập, nhắc", "hanViet": "đề" },
+    { "hanzi": "比赛", "pinyin": "bǐsài", "pos": "dt.", "meaning": "trận đấu, thi đấu" },
+    { "hanzi": "后来", "pinyin": "hòulái", "pos": "phó.", "meaning": "sau đó, về sau" },
+    { "hanzi": "获得", "pinyin": "huòdé", "pos": "đt.", "meaning": "đạt được" },
+    { "hanzi": "得", "pinyin": "dé", "pos": "đt.", "meaning": "đạt", "hanViet": "đắc" },
+    { "hanzi": "最后", "pinyin": "zuìhòu", "pos": "dt.", "meaning": "cuối cùng" },
+    { "hanzi": "校长", "pinyin": "xiàozhǎng", "pos": "dt.", "meaning": "hiệu trưởng", "hanViet": "hiệu trưởng" },
+    { "hanzi": "文学", "pinyin": "wénxué", "pos": "dt.", "meaning": "Văn học", "hanViet": "văn học" },
+    { "hanzi": "数学", "pinyin": "shùxué", "pos": "dt.", "meaning": "Toán", "hanViet": "số học" },
+    { "hanzi": "题", "pinyin": "tí", "pos": "dt.", "meaning": "đề", "hanViet": "đề" },
+    { "hanzi": "肯定", "pinyin": "kěndìng", "pos": "trạng.", "meaning": "chắc chắn", "hanViet": "khẳng định" },
+    { "hanzi": "笔记本", "pinyin": "bǐjìběn", "pos": "dt.", "meaning": "sổ tay, sổ ghi chép" },
+    { "hanzi": "教", "pinyin": "jiāo", "pos": "đt.", "meaning": "dạy", "hanViet": "giáo" },
+    { "hanzi": "教室", "pinyin": "jiàoshì", "pos": "dt.", "meaning": "phòng học" },
+    { "hanzi": "图书馆", "pinyin": "túshūguǎn", "pos": "dt.", "meaning": "thư viện" },
+    { "hanzi": "灯", "pinyin": "dēng", "pos": "dt.", "meaning": "đèn", "hanViet": "đăng" }
+  ],
+  "expand": [
+    { "hanzi": "班主任", "pinyin": "bānzhǔrèn", "meaning": "GV chủ nhiệm" },
+    { "hanzi": "班级", "pinyin": "bānjí", "meaning": "Lớp" },
+    { "hanzi": "学期", "pinyin": "xuéqī", "meaning": "Học kỳ" },
+    { "hanzi": "学费", "pinyin": "xuéfèi", "meaning": "Học phí" },
+    { "hanzi": "必修课", "pinyin": "bìxiū kè", "meaning": "Môn bắt buộc" },
+    { "hanzi": "选修课", "pinyin": "xuǎnxiū kè", "meaning": "Môn tự chọn" },
+    { "hanzi": "课程表", "pinyin": "kèchéng biǎo", "meaning": "Thời khóa biểu" },
+    { "hanzi": "学霸", "pinyin": "xuébà", "meaning": "Học bá" }
+  ],
+  "tree": {
+    "hanzi": "后",
+    "pinyin": "hòu",
+    "meaning": "Hậu",
+    "words": [
+      { "hanzi": "后勤", "pinyin": "hòuqín", "meaning": "Hậu cần" },
+      { "hanzi": "后方", "pinyin": "hòufāng", "meaning": "Hậu phương" },
+      { "hanzi": "后宫", "pinyin": "hòugōng", "meaning": "Hậu cung" },
+      { "hanzi": "皇后", "pinyin": "huánghòu", "meaning": "Hoàng hậu" },
+      { "hanzi": "后裔", "pinyin": "hòuyì", "meaning": "Hậu duệ" },
+      { "hanzi": "落后", "pinyin": "luòhòu", "meaning": "Lạc hậu" },
+      { "hanzi": "后盾", "pinyin": "hòudùn", "meaning": "Hậu thuẫn" },
+      { "hanzi": "后果", "pinyin": "hòuguǒ", "meaning": "Hậu quả" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "13.1",
+      "hanzi": "几乎",
+      "pinyin": "jīhū",
+      "meaning": "hầu như, gần như, suýt nữa",
+      "note": "Loại từ: phó từ · Nghĩa: sự tiếp cận rất gần; hoặc sự việc mắt nhìn tưởng như sắp xảy ra nhưng cuối cùng lại chưa xảy ra, dịch là \"hầu như, gần như, suýt nữa\"",
+      "theory": "Phó từ 几乎 /jīhū/ thể hiện sự tiếp cận rất gần; hoặc thể hiện sự việc mắt nhìn tưởng như sắp xảy ra nhưng cuối cùng lại chưa xảy ra, thường dịch là \"hầu như, gần như, suýt nữa\".",
+      "examples": [
+        { "zh": "我们班男生几乎都喜欢她，但是她喜欢的只有我一个人。", "pinyin": "Wǒmen bān nánshēng jīhū dōu xǐhuan tā, dànshì tā xǐhuan de zhǐyǒu wǒ yí ge rén.", "vi": "Con trai lớp chúng tôi gần như ai cũng thích cô ấy, nhưng người cô ấy thích chỉ có mình tôi.", "vocab": "男生: nam sinh", "breakdown": "几乎 + 都…" },
+        { "zh": "现在不像以前一样，每个人的家几乎都有空调、冰箱，很方便。", "pinyin": "Xiànzài bú xiàng yǐqián yíyàng, měigerén de jiā jīhū dōu yǒu kōngtiáo, bīngxiāng, hěn fāngbiàn.", "vi": "Bây giờ không giống như trước đây, nhà ai hầu như đều có điều hoà, tủ lạnh, rất tiện lợi.", "vocab": "", "breakdown": "几乎 + 都有…" }
+      ]
+    },
+    {
+      "np": "13.2",
+      "hanzi": "后来",
+      "pinyin": "hòulái",
+      "meaning": "sau này, sau đó",
+      "note": "Cấu trúc: 后来 + Thời gian · Loại từ: danh từ · Nghĩa: khoảng thời gian sau một mốc thời gian nào đó, dịch là \"sau này, sau đó\"",
+      "theory": "Danh từ 后来 /hòulái/ + Thời gian thể hiện khoảng thời gian sau một mốc thời gian nào đó, thường dịch là \"sau này, sau đó\".",
+      "examples": [
+        { "zh": "我们是同班同学十二年，后来又是同事。", "pinyin": "Wǒmen shì tóngbān tóngxué shí'èr nián, hòulái yòu shì tóngshì.", "vi": "Chúng tôi là bạn cùng lớp 12 năm, sau đó còn là đồng nghiệp.", "vocab": "同班: cùng lớp", "breakdown": "后来 + 又是同事" },
+        { "zh": "后来我们什么都有了，但没有了我们。", "pinyin": "Hòulái wǒmen shénme dōu yǒule, dàn méiyǒule wǒmen.", "vi": "Sau này chúng ta có mọi thứ, nhưng không có chúng ta.", "vocab": "", "breakdown": "后来 đứng đầu câu" }
+      ]
+    },
+    {
+      "np": "13.3",
+      "hanzi": "最后",
+      "pinyin": "zuìhòu",
+      "meaning": "cuối cùng (vị trí sau cùng trong một thứ tự)",
+      "note": "Loại từ: danh từ · Nghĩa: nơi chốn / thời gian được sắp xếp sau một nơi chốn / thời gian khác trong một thứ tự nhất định, dịch là \"cuối cùng\"",
+      "theory": "Danh từ 最后 /zuìhòu/ thể hiện nơi chốn / thời gian nào đó được sắp xếp sau một nơi chốn / thời gian khác trong một thứ tự nhất định, thường dịch là \"cuối cùng\".",
+      "examples": [
+        { "zh": "我想来想去，最后还是决定点外卖。", "pinyin": "Tā xiǎng lái xiǎng qù, zuìhòu háishi juédìng diǎn wàimài.", "vi": "Tôi nghĩ đi nghĩ lại, cuối cùng vẫn quyết định gọi đồ ăn ngoài.", "vocab": "外卖: đồ ăn giao tận nơi", "breakdown": "最后 + 还是决定…" },
+        { "zh": "去买东西的时候，价格是我考虑的最后一个问题。", "pinyin": "Qù mǎi dōngxi de shíhou, jiàgé shì wǒ kǎolǜ de zuìhòu yí ge wèntí.", "vi": "Lúc đi mua đồ, giá cả là điều cuối cùng mà tôi cân nhắc.", "vocab": "价格: giá cả", "breakdown": "最后 + 一个问题 (định ngữ)" },
+        { "zh": "你不爱我吧？为什么总是把我放在最后？", "pinyin": "Nǐ bú ài wǒ ba, wèishénme zǒngshì bǎ wǒ fàng zài zuìhòu?", "vi": "Anh không yêu em phải không? Sao luôn đặt em cuối cùng?", "vocab": "", "breakdown": "放在 + 最后" }
+      ]
+    },
+    {
+      "np": "13.4",
+      "hanzi": "肯定",
+      "pinyin": "kěndìng",
+      "meaning": "chắc chắn; nhất định, không nghi ngờ",
+      "note": "Tính từ 肯定: sự chắc chắn, rõ ràng, dịch là \"chắc chắn\" · Phó từ 肯定: thừa nhận tính hợp lí, tính chân thực của sự vật / sự việc, dịch là \"nhất định / không nghi ngờ\"",
+      "theory": "① 肯定 /kěndìng/ khi là tính từ sẽ thể hiện sự chắc chắn, rõ ràng, thường dịch là \"chắc chắn\".\n\n② 肯定 /kěndìng/ khi là phó từ sẽ biểu thị sự thừa nhận tính hợp lí, tính chân thực của sự vật / sự việc, thường dịch là \"nhất định / không nghi ngờ\".",
+      "examples": [
+        { "zh": "他能说出那么肯定的话，那件事应该是真的。", "pinyin": "Tā néng shuō chū nàme kěndìng dehuà, nà jiàn shì yīnggāi shì zhēn de.", "vi": "Anh ấy có thể nói ra những lời chắc chắn như vậy, chuyện đó có lẽ là thật đấy.", "vocab": "", "breakdown": "① Tính từ: 那么肯定的话" },
+        { "zh": "如果我们不肯定，就不会把它给你。", "pinyin": "Rúguǒ wǒmen bù kěndìng, jiù bú huì bǎ tā gěi nǐ.", "vi": "Nếu chúng tôi không chắc chắn, chúng tôi sẽ không đưa nó cho bạn.", "vocab": "", "breakdown": "① Tính từ: 不肯定" },
+        { "zh": "这本书我一个星期肯定看得完。", "pinyin": "Zhè běn shū wǒ yí ge xīngqī kěndìng kàn de wán.", "vi": "Tôi chắc chắn có thể đọc xong cuốn sách này trong một tuần.", "vocab": "", "breakdown": "② Phó từ: 肯定 + 看得完" },
+        { "zh": "你出来看看，这种天气我肯定会下雨。", "pinyin": "Nǐ chūlai kànkan, zhè zhǒng tiānqì wǒ kěndìng huì xià yǔ.", "vi": "Cậu ra đây mà xem, kiểu thời tiết này tớ chắc chắn sẽ mưa.", "vocab": "", "breakdown": "② Phó từ: 肯定 + 会下雨" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Chuyện [0:奇怪] như [0:太阳] mọc từ phía [0:西] thế này, sao bạn tôi đột nhiên lại quan tâm đến [0:体育] thể thao vậy?" },
+        { "who": "B", "zh": "Bạn trai tớ thích chạy bộ, tớ [0:几乎] bị anh ấy ảnh hưởng rồi. Cậu xem [0:新闻] Thời sự trên tivi hôm qua chưa? Bản tin cũng [0:提] đến [0:比赛] chạy bộ của trường, bạn trai tớ cũng tham gia đấy." },
+        { "who": "A", "zh": "Thế [0:后来] kết quả thế nào?" },
+        { "who": "B", "zh": "Mặc dù cuộc thi này anh ấy chỉ [0:获得] huy chương Đồng, nhưng mà [0:最后] đến lúc trao thưởng vẫn nhận được món quà lớn từ thầy [0:校长] đó." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Tớ thích môn Lịch sử, [0:文学], không thích môn Toán. Tớ cảm thấy [0:数学] khó hơn Lịch sử và Văn học nhiều. [0:题] Toán kiểm tra học kỳ lần này tớ dám [0:肯定] là rất khó, chỉ sợ tớ lại thi không tốt." },
+        { "who": "B", "zh": "Cậu mang [0:笔记本] ra đây ghi chép đi, tớ có thể [0:教] cậu cách giải. Mỗi ngày học một hai tiếng, thành tích của cậu sẽ được nâng cao." },
+        { "who": "A", "zh": "[0:教室] có sẵn bàn ghế và bảng, nhưng không yên tĩnh bằng thư viện, chúng mình đi [0:图书馆] học đi." },
+        { "who": "B", "zh": "Ừ. Trước khi ra khỏi phòng thì nhớ tắt [0:灯] đi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "奇怪，今天太阳从西边出来了吗？你怎么突然关心起体育来了？", "py": "Qíguài, jīntiān tàiyáng cóng xībian chūlaile ma? Nǐ zěnme tūrán guānxīn qǐ tǐyù láile?", "vi": "Kỳ lạ, hôm nay mặt trời mọc từ đằng Tây hay sao? Cậu sao đột nhiên lại quan tâm đến thể dục thể thao vậy?" },
+        { "who": "B", "zh": "我的男朋友喜欢跑步，我[1:几乎]被他影响了。你看昨天的新闻了吗？新闻上也提到学校跑步比赛，我的男朋友也参加了。", "py": "Wǒ de nán péngyou xǐhuan pǎobù, wǒ [1:jīhū] bèi tā yǐngxiǎngle. Nǐ kàn zuótiān de xīnwénle ma? Xīnwén shàng yě tí dào xuéxiào pǎobù bǐsài, wǒ de nán péngyou yě cānjiāle.", "vi": "Bạn trai tớ thích chạy bộ, tớ [1:dường như] bị anh ấy ảnh hưởng rồi. Cậu xem tin tức hôm qua chưa? Trên tin tức cũng để cập đến cuộc thi chạy bộ của trường, bạn trai tớ cũng tham gia." },
+        { "who": "A", "zh": "[2:后来]成绩怎么样呢？", "py": "[2:Hòulái] chéngjì zěnmeyàng ne?", "vi": "[2:Sau đó] kết quả thế nào?" },
+        { "who": "B", "zh": "虽然这次比赛他只获得了第三名，但是[3:最后]还拿到了校长的大礼物呢。", "py": "Suīrán zhè cì bǐsài tā zhǐ huòdéle dì sān míng, dànshì [3:zuìhòu] hái ná dào le xiàozhǎng de dà lǐwù ne.", "vi": "Mặc dù cuộc thi lần này anh ấy chỉ đạt được vị trí thứ 3, nhưng mà [3:cuối cùng] vẫn nhận được món quà lớn của hiệu trưởng đó." }
+      ],
+      "legend": [
+        { "n": 1, "label": "几乎", "np": "NP 13.1" },
+        { "n": 2, "label": "后来", "np": "NP 13.2" },
+        { "n": 3, "label": "最后", "np": "NP 13.3" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "我喜欢历史课，文学课，不喜欢数学课。我觉得数学比历史难多了。这次数学考试题[4:肯定]很难，恐怕我又考得不怎么样。", "py": "Wǒ xǐhuan lìshǐ kè, wénxué kè, bù xǐhuan shùxué kè. Wǒ juéde shùxué bǐ lìshǐ nán duō le. Zhè cì shùxué kǎoshì tí [4:kěndìng] hěn nán, kǒngpà wǒ yòu kǎo de bù zěnmeyàng.", "vi": "Tớ thích môn Lịch sử, Văn học, không thích môn Toán học. Tớ cảm thấy Toán khó hơn Lịch sử nhiều. Lần thi Toán này đề [4:chắc chắn] là rất khó, chỉ sợ tớ lại thi không ra làm sao." },
+        { "who": "B", "zh": "你把笔记本拿出来，我可以教你。每天学一两个小时，你成绩就提高了。", "py": "Nǐ bǎ bǐjìběn ná chūlai, wǒ kěyǐ jiāo nǐ. Měitiān xué yì liǎng gè xiǎoshí, nǐ chéngjì jiù tígāole.", "vi": "Cậu cầm sổ tay ra đây, tớ có thể dạy cậu. Mỗi ngày học một hai tiếng, thành tích của cậu sẽ được nâng cao." },
+        { "who": "A", "zh": "教室没有图书馆安静，我们去图书馆学吧。", "py": "Jiàoshì méiyǒu túshū guǎn ānjìng, wǒmen qù túshūguǎn xué ba.", "vi": "Phòng học không yên tĩnh bằng thư viện, chúng mình đi thư viện học đi." },
+        { "who": "B", "zh": "好的。离开教室前记得把灯关了。", "py": "Hǎo de. Líkāi jiàoshì qián jìde bǎ dēng guān le.", "vi": "Ừ. Trước khi ra khỏi phòng học thì nhớ tắt đèn đi." }
+      ],
+      "legend": [
+        { "n": 4, "label": "肯定", "np": "NP 13.4" }
+      ]
+    }
+  ]
+}

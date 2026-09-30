@@ -1,0 +1,160 @@
+{
+  "level": "hsk3",
+  "lesson": 39,
+  "bookLesson": 14,
+  "title": "健康最重要",
+  "titleVi": "Sức khỏe quan trọng nhất",
+  "pages": [139, 148],
+  "vocab": [
+    { "hanzi": "厉害", "pinyin": "lìhai", "pos": "tt.", "meaning": "lợi hại", "hanViet": "lợi hại" },
+    { "hanzi": "估计", "pinyin": "gūjì", "pos": "đt.", "meaning": "đoán chừng, đoán" },
+    { "hanzi": "使用", "pinyin": "shǐyòng", "pos": "đt.", "meaning": "sử dụng", "hanViet": "sử dụng" },
+    { "hanzi": "也许", "pinyin": "yěxǔ", "pos": "phó.", "meaning": "có lẽ" },
+    { "hanzi": "不仅", "pinyin": "bùjǐn", "pos": "liên.", "meaning": "không những" },
+    { "hanzi": "安排", "pinyin": "ānpái", "pos": "đt.", "meaning": "sắp xếp", "hanViet": "an bài" },
+    { "hanzi": "检查", "pinyin": "jiǎnchá", "pos": "đt.", "meaning": "kiểm tra", "hanViet": "kiểm tra" },
+    { "hanzi": "药到病除", "pinyin": "yào dào bìng chú", "meaning": "uống thuốc hết bệnh" },
+    { "hanzi": "处", "pinyin": "chù", "pos": "dt.", "meaning": "nơi" },
+    { "hanzi": "尤其", "pinyin": "yóuqí", "pos": "phó.", "meaning": "đặc biệt là" },
+    { "hanzi": "绿", "pinyin": "lǜ", "pos": "tt.", "meaning": "xanh", "hanViet": "lục" },
+    { "hanzi": "植物", "pinyin": "zhíwù", "pos": "dt.", "meaning": "thực vật", "hanViet": "thực vật" },
+    { "hanzi": "层", "pinyin": "céng", "pos": "lượng.", "meaning": "tầng", "hanViet": "tầng" },
+    { "hanzi": "效果", "pinyin": "xiàoguǒ", "pos": "dt.", "meaning": "hiệu quả", "hanViet": "hiệu quả" },
+    { "hanzi": "力气", "pinyin": "lìqi", "pos": "dt.", "meaning": "sức lực" },
+    { "hanzi": "减肥", "pinyin": "jiǎnféi", "pos": "đt.", "meaning": "giảm cân" },
+    { "hanzi": "坚持", "pinyin": "jiānchí", "pos": "đt.", "meaning": "kiên trì", "hanViet": "kiên trì" },
+    { "hanzi": "再说", "pinyin": "zàishuō", "pos": "liên.", "meaning": "hơn nữa" }
+  ],
+  "expand": [
+    { "hanzi": "保健品", "pinyin": "bǎojiàn pǐn", "meaning": "Thực phẩm chức năng" },
+    { "hanzi": "止痛药", "pinyin": "zhǐtòng yào", "meaning": "Thuốc giảm đau" },
+    { "hanzi": "体检", "pinyin": "tǐjiǎn", "meaning": "Khám sức khỏe" },
+    { "hanzi": "补药", "pinyin": "bǔyào", "meaning": "Thuốc bổ" },
+    { "hanzi": "治疗", "pinyin": "zhìliáo", "meaning": "Chữa trị" },
+    { "hanzi": "化疗", "pinyin": "huàliáo", "meaning": "Hóa trị" },
+    { "hanzi": "维生素", "pinyin": "wéishēngsù", "meaning": "Vitamin" },
+    { "hanzi": "口罩", "pinyin": "kǒuzhào", "meaning": "Khẩu trang" }
+  ],
+  "tree": {
+    "hanzi": "气",
+    "pinyin": "qì",
+    "meaning": "Khí",
+    "words": [
+      { "hanzi": "勇气", "pinyin": "yǒngqì", "meaning": "Dũng khí" },
+      { "hanzi": "气质", "pinyin": "qìzhì", "meaning": "Khí chất" },
+      { "hanzi": "气势", "pinyin": "qìshì", "meaning": "Khí thế" },
+      { "hanzi": "志气", "pinyin": "zhìqì", "meaning": "Chí khí" },
+      { "hanzi": "气候", "pinyin": "qìhòu", "meaning": "Khí hậu" },
+      { "hanzi": "语气", "pinyin": "yǔqì", "meaning": "Ngữ khí" },
+      { "hanzi": "口气", "pinyin": "kǒuqì", "meaning": "Khẩu khí" },
+      { "hanzi": "空气", "pinyin": "kōngqì", "meaning": "Không khí" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "14.1",
+      "hanzi": "估计",
+      "pinyin": "gūjì",
+      "meaning": "đoán, dự đoán",
+      "note": "Loại từ: động từ · Nghĩa: sự suy đoán chung chung về sự vật, sự việc nào đó, dịch là \"đoán, dự đoán\"",
+      "theory": "Động từ 估计 /gūjì/ thể hiện sự suy đoán chung chung về sự vật, sự việc nào đó, thường dịch là \"đoán, dự đoán\".",
+      "examples": [
+        { "zh": "今天他的心情不太好，我估计他不会和你出去玩儿了。", "pinyin": "Jīntiān tā de xīnqíng bú tài hǎo, wǒ gūjì tā bú huì hé nǐ chūqu wánr le.", "vi": "Hôm nay tâm trạng anh ấy không được tốt, tớ đoán anh ấy sẽ không ra ngoài chơi với cậu đâu.", "vocab": "", "breakdown": "我估计 + dự đoán" },
+        { "zh": "那家餐厅客人很多，我估计没有座位了，我们还是走吧！", "pinyin": "Nà jiā cāntīng kèrén hěn duō, wǒ gūjì méiyǒu zuòwèile, wǒmen háishi zǒu ba!", "vi": "Quán ăn đó khách rất đông, tớ đoán chắc hết chỗ rồi, thôi chúng mình đi đi.", "vocab": "", "breakdown": "我估计 + 没有座位了" }
+      ]
+    },
+    {
+      "np": "14.2",
+      "hanzi": "不仅",
+      "pinyin": "bùjǐn",
+      "meaning": "không những… mà còn…; không chỉ",
+      "note": "① Liên từ: 不仅…, 而且 / 也 / 还… — bổ sung thêm ý, tương tự 不但…而且… · Cùng chủ ngữ: Chủ + 不仅…, 而且… · Khác chủ ngữ: 不仅 + Chủ 1…, 而且 + Chủ 2… · ② Phó từ 不仅: vượt quá số lượng hoặc phạm vi nào đó, dịch là \"không chỉ, không chỉ thế\"",
+      "theory": "① Cấu trúc 不仅 /bùjǐn/…, 而且 /érqiě/ / 也 /yě/ / 还 /hái/… dùng để thể hiện ý bổ sung thêm ý ở vế đầu đã nói đến, cách dùng tương tự như cấu trúc 不但…, 而且…, thường dịch là \"không những… mà còn / cũng / còn…\".\n\nKhi hai vế cùng chủ ngữ: Chủ ngữ + 不仅……, 而且……\nKhi hai vế không cùng chủ ngữ: 不仅 + Chủ ngữ 1……, 而且 + Chủ ngữ 2……\n\n② Phó từ 不仅 /bùjǐn/ thể hiện sự vượt quá số lượng hoặc phạm vi nào đó, thường dịch là \"không chỉ, không chỉ thế\".",
+      "examples": [
+        { "zh": "小明不仅学习成绩好，还能写得一手好字。", "pinyin": "Xiǎo Míng bùjǐn xuéxí chéngjì hǎo, hái néng xiě de yì shǒu hǎo zì.", "vi": "Tiểu Minh không chỉ có thành tích học tập tốt, mà còn viết chữ rất đẹp.", "vocab": "", "breakdown": "① 不仅…, 还…" },
+        { "zh": "她喜欢在城市生活，不仅工作机会很多，生活也很方便。", "pinyin": "Tā xǐhuan zài chéngshì shēnghuó, bùjǐn gōngzuò jīhuì hěn duō, shēnghuó yě hěn fāngbiàn.", "vi": "Cô ấy thích sinh sống ở thành phố, không chỉ vì nhiều cơ hội làm việc, mà cuộc sống cũng rất thuận tiện.", "vocab": "生活: cuộc sống", "breakdown": "① 不仅…, 也…" },
+        { "zh": "我对你不仅是喜欢，你知不知道？", "pinyin": "Wǒ duì nǐ bùjǐn shì xǐhuan, nǐ zhī bu zhīdào?", "vi": "Em đối với anh không chỉ là thích, anh có biết không?", "vocab": "", "breakdown": "② Phó từ: không chỉ" },
+        { "zh": "这个办法不仅他一个人不同意，我们都不同意。", "pinyin": "Zhè ge bànfǎ bùjǐn tā yí ge rén bù tóngyì, wǒmen dōu bù tóngyì.", "vi": "Cách làm này không chỉ một mình anh ấy không đồng ý, chúng tôi cũng không đồng ý.", "vocab": "", "breakdown": "② Phó từ: vượt quá phạm vi" }
+      ]
+    },
+    {
+      "np": "14.3",
+      "hanzi": "尤其",
+      "pinyin": "yóuqí",
+      "meaning": "nhất là, đặc biệt là",
+      "note": "Loại từ: phó từ · Nghĩa: chỉ ra khía cạnh nổi bật của sự việc, sự vật, dịch là \"nhất là, đặc biệt là\"",
+      "theory": "Phó từ 尤其 /yóuqí/ dùng để chỉ ra khía cạnh nổi bật của sự việc, sự vật, thường dịch là \"nhất là, đặc biệt là\".",
+      "examples": [
+        { "zh": "我的一个朋友很喜欢运动，尤其是爬山，一有空儿他就去爬山。", "pinyin": "Wǒ de yí ge péngyou hěn xǐhuan yùndòng, yóuqí shì pá shān, yì yǒu kòngr tā jiù qù pá shān.", "vi": "Một người bạn của tôi rất thích tập thể thao, đặc biệt là leo núi, cứ rảnh là anh ấy đi leo núi.", "vocab": "", "breakdown": "尤其是 + 爬山" },
+        { "zh": "我的姐姐很喜欢看书，尤其是爱情小说。", "pinyin": "Wǒ de jiějie hěn xǐhuan kànshū, yóuqí shì àiqíng xiǎoshuō.", "vi": "Chị tôi rất thích đọc sách, đặc biệt là tiểu thuyết tình yêu.", "vocab": "", "breakdown": "尤其是 + 爱情小说" },
+        { "zh": "用手机时间太长，会让人变难看，尤其是女生。", "pinyin": "Yòng shǒujī shíjiān tài cháng, huì ràng rén biàn nánkàn, yóuqí shì nǚshēng.", "vi": "Sử dụng điện thoại di động quá lâu có thể khiến con người trở nên xấu đi, đặc biệt là các bạn nữ.", "vocab": "难看: xấu", "breakdown": "尤其是 + 女生" }
+      ]
+    },
+    {
+      "np": "14.4",
+      "hanzi": "再说",
+      "pinyin": "zàishuō",
+      "meaning": "vả lại, hơn nữa; để sau, rồi tính",
+      "note": "① Liên từ (đứng đầu câu): bổ sung ý kiến, tình huống, dịch là \"vả lại, hơn nữa\" · ② Động từ: \"để sau, sẽ bàn, rồi tính\"",
+      "theory": "① 再说 /zàishuō/ khi là liên từ (đứng đầu câu) dùng để bổ sung ý kiến, tình huống, có nghĩa là \"vả lại, hơn nữa\".\n\n② 再说 /zàishuō/ khi là động từ có nghĩa là \"để sau, sẽ bàn, rồi tính\".",
+      "examples": [
+        { "zh": "他喜欢，就让他去吧。再说，他在家也没事干。", "pinyin": "Tā xǐhuan, jiù ràng tā qù ba. Zàishuō, tā zài jiā yě méi shì gàn.", "vi": "Anh ấy thích, thì để anh ấy đi đi. Vả lại, anh ấy ở nhà cũng chẳng có việc gì làm.", "vocab": "干: làm", "breakdown": "① Liên từ đầu câu" },
+        { "zh": "这么晚，别走了。再说，外面正在下雪。", "pinyin": "Zhème wǎn, bié zǒu le. Zàishuō, wàimiàn zhèngzài xià xuě.", "vi": "Muộn thế này rồi, đừng đi nữa. Hơn nữa, bên ngoài đang có tuyết rơi.", "vocab": "下雪: tuyết rơi", "breakdown": "① Liên từ đầu câu" },
+        { "zh": "现在的事，做了再说；以后的事，以后再说。", "pinyin": "Xiànzài de shì, zuò le zàishuō; yǐhòu de shì, yǐhòu zàishuō.", "vi": "Chuyện của bây giờ, làm rồi hẵng nói; chuyện của sau này, sau này rồi tính.", "vocab": "", "breakdown": "② Động từ: rồi tính" },
+        { "zh": "现在孩子还很小，不明白爸妈的心，有很多事只能以后再说了。", "pinyin": "Xiànzài háizi hái hěn xiǎo, bù míngbai bàmā de xīn, yǒu hěn duō shì zhǐ néng yǐhòu zàishuō le.", "vi": "Giờ con còn nhỏ, không hiểu lòng cha mẹ, có rất nhiều việc chỉ có thể để sau rồi nói.", "vocab": "明白: hiểu", "breakdown": "② Động từ: để sau" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Tớ gần đây hay bị mỏi mắt, tình trạng ngày một [0:厉害], có tình trạng này [0:估计] là vì tớ [0:使用] điện thoại và máy tính trong thời gian dài rồi." },
+        { "who": "B", "zh": "[0:也许] vậy đấy. Mắt cứ [0:对看] với điện thoại, máy tính trong thời gian dài [0:不仅] không tốt cho mắt, [0:而且] làm cơ thể mệt mỏi. Mau [0:安排] thời gian đi bệnh viện [0:检查] mắt đi." },
+        { "who": "A", "zh": "Được, đi khám bác sỹ trước, uống ít thuốc, mong là thuốc đắng bệnh [0:除]." },
+        { "who": "B", "zh": "Còn nữa, khi làm việc, cứ mỗi 20 phút phải đứng lên, nhìn về [0:处] xa, [0:尤其] là nhìn nhiều những loài [0:植物] trong vườn màu [0:绿] mát mắt." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Khó khăn lắm mới leo được lên đến [0:层] 8 của tòa nhà, được rồi nhỉ?" },
+        { "who": "B", "zh": "Chưa được, phải leo lên đến tầng 14, như vậy việc giảm béo mới có [0:效果]." },
+        { "who": "A", "zh": "Á, nhưng giờ tớ không còn chút [0:力气] nào, sắp không đi nổi nữa rồi." },
+        { "who": "B", "zh": "Nếu muốn [0:减肥], cậu phải [0:坚持] tiếp!" },
+        { "who": "A", "zh": "Thực ra sức khỏe mới quan trọng, béo gầy đâu có sao. [0:再说], rèn luyện sức khỏe phải căn cứ vào tình trạng sức khỏe của bản thân chứ." },
+        { "who": "B", "zh": "Thế được, chúng ta nghỉ ngơi chút vậy." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "最近我眼睛红得越来越厉害了，[1:估计]是因为我长时间使用手机和电脑。", "py": "Zuìjìn wǒ yǎnjing hóng de yuè lái yuè lìhai le, [1:gūjì] shì yīnwèi wǒ cháng shíjiān shǐyòng shǒujī hé diànnǎo.", "vi": "Mắt tớ gần đây đỏ ngày càng nặng, [1:xem chừng] là vì tớ sử dụng điện thoại và máy tính thời gian dài." },
+        { "who": "B", "zh": "也许吧。长时间看手机、电脑[2:不仅]对眼睛不好，[2:而且]身体也会累极了。快安排时间去医院检查吧。", "py": "Yěxǔ ba. Cháng shíjiān kàn shǒujī, diànnǎo [2:bùjǐn] duì yǎnjing bù hǎo, [2:érqiě] shēntǐ yě huì lèi jíle. Kuài ānpái shíjiān qù yīyuàn jiǎnchá ba.", "vi": "Có lẽ vậy đấy. Nhìn điện thoại, máy tính trong thời gian dài [2:không chỉ] không tốt cho mắt, [2:mà còn] làm cơ thể mệt mỏi. Mau sắp xếp thời gian đi bệnh viện kiểm tra đi." },
+        { "who": "A", "zh": "好的，先去看医生，吃点儿药。希望药到病除。", "py": "Hǎo de, xiān qù kàn yīshēng, chī diǎnr yào. Xīwàng yào dào bìng chú.", "vi": "Được, đi khám bác sỹ trước, uống ít thuốc. Mong là thuốc đắng dã tật." },
+        { "who": "B", "zh": "还有。工作时，每20分钟要站起来，向远处看，[3:尤其]是多看绿色的植物。", "py": "Hái yǒu. Gōngzuò shí, měi èrshí fēnzhōng yào zhàn qǐlai, xiàng yuǎn chù kàn, [3:yóuqí] shì duō kàn lǜsè de zhíwù.", "vi": "Còn nữa, khi làm việc, cứ mỗi 20 phút phải đứng lên, nhìn về phía xa, [3:nhất là] nhìn nhiều những loài thực vật màu xanh." }
+      ],
+      "legend": [
+        { "n": 1, "label": "估计", "np": "NP 14.1" },
+        { "n": 2, "label": "不仅", "np": "NP 14.2" },
+        { "n": 3, "label": "尤其", "np": "NP 14.3" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "好不容易才爬到第八层，可以了吧？", "py": "Hǎobù róngyì cái pá dào dì bā céng, kěyǐle ba?", "vi": "Khó khăn lắm mới leo được lên đến tầng 8, được rồi chứ?" },
+        { "who": "B", "zh": "不行，要爬到第十四层，这样才有效果。", "py": "Bùxíng, yào pá dào dì shísì céng, zhèyàng cái yǒu xiàoguǒ.", "vi": "Chưa được, phải leo lên đến tầng 14, như vậy mới có hiệu quả." },
+        { "who": "A", "zh": "啊，可是我现在就没力气了，快走不动了。", "py": "A, kěshì wǒ xiànzài jiù méi lìqi le, kuài zǒu bú dòng le.", "vi": "Á, nhưng giờ tớ không có chút sức lực nào, sắp không đi nổi nữa rồi." },
+        { "who": "B", "zh": "如果想减肥，你就要坚持下去！", "py": "Rúguǒ xiǎng jiǎnféi, nǐ jiù yào jiānchí xiàqu!", "vi": "Nếu muốn giảm béo, cậu phải kiên trì tiếp!" },
+        { "who": "A", "zh": "其实健康最重要，胖瘦没关系。[4:再说]，锻炼身体必须要根据自己的健康情况啊。", "py": "Qíshí jiànkāng zuì zhòngyào, pàng shòu méiguānxi. [4:Zàishuō], duànliàn shēntǐ bìxū yào gēnjù zìjǐ de jiànkāng qíngkuàng a.", "vi": "Thực ra sức khỏe mới quan trọng, béo gầy đâu có sao. [4:Hơn nữa], rèn luyện sức khỏe phải căn cứ vào tình trạng sức khỏe của bản thân chứ." },
+        { "who": "B", "zh": "那好，我们休息一下吧。", "py": "Nà hǎo, wǒmen xiūxi yíxià ba.", "vi": "Thế được, chúng ta nghỉ ngơi chút vậy." }
+      ],
+      "legend": [
+        { "n": 4, "label": "再说", "np": "NP 14.4" }
+      ]
+    }
+  ]
+}

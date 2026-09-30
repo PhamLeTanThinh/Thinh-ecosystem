@@ -1,0 +1,158 @@
+{
+  "level": "hsk3",
+  "lesson": 37,
+  "bookLesson": 12,
+  "title": "师傅，我要去地铁站",
+  "titleVi": "Bác tài ơi, cháu muốn đến bến tàu điện ngầm",
+  "pages": [122, 130],
+  "vocab": [
+    { "hanzi": "师傅", "pinyin": "shīfu", "pos": "dt.", "meaning": "bác tài", "hanViet": "sư phụ" },
+    { "hanzi": "地铁", "pinyin": "dìtiě", "pos": "dt.", "meaning": "tàu điện ngầm" },
+    { "hanzi": "东", "pinyin": "dōng", "pos": "dt.", "meaning": "đông", "hanViet": "đông" },
+    { "hanzi": "大约", "pinyin": "dàyuē", "pos": "phó.", "meaning": "khoảng" },
+    { "hanzi": "左右", "pinyin": "zuǒyòu", "meaning": "khoảng" },
+    { "hanzi": "现金", "pinyin": "xiànjīn", "pos": "dt.", "meaning": "tiền mặt" },
+    { "hanzi": "刷", "pinyin": "shuā", "pos": "đt.", "meaning": "quẹt" },
+    { "hanzi": "微信", "pinyin": "wēixìn", "pos": "dt.", "meaning": "WeChat" },
+    { "hanzi": "信用卡", "pinyin": "xìnyòngkǎ", "pos": "dt.", "meaning": "thẻ tín dụng" },
+    { "hanzi": "卡", "pinyin": "kǎ", "pos": "dt.", "meaning": "thẻ" },
+    { "hanzi": "小吃", "pinyin": "xiǎochī", "pos": "dt.", "meaning": "đồ ăn nhẹ" },
+    { "hanzi": "街道", "pinyin": "jiēdào", "pos": "dt.", "meaning": "con phố" },
+    { "hanzi": "司机", "pinyin": "sījī", "pos": "dt.", "meaning": "tài xế" },
+    { "hanzi": "比较", "pinyin": "bǐjiào", "pos": "phó.", "meaning": "khá, tương đối" },
+    { "hanzi": "注意", "pinyin": "zhùyì", "pos": "đt.", "meaning": "chú ý", "hanViet": "chú ý" },
+    { "hanzi": "脚", "pinyin": "jiǎo", "pos": "dt.", "meaning": "chân", "hanViet": "cước" },
+    { "hanzi": "迟到", "pinyin": "chídào", "pos": "đt.", "meaning": "đến muộn" },
+    { "hanzi": "地图", "pinyin": "dìtú", "pos": "dt.", "meaning": "bản đồ" },
+    { "hanzi": "其他", "pinyin": "qítā", "pos": "đại.", "meaning": "cái khác" },
+    { "hanzi": "动物", "pinyin": "dòngwù", "pos": "dt.", "meaning": "động vật", "hanViet": "động vật" },
+    { "hanzi": "比如", "pinyin": "bǐrú", "pos": "đt.", "meaning": "ví dụ như" },
+    { "hanzi": "熊猫", "pinyin": "xióngmāo", "pos": "dt.", "meaning": "gấu trúc" },
+    { "hanzi": "从来", "pinyin": "cónglái", "pos": "phó.", "meaning": "từ trước đến nay" },
+    { "hanzi": "亲眼", "pinyin": "qīnyǎn", "pos": "phó.", "meaning": "tận mắt" }
+  ],
+  "expand": [
+    { "hanzi": "十字路口", "pinyin": "shízì lùkǒu", "meaning": "Ngã tư" },
+    { "hanzi": "丁字路口", "pinyin": "dīngzì lùkǒu", "meaning": "Ngã ba" },
+    { "hanzi": "红绿灯", "pinyin": "hónglǜdēng", "meaning": "Đèn giao thông" },
+    { "hanzi": "速度", "pinyin": "sùdù", "meaning": "Tốc độ" },
+    { "hanzi": "交警", "pinyin": "jiāojǐng", "meaning": "Cảnh sát giao thông" },
+    { "hanzi": "高速公路", "pinyin": "gāosù gōnglù", "meaning": "Đường cao tốc" },
+    { "hanzi": "高架铁路", "pinyin": "gāojià tiělù", "meaning": "Đường sắt trên cao" },
+    { "hanzi": "停车场", "pinyin": "tíngchē chǎng", "meaning": "Bãi đỗ xe" }
+  ],
+  "tree": {
+    "hanzi": "物",
+    "pinyin": "wù",
+    "meaning": "Vật",
+    "words": [
+      { "hanzi": "文物", "pinyin": "wénwù", "meaning": "Văn vật" },
+      { "hanzi": "物理", "pinyin": "wùlǐ", "meaning": "Vật lý" },
+      { "hanzi": "物质", "pinyin": "wùzhì", "meaning": "Vật chất" },
+      { "hanzi": "事物", "pinyin": "shìwù", "meaning": "Sự vật" },
+      { "hanzi": "物资", "pinyin": "wùzī", "meaning": "Vật tư" },
+      { "hanzi": "人物", "pinyin": "rénwù", "meaning": "Nhân vật" },
+      { "hanzi": "物价", "pinyin": "wùjià", "meaning": "Vật giá" },
+      { "hanzi": "植物", "pinyin": "zhíwù", "meaning": "Thực vật" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "12.1",
+      "hanzi": "大约 / 左右",
+      "pinyin": "dàyuē / zuǒyòu",
+      "meaning": "khoảng, chừng (ước lượng)",
+      "note": "大约 + Số lượng + Danh: phó từ, đứng trước từ chỉ số lượng, dịch là \"khoảng\" · Số lượng + Danh + 左右: danh từ, đứng sau từ chỉ số lượng, dịch là \"khoảng, chừng\"",
+      "theory": "Phó từ 大约 /dàyuē/ biểu đạt ước tính về thời gian, tuổi, số lượng…, thường đứng trước các từ chỉ số lượng; thường dịch là \"khoảng\".\n\nCấu trúc: 大约 + Số lượng + Danh\n\nDanh từ 左右 /zuǒyòu/ thể hiện sự ước lượng về số lượng, thường đứng sau các từ chỉ số lượng; thường dịch là \"khoảng, chừng\".\n\nCấu trúc: Số lượng + Danh + 左右",
+      "examples": [
+        { "zh": "大约十几年没见了吧，我们都越来越老了。", "pinyin": "Dàyuē shí jǐ nián méi jiàn le ba, wǒmen dōu yuè lái yuè lǎo le.", "vi": "Đã mười năm không gặp nhau, chúng ta đều ngày một già đi.", "vocab": "", "breakdown": "大约 + 十几年" },
+        { "zh": "现在外面大约十五度，多穿点儿吧。", "pinyin": "Xiànzài wàimiàn dàyuē shíwǔ dù, duō chuān diǎnr ba.", "vi": "Bây giờ ngoài trời khoảng 15 độ, mặc thêm đồ đi.", "vocab": "度: độ", "breakdown": "大约 + 十五度" },
+        { "zh": "从这儿到那儿坐车来回差不多要两个小时左右。", "pinyin": "Cóng zhèr dào nàr zuò chē láihuí chàbuduō yào liǎng ge xiǎoshí zuǒyòu.", "vi": "Từ đây đến đó mất khoảng hai tiếng đi ô tô.", "vocab": "来回: khứ hồi", "breakdown": "两个小时 + 左右" },
+        { "zh": "冰箱里还有很多香蕉，有两串左右吧。", "pinyin": "Bīngxiāng li hái yǒu hěn duō xiāngjiāo, yǒu liǎng chuàn zuǒyòu ba.", "vi": "Trong tủ lạnh còn rất nhiều chuối, còn tầm hai nải.", "vocab": "", "breakdown": "两串 + 左右" }
+      ]
+    },
+    {
+      "np": "12.2",
+      "hanzi": "比如",
+      "pinyin": "bǐrú",
+      "meaning": "ví dụ như (liệt kê, dẫn ra ví dụ)",
+      "note": "Loại từ: động từ · Nghĩa: liệt kê và dẫn ra các ví dụ, dịch là \"ví dụ như\"",
+      "theory": "Động từ 比如 /bǐrú/ dùng để liệt kê và dẫn ra các ví dụ, thường dịch là \"ví dụ như\".",
+      "examples": [
+        { "zh": "河内好玩的地方有很多，比如说文庙—国子监。", "pinyin": "Hénèi hǎowán de dìfang yǒu hěn duō, bǐrú shuō Wénmiào—Guózǐjiān.", "vi": "Có rất nhiều địa điểm thú vị ở Hà Nội, chẳng hạn như Văn Miếu Quốc Tử Giám.", "vocab": "文庙—国子监: Văn Miếu – Quốc Tử Giám", "breakdown": "比如说 + ví dụ" },
+        { "zh": "冰箱里有很多水果，比如说：香蕉，苹果，西瓜；你想吃什么就吃什么。", "pinyin": "Bīngxiāng lǐ yǒu hěnduō shuǐguǒ, bǐrú shuō: xiāngjiāo, píngguǒ, xīguā; nǐ xiǎng chī shénme jiù chī shénme.", "vi": "Trong tủ lạnh có nhiều hoa quả, ví dụ: chuối, táo, dưa hấu, bạn thích ăn gì thì ăn.", "vocab": "西瓜: dưa hấu", "breakdown": "比如说 + liệt kê" }
+      ]
+    },
+    {
+      "np": "12.3",
+      "hanzi": "从来",
+      "pinyin": "cónglái",
+      "meaning": "từ trước đến nay (thường dùng trong câu phủ định)",
+      "note": "Loại từ: phó từ · Nghĩa: sự vật, sự việc luôn có đặc điểm như vậy từ trước đến nay, dịch là \"từ trước đến nay\" · Lưu ý: thường dùng trong câu phủ định (从来没…过, 从来不…)",
+      "theory": "Phó từ 从来 /cónglái/ thể hiện sự vật, sự việc luôn có đặc điểm như vậy từ trước đến nay, thường dùng trong câu phủ định; thường dịch là \"từ trước đến nay\".",
+      "examples": [
+        { "zh": "我从来没见过那么美的女生。", "pinyin": "Wǒ cónglái méi jiàn guo nàme měi de nǚshēng.", "vi": "Tớ từ trước đến nay chưa từng nhìn thấy cô gái nào đẹp như vậy.", "vocab": "女生: cô gái", "breakdown": "从来 + 没 + 见过" },
+        { "zh": "他的学习成绩从来都很好，所以考试的时候他从来不紧张。", "pinyin": "Tā de xuéxí chéngjì cónglái dōu hěn hǎo, suǒyǐ kǎoshì de shíhou tā cónglái bù jǐnzhāng.", "vi": "Thành tích học tập của cậu ấy trước giờ đều rất tốt, vì vậy cậu ấy chưa bao giờ căng thẳng khi thi.", "vocab": "紧张: căng thẳng", "breakdown": "从来 + 不 + 紧张" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Bác tài, tôi muốn đến cửa phía [0:东] mặt trời mọc của bến [0:地铁] dưới lòng đất." },
+        { "who": "B", "zh": "Được, cậu lên xe đi, từ đây đến đó chắc mất [0:大约] 20 phút [0:左右] là cùng." },
+        { "who": "A", "zh": "Xin hỏi bao nhiêu tiền? Tôi chưa đổi tiền nên không có [0:现金], có thể thanh toán qua Wechat hoặc quẹt [0:卡] tín dụng không?" },
+        { "who": "B", "zh": "Quét [0:微信] hay [0:刷] thẻ [0:信用] đều được." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "[0:师傅] lái taxi ơi, cháu nghe nói ở đây có phố ẩm thực mà ở đó cả một con [0:街道] bán toàn [0:小吃] như đồ nướng, sủi cảo, đặc sản của vùng, chú biết không ạ?" },
+        { "who": "B", "zh": "Chú là [0:司机], ngày ngày bon bon trên đường, đương nhiên là biết. Cháu lên xe đi, chú để đồ lên xe cho." },
+        { "who": "A", "zh": "Hành lý của cháu [0:比较] nặng, chú [0:注意] kẻo rơi vào [0:脚] chú là đau lắm đấy ạ. Ối, cháu [0:迟到] rồi, chú nhanh lên giúp cháu được không ạ?" },
+        { "who": "B", "zh": "Đừng lo, đợi chú tra [0:地图] tìm đường ngắn nhất đã nhé." },
+        { "who": "A", "zh": "Dạ cảm ơn chú ạ, ngoài các món ăn, ở đây còn có cái gì [0:其他] nổi tiếng nữa không ạ?" },
+        { "who": "B", "zh": "Có chứ, đã đến đây nhất định phải đi xem gấu trúc." },
+        { "who": "A", "zh": "Ôi cháu thích [0:熊猫] lắm, trước giờ mới chỉ xem trên tivi, chưa từng [0:亲眼] nhìn ngắm một [0:只] gấu trúc nào." },
+        { "who": "B", "zh": "Trăm [0:闻] không bằng một thấy, chú đưa cháu đi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "师傅，我要去地铁站东门。", "py": "Shīfu, wǒ yào qù dìtiě zhàn dōng mén.", "vi": "Bác tài ơi, cháu muốn đến cổng phía Đông bến tàu điện ngầm." },
+        { "who": "B", "zh": "好的，你上车吧，[1:大约]20分钟[1:左右]就到了。", "py": "Hǎo de, nǐ shàng chē ba, [1:dàyuē] 20 fēnzhōng [1:zuǒyòu] jiù dào le.", "vi": "Ừ, cháu lên xe đi, [1:khoảng] 20 phút là đến." },
+        { "who": "A", "zh": "请问多少钱？我没有现金，可以刷卡吗？", "py": "Qǐngwèn duōshao qián? Wǒ méiyǒu xiànjīn, kěyǐ shuākǎ ma?", "vi": "Xin hỏi bác bao nhiêu tiền ạ? Cháu không có tiền mặt, có thể quẹt thẻ không ạ?" },
+        { "who": "B", "zh": "扫微信或者刷信用卡都没问题。", "py": "Sǎo Wēixìn huòzhě shuā xìnyòngkǎ dōu méi wèntí.", "vi": "Quét mã Wechat hoặc là quẹt thẻ tín dụng đều không thành vấn đề." }
+      ],
+      "legend": [
+        { "n": 1, "label": "大约 / 左右", "np": "NP 12.1" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "师傅，听说这儿有一条卖小吃的街道，您知道吗？", "py": "Shīfu, tīng shuō zhèr yǒu yì tiáo mài xiǎochī de jiēdào, nín zhīdào ma?", "vi": "Bác tài ơi, nghe nói ở đây có một con phố bán đồ ăn vặt, bác có biết không?" },
+        { "who": "B", "zh": "我是司机，当然知道。你上车吧，我帮你把行李箱搬上来。", "py": "Wǒ shì sījī, dāngrán zhīdào. Nǐ shàng chē ba, wǒ bāng nǐ bǎ xínglǐ xiāng bān shànglai.", "vi": "Bác là tài xế, đương nhiên là biết rồi. Cháu lên xe đi, để bác chuyển vali lên xe." },
+        { "who": "A", "zh": "我的行李箱比较大，请注意您的脚。我快要迟到了，您可以快一点儿吗？", "py": "Wǒ de xínglǐ xiāng bǐjiào dà, qǐng zhùyì nín de jiǎo. Wǒ kuàiyào chídào le, nín kěyǐ kuài yìdiǎnr ma?", "vi": "Vali của cháu hơi to, bác chú ý kẻo va vào chân nha. Cháu sắp muộn rồi, bác có thể nhanh hơn một chút không?" },
+        { "who": "B", "zh": "别着急，等我查地图找最短的路。", "py": "Bié zháojí, děng wǒ chá dìtú zhǎo zuìduǎn de lù.", "vi": "Đừng lo lắng, đợi bác tra bản đồ tìm đường nào ngắn nhất." },
+        { "who": "A", "zh": "谢谢师傅，除了吃的，还有其他有名的东西吗？", "py": "Xièxie shīfu. Chúle chī de, hái yǒu qítā yǒumíng de dōngxi ma?", "vi": "Cảm ơn bác, ở đây ngoài đồ ăn ngon ra thì còn thứ gì nổi tiếng khác không bác?" },
+        { "who": "B", "zh": "有啊，到这儿来必须去看我们的动物，[2:比如]说熊猫。", "py": "Yǒu a, dào zhèr lái bìxū qù kàn wǒmen de dòngwù, [2:bǐrú] shuō xióngmāo.", "vi": "Có chứ, đến đây cháu nhất định phải đi xem các loài động vật, [2:ví dụ] như gấu trúc." },
+        { "who": "A", "zh": "我对熊猫很感兴趣，但[3:从来]没亲眼见到，只在电视上看到过。", "py": "Wǒ duì xióngmāo hěn gǎn xìngqù, dàn [3:cónglái] méi qīnyǎn jiàn dào, zhǐ zài diànshì shàng kàn dàoguo.", "vi": "Cháu rất có hứng thú với gấu trúc, nhưng [3:trước giờ] cháu chưa từng nhìn tận mắt, cháu chỉ nhìn qua trên tivi thôi." },
+        { "who": "B", "zh": "百闻不如一见，我带你去。", "py": "Bǎi wén bùrú yí jiàn, wǒ dài nǐ qù.", "vi": "Trăm nghe không bằng một thấy, để bác đưa cháu đi." }
+      ],
+      "legend": [
+        { "n": 2, "label": "比如", "np": "NP 12.2" },
+        { "n": 3, "label": "从来", "np": "NP 12.3" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "百闻不如一见 /bǎi wén bùrú yí jiàn/, thành ngữ, thường dịch là \"Trăm nghe không bằng một thấy\"."
+      }
+    }
+  ]
+}

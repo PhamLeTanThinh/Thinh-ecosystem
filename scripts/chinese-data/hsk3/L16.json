@@ -1,0 +1,160 @@
+{
+  "level": "hsk3",
+  "lesson": 41,
+  "bookLesson": 16,
+  "title": "第一天上班",
+  "titleVi": "Ngày đầu tiên đi làm",
+  "pages": [157, 166],
+  "vocab": [
+    { "hanzi": "正式", "pinyin": "zhèngshì", "pos": "tt.", "meaning": "chính thức", "hanViet": "chính thức" },
+    { "hanzi": "缺少", "pinyin": "quēshǎo", "pos": "đt.", "meaning": "thiếu", "hanViet": "khuyết thiểu" },
+    { "hanzi": "印象", "pinyin": "yìnxiàng", "pos": "dt.", "meaning": "ấn tượng", "hanViet": "ấn tượng" },
+    { "hanzi": "顺利", "pinyin": "shùnlì", "pos": "tt.", "meaning": "thuận lợi", "hanViet": "thuận lợi" },
+    { "hanzi": "祝贺", "pinyin": "zhùhè", "pos": "đt.", "meaning": "chúc mừng" },
+    { "hanzi": "兴奋", "pinyin": "xīngfèn", "pos": "đt.", "meaning": "phấn khích", "hanViet": "hưng phấn" },
+    { "hanzi": "记住", "pinyin": "jìzhù", "pos": "đt.", "meaning": "ghi nhớ" },
+    { "hanzi": "步", "pinyin": "bù", "pos": "dt.", "meaning": "bước", "hanViet": "bộ" },
+    { "hanzi": "秒", "pinyin": "miǎo", "pos": "dt.", "meaning": "giây" },
+    { "hanzi": "原来", "pinyin": "yuánlái", "pos": "phó.", "meaning": "ban đầu, vốn dĩ" },
+    { "hanzi": "以为", "pinyin": "yǐwéi", "pos": "đt.", "meaning": "tưởng rằng" },
+    { "hanzi": "并不", "pinyin": "bìngbù", "pos": "phó.", "meaning": "không hề" },
+    { "hanzi": "积累", "pinyin": "jīlěi", "pos": "đt.", "meaning": "tích lũy", "hanViet": "tích lũy" },
+    { "hanzi": "态度", "pinyin": "tàidù", "pos": "dt.", "meaning": "thái độ", "hanViet": "thái độ" },
+    { "hanzi": "能力", "pinyin": "nénglì", "pos": "dt.", "meaning": "năng lực", "hanViet": "năng lực" },
+    { "hanzi": "赚", "pinyin": "zhuàn", "pos": "đt.", "meaning": "kiếm" },
+    { "hanzi": "明白", "pinyin": "míngbai", "pos": "đt.", "meaning": "hiểu", "hanViet": "minh bạch" },
+    { "hanzi": "留下", "pinyin": "liúxià", "pos": "đt.", "meaning": "lưu lại" },
+    { "hanzi": "首先", "pinyin": "shǒuxiān", "pos": "liên.", "meaning": "đầu tiên" },
+    { "hanzi": "其次", "pinyin": "qícì", "pos": "liên.", "meaning": "tiếp theo" },
+    { "hanzi": "准时", "pinyin": "zhǔnshí", "pos": "tt.", "meaning": "chuẩn giờ" },
+    { "hanzi": "不管", "pinyin": "bùguǎn", "pos": "liên.", "meaning": "cho dù, bất luận" }
+  ],
+  "expand": [
+    { "hanzi": "兼职", "pinyin": "jiānzhí", "meaning": "Bán thời gian (parttime)" },
+    { "hanzi": "全职", "pinyin": "quánzhí", "meaning": "Toàn thời gian (fulltime)" },
+    { "hanzi": "打工", "pinyin": "dǎgōng", "meaning": "Làm thêm" },
+    { "hanzi": "企业文化", "pinyin": "qǐyè wénhuà", "meaning": "Văn hóa công ty" },
+    { "hanzi": "公司纪律", "pinyin": "gōngsī jìlǜ", "meaning": "Nội quy công ty" },
+    { "hanzi": "上级", "pinyin": "shàngjí", "meaning": "Cấp trên" },
+    { "hanzi": "导师", "pinyin": "dǎoshī", "meaning": "Người hướng dẫn (Mentor)" },
+    { "hanzi": "穿着", "pinyin": "chuānzhuó", "meaning": "Ăn mặc" }
+  ],
+  "tree": {
+    "hanzi": "原",
+    "pinyin": "yuán",
+    "meaning": "Nguyên",
+    "words": [
+      { "hanzi": "原告", "pinyin": "yuángào", "meaning": "Nguyên cáo" },
+      { "hanzi": "原理", "pinyin": "yuánlǐ", "meaning": "Nguyên lý" },
+      { "hanzi": "原子", "pinyin": "yuánzǐ", "meaning": "Nguyên tử" },
+      { "hanzi": "原则", "pinyin": "yuánzé", "meaning": "Nguyên tắc" },
+      { "hanzi": "原作", "pinyin": "yuánzuò", "meaning": "Nguyên tác" },
+      { "hanzi": "原料", "pinyin": "yuánliào", "meaning": "Nguyên liệu" },
+      { "hanzi": "草原", "pinyin": "cǎoyuán", "meaning": "Thảo nguyên" },
+      { "hanzi": "原因", "pinyin": "yuányīn", "meaning": "Nguyên nhân" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "16.1",
+      "hanzi": "原来",
+      "pinyin": "yuánlái",
+      "meaning": "vốn, vốn dĩ; hoá ra; vốn có, ban đầu",
+      "note": "① Phó từ: sự thay đổi, không còn như trước nữa, dịch là \"vốn, vốn dĩ\" · ② Phó từ: phát hiện mới trước đây chưa biết, dịch là \"hoá ra, thì ra\" · ③ Tính từ: trạng thái ban đầu, chưa thay đổi, dịch là \"vốn có, ban đầu\"",
+      "theory": "① Phó từ 原来 /yuánlái/ thể hiện sự thay đổi của người, sự vật, sự việc không còn như trước nữa, thường dịch là \"vốn, vốn dĩ\".\n\n② Phó từ 原来 /yuánlái/ còn thể hiện phát hiện mới trước đây chưa biết, thường dịch là \"hoá ra, thì ra\".\n\n③ Khi làm tính từ, 原来 /yuánlái/ thể hiện trạng thái ban đầu, chưa thay đổi của sự vật, sự việc, thường dịch là \"vốn có, ban đầu\".\n\n(So sánh 原来 với 本来: xem tại Phụ lục của giáo trình.)",
+      "examples": [
+        { "zh": "她原来是老师，现在已经成了一名演员。", "pinyin": "Tā yuánlái shì lǎoshī, xiànzài yǐjīng chéng le yì míng yǎnyuán.", "vi": "Cô ấy từng là giáo viên, bây giờ đã trở thành một diễn viên.", "vocab": "演员: diễn viên", "breakdown": "① Phó từ: vốn là" },
+        { "zh": "我一直以为想减肥就要天天运动，原来多运动还不够，你吃什么对减肥也很重要。", "pinyin": "Wǒ yìzhí yǐwéi xiǎng jiǎnféi jiù yào tiāntiān yùndòng, yuánlái duō yùndòng hái búgòu, nǐ chī shénme duì jiǎnféi yě hěn zhòngyào.", "vi": "Tôi cứ nghĩ rằng muốn giảm béo thì phải vận động nhiều, hoá ra vận động vẫn chưa đủ, thức ăn bạn ăn cũng rất quan trọng với việc giảm cân.", "vocab": "", "breakdown": "② Phó từ: hoá ra" },
+        { "zh": "走来走去还是回到原来的地方。", "pinyin": "Zǒu lái zǒu qù háishi huí dào yuánlái de dìfang.", "vi": "Đi đi lại lại rồi vẫn quay về chỗ ban đầu.", "vocab": "", "breakdown": "③ Tính từ: 原来的地方" }
+      ]
+    },
+    {
+      "np": "16.2",
+      "hanzi": "以为",
+      "pinyin": "yǐwéi",
+      "meaning": "tưởng rằng (phán đoán chủ quan)",
+      "note": "Loại từ: động từ · Nghĩa: đưa ra ý kiến phán đoán chủ quan, dịch là \"tưởng rằng\"",
+      "theory": "Động từ 以为 /yǐwéi/ dùng để đưa ra ý kiến phán đoán chủ quan, thường dịch là \"tưởng rằng\".",
+      "examples": [
+        { "zh": "我还以为你们是姐妹，原来是母女啊。", "pinyin": "Wǒ hái yǐwéi nǐmen shì jiěmèi, yuánlái shì mǔ nǚ a.", "vi": "Tôi còn tưởng hai người là chị em, hóa ra là hai mẹ con à.", "vocab": "母女: mẹ con", "breakdown": "以为 + phán đoán (sai), 原来 + sự thật" },
+        { "zh": "我以为那本书不是你的，所以给他了。", "pinyin": "Wǒ yǐwéi nà běn shū búshì nǐ de, suǒyǐ gěi tā le.", "vi": "Tớ tưởng cuốn sách đó không phải của cậu, nên tớ đã đưa cho anh ấy rồi.", "vocab": "", "breakdown": "以为 + 那本书不是你的" },
+        { "zh": "以前我以为汉语不太难，学了三个月了，真的挺难的。", "pinyin": "Yǐqián wǒ yǐwéi Hànyǔ bú tài nán, xué le sān ge yuè le, zhēn de tǐng nán de.", "vi": "Trước đây tôi tưởng Tiếng Trung không khó, giờ đã học được ba tháng, thật khó không tưởng.", "vocab": "", "breakdown": "以为 + 汉语不太难" }
+      ]
+    },
+    {
+      "np": "16.3",
+      "hanzi": "并",
+      "pinyin": "bìng",
+      "meaning": "hoàn toàn không… (nhấn mạnh phủ định)",
+      "note": "Cấu trúc: Chủ + 并 + 不 + Động / Tính hoặc Chủ + 并 + 没(有) + Động · Nghĩa: chuyển ý nhấn mạnh nghĩa phủ định hoặc giải thích sự thực, thực tế nào đó, dịch là \"hoàn toàn không…\"",
+      "theory": "Phó từ 并 /bìng/ thường kết hợp với phó từ phủ định 不 hoặc 没(有) để thể hiện sự chuyển ý nhấn mạnh nghĩa phủ định hoặc giải thích sự thực, thực tế nào đó, thường dịch là \"hoàn toàn không…\".\n\nCấu trúc: Chủ + 并 + 不 + Động / Tính hoặc Chủ + 并 + 没(有) + Động",
+      "examples": [
+        { "zh": "他并没有告诉我应该怎么做。", "pinyin": "Tā bìng méiyǒu gàosu wǒ yīnggāi zěnme zuò.", "vi": "Anh ấy hoàn toàn không bảo tôi phải làm như thế nào.", "vocab": "", "breakdown": "并 + 没有 + 告诉" },
+        { "zh": "很多人觉得汉语很难，其实汉语并不难。", "pinyin": "Hěn duō rén juéde Hànyǔ hěn nán, qíshí Hànyǔ bìng bù nán.", "vi": "Nhiều người cảm thấy Tiếng Trung khó, nhưng thực ra không hề khó.", "vocab": "", "breakdown": "并 + 不 + 难" },
+        { "zh": "对我来说，钱并不是最重要的，家庭才是最重要的。", "pinyin": "Duì wǒ lái shuō, qián bìng búshì zuì zhòngyào de, jiātíng cái shì zuì zhòngyào de.", "vi": "Đối với tôi mà nói, tiền hoàn toàn không phải thứ quan trọng nhất, gia đình mới là điều quan trọng nhất.", "vocab": "家庭: gia đình", "breakdown": "并 + 不是" }
+      ]
+    },
+    {
+      "np": "16.4",
+      "hanzi": "首先……，其次……",
+      "pinyin": "shǒuxiān……, qícì……",
+      "meaning": "đầu tiên…, tiếp theo / sau đó…",
+      "note": "Cấu trúc: 首先…, 其次… · Nghĩa: liệt kê các sự việc theo trình tự, dịch là \"đầu tiên…, tiếp theo / sau đó…\"",
+      "theory": "Cấu trúc 首先 /shǒuxiān/…, 其次 /qícì/… dùng để liệt kê ra các sự việc theo trình tự, thường dịch là \"đầu tiên…, tiếp theo / sau đó…\".",
+      "examples": [
+        { "zh": "学习好，首先要靠自己的努力，其次才是别人的帮助。", "pinyin": "Xuéxí hǎo, shǒuxiān yào kào zìjǐ de nǔlì, qícì cái shì biérén de bāngzhù.", "vi": "Học tốt, trước hết phải dựa vào sự cố gắng của bản thân, thứ hai là sự giúp đỡ của người khác.", "vocab": "帮助: giúp đỡ", "breakdown": "首先…, 其次…" },
+        { "zh": "首先要学会做人，其次才是学会做事。", "pinyin": "Shǒuxiān yào xuéhuì zuòrén, qícì cái shì xuéhuì zuòshì.", "vi": "Trước hết phải học làm người, sau đó mới học làm việc.", "vocab": "做人: làm người", "breakdown": "首先…, 其次…" },
+        { "zh": "想让女生喜欢你，首先你要帅一点儿，其次你要对她们好一点儿。", "pinyin": "Xiǎng ràng nǚshēng xǐhuan nǐ, shǒuxiān nǐ yào shuài yìdiǎnr, qícì nǐ yào duì tāmen hǎo yìdiǎnr.", "vi": "Muốn khiến con gái thích bạn, đầu tiên cậu phải đẹp trai một chút, sau đó cậu phải đối xử tốt với họ một chút.", "vocab": "", "breakdown": "首先…, 其次…" }
+      ]
+    },
+    {
+      "np": "16.5",
+      "hanzi": "不管……，还是 / 都……",
+      "pinyin": "bùguǎn……, háishi / dōu……",
+      "meaning": "bất kể / cho dù… (kết quả không đổi)",
+      "note": "Cấu trúc: 不管…, 还是 / 都… · Nghĩa: kết quả, kết luận không đổi trong mọi tình huống giả thuyết, dịch là \"bất kể / cho dù\" · Lưu ý: vế đầu thường dùng với đại từ nghi vấn 什么, 怎么, 怎么样, 谁, 哪儿, 多 / 多么",
+      "theory": "Cấu trúc 不管 /bùguǎn/…, 还是 / 都… thể hiện kết quả, kết luận không đổi trong mọi tình huống giả thuyết, vế đầu câu thường được dùng với các đại từ nghi vấn 什么, 怎么, 怎么样, 谁, 哪儿, 多 / 多么, thường dịch là \"bất kể / cho dù\".",
+      "examples": [
+        { "zh": "我的老公不管穿什么都很帅。", "pinyin": "Wǒ de lǎogōng bùguǎn chuān shénme dōu hěn shuài.", "vi": "Ông xã của tôi bất kể mặc gì đều rất đẹp trai.", "vocab": "", "breakdown": "不管 + 什么 + 都…" },
+        { "zh": "老婆，不管怎么样，我都听你的。", "pinyin": "Lǎopó, bùguǎn zěnme yàng, wǒ dōu tīng nǐ de.", "vi": "Bà xã, dù thế nào đi nữa, anh cũng nghe em hết.", "vocab": "", "breakdown": "不管 + 怎么样 + 都…" },
+        { "zh": "不管她的工作态度，还是工作能力，都很好。", "pinyin": "Bùguǎn tā de gōngzuò tàidù, háishi gōngzuò nénglì, dōu hěn hǎo.", "vi": "Cho dù là thái độ làm việc, hay là năng lực làm việc, anh ấy đều rất tốt.", "vocab": "", "breakdown": "不管 A, 还是 B, 都…" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Anh ơi, kết quả phỏng vấn đã có, ngày mai em có thể [0:正式] trở thành nhân viên công ty rồi. Vui quá! Mặc dù em mới ra trường, còn [0:缺少] kinh nghiệm, nhưng giám đốc nhất định là có [0:印象] tốt về em. Thật không ngờ tìm việc lại [0:顺利] như vậy." },
+        { "who": "B", "zh": "Tốt quá, anh [0:祝贺] em nhé! Anh biết cảm xúc bây giờ em đang rất [0:兴奋] vì đã vào được công ty yêu thích, nhưng hãy [0:记住] điều này trong đầu, rằng đây mới chỉ là [0:步] đầu tiên trên con đường đi tới thành công, em sẽ phải cố gắng hơn nữa trong tương lai." },
+        { "who": "A", "zh": "Lại thế rồi đấy, em còn chưa vui được đến 60 [0:秒] để làm tròn thành 1 phút, anh thật là." },
+        { "who": "B", "zh": "Em biết không, hồi bằng tuổi em, [0:原来] anh cũng cứ [0:以为] rằng công việc rất dễ dàng, nhưng sau đó anh mới nhận ra rằng [0:并不] dễ dàng như mình nghĩ. Kinh nghiệm có thể dần dần [0:积累], nhưng [0:态度] quan trọng hơn [0:能力], phải nhớ lấy. Bây giờ [0:赚] tiền ngày càng khó." },
+        { "who": "A", "zh": "Em đã [0:明白] rồi ạ." },
+        { "who": "B", "zh": "Ngày đầu tiên đi làm, em nhất định phải [0:留下] ấn tượng tốt với đồng nghiệp mới. [0:首先] là phải chú ý mặc trang phục lịch sự, [0:其次] là phải đúng giờ. [0:不管] là đi học hay đi làm, [0:准时] luôn là điều rất quan trọng." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "哥哥，面试结果出来了，我明天可以正式上班。太高兴了！虽说我刚毕业，缺少经验，但经理对我的印象肯定不错。真没想到找工作这么顺利。", "py": "Gēge, miànshì jiéguǒ chūlaile, wǒ míngtiān kěyǐ zhèngshì shàng bān. Tài gāoxìngle! Suīshuō wǒ gāng bìyè, quēshǎo jīngyàn, dàn jīnglǐ kěndìng duì wǒ de yìnxiàng búcuò. Zhēn méi xiǎngdào zhǎo gōngzuò zhème shùnlì.", "vi": "Anh ơi, kết quả phỏng vấn đã có, ngày mai em có thể chính thức đi làm rồi. Vui quá! Mặc dù em mới ra trường, thiếu kinh nghiệm, nhưng giám đốc nhất định là có ấn tượng tốt về em. Thật không ngờ tìm việc lại suôn sẻ như vậy." },
+        { "who": "B", "zh": "祝贺你。我知道你现在很兴奋，但要记住这只是走向成功的第一步，以后要多多努力了。", "py": "Zhùhè nǐ. Wǒ zhīdào nǐ xiànzài hěn xīngfèn, dàn yào jì zhù zhè zhǐshì zǒuxiàng chénggōng de dì yī bù, yǐhòu yào gèngjiā nǔlìle.", "vi": "Chúc mừng em. Anh biết bây giờ em đang rất phấn khích, nhưng hãy nhớ rằng đây mới chỉ là bước đầu tiên để hướng tới thành công, em sẽ phải cố gắng hơn nữa trong tương lai." },
+        { "who": "A", "zh": "又来了，我还没高兴几秒，你真是。", "py": "Yòu láile, wǒ hái méi gāoxìng jǐ miǎo, nǐ zhēnshi.", "vi": "Lại thế rồi đấy, em còn chưa vui được mấy giây, anh thật là." },
+        { "who": "B", "zh": "我[1:原来]也[2:以为]工作很简单，后来才发现其实[3:并]不那么容易。经验可以慢慢积累，但态度比能力更重要，要记住。现在赚钱越来越难了。", "py": "Wǒ [1:yuánlái] yě [2:yǐwéi] gōngzuò hěn jiǎndān, hòulái cái fāxiàn qíshí [3:bìng] bù nàme róngyì. Jīngyàn kěyǐ mànmàn jīlěi, dàn tàidù bǐ nénglì gèng zhòngyào, yào jì zhù. Xiànzài zhuànqián yuè lái yuè nánle.", "vi": "[1:Ban đầu] anh cũng [2:tưởng rằng] công việc rất dễ dàng, nhưng sau đó anh mới nhận ra rằng thực sự [3:không] dễ dàng như vậy. Kinh nghiệm có thể dần dần tích lũy, nhưng thái độ quan trọng hơn năng lực, phải nhớ lấy. Bây giờ kiếm tiền ngày càng khó." },
+        { "who": "A", "zh": "我明白了。", "py": "Wǒ míngbaile.", "vi": "Em hiểu rõ rồi." },
+        { "who": "B", "zh": "第一天上班一定要给新同事留下好印象。[4:首先]要注意穿正式的衣服，[4:其次]要准时。[5:不管]是上课还是上班，准时都很重要。", "py": "Dì yī tiān shàng bān yídìng yào gěi xīn tóngshì liú xià hǎo yìnxiàng. [4:Shǒuxiān] yào zhùyì chuān zhèngshì de yīfu, [4:qícì] yào zhǔnshí. [5:Bùguǎn] shì shàngkè háishi shàng bān, zhǔnshí dōu hěn zhòngyào.", "vi": "Ngày đầu tiên đi làm, em nhất định phải để lại ấn tượng tốt với đồng nghiệp mới. [4:Đầu tiên] phải chú ý mặc trang phục lịch sự, [4:thứ hai] là phải đúng giờ. [5:Cho dù] là đi học hay đi làm, đúng giờ là rất quan trọng." }
+      ],
+      "legend": [
+        { "n": 1, "label": "原来", "np": "NP 16.1" },
+        { "n": 2, "label": "以为", "np": "NP 16.2" },
+        { "n": 3, "label": "并", "np": "NP 16.3" },
+        { "n": 4, "label": "首先……其次……", "np": "NP 16.4" },
+        { "n": 5, "label": "不管", "np": "NP 16.5" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "又来了 /yòu láile/ được dùng trong khẩu ngữ với ý cảm thán với những sự việc đã xảy ra nhiều lần, mang ngữ khí không hài lòng, thường dịch là \"lại thế rồi, lại nữa rồi đấy\"."
+      }
+    }
+  ]
+}

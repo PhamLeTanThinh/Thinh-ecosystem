@@ -1,0 +1,147 @@
+{
+  "level": "hsk3",
+  "lesson": 33,
+  "bookLesson": 8,
+  "title": "春节是最重要的节日",
+  "titleVi": "Tết là dịp lễ quan trọng nhất",
+  "pages": [86, 94],
+  "vocab": [
+    { "hanzi": "开心", "pinyin": "kāixīn", "pos": "tt.", "meaning": "vui vẻ" },
+    { "hanzi": "快乐", "pinyin": "kuàilè", "pos": "tt.", "meaning": "vui vẻ" },
+    { "hanzi": "一生一世", "pinyin": "yì shēng yí shì", "meaning": "trọn đời trọn kiếp" },
+    { "hanzi": "健康", "pinyin": "jiànkāng", "pos": "tt.", "meaning": "mạnh khỏe" },
+    { "hanzi": "为", "pinyin": "wèi", "pos": "giới.", "meaning": "cho, vì" },
+    { "hanzi": "礼物", "pinyin": "lǐwù", "pos": "dt.", "meaning": "quà", "hanViet": "lễ vật" },
+    { "hanzi": "皮鞋", "pinyin": "píxié", "pos": "dt.", "meaning": "giày da" },
+    { "hanzi": "手表", "pinyin": "shǒubiǎo", "pos": "dt.", "meaning": "đồng hồ đeo tay" },
+    { "hanzi": "担心", "pinyin": "dānxīn", "pos": "đt.", "meaning": "lo lắng" },
+    { "hanzi": "照顾", "pinyin": "zhàogù", "pos": "đt.", "meaning": "chăm sóc", "hanViet": "chiếu cố" },
+    { "hanzi": "猫", "pinyin": "māo", "pos": "dt.", "meaning": "mèo" },
+    { "hanzi": "长大", "pinyin": "zhǎngdà", "pos": "đt.", "meaning": "trưởng thành" },
+    { "hanzi": "长", "pinyin": "zhǎng", "pos": "đt.", "meaning": "lớn lên", "hanViet": "trưởng" },
+    { "hanzi": "嘴", "pinyin": "zuǐ", "pos": "dt.", "meaning": "miệng" },
+    { "hanzi": "蛋糕", "pinyin": "dàngāo", "pos": "dt.", "meaning": "bánh gato" },
+    { "hanzi": "对…来说", "pinyin": "duì… lái shuō", "meaning": "đối với… mà nói" },
+    { "hanzi": "重要", "pinyin": "zhòngyào", "pos": "tt.", "meaning": "quan trọng", "hanViet": "trọng yếu" },
+    { "hanzi": "节日", "pinyin": "jiérì", "pos": "dt.", "meaning": "ngày lễ" },
+    { "hanzi": "为了", "pinyin": "wèile", "pos": "giới.", "meaning": "vì, để" },
+    { "hanzi": "旧", "pinyin": "jiù", "pos": "tt.", "meaning": "cũ", "hanViet": "cựu" },
+    { "hanzi": "打扫", "pinyin": "dǎsǎo", "pos": "đt.", "meaning": "dọn dẹp" },
+    { "hanzi": "过去", "pinyin": "guòqù", "pos": "dt.", "meaning": "đã qua", "hanViet": "quá khứ" },
+    { "hanzi": "平安", "pinyin": "píng'ān", "pos": "tt.", "meaning": "bình an", "hanViet": "bình an" }
+  ],
+  "expand": [
+    { "hanzi": "元宵节", "pinyin": "yuánxiāo jié", "meaning": "Tết Nguyên tiêu" },
+    { "hanzi": "端午节", "pinyin": "duānwǔ jié", "meaning": "Tết Đoan ngọ" },
+    { "hanzi": "儿童节", "pinyin": "értóng jié", "meaning": "Tết Thiếu nhi" },
+    { "hanzi": "国庆节", "pinyin": "guóqìng jié", "meaning": "Lễ Quốc khánh" },
+    { "hanzi": "中秋节", "pinyin": "zhōngqiū jié", "meaning": "Tết Trung thu" },
+    { "hanzi": "妇女节", "pinyin": "fùnǚ jié", "meaning": "Ngày Phụ nữ" },
+    { "hanzi": "教师节", "pinyin": "jiàoshī jié", "meaning": "Ngày Nhà giáo" },
+    { "hanzi": "圣诞节", "pinyin": "shèngdàn jié", "meaning": "Lễ Giáng sinh" }
+  ],
+  "tree": {
+    "hanzi": "全",
+    "pinyin": "quán",
+    "meaning": "Toàn",
+    "words": [
+      { "hanzi": "周全", "pinyin": "zhōuquán", "meaning": "Chu toàn" },
+      { "hanzi": "全部", "pinyin": "quánbù", "meaning": "Toàn bộ" },
+      { "hanzi": "全面", "pinyin": "quánmiàn", "meaning": "Toàn diện" },
+      { "hanzi": "健全", "pinyin": "jiànquán", "meaning": "Kiện toàn" },
+      { "hanzi": "全国", "pinyin": "quánguó", "meaning": "Toàn quốc" },
+      { "hanzi": "完全", "pinyin": "wánquán", "meaning": "Hoàn toàn" },
+      { "hanzi": "全球", "pinyin": "quánqiú", "meaning": "Toàn cầu" },
+      { "hanzi": "安全", "pinyin": "ānquán", "meaning": "An toàn" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "8.1",
+      "hanzi": "为 / 为了",
+      "pinyin": "wèi / wèile",
+      "meaning": "để, vì (đối tượng / mục đích của hành động)",
+      "note": "为 + đại từ / danh từ: đối tượng của động tác, dịch là \"để, vì\" · 为了 + mệnh đề: mục đích của hành động, dịch là \"để, vì\"",
+      "theory": "Giới từ 为 /wèi/ dùng để diễn tả đối tượng của động tác, hành vi, sau 为 thường là một đại từ hoặc danh từ, thường được dịch là \"để, vì\".\n\nGiới từ 为了 /wèile/ dùng để diễn tả mục đích của hành động, theo sau thường là một mệnh đề, thường được dịch là \"để, vì\".",
+      "examples": [
+        { "zh": "爸妈为我们做了很多事。", "pinyin": "Bàmā wèi wǒmen zuò le hěn duō shì.", "vi": "Ba mẹ đã làm rất nhiều việc vì chúng tôi.", "vocab": "", "breakdown": "为 + 我们 (đại từ — đối tượng)" },
+        { "zh": "我们都为你高兴。", "pinyin": "Wǒmen dōu wèi nǐ gāoxìng.", "vi": "Chúng tôi đều mừng cho bạn.", "vocab": "", "breakdown": "为 + 你 (đối tượng)" },
+        { "zh": "为了可以和爱豆聊天儿，我一定学好汉语。", "pinyin": "Wèile kěyǐ hé àidòu liáo tiānr, wǒ yídìng xuéhǎo Hànyǔ.", "vi": "Để có thể nói chuyện với thần tượng, tôi nhất định học tốt Tiếng Trung.", "vocab": "爱豆 (àidòu): thần tượng", "breakdown": "为了 + mệnh đề (mục đích)" },
+        { "zh": "为了钱，他什么都愿意做。", "pinyin": "Wèile qián, tā shénme dōu yuànyì zuò.", "vi": "Vì tiền, anh ấy sẵn sàng làm mọi thứ.", "vocab": "愿意: sẵn lòng", "breakdown": "为了 + 钱 (mục đích)" },
+        { "zh": "我这么做是为了帮你。", "pinyin": "Wǒ zhème zuò shì wèile bāng nǐ.", "vi": "Tôi làm như vậy là để giúp cậu.", "vocab": "", "breakdown": "是 + 为了 + 帮你" }
+      ]
+    },
+    {
+      "np": "8.2",
+      "hanzi": "对……来说",
+      "pinyin": "duì…… lái shuō",
+      "meaning": "đối với… mà nói",
+      "note": "Cấu trúc: 对 A 来说 = Đối với A mà nói · Nghĩa: dẫn ra đối tượng và nhấn mạnh về người hoặc sự việc có liên quan",
+      "theory": "Cấu trúc 对……来说 /duì… lái shuō/ dùng để dẫn ra đối tượng và nhấn mạnh về người hoặc sự việc có liên quan, thường được dịch là \"Đối với… mà nói\".\n\nCấu trúc: 对 A 来说 = Đối với A mà nói",
+      "examples": [
+        { "zh": "对我来说，钱不是最重要的，重要的是有多少钱。", "pinyin": "Duì wǒ lái shuō, qián búshì zuì zhòngyào de, zhòngyào de shì yǒu duōshao qián.", "vi": "Đối với tôi mà nói, tiền không phải điều quan trọng nhất, quan trọng là có bao nhiêu tiền.", "vocab": "", "breakdown": "对 + 我 + 来说" },
+        { "zh": "对你来说，我重要还是工作重要？", "pinyin": "Duì nǐ lái shuō, wǒ zhòngyào háishi gōngzuò zhòngyào?", "vi": "Đối với anh, tôi quan trọng hay công việc quan trọng?", "vocab": "", "breakdown": "对 + 你 + 来说" }
+      ]
+    },
+    {
+      "np": "8.3",
+      "hanzi": "AA / AABB",
+      "pinyin": "",
+      "meaning": "tính từ lặp lại (nhấn mạnh mức độ cao)",
+      "note": "Tính từ đơn âm tiết: A → AA (红红, 大大, 美美, 小小) · Tính từ hai âm tiết: AB → AABB (漂漂亮亮, 干干净净, 安安静静) · Nghĩa: nhấn mạnh mức độ cao",
+      "theory": "Tính từ lặp lại dùng để nhấn mạnh mức độ cao. Có hai hình thức lặp lại của tính từ:\n\nTính từ đơn âm tiết lặp lại: A → AA, ví dụ 红 → 红红, 大 → 大大, 美 → 美美, 小 → 小小.\n\nTính từ hai âm tiết lặp lại: AB → AABB, ví dụ 漂亮 → 漂漂亮亮, 干净 → 干干净净, 安静 → 安安静静.",
+      "examples": [
+        { "zh": "他的房间总是那么干干净净的。", "pinyin": "Tā de fángjiān zǒng shì nàme gāngānjìngjìng de.", "vi": "Phòng của anh ấy lúc nào cũng sạch bong sáng bóc như vậy.", "vocab": "总是: luôn luôn", "breakdown": "干净 → 干干净净 (AABB)" },
+        { "zh": "那位姑娘的眼睛大大的，很可爱，也很漂亮。", "pinyin": "Nà wèi gūniang de yǎnjing dàdà de, hěn kě'ài, yě hěn piàoliang.", "vi": "Mắt của cô gái đó to to, rất đáng yêu, cũng rất đẹp.", "vocab": "姑娘: cô gái", "breakdown": "大 → 大大 (AA)" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Hôm nay là kỷ niệm ngày cưới của bố mẹ, con chúc bố mẹ [0:一生一世] luôn hạnh phúc bên nhau, đúng như tên chương trình truyền hình \"[0:快乐] - [0:健康] - Có ích\"." },
+        { "who": "B", "zh": "Bố mẹ cảm ơn con." },
+        { "who": "A", "zh": "Con còn chuẩn bị [0:礼物] tặng cho bố mẹ nữa cơ. [0:皮鞋] da bò thật này là tặng mẹ đi, [0:手表] này là tặng bố đeo để xem giờ. Bố mẹ cứ yên tâm, đừng [0:担心] nhé, sau này bố mẹ già vẫn sẽ luôn có con ở bên [0:照顾] bố mẹ." },
+        { "who": "B", "zh": "Mình ơi, bé con lí lắc suốt ngày giả làm [0:猫] kêu meo meo khắp nhà của chúng ta đã [0:长大] thật rồi, dẻo [0:嘴] chưa kìa. Nhìn con lớn và hiểu chuyện như này, bố mẹ rất [0:开心]." },
+        { "who": "A", "zh": "Con gái [0:为] yêu bố mẹ mà đến đó ạ. Nhưng ngoài quà, con còn chuẩn bị một cái [0:蛋糕] sô-cô-la 2 tầng liền, bố mẹ thổi nến, cắt bánh rồi cả nhà mình cùng ăn nhé ạ." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Tuy một năm người Việt đón mừng nhiều [0:节日], như Tết Trung thu, Tết Đoan ngọ, trẻ em có Tết Thiếu nhi, nhưng [0:对] với người Việt Nam [0:来说] Tết có ý nghĩa đặc biệt vì là ngày lễ [0:重要] bậc nhất trong năm. [0:为了] chuẩn bị tiễn năm [0:旧] đi, đón năm mới đến, nhà nào cũng [0:打扫] sạch sẽ. Bạn hài lòng với thành quả năm vừa [0:过去] của mình chứ? Năm mới, khởi đầu mới, mong bạn luôn vui vẻ, hạnh phúc, [0:平安] vô sự." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "爸妈，今天是你们结婚二十周年，希望你们每天开心快乐，一生一世健康。", "py": "Bà mā, jīntiān shì nǐmen jiéhūn èrshí zhōunián, xīwàng nǐmen měitiān kāixīn kuàilè, yì shēng yí shì jiànkāng.", "vi": "Bố mẹ ơi, hôm nay là kỉ niệm tròn 20 năm ngày cưới của bố mẹ, con mong bố mẹ vui vẻ mỗi ngày, cả đời mạnh khỏe." },
+        { "who": "B", "zh": "爸妈谢谢你。", "py": "Bà mā xièxie nǐ.", "vi": "Bố mẹ cảm ơn con." },
+        { "who": "A", "zh": "我还[1:为]你们准备了礼物呢。皮鞋是送给妈妈的，手表是送给爸爸的。爸妈别担心，以后我会好好儿照顾你们的。", "py": "Wǒ hái [1:wèi] nǐmen zhǔnbèi le lǐwù ne. Píxié shì sòng gěi māma de, shǒubiǎo shì sòng gěi bàba de. Bà mā bié dānxīn, yǐhòu wǒ huì hǎohāor zhàogù nǐmen de.", "vi": "Con cũng đã chuẩn bị quà [1:cho] bố mẹ. Giày da là để tặng mẹ, đồng hồ là để tặng bố. Bố mẹ đừng lo lắng, sau này con sẽ chăm sóc bố mẹ thật tốt." },
+        { "who": "B", "zh": "老公你看，我们家的小猫已经长大了，嘴这么甜，真会说话。", "py": "Lǎogōng nǐ kàn, wǒmen jiā de xiǎo māo yǐjīng zhǎng dà le, zuǐ zhème tián, zhēn huì shuō huà.", "vi": "Mình ơi, bé mèo con của chúng ta đã lớn thật rồi, nói được lời ngọt ngào như thế, thật khéo mồm." },
+        { "who": "A", "zh": "你们的女儿嘛。除了礼物，我还准备一个大蛋糕，我们快一起吃吧。", "py": "Nǐmen de nǚ'ér ma. Chúle lǐwù, wǒ hái zhǔnbèi yí ge dà dàngāo, wǒmen kuài yìqǐ chī ba.", "vi": "Con gái của bố mẹ mà. Ngoài quà ra, con còn chuẩn bị một cái bánh to, cả nhà mình cùng nhau ăn nhé." }
+      ],
+      "legend": [
+        { "n": 1, "label": "为 / 为了", "np": "NP 8.1" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "", "zh": "[2:对]越南人[2:来说]，春节是最重要的节日。[1:为了]送旧迎新，大家都把房间打扫得[3:干干净净]。你对过去一年里的成绩觉得满意吗？新的一年，新的开始，希望你新年[3:高高兴兴]，一生[3:快快乐乐]，一世[3:平平安安]。", "py": "[2:Duì] Yuènán rén [2:lái shuō], Chūnjié shì zuì zhòngyào de jiérì. [1:Wèile] sòng jiù yíng xīn, dàjiā dōu bǎ fángjiān dǎsǎo de [3:gān gān jìng jìng]. Nǐ duì guòqù yì nián lǐ de chéngjì juéde mǎnyì ma? Xīn de yì nián, xīn de kāishǐ, xīwàng nǐ xīnnián [3:gāo gāo xìng xìng], yìshēng [3:kuài kuài lè lè], yí shì [3:píng píng ān ān].", "vi": "[2:Đối với] người Việt Nam, Tết là dịp lễ quan trọng nhất. [1:Để] tiễn cái cũ và chào đón cái mới, mọi người đều dọn dẹp phòng [3:sạch sẽ]. Bạn có hài lòng với thành quả của mình năm qua không? Một năm mới, một khởi đầu mới, mong bạn một năm mới [3:hân hoan], một đời [3:vui vẻ], [3:bình an]." }
+      ],
+      "legend": [
+        { "n": 1, "label": "为了", "np": "NP 8.1" },
+        { "n": 2, "label": "对……来说", "np": "NP 8.2" },
+        { "n": 3, "label": "干干净净", "np": "NP 8.3" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "送旧迎新 /sòng jiù yíng xīn/, âm Hán Việt là \"tống cựu nghênh tân\", mang nghĩa \"tiễn cái cũ, đón cái mới\"."
+      }
+    }
+  ]
+}

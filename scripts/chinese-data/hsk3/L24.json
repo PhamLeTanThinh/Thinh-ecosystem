@@ -1,0 +1,165 @@
+{
+  "level": "hsk3",
+  "lesson": 49,
+  "bookLesson": 24,
+  "title": "现代社会的压力挺大的",
+  "titleVi": "Áp lực của xã hội hiện đại lớn quá",
+  "pages": [229, 238],
+  "vocab": [
+    { "hanzi": "随着", "pinyin": "suízhe", "pos": "giới.", "meaning": "cùng với" },
+    { "hanzi": "技术", "pinyin": "jìshù", "pos": "dt.", "meaning": "kỹ thuật", "hanViet": "kỹ thuật" },
+    { "hanzi": "许多", "pinyin": "xǔduō", "pos": "số.", "meaning": "rất nhiều" },
+    { "hanzi": "拿……来说", "pinyin": "ná… lái shuō", "meaning": "lấy / về… mà nói" },
+    { "hanzi": "气候", "pinyin": "qìhòu", "pos": "dt.", "meaning": "khí hậu", "hanViet": "khí hậu" },
+    { "hanzi": "污染", "pinyin": "wūrǎn", "pos": "tt.", "meaning": "ô nhiễm", "hanViet": "ô nhiễm" },
+    { "hanzi": "塑料袋", "pinyin": "sùliào dài", "pos": "dt.", "meaning": "túi nilon" },
+    { "hanzi": "原因", "pinyin": "yuányīn", "pos": "dt.", "meaning": "nguyên nhân", "hanViet": "nguyên nhân" },
+    { "hanzi": "之一", "pinyin": "zhī yī", "pos": "dt.", "meaning": "một trong số" },
+    { "hanzi": "减少", "pinyin": "jiǎnshǎo", "pos": "đt.", "meaning": "giảm bớt", "hanViet": "giảm thiểu" },
+    { "hanzi": "社会", "pinyin": "shèhuì", "pos": "dt.", "meaning": "xã hội", "hanViet": "xã hội" },
+    { "hanzi": "竞争", "pinyin": "jìngzhēng", "pos": "dt.", "meaning": "cạnh tranh", "hanViet": "cạnh tranh" },
+    { "hanzi": "轻松", "pinyin": "qīngsōng", "pos": "tt.", "meaning": "nhẹ nhõm, thoải mái" },
+    { "hanzi": "按时", "pinyin": "ànshí", "pos": "phó.", "meaning": "đúng giờ" },
+    { "hanzi": "由", "pinyin": "yóu", "pos": "giới.", "meaning": "do", "hanViet": "do" },
+    { "hanzi": "尊重", "pinyin": "zūnzhòng", "pos": "đt.", "meaning": "tôn trọng", "hanViet": "tôn trọng" },
+    { "hanzi": "骄傲", "pinyin": "jiāo'ào", "pos": "tt.", "meaning": "tự hào", "hanViet": "kiêu ngạo" },
+    { "hanzi": "失望", "pinyin": "shīwàng", "pos": "đt.", "meaning": "thất vọng", "hanViet": "thất vọng" },
+    { "hanzi": "巧克力", "pinyin": "qiǎokèlì", "pos": "dt.", "meaning": "socola" },
+    { "hanzi": "所有", "pinyin": "suǒyǒu", "pos": "tt.", "meaning": "tất cả", "hanViet": "sở hữu" }
+  ],
+  "expand": [
+    { "hanzi": "经济危机", "pinyin": "jīngjì wēijī", "meaning": "Khủng hoảng kinh tế" },
+    { "hanzi": "房地产", "pinyin": "fángdìchǎn", "meaning": "Bất động sản" },
+    { "hanzi": "油价", "pinyin": "yóujià", "meaning": "Giá dầu" },
+    { "hanzi": "物价", "pinyin": "wùjià", "meaning": "Vật giá" },
+    { "hanzi": "通胀", "pinyin": "tōngzhàng", "meaning": "Lạm phát" },
+    { "hanzi": "疫情", "pinyin": "yìqíng", "meaning": "Tình hình dịch bệnh" },
+    { "hanzi": "空气污染", "pinyin": "kōngqì wūrǎn", "meaning": "Ô nhiễm không khí" },
+    { "hanzi": "噪声污染", "pinyin": "zàoshēng wūrǎn", "meaning": "Ô nhiễm tiếng ồn" }
+  ],
+  "tree": {
+    "hanzi": "争",
+    "pinyin": "zhēng",
+    "meaning": "Tranh",
+    "words": [
+      { "hanzi": "争取", "pinyin": "zhēngqǔ", "meaning": "Tranh thủ" },
+      { "hanzi": "争论", "pinyin": "zhēnglùn", "meaning": "Tranh luận" },
+      { "hanzi": "争执", "pinyin": "zhēngzhí", "meaning": "Tranh chấp" },
+      { "hanzi": "争讼", "pinyin": "zhēngsòng", "meaning": "Tranh tụng" },
+      { "hanzi": "争辩", "pinyin": "zhēngbiàn", "meaning": "Tranh biện" },
+      { "hanzi": "斗争", "pinyin": "dòuzhēng", "meaning": "Đấu tranh" },
+      { "hanzi": "争夺", "pinyin": "zhēngduó", "meaning": "Tranh đoạt" },
+      { "hanzi": "战争", "pinyin": "zhànzhēng", "meaning": "Chiến tranh" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "24.1",
+      "hanzi": "随着",
+      "pinyin": "suízhe",
+      "meaning": "cùng với… (nguyên nhân, điều kiện)",
+      "note": "Loại từ: giới từ · Nghĩa: nguyên nhân, điều kiện xảy ra của một hành động, hành vi hoặc sự kiện, dịch là \"cùng với…\" · Vị trí: đầu câu hoặc trước động từ",
+      "theory": "Giới từ 随着 /suízhe/ biểu thị nguyên nhân, điều kiện xảy ra của một hành động, hành vi hoặc sự kiện, 随着 đặt ở đầu câu hoặc trước động từ, thường dịch là \"cùng với…\".",
+      "examples": [
+        { "zh": "随着经济的发展，人们的生活越来越好了。", "pinyin": "Suízhe jīngjì de fāzhǎn, rénmen de shēnghuó yuè lái yuè hǎo le.", "vi": "Với sự phát triển của kinh tế, đời sống của người dân ngày càng được cải thiện.", "vocab": "", "breakdown": "随着 + 经济的发展" },
+        { "zh": "随着年龄的增长，知识和能力也增长。", "pinyin": "Suízhe niánlíng de zēngzhǎng, zhīshi hé nénglì yě zēngzhǎng.", "vi": "Cùng với tuổi tác tăng lên, kiến thức và khả năng cũng tăng lên.", "vocab": "增长: tăng trưởng", "breakdown": "随着 + 年龄的增长" },
+        { "zh": "随着冬天到来，白天越来越短了。", "pinyin": "Suízhe dōngtiān dàolái, báitiān yuè lái yuè duǎn le.", "vi": "Cùng với việc mùa đông đến, ngày càng ngắn lại.", "vocab": "白天: ban ngày", "breakdown": "随着 + 冬天到来" }
+      ]
+    },
+    {
+      "np": "24.2",
+      "hanzi": "拿……来说",
+      "pinyin": "ná…… láishuō",
+      "meaning": "như / về… mà nói (dẫn ra ví dụ)",
+      "note": "Cấu trúc: 拿…来说 · Nghĩa: dẫn ra ví dụ nhằm trình bày hoặc giải thích rõ sự việc, dịch là \"Như / về… mà nói\"",
+      "theory": "Cấu trúc 拿…来说 /ná… láishuō/ được dùng để dẫn ra ví dụ nhằm trình bày hoặc giải thích rõ sự việc, thường dịch là \"Như / về… mà nói\".",
+      "examples": [
+        { "zh": "拿幸福来说，千百万人就有千百万种对幸福的解释。", "pinyin": "Ná xìngfú lái shuō, qiān bǎi wàn rén jiù yǒu qiān bǎi wàn zhǒng duì xìngfú de jiěshì.", "vi": "Về hạnh phúc mà nói, bao nhiêu người thì có bấy nhiêu lời giải thích về hạnh phúc.", "vocab": "幸福: hạnh phúc", "breakdown": "拿 + 幸福 + 来说" },
+        { "zh": "每个人都有自己的烦恼，拿我来说，我天天总是为今天吃什么而烦恼。", "pinyin": "Měi ge rén dōu yǒu zìjǐ de fánnǎo, ná wǒ láishuō, wǒ tiāntiān zǒngshì wèi jīntiān chī shénme ér fánnǎo.", "vi": "Ai cũng có nỗi lo của riêng mình, như tôi mà nói, ngày ngày lo lắng xem hôm nay ăn gì.", "vocab": "烦恼: phiền não", "breakdown": "拿 + 我 + 来说" }
+      ]
+    },
+    {
+      "np": "24.3",
+      "hanzi": "之一",
+      "pinyin": "zhīyī",
+      "meaning": "một trong số",
+      "note": "Cấu trúc: Chủ + 是 + Danh + 之一 hoặc Danh + 之一 + 是… · Nghĩa: dùng ở cuối cụm danh từ, dịch là \"một trong số\"",
+      "theory": "之一 /zhīyī/ có thể được sử dụng ở cuối cụm danh từ, thường được dịch là \"một trong số\".\n\nCấu trúc: Chủ + 是 + Danh + 之一 hoặc Danh + 之一 + 是…",
+      "examples": [
+        { "zh": "他是我最爱的偶像之一。", "pinyin": "Tā shì wǒ zuì ài de ǒuxiàng zhīyī.", "vi": "Anh ấy là một trong những thần tượng yêu thích của tôi.", "vocab": "", "breakdown": "是 + 我最爱的偶像 + 之一" },
+        { "zh": "我想离开城市的原因之一是空气污染。", "pinyin": "Wǒ xiǎng líkāi chéngshì de yuányīn zhīyī shì kōngqì wūrǎn.", "vi": "Một trong những lý do tôi muốn rời khỏi thành phố là ô nhiễm không khí.", "vocab": "空气: không khí", "breakdown": "原因 + 之一 + 是…" }
+      ]
+    },
+    {
+      "np": "24.4",
+      "hanzi": "由",
+      "pinyin": "yóu",
+      "meaning": "do (ai là người thực hiện / khởi xướng)",
+      "note": "Loại từ: giới từ · Nghĩa: nhấn mạnh ai là người thực hiện hoặc khởi xướng một hành động, dịch là \"do\"",
+      "theory": "Giới từ 由 /yóu/ được sử dụng để nhấn mạnh ai là người thực hiện hoặc khởi xướng một hành động, thường dịch là \"do\".",
+      "examples": [
+        { "zh": "你想要怎样生活，完全由你自己决定。", "pinyin": "Nǐ xiǎng yào zěnyàng shēnghuó, wánquán yóu nǐ zìjǐ juédìng.", "vi": "Bạn muốn sống như thế nào là hoàn toàn tùy thuộc vào bạn.", "vocab": "", "breakdown": "由 + 你自己 + 决定" },
+        { "zh": "这件事是由他一手完成的。", "pinyin": "Zhè jiàn shì shì yóu tā yì shǒu wánchéng de.", "vi": "Việc này do anh ấy một tay hoàn thành.", "vocab": "一手: một tay", "breakdown": "由 + 他 + 完成" }
+      ]
+    },
+    {
+      "np": "24.5",
+      "hanzi": "所有",
+      "pinyin": "suǒyǒu",
+      "meaning": "tất cả (số lượng thường khá lớn)",
+      "note": "Cấu trúc: 所有 (+ 的) + Danh · Nghĩa: \"tất cả\" của một danh từ với số lượng muốn nhắc tới thường khá lớn, phía sau có thể có hoặc không có 的",
+      "theory": "所有 /suǒyǒu/ (+ 的) + Danh được dùng để biểu đạt ý \"tất cả\", được sử dụng để chỉ \"tất cả\" của một danh từ với số lượng muốn nhắc tới thường khá lớn, phía sau có thể có hoặc không có 的.\n\n(So sánh 所有 /suǒyǒu/ và 一切 /yíqiè/: xem Phụ lục của giáo trình.)",
+      "examples": [
+        { "zh": "世界都有美，但不是所有人都能看到。", "pinyin": "Shìjiè dōu yǒu měi, dàn búshì suǒyǒu rén dōu néng kàn dào.", "vi": "Thế giới rất đẹp, nhưng không phải ai cũng có thể nhìn ra được.", "vocab": "", "breakdown": "所有 + 人" },
+        { "zh": "请对所有的烦恼说再见，再也不见吧。", "pinyin": "Qǐng duì suǒyǒu de fánnǎo shuō zàijiàn, zài yě bú jiàn ba.", "vi": "Xin hãy tạm biệt và không hẹn gặp lại mọi nỗi muộn phiền thôi.", "vocab": "", "breakdown": "所有 + 的 + 烦恼" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "[0:随着] sự phát triển của khoa học và [0:技术], mọi mặt trong cuộc sống của chúng ta đều ít nhiều bị ảnh hưởng." },
+        { "who": "B", "zh": "Ngoài những tác động tích cực, còn có [0:许多] vấn nạn tồn tại. Lấy môi trường làm ví dụ, biến đổi [0:气候], [0:污染] môi trường, v.v… Việc con người sử dụng quá nhiều [0:塑料袋] để đựng đồ cũng là một trong những [0:原因] khiến Trái đất ngày càng ô nhiễm." },
+        { "who": "A", "zh": "Để bảo vệ trái đất, chúng ta nên [0:减少] sử dụng túi ni lông." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Áp lực của [0:社会] hiện đại lớn quá." },
+        { "who": "B", "zh": "Ừ! Tôi phải [0:竞争] với các đồng nghiệp mỗi ngày ở công ty, về đến nhà cũng chẳng [0:轻松] hơn chút nào. Nhà vẫn phải thuê, tiền cứ [0:按时] mà trả. Trong nhà từ trên xuống dưới đều [0:由] chúng ta gánh vác, bận đến mức không có thời gian cho riêng mình." },
+        { "who": "A", "zh": "Tôi cũng vậy. Tôi làm việc chăm chỉ để được người khác [0:尊重]. Tôi làm việc chăm chỉ để gia đình có thể [0:骄傲] về những thành tựu của tôi. Họ đã đặt nhiều hy vọng vào tôi, tôi thực sự không muốn làm họ [0:失望]." },
+        { "who": "B", "zh": "Cuộc sống giống như thanh [0:巧克力] vậy, vừa đắng vừa ngọt. Cũng không thể hài lòng với [0:所有] mọi việc. Chúng ta đều cần cố gắng bước tiếp." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "[1:随着]科学和技术的发展，我们生活的各个方面或多或少都受到了影响。", "py": "[1:Suízhe] kēxué hé jìshù de fāzhǎn, wǒmen shēnghuó de gègè fāngmiàn huò duō huò shǎo dōu shòudào le yǐngxiǎng.", "vi": "[1:Cùng với] sự phát triển của khoa học và công nghệ, mọi mặt trong cuộc sống của chúng ta đều ít nhiều bị ảnh hưởng." },
+        { "who": "B", "zh": "除了积极的影响，还有着许多问题。[2:拿环境来说]，气候变化，环境污染等。再说，人们使用太多塑料袋了，这也是让地球越来越污染的原因[3:之一]。", "py": "Chúle jījí de yǐngxiǎng, hái yǒu zhe xǔduō wèntí. [2:Ná huánjìng lái shuō], qìhòu biànhuà, huánjìng wūrǎn děng. Zàishuō, rénmen shǐyòng tài duō sùliào dài le, zhè yěshì ràng dìqiú yuè lái yuè wūrǎn de yuányīn [3:zhī yī].", "vi": "Ngoài những tác động tích cực, còn có nhiều vấn đề. [2:Lấy môi trường làm ví dụ], biến đổi khí hậu, ô nhiễm môi trường, v.v… Việc con người sử dụng quá nhiều túi ni lông cũng là [3:một trong những] nguyên nhân khiến trái đất ngày càng ô nhiễm." },
+        { "who": "A", "zh": "为了保护地球，我们应该要减少使用塑料袋。", "py": "Wèile bǎohù dìqiú, wǒmen yīnggāi yào jiǎnshǎo shǐyòng sùliào dài.", "vi": "Để bảo vệ trái đất, chúng ta nên giảm sử dụng túi ni lông." }
+      ],
+      "legend": [
+        { "n": 1, "label": "随着", "np": "NP 24.1" },
+        { "n": 2, "label": "拿…来说", "np": "NP 24.2" },
+        { "n": 3, "label": "之一", "np": "NP 24.3" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "现代社会的压力挺大的。", "py": "Xiàndài shèhuì de yālì tǐng dà de.", "vi": "Áp lực của xã hội hiện đại lớn quá." },
+        { "who": "B", "zh": "对啊！在公司天天要跟同事竞争，回了家也不轻松。房还要租，钱按时交。家里上下都[4:由]我们来负责，忙到连一点自己的时间都没有。", "py": "Duì a! Zài gōngsī tiāntiān yào gēn tóngshì jìngzhēng, huí le jiā yě bù qīngsōng. Fáng hái yào zū, qián ànshí jiāo. Jiālǐ shàngxià dōu [4:yóu] wǒmen lái fùzé, máng dào lián yìdiǎn zìjǐ de shíjiān dōu méiyǒu.", "vi": "Ừ! Tôi phải cạnh tranh với các đồng nghiệp mỗi ngày ở công ty, về đến nhà cũng chẳng nhẹ nhõm hơn. Nhà vẫn phải thuê, tiền trả đúng hạn. Trong nhà từ trên xuống dưới đều [4:do] chúng ta gánh vác, bận đến mức không có thời gian cho riêng mình." },
+        { "who": "A", "zh": "我也是。我努力工作让别人尊重我。我努力工作让我家人为我骄傲。我真的不想让他们失望。", "py": "Wǒ yěshì. Wǒ nǔlì gōngzuò ràng biérén zūnzhòng wǒ. Wǒ nǔlì gōngzuò ràng wǒ jiārén wèi wǒ jiāo'ào. Wǒ zhēn de bù xiǎng ràng tāmen shīwàng.", "vi": "Tôi cũng vậy. Tôi làm việc chăm chỉ để khiến người khác tôn trọng mình. Tôi làm việc chăm chỉ để gia đình tự hào về tôi. Tôi thực sự không muốn làm họ thất vọng." },
+        { "who": "B", "zh": "生活像巧克力一样，又苦又甜。也不能[5:所有]事情都满意吧。我们都要坚持下去。", "py": "Shēnghuó xiàng qiǎokèlì yíyàng, yòu kǔ yòu tián. Yě bùnéng [5:suǒyǒu] shìqing dōu mǎnyì ba. Wǒmen dōu yào jiānchí xiàqu.", "vi": "Cuộc sống giống như chocolate vậy, vừa đắng vừa ngọt. Cũng không thể hài lòng với [5:tất cả] mọi việc. Chúng ta đều cần cố gắng bước tiếp." }
+      ],
+      "legend": [
+        { "n": 4, "label": "由", "np": "NP 24.4" },
+        { "n": 5, "label": "所有", "np": "NP 24.5" }
+      ]
+    }
+  ]
+}

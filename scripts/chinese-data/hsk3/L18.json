@@ -1,0 +1,145 @@
+{
+  "level": "hsk3",
+  "lesson": 43,
+  "bookLesson": 18,
+  "title": "爸，我想换工作",
+  "titleVi": "Bố, con muốn đổi công việc",
+  "pages": [177, 185],
+  "vocab": [
+    { "hanzi": "低", "pinyin": "dī", "pos": "tt.", "meaning": "thấp" },
+    { "hanzi": "完全", "pinyin": "wánquán", "pos": "tt.", "meaning": "hoàn toàn", "hanViet": "hoàn toàn" },
+    { "hanzi": "适应", "pinyin": "shìyìng", "pos": "dt.", "meaning": "thích ứng", "hanViet": "thích ứng" },
+    { "hanzi": "收入", "pinyin": "shōurù", "pos": "dt.", "meaning": "thu nhập", "hanViet": "thu nhập" },
+    { "hanzi": "丰富", "pinyin": "fēngfù", "pos": "tt.", "meaning": "phong phú", "hanViet": "phong phú" },
+    { "hanzi": "与", "pinyin": "yǔ", "pos": "liên.", "meaning": "cùng với, và" },
+    { "hanzi": "交流", "pinyin": "jiāoliú", "pos": "đt.", "meaning": "giao lưu", "hanViet": "giao lưu" },
+    { "hanzi": "方法", "pinyin": "fāngfǎ", "pos": "dt.", "meaning": "phương pháp", "hanViet": "phương pháp" },
+    { "hanzi": "可是", "pinyin": "kěshì", "pos": "liên.", "meaning": "nhưng" },
+    { "hanzi": "交", "pinyin": "jiāo", "pos": "đt.", "meaning": "giao, nộp", "hanViet": "giao" },
+    { "hanzi": "责任心", "pinyin": "zérènxīn", "pos": "dt.", "meaning": "lòng trách nhiệm" },
+    { "hanzi": "责任", "pinyin": "zérèn", "pos": "dt.", "meaning": "trách nhiệm", "hanViet": "trách nhiệm" },
+    { "hanzi": "苦", "pinyin": "kǔ", "pos": "tt.", "meaning": "khổ, đắng", "hanViet": "khổ" },
+    { "hanzi": "各", "pinyin": "gè", "pos": "đại.", "meaning": "các", "hanViet": "các" },
+    { "hanzi": "味道", "pinyin": "wèidao", "pos": "dt.", "meaning": "mùi vị" },
+    { "hanzi": "反正", "pinyin": "fǎnzhèng", "pos": "phó.", "meaning": "dù sao thì" },
+    { "hanzi": "讨厌", "pinyin": "tǎoyàn", "pos": "đt.", "meaning": "ghét" },
+    { "hanzi": "发脾气", "pinyin": "fā píqì", "meaning": "nổi nóng" },
+    { "hanzi": "脾气", "pinyin": "píqì", "pos": "dt.", "meaning": "tính khí" },
+    { "hanzi": "改变", "pinyin": "gǎibiàn", "pos": "đt.", "meaning": "thay đổi", "hanViet": "cải biến" },
+    { "hanzi": "性格", "pinyin": "xìnggé", "pos": "dt.", "meaning": "tính cách", "hanViet": "tính cách" }
+  ],
+  "expand": [
+    { "hanzi": "年终奖", "pinyin": "niánzhōng jiǎng", "meaning": "Thưởng cuối năm" },
+    { "hanzi": "炒鱿鱼", "pinyin": "chǎoyóuyú", "meaning": "Sa thải" },
+    { "hanzi": "跳槽", "pinyin": "tiàocáo", "meaning": "Nhảy việc" },
+    { "hanzi": "辞职信", "pinyin": "cízhí xìn", "meaning": "Đơn từ chức" },
+    { "hanzi": "转行", "pinyin": "zhuǎnháng", "meaning": "Chuyển ngành" },
+    { "hanzi": "升职", "pinyin": "shēng zhí", "meaning": "Thăng chức" },
+    { "hanzi": "续约", "pinyin": "xù yuē", "meaning": "Ký tiếp hợp đồng" },
+    { "hanzi": "调职", "pinyin": "diàozhí", "meaning": "Điều chuyển công tác" }
+  ],
+  "tree": {
+    "hanzi": "论",
+    "pinyin": "lùn",
+    "meaning": "Luận",
+    "words": [
+      { "hanzi": "理论", "pinyin": "lǐlùn", "meaning": "Lý luận" },
+      { "hanzi": "论文", "pinyin": "lùnwén", "meaning": "Luận văn" },
+      { "hanzi": "议论", "pinyin": "yìlùn", "meaning": "Nghị luận" },
+      { "hanzi": "结论", "pinyin": "jiélùn", "meaning": "Kết luận" },
+      { "hanzi": "争论", "pinyin": "zhēnglùn", "meaning": "Tranh luận" },
+      { "hanzi": "讨论", "pinyin": "tǎolùn", "meaning": "Thảo luận" },
+      { "hanzi": "舆论", "pinyin": "yúlùn", "meaning": "Dư luận" },
+      { "hanzi": "辩论", "pinyin": "biànlùn", "meaning": "Biện luận" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "18.1",
+      "hanzi": "Động + 过来",
+      "pinyin": "guòlai",
+      "meaning": "bổ ngữ 过来 (đủ khả năng / trở lại trạng thái ban đầu / thay đổi)",
+      "note": "① Thời gian, năng lực, số lượng đủ để làm gì (忙不过来, 照顾不过来, 做不过来) · ② Phục hồi trạng thái ban đầu, dịch là \"trở lại\" (好过来) · ③ Sự thay đổi của tình huống, trạng thái (翻译过来)",
+      "theory": "① Bổ ngữ 过来 /guòlai/ thể hiện thời gian, năng lực, số lượng đủ để làm gì.\n\n② Bổ ngữ 过来 thể hiện sự phục hồi trạng thái ban đầu, thường dịch là \"trở lại\".\n\n③ Bổ ngữ 过来 thể hiện sự thay đổi của tình huống, trạng thái.",
+      "examples": [
+        { "zh": "经理工作都忙不过来，却还关心我们。", "pinyin": "Jīnglǐ gōngzuò dōu máng búguò lái, què hái guānxīn wǒmen.", "vi": "Giám đốc bận rộn túi bụi với công việc, nhưng vẫn quan tâm đến chúng tôi.", "vocab": "却: nhưng, lại", "breakdown": "① 忙 + 不 + 过来" },
+        { "zh": "我可照顾不过来这么多的孩子呀！", "pinyin": "Wǒ kě zhàogù bú guòlai zhème duō de háizi ya!", "vi": "Tôi chăm sóc không xuể nhiều đứa trẻ như vậy!", "vocab": "", "breakdown": "① 照顾 + 不 + 过来" },
+        { "zh": "他是新来的职员，给他的任务不要太难，他做不过来。", "pinyin": "Tā shì xīn lái de zhíyuán, gěi tā de rènwù búyào tài nán, tā zuò bú guòlai.", "vi": "Anh ấy là nhân viên mới, nhiệm vụ cho anh ấy đừng khó quá, cậu ấy không làm được đâu.", "vocab": "职员: nhân viên", "breakdown": "① 做 + 不 + 过来" },
+        { "zh": "昨天跟她聊了一个下午天儿，终于让她的心情好过来了。", "pinyin": "Zuótiān gēn tā liáole yí ge xiàwǔ tiānr, zhōngyú ràng tā de xīnqíng hǎo guòlaile.", "vi": "Hôm qua nói chuyện với cô ấy cả một buổi chiều, cuối cùng cũng làm cho tâm trạng cô ấy tốt trở lại.", "vocab": "", "breakdown": "② 好 + 过来: trở lại" },
+        { "zh": "请帮我把这个句子翻译过来。", "pinyin": "Qǐng bāng wǒ bǎ zhè ge jùzi fānyì guòlai.", "vi": "Xin hãy giúp tôi dịch câu này với.", "vocab": "翻译: dịch", "breakdown": "③ 翻译 + 过来: thay đổi trạng thái" }
+      ]
+    },
+    {
+      "np": "18.2",
+      "hanzi": "与",
+      "pinyin": "yǔ",
+      "meaning": "và (nối cụm danh từ, văn viết)",
+      "note": "Loại từ: liên từ · Nghĩa: nối hai cụm danh từ với nhau, dịch là \"và\" · Lưu ý: tương tự 和, nhưng 与 chỉ dùng trong văn viết hoặc văn bản nói mang tính trang trọng",
+      "theory": "Liên từ 与 /yǔ/ dùng để nối hai cụm danh từ với nhau, thường dịch là \"và\". Cách sử dụng của 与 tương tự của 和, nhưng 与 chỉ sử dụng trong văn viết hoặc những văn bản nói mang tính trang trọng.",
+      "examples": [
+        { "zh": "历史与文化对每个国家都很重要。", "pinyin": "Lìshǐ yǔ wénhuà duì měi ge guójiā dōu hěn zhòngyào.", "vi": "Lịch sử và văn hoá đều rất quan trọng với mỗi quốc gia.", "vocab": "国家: quốc gia", "breakdown": "历史 + 与 + 文化" },
+        { "zh": "如果工作和家庭必须二选一，你会选择哪一个？", "pinyin": "Rúguǒ gōngzuò hé jiātíng bìxū èr xuǎn yī, nǐ huì xuǎnzé nǎ yíge?", "vi": "Công việc và gia đình, nếu phải lựa chọn một cái, bạn sẽ chọn cái gì?", "vocab": "二选一: chọn một trong hai", "breakdown": "So sánh: văn nói thường dùng 和" }
+      ]
+    },
+    {
+      "np": "18.3",
+      "hanzi": "可是",
+      "pinyin": "kěshì",
+      "meaning": "nhưng, tuy nhiên (chuyển ý)",
+      "note": "Loại từ: liên từ · Nghĩa: chuyển ý, dịch là \"nhưng, tuy nhiên\"",
+      "theory": "Liên từ 可是 /kěshì/ thường dùng để chuyển ý, thường dịch là \"nhưng, tuy nhiên\".",
+      "examples": [
+        { "zh": "我想减肥，可是减肥好难啊。", "pinyin": "Wǒ xiǎng jiǎnféi, kěshì jiǎnféi hǎo nán a.", "vi": "Tôi muốn giảm cân, nhưng khó quá.", "vocab": "", "breakdown": "…, 可是…" },
+        { "zh": "我知道你饿，可是地铁里不能吃东西。", "pinyin": "Wǒ zhīdào nǐ è, kěshì dìtiě lǐ bùnéng chī dōngxi.", "vi": "Tớ biết cậu đang đói, nhưng cậu không được ăn uống trên tàu điện ngầm.", "vocab": "", "breakdown": "…, 可是…" },
+        { "zh": "他很忙，可是因为他们喜欢画画儿，所以每天都自己练习。", "pinyin": "Tā hěn máng, kěshì yīnwèi tāmen xǐhuan huà huàr, suǒyǐ měitiān dōu zìjǐ liànxí.", "vi": "Anh ấy rất bận, nhưng vì anh ấy rất thích vẽ, nên mỗi ngày đều tự luyện tập.", "vocab": "", "breakdown": "…, 可是…" }
+      ]
+    },
+    {
+      "np": "18.4",
+      "hanzi": "反正",
+      "pinyin": "fǎnzhèng",
+      "meaning": "thế nào cũng, dù… cũng (kết quả không đổi)",
+      "note": "Loại từ: liên từ · Nghĩa: bất kể tình huống xảy ra như thế nào thì kết quả cũng không đổi, dịch là \"thế nào cũng, dù… cũng\"",
+      "theory": "Liên từ 反正 /fǎnzhèng/ thể hiện bất kể tình huống xảy ra như thế nào thì kết quả cũng không đổi, thường dịch là \"thế nào cũng, dù… cũng\".",
+      "examples": [
+        { "zh": "不管你去哪儿，夏天反正都很热。", "pinyin": "Bùguǎn nǐ qù nǎr, xiàtiān fǎnzhèng dōu hěn rè.", "vi": "Dù bạn đi đâu, mùa hè vẫn đều rất nóng.", "vocab": "", "breakdown": "不管…, 反正都…" },
+        { "zh": "你们同意也好，不同意也好，反正我就是要跟她结婚。", "pinyin": "Nǐmen tóngyì yě hǎo, bù tóngyì yě hǎo, fǎnzhèng wǒ jiùshì yào gēn tā jiéhūn.", "vi": "Dù bố mẹ đồng ý hay không thì tôi cũng vẫn chỉ muốn cưới cô ấy.", "vocab": "", "breakdown": "A也好, B也好, 反正…" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Bố, con muốn đổi công việc. Bây giờ công việc quá nhiều, con bận không xuể, lương ba cọc ba đồng, rất [0:低] lại còn chẳng có tiền thưởng." },
+        { "who": "B", "zh": "Lại muốn thay đổi công việc rồi. Để [0:适应] được với môi trường mới, công việc mới [0:与] đồng nghiệp mới, con phải dành ra ít nhất một năm mới để [0:完全] thích nghi. Hơn nữa, người trẻ như con không nên vội vàng kiếm tiền, đừng quá chú trọng đến [0:收入] hàng tháng. Trong mấy năm đầu tiên bắt đầu đi làm, điều quan trọng là phải làm [0:丰富] kinh nghiệm của bản thân, học [0:方法] để trò chuyện [0:交流] với đồng nghiệp. Đây mới là thái độ làm việc mà con nên có." },
+        { "who": "A", "zh": "[0:可是] sếp cứ [0:交] cho con những việc mà con không thích." },
+        { "who": "B", "zh": "Đây là cơ hội để con rèn luyện tinh thần [0:责任] của mình với công việc. Trong công việc con sẽ nếm trải [0:各] loại hương vị: chua, ngọt, [0:苦], cay, đâu thể chỉ nếm mỗi một [0:味道], con cứ nghĩ mà xem, [0:反正] thì con cũng không thể cứ chỉ làm những việc mình thích được." },
+        { "who": "A", "zh": "Làm việc mình không thích thì sao có thể có đạt được kết quả tốt, làm không tốt con còn bị sếp mắng, thật [0:讨厌]." },
+        { "who": "B", "zh": "Không giữ được bình tĩnh, dễ [0:发脾气] chính là khuyết điểm của con. Lớn rồi mà [0:性格] vẫn như ngày còn đi học. Đi làm rồi tốt hơn hết con nên [0:改变] tính cách này đi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "A", "zh": "爸，我想换工作。现在工作太多，我[1:忙不过来]，工资又很低，也没有奖金。", "py": "Bà, wǒ xiǎng huàn gōngzuò. Xiànzài gōngzuò tài duō, wǒ [1:máng búguò lái], gōngzī yòu hěn dī, yě méiyǒu jiǎngjīn.", "vi": "Bố, con muốn đổi công việc. Bây giờ công việc quá nhiều, tôi [1:bận không xuể], lương còn rất thấp, cũng không có tiền thưởng." },
+        { "who": "B", "zh": "又想换工作了。其实，完全适应一个新工作需要一年的时间。再说，年轻人不应该着急赚钱，太重视收入。开始工作的头几年，重要的是丰富自己的经验，学习[2:与]同事交流的方法。这才是应该有的工作态度。", "py": "Yòu xiǎng huàn gōngzuòle. Qíshí, wánquán shìyìng yí ge xīn gōngzuò xūyào yì nián de shíjiān. Zàishuō, niánqīng rén bù yīnggāi zháojí zhuànqián, tài zhòngshì shōurù. Kāishǐ gōngzuò de tóu jǐ nián, zhòngyào de shì fēngfù zìjǐ de jīngyàn, xuéxí [2:yǔ] tóngshì jiāoliú de fāngfǎ. Zhè cái shì yīnggāi yǒu de gōngzuò tàidù.", "vi": "Lại muốn thay đổi công việc rồi. Thực ra, phải mất thời gian một năm để thích nghi hoàn toàn với công việc mới. Hơn nữa, người trẻ không nên vội vàng kiếm tiền, quá chú trọng đến thu nhập. Trong mấy năm đầu tiên bắt đầu đi làm, điều quan trọng là phải làm giàu kinh nghiệm của bản thân, học cách giao tiếp [2:với] đồng nghiệp. Đây mới là thái độ làm việc mà con nên có." },
+        { "who": "A", "zh": "[3:可是]老板都把我不喜欢的任务交给我。", "py": "[3:Kěshì] lǎobǎn dōu bǎ wǒ bù xǐhuan de rènwù jiāo gěi wǒ.", "vi": "[3:Nhưng] sếp cứ giao cho con những việc mà con không thích." },
+        { "who": "B", "zh": "这就是让你锻炼责任心的机会。在工作上你会尝到酸、甜、苦、辣各种味道，[4:反正]不能只做喜欢的事。", "py": "Zhè jiùshì ràng nǐ duànliàn zérèn xīn de jīhuì. Zài gōngzuò shàng nǐ huì cháng dào suān, tián, kǔ, là gè zhǒng wèidào, [4:fǎnzhèng] bùnéng zhǐ zuò xǐhuan de shì.", "vi": "Đây là cơ hội để con rèn luyện tinh thần trách nhiệm của mình. Trong công việc con sẽ nếm trải các hương vị chua, ngọt, đắng, cay, [4:dù sao thì] con cũng không thể cứ chỉ làm những việc mình thích được." },
+        { "who": "A", "zh": "做自己不想做的哪能换来好结果，做不好我又被老板批评，太讨厌了。", "py": "Zuò zìjǐ bùxiǎng zuò de nǎ néng huàn lái hǎo jiéguǒ, zuò bù hǎo wǒ yòu bèi lǎobǎn pīpíng, tài tǎoyàn le.", "vi": "Làm việc mình không thích thì sao có thể đạt được kết quả tốt, làm không tốt con còn bị sếp mắng, thật khó chịu." },
+        { "who": "B", "zh": "容易发脾气就是你的缺点。上班了要改变这个性格才好，不要像以前上学时那样。", "py": "Róngyì fā píqì jiùshì nǐ de quēdiǎn. Shàng bān le yào gǎibiàn zhè ge xìnggé cái hǎo, búyào xiàng yǐqián shàngxué shí nàyàng.", "vi": "Dễ nổi nóng chính là khuyết điểm của con. Đi làm rồi tốt hơn hết con nên thay đổi tính cách này đi, chứ đừng như ngày còn đi học." }
+      ],
+      "legend": [
+        { "n": 1, "label": "过来", "np": "NP 18.1" },
+        { "n": 2, "label": "与", "np": "NP 18.2" },
+        { "n": 3, "label": "可是", "np": "NP 18.3" },
+        { "n": 4, "label": "反正", "np": "NP 18.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "酸甜苦辣 /suān tián kǔ là/ ngoài dùng để miêu tả hương vị, còn được dùng trong khẩu ngữ với nghĩa bóng, mang nghĩa tương tự cụm từ \"đắng cay ngọt bùi\" trong Tiếng Việt."
+      }
+    }
+  ]
+}

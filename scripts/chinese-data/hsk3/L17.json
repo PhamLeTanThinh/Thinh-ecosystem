@@ -1,0 +1,160 @@
+{
+  "level": "hsk3",
+  "lesson": 42,
+  "bookLesson": 17,
+  "title": "生意终于谈成了",
+  "titleVi": "Việc kinh doanh cuối cùng đã đàm phán xong",
+  "pages": [167, 176],
+  "vocab": [
+    { "hanzi": "消息", "pinyin": "xiāoxi", "pos": "dt.", "meaning": "thông tin" },
+    { "hanzi": "生意", "pinyin": "shēngyì", "pos": "dt.", "meaning": "kinh doanh" },
+    { "hanzi": "谈", "pinyin": "tán", "pos": "đt.", "meaning": "bàn bạc" },
+    { "hanzi": "任务", "pinyin": "rènwù", "pos": "dt.", "meaning": "nhiệm vụ", "hanViet": "nhiệm vụ" },
+    { "hanzi": "困难", "pinyin": "kùnnan", "pos": "dt.", "meaning": "khó khăn" },
+    { "hanzi": "材料", "pinyin": "cáiliào", "pos": "dt.", "meaning": "tài liệu", "hanViet": "tài liệu" },
+    { "hanzi": "够", "pinyin": "gòu", "pos": "tt.", "meaning": "đủ" },
+    { "hanzi": "失败", "pinyin": "shībài", "pos": "đt.", "meaning": "thất bại", "hanViet": "thất bại" },
+    { "hanzi": "竟然", "pinyin": "jìngrán", "pos": "phó.", "meaning": "mà, lại, vậy mà" },
+    { "hanzi": "尽管", "pinyin": "jǐnguǎn", "pos": "liên.", "meaning": "dù, cho dù" },
+    { "hanzi": "复杂", "pinyin": "fùzá", "pos": "tt.", "meaning": "phức tạp", "hanViet": "phức tạp" },
+    { "hanzi": "奖金", "pinyin": "jiǎngjīn", "pos": "dt.", "meaning": "tiền thưởng" },
+    { "hanzi": "沙发", "pinyin": "shāfā", "pos": "dt.", "meaning": "sofa" },
+    { "hanzi": "广告", "pinyin": "guǎnggào", "pos": "dt.", "meaning": "quảng cáo", "hanViet": "quảng cáo" },
+    { "hanzi": "联系", "pinyin": "liánxì", "pos": "đt.", "meaning": "liên lạc", "hanViet": "liên hệ" },
+    { "hanzi": "计划", "pinyin": "jìhuà", "pos": "dt.", "meaning": "kế hoạch", "hanViet": "kế hoạch" },
+    { "hanzi": "建议", "pinyin": "jiànyì", "pos": "dt.", "meaning": "đề xuất, đề nghị", "hanViet": "kiến nghị" },
+    { "hanzi": "意见", "pinyin": "yìjiàn", "pos": "dt.", "meaning": "ý kiến", "hanViet": "ý kiến" },
+    { "hanzi": "提前", "pinyin": "tíqián", "pos": "đt.", "meaning": "trước giờ, sớm" },
+    { "hanzi": "来不及", "pinyin": "láibují", "pos": "đt.", "meaning": "không kịp" }
+  ],
+  "expand": [
+    { "hanzi": "人事行政部", "pinyin": "rénshì xíngzhèng bù", "meaning": "Phòng Hành chính nhân sự" },
+    { "hanzi": "财务会计部", "pinyin": "cáiwù kuàijì bù", "meaning": "Phòng Tài chính kế toán" },
+    { "hanzi": "企划部", "pinyin": "qǐhuà bù", "meaning": "Phòng Kế hoạch" },
+    { "hanzi": "营销部", "pinyin": "yíngxiāo bù", "meaning": "Phòng Kinh doanh" },
+    { "hanzi": "客服部", "pinyin": "kèfú bù", "meaning": "Phòng Dịch vụ khách hàng" },
+    { "hanzi": "研发部", "pinyin": "yánfā bù", "meaning": "Phòng Nghiên cứu và phát triển" },
+    { "hanzi": "生产部", "pinyin": "shēngchǎn bù", "meaning": "Phòng Sản xuất" },
+    { "hanzi": "质控部", "pinyin": "zhìkòng bù", "meaning": "Phòng Quản lý chất lượng" }
+  ],
+  "tree": {
+    "hanzi": "不",
+    "pinyin": "bù",
+    "meaning": "Bất",
+    "words": [
+      { "hanzi": "不利", "pinyin": "búlì", "meaning": "Bất lợi" },
+      { "hanzi": "不孝", "pinyin": "búxiào", "meaning": "Bất hiếu" },
+      { "hanzi": "不变", "pinyin": "búbiàn", "meaning": "Bất biến" },
+      { "hanzi": "不动", "pinyin": "búdòng", "meaning": "Bất động" },
+      { "hanzi": "不便", "pinyin": "búbiàn", "meaning": "Bất tiện" },
+      { "hanzi": "不平", "pinyin": "bùpíng", "meaning": "Bất bình" },
+      { "hanzi": "不同", "pinyin": "bùtóng", "meaning": "Bất đồng" },
+      { "hanzi": "不安", "pinyin": "bù'ān", "meaning": "Bất an" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "17.1",
+      "hanzi": "竟然",
+      "pinyin": "jìngrán",
+      "meaning": "vậy mà, ấy thế mà (ngoài dự đoán)",
+      "note": "Loại từ: phó từ · Nghĩa: sự việc nằm ngoài dự đoán, không ngờ đến, dịch là \"vậy mà, ấy thế mà\"",
+      "theory": "Phó từ 竟然 /jìngrán/ thể hiện sự việc nằm ngoài dự đoán, không ngờ đến, thường dịch là \"vậy mà, ấy thế mà\".",
+      "examples": [
+        { "zh": "我真想不到他竟然有小三！", "pinyin": "Wǒ zhēn xiǎng bu dào tā jìngrán yǒu xiǎosān!", "vi": "Tôi thật không ngờ anh ta lại có tiểu tam!", "vocab": "小三: tiểu tam, người thứ ba", "breakdown": "竟然 + 有…" },
+        { "zh": "没想到你这么喜欢运动的人竟然不会游泳。", "pinyin": "Méi xiǎng dào nǐ zhème xǐhuan yùndòng de rén jìngrán bú huì yóu yǒng.", "vi": "Không ngờ một người thích thể thao như bạn lại không biết bơi.", "vocab": "", "breakdown": "竟然 + 不会…" },
+        { "zh": "我的汉语老师竟然32岁了，看起来只有20多岁。", "pinyin": "Wǒ de Hànyǔ lǎoshī jìngrán sānshí'èr suì le, kàn qǐlai zhǐyǒu èrshí duō suì.", "vi": "Cô giáo Tiếng Trung của tớ thế mà đã 32 tuổi rồi nhé, trông như mới chỉ ngoài 20.", "vocab": "", "breakdown": "竟然 + 32岁了" }
+      ]
+    },
+    {
+      "np": "17.2",
+      "hanzi": "尽管……，但是 / 还是……",
+      "pinyin": "jǐnguǎn……, dànshì / háishi……",
+      "meaning": "cho dù, mặc dù… (nhượng bộ)",
+      "note": "Cấu trúc: 尽管…, 但是 / 还是… · Nghĩa: quan hệ nhượng bộ, vế đầu dẫn ra một sự thật, vế sau là hệ quả, kết quả (vốn không xảy ra trong tình huống thông thường), dịch là \"cho dù, mặc dù\"",
+      "theory": "Cấu trúc 尽管 /jǐnguǎn/…, 但是 / 还是… tạo thành cặp quan hệ từ biểu thị ý nghĩa nhượng bộ, trong đó vế đầu dẫn ra một sự thật, vế sau là hệ quả, kết quả (vốn không xảy ra trong tình huống thông thường), thường dịch là \"cho dù, mặc dù\".",
+      "examples": [
+        { "zh": "尽管天气那么冷，他还是用冷水洗澡。", "pinyin": "Jǐnguǎn tiānqì nàme lěng, tā háishi yòng lěngshuǐ xǐ zǎo.", "vi": "Cho dù trời lạnh như vậy, anh ấy vẫn tắm nước lạnh.", "vocab": "冷水: nước lạnh", "breakdown": "尽管…, 还是…" },
+        { "zh": "尽管今天很累，但是我还是努力上汉语课。", "pinyin": "Jǐnguǎn jīntiān hěn lèi, dànshì wǒ háishi nǔlì shàng Hànyǔ kè.", "vi": "Hôm nay dù mệt nhưng tôi vẫn cố gắng đến lớp học Tiếng Trung.", "vocab": "", "breakdown": "尽管…, 但是… 还是…" },
+        { "zh": "尽管外面下着大雨，但是我得去她家一趟。", "pinyin": "Jǐnguǎn wàimian xiàzhe dàyǔ, dànshì wǒ děi qù tā jiā yí tàng.", "vi": "Mặc dù ngoài trời đang mưa to, nhưng tôi phải đến nhà cô ấy một chuyến.", "vocab": "趟: chuyến", "breakdown": "尽管…, 但是…" }
+      ]
+    },
+    {
+      "np": "17.3",
+      "hanzi": "只要……，就……",
+      "pinyin": "zhǐyào……, jiù……",
+      "meaning": "chỉ cần…, thì… (điều kiện cần)",
+      "note": "Cấu trúc: 只要…, 就… · Nghĩa: dẫn ra điều kiện cần để diễn ra sự việc gì đó, dịch là \"chỉ cần…, thì…\"",
+      "theory": "Liên từ 只要 /zhǐyào/…, 就… dẫn ra điều kiện cần để diễn ra sự việc gì đó, thường dịch là \"chỉ cần…, thì…\".",
+      "examples": [
+        { "zh": "只要有你一直在我身边，我就放心了。", "pinyin": "Zhǐyào yǒu nǐ yìzhí zài wǒ shēnbiān, wǒ jiù fàngxīn le.", "vi": "Chỉ cần anh luôn ở bên cạnh em, là em yên tâm rồi.", "vocab": "身边: bên cạnh", "breakdown": "只要…, 就…" },
+        { "zh": "叫方便面当然很方便了，只要五分钟就能吃了。", "pinyin": "Jiào fāngbiàn miàn dāngrán hěn fāngbiàn le, zhǐyào wǔ fēnzhōng jiù néng chī le.", "vi": "Mỳ gói đương nhiên là tiện lợi rồi, chỉ cần năm phút là có thể ăn được.", "vocab": "方便面: mì ăn liền", "breakdown": "只要 + 五分钟, 就…" }
+      ]
+    },
+    {
+      "np": "17.4",
+      "hanzi": "来不及",
+      "pinyin": "láibují",
+      "meaning": "không kịp",
+      "note": "Loại từ: động từ · Nghĩa: thời gian không đủ để làm điều gì đó, dịch là \"không kịp\"",
+      "theory": "Động từ 来不及 /láibují/ thể hiện thời gian không đủ để làm điều gì đó, thường dịch là \"không kịp\".",
+      "examples": [
+        { "zh": "时间来不及了，你快一点儿！", "pinyin": "Shíjiān láibují le, nǐ kuài yìdiǎnr!", "vi": "Thời gian không kịp rồi, em nhanh lên!", "vocab": "", "breakdown": "来不及 + 了" },
+        { "zh": "今天起晚了，所以来不及准备早饭了。", "pinyin": "Jīntiān qǐ wǎn le, suǒyǐ láibují zhǔnbèi zǎofàn le.", "vi": "Hôm nay dậy muộn nên không kịp chuẩn bị bữa sáng rồi.", "vocab": "早饭: bữa sáng", "breakdown": "来不及 + 准备…" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ 1",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Thông báo tới cả nhà một [0:消息] vui, việc hợp tác [0:生意] của công ty A với chúng ta cuối cùng đã được hai bên [0:谈] xong và chốt ngày ký kết." },
+        { "who": "B", "zh": "Tuyệt vời. [0:任务] giám đốc giao cho chúng ta lần này gặp bao [0:困难] trắc trở, quá nhiều [0:材料] phải chuẩn bị thành chồng mà vẫn không [0:够], lúc thuyết trình xong tôi còn tưởng sắp [0:失败] đến nơi, [0:竟然] chúng ta đã hoàn thành công việc một cách suôn sẻ." },
+        { "who": "A", "zh": "Cả nhà thấy đó, [0:尽管] nhiệm vụ dù đơn giản hay [0:复杂], nhưng chỉ cần mọi người cùng nỗ lực, mọi thứ đều sẽ có cách." },
+        { "who": "B", "zh": "Hy vọng chúng ta sẽ nhận được [0:奖金] của dự án như giám đốc đã hứa thưởng nóng." }
+      ]
+    },
+    {
+      "title": "Chém gió song ngữ 2",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "A", "zh": "Ghế [0:沙发] tháng này không bán được, cậu mau [0:联系] với bộ phận [0:广告], nhờ họ nghĩ cách marketing xem sao." },
+        { "who": "B", "zh": "Tôi đã liên lạc rồi. Đây là [0:计划] quảng cáo tháng sau mà bên đó gửi cho chúng ta, anh có [0:建议] gì với bên họ không?" },
+        { "who": "A", "zh": "Tôi đã xem, không có [0:意见] gì, kế hoạch rất tốt. Buổi họp chiều nay diễn ra [0:提前] một tiếng so với kế hoạch, e rằng [0:来不及] chuẩn bị tài liệu." },
+        { "who": "B", "zh": "Anh cứ yên tâm, tôi đã chuẩn bị xong tài liệu từ sớm." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 1",
+      "lines": [
+        { "who": "A", "zh": "告诉大家一个好消息，我们的生意终于谈成了。", "py": "Gàosu dàjiā yí ge hǎo xiāoxi, wǒmen de shēngyì zhōngyú tán chéng le.", "vi": "Thông báo tới cả nhà một tin vui, việc kinh doanh của chúng ta cuối cùng đã đàm phán xong." },
+        { "who": "B", "zh": "太好了。这次任务有很多困难，材料准备又不够，我还以为我们快要失败了，[1:竟然]那么顺利地完成了工作。", "py": "Tài hǎo le. Zhè cì rènwù yǒu hěn duō kùnnan, cáiliào zhǔnbèi yòu búgòu, wǒ hái yǐwéi wǒmen kuàiyào shībài le, [1:jìngrán] nàme shùnlì de wánchéng le gōngzuò.", "vi": "Tuyệt vời. Nhiệm vụ này gặp rất nhiều khó khăn, tài liệu chuẩn bị còn không đủ, tôi còn tưởng chúng ta sắp thất bại, [1:vậy mà] chúng ta đã hoàn thành công việc một cách suôn sẻ." },
+        { "who": "A", "zh": "[2:尽管]任务更复杂，但是[3:只要]大家一起努力，一切都会有办法的。", "py": "[2:Jǐnguǎn] rènwù gèng fùzá, dànshì [3:zhǐyào] dàjiā yìqǐ nǔlì, yíqiè dōu huì yǒu bànfǎ de.", "vi": "[2:Cho dù] nhiệm vụ có phức tạp hơn, nhưng [3:chỉ cần] mọi người cùng nỗ lực, mọi thứ đều sẽ có cách." },
+        { "who": "B", "zh": "希望下个月我们会拿到奖金。", "py": "Xīwàng xià ge yuè wǒmen huì ná dào jiǎngjīn.", "vi": "Hy vọng tháng tới chúng ta sẽ nhận được tiền thưởng." }
+      ],
+      "legend": [
+        { "n": 1, "label": "竟然", "np": "NP 17.1" },
+        { "n": 2, "label": "尽管", "np": "NP 17.2" },
+        { "n": 3, "label": "只要", "np": "NP 17.3" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ 2",
+      "lines": [
+        { "who": "A", "zh": "沙发这个月卖不出去，你快跟广告部联系，让他们想想办法吧。", "py": "Shāfā zhè ge yuè mài bù chūqu, nǐ kuài gēn guǎnggào bù liánxì, ràng tāmen xiǎng xiǎng bànfǎ ba.", "vi": "Ghế sofa tháng này không bán được, cậu mau lòng liên hệ với bộ phận quảng cáo, nhờ họ nghĩ cách xem sao." },
+        { "who": "B", "zh": "我联系了。这是那边发给我们的下个月广告计划，你有什么建议吗？", "py": "Wǒ liánxì le. Zhè shì nà biān fā gěi wǒmen de xià ge yuè guǎnggào jìhuà, nǐ yǒu shénme jiànyì ma?", "vi": "Tôi đã liên lạc. Đây là kế hoạch quảng cáo tháng sau mà bên đó gửi cho chúng ta, anh có đề xuất gì không?" },
+        { "who": "A", "zh": "我看过了，没意见，计划很不错。今天下午的会议提前一个小时，恐怕[4:来不及]准备材料。", "py": "Wǒ kànguo le, méi yìjiàn, jìhuà hěn búcuò. Jīntiān xiàwǔ de huìyì tíqián yí ge xiǎoshí, kǒngpà [4:láibují] zhǔnbèi cáiliào.", "vi": "Tôi đã xem, không có ý kiến gì, kế hoạch rất tốt. Buổi họp chiều nay diễn ra trước một tiếng so với kế hoạch, e rằng [4:không kịp] chuẩn bị tài liệu." },
+        { "who": "B", "zh": "你放心，材料我早就准备好了。", "py": "Nǐ fàngxīn, cáiliào wǒ zǎo jiù zhǔnbèi hǎo le.", "vi": "Anh cứ yên tâm, tôi đã chuẩn bị xong tài liệu từ sớm." },
+        { "who": "A", "zh": "昨晚多几分钟的准备，今天少几小时的麻烦。真有你的！", "py": "Zuó wǎn duō jǐ fēnzhōng de zhǔnbèi, jīntiān shǎo jǐ xiǎoshí de máfan. Zhēnyǒu nǐ de!", "vi": "Tối qua chuẩn bị thêm vài phút, hôm nay bớt rắc rối vài giờ. Thật tốt vì có cậu!" }
+      ],
+      "legend": [
+        { "n": 4, "label": "来不及", "np": "NP 17.4" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "真有你的 /zhēn yǒu nǐ de/ dùng để khen ngợi đối phương, thường dịch là \"may mà / thật tốt vì có bạn\"."
+      }
+    }
+  ]
+}

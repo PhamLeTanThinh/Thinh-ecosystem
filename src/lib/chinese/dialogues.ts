@@ -1,3 +1,5 @@
+import { HSK3_DIALOGUES } from './hsk3'
+
 // Hội thoại "Nói như người bản xứ" của từng bài (giáo trình Tiếng Trung Cảm Xúc). Mỗi câu gồm chữ Hán, pinyin,
 // bản dịch tiếng Việt. Từ/cụm từ thuộc điểm ngữ pháp được đánh dấu bằng cú pháp [n:chữ] — n là số thứ tự trong
 // `legend` của hội thoại đó (1..6, mỗi số 1 màu); n = 0 là từ tiếng Trung xen trong đoạn "Chém gió song ngữ".
@@ -713,4 +715,6 @@ export const DIALOGUES: Record<number, Dialogue[]> = {
       },
     },
   ],
+  // HSK 3 (bài 26-50) — sinh bởi scripts/import-chinese-lessons.mjs
+  ...HSK3_DIALOGUES,
 }
