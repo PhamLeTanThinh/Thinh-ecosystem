@@ -1,0 +1,56 @@
+{
+  "level": "topik1", "lesson": 112, "bookLesson": 12, "book": "1B",
+  "title": "여보세요", "titleVi": "Alô", "pages": [86, 107],
+  "grammar": [
+    {
+      "front": "A/V-지요?, N(이)지요?",
+      "meaning": "…phải không? / …nhỉ? — xác nhận điều đã biết",
+      "note": "Gắn sau gốc tính từ/động từ · Danh từ: không patchim + 지요, có patchim + 이지요 · Quá khứ: -았지요/었지요, N였지요/이었지요 · Tương lai: -(으)ㄹ 거지요 · Văn nói rút gọn: -죠 · Câu trả lời không dùng -지요",
+      "theory": "-지요? dùng khi người nói hỏi để xác nhận lại điều mình đã biết hoặc tin là đúng — 'phải không, nhỉ'. Người trả lời không dùng -지요.\n\nGắn sau gốc tính từ/động từ (복잡하지요?, 춥지요?, 오지요?, 먹지요?). Với danh từ: không patchim + 지요 (학교지요?), có patchim + 이지요 (학생이지요?).\n\nQuá khứ: -았지요/었지요, danh từ 였지요/이었지요. Tương lai: -(으)ㄹ 거지요?\n\nTrong văn nói hay rút gọn thành -죠: 집이지요? = 집이죠?\n\nĐi cùng từ để hỏi, (이)지요 nghe mềm mại hơn 이에요/예요, thể hiện người hỏi tin người nghe biết câu trả lời: 모두 얼마지요?",
+      "examples": [
+        { "ko": "명동이 복잡하지요? — 네, 아주 복잡해요.", "vi": "Myeongdong đông lắm nhỉ? — Vâng, rất đông.", "vocab": "", "breakdown": "복잡하다 → 복잡하지요?" },
+        { "ko": "요즘 날씨가 춥지요? — 네, 추워요.", "vi": "Dạo này trời lạnh nhỉ? — Vâng, lạnh.", "vocab": "", "breakdown": "춥다 → 춥지요?" },
+        { "ko": "나나 씨는 학생이지요? — 네, 학생이에요.", "vi": "Nana là học sinh phải không? — Vâng, là học sinh.", "vocab": "", "breakdown": "학생 (có patchim) + 이지요?" },
+        { "ko": "어제 파티가 재미있었지요? — 네, 아주 재미있었어요.", "vi": "Bữa tiệc hôm qua vui nhỉ? — Ừ, rất vui.", "vocab": "", "breakdown": "Quá khứ: 재미있었지요?" },
+        { "ko": "지금 몇 시지요? = 지금 몇 시예요?", "vi": "Bây giờ mấy giờ rồi nhỉ?", "vocab": "", "breakdown": "Với từ để hỏi: mềm mại hơn 예요" }
+      ]
+    },
+    {
+      "front": "V-고 있다",
+      "meaning": "Đang V — hành động đang diễn ra / kéo dài",
+      "note": "Gắn sau gốc động từ, không đổi theo patchim · Cũng dùng cho việc lặp lại trong một khoảng thời gian (dạo này đang…) · Kính ngữ: -고 계시다",
+      "theory": "-고 있다 diễn tả hành động đang diễn ra ở hiện tại — 'đang'. Gắn sau gốc động từ, không phân biệt patchim: 자고 있어요, 읽고 있어요.\n\nCũng dùng cho hành động lặp lại, kéo dài trong một khoảng thời gian bao gồm hiện tại: 요즘 수영을 배우고 있어요 (dạo này đang học bơi).\n\nKhi chủ ngữ lớn tuổi hơn hoặc địa vị cao hơn người nói, dùng -고 계시다: 아버지는 지금 텔레비전을 보고 계세요.",
+      "examples": [
+        { "ko": "유진 씨는 지금 자고 있어요.", "vi": "Yujin đang ngủ.", "vocab": "", "breakdown": "자다 → 자고 있어요" },
+        { "ko": "지금 뭐 해요? — 책을 읽고 있어요.", "vi": "Bạn đang làm gì? — Tôi đang đọc sách.", "vocab": "", "breakdown": "읽다 → 읽고 있어요" },
+        { "ko": "요즘 수영을 배우고 있어요.", "vi": "Dạo này tôi đang học bơi.", "vocab": "", "breakdown": "Việc kéo dài trong một khoảng thời gian" },
+        { "ko": "아버지는 지금 텔레비전을 보고 계세요.", "vi": "Bố tôi đang xem tivi.", "vocab": "", "breakdown": "Kính ngữ: -고 계시다" }
+      ]
+    },
+    {
+      "front": "못 V",
+      "meaning": "Không thể V — không có khả năng / hoàn cảnh không cho phép",
+      "note": "Đặt 못 trước động từ · Động từ 'danh từ + 하다': chèn vào giữa, viết cách: 전화 못 했어요 · Khác 안 (không làm vì không muốn / phủ định đơn thuần)",
+      "theory": "못 đặt trước động từ để diễn tả chủ ngữ không thể thực hiện hành động đó — do không có khả năng hoặc do hoàn cảnh: 저는 자전거를 못 타요.\n\nVới động từ 'danh từ + 하다' thì chèn 못 vào giữa và viết cách: 전화 못 했어요 (đúng), 전화 못했어요 (sai).\n\nSo với 안 (Bài 3): 안 chỉ phủ định đơn thuần (không làm), còn 못 mang nghĩa không thể làm: 고향에 가요? — 아니요, 못 가요. 일이 많아요 (muốn đi nhưng không đi được). 못 chỉ đi với động từ; 안 đi được với cả tính từ và động từ.",
+      "examples": [
+        { "ko": "저는 자전거를 못 타요.", "vi": "Tôi không biết đi xe đạp.", "vocab": "", "breakdown": "못 + 타요: không có khả năng" },
+        { "ko": "마리코 씨는 김치를 못 먹어요.", "vi": "Mariko không ăn được kimchi.", "vocab": "", "breakdown": "못 + 먹어요" },
+        { "ko": "피곤해요? — 네, 어제 잠을 못 잤어요.", "vi": "Bạn mệt à? — Ừ, hôm qua tôi không ngủ được.", "vocab": "잠을 자다: ngủ", "breakdown": "Hoàn cảnh không cho phép" },
+        { "ko": "스티븐 씨, 어제 유진 씨하고 전화했어요? — 아니요, 전화 못 했어요.", "vi": "Steven, hôm qua anh có gọi điện cho Yujin không? — Không, tôi không gọi được.", "vocab": "", "breakdown": "전화 + 못 + 했어요 (viết cách)" }
+      ]
+    },
+    {
+      "front": "A/V-아서/어서 (lý do)",
+      "meaning": "Vì… nên… — nguyên nhân, lý do",
+      "note": "ㅏ, ㅗ + 아서 · 하다 → 해서 · khác + 어서 · Danh từ: (이)라서 · Vế sau không dùng mệnh lệnh / rủ rê · Vế trước không chia thì",
+      "theory": "-아서/어서 ở bài này diễn tả lý do, nguyên nhân dẫn đến kết quả ở vế sau — 'vì… nên…'. Gắn được với cả tính từ và động từ: 많다 → 많아서, 따뜻하다 → 따뜻해서, 맛있다 → 맛있어서, 오다 → 와서.\n\nVới danh từ dùng 이라서/라서: 방학이라서, 시라서.\n\nVế sau KHÔNG được là câu mệnh lệnh hay rủ rê: 음식이 맛있어서 많이 드세요 (sai). Vế trước không chia thì quá khứ; thì chỉ chia ở cuối câu: 영화가 재미있어서 두 번 봤어요.",
+      "examples": [
+        { "ko": "요즘 일이 많아서 너무 피곤해요.", "vi": "Dạo này nhiều việc nên tôi rất mệt.", "vocab": "피곤하다: mệt", "breakdown": "많다 → 많아서" },
+        { "ko": "날씨가 따뜻해서 기분이 좋아요.", "vi": "Trời ấm nên tâm trạng tôi rất tốt.", "vocab": "기분: tâm trạng", "breakdown": "따뜻하다 → 따뜻해서" },
+        { "ko": "왜 여행을 못 갔어요? — 비가 많이 와서 못 갔어요.", "vi": "Sao bạn không đi du lịch được? — Vì mưa to nên không đi được.", "vocab": "", "breakdown": "오다 → 와서" },
+        { "ko": "방학이라서 요즘 학교에 안 가요.", "vi": "Vì đang nghỉ hè nên dạo này tôi không đến trường.", "vocab": "방학: kỳ nghỉ", "breakdown": "Danh từ: 방학 + 이라서" },
+        { "ko": "영화가 재미있어서 두 번 봤어요.", "vi": "Phim hay nên tôi đã xem hai lần.", "vocab": "", "breakdown": "재미있었어서 (sai) → 재미있어서 (đúng)" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "level": "topik1", "lesson": 107, "bookLesson": 7, "book": "1A",
+  "title": "날씨가 어떻습니까?", "titleVi": "Thời tiết thế nào?", "pages": [166, 185],
+  "grammar": [
+    {
+      "front": "'ㅂ' 불규칙",
+      "meaning": "Bất quy tắc 'ㅂ' — patchim ㅂ đổi thành 우 trước nguyên âm",
+      "note": "덥다 → 더워요, 춥다 → 추워요, 어렵다 → 어려워요, 쉽다 → 쉬워요, 맵다 → 매워요, 무겁다 → 무거워요, 가볍다 → 가벼워요 · Trước phụ âm (-고, -지만, -습니다) giữ nguyên ㅂ · Không phải mọi từ có ㅂ đều bất quy tắc: 좁다 → 좁아요, 입다 → 입어요",
+      "theory": "Một số tính từ/động từ có gốc kết thúc bằng patchim ㅂ, khi gặp đuôi bắt đầu bằng nguyên âm (-아요/어요, -았어요/었어요…) thì ㅂ biến thành 우: 덥다 → 더워요, 춥다 → 추워요.\n\nCác từ bất quy tắc ㅂ hay gặp: 덥다 (nóng), 춥다 (lạnh), 어렵다 (khó), 쉽다 (dễ), 맵다 (cay), 무겁다 (nặng), 가볍다 (nhẹ).\n\nKhi đuôi bắt đầu bằng phụ âm (-고, -지만, -습니다) thì giữ nguyên ㅂ: 덥고, 덥지만, 덥습니다.\n\nKhông phải từ nào có patchim ㅂ cũng bất quy tắc — một số từ chia bình thường: 좁다 → 좁아요, 입다 → 입어요, 잡다 → 잡으세요.",
+      "examples": [
+        { "ko": "날씨가 아주 더워요.", "vi": "Thời tiết rất nóng.", "vocab": "", "breakdown": "덥다 → 더워요" },
+        { "ko": "오늘도 추워요? — 네, 추워요.", "vi": "Hôm nay cũng lạnh à? — Ừ, lạnh.", "vocab": "", "breakdown": "춥다 → 추워요" },
+        { "ko": "시험이 어려워요? — 아니요, 쉬워요.", "vi": "Bài thi có khó không? — Không, dễ.", "vocab": "", "breakdown": "어렵다 → 어려워요 · 쉽다 → 쉬워요" },
+        { "ko": "어제 그 음식이 매웠어요? — 네, 조금 매웠어요.", "vi": "Món đó hôm qua có cay không? — Có, hơi cay.", "vocab": "", "breakdown": "맵다 → 매웠어요 (quá khứ)" },
+        { "ko": "이 방은 아주 좁아요.", "vi": "Căn phòng này rất chật.", "vocab": "좁다: chật", "breakdown": "좁다: có ㅂ nhưng chia theo quy tắc → 좁아요" }
+      ]
+    },
+    {
+      "front": "A/V-지만",
+      "meaning": "…nhưng… — nối hai vế đối lập",
+      "note": "Gắn sau gốc tính từ/động từ, không đổi theo patchim · Đối chiếu hai sự vật thì dùng 은/는 · Cùng chủ ngữ thì lược ở vế sau · Quá khứ: -았지만/었지만",
+      "theory": "-지만 nối hai vế câu có nội dung đối lập, tương phản — 'nhưng'. Gắn sau gốc tính từ hoặc động từ, không phân biệt patchim: 비싸지만, 어렵지만, 가지만, 먹지만.\n\nKhi đối chiếu hai sự vật, dùng 은/는 cho cả hai: 나나 씨 휴대폰은 비싸지만 제 휴대폰은 싸요.\n\nNếu hai vế cùng chủ ngữ thì lược chủ ngữ ở vế sau. Nói về quá khứ dùng -았지만/었지만: 어제는 길이 복잡했지만 오늘은 안 복잡해요.",
+      "examples": [
+        { "ko": "서울식당은 비싸지만 맛있어요.", "vi": "Quán Seoul đắt nhưng ngon.", "vocab": "", "breakdown": "비싸다 → 비싸지만" },
+        { "ko": "한국어 공부는 어렵지만 재미있어요.", "vi": "Học tiếng Hàn khó nhưng thú vị.", "vocab": "", "breakdown": "어렵다 → 어렵지만" },
+        { "ko": "나나 씨 휴대폰은 비싸지만 제 휴대폰은 싸요.", "vi": "Điện thoại của Nana đắt nhưng điện thoại của tôi rẻ.", "vocab": "휴대폰: điện thoại", "breakdown": "Đối chiếu hai sự vật: 은/는" },
+        { "ko": "작년에는 사과가 비쌌지만 올해는 안 비싸요.", "vi": "Năm ngoái táo đắt nhưng năm nay không đắt.", "vocab": "작년: năm ngoái", "breakdown": "Quá khứ: 비쌌지만" }
+      ]
+    },
+    {
+      "front": "A/V-습니다/ㅂ니다",
+      "meaning": "Đuôi câu trần thuật trang trọng",
+      "note": "Gốc không patchim + ㅂ니다 · có patchim + 습니다 · Câu hỏi: -습니까?/ㅂ니까?",
+      "theory": "-습니다/ㅂ니다 là đuôi câu trần thuật TRANG TRỌNG, lịch sự, dùng trong tình huống chính thức: tin tức, phát biểu, thuyết trình, nói với người lạ, cấp trên.\n\nGốc không có patchim + ㅂ니다 (시원하다 → 시원합니다, 오다 → 옵니다), có patchim + 습니다 (맵다 → 맵습니다, 먹다 → 먹습니다).\n\nCâu hỏi trang trọng dùng -습니까?/ㅂ니까?: 어디에 갑니까? 무슨 책을 읽습니까?",
+      "examples": [
+        { "ko": "날씨가 시원합니다.", "vi": "Thời tiết mát mẻ.", "vocab": "시원하다: mát mẻ", "breakdown": "시원하다 → 시원합니다" },
+        { "ko": "김치가 맵습니다.", "vi": "Kimchi cay.", "vocab": "", "breakdown": "맵다 (có patchim) → 맵습니다" },
+        { "ko": "영국 가수가 한국에 옵니다.", "vi": "Ca sĩ người Anh đến Hàn Quốc.", "vocab": "", "breakdown": "오다 → 옵니다" },
+        { "ko": "어디에 갑니까? — 저는 부산에 갑니다.", "vi": "Bạn đi đâu? — Tôi đi Busan.", "vocab": "부산: Busan", "breakdown": "Câu hỏi trang trọng: 갑니까?" }
+      ]
+    },
+    {
+      "front": "A/V-고 (liệt kê)",
+      "meaning": "…và… — liệt kê hai sự việc, tính chất (không theo trình tự)",
+      "note": "Gắn sau gốc tính từ/động từ · Hai vế có thể khác chủ ngữ · Đảo vế không đổi nghĩa · Khác -고 Bài 5 (trình tự thời gian, chỉ đi với động từ)",
+      "theory": "-고 ở bài này dùng để liệt kê hai sự việc hoặc tính chất KHÔNG theo trình tự thời gian — 'và'. Gắn được với cả tính từ và động từ: 싸고, 춥고, 마시고, 찍고.\n\nHai vế có thể cùng hoặc khác chủ ngữ; nếu cùng chủ ngữ thì lược ở vế sau.\n\nSo với -고 Bài 5 (nối hành động theo trình tự thời gian, chỉ đi với động từ, đảo vế thì đổi nghĩa), -고 liệt kê có thể đảo thứ tự hai vế mà nghĩa không đổi: 춥고 눈이 와요 = 눈이 오고 추워요.",
+      "examples": [
+        { "ko": "사과가 싸고 맛있어요.", "vi": "Táo rẻ và ngon.", "vocab": "", "breakdown": "싸다 → 싸고" },
+        { "ko": "날씨가 춥고 눈이 옵니다.", "vi": "Trời lạnh và có tuyết rơi.", "vocab": "눈이 오다: tuyết rơi", "breakdown": "춥다 → 춥고" },
+        { "ko": "민수 씨는 태권도를 좋아하고 스티븐 씨는 농구를 좋아해요.", "vi": "Minsu thích Taekwondo, còn Steven thích bóng rổ.", "vocab": "", "breakdown": "Hai vế khác chủ ngữ" },
+        { "ko": "아키라 생일에 스티븐은 사진을 찍고 저는 요리를 했어요.", "vi": "Vào sinh nhật Akira, Steven chụp ảnh còn tôi nấu ăn.", "vocab": "사진을 찍다: chụp ảnh", "breakdown": "찍다 → 찍고" }
+      ]
+    }
+  ]
+}

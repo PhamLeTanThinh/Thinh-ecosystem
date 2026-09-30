@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
 import { FlashCard } from '@/components/korean/FlashCard'
 import { shuffle } from '@/lib/korean/shuffle'
-import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LESSON_NUMBERS, LESSON_TITLES, lessonDisplayNumber } from '@/lib/korean/lessons'
 import { LessonPicker } from '@/components/korean/LessonPicker'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { KoreanCard, KoreanCardKind } from '@/lib/korean/types'
@@ -129,7 +129,7 @@ function StudySession() {
     lesson !== null
       ? allCards.filter((c) => c.lesson === lesson)
       : allCards.filter((c) => (selectedLessons?.has(c.lesson) ?? true) && (kindFilter === 'all' || c.kind === kindFilter))
-  const label = lesson !== null ? `제${lesson}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
+  const label = lesson !== null ? `제${lessonDisplayNumber(lesson)}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
 
   // Xáo bài ngay khi cards vừa sẵn sàng — cập nhật state trong lúc render (không phải
   // effect) để tránh 1 nhịp render thừa, cùng convention với components/korean/BottomSheet.tsx.

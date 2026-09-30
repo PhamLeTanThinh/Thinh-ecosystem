@@ -1,0 +1,54 @@
+{
+  "level": "topik1", "lesson": 105, "bookLesson": 5, "book": "1A",
+  "title": "주말에 친구를 만났어요", "titleVi": "Cuối tuần tôi đã gặp bạn", "pages": [126, 143],
+  "grammar": [
+    {
+      "front": "날짜와 요일 (N월 N일, 무슨 요일)",
+      "meaning": "Cách nói ngày tháng và thứ trong tuần",
+      "note": "Ngày tháng dùng số Hán Hàn: tháng trước (월) rồi ngày (일) · 6월 = 유월, 10월 = 시월 · Hỏi ngày: 며칠 · Hỏi thứ: 무슨 요일 (không dùng 몇 요일) · Thứ: 월 화 수 목 금 토 일 + 요일",
+      "theory": "Khi nói ngày tháng, nói THÁNG (월) trước rồi mới đến NGÀY (일). Tháng trong tiếng Hàn không có tên riêng mà ghép số Hán Hàn với 월: 이월 오 일 (5/2), 팔월 이십삼 일 (23/8).\n\nChú ý hai tháng đổi cách viết: 6월 là 유월 (không phải 육월), 10월 là 시월 (không phải 십월).\n\n며칠 chỉ dùng để hỏi ngày; 언제 hỏi rộng hơn (ngày, thứ, giờ…): 생일이 며칠이에요? = 생일이 언제예요?\n\n요일 là các thứ trong tuần: 월요일 (thứ Hai), 화요일 (thứ Ba), 수요일 (thứ Tư), 목요일 (thứ Năm), 금요일 (thứ Sáu), 토요일 (thứ Bảy), 일요일 (Chủ nhật). Hỏi thứ phải nói 무슨 요일, KHÔNG nói 몇 요일.",
+      "examples": [
+        { "ko": "오늘이 며칠이에요? — 구월 육 일이에요.", "vi": "Hôm nay là ngày mấy? — Ngày 6 tháng 9.", "vocab": "며칠: ngày mấy", "breakdown": "구월 (tháng 9) + 육 일 (ngày 6)" },
+        { "ko": "시험이 며칠이에요? — 팔월 이십삼 일이에요.", "vi": "Kỳ thi vào ngày mấy? — Ngày 23 tháng 8.", "vocab": "시험: kỳ thi", "breakdown": "팔월 + 이십삼 일" },
+        { "ko": "6월 6일은 유월 육 일, 10월 10일은 시월 십 일이에요.", "vi": "6/6 đọc là yuwol yuk il, 10/10 đọc là siwol sip il.", "vocab": "", "breakdown": "육월 → 유월 · 십월 → 시월" },
+        { "ko": "오늘이 무슨 요일이에요? — 토요일이에요.", "vi": "Hôm nay là thứ mấy? — Thứ Bảy.", "vocab": "무슨: gì, nào", "breakdown": "Hỏi thứ: 무슨 요일 (không phải 몇 요일)" }
+      ]
+    },
+    {
+      "front": "N에 (thời gian)",
+      "meaning": "Vào lúc N — thời điểm hành động diễn ra",
+      "note": "Gắn sau danh từ thời gian (ngày, thứ, dịp) · KHÔNG dùng với 어제, 오늘, 내일, 지금 · Thời gian đã nhắc tới: 에는",
+      "theory": "에 gắn sau danh từ chỉ thời gian để cho biết lúc hành động xảy ra — 'vào (lúc)': 크리스마스에, 월요일에, 이월 사일에.\n\nKHÔNG gắn 에 sau 어제 (hôm qua), 오늘 (hôm nay), 내일 (ngày mai), 지금 (bây giờ): 내일 영화를 봐요 (đúng), 내일에 영화를 봐요 (sai).\n\nKhi thời gian đã được nhắc tới, dùng 에는 để nhấn mạnh: 주말에 뭐 해요? — 주말에는 집에서 쉬어요.",
+      "examples": [
+        { "ko": "언제 친구를 만나요? — 크리스마스에 친구를 만나요.", "vi": "Khi nào bạn gặp bạn? — Tôi gặp bạn vào Giáng sinh.", "vocab": "크리스마스: Giáng sinh", "breakdown": "크리스마스 + 에" },
+        { "ko": "월요일에 뭐 해요? — 월요일에는 영어를 배워요.", "vi": "Thứ Hai bạn làm gì? — Thứ Hai tôi học tiếng Anh.", "vocab": "", "breakdown": "월요일 + 에 / 에는" },
+        { "ko": "내일 영화를 봐요.", "vi": "Ngày mai tôi xem phim.", "vocab": "", "breakdown": "내일 không đi với 에" }
+      ]
+    },
+    {
+      "front": "V-았/었-",
+      "meaning": "Thì quá khứ — việc đã xảy ra",
+      "note": "Gốc có ㅏ, ㅗ + 았어요 · 하다 → 했어요 · nguyên âm khác + 었어요 · 이에요/예요 → 이었어요/였어요",
+      "theory": "-았/었- gắn vào gốc động từ để diễn tả sự việc đã xảy ra trong quá khứ. Kết hợp với đuôi câu thì luôn là -어요: -았어요 / -었어요.\n\nCách chia giống -아요/어요: gốc có ㅏ, ㅗ + 았 (만나다 → 만났어요, 보다 → 봤어요); 하다 → 했어요 (운동하다 → 운동했어요); các nguyên âm khác + 었 (먹다 → 먹었어요, 마시다 → 마셨어요).\n\nQuá khứ của 이에요/예요 là 이었어요/였어요: 저는 기자였어요.",
+      "examples": [
+        { "ko": "어제 뭐 했어요? — 친구를 만났어요.", "vi": "Hôm qua bạn làm gì? — Tôi đã gặp bạn.", "vocab": "", "breakdown": "하다 → 했어요 · 만나다 → 만났어요" },
+        { "ko": "주말에 영화를 봤어요.", "vi": "Cuối tuần tôi đã xem phim.", "vocab": "", "breakdown": "보다 → 봤어요" },
+        { "ko": "주말에 공원에서 운동했어요.", "vi": "Cuối tuần tôi đã tập thể dục ở công viên.", "vocab": "공원: công viên", "breakdown": "운동하다 → 운동했어요" },
+        { "ko": "어제 피자를 먹었어요.", "vi": "Hôm qua tôi đã ăn pizza.", "vocab": "", "breakdown": "먹다 → 먹었어요" },
+        { "ko": "저는 기자였어요. 어제는 일요일이었어요.", "vi": "Tôi từng là nhà báo. Hôm qua là Chủ nhật.", "vocab": "", "breakdown": "예요 → 였어요 · 이에요 → 이었어요" }
+      ]
+    },
+    {
+      "front": "V-고 (trình tự)",
+      "meaning": "V rồi… — nối hai hành động theo trình tự thời gian",
+      "note": "Gắn sau gốc động từ, không đổi theo patchim · Không chia quá khứ ở vế trước (thì chỉ chia ở cuối câu) · Hai vế cùng chủ ngữ thì lược chủ ngữ vế sau · Đảo vế thì đổi nghĩa",
+      "theory": "-고 dùng để liệt kê hai sự việc theo đúng trình tự thời gian xảy ra — 'làm A rồi làm B'.\n\nGắn sau gốc động từ, không phân biệt patchim: 보고, 먹고.\n\nDù cả hai việc đã xảy ra, vế trước -고 KHÔNG chia quá khứ; thì chỉ chia ở động từ cuối câu: 어제 숙제하고 텔레비전을 봤어요 (đúng), 숙제했고 (sai).\n\nNếu hai vế cùng chủ ngữ thì lược chủ ngữ ở vế sau. Đổi thứ tự hai vế sẽ đổi nghĩa (vì là trình tự thời gian): 밥을 먹고 커피를 마셨어요 ≠ 커피를 마시고 밥을 먹었어요.",
+      "examples": [
+        { "ko": "텔레비전을 보고 숙제를 해요.", "vi": "Tôi xem tivi rồi làm bài tập.", "vocab": "숙제: bài tập", "breakdown": "보다 → 보고" },
+        { "ko": "밥을 먹고 차를 마셨어요.", "vi": "Tôi ăn cơm rồi uống trà.", "vocab": "차: trà", "breakdown": "먹다 → 먹고, thì quá khứ chỉ ở cuối câu" },
+        { "ko": "어제 숙제하고 텔레비전을 봤어요.", "vi": "Hôm qua tôi làm bài tập rồi xem tivi.", "vocab": "", "breakdown": "숙제했고 (sai) → 숙제하고 (đúng)" },
+        { "ko": "줄리앙 씨는 영화를 보고 쇼핑했어요.", "vi": "Julien xem phim rồi đi mua sắm.", "vocab": "쇼핑하다: mua sắm", "breakdown": "Cùng chủ ngữ: lược chủ ngữ ở vế sau" }
+      ]
+    }
+  ]
+}

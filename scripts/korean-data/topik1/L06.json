@@ -1,0 +1,57 @@
+{
+  "level": "topik1", "lesson": 106, "bookLesson": 6, "book": "1A",
+  "title": "얼마예요?", "titleVi": "Bao nhiêu tiền?", "pages": [144, 165],
+  "grammar": [
+    {
+      "front": "V-(으)세요",
+      "meaning": "Hãy V / Xin mời V — yêu cầu, đề nghị lịch sự",
+      "note": "Gốc không patchim + 세요 · có patchim + 으세요 · Thêm 좀 cho lịch sự hơn · Trang trọng: -(으)십시오",
+      "theory": "-(으)세요 dùng để yêu cầu, đề nghị hoặc ra lệnh một cách lịch sự trong tình huống không trang trọng — 'hãy…, xin mời…'.\n\nGốc động từ không có patchim + 세요 (오다 → 오세요), có patchim + 으세요 (읽다 → 읽으세요).\n\nThêm 좀 giúp lời yêu cầu mềm mỏng hơn: 책을 좀 읽으세요. Trong tình huống trang trọng (phát biểu, hướng dẫn trước đám đông) dùng -(으)십시오: 책을 읽으십시오.",
+      "examples": [
+        { "ko": "어서 오세요.", "vi": "Xin mời vào.", "vocab": "어서: mau, xin mời", "breakdown": "오다 (không patchim) → 오세요" },
+        { "ko": "숙제를 하고 텔레비전을 보세요.", "vi": "Hãy làm bài tập rồi xem tivi.", "vocab": "", "breakdown": "보다 → 보세요" },
+        { "ko": "한국어 책을 읽으세요.", "vi": "Hãy đọc sách tiếng Hàn.", "vocab": "", "breakdown": "읽다 (có patchim) → 읽으세요" },
+        { "ko": "여기 앉으세요.", "vi": "Mời ngồi đây.", "vocab": "앉다: ngồi", "breakdown": "앉다 → 앉으세요" },
+        { "ko": "김치 좀 주세요.", "vi": "Làm ơn cho tôi kimchi.", "vocab": "", "breakdown": "좀 + 주세요: lịch sự hơn" }
+      ]
+    },
+    {
+      "front": "N 개[병, 잔, 그릇]",
+      "meaning": "Đơn vị đếm: cái / chai / cốc / bát",
+      "note": "Thứ tự: tên đồ vật + số (thuần Hàn) + đơn vị · 하나, 둘, 셋, 넷 → 한, 두, 세, 네 khi đứng trước đơn vị · 개: cái, quả · 병: chai · 잔: cốc, ly · 그릇: bát, tô",
+      "theory": "개, 병, 잔, 그릇 là danh từ đơn vị dùng khi đếm đồ vật, chọn theo loại đồ vật: 개 (cái, quả — đồ vật nói chung), 병 (chai), 잔 (cốc, ly), 그릇 (bát, tô).\n\nĐi với số thuần Hàn: 하나, 둘, 셋, 넷, 다섯, 여섯, 일곱, 여덟, 아홉, 열. Khi đứng trước đơn vị, 1-4 đổi thành 한, 두, 세, 네.\n\nThứ tự đúng: tên đồ vật + số + đơn vị: 사과 한 개, 맥주 두 병, 커피 세 잔, 냉면 네 그릇.",
+      "examples": [
+        { "ko": "빵 한 개 주세요.", "vi": "Cho tôi một cái bánh mì.", "vocab": "빵: bánh mì", "breakdown": "하나 → 한 + 개" },
+        { "ko": "맥주 두 병 마셨어요.", "vi": "Tôi đã uống hai chai bia.", "vocab": "맥주: bia", "breakdown": "둘 → 두 + 병" },
+        { "ko": "커피 세 잔하고 주스 두 잔 주세요.", "vi": "Cho tôi ba cốc cà phê và hai cốc nước ép.", "vocab": "", "breakdown": "셋 → 세 + 잔" },
+        { "ko": "냉면 네 그릇 주세요.", "vi": "Cho tôi bốn bát mì lạnh.", "vocab": "냉면: mì lạnh", "breakdown": "넷 → 네 + 그릇" },
+        { "ko": "사과 다섯 개하고 오렌지 여섯 개 샀어요.", "vi": "Tôi đã mua năm quả táo và sáu quả cam.", "vocab": "", "breakdown": "Từ 5 trở đi giữ nguyên: 다섯, 여섯…" }
+      ]
+    },
+    {
+      "front": "N이/가 A-아요/어요",
+      "meaning": "N (thì) A — miêu tả trạng thái, tính chất (tính từ làm vị ngữ)",
+      "note": "Tính từ chia như động từ: ㅏ, ㅗ + 아요 · 하다 → 해요 · khác + 어요 · Danh từ được miêu tả dùng 이/가 · Quá khứ: -았어요/었어요",
+      "theory": "Trong tiếng Hàn, tính từ tự đứng làm vị ngữ như động từ (không cần 'là'), chia đuôi -아요/어요 giống động từ: 좋다 → 좋아요, 싸다 → 싸요, 복잡하다 → 복잡해요, 맛있다 → 맛있어요.\n\nDanh từ được tính từ miêu tả là chủ ngữ nên đi với tiểu từ chủ ngữ 이/가: 학교가 좋아요, 길이 복잡해요.\n\nMiêu tả trạng thái trong quá khứ dùng -았어요/었어요: 어제 날씨가 좋았어요.",
+      "examples": [
+        { "ko": "학교가 좋아요.", "vi": "Trường học tốt.", "vocab": "", "breakdown": "좋다: ㅗ + 아요 → 좋아요" },
+        { "ko": "오렌지가 싸요.", "vi": "Cam rẻ.", "vocab": "싸다: rẻ", "breakdown": "싸다 → 싸요" },
+        { "ko": "길이 복잡해요.", "vi": "Đường đông đúc.", "vocab": "복잡하다: đông đúc", "breakdown": "복잡하다 → 복잡해요" },
+        { "ko": "음식이 맛있어요?", "vi": "Món ăn có ngon không?", "vocab": "", "breakdown": "맛있다 → 맛있어요" },
+        { "ko": "영화가 재미있었어요? — 네, 재미있었어요.", "vi": "Phim có hay không? — Có, hay lắm.", "vocab": "재미있다: thú vị", "breakdown": "Quá khứ: 재미있었어요" }
+      ]
+    },
+    {
+      "front": "N도",
+      "meaning": "N cũng — thêm vào điều đã nói",
+      "note": "Gắn sau danh từ, không đổi theo patchim · Thay thế 은/는, 이/가, 을/를 (không đi kèm) · Với tiểu từ khác (에, 에서) thì gắn sau: 시장에도, 집에서도",
+      "theory": "도 gắn sau danh từ để diễn tả ý 'cũng' — bổ sung thêm vào điều đã nói trước đó: 저도 학생이에요.\n\n도 THAY THẾ các tiểu từ 은/는, 이/가, 을/를 chứ không đi cùng chúng: 저는도 (sai) → 저도 (đúng); 콜라를도 (sai) → 콜라도 (đúng).\n\nVới các tiểu từ khác (에, 에서…) thì 도 gắn phía sau: 시장에도 갔어요, 집에서도 책을 읽어요.",
+      "examples": [
+        { "ko": "켈리 씨는 학생이에요. 저도 학생이에요.", "vi": "Kelly là học sinh. Tôi cũng là học sinh.", "vocab": "", "breakdown": "저 + 도 (thay cho 는)" },
+        { "ko": "메뉴 주세요. 물도 좀 주세요.", "vi": "Cho tôi thực đơn. Cho tôi cả nước nữa.", "vocab": "메뉴: thực đơn", "breakdown": "물 + 도 (thay cho 을)" },
+        { "ko": "어제 바지를 샀어요. 그리고 운동화도 샀어요.", "vi": "Hôm qua tôi mua quần. Và cũng mua cả giày thể thao.", "vocab": "운동화: giày thể thao", "breakdown": "운동화 + 도" },
+        { "ko": "어제 백화점에 갔어요. 시장에도 갔어요.", "vi": "Hôm qua tôi đi trung tâm thương mại. Tôi cũng đi chợ nữa.", "vocab": "", "breakdown": "시장 + 에 + 도" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "level": "topik1", "lesson": 115, "bookLesson": 15, "book": "1B",
+  "title": "여행을 가고 싶어요", "titleVi": "Tôi muốn đi du lịch", "pages": [152, 173],
+  "grammar": [
+    {
+      "front": "A/V-(으)면",
+      "meaning": "Nếu… thì… — điều kiện, giả định",
+      "note": "Không patchim (và patchim ㄹ) + 면 · có patchim + 으면 · Bất quy tắc: 추우면, 더우면, 매우면 (ㅂ) · 길면, 만들면 (ㄹ) · 들으면, 걸으면 (ㄷ)",
+      "theory": "-(으)면 diễn tả điều kiện hoặc giả định về việc chưa chắc chắn hoặc chưa xảy ra — 'nếu… thì…'.\n\nGốc không patchim + 면 (복잡하다 → 복잡하면, 오다 → 오면), có patchim + 으면 (많다 → 많으면, 받다 → 받으면).\n\nChú ý các từ bất quy tắc: ㅂ (춥다 → 추우면, 맵다 → 매우면, 어렵다 → 어려우면), ㄹ (길다 → 길면, 멀다 → 멀면, 만들다 → 만들면, 살다 → 살면), ㄷ (듣다 → 들으면, 걷다 → 걸으면).",
+      "examples": [
+        { "ko": "길이 복잡하면 지하철을 타세요.", "vi": "Nếu đường đông thì hãy đi tàu điện ngầm.", "vocab": "", "breakdown": "복잡하다 → 복잡하면" },
+        { "ko": "사람이 많으면 다음에 갈 거예요.", "vi": "Nếu đông người thì lần sau tôi sẽ đi.", "vocab": "", "breakdown": "많다 (có patchim) → 많으면" },
+        { "ko": "음식이 너무 매우면 우유를 드세요.", "vi": "Nếu đồ ăn cay quá thì hãy uống sữa.", "vocab": "우유: sữa", "breakdown": "맵다 (bất quy tắc ㅂ) → 매우면" },
+        { "ko": "내일 비가 오면 집에서 쉴 거예요.", "vi": "Nếu mai trời mưa thì tôi sẽ nghỉ ở nhà.", "vocab": "", "breakdown": "오다 → 오면" },
+        { "ko": "나나 씨 전화번호를 알면 가르쳐 주세요.", "vi": "Nếu bạn biết số điện thoại của Nana thì cho tôi biết với.", "vocab": "", "breakdown": "알다 (patchim ㄹ) → 알면" }
+      ]
+    },
+    {
+      "front": "V-는 N",
+      "meaning": "N (đang / thường) V — động từ bổ nghĩa cho danh từ",
+      "note": "Gắn 는 sau gốc động từ, không đổi theo patchim · Chủ ngữ trong mệnh đề định ngữ dùng 이/가, không dùng 은/는 · Gốc ㄹ bị lược: 만들다 → 만드는, 알다 → 아는",
+      "theory": "-는 gắn vào gốc động từ để cả cụm động từ bổ nghĩa cho danh từ đứng sau, miêu tả hành động đang diễn ra hoặc thường xuyên: 한국어를 배우는 사람 (người học tiếng Hàn), 매일 먹는 음식 (món ăn hàng ngày).\n\nKhông phân biệt patchim: 배우다 → 배우는, 먹다 → 먹는. Gốc có patchim ㄹ thì ㄹ rơi: 만들다 → 만드는, 알다 → 아는.\n\nChủ ngữ nằm trong mệnh đề định ngữ dùng 이/가 chứ không dùng 은/는: 내가 다니는 회사는 강남에 있어요 (đúng), 나는 다니는 회사는… (sai).",
+      "examples": [
+        { "ko": "요즘 한국어를 배우는 사람들이 많아요.", "vi": "Dạo này có nhiều người học tiếng Hàn.", "vocab": "", "breakdown": "배우다 → 배우는 + 사람들" },
+        { "ko": "김치는 한국 사람들이 매일 먹는 음식이에요.", "vi": "Kimchi là món người Hàn ăn hằng ngày.", "vocab": "", "breakdown": "먹다 → 먹는 + 음식" },
+        { "ko": "무슨 과일을 좋아해요? — 제가 좋아하는 과일은 딸기예요.", "vi": "Bạn thích hoa quả gì? — Loại quả tôi thích là dâu tây.", "vocab": "딸기: dâu tây", "breakdown": "좋아하다 → 좋아하는 + 과일" },
+        { "ko": "그 회사는 휴대폰을 만드는 회사예요.", "vi": "Công ty đó là công ty sản xuất điện thoại.", "vocab": "", "breakdown": "만들다 (ㄹ rơi) → 만드는" },
+        { "ko": "내가 다니는 회사는 강남에 있어요.", "vi": "Công ty tôi đang làm ở Gangnam.", "vocab": "다니다: đi làm, đi học", "breakdown": "Chủ ngữ trong mệnh đề: 내가 (이/가)" }
+      ]
+    },
+    {
+      "front": "V-고 싶다",
+      "meaning": "Muốn V — mong muốn của người nói (hoặc hỏi người nghe)",
+      "note": "Gắn sau gốc động từ, không đổi theo patchim · Dùng cho ngôi thứ nhất (khẳng định) và ngôi thứ hai (câu hỏi) · 싶다 là tính từ",
+      "theory": "-고 싶다 diễn tả mong muốn của chính người nói, hoặc dùng để hỏi mong muốn của người nghe — 'muốn'.\n\nGắn sau gốc động từ, không phân biệt patchim: 사다 → 사고 싶다, 읽다 → 읽고 싶다.\n\n싶다 là tính từ nên chia như tính từ: 사고 싶은 모자 (định ngữ dùng -은). Quá khứ: 보고 싶었지만.",
+      "examples": [
+        { "ko": "모자를 하나 사고 싶어요.", "vi": "Tôi muốn mua một chiếc mũ.", "vocab": "", "breakdown": "사다 → 사고 싶어요" },
+        { "ko": "어떤 책을 읽고 싶으세요? — 재미있는 책을 읽고 싶어요.", "vi": "Bạn muốn đọc sách như thế nào? — Tôi muốn đọc sách hay.", "vocab": "", "breakdown": "Hỏi người nghe: 읽고 싶으세요?" },
+        { "ko": "오늘은 피곤해서 쉬고 싶어요.", "vi": "Hôm nay mệt nên tôi muốn nghỉ.", "vocab": "", "breakdown": "쉬다 → 쉬고 싶어요" },
+        { "ko": "어제 연극을 보고 싶었지만 못 봤어요.", "vi": "Hôm qua tôi muốn xem kịch nhưng không xem được.", "vocab": "연극: kịch", "breakdown": "Quá khứ: 보고 싶었지만" }
+      ]
+    },
+    {
+      "front": "V-고 싶어 하다",
+      "meaning": "(Người khác) muốn V — mong muốn của ngôi thứ ba",
+      "note": "Gắn sau gốc động từ · Dùng khi nói về mong muốn của người khác (không phải người nói / người nghe) · 싶어 하다 là động từ: 먹고 싶어 하는 음식",
+      "theory": "-고 싶어 하다 dùng để nói về mong muốn của người THỨ BA, không phải người nói hay người nghe: 켈리 씨는 운동화를 사고 싶어 해요.\n\nSo sánh: -고 싶다 cho ngôi thứ nhất (và câu hỏi ngôi thứ hai); -고 싶어 하다 cho ngôi thứ ba.\n\n싶다 là tính từ còn 싶어 하다 là động từ, nên chia khác nhau: 제가 먹고 싶은 음식 (tính từ → -은) nhưng 나나 씨가 먹고 싶어 하는 음식 (động từ → -는).",
+      "examples": [
+        { "ko": "켈리 씨는 운동화를 사고 싶어 해요.", "vi": "Kelly muốn mua giày thể thao.", "vocab": "운동화: giày thể thao", "breakdown": "사다 → 사고 싶어 해요 (ngôi thứ ba)" },
+        { "ko": "제 동생은 불고기를 먹고 싶어 해요.", "vi": "Em tôi muốn ăn bulgogi.", "vocab": "", "breakdown": "먹다 → 먹고 싶어 해요" },
+        { "ko": "줄리앙 씨도 부산에 가고 싶어 해요.", "vi": "Julien cũng muốn đi Busan.", "vocab": "", "breakdown": "가다 → 가고 싶어 해요" },
+        { "ko": "제가 먹고 싶은 음식은 냉면이에요. 그리고 나나 씨가 먹고 싶어 하는 음식은 불고기예요.", "vi": "Món tôi muốn ăn là mì lạnh. Còn món Nana muốn ăn là bulgogi.", "vocab": "", "breakdown": "싶은 (tính từ) ↔ 싶어 하는 (động từ)" }
+      ]
+    }
+  ]
+}

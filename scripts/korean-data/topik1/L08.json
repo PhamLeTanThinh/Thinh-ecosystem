@@ -1,0 +1,55 @@
+{
+  "level": "topik1", "lesson": 108, "bookLesson": 8, "book": "1A",
+  "title": "영화 볼까요?", "titleVi": "Mình đi xem phim nhé?", "pages": [186, 205],
+  "grammar": [
+    {
+      "front": "V-(으)ㄹ까요?",
+      "meaning": "…nhé? / …không? — rủ rê, đề nghị, hỏi ý kiến",
+      "note": "Gốc không patchim + ㄹ까요? · có patchim + 을까요? · Chủ ngữ ngầm là 우리 · Trả lời: -아요/어요 (ý rủ) hoặc trang trọng -(으)ㅂ시다 (không dùng với người trên)",
+      "theory": "-(으)ㄹ까요? dùng để hỏi ý kiến, ý định của người nghe hoặc đề nghị cùng làm việc gì — 'mình… nhé?'.\n\nGốc không patchim + ㄹ까요? (가다 → 갈까요?), có patchim + 을까요? (먹다 → 먹을까요?).\n\nChủ ngữ ngầm hiểu là 우리 (chúng ta): (우리) 뭘 먹을까요?\n\nCâu trả lời thường dùng -아요/어요 mang nghĩa rủ rê: 노래방에 갈까요? — 네, 같이 가요. Trong tình huống trang trọng có thể đáp bằng -(으)ㅂ시다 (비빔밥을 먹읍시다), nhưng KHÔNG dùng -(으)ㅂ시다 với người bề trên.",
+      "examples": [
+        { "ko": "노래방에 갈까요? — 네, 같이 가요.", "vi": "Mình đi karaoke nhé? — Ừ, cùng đi nào.", "vocab": "노래방: phòng karaoke", "breakdown": "가다 → 갈까요?" },
+        { "ko": "여기에 앉을까요? — 네, 좋아요.", "vi": "Mình ngồi đây nhé? — Ừ, được.", "vocab": "", "breakdown": "앉다 (có patchim) → 앉을까요?" },
+        { "ko": "뭘 먹을까요? — 비빔밥을 먹어요.", "vi": "Mình ăn gì nhỉ? — Ăn bibimbap đi.", "vocab": "", "breakdown": "먹다 → 먹을까요?" },
+        { "ko": "뭘 먹을까요? — 비빔밥을 먹읍시다.", "vi": "Ăn gì đây? — Chúng ta ăn bibimbap đi.", "vocab": "", "breakdown": "Trả lời trang trọng: -(으)ㅂ시다" }
+      ]
+    },
+    {
+      "front": "'ㄷ' 불규칙",
+      "meaning": "Bất quy tắc 'ㄷ' — patchim ㄷ đổi thành ㄹ trước nguyên âm",
+      "note": "듣다 → 들어요, 들었어요, 들으세요, 들을까요? · 걷다 → 걸어요, 걸었어요 · Trước phụ âm giữ ㄷ: 듣고, 듣지만, 듣습니다 · Có từ chia bình thường: 받다 → 받으세요",
+      "theory": "Một số động từ có gốc kết thúc bằng patchim ㄷ, khi gặp đuôi bắt đầu bằng nguyên âm thì ㄷ biến thành ㄹ. Hay gặp nhất: 듣다 (nghe) → 들어요, 걷다 (đi bộ) → 걸어요.\n\nKhi đuôi bắt đầu bằng phụ âm thì giữ nguyên ㄷ: 듣고, 듣지만, 듣습니다, 걷고.\n\nKhông phải động từ nào có ㄷ cũng bất quy tắc: 받다 (nhận) → 받아요, 받으세요.",
+      "examples": [
+        { "ko": "어제 뭘 했어요? — 공원에서 걸었어요.", "vi": "Hôm qua bạn làm gì? — Tôi đi bộ ở công viên.", "vocab": "", "breakdown": "걷다 → 걸었어요" },
+        { "ko": "우리 버스를 탈까요? — 아니요, 걸어서 가요.", "vi": "Mình đi xe buýt nhé? — Không, đi bộ đi.", "vocab": "걸어서 가다: đi bộ đến", "breakdown": "걷다 → 걸어서" },
+        { "ko": "한국 음악은 듣지만 한국 뉴스는 안 들어요.", "vi": "Tôi nghe nhạc Hàn nhưng không nghe tin tức Hàn.", "vocab": "뉴스: tin tức", "breakdown": "듣지만 (giữ ㄷ) · 들어요 (ㄷ → ㄹ)" },
+        { "ko": "라디오를 잘 들으세요.", "vi": "Hãy nghe radio thật kỹ.", "vocab": "", "breakdown": "듣다 → 들으세요" },
+        { "ko": "제 선물을 받으세요.", "vi": "Hãy nhận món quà của tôi.", "vocab": "선물: quà", "breakdown": "받다: chia bình thường → 받으세요" }
+      ]
+    },
+    {
+      "front": "이[그, 저] N",
+      "meaning": "N này / N đó / N kia",
+      "note": "Đặt trước danh từ · 이: gần người nói · 그: gần người nghe, hoặc vật/người đã nhắc tới, không nhìn thấy · 저: xa cả hai",
+      "theory": "이, 그, 저 đặt trước danh từ để chỉ cụ thể người hoặc vật: 이 (gần người nói), 그 (xa người nói nhưng gần người nghe), 저 (xa cả người nói và người nghe).\n\n그 còn dùng để chỉ người/vật không có trước mắt hoặc đã được nhắc tới trước đó: 어제 가방을 샀어요. 그 가방은….",
+      "examples": [
+        { "ko": "이 가방이 얼마예요? — 그 가방은 3만 원이에요.", "vi": "Cái túi này bao nhiêu tiền? — Cái túi đó 30.000 won.", "vocab": "", "breakdown": "이 가방 (gần người nói) · 그 가방 (gần người nghe)" },
+        { "ko": "저 식당 음식이 맛있어요.", "vi": "Đồ ăn ở quán kia ngon.", "vocab": "", "breakdown": "저 식당: xa cả hai người" },
+        { "ko": "이 사람은 한국 가수예요.", "vi": "Người này là ca sĩ Hàn Quốc.", "vocab": "", "breakdown": "이 + 사람" }
+      ]
+    },
+    {
+      "front": "A/V-네요",
+      "meaning": "…quá nhỉ! / …đấy! — cảm thán về điều mới biết",
+      "note": "Gắn sau gốc tính từ/động từ, không đổi theo patchim · Việc đã xảy ra: -았네요/었네요 · -군요 cùng nghĩa nhưng -네요 nhẹ nhàng, tự nhiên hơn · Chỉ dùng cho cảm nhận của chính mình",
+      "theory": "-네요 dùng để bày tỏ cảm xúc, sự ngạc nhiên về điều người nói vừa mới biết, mới cảm nhận — 'quá nhỉ, đấy'. Gắn sau gốc tính từ/động từ, không phân biệt patchim: 싸네요, 덥네요, 오네요, 먹네요.\n\nNếu điều mới biết là việc đã xảy ra xong thì dùng -았네요/었네요: 눈이 왔네요 (nhìn ra thấy tuyết đã rơi).\n\n-군요 (tính từ) / -는군요 (động từ) cũng diễn tả cảm thán về điều mới biết, nhưng -네요 nghe mềm mại, tự nhiên hơn.\n\nVì -네요 thể hiện cảm nhận của chính người nói, không dùng nó để nhắc lại nguyên văn điều nghe từ người khác: 3,000원이에요 — 정말 싸네요 (đúng), 3,000원이네요 (không tự nhiên).",
+      "examples": [
+        { "ko": "모자가 한 개에 2,000원이에요. — 싸네요.", "vi": "Mũ 2.000 won một cái. — Rẻ nhỉ!", "vocab": "", "breakdown": "싸다 → 싸네요" },
+        { "ko": "더워요? — 네, 조금 덥네요.", "vi": "Nóng không? — Ừ, hơi nóng nhỉ.", "vocab": "", "breakdown": "덥다 → 덥네요" },
+        { "ko": "음식이 어때요? — 정말 맛있네요.", "vi": "Món ăn thế nào? — Ngon thật đấy!", "vocab": "", "breakdown": "맛있다 → 맛있네요" },
+        { "ko": "비가 많이 오네요.", "vi": "Mưa to quá!", "vocab": "", "breakdown": "오다 → 오네요" },
+        { "ko": "눈이 왔네요.", "vi": "Tuyết rơi rồi kìa!", "vocab": "", "breakdown": "Việc đã xảy ra: 왔네요" }
+      ]
+    }
+  ]
+}

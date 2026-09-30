@@ -1,0 +1,53 @@
+{
+  "level": "topik1", "lesson": 103, "bookLesson": 3, "book": "1A",
+  "title": "한국어를 공부해요", "titleVi": "Tôi học tiếng Hàn", "pages": [90, 107],
+  "grammar": [
+    {
+      "front": "V-아요/어요",
+      "meaning": "Đuôi câu hiện tại lịch sự thân mật (việc đang làm, thói quen, dự định gần)",
+      "note": "Nguyên âm cuối gốc là ㅏ, ㅗ + 아요 · 하다 → 해요 · Nguyên âm khác + 어요 · Hỏi: lên giọng cuối câu",
+      "theory": "-아요/어요 là đuôi câu lịch sự không trang trọng, dùng để trình bày hoặc hỏi về sự việc ở hiện tại.\n\nCách chia theo nguyên âm cuối của gốc động từ: gốc có ㅏ, ㅗ + 아요 (만나다 → 만나요, 보다 → 봐요); 하다 → 해요 (공부하다 → 공부해요); các nguyên âm còn lại + 어요 (읽다 → 읽어요, 배우다 → 배워요).\n\nĐuôi này cũng dùng để nói về việc đã lên kế hoạch trong tương lai gần (저는 내일 일해요) và về sự thật chung, thói quen (저는 매일 신문을 읽어요).",
+      "examples": [
+        { "ko": "유진은 지금 친구를 만나요.", "vi": "Yujin bây giờ đang gặp bạn.", "vocab": "", "breakdown": "만나다: ㅏ + 아요 → 만나요" },
+        { "ko": "나나는 영화를 봐요.", "vi": "Nana xem phim.", "vocab": "영화: phim", "breakdown": "보다: ㅗ + 아요 → 봐요" },
+        { "ko": "공부해요? — 네, 공부해요.", "vi": "Bạn học à? — Vâng, tôi học.", "vocab": "", "breakdown": "공부하다 → 공부해요" },
+        { "ko": "스티븐 씨는 한국어를 배워요.", "vi": "Steven học tiếng Hàn.", "vocab": "배우다: học", "breakdown": "배우다: ㅜ + 어요 → 배워요" },
+        { "ko": "오늘 뭐 해요? — 아르바이트해요.", "vi": "Hôm nay bạn làm gì? — Tôi đi làm thêm.", "vocab": "아르바이트하다: làm thêm", "breakdown": "Dự định gần: -아요/어요" }
+      ]
+    },
+    {
+      "front": "N을/를",
+      "meaning": "Tiểu từ tân ngữ — đánh dấu đối tượng chịu tác động của động từ",
+      "note": "Danh từ có patchim + 을 · không patchim + 를 · Văn nói có thể lược",
+      "theory": "을/를 gắn sau danh từ để cho biết danh từ đó là tân ngữ, tức đối tượng chịu tác động của hành động mà động từ diễn tả.\n\nDanh từ có patchim + 을 (밥을), không patchim + 를 (커피를).\n\nTrong văn nói có thể lược bỏ: 뭐 해요? — 영화 봐요.",
+      "examples": [
+        { "ko": "마리코 씨는 커피를 마셔요.", "vi": "Mariko uống cà phê.", "vocab": "마시다: uống", "breakdown": "커피 (không patchim) + 를" },
+        { "ko": "저는 밥을 먹어요.", "vi": "Tôi ăn cơm.", "vocab": "먹다: ăn", "breakdown": "밥 (có patchim) + 을" },
+        { "ko": "뭐 해요? — 영화 봐요.", "vi": "Bạn làm gì đấy? — Xem phim.", "vocab": "", "breakdown": "Văn nói lược 를: 영화를 봐요 → 영화 봐요" }
+      ]
+    },
+    {
+      "front": "N에서",
+      "meaning": "Ở, tại N — nơi diễn ra hành động",
+      "note": "Gắn sau danh từ chỉ nơi chốn, không đổi theo patchim",
+      "theory": "에서 gắn sau danh từ chỉ nơi chốn để cho biết nơi hành động diễn ra — 'ở, tại'. Không phân biệt patchim: 서울대학교에서, 극장에서.\n\nPhân biệt: 에서 đi với động từ hành động (공부하다, 먹다, 보다…), còn 에 (Bài 4) đi với 있다/없다 và động từ di chuyển 가다/오다.",
+      "examples": [
+        { "ko": "서울대학교에서 한국어를 공부해요.", "vi": "Tôi học tiếng Hàn ở Đại học Quốc gia Seoul.", "vocab": "", "breakdown": "서울대학교 + 에서 + hành động 공부하다" },
+        { "ko": "극장에서 영화를 봐요.", "vi": "Tôi xem phim ở rạp.", "vocab": "극장: rạp chiếu phim", "breakdown": "극장 + 에서" },
+        { "ko": "집에서 밥을 먹어요.", "vi": "Tôi ăn cơm ở nhà.", "vocab": "", "breakdown": "집 + 에서" }
+      ]
+    },
+    {
+      "front": "안 V",
+      "meaning": "Không V — phủ định ngắn",
+      "note": "Đặt 안 trước động từ · Động từ dạng 'danh từ + 하다' thì chèn 안 vào giữa: 공부 안 해요 (không phải 안 공부해요)",
+      "theory": "안 đặt trước động từ để tạo câu phủ định — 'không'.\n\nVới động từ ghép từ danh từ + 하다 như 공부하다, 운동하다, KHÔNG đặt 안 trước cả cụm mà chèn vào giữa danh từ và 하다: 운동 안 해요 (đúng), 안 운동해요 (sai).",
+      "examples": [
+        { "ko": "친구를 안 만나요.", "vi": "Tôi không gặp bạn.", "vocab": "", "breakdown": "안 + 만나요" },
+        { "ko": "히엔 씨는 고기를 안 먹어요.", "vi": "Hiền không ăn thịt.", "vocab": "고기: thịt", "breakdown": "안 + 먹어요" },
+        { "ko": "공부해요? — 아니요, 공부 안 해요.", "vi": "Bạn học à? — Không, tôi không học.", "vocab": "", "breakdown": "공부하다 → 공부 + 안 + 해요" },
+        { "ko": "스티븐 씨는 운동 안 해요.", "vi": "Steven không tập thể dục.", "vocab": "운동하다: tập thể dục", "breakdown": "운동 안 해요 (đúng) · 안 운동해요 (sai)" }
+      ]
+    }
+  ]
+}

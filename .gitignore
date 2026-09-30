@@ -71,3 +71,6 @@ next-env.d.ts
 
 # PDF giáo trình tiếng Trung + ảnh trang render (scripts/chinese-render-pdf.mjs) — nguồn để trích nội dung, không commit
 /scripts/chinese-src/
+
+# PDF giáo trình tiếng Hàn + ảnh trang render — nguồn để trích nội dung, không commit
+/scripts/korean-src/

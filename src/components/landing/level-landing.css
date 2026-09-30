@@ -201,6 +201,15 @@
   transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
+/* Chữ chìm nhiều ký tự (vd "AI", "</>") — nhỏ hơn để vẫn đọc được ở góc card. */
+.lv-card-glyph--wide {
+  bottom: -14px;
+  font-family: inherit;
+  font-size: 76px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
 .lv-card--accent:hover .lv-card-glyph {
   opacity: 0.15;
   transform: translateY(-6px) rotate(-6deg);

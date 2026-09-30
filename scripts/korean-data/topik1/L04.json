@@ -1,0 +1,53 @@
+{
+  "level": "topik1", "lesson": 104, "bookLesson": 4, "book": "1A",
+  "title": "어디에 있어요?", "titleVi": "Ở đâu vậy?", "pages": [108, 125],
+  "grammar": [
+    {
+      "front": "여기가 N이에요/예요",
+      "meaning": "Đây là (nơi) N — hỏi, nói về nơi đang đứng",
+      "note": "여기: nơi người nói đang ở · 저기: xa cả hai người · 거기: gần người nghe hoặc nơi đã nhắc tới · Danh từ có patchim + 이에요 · không patchim + 예요",
+      "theory": "여기가 N이에요/예요 dùng để hỏi và trả lời về nơi người nói đang có mặt.\n\n여기 chỉ nơi người nói đang ở hoặc gần người nói; 저기 chỉ nơi xa cả người nói và người nghe; 거기 chỉ nơi gần người nghe nhưng xa người nói, hoặc nơi đã được nhắc tới trước đó / đang nghĩ trong đầu.",
+      "examples": [
+        { "ko": "여기가 어디예요? — 대학로예요.", "vi": "Đây là đâu vậy? — Là Daehakro.", "vocab": "어디: đâu", "breakdown": "대학로 (không patchim) + 예요" },
+        { "ko": "여기가 명동이에요.", "vi": "Đây là Myeongdong.", "vocab": "", "breakdown": "명동 (có patchim) + 이에요" },
+        { "ko": "저기가 남산이에요.", "vi": "Đằng kia là núi Namsan.", "vocab": "", "breakdown": "저기: nơi xa cả hai người" },
+        { "ko": "저는 대학로에서 연극을 봐요. — 대학로? 거기가 어디예요?", "vi": "Tôi xem kịch ở Daehakro. — Daehakro? Chỗ đó ở đâu vậy?", "vocab": "연극: kịch", "breakdown": "거기: nơi vừa được nhắc tới" }
+      ]
+    },
+    {
+      "front": "N에 있어요[없어요]",
+      "meaning": "Ở N / Không ở N — vị trí, sự tồn tại",
+      "note": "Gắn 에 sau danh từ nơi chốn, không đổi theo patchim · 'N에' có thể đứng trước hoặc sau chủ ngữ · Nơi đã nhắc tới dùng 에는 để nhấn mạnh",
+      "theory": "N에 있어요 diễn tả nơi người hoặc vật đang ở, đang tồn tại; N에 없어요 là không có ở đó.\n\n에 gắn sau danh từ chỉ nơi chốn, không phân biệt patchim: 회사에, 교실에.\n\nCụm 'N에' khá tự do về vị trí: 유진 씨가 교실에 있어요 = 교실에 유진 씨가 있어요.\n\nKhi nơi chốn là chủ đề đang nói tới hoặc người nghe đã biết, dùng 에는 để nhấn mạnh: 남산에는 N서울타워가 있어요.",
+      "examples": [
+        { "ko": "아키라가 어디에 있어요? — 회사에 있어요.", "vi": "Akira ở đâu? — Ở công ty.", "vocab": "회사: công ty", "breakdown": "회사 + 에 있어요" },
+        { "ko": "스티븐이 교실에 있어요? — 아니요, 교실에 없어요.", "vi": "Steven có ở lớp không? — Không, không có ở lớp.", "vocab": "교실: phòng học", "breakdown": "교실 + 에 없어요" },
+        { "ko": "중국 대사관은 명동에 있어요.", "vi": "Đại sứ quán Trung Quốc ở Myeongdong.", "vocab": "대사관: đại sứ quán", "breakdown": "명동 + 에 있어요" },
+        { "ko": "여기가 남산이에요. 남산에는 N서울타워가 있어요.", "vi": "Đây là Namsan. Ở Namsan có tháp N Seoul.", "vocab": "", "breakdown": "Nơi đã nhắc tới: 남산 + 에는" }
+      ]
+    },
+    {
+      "front": "N에 가요[와요]",
+      "meaning": "Đi đến N / Đến N — di chuyển tới đích",
+      "note": "가요: đi đến nơi KHÁC nơi đang nói chuyện · 와요: đến nơi đang nói chuyện (hoặc nơi thuộc về người nói) · 에 gắn sau danh từ nơi chốn",
+      "theory": "N에 가요[와요] diễn tả việc di chuyển tới nơi chốn N.\n\nDùng 가요 khi đích đến là nơi khác với nơi đang diễn ra cuộc nói chuyện; dùng 와요 khi đích đến chính là nơi đang nói chuyện: 친구가 한국에 와요 (người nói đang ở Hàn Quốc).\n\nDù không phải nơi đang nói chuyện, nếu nơi đó thuộc 'phạm vi' của người nói thì vẫn dùng 와요: 친구가 우리 집에 와요.",
+      "examples": [
+        { "ko": "스티븐은 학교에 가요.", "vi": "Steven đi đến trường.", "vocab": "학교: trường học", "breakdown": "학교 + 에 가요" },
+        { "ko": "어디에 가요? — 가게에 가요.", "vi": "Bạn đi đâu vậy? — Tôi đi ra cửa hàng.", "vocab": "가게: cửa hàng", "breakdown": "가게 + 에 가요" },
+        { "ko": "친구가 한국에 와요.", "vi": "Bạn tôi đến Hàn Quốc.", "vocab": "", "breakdown": "Người nói đang ở Hàn Quốc → 와요" },
+        { "ko": "스티븐은 오늘 학교에 와요? — 아니요, 안 와요.", "vi": "Hôm nay Steven có đến trường không? — Không, không đến.", "vocab": "", "breakdown": "Người nói đang ở trường → 와요" }
+      ]
+    },
+    {
+      "front": "N 앞[뒤, 옆]",
+      "meaning": "Phía trước / phía sau / bên cạnh N — vị trí",
+      "note": "Đặt sau danh từ làm mốc: 학교 앞, 병원 뒤, 텔레비전 옆 · Thường đi với 에 있어요[없어요] · Danh từ mốc đứng TRƯỚC 앞/뒤/옆",
+      "theory": "앞, 뒤, 옆 đặt sau danh từ để chỉ vị trí của người/vật so với danh từ đó: 앞 (phía trước, hướng mà danh từ quay về), 뒤 (phía sau, hướng ngược lại), 옆 (bên trái hoặc bên phải).\n\nThường dùng cùng 에 있어요[없어요]: 약국은 병원 뒤에 있어요.\n\nPhải nói danh từ làm mốc TRƯỚC rồi mới đến 앞/뒤/옆: 스티븐은 아키라 앞에 있어요 (đúng), 스티븐은 앞 아키라에 있어요 (sai).\n\nKhi trả lời mà danh từ đã có trong câu hỏi, dùng 은/는 và có thể lược nó: 백화점이 어디에 있어요? — (백화점은) 병원 옆에 있어요.",
+      "examples": [
+        { "ko": "스티븐은 학교 앞에 있어요.", "vi": "Steven ở trước cổng trường.", "vocab": "", "breakdown": "학교 + 앞 + 에 있어요" },
+        { "ko": "약국이 어디에 있어요? — 약국은 병원 뒤에 있어요.", "vi": "Hiệu thuốc ở đâu? — Hiệu thuốc ở sau bệnh viện.", "vocab": "약국: hiệu thuốc · 병원: bệnh viện", "breakdown": "병원 + 뒤 + 에 있어요" },
+        { "ko": "신문이 텔레비전 앞에 있어요? — 아니요, 텔레비전 옆에 있어요.", "vi": "Tờ báo ở trước tivi à? — Không, ở cạnh tivi.", "vocab": "신문: báo", "breakdown": "텔레비전 + 옆 + 에 있어요" }
+      ]
+    }
+  ]
+}

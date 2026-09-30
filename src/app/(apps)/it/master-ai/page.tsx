@@ -15,9 +15,9 @@ export default function MasterAiPage() {
       incomingIcon="🤖"
       incomingTransitionName="it-level-master-ai"
       items={[
-        { key: 'machinelearning', icon: '📈', label: 'Machine Learning', meta: '10 bài' },
-        { key: 'deeplearning', icon: '🧠', label: 'Deep Learning', meta: '10 bài' },
-        { key: 'paper', icon: '📄', label: 'Paper Research', meta: `${RESEARCH_PAPERS.length} paper` },
+        { key: 'machinelearning', icon: '📈', label: 'Machine Learning', meta: '10 bài', accent: '#2b8a3e', glyph: 'ML', desc: 'Hồi quy · Phân loại · Phân cụm' },
+        { key: 'deeplearning', icon: '🧠', label: 'Deep Learning', meta: '10 bài', accent: '#6741d9', glyph: 'DL', desc: 'Mạng nơ-ron · CNN · Transformer' },
+        { key: 'paper', icon: '📄', label: 'Paper Research', meta: `${RESEARCH_PAPERS.length} paper`, accent: '#c2410c', glyph: '¶', desc: 'Đọc hiểu bài báo khoa học' },
       ]}
     />
   )

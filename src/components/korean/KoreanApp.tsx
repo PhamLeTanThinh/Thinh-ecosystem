@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { usePathname, useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
-import { LESSON_NUMBERS, LESSON_TITLES, LESSON_TITLES_VI } from '@/lib/korean/lessons'
+import { LESSON_TITLES, LESSON_TITLES_VI, TOPIK_LABEL, lessonDisplayNumber, lessonLevel, lessonNumbersForLevel, type TopikLevel } from '@/lib/korean/lessons'
 import { Sidebar, type Selection, type TopikKey } from '@/components/korean/Sidebar'
 import { LearnerProfile } from '@/components/learner/LearnerProfile'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
@@ -120,7 +120,10 @@ export function KoreanApp() {
   const isLearned = (cardId: string) => progressByCard.get(cardId)?.lastResult === 'correct'
 
   const sortedCards = [...cards].sort((a, b) => a.lesson - b.lesson || a.sortOrder - b.sortOrder)
-  const overviewCards = initialGroup === 'topik1' ? [] : sortedCards
+  // Trang tổng quan (/korean/vocab) chỉ hiện thẻ của cấp độ đang mở (?open=), mặc định TOPIK II như trước.
+  const overviewLevel: TopikLevel = initialGroup ?? 'topik2'
+  const cardsOfLevel = (level: TopikLevel) => sortedCards.filter((card) => lessonLevel(card.lesson) === level)
+  const overviewCards = cardsOfLevel(overviewLevel)
   const learnedCount = overviewCards.filter((c) => isLearned(c.id)).length
   const learnedPercent = overviewCards.length > 0 ? Math.round((learnedCount / overviewCards.length) * 100) : 0
 
@@ -128,19 +131,21 @@ export function KoreanApp() {
     navigate(`/korean/lessons?open=${key}`)
   }
 
-  const landingItems: LandingItem[] = [
-    { key: 'topik1', icon: 'I', label: 'TOPIK I', meta: 'Sắp ra mắt', muted: true, accent: '#0c8599', glyph: '초', desc: 'Sơ cấp · Cấp 1–2' },
-    {
-      key: 'topik2',
-      icon: 'II',
-      label: 'TOPIK II',
-      meta: `${LESSON_NUMBERS.length} bài · ${sortedCards.length} thẻ`,
-      accent: '#1f4fd6',
-      glyph: '중',
-      desc: 'Trung – cao cấp · Giáo trình Seoul Korean 2',
-      progress: sortedCards.length ? sortedCards.filter((card) => isLearned(card.id)).length / sortedCards.length : 0,
-    },
-  ]
+  const landingItems: LandingItem[] = (['topik1', 'topik2'] as const).map((key) => {
+    const lessons = lessonNumbersForLevel(key)
+    const levelCards = cardsOfLevel(key)
+    return {
+      key,
+      icon: key === 'topik1' ? 'I' : 'II',
+      label: TOPIK_LABEL[key],
+      meta: lessons.length === 0 ? 'Sắp ra mắt' : `${lessons.length} bài · ${levelCards.length} thẻ`,
+      muted: lessons.length === 0,
+      progress: levelCards.length ? levelCards.filter((card) => isLearned(card.id)).length / levelCards.length : 0,
+      ...(key === 'topik1'
+        ? { accent: '#0c8599', glyph: '초', desc: 'Sơ cấp · Giáo trình 서울대 한국어 1A + 1B' }
+        : { accent: '#1f4fd6', glyph: '중', desc: 'Trung – cao cấp · Giáo trình Seoul Korean 2' }),
+    }
+  })
 
   return (
     <div className="kr-shell">
@@ -206,21 +211,18 @@ export function KoreanApp() {
         ) : selection.type === 'knowledge' ? (
           <KnowledgeIndex
             icon="한"
-            title={`Kiến thức ${initialGroup === 'topik1' ? 'TOPIK I' : 'TOPIK II'}`}
-            subtitle={`${initialGroup === 'topik1' ? 0 : LESSON_NUMBERS.length} bài học${initialGroup === 'topik1' ? '' : ' · chọn một bài để bắt đầu'}`}
-            items={
-              initialGroup === 'topik1'
-                ? []
-                : LESSON_NUMBERS.map((lesson) => {
-                    const lessonCards = sortedCards.filter((card) => card.lesson === lesson)
-                    return {
-                      number: lesson,
-                      title: LESSON_TITLES[lesson],
-                      titleVi: LESSON_TITLES_VI[lesson],
-                      meta: `${lessonCards.filter((card) => isLearned(card.id)).length}/${lessonCards.length} thuộc`,
-                    }
-                  })
-            }
+            title={`Kiến thức ${TOPIK_LABEL[overviewLevel]}`}
+            subtitle={`${lessonNumbersForLevel(overviewLevel).length} bài học · chọn một bài để bắt đầu`}
+            items={lessonNumbersForLevel(overviewLevel).map((lesson) => {
+              const lessonCards = sortedCards.filter((card) => card.lesson === lesson)
+              return {
+                number: lesson,
+                label: lessonDisplayNumber(lesson),
+                title: LESSON_TITLES[lesson],
+                titleVi: LESSON_TITLES_VI[lesson],
+                meta: `${lessonCards.filter((card) => isLearned(card.id)).length}/${lessonCards.length} thuộc`,
+              }
+            })}
             onPick={(lesson) => navigate(`/korean/lessons/${lesson}`)}
           />
         ) : selection.type === 'overview' ? (
@@ -380,7 +382,7 @@ function OverviewContent({
             <div key={card.id} className="contents">
               {showLessonHeader && (
                 <p className="kr-lesson-group-header">
-                  제{card.lesson}과 · {LESSON_TITLES[card.lesson] ?? ''}
+                  제{lessonDisplayNumber(card.lesson)}과 · {LESSON_TITLES[card.lesson] ?? ''}
                 </p>
               )}
               <VocabTile card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
@@ -437,7 +439,7 @@ function LessonContent({
     <div className="kr-content">
       <div className="kr-content-header">
         <div>
-          <p className="kr-eyebrow">한국어 공부 · 제{lesson}과</p>
+          <p className="kr-eyebrow">한국어 공부 · {TOPIK_LABEL[lessonLevel(lesson) ?? 'topik2']} · 제{lessonDisplayNumber(lesson)}과</p>
           <h1 className="kr-page-title">{LESSON_TITLES[lesson] ?? ''}</h1>
           {LESSON_TITLES_VI[lesson] && <p className="kr-page-title-vi">{LESSON_TITLES_VI[lesson]}</p>}
         </div>

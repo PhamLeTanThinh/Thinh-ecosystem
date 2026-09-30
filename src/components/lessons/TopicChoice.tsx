@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { AppBreadcrumb, type AppHref, type Crumb } from '@/components/study/Breadcrumb'
 import { withViewTransition } from '@/lib/viewTransition'
+import { LandingGrid } from '@/components/landing/LevelLanding'
 import './lessons.css'
 
 export interface TopicChoiceItem {
@@ -13,6 +14,10 @@ export interface TopicChoiceItem {
   label: string
   meta?: string
   muted?: boolean // chưa có nội dung ("sắp ra mắt") — vẫn bấm được nhưng mờ hơn
+  // Kiểu card nhấn màu (giống LevelLanding): có accent thì dùng LandingGrid — màu riêng, chữ chìm, mô tả.
+  accent?: string
+  glyph?: string
+  desc?: string
 }
 
 interface Props {
@@ -63,21 +68,25 @@ export function TopicChoice({ app, trail = [], accent, title, subtitle, items, b
         <h1 className="lg-landing-title">{title}</h1>
         {subtitle && <p className="lg-landing-sub">{subtitle}</p>}
 
-        <div className="lg-landing-grid">
-          {items.map((item, i) => (
-            <button
-              key={item.key}
-              type="button"
-              className={`lg-landing-card${item.muted ? ' lg-landing-card--muted' : ''}`}
-              style={{ viewTransitionName: `${transitionPrefix}-level-${item.key}`, '--i': i } as CSSProperties}
-              onClick={() => pick(item.key)}
-            >
-              <span className="lg-landing-card-icon">{item.icon}</span>
-              <span className="lg-landing-card-label">{item.label}</span>
-              {item.meta && <span className="lg-landing-card-meta">{item.meta}</span>}
-            </button>
-          ))}
-        </div>
+        {items.some((item) => item.accent) ? (
+          <LandingGrid items={items.map((item) => ({ ...item, meta: item.meta ?? '' }))} transitionPrefix={transitionPrefix} onPick={pick} />
+        ) : (
+          <div className="lg-landing-grid">
+            {items.map((item, i) => (
+              <button
+                key={item.key}
+                type="button"
+                className={`lg-landing-card${item.muted ? ' lg-landing-card--muted' : ''}`}
+                style={{ viewTransitionName: `${transitionPrefix}-level-${item.key}`, '--i': i } as CSSProperties}
+                onClick={() => pick(item.key)}
+              >
+                <span className="lg-landing-card-icon">{item.icon}</span>
+                <span className="lg-landing-card-label">{item.label}</span>
+                {item.meta && <span className="lg-landing-card-meta">{item.meta}</span>}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

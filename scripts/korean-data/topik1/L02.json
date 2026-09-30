@@ -1,0 +1,54 @@
+{
+  "level": "topik1", "lesson": 102, "bookLesson": 2, "book": "1A",
+  "title": "이거는 뭐예요?", "titleVi": "Đây là cái gì?", "pages": [70, 89],
+  "grammar": [
+    {
+      "front": "N이/가 있어요[없어요]",
+      "meaning": "Có N / Không có N (sở hữu người, vật)",
+      "note": "Danh từ có patchim + 이 있어요 · không patchim + 가 있어요 · Phủ định: 있어요 → 없어요 · Văn nói có thể lược 이/가",
+      "theory": "N이/가 있어요 dùng khi có (sở hữu) người hoặc đồ vật nào đó; N이/가 없어요 là dạng ngược lại — không có.\n\nDanh từ không có patchim + 가, có patchim + 이: 남자 친구가 있어요, 우산이 없어요.\n\nTrong văn nói có thể lược bỏ tiểu từ 이/가: 동전이 있어요? = 동전 있어요?",
+      "examples": [
+        { "ko": "저는 남자 친구가 있어요.", "vi": "Tôi có bạn trai.", "vocab": "남자 친구: bạn trai", "breakdown": "친구 (không patchim) + 가 있어요" },
+        { "ko": "나나 씨는 남자 친구가 없어요.", "vi": "Nana không có bạn trai.", "vocab": "", "breakdown": "Phủ định: 가 없어요" },
+        { "ko": "우산이 있어요? — 아니요, 우산이 없어요.", "vi": "Bạn có ô không? — Không, tôi không có ô.", "vocab": "우산: ô, dù", "breakdown": "우산 (có patchim ㄴ) + 이 있어요 / 없어요" },
+        { "ko": "동전 있어요?", "vi": "Có tiền xu không?", "vocab": "동전: đồng xu", "breakdown": "Văn nói lược 이: 동전이 있어요? = 동전 있어요?" }
+      ]
+    },
+    {
+      "front": "이거는[그거는, 저거는] N이에요/예요",
+      "meaning": "Cái này / cái đó / cái kia là N",
+      "note": "이거: gần người nói · 그거: gần người nghe (hoặc vật đã nhắc tới) · 저거: xa cả hai · Văn nói lược 는: 이거 뭐예요? · Trang trọng: 이것은 N입니다",
+      "theory": "이거는 dùng để chỉ vật ở gần người nói; 그거는 chỉ vật ở gần người nghe; 저거는 chỉ vật ở xa cả người nói lẫn người nghe. Phía sau gắn N이에요/예요 như Bài 1.\n\n그거 còn dùng để nhắc lại một vật mà người nghe đã biết vì vừa được nhắc tới trước đó.\n\nTrong văn nói có thể lược 는: 이거는 뭐예요? = 이거 뭐예요?. Trong tình huống trang trọng dùng 이것은[그것은, 저것은] N입니까?, N입니다.",
+      "examples": [
+        { "ko": "이거는 모자예요.", "vi": "Cái này là mũ.", "vocab": "모자: mũ", "breakdown": "이거는 + 모자 (không patchim) + 예요" },
+        { "ko": "저거는 사전이에요.", "vi": "Cái kia là từ điển.", "vocab": "사전: từ điển", "breakdown": "저거는 + 사전 (có patchim) + 이에요" },
+        { "ko": "그거는 한국 지도예요? — 아니요, 영국 지도예요.", "vi": "Cái đó là bản đồ Hàn Quốc à? — Không, là bản đồ Anh.", "vocab": "지도: bản đồ", "breakdown": "그거는: vật ở gần người nghe" },
+        { "ko": "그것은 무엇입니까? — 이것은 제 한국어 책입니다.", "vi": "Cái đó là gì vậy? — Đây là sách tiếng Hàn của tôi.", "vocab": "제: của tôi", "breakdown": "Dạng trang trọng: 이것은 / 그것은 + 입니까? / 입니다" }
+      ]
+    },
+    {
+      "front": "N 주세요",
+      "meaning": "Cho tôi N (yêu cầu, nhờ đưa)",
+      "note": "Dùng với danh từ · Thêm 좀 cho lịch sự hơn: N 좀 주세요",
+      "theory": "N 주세요 dùng để yêu cầu người khác đưa cho mình vật gì đó — 'cho tôi N'. Rất hay dùng khi mua hàng, gọi món.\n\nThêm 좀 ('một chút, làm ơn') sau danh từ khiến lời yêu cầu nghe lịch sự, mềm mỏng hơn: 지우개 좀 주세요.",
+      "examples": [
+        { "ko": "지우개 주세요.", "vi": "Cho tôi cục tẩy.", "vocab": "지우개: cục tẩy", "breakdown": "N + 주세요" },
+        { "ko": "책 좀 주세요.", "vi": "Làm ơn đưa tôi quyển sách.", "vocab": "", "breakdown": "N + 좀 + 주세요: lịch sự hơn" },
+        { "ko": "콜라 주세요.", "vi": "Cho tôi coca.", "vocab": "콜라: coca", "breakdown": "Gọi đồ uống: N + 주세요" }
+      ]
+    },
+    {
+      "front": "N하고 N, N과/와 N",
+      "meaning": "N và N (nối hai danh từ)",
+      "note": "하고: văn nói, không đổi theo patchim · 과/와: trang trọng, văn viết — có patchim + 과, không patchim + 와 · (이)랑: văn nói thân mật · Nối hai câu thì dùng 그리고, không dùng 하고",
+      "theory": "하고 dùng để nối hai danh từ, tương đương 'và', chủ yếu dùng trong văn nói. 하고 gắn sau mọi danh từ, không phân biệt patchim: 지우개하고, 학생하고.\n\n과/와 có cùng chức năng nhưng dùng trong tình huống trang trọng hoặc văn viết: danh từ có patchim + 과 (학생과), không patchim + 와 (지우개와).\n\n(이)랑 cũng nối danh từ, dùng trong văn nói thân mật, không dùng trong tình huống trang trọng.\n\nLưu ý: KHÔNG dùng 하고 để nối hai câu. Muốn nối hai câu thì dùng 그리고: 이거는 책상이에요. 그리고 저거는 의자예요.",
+      "examples": [
+        { "ko": "콜라하고 주스가 있어요.", "vi": "Có coca và nước ép.", "vocab": "주스: nước ép", "breakdown": "콜라 + 하고 + 주스" },
+        { "ko": "볼펜하고 공책 주세요.", "vi": "Cho tôi bút bi và quyển vở.", "vocab": "볼펜: bút bi · 공책: vở", "breakdown": "볼펜 + 하고 + 공책" },
+        { "ko": "지우개와 연필이 있어요.", "vi": "Có cục tẩy và bút chì.", "vocab": "연필: bút chì", "breakdown": "지우개 (không patchim) + 와" },
+        { "ko": "학생과 선생님입니다.", "vi": "Là học sinh và giáo viên.", "vocab": "", "breakdown": "학생 (có patchim) + 과 — trang trọng" },
+        { "ko": "지우개랑 연필 주세요.", "vi": "Cho tôi cục tẩy và bút chì.", "vocab": "", "breakdown": "Văn nói thân mật: 지우개 + 랑" }
+      ]
+    }
+  ]
+}

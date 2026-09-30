@@ -1,0 +1,56 @@
+{
+  "level": "topik1", "lesson": 116, "bookLesson": 16, "book": "1B",
+  "title": "우리 집에 올 수 있어요?", "titleVi": "Bạn đến nhà mình được không?", "pages": [174, 195],
+  "grammar": [
+    {
+      "front": "V-(으)ㄹ 수 있다[없다]",
+      "meaning": "Có thể V / Không thể V — khả năng, năng lực",
+      "note": "Không patchim + ㄹ 수 있다 · có patchim + 을 수 있다 · Khi trả lời phủ định, dùng 못 V nghe tự nhiên hơn -(으)ㄹ 수 없다",
+      "theory": "-(으)ㄹ 수 있다 diễn tả khả năng một việc có thể xảy ra, hoặc năng lực làm được việc gì — 'có thể'. Ngược lại là -(으)ㄹ 수 없다 — 'không thể'.\n\nGốc không patchim + ㄹ 수 있다 (가다 → 갈 수 있다), có patchim + 을 수 있다 (받다 → 받을 수 있다). Gốc ㄹ: 만들다 → 만들 수 있다. Gốc ㄷ bất quy tắc: 듣다 → 들을 수 있다.\n\nKhi trả lời phủ định câu hỏi về khả năng, người Hàn thường dùng 못 V cho tự nhiên hơn: 오늘 모임에 갈 수 있어요? — 아니요, 오늘은 못 가요.",
+      "examples": [
+        { "ko": "오늘 모임에 갈 수 있어요? — 아니요, 오늘은 갈 수 없어요.", "vi": "Hôm nay bạn đến buổi họp mặt được không? — Không, hôm nay tôi không đến được.", "vocab": "모임: buổi họp mặt", "breakdown": "가다 → 갈 수 있어요 / 없어요" },
+        { "ko": "스티븐 씨는 미국 사람이지만 한국말을 할 수 있어요.", "vi": "Steven là người Mỹ nhưng nói được tiếng Hàn.", "vocab": "", "breakdown": "Năng lực: 할 수 있어요" },
+        { "ko": "열심히 공부하면 좋은 점수를 받을 수 있을 거예요.", "vi": "Nếu học chăm chỉ thì bạn sẽ có thể đạt điểm cao.", "vocab": "점수: điểm số", "breakdown": "받다 → 받을 수 있을 거예요" },
+        { "ko": "한국 뉴스 들어요? — 아니요, 너무 어려워서 들을 수 없어요.", "vi": "Bạn có nghe tin tức tiếng Hàn không? — Không, khó quá nên tôi không nghe được.", "vocab": "", "breakdown": "듣다 (ㄷ bất quy tắc) → 들을 수 없어요" },
+        { "ko": "저는 불고기를 만들 수 있어요.", "vi": "Tôi có thể làm bulgogi.", "vocab": "", "breakdown": "만들다 → 만들 수 있어요" }
+      ]
+    },
+    {
+      "front": "V-(으)ㄹ게요",
+      "meaning": "Tôi sẽ V (nhé) — hứa hẹn, cam kết với người nghe",
+      "note": "Không patchim + ㄹ게요 · có patchim + 을게요 · Chỉ dùng cho ngôi thứ nhất (저, 나, 우리) · Văn nói",
+      "theory": "-(으)ㄹ게요 dùng trong văn nói khi người nói hứa hẹn, cam kết với người nghe là sẽ làm việc gì — 'tôi sẽ… (nhé)'.\n\nGốc không patchim + ㄹ게요 (오다 → 올게요), có patchim + 을게요 (먹다 → 먹을게요). Gốc ㄹ: 만들다 → 만들게요, 열다 → 열게요. Gốc ㄷ: 듣다 → 들을게요.\n\nVì là lời hứa về hành động của chính mình, chủ ngữ chỉ có thể là ngôi thứ nhất: 제가 살게요 (đúng), 스티븐 씨가 살게요 (sai) → phải nói 스티븐 씨가 살 거예요.",
+      "examples": [
+        { "ko": "내일은 일찍 오세요. — 네, 일찍 올게요.", "vi": "Mai đến sớm nhé. — Vâng, tôi sẽ đến sớm.", "vocab": "일찍: sớm", "breakdown": "오다 → 올게요" },
+        { "ko": "제가 바빠서 친구들한테 연락을 못 했어요. — 그럼 제가 연락할게요.", "vi": "Tôi bận nên chưa liên lạc được với các bạn. — Vậy để tôi liên lạc nhé.", "vocab": "연락하다: liên lạc", "breakdown": "연락하다 → 연락할게요" },
+        { "ko": "이 약은 매일 드셔야 돼요. — 네, 매일 먹을게요.", "vi": "Thuốc này phải uống hằng ngày. — Vâng, tôi sẽ uống mỗi ngày.", "vocab": "", "breakdown": "먹다 → 먹을게요" },
+        { "ko": "창문 좀 열어 주세요. — 제가 열게요.", "vi": "Mở giúp cửa sổ với. — Để tôi mở.", "vocab": "", "breakdown": "열다 → 열게요" }
+      ]
+    },
+    {
+      "front": "V-(으)러 가다[오다]",
+      "meaning": "Đi / đến để V — mục đích của việc di chuyển",
+      "note": "Không patchim (và patchim ㄹ) + 러 · có patchim + 으러 · Chỉ đi với động từ di chuyển 가다, 오다, 다니다… · 살다 → 살러 (không phải 살으러)",
+      "theory": "-(으)러 가다[오다] diễn tả mục đích của việc đi đâu đó hoặc đến đâu đó — 'đi/đến để…'.\n\nGốc không patchim + 러 (바꾸다 → 바꾸러), có patchim + 으러 (먹다 → 먹으러). Gốc có patchim ㄹ dùng 러: 살다 → 살러, 놀다 → 놀러.\n\nPhía sau luôn là động từ di chuyển như 가다, 오다, 다니다.",
+      "examples": [
+        { "ko": "백화점에 옷을 바꾸러 가요.", "vi": "Tôi đến trung tâm thương mại để đổi quần áo.", "vocab": "바꾸다: đổi", "breakdown": "바꾸다 → 바꾸러 가요" },
+        { "ko": "은행에 뭐 하러 가요? — 돈을 찾으러 가요.", "vi": "Bạn đến ngân hàng làm gì? — Tôi đi rút tiền.", "vocab": "돈을 찾다: rút tiền", "breakdown": "찾다 → 찾으러 가요" },
+        { "ko": "우리 집에 저녁 먹으러 오세요.", "vi": "Hãy đến nhà tôi ăn tối nhé.", "vocab": "", "breakdown": "먹다 → 먹으러 오세요" },
+        { "ko": "주말에 나나 씨 집에 놀러 갈 거예요.", "vi": "Cuối tuần tôi sẽ đến nhà Nana chơi.", "vocab": "놀다: chơi", "breakdown": "놀다 (patchim ㄹ) → 놀러" },
+        { "ko": "한국에 살러 왔어요.", "vi": "Tôi đến Hàn Quốc để sinh sống.", "vocab": "", "breakdown": "살다 → 살러 (không phải 살으러)" }
+      ]
+    },
+    {
+      "front": "V-(으)면서",
+      "meaning": "Vừa V vừa… — hai hành động đồng thời",
+      "note": "Không patchim (và patchim ㄹ) + 면서 · có patchim + 으면서 · Hai vế cùng chủ ngữ · Vế trước không chia thì",
+      "theory": "-(으)면서 diễn tả hai hành động được một người thực hiện đồng thời — 'vừa… vừa…, trong khi…'.\n\nGốc không patchim + 면서 (운전하다 → 운전하면서), có patchim + 으면서 (읽다 → 읽으면서). Gốc ㄹ: 만들다 → 만들면서. Gốc ㄷ: 듣다 → 들으면서.\n\nHai vế phải cùng chủ ngữ: 나는 숙제하면서 동생은 음악을 들어요 (sai).\n\nDù là việc đã qua, vế trước không chia quá khứ; thì chỉ chia ở cuối câu: 친구하고 커피를 마시면서 이야기했어요 (đúng), 마셨으면서 (sai).",
+      "examples": [
+        { "ko": "운전하면서 전화하지 마세요.", "vi": "Đừng vừa lái xe vừa gọi điện thoại.", "vocab": "운전하다: lái xe", "breakdown": "운전하다 → 운전하면서" },
+        { "ko": "신문을 읽으면서 기다리세요.", "vi": "Hãy vừa đọc báo vừa đợi.", "vocab": "", "breakdown": "읽다 → 읽으면서" },
+        { "ko": "저는 음악을 들으면서 공부해요.", "vi": "Tôi vừa nghe nhạc vừa học.", "vocab": "", "breakdown": "듣다 (ㄷ bất quy tắc) → 들으면서" },
+        { "ko": "어제 친구하고 커피를 마시면서 이야기했어요.", "vi": "Hôm qua tôi vừa uống cà phê vừa nói chuyện với bạn.", "vocab": "이야기하다: nói chuyện", "breakdown": "Thì chỉ chia ở cuối câu" }
+      ]
+    }
+  ]
+}

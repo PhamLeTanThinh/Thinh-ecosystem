@@ -39,41 +39,49 @@ export function LevelLanding({ eyebrow, title, subtitle, items, transitionPrefix
       <h1 className="lv-title">{title}</h1>
       <p className="lv-sub">{subtitle}</p>
 
-      <div className={`lv-grid${items.some((item) => item.accent) ? ' lv-grid--accent' : ''}`}>
-        {items.map((item, i) => (
-          <button
-            key={item.key}
-            type="button"
-            className={`lv-card${item.accent ? ' lv-card--accent' : ''}${item.muted ? ' lv-card--muted' : ''}`}
-            style={{ viewTransitionName: `${transitionPrefix}-level-${item.key}`, '--i': i, ...(item.accent ? { '--acc': item.accent } : {}) } as CSSProperties}
-            onClick={() => onPick(item.key)}
-          >
-            {item.glyph && (
-              <span className="lv-card-glyph" aria-hidden>
-                {item.glyph}
+      <LandingGrid items={items} transitionPrefix={transitionPrefix} onPick={onPick} />
+    </div>
+  )
+}
+
+// Lưới card dùng chung cho LevelLanding (Chinese / Korean / Music) và TopicChoice (PM / IT) — cùng 1 kiểu card
+// nhấn màu, chỉ khác cách điều hướng khi chọn.
+export function LandingGrid({ items, transitionPrefix, onPick }: { items: LandingItem[]; transitionPrefix: string; onPick: (key: string) => void }) {
+  return (
+    <div className={`lv-grid${items.some((item) => item.accent) ? ' lv-grid--accent' : ''}`}>
+      {items.map((item, i) => (
+        <button
+          key={item.key}
+          type="button"
+          className={`lv-card${item.accent ? ' lv-card--accent' : ''}${item.muted ? ' lv-card--muted' : ''}`}
+          style={{ viewTransitionName: `${transitionPrefix}-level-${item.key}`, '--i': i, ...(item.accent ? { '--acc': item.accent } : {}) } as CSSProperties}
+          onClick={() => onPick(item.key)}
+        >
+          {item.glyph && (
+            <span className={`lv-card-glyph${[...item.glyph].length > 1 || /^[\x20-\x7e]+$/.test(item.glyph) ? ' lv-card-glyph--wide' : ''}`} aria-hidden>
+              {item.glyph}
+            </span>
+          )}
+          <span className="lv-card-icon">{item.icon}</span>
+          <span className="lv-card-label">{item.label}</span>
+          {item.sublabel && <span className="lv-card-sub">{item.sublabel}</span>}
+          {item.desc && <span className="lv-card-desc">{item.desc}</span>}
+          <span className="lv-card-meta">{item.meta}</span>
+          {item.progress !== undefined && !item.muted && (
+            <span className="lv-card-progress-row">
+              <span className="lv-card-progress" aria-hidden>
+                <span style={{ width: `${Math.round(item.progress * 100)}%` }} />
               </span>
-            )}
-            <span className="lv-card-icon">{item.icon}</span>
-            <span className="lv-card-label">{item.label}</span>
-            {item.sublabel && <span className="lv-card-sub">{item.sublabel}</span>}
-            {item.desc && <span className="lv-card-desc">{item.desc}</span>}
-            <span className="lv-card-meta">{item.meta}</span>
-            {item.progress !== undefined && !item.muted && (
-              <span className="lv-card-progress-row">
-                <span className="lv-card-progress" aria-hidden>
-                  <span style={{ width: `${Math.round(item.progress * 100)}%` }} />
-                </span>
-                <span className="lv-card-pct">{Math.round(item.progress * 100)}% thuộc</span>
-              </span>
-            )}
-            {item.accent && (
-              <span className="lv-card-go" aria-hidden>
-                →
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
+              <span className="lv-card-pct">{Math.round(item.progress * 100)}% thuộc</span>
+            </span>
+          )}
+          {item.accent && (
+            <span className="lv-card-go" aria-hidden>
+              →
+            </span>
+          )}
+        </button>
+      ))}
     </div>
   )
 }

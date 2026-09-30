@@ -875,6 +875,14 @@
   text-decoration: underline;
 }
 
+.kr-picker-level {
+  margin: 14px 0 8px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-brand);
+}
+
 .kr-picker-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

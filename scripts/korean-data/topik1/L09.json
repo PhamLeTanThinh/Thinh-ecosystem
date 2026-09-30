@@ -1,0 +1,55 @@
+{
+  "level": "topik1", "lesson": 109, "bookLesson": 9, "book": "1B",
+  "title": "이분은 누구세요?", "titleVi": "Vị này là ai vậy?", "pages": [24, 45],
+  "grammar": [
+    {
+      "front": "N(의) N",
+      "meaning": "N của N — sở hữu, quan hệ",
+      "note": "Gắn 의 sau danh từ sở hữu, không đổi theo patchim · Văn nói có thể lược 의 · 나의 → 내, 저의 → 제 · Người thân thiết với người nói thường dùng 우리 thay cho 내/제",
+      "theory": "의 gắn giữa hai danh từ để cho biết danh từ trước sở hữu hoặc có quan hệ với danh từ sau — 'của': 나나의 가방 (túi của Nana).\n\nTrong văn nói thường lược 의: 누구의 가방이에요? = 누구 가방이에요?\n\n나의, 저의 thường được rút gọn thành 내, 제: 이건 내 책이에요, 정우는 제 친구예요.\n\nKhi nói về người/vật gắn bó thân thiết với mình (gia đình, nhà, trường), người Hàn dùng 우리 thay cho 내/제: 우리 형, 우리 집.",
+      "examples": [
+        { "ko": "누구 가방이에요? — 나나(의) 가방이에요.", "vi": "Túi của ai vậy? — Túi của Nana.", "vocab": "가방: túi, cặp", "breakdown": "나나 + (의) + 가방 — văn nói có thể lược 의" },
+        { "ko": "저 사람은 누구예요? — 내 친구예요.", "vi": "Người kia là ai? — Bạn của tôi.", "vocab": "", "breakdown": "나의 → 내" },
+        { "ko": "정우는 제 친구예요.", "vi": "Jeongwoo là bạn của tôi.", "vocab": "", "breakdown": "저의 → 제" },
+        { "ko": "우리 형은 대학생이에요.", "vi": "Anh trai tôi là sinh viên.", "vocab": "형: anh trai (em trai gọi)", "breakdown": "Quan hệ thân thiết: dùng 우리" }
+      ]
+    },
+    {
+      "front": "N을/를 잘하다[잘 못하다, 못하다]",
+      "meaning": "Giỏi N / Không giỏi N / Không biết N",
+      "note": "잘하다: giỏi · 잘 못하다: không giỏi lắm · 못하다: không biết làm · Dùng với danh từ có thể ghép 하다 (공부, 노래, 수영, 요리, 운동…) · Viết cách: 잘 못해요",
+      "theory": "N을/를 잘하다 diễn tả ai đó thành thạo, làm tốt việc gì — 'giỏi N'. N을/를 잘 못하다 là không làm tốt ở mức nhất định — 'không giỏi N lắm'. N을/를 못하다 là không có khả năng làm — 'không biết N'.\n\nDùng với các danh từ có thể ghép với 하다 như 공부, 노래, 수영, 요리, 운동, 청소, 축구.\n\nChú ý viết cách: 잘 못해요 (đúng), 잘못해요 (sai — 잘못하다 là 'làm sai').",
+      "examples": [
+        { "ko": "마리코 씨는 뭘 잘해요? — 마리코 씨는 요리를 잘해요.", "vi": "Mariko giỏi gì? — Mariko nấu ăn giỏi.", "vocab": "요리: nấu ăn", "breakdown": "요리 + 를 잘해요" },
+        { "ko": "저는 수학을 잘 못했어요.", "vi": "Tôi không giỏi toán lắm.", "vocab": "수학: toán học", "breakdown": "수학 + 을 잘 못했어요" },
+        { "ko": "동생은 노래를 잘하지만 저는 노래를 잘 못해요.", "vi": "Em tôi hát hay nhưng tôi hát không hay.", "vocab": "", "breakdown": "잘하다 ↔ 잘 못하다" },
+        { "ko": "저는 수영을 못해요.", "vi": "Tôi không biết bơi.", "vocab": "수영: bơi", "breakdown": "못하다: không có khả năng" }
+      ]
+    },
+    {
+      "front": "N(이)세요",
+      "meaning": "Là N (kính ngữ của 이에요/예요)",
+      "note": "Không patchim + 세요 · có patchim + 이세요 · Quá khứ: (이)셨어요 · Không dùng khi chủ ngữ là 나/저",
+      "theory": "N(이)세요 là dạng kính ngữ của 이에요/예요, dùng khi chủ ngữ là người lớn tuổi hơn hoặc có địa vị cao hơn người nói.\n\nDanh từ không patchim + 세요 (어머니세요), có patchim + 이세요 (회사원이세요).\n\nQuá khứ dùng (이)셨어요: 어머니는 전에 회사원이셨어요.\n\nKhông dùng khi chủ ngữ là chính người nói (나, 저): 저는 선생님이세요 (sai) → 저는 선생님이에요 (đúng).",
+      "examples": [
+        { "ko": "이분은 우리 어머니세요.", "vi": "Vị này là mẹ tôi.", "vocab": "이분: vị này", "breakdown": "어머니 (không patchim) + 세요" },
+        { "ko": "아버지는 회사원이세요.", "vi": "Bố tôi là nhân viên công ty.", "vocab": "", "breakdown": "회사원 (có patchim) + 이세요" },
+        { "ko": "저분이 박 선생님이세요? — 아니요, 김 선생님이세요.", "vi": "Vị kia là thầy Park ạ? — Không, là thầy Kim.", "vocab": "", "breakdown": "선생님 + 이세요" },
+        { "ko": "어머니는 전에 회사원이셨어요. 지금은 주부세요.", "vi": "Mẹ tôi trước đây là nhân viên công ty. Bây giờ là nội trợ.", "vocab": "주부: nội trợ", "breakdown": "Quá khứ: 이셨어요" }
+      ]
+    },
+    {
+      "front": "A/V-(으)시-",
+      "meaning": "Kính ngữ chủ thể — tôn trọng chủ ngữ",
+      "note": "Không patchim + 세요 / 셨어요 · có patchim + 으세요 / 으셨어요 · Không dùng cho chính mình · Kính ngữ đặc biệt: 먹다 → 드시다, 자다 → 주무시다, 있다 → 계시다",
+      "theory": "-(으)시- chèn vào giữa gốc tính từ/động từ và đuôi câu để bày tỏ sự tôn trọng với chủ ngữ khi chủ ngữ có địa vị xã hội cao hơn người nói.\n\nHiện tại: không patchim + 세요 (가다 → 가세요, 친절하다 → 친절하세요), có patchim + 으세요 (읽다 → 읽으세요, 많다 → 많으세요). Quá khứ: -(으)셨어요 (가셨어요, 읽으셨어요).\n\nNgười nói KHÔNG dùng -(으)시- cho chính mình: 나는 한국어를 가르쳐요 (đúng), 가르치세요 (sai).\n\nMột số từ có dạng kính ngữ riêng: 먹다/마시다 → 드시다, 자다 → 주무시다, 있다 → 계시다, 집 → 댁, 이름 → 성함, 나이 → 연세.",
+      "examples": [
+        { "ko": "김 선생님은 친절하세요.", "vi": "Thầy Kim rất tốt bụng.", "vocab": "친절하다: tốt bụng", "breakdown": "친절하다 → 친절하세요" },
+        { "ko": "할머니는 친구가 많으세요.", "vi": "Bà có nhiều bạn.", "vocab": "", "breakdown": "많다 (có patchim) → 많으세요" },
+        { "ko": "선생님, 어디에 가세요? — 저는 집에 가요.", "vi": "Thầy ơi, thầy đi đâu ạ? — Tôi về nhà.", "vocab": "", "breakdown": "Hỏi người trên: 가세요 · tự trả lời: 가요 (không dùng -시-)" },
+        { "ko": "사장님은 어제 중국에 가셨어요. 지금 댁에 안 계세요.", "vi": "Giám đốc hôm qua đã đi Trung Quốc. Bây giờ không có ở nhà.", "vocab": "댁: nhà (kính ngữ) · 계시다: có, ở (kính ngữ)", "breakdown": "가셨어요 · 계세요" },
+        { "ko": "어머니는 어제 비빔밥을 드셨어요.", "vi": "Hôm qua mẹ đã ăn bibimbap.", "vocab": "드시다: dùng bữa (kính ngữ)", "breakdown": "먹다 → 드시다 → 드셨어요" }
+      ]
+    }
+  ]
+}

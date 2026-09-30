@@ -1,0 +1,55 @@
+{
+  "level": "topik1", "lesson": 113, "bookLesson": 13, "book": "1B",
+  "title": "서울역으로 가 주세요", "titleVi": "Làm ơn đi đến ga Seoul", "pages": [108, 129],
+  "grammar": [
+    {
+      "front": "V-(으)려고 하다",
+      "meaning": "Định V, muốn V — ý định, kế hoạch",
+      "note": "Không patchim + 려고 하다 · có patchim + 으려고 하다 · Dùng được cho ý định trong quá khứ (-(으)려고 했어요) · Khác -(으)ㄹ 거예요 (việc tương lai chưa chắc)",
+      "theory": "-(으)려고 하다 diễn tả ý định, mong muốn hoặc kế hoạch làm việc gì — 'định, muốn'.\n\nGốc không patchim + 려고 하다 (가다 → 가려고 해요), có patchim + 으려고 하다 (먹다 → 먹으려고 해요).\n\nSo với -(으)ㄹ 거예요 (Bài 10): -(으)려고 하다 nhấn vào Ý ĐỊNH của người làm, và dùng được cho ý định trong quá khứ (어제 영화를 보려고 했지만 표가 없어서 못 봤어요); còn -(으)ㄹ 거예요 chỉ nói về việc tương lai chưa chắc chắn.",
+      "examples": [
+        { "ko": "집에 갈 거예요? — 아니요, 명동에서 친구 만나려고 해요.", "vi": "Bạn sẽ về nhà à? — Không, tôi định gặp bạn ở Myeongdong.", "vocab": "", "breakdown": "만나다 → 만나려고 해요" },
+        { "ko": "여보세요, 스티븐 씨, 지금 뭐 해요? — 밥을 먹으려고 해요.", "vi": "Alô, Steven, anh đang làm gì đấy? — Tôi định ăn cơm.", "vocab": "", "breakdown": "먹다 → 먹으려고 해요" },
+        { "ko": "어제 영화를 보려고 했지만 표가 없어서 못 봤어요.", "vi": "Hôm qua tôi định xem phim nhưng hết vé nên không xem được.", "vocab": "표: vé", "breakdown": "Ý định trong quá khứ: -(으)려고 했지만" },
+        { "ko": "오늘부터 한국 뉴스를 들으려고 해요.", "vi": "Từ hôm nay tôi định nghe tin tức tiếng Hàn.", "vocab": "", "breakdown": "듣다 (bất quy tắc ㄷ) → 들으려고" }
+      ]
+    },
+    {
+      "front": "N에서 N까지",
+      "meaning": "Từ (nơi) N đến (nơi) N — điểm đi, điểm đến",
+      "note": "에서: điểm xuất phát · 까지: điểm đến · Không đổi theo patchim · Có thể dùng riêng · Thời gian thì dùng N부터 N까지",
+      "theory": "에서 chỉ điểm xuất phát, 까지 chỉ điểm đến khi di chuyển trong không gian — 'từ… đến…': 학교에서 집까지.\n\nKhông phân biệt patchim. Hai tiểu từ thường đi thành cặp nhưng cũng có thể dùng riêng: 미국에서 왔어요, 서울대학교까지 가요.\n\nNói về khoảng THỜI GIAN thì dùng N부터 N까지 (Bài 10): 한국어 수업은 아홉 시부터 한 시까지 있어요.",
+      "examples": [
+        { "ko": "학교에서 집까지 가까워요? — 아니요, 멀어요.", "vi": "Từ trường về nhà có gần không? — Không, xa lắm.", "vocab": "가깝다: gần · 멀다: xa", "breakdown": "학교 + 에서 · 집 + 까지" },
+        { "ko": "명동에서 N서울타워까지 걸었어요.", "vi": "Tôi đi bộ từ Myeongdong đến tháp N Seoul.", "vocab": "", "breakdown": "에서 … 까지 + 걷다" },
+        { "ko": "여기에서 신촌까지 어떻게 가요? — 지하철을 타세요.", "vi": "Từ đây đến Sinchon đi thế nào? — Hãy đi tàu điện ngầm.", "vocab": "지하철: tàu điện ngầm", "breakdown": "여기 + 에서 · 신촌 + 까지" },
+        { "ko": "한국에서 중국까지 얼마나 걸려요? — 두 시간쯤 걸려요.", "vi": "Từ Hàn Quốc đến Trung Quốc mất bao lâu? — Mất khoảng hai tiếng.", "vocab": "걸리다: mất (thời gian)", "breakdown": "에서 … 까지 + 걸리다" }
+      ]
+    },
+    {
+      "front": "V-아/어 주다",
+      "meaning": "V giúp / V cho (ai) — làm việc gì vì người khác",
+      "note": "ㅏ, ㅗ + 아 주다 · 하다 → 해 주다 · khác + 어 주다 · Đề nghị giúp: -아/어 줄까요? → trả lời: -아/어 주세요 · Chủ ngữ là người trên: -아/어 주시다",
+      "theory": "-아/어 주다 diễn tả chủ ngữ làm việc gì đó vì người khác, cho người khác — 'V giúp, V cho'.\n\nChia như -아요/어요: 닫다 → 닫아 주다, 노래하다 → 노래해 주다, 가르치다 → 가르쳐 주다.\n\nKhi người nói muốn đề nghị giúp đỡ thì hỏi -아/어 줄까요?, đáp lại bằng -아/어 주세요: 도와줄까요? — 네, 좀 도와주세요.\n\nNếu chủ ngữ là người có địa vị cao hơn thì dùng -아/어 주시다: 어머니가 이 시계를 사 주셨어요.",
+      "examples": [
+        { "ko": "추워요? 창문을 닫아 줄까요? — 네, 좀 닫아 주세요.", "vi": "Lạnh à? Để tôi đóng cửa sổ nhé? — Vâng, đóng giúp tôi với.", "vocab": "창문: cửa sổ", "breakdown": "닫다 → 닫아 줄까요? / 닫아 주세요" },
+        { "ko": "정우 씨, 한국어 숙제 좀 도와주세요.", "vi": "Jeongwoo, giúp tôi làm bài tập tiếng Hàn với.", "vocab": "돕다: giúp", "breakdown": "도와주다 + -세요" },
+        { "ko": "요즘 지연 씨가 한국 요리를 가르쳐 줘요.", "vi": "Dạo này Jiyeon dạy tôi nấu món Hàn.", "vocab": "", "breakdown": "가르치다 → 가르쳐 줘요" },
+        { "ko": "동생이 울어서 노래를 해 줬어요.", "vi": "Em tôi khóc nên tôi đã hát cho em nghe.", "vocab": "울다: khóc", "breakdown": "하다 → 해 줬어요" },
+        { "ko": "어머니가 이 시계를 사 주셨어요.", "vi": "Mẹ đã mua cho tôi chiếc đồng hồ này.", "vocab": "", "breakdown": "Kính ngữ: 사 주셨어요" }
+      ]
+    },
+    {
+      "front": "N(으)로",
+      "meaning": "Về phía N, đến N — hướng di chuyển",
+      "note": "Không patchim + 로 · có patchim + 으로 · Danh từ có patchim ㄹ + 로 (잠실로, không phải 잠실으로)",
+      "theory": "(으)로 gắn sau danh từ để chỉ hướng di chuyển — 'về phía, đến'.\n\nDanh từ không có patchim + 로 (학교로), có patchim + 으로 (미국으로). Ngoại lệ: danh từ có patchim ㄹ thì dùng 로: 잠실로 가 주세요 (đúng), 잠실으로 (sai).",
+      "examples": [
+        { "ko": "이 버스가 서울대학교로 가요?", "vi": "Xe buýt này có đi đến Đại học Quốc gia Seoul không?", "vocab": "", "breakdown": "서울대학교 (không patchim) + 로" },
+        { "ko": "도서관이 어디에 있어요? — 앞으로 쭉 가세요.", "vi": "Thư viện ở đâu? — Cứ đi thẳng về phía trước.", "vocab": "쭉: thẳng một mạch", "breakdown": "앞 (có patchim) + 으로" },
+        { "ko": "다음 주에 미국으로 갈 거예요.", "vi": "Tuần sau tôi sẽ đi Mỹ.", "vocab": "", "breakdown": "미국 + 으로" },
+        { "ko": "잠실로 가 주세요.", "vi": "Làm ơn đi đến Jamsil.", "vocab": "", "breakdown": "Patchim ㄹ: 잠실 + 로" }
+      ]
+    }
+  ]
+}

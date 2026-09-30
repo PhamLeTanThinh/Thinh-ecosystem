@@ -1,0 +1,55 @@
+{
+  "level": "topik1", "lesson": 111, "bookLesson": 11, "book": "1B",
+  "title": "감기에 걸렸어요", "titleVi": "Tôi bị cảm rồi", "pages": [66, 85],
+  "grammar": [
+    {
+      "front": "'ㅡ' 탈락",
+      "meaning": "Lược nguyên âm 'ㅡ' trước -아/어",
+      "note": "Gốc kết thúc bằng ㅡ + -아/어 → bỏ ㅡ · 아프다 → 아파요, 바쁘다 → 바빠요, 배고프다 → 배고파요, 예쁘다 → 예뻐요, 나쁘다 → 나빠요, 쓰다 → 써요, 끄다 → 꺼요 · Trước phụ âm giữ nguyên: 아프고, 아픕니다",
+      "theory": "Khi gốc tính từ/động từ kết thúc bằng nguyên âm ㅡ và gặp đuôi bắt đầu bằng -아/어, nguyên âm ㅡ bị lược bỏ.\n\nChọn 아 hay 어 theo nguyên âm của âm tiết ĐỨNG TRƯỚC ㅡ: trước là ㅏ, ㅗ thì dùng 아 (아프다 → 아파요, 바쁘다 → 바빠요, 배고프다 → 배고파요, 나쁘다 → 나빠요); còn lại dùng 어 (예쁘다 → 예뻐요). Gốc chỉ có một âm tiết thì dùng 어 (쓰다 → 써요, 끄다 → 꺼요).\n\nTrước đuôi bắt đầu bằng phụ âm thì giữ nguyên: 아프고, 아픕니다.",
+      "examples": [
+        { "ko": "주말에 만날까요? — 이번 주말에는 좀 바빠요.", "vi": "Cuối tuần gặp nhau nhé? — Cuối tuần này tôi hơi bận.", "vocab": "", "breakdown": "바쁘다 → 바빠요" },
+        { "ko": "아침을 안 먹었어요. 그래서 배고파요.", "vi": "Tôi chưa ăn sáng. Vì vậy tôi đói.", "vocab": "배고프다: đói", "breakdown": "배고프다 → 배고파요" },
+        { "ko": "나나 씨 여동생이 예뻐요.", "vi": "Em gái Nana xinh.", "vocab": "", "breakdown": "예쁘다 → 예뻐요" },
+        { "ko": "어제 머리가 많이 아팠어요.", "vi": "Hôm qua tôi đau đầu lắm.", "vocab": "", "breakdown": "아프다 → 아팠어요" },
+        { "ko": "어제는 편지를 썼어요.", "vi": "Hôm qua tôi đã viết thư.", "vocab": "편지: thư", "breakdown": "쓰다 → 썼어요" }
+      ]
+    },
+    {
+      "front": "V-지 마세요",
+      "meaning": "Đừng V — cấm, khuyên không làm",
+      "note": "Gắn sau gốc động từ, không đổi theo patchim · Trang trọng: -지 마십시오",
+      "theory": "-지 마세요 dùng để yêu cầu người khác không làm việc gì — 'đừng…'. Gắn sau gốc động từ, không phân biệt patchim: 가지 마세요, 먹지 마세요.\n\nTrong tình huống trang trọng (thông báo, biển báo) dùng -지 마십시오: 여기에서 자전거를 타지 마십시오.",
+      "examples": [
+        { "ko": "저 식당에 가지 마세요. 비싸요.", "vi": "Đừng đến quán kia. Đắt lắm.", "vocab": "", "breakdown": "가다 → 가지 마세요" },
+        { "ko": "아이스크림을 많이 먹지 마세요.", "vi": "Đừng ăn nhiều kem.", "vocab": "", "breakdown": "먹다 → 먹지 마세요" },
+        { "ko": "좀 늦을 거예요. 기다리지 마세요.", "vi": "Tôi sẽ đến muộn một chút. Đừng đợi tôi.", "vocab": "늦다: muộn", "breakdown": "기다리다 → 기다리지 마세요" },
+        { "ko": "여기에서 자전거를 타지 마십시오.", "vi": "Không được đi xe đạp ở đây.", "vocab": "", "breakdown": "Trang trọng: -지 마십시오" }
+      ]
+    },
+    {
+      "front": "N만",
+      "meaning": "Chỉ N — giới hạn",
+      "note": "Gắn sau danh từ, không đổi theo patchim · Nghĩa 'chỉ, mỗi'",
+      "theory": "만 gắn sau danh từ để giới hạn sự vật, sự việc đó, loại trừ những cái khác — 'chỉ, mỗi'. Không phân biệt patchim: 머리만, 기침만.",
+      "examples": [
+        { "ko": "목은 안 아파요. 머리만 아파요.", "vi": "Họng không đau. Chỉ đau đầu thôi.", "vocab": "목: cổ, họng", "breakdown": "머리 + 만" },
+        { "ko": "콧물도 나요? — 아니요, 기침만 해요.", "vi": "Có sổ mũi không? — Không, chỉ ho thôi.", "vocab": "기침: ho", "breakdown": "기침 + 만" },
+        { "ko": "커피만 마셨어요? — 아니요, 빵도 먹었어요.", "vi": "Bạn chỉ uống cà phê thôi à? — Không, tôi ăn cả bánh mì nữa.", "vocab": "", "breakdown": "커피 + 만 ↔ 빵 + 도" },
+        { "ko": "이 꽃은 한국에만 있어요.", "vi": "Loài hoa này chỉ có ở Hàn Quốc.", "vocab": "", "breakdown": "한국 + 에 + 만" }
+      ]
+    },
+    {
+      "front": "V-아야/어야 되다",
+      "meaning": "Phải V — nghĩa vụ, sự cần thiết",
+      "note": "ㅏ, ㅗ + 아야 되다 · 하다 → 해야 되다 · khác + 어야 되다 · -아야/어야 하다 cùng nghĩa, hay dùng trong văn viết / tình huống trang trọng",
+      "theory": "-아야/어야 되다 diễn tả nghĩa vụ hoặc sự cần thiết phải làm việc gì — 'phải'.\n\nChia như -아요/어요: 오다 → 와야 돼요, 사다 → 사야 돼요, 하다 → 해야 돼요, 먹다 → 먹어야 돼요, 읽다 → 읽어야 돼요.\n\n-아야/어야 하다 có cùng nghĩa: trong tình huống không trang trọng thường dùng -아야/어야 되다, còn tình huống trang trọng hoặc văn viết thường dùng -아야/어야 하다 (여러분은 운동을 해야 합니다).",
+      "examples": [
+        { "ko": "내일도 병원에 와야 돼요?", "vi": "Ngày mai tôi cũng phải đến bệnh viện ạ?", "vocab": "", "breakdown": "오다 → 와야 돼요" },
+        { "ko": "친구 생일이에요. 선물을 사야 돼요.", "vi": "Sinh nhật bạn tôi. Tôi phải mua quà.", "vocab": "", "breakdown": "사다 → 사야 돼요" },
+        { "ko": "감기에 걸렸어요. 그래서 약을 먹어야 돼요.", "vi": "Tôi bị cảm. Vì vậy tôi phải uống thuốc.", "vocab": "감기에 걸리다: bị cảm · 약: thuốc", "breakdown": "먹다 → 먹어야 돼요" },
+        { "ko": "여러분은 운동을 해야 합니다.", "vi": "Các bạn phải tập thể dục.", "vocab": "", "breakdown": "Trang trọng: -아야/어야 하다" }
+      ]
+    }
+  ]
+}

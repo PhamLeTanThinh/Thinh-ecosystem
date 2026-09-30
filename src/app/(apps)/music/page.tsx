@@ -7,8 +7,8 @@ import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { withViewTransition } from '@/lib/viewTransition'
 
 const ITEMS: LandingItem[] = [
-  { key: 'learn', icon: '♪', label: 'Học nốt nhạc', meta: 'Luyện đọc khuông nhạc' },
-  { key: 'favorites', icon: '★', label: 'Nhạc yêu thích', meta: 'Lưu bản nhạc bạn thích' },
+  { key: 'learn', icon: '♪', label: 'Học nốt nhạc', meta: 'Luyện đọc khuông nhạc', accent: '#343a40', glyph: '𝄞', desc: 'Khuông nhạc · Tên nốt · Trường độ' },
+  { key: 'favorites', icon: '★', label: 'Nhạc yêu thích', meta: 'Lưu bản nhạc bạn thích', accent: '#c2255c', glyph: '♥', desc: 'Sheet nhạc PDF · Xem lại bất cứ lúc nào' },
 ]
 
 export default function MusicPage() {

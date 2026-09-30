@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { LESSON_NUMBERS, LESSON_TITLES, LESSON_TITLES_VI } from '@/lib/korean/lessons'
+import { LESSON_TITLES, LESSON_TITLES_VI, TOPIK_LABEL, lessonDisplayNumber, lessonLevel, lessonNumbersForLevel, type TopikLevel } from '@/lib/korean/lessons'
 import type { KoreanCard } from '@/lib/korean/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { GrammarNavIcon, LessonNavIcon, NavChevronIcon, VocabNavIcon } from '@/components/shared/SidebarIcons'
@@ -25,7 +25,7 @@ interface Props {
   initialGroup?: TopikKey | null
 }
 
-export type TopikKey = 'topik1' | 'topik2'
+export type TopikKey = TopikLevel
 
 export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge, contentKind = null, mobileOpen, onMobileClose, initialGroup = null }: Props) {
   // Chỉ 1 nhóm (TOPIK I, TOPIK II) mở tại 1 thời điểm — kiểu accordion, bấm mở nhóm khác thì nhóm đang
@@ -39,9 +39,8 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
   const openGroupOnce = useKoreanUIStore((s) => s.openGroupOnce)
   // Nhóm chứa bài đang chọn — dùng để TỰ mở đúng nhóm đó khi vào thẳng 1 URL bài học (chia sẻ link,
   // F5), vì lúc đó không có ?open= (chỉ có khi điều hướng từ màn hình chọn cấp độ) nên nếu không suy
-  // ra nhóm này, sidebar sẽ mở trống trơn và không thấy bài đang xem đâu cả. Chỉ có TOPIK II có bài
-  // học thật nên mọi selection kiểu 'lesson' đều thuộc nhóm đó.
-  const activeGroupKey: TopikKey | null = selection.type === 'lesson' ? 'topik2' : null
+  // ra nhóm này, sidebar sẽ mở trống trơn và không thấy bài đang xem đâu cả. Cấp độ suy từ số bài (LESSON_META).
+  const activeGroupKey: TopikKey | null = selection.type === 'lesson' ? lessonLevel(selection.lesson) : null
   // Giữ sidebar trong đúng cấp độ vừa chọn. Khi đang ở URL một bài, cấp độ suy ra từ bài được ưu tiên;
   // ở trang tổng quan, `initialGroup` đến từ card người dùng vừa chọn trên màn hình đầu. Dữ liệu Korean
   // hiện chỉ có giáo trình TOPIK II, nên /korean/vocab không có ?open= vẫn phải vào thẳng ngữ cảnh đó,
@@ -61,7 +60,9 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
 
   // Mục đang xem, hiện thêm làm crumb cuối trong breadcrumb — cùng cách IELTS thêm tên kỹ năng vào
   // sau "IELTS Hub" để biết đang đứng ở đâu trong app, không chỉ biết đang ở app nào.
-  const sectionLabel = focusedGroupKey === 'topik1' ? 'TOPIK I' : focusedGroupKey === 'topik2' || selection.type === 'lesson' ? 'TOPIK II' : 'Tất cả bài học'
+  const sectionLabel = TOPIK_LABEL[focusedGroupKey]
+  const levelLessons = lessonNumbersForLevel(focusedGroupKey)
+  const levelCards = cards.filter((c) => levelLessons.includes(c.lesson))
 
   // Chọn xong trên mobile thì đóng luôn drawer — trên desktop onMobileClose() không có tác dụng
   // gì (drawer không tồn tại về mặt hiển thị) nên gọi vô điều kiện cho đơn giản.
@@ -88,129 +89,88 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
           </span>
           <span className="kr-nav-hero-text">
             <span className="kr-nav-hero-cap">{focusedGroupKey ? '한국어 공부' : 'KOREAN'}</span>
-            <span className="kr-nav-hero-name">{focusedGroupKey === 'topik1' ? 'TOPIK I' : focusedGroupKey === 'topik2' ? 'TOPIK II' : '한국어 공부'}</span>
+            <span className="kr-nav-hero-name">{TOPIK_LABEL[focusedGroupKey]}</span>
           </span>
         </div>
 
-        {focusedGroupKey === 'topik1' && <div className="kr-topik-group">
+        <div className="kr-topik-group">
           {/* view-transition-name trùng với card cùng cấp độ ở LevelLanding — để card bay vào đây. */}
-          <div className={`kr-topik-header kr-topik-header--split${contentKind === null ? ' active' : ''}`} style={{ viewTransitionName: 'kr-level-topik1' }}>
-            <button type="button" className="kr-topik-header-main" onClick={() => onOpenKnowledge('topik1')}>
+          <div className={`kr-topik-header kr-topik-header--split${contentKind === null ? ' active' : ''}`} style={{ viewTransitionName: `kr-level-${focusedGroupKey}` }}>
+            <button type="button" className="kr-topik-header-main" onClick={() => onOpenKnowledge(focusedGroupKey)}>
               <span className="kr-nav-tile" aria-hidden>
                 <LessonNavIcon />
               </span>
               <span className="kr-nav-text">
-                <span className="kr-nav-label">{focusedGroupKey === 'topik1' ? 'Kiến thức' : 'TOPIK I'}</span>
-                <span className="kr-nav-sub">Sắp ra mắt</span>
+                <span className="kr-nav-label">Kiến thức</span>
+                <span className="kr-nav-sub">{levelLessons.length === 0 ? 'Sắp ra mắt' : `${levelLessons.length} bài`}</span>
               </span>
             </button>
             <button
               type="button"
-              className={`kr-nav-chevron${openGroupKey === 'topik1' ? ' open' : ''}`}
-              aria-label={openGroupKey === 'topik1' ? 'Thu gọn danh sách bài học' : 'Mở danh sách bài học'}
-              aria-expanded={openGroupKey === 'topik1'}
-              onClick={() => toggle('topik1')}
-            >
-              <NavChevronIcon />
-            </button>
-          </div>
-          {openGroupKey === 'topik1' && <p className="kr-topik-empty">Chưa có nội dung — sắp ra mắt</p>}
-
-          <Link href="/korean/vocab?open=topik1&kind=vocab" className={`kr-topik-header${contentKind === 'vocab' ? ' active' : ''}`} onClick={onMobileClose}>
-            <span className="kr-nav-tile" aria-hidden>
-              <VocabNavIcon />
-            </span>
-            <span className="kr-nav-text">
-              <span className="kr-nav-label">Tất cả từ vựng</span>
-              <span className="kr-nav-sub">0 thẻ</span>
-            </span>
-          </Link>
-
-          <Link href="/korean/vocab?open=topik1&kind=grammar" className={`kr-topik-header${contentKind === 'grammar' ? ' active' : ''}`} onClick={onMobileClose}>
-            <span className="kr-nav-tile" aria-hidden>
-              <GrammarNavIcon />
-            </span>
-            <span className="kr-nav-text">
-              <span className="kr-nav-label">Tất cả ngữ pháp</span>
-              <span className="kr-nav-sub">0 thẻ</span>
-            </span>
-          </Link>
-        </div>}
-
-        {focusedGroupKey === 'topik2' && <div className="kr-topik-group">
-          <div className={`kr-topik-header kr-topik-header--split${contentKind === null ? ' active' : ''}`} style={{ viewTransitionName: 'kr-level-topik2' }}>
-            <button type="button" className="kr-topik-header-main" onClick={() => onOpenKnowledge('topik2')}>
-              <span className="kr-nav-tile" aria-hidden>
-                <LessonNavIcon />
-              </span>
-              <span className="kr-nav-text">
-                <span className="kr-nav-label">{focusedGroupKey === 'topik2' ? 'Kiến thức' : 'TOPIK II'}</span>
-                <span className="kr-nav-sub">{focusedGroupKey === 'topik2' ? `${LESSON_NUMBERS.length} bài` : `Seoul Korean 2 · ${LESSON_NUMBERS.length} bài`}</span>
-              </span>
-            </button>
-            <button
-              type="button"
-              className={`kr-nav-chevron${openGroupKey === 'topik2' ? ' open' : ''}`}
-              aria-label={openGroupKey === 'topik2' ? 'Thu gọn danh sách bài học' : 'Mở danh sách bài học'}
-              aria-expanded={openGroupKey === 'topik2'}
-              onClick={() => toggle('topik2')}
+              className={`kr-nav-chevron${openGroupKey === focusedGroupKey ? ' open' : ''}`}
+              aria-label={openGroupKey === focusedGroupKey ? 'Thu gọn danh sách bài học' : 'Mở danh sách bài học'}
+              aria-expanded={openGroupKey === focusedGroupKey}
+              onClick={() => toggle(focusedGroupKey)}
             >
               <NavChevronIcon />
             </button>
           </div>
 
-          {openGroupKey === 'topik2' && (
-            <div className="kr-lesson-list">
-              {LESSON_NUMBERS.map((n) => {
-                const lessonCards = cards.filter((c) => c.lesson === n)
-                const learnedCount = lessonCards.filter((c) => isLearned(c.id)).length
-                const active = selection.type === 'lesson' && selection.lesson === n
-                return (
-                  <div key={n} className={`kr-lesson-row${active ? ' active' : ''}`}>
-                    <button type="button" className="kr-lesson-row-btn" onClick={() => handleSelect({ type: 'lesson', lesson: n })}>
-                      <span className="kr-lesson-badge">{n}과</span>
-                      <span className="kr-lesson-row-body">
-                        <span className="kr-lesson-row-title">{LESSON_TITLES[n]}</span>
-                        {LESSON_TITLES_VI[n] && <span className="kr-lesson-row-vi">{LESSON_TITLES_VI[n]}</span>}
-                        <span className="kr-lesson-row-meta">
-                          {learnedCount}/{lessonCards.length} thuộc
+          {openGroupKey === focusedGroupKey &&
+            (levelLessons.length === 0 ? (
+              <p className="kr-topik-empty">Chưa có nội dung — sắp ra mắt</p>
+            ) : (
+              <div className="kr-lesson-list">
+                {levelLessons.map((n) => {
+                  const lessonCards = cards.filter((c) => c.lesson === n)
+                  const learnedCount = lessonCards.filter((c) => isLearned(c.id)).length
+                  const active = selection.type === 'lesson' && selection.lesson === n
+                  return (
+                    <div key={n} className={`kr-lesson-row${active ? ' active' : ''}`}>
+                      <button type="button" className="kr-lesson-row-btn" onClick={() => handleSelect({ type: 'lesson', lesson: n })}>
+                        <span className="kr-lesson-badge">{lessonDisplayNumber(n)}과</span>
+                        <span className="kr-lesson-row-body">
+                          <span className="kr-lesson-row-title">{LESSON_TITLES[n]}</span>
+                          {LESSON_TITLES_VI[n] && <span className="kr-lesson-row-vi">{LESSON_TITLES_VI[n]}</span>}
+                          <span className="kr-lesson-row-meta">
+                            {learnedCount}/{lessonCards.length} thuộc
+                          </span>
                         </span>
+                      </button>
+                      <span className="kr-lesson-row-actions">
+                        <Link href={`/korean/study?lesson=${n}`} aria-label="Ôn tập" title="Ôn tập" className="kr-lesson-row-action">
+                          🎴
+                        </Link>
+                        <Link href={`/korean/quiz?lesson=${n}`} aria-label="Kiểm tra" title="Kiểm tra" className="kr-lesson-row-action">
+                          📝
+                        </Link>
                       </span>
-                    </button>
-                    <span className="kr-lesson-row-actions">
-                      <Link href={`/korean/study?lesson=${n}`} aria-label="Ôn tập" title="Ôn tập" className="kr-lesson-row-action">
-                        🎴
-                      </Link>
-                      <Link href={`/korean/quiz?lesson=${n}`} aria-label="Kiểm tra" title="Kiểm tra" className="kr-lesson-row-action">
-                        📝
-                      </Link>
-                    </span>
-                  </div>
-                )
-              })}
-            </div>
-          )}
+                    </div>
+                  )
+                })}
+              </div>
+            ))}
 
-          <Link href="/korean/vocab?open=topik2&kind=vocab" className={`kr-topik-header${contentKind === 'vocab' ? ' active' : ''}`} onClick={onMobileClose}>
+          <Link href={`/korean/vocab?open=${focusedGroupKey}&kind=vocab`} className={`kr-topik-header${contentKind === 'vocab' ? ' active' : ''}`} onClick={onMobileClose}>
             <span className="kr-nav-tile" aria-hidden>
               <VocabNavIcon />
             </span>
             <span className="kr-nav-text">
               <span className="kr-nav-label">Tất cả từ vựng</span>
-              <span className="kr-nav-sub">{cards.filter((card) => card.kind === 'vocab').length} thẻ</span>
+              <span className="kr-nav-sub">{levelCards.filter((card) => card.kind === 'vocab').length} thẻ</span>
             </span>
           </Link>
 
-          <Link href="/korean/vocab?open=topik2&kind=grammar" className={`kr-topik-header${contentKind === 'grammar' ? ' active' : ''}`} onClick={onMobileClose}>
+          <Link href={`/korean/vocab?open=${focusedGroupKey}&kind=grammar`} className={`kr-topik-header${contentKind === 'grammar' ? ' active' : ''}`} onClick={onMobileClose}>
             <span className="kr-nav-tile" aria-hidden>
               <GrammarNavIcon />
             </span>
             <span className="kr-nav-text">
               <span className="kr-nav-label">Tất cả ngữ pháp</span>
-              <span className="kr-nav-sub">{cards.filter((card) => card.kind === 'grammar').length} thẻ</span>
+              <span className="kr-nav-sub">{levelCards.filter((card) => card.kind === 'grammar').length} thẻ</span>
             </span>
           </Link>
-        </div>}
+        </div>
 
       </aside>
     </>

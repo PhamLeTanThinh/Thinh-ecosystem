@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useKoreanStore } from '@/lib/korean/store'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
-import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LESSON_TITLES, TOPIK_LABEL, lessonDisplayNumber, lessonNumbersForLevel } from '@/lib/korean/lessons'
 import { BottomSheet } from '../BottomSheet'
 import { SheetHeader } from '../SheetHeader'
 import { SegmentedControl } from '../SegmentedControl'
@@ -85,10 +85,14 @@ function AddCardForm({ onClose }: { onClose: () => void }) {
           onChange={(e) => setLesson(Number(e.target.value))}
           className="mt-2 w-full rounded-2xl border border-transparent bg-card-soft px-4 py-3.5 text-sm outline-none transition-colors focus:border-accent focus:bg-card focus:ring-2 focus:ring-accent/20"
         >
-          {LESSON_NUMBERS.map((n) => (
-            <option key={n} value={n}>
-              제 {n} 과 · {LESSON_TITLES[n]}
-            </option>
+          {(['topik1', 'topik2'] as const).map((level) => (
+            <optgroup key={level} label={TOPIK_LABEL[level]}>
+              {lessonNumbersForLevel(level).map((n) => (
+                <option key={n} value={n}>
+                  제 {lessonDisplayNumber(n)} 과 · {LESSON_TITLES[n]}
+                </option>
+              ))}
+            </optgroup>
           ))}
         </select>
       </div>

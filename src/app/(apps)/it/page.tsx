@@ -11,8 +11,8 @@ export default function ItPage() {
       basePath="/it"
       transitionPrefix="it"
       items={[
-        { key: 'master-ai', icon: '🤖', label: 'Master AI', meta: 'ML · DL · Paper' },
-        { key: 'software-engineer', icon: '💻', label: 'Software Engineer', meta: 'Ôn kiến thức lập trình' },
+        { key: 'master-ai', icon: '🤖', label: 'Master AI', meta: 'ML · DL · Paper', accent: '#0f766e', glyph: 'AI', desc: 'Machine Learning · Deep Learning · Research paper' },
+        { key: 'software-engineer', icon: '💻', label: 'Software Engineer', meta: 'Ôn kiến thức lập trình', accent: '#1d4ed8', glyph: '</>', desc: 'Lập trình · Hệ thống · Phỏng vấn' },
       ]}
     />
   )

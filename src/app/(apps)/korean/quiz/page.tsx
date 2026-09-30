@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
 import { shuffle } from '@/lib/korean/shuffle'
-import { LESSON_NUMBERS, LESSON_TITLES } from '@/lib/korean/lessons'
+import { LESSON_NUMBERS, LESSON_TITLES, lessonDisplayNumber } from '@/lib/korean/lessons'
 import { LessonPicker } from '@/components/korean/LessonPicker'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { KoreanCard, KoreanCardKind, QuizMode } from '@/lib/korean/types'
@@ -179,7 +179,7 @@ function QuizSession() {
     lesson !== null
       ? allCards.filter((c) => c.lesson === lesson)
       : allCards.filter((c) => (selectedLessons?.has(c.lesson) ?? true) && (kindFilter === 'all' || c.kind === kindFilter))
-  const label = lesson !== null ? `제${lesson}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
+  const label = lesson !== null ? `제${lessonDisplayNumber(lesson)}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
 
   if (cards.length < MIN_CARDS) {
     return <QuizMessage text={`Cần ít nhất ${MIN_CARDS} thẻ để làm trắc nghiệm (hiện có ${cards.length}).`} />
@@ -299,7 +299,7 @@ function QuizSession() {
           )}
         </div>
         <p className="text-sm font-medium text-muted">
-          {lesson ? `제${lesson}과 · ` : ''}
+          {lesson ? `제${lessonDisplayNumber(lesson)}과 · ` : ''}
           {masteredIds.size} / {totalCards} thuộc
         </p>
       </div>

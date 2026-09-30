@@ -1,0 +1,102 @@
+{
+  "level": "topik1",
+  "lesson": 101,
+  "bookLesson": 1,
+  "book": "1A",
+  "title": "안녕하세요?",
+  "titleVi": "Xin chào",
+  "pages": [52, 69],
+  "vocab": [
+    { "ko": "한국", "vi": "Hàn Quốc", "en": "Korea" },
+    { "ko": "중국", "vi": "Trung Quốc", "en": "China" },
+    { "ko": "일본", "vi": "Nhật Bản", "en": "Japan" },
+    { "ko": "미국", "vi": "Mỹ", "en": "the USA" },
+    { "ko": "영국", "vi": "Anh", "en": "the UK" },
+    { "ko": "프랑스", "vi": "Pháp", "en": "France" },
+    { "ko": "독일", "vi": "Đức", "en": "Germany" },
+    { "ko": "호주", "vi": "Úc", "en": "Australia" },
+    { "ko": "캐나다", "vi": "Canada", "en": "Canada" },
+    { "ko": "러시아", "vi": "Nga", "en": "Russia" },
+    { "ko": "인도", "vi": "Ấn Độ", "en": "India" },
+    { "ko": "파키스탄", "vi": "Pakistan", "en": "Pakistan" },
+    { "ko": "사람", "vi": "người", "en": "person" },
+    { "ko": "나라", "vi": "đất nước", "en": "country" },
+    { "ko": "어느", "vi": "nào", "en": "which" },
+    { "ko": "국적", "vi": "quốc tịch", "en": "nationality" },
+    { "ko": "선생님", "vi": "giáo viên", "en": "teacher" },
+    { "ko": "학생", "vi": "học sinh, sinh viên", "en": "student" },
+    { "ko": "의사", "vi": "bác sĩ", "en": "doctor" },
+    { "ko": "회사원", "vi": "nhân viên công ty", "en": "office worker" },
+    { "ko": "요리사", "vi": "đầu bếp", "en": "cook, chef" },
+    { "ko": "기자", "vi": "nhà báo, phóng viên", "en": "journalist" },
+    { "ko": "가수", "vi": "ca sĩ", "en": "singer" },
+    { "ko": "군인", "vi": "quân nhân", "en": "soldier" },
+    { "ko": "주부", "vi": "nội trợ", "en": "housewife" },
+    { "ko": "직업", "vi": "nghề nghiệp", "en": "job" },
+    { "ko": "안녕하세요", "vi": "xin chào", "en": "hello" },
+    { "ko": "안녕하십니까", "vi": "xin chào (trang trọng)", "en": "hello (in a formal setting)" },
+    { "ko": "(만나서) 반가워요", "vi": "rất vui được gặp bạn", "en": "nice to meet you" },
+    { "ko": "(만나서) 반갑습니다", "vi": "rất vui được gặp bạn (trang trọng)", "en": "nice to meet you (in a formal setting)" },
+    { "ko": "안녕히 계세요", "vi": "tạm biệt (người đi chào người ở lại)", "en": "goodbye (to someone staying)" },
+    { "ko": "안녕히 가세요", "vi": "tạm biệt (người ở lại chào người đi)", "en": "goodbye (to someone leaving)" },
+    { "ko": "저", "vi": "tôi (khiêm nhường)", "en": "I" },
+    { "ko": "씨", "vi": "anh, chị, bạn (gọi sau tên)", "en": "Mr. / Mrs. / Miss" },
+    { "ko": "네", "vi": "vâng, dạ", "en": "yes" },
+    { "ko": "아니요", "vi": "không", "en": "no" },
+    { "ko": "여러분", "vi": "các bạn, mọi người", "en": "everyone" },
+    { "ko": "무엇", "vi": "cái gì", "en": "what" },
+    { "ko": "이름", "vi": "tên", "en": "name" },
+    { "ko": "명함", "vi": "danh thiếp", "en": "name card" },
+    { "ko": "전화번호", "vi": "số điện thoại", "en": "telephone number" },
+    { "ko": "영어", "vi": "tiếng Anh", "en": "English" }
+  ],
+  "grammar": [
+    {
+      "front": "인사말 (안녕하세요? / 반가워요 / 안녕히 가세요·계세요)",
+      "meaning": "Câu chào hỏi cơ bản: gặp mặt, làm quen, tạm biệt",
+      "note": "Gặp mặt: 안녕하세요? · Làm quen: (만나서) 반가워요 · Tạm biệt người đi: 안녕히 가세요 · Tạm biệt khi mình đi (người kia ở lại): 안녕히 계세요",
+      "theory": "안녕하세요? là câu chào dùng được mọi lúc trong ngày (sáng, trưa, tối), cả khi gặp lẫn khi hỏi thăm. Người được chào cũng đáp lại bằng 안녕하세요?.\n\n(만나서) 반가워요 dùng khi gặp ai đó lần đầu, nghĩa là 'Rất vui được gặp bạn'. Người nghe có thể đáp lại 반가워요 hoặc 만나서 반가워요.\n\nKhi chia tay có hai cách: người Ở LẠI chào người RA ĐI bằng 안녕히 가세요 ('đi bình an nhé'); người RA ĐI chào người Ở LẠI bằng 안녕히 계세요 ('ở lại bình an nhé'). Nếu cả hai cùng rời đi thì cùng nói 안녕히 가세요.",
+      "examples": [
+        { "ko": "안녕하세요? — 안녕하세요?", "vi": "Xin chào! — Xin chào!", "vocab": "", "breakdown": "Chào gặp mặt, hai người cùng dùng 안녕하세요?" },
+        { "ko": "만나서 반가워요. — 반가워요.", "vi": "Rất vui được gặp bạn. — Rất vui được gặp bạn.", "vocab": "만나다: gặp", "breakdown": "Lần đầu gặp mặt: (만나서) 반가워요" },
+        { "ko": "안녕히 계세요. — 안녕히 가세요.", "vi": "Tạm biệt (tôi đi đây). — Tạm biệt (bạn đi nhé).", "vocab": "", "breakdown": "Người đi nói 안녕히 계세요, người ở lại đáp 안녕히 가세요" },
+        { "ko": "안녕히 가세요. — 안녕히 가세요.", "vi": "Tạm biệt. — Tạm biệt.", "vocab": "", "breakdown": "Cả hai người cùng rời đi" }
+      ]
+    },
+    {
+      "front": "N은/는 N이에요/예요",
+      "meaning": "N (chủ đề) là N — câu giới thiệu, xác định (thân mật, lịch sự)",
+      "note": "은/는: danh từ có patchim + 은 · không patchim + 는 · 이에요/예요: có patchim + 이에요 · không patchim + 예요 · Hỏi: lên giọng cuối câu",
+      "theory": "은/는 là tiểu từ chủ đề, gắn sau danh từ để cho biết câu đang nói về ai/cái gì. Danh từ có patchim (phụ âm cuối) dùng 은, không có patchim dùng 는: 스티븐은, 저는.\n\n이에요/예요 là đuôi câu 'là' ở dạng lịch sự thân mật (không trang trọng), dùng để hỏi hoặc nói về danh tính, thuộc tính của chủ ngữ. Danh từ có patchim + 이에요, không patchim + 예요: 학생이에요, 나나예요.\n\nCùng một câu có thể là câu hỏi hoặc câu trả lời: lên giọng ở cuối câu thì thành câu hỏi, xuống giọng thì là câu trả lời.",
+      "examples": [
+        { "ko": "저는 유진이에요.", "vi": "Tôi là Yujin.", "vocab": "", "breakdown": "저 + 는 (không patchim) · 유진 + 이에요 (có patchim ㄴ)" },
+        { "ko": "스티븐은 미국 사람이에요.", "vi": "Steven là người Mỹ.", "vocab": "미국 사람: người Mỹ", "breakdown": "스티븐 + 은 (có patchim ㄴ) · 사람 + 이에요" },
+        { "ko": "저는 나나예요.", "vi": "Tôi là Nana.", "vocab": "", "breakdown": "나나 + 예요 (không patchim)" },
+        { "ko": "샤오밍 씨는 중국 사람이에요? — 네, 저는 중국 사람이에요.", "vi": "Anh Tiểu Minh là người Trung Quốc à? — Vâng, tôi là người Trung Quốc.", "vocab": "씨: anh/chị (gọi sau tên)", "breakdown": "Câu hỏi và câu trả lời cùng dạng, chỉ khác ngữ điệu lên/xuống" }
+      ]
+    },
+    {
+      "front": "N입니까?, N입니다",
+      "meaning": "Là N phải không? / Là N — đuôi câu trang trọng",
+      "note": "Hỏi: N + 입니까? · Trả lời: N + 입니다 · Dùng chung cho danh từ có hoặc không có patchim · Tương đương 이에요/예요 nhưng trang trọng hơn",
+      "theory": "입니까? và 입니다 là dạng TRANG TRỌNG của 이에요/예요, dùng khi hỏi và trả lời về danh tính, thuộc tính của chủ ngữ trong tình huống chính thức: phỏng vấn, họp, thuyết trình, giới thiệu trước đám đông, tin tức.\n\nKhác với 이에요/예요, 입니까?/입니다 gắn thẳng sau mọi danh từ, không phân biệt có patchim hay không: 기자입니까?, 학생입니다.",
+      "examples": [
+        { "ko": "스티븐 씨는 미국 사람입니까? — 네, 저는 미국 사람입니다.", "vi": "Anh Steven là người Mỹ phải không? — Vâng, tôi là người Mỹ.", "vocab": "", "breakdown": "사람 + 입니까? / 입니다" },
+        { "ko": "마이클 씨는 기자입니까? — 네, 저는 기자입니다.", "vi": "Anh Michael là nhà báo phải không? — Vâng, tôi là nhà báo.", "vocab": "기자: nhà báo", "breakdown": "기자 (không patchim) + 입니까? — không đổi theo patchim" },
+        { "ko": "저는 최정우입니다.", "vi": "Tôi là Choi Jeong-woo.", "vocab": "", "breakdown": "Tự giới thiệu trang trọng: 저는 + tên + 입니다" }
+      ]
+    },
+    {
+      "front": "N이/가 아닙니다",
+      "meaning": "Không phải là N — phủ định (trang trọng)",
+      "note": "Danh từ có patchim + 이 아닙니다 · không patchim + 가 아닙니다 · Thân mật: N이/가 아니에요",
+      "theory": "N이/가 아닙니다 dùng để phủ định danh tính, thuộc tính của chủ ngữ trong tình huống trang trọng — 'không phải là N'. Là dạng phủ định của N입니다.\n\nDanh từ có patchim + 이 아닙니다, không patchim + 가 아닙니다: 미국 사람이 아닙니다, 의사가 아닙니다.\n\nTrong tình huống thân mật (không trang trọng) dùng N이/가 아니에요: 저는 아키라가 아니에요.",
+      "examples": [
+        { "ko": "마이클 씨는 의사가 아닙니다.", "vi": "Anh Michael không phải là bác sĩ.", "vocab": "의사: bác sĩ", "breakdown": "의사 (không patchim) + 가 아닙니다" },
+        { "ko": "저는 학생이 아닙니다.", "vi": "Tôi không phải là học sinh.", "vocab": "", "breakdown": "학생 (có patchim ㅇ) + 이 아닙니다" },
+        { "ko": "한국 사람입니까? — 아니요, 한국 사람이 아닙니다.", "vi": "Bạn là người Hàn Quốc à? — Không, tôi không phải người Hàn Quốc.", "vocab": "아니요: không", "breakdown": "Trả lời phủ định: 아니요 + N이 아닙니다" },
+        { "ko": "저는 미국 사람이 아니에요.", "vi": "Tôi không phải người Mỹ.", "vocab": "", "breakdown": "Dạng thân mật: 사람 + 이 아니에요" }
+      ]
+    }
+  ]
+}
