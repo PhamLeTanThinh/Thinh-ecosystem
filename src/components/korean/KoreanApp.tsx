@@ -14,6 +14,8 @@ import { KnowledgeIndex } from '@/components/landing/KnowledgeIndex'
 import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { ExampleDetail } from '@/lib/korean/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speakingPractice'
+import { TOPIK1_DIALOGUES } from '@/lib/korean/topik1'
+import { DialogueSection } from '@/components/shared/DialogueSection'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
 import { createLoadingTracker } from '@/lib/loading/tracker'
@@ -415,6 +417,9 @@ function LessonContent({
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
   const grammarCards = lessonCards.filter((c) => c.kind === 'grammar')
   const speaking = SPEAKING_PRACTICE[lesson]
+  // Hội thoại 말하기 của giáo trình (hiện có ở TOPIK I) — cùng tab "Luyện nói" trên mobile với SPEAKING_PRACTICE.
+  const dialogues = TOPIK1_DIALOGUES[lesson]
+  const hasSpeaking = !!speaking || !!dialogues
 
   // Mục lục "Đang đọc" bên phải — mỗi mục là 1 điểm ngữ pháp cụ thể (không chỉ tiêu đề mục lớn)
   // để nhảy thẳng tới đúng thẻ đang cần xem, giống cách .ih-side-toc sinh từ H2 bên app IELTS.
@@ -422,9 +427,10 @@ function LessonContent({
     const items: { id: string; label: string }[] = []
     if (vocabCards.length > 0) items.push({ id: 'kr-section-vocab', label: '📚 Từ vựng' })
     grammarCards.forEach((c) => items.push({ id: `kr-grammar-${c.id}`, label: c.front }))
+    if (dialogues) items.push({ id: 'kr-section-dialogue', label: '💬 Hội thoại' })
     if (speaking) items.push({ id: 'kr-section-speaking', label: '🗣️ Luyện nói' })
     return items
-  }, [vocabCards.length, grammarCards, speaking])
+  }, [vocabCards.length, grammarCards, speaking, dialogues])
 
   const activeTocId = useSectionScrollspy(tocItems)
 
@@ -433,7 +439,7 @@ function LessonContent({
   // nguyên bố cục cuộn dọc như cũ, xem korean.css). Nếu bài không có Luyện nói mà tab đang chọn lại
   // là 'speaking' (dư từ bài trước đó), coi như đang ở 'vocab' thay vì crash hoặc màn hình trắng.
   const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>('vocab')
-  const effectiveMobileTab = mobileTab === 'speaking' && !speaking ? 'vocab' : mobileTab
+  const effectiveMobileTab = mobileTab === 'speaking' && !hasSpeaking ? 'vocab' : mobileTab
 
   return (
     <div className="kr-content">
@@ -468,7 +474,7 @@ function LessonContent({
         >
           ✏️ Ngữ pháp
         </button>
-        {speaking && (
+        {hasSpeaking && (
           <button
             type="button"
             className={`kr-mobile-tab${effectiveMobileTab === 'speaking' ? ' active' : ''}`}
@@ -508,9 +514,10 @@ function LessonContent({
             )}
           </div>
 
-          {speaking && (
+          {hasSpeaking && (
             <div className={`kr-mobile-section${effectiveMobileTab === 'speaking' ? ' active' : ''}`}>
-              <SpeakingPracticeSection data={speaking} />
+              {dialogues && <DialogueSection dialogues={dialogues} lang="ko-KR" prefix="kr" title="💬 Hội thoại" />}
+              {speaking && <SpeakingPracticeSection data={speaking} />}
             </div>
           )}
         </div>

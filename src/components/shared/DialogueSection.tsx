@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Dialogue } from '@/lib/chinese/dialogues'
 import { SpeakButton } from '@/components/shared/SpeakButton'
+import './dialogue.css'
 
 const MARK = /\[(\d):([^\]]+)\]/g
 
@@ -34,15 +35,27 @@ function Marked({ text }: { text: string }) {
 // Mục "Nói như người bản xứ" của 1 bài: các hội thoại theo giáo trình, từ thuộc ngữ pháp được tô màu như trong
 // sách. Pinyin và nghĩa tiếng Việt ẩn mặc định — bấm "Bấm để xem …" của từng câu (hoặc nút "Hiện …" của cả hội thoại)
 // để hiện, bấm lại để ẩn; cùng cách hoạt động với khối đáp án bên IELTS.
-export function DialogueSection({ dialogues }: { dialogues: Dialogue[] }) {
+// Dùng chung cho Chinese và Korean: `lang` là giọng đọc (SpeakButton), `prefix` là tiền tố class tiêu đề mục /
+// kính mờ của từng app ('cn' | 'kr'). Với Korean, trường `zh` của DialogueLine chứa câu tiếng Hàn (không có `py`).
+export function DialogueSection({
+  dialogues,
+  lang = 'zh-CN',
+  prefix = 'cn',
+  title = '🗣️ Nói như người bản xứ',
+}: {
+  dialogues: Dialogue[]
+  lang?: string
+  prefix?: string
+  title?: string
+}) {
   return (
     <>
-      <p className="cn-section-title" id="cn-section-dialogue">
-        🗣️ Nói như người bản xứ <span className="cn-section-count">({dialogues.length})</span>
+      <p className={`${prefix}-section-title`} id={`${prefix}-section-dialogue`}>
+        {title} <span className={`${prefix}-section-count`}>({dialogues.length})</span>
       </p>
       <div className="cn-dlg-list">
         {dialogues.map((d, i) => (
-          <DialogueCard key={i} dialogue={d} />
+          <DialogueCard key={i} dialogue={d} lang={lang} glass={`${prefix}-glass`} />
         ))}
       </div>
     </>
@@ -53,7 +66,7 @@ type Kind = 'py' | 'vi'
 
 const KIND_LABEL: Record<Kind, string> = { py: 'pinyin', vi: 'nghĩa' }
 
-function DialogueCard({ dialogue }: { dialogue: Dialogue }) {
+function DialogueCard({ dialogue, lang, glass }: { dialogue: Dialogue; lang: string; glass: string }) {
   // Pinyin và nghĩa tiếng Việt đều ẩn mặc định để tự đọc chữ Hán / tự đoán nghĩa trước; mỗi loại có trạng thái riêng:
   // bật cho cả hội thoại (nút ở đầu thẻ) hoặc từng câu (bấm vào nút nhỏ / bấm lại vào chữ đang hiện để ẩn).
   const [all, setAll] = useState<Record<Kind, boolean>>({ py: false, vi: false })
@@ -61,6 +74,10 @@ function DialogueCard({ dialogue }: { dialogue: Dialogue }) {
   const bilingual = dialogue.variant === 'bilingual'
   const has: Record<Kind, boolean> = { py: dialogue.lines.some((l) => l.py), vi: dialogue.lines.some((l) => l.vi) }
   const kinds = (['py', 'vi'] as Kind[]).filter((k) => has[k])
+  // Người nói là tên riêng (giáo trình Hàn: 나나, 마이클…) thay vì A/B — hiện dạng viên thuốc, màu xen kẽ theo thứ tự xuất hiện.
+  const speakers = [...new Set(dialogue.lines.map((l) => l.who).filter(Boolean))]
+  const whoClass = (who: string) =>
+    who.length > 1 ? `cn-dlg-who cn-dlg-who--name cn-dlg-who-${speakers.indexOf(who) % 2 === 1 ? 'b' : 'a'}` : `cn-dlg-who cn-dlg-who-${who.toLowerCase()}`
 
   function toggleAll(k: Kind) {
     setAll((prev) => ({ ...prev, [k]: !prev[k] }))
@@ -81,7 +98,7 @@ function DialogueCard({ dialogue }: { dialogue: Dialogue }) {
   }
 
   return (
-    <div className="cn-glass cn-dlg-card">
+    <div className={`${glass} cn-dlg-card`}>
       {(dialogue.title || kinds.length > 0) && (
         <div className="cn-dlg-head">
           {dialogue.title && <span className="cn-dlg-title">{dialogue.title}</span>}
@@ -100,7 +117,7 @@ function DialogueCard({ dialogue }: { dialogue: Dialogue }) {
           const hidden = kinds.filter((k) => line[k] && !isVisible(k, i))
           return (
             <div key={i} className="cn-dlg-line">
-              {line.who && <span className={`cn-dlg-who cn-dlg-who-${line.who.toLowerCase()}`}>{line.who}</span>}
+              {line.who && <span className={whoClass(line.who)}>{line.who}</span>}
               <div className="cn-dlg-body">
                 <div className="flex items-center gap-1.5">
                   <p className={`cn-dlg-zh${bilingual ? ' cn-dlg-zh-mixed' : ''}`}>
@@ -108,7 +125,7 @@ function DialogueCard({ dialogue }: { dialogue: Dialogue }) {
                   </p>
                   <SpeakButton
                     text={stripMarks(line.zh)}
-                    lang="zh-CN"
+                    lang={lang}
                     className="shrink-0 rounded-full p-1 text-muted hover:bg-brand-soft hover:text-brand"
                   />
                 </div>

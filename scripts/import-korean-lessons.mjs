@@ -37,6 +37,12 @@ for (const g of fs.readdirSync(DIR).filter((x) => /^glossary-.+\.json$/.test(x))
   glossaries[data.book] = data.entries
 }
 
+// Hội thoại 말하기 (dialogues-<book>.json: { lessons: { <bookLesson>: Dialogue[] } }) — gộp vào mọi bài theo bookLesson.
+const dialoguesByBookLesson = {}
+for (const g of fs.readdirSync(DIR).filter((x) => /^dialogues-.+.json$/.test(x))) {
+  Object.assign(dialoguesByBookLesson, JSON.parse(fs.readFileSync(path.join(DIR, g), 'utf8')).lessons)
+}
+
 const lessons = []
 const cards = []
 for (const f of files) {
@@ -79,7 +85,15 @@ for (const f of files) {
       exampleDetail: JSON.stringify(ex.map((e) => ({ ko: e.ko, vi: e.vi, vocab: e.vocab ?? '', breakdown: e.breakdown ?? '' }))),
     })
   })
-  lessons.push({ lesson: L.lesson, title: L.title, titleVi: L.titleVi })
+  // Dialogue dùng chung với Chinese (lib/chinese/dialogues.ts): câu tiếng Hàn đặt ở trường `zh`, không có `py`.
+  const dialogues = (dialoguesByBookLesson[L.bookLesson] ?? []).map((d, di) => {
+    d.lines.forEach((line, li) => {
+      if (!line.ko || !line.vi) err(where, `hội thoại ${di + 1} câu ${li + 1} thiếu ko/vi`)
+      else if (!HANGUL.test(line.ko)) err(where, `hội thoại ${di + 1} câu ${li + 1} không có chữ Hangul`)
+    })
+    return { title: d.title, lines: d.lines.map((line) => ({ who: line.who ?? '', zh: line.ko, vi: line.vi })) }
+  })
+  lessons.push({ lesson: L.lesson, title: L.title, titleVi: L.titleVi, dialogues })
 }
 
 const ids = new Set()
@@ -94,13 +108,17 @@ if (errors.length) {
   process.exit(1)
 }
 
+const dlg = Object.fromEntries(lessons.filter((l) => l.dialogues.length).map((l) => [l.lesson, l.dialogues]))
 const meta = Object.fromEntries(lessons.map((l) => [l.lesson, { level, title: l.title, ...(l.titleVi ? { titleVi: l.titleVi } : {}) }]))
 fs.writeFileSync(
   OUT,
   `// SINH TỰ ĐỘNG bởi scripts/import-korean-lessons.mjs từ scripts/korean-data/${level}/*.json — đừng sửa tay, sửa JSON rồi chạy lại.
+import type { Dialogue } from '@/lib/chinese/dialogues'
 import type { LessonMeta } from './lessons'
 
 export const ${CONST}_LESSON_META: Record<number, LessonMeta> = ${JSON.stringify(meta, null, 2)}
+
+export const ${CONST}_DIALOGUES: Record<number, Dialogue[]> = ${JSON.stringify(dlg, null, 2)}
 `,
 )
 const byKind = (k) => cards.filter((c) => c.kind === k).length
