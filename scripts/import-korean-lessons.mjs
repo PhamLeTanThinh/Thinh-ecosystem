@@ -1,5 +1,5 @@
 // Nạp nội dung bài học tiếng Hàn từ scripts/korean-data/<cấp>/Lnn.json (chép từ ảnh trang giáo trình "서울대 한국어
-// 1A/1B" — PDF render bằng trình duyệt vì @napi-rs/canvas bị crash với 2 file scan này) vào app:
+// 1A/1B" — PDF render bằng scripts/render-pdf-browser.mjs vì @napi-rs/canvas bị crash với 2 file scan này) vào app:
 //   node --env-file=.env.local scripts/import-korean-lessons.mjs [cấp=topik1] [--dry-run]
 // 1. Kiểm tra dữ liệu (trường bắt buộc, câu ví dụ có chữ Hangul, số bài không trùng TOPIK II 1-18…).
 // 2. Upsert thẻ GỐC (learner_id NULL) vào korean_cards với id cố định "<cấp>-L<bài>-<loại><stt>" — chạy lại bao nhiêu
