@@ -5,7 +5,7 @@
     {
       "front": "A/V-(으)면",
       "meaning": "Nếu… thì… — điều kiện, giả định",
-      "note": "Không patchim (và patchim ㄹ) + 면 · có patchim + 으면 · Bất quy tắc: 추우면, 더우면, 매우면 (ㅂ) · 길면, 만들면 (ㄹ) · 들으면, 걸으면 (ㄷ)",
+      "note": "Không patchim (và patchim ㄹ) + 면 · có patchim + 으면 · Bất quy tắc ㅂ: 추우면, 더우면, 매우면 · Bất quy tắc ㄷ: 들으면, 걸으면 · Patchim ㄹ giữ nguyên: 길면, 만들면",
       "theory": "-(으)면 diễn tả điều kiện hoặc giả định về việc chưa chắc chắn hoặc chưa xảy ra — 'nếu… thì…'.\n\nGốc không patchim + 면 (복잡하다 → 복잡하면, 오다 → 오면), có patchim + 으면 (많다 → 많으면, 받다 → 받으면).\n\nChú ý các từ bất quy tắc: ㅂ (춥다 → 추우면, 맵다 → 매우면, 어렵다 → 어려우면), ㄹ (길다 → 길면, 멀다 → 멀면, 만들다 → 만들면, 살다 → 살면), ㄷ (듣다 → 들으면, 걷다 → 걸으면).",
       "examples": [
         { "ko": "길이 복잡하면 지하철을 타세요.", "vi": "Nếu đường đông thì hãy đi tàu điện ngầm.", "vocab": "", "breakdown": "복잡하다 → 복잡하면" },
@@ -43,7 +43,7 @@
     {
       "front": "V-고 싶어 하다",
       "meaning": "(Người khác) muốn V — mong muốn của ngôi thứ ba",
-      "note": "Gắn sau gốc động từ · Dùng khi nói về mong muốn của người khác (không phải người nói / người nghe) · 싶어 하다 là động từ: 먹고 싶어 하는 음식",
+      "note": "Gắn sau gốc động từ · Dùng khi nói về mong muốn của người khác (không phải người nói / người nghe) · 싶어 하다 là động từ, làm định ngữ thì dùng -는 (먹고 싶어 하는 음식)",
       "theory": "-고 싶어 하다 dùng để nói về mong muốn của người THỨ BA, không phải người nói hay người nghe: 켈리 씨는 운동화를 사고 싶어 해요.\n\nSo sánh: -고 싶다 cho ngôi thứ nhất (và câu hỏi ngôi thứ hai); -고 싶어 하다 cho ngôi thứ ba.\n\n싶다 là tính từ còn 싶어 하다 là động từ, nên chia khác nhau: 제가 먹고 싶은 음식 (tính từ → -은) nhưng 나나 씨가 먹고 싶어 하는 음식 (động từ → -는).",
       "examples": [
         { "ko": "켈리 씨는 운동화를 사고 싶어 해요.", "vi": "Kelly muốn mua giày thể thao.", "vocab": "운동화: giày thể thao", "breakdown": "사다 → 사고 싶어 해요 (ngôi thứ ba)" },

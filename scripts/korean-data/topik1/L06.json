@@ -31,7 +31,7 @@
     {
       "front": "N이/가 A-아요/어요",
       "meaning": "N (thì) A — miêu tả trạng thái, tính chất (tính từ làm vị ngữ)",
-      "note": "Tính từ chia như động từ: ㅏ, ㅗ + 아요 · 하다 → 해요 · khác + 어요 · Danh từ được miêu tả dùng 이/가 · Quá khứ: -았어요/었어요",
+      "note": "ㅏ, ㅗ + 아요 · 하다 → 해요 · khác + 어요 · Quá khứ: -았어요/었어요 · Tính từ chia đuôi giống động từ · Danh từ được miêu tả dùng 이/가",
       "theory": "Trong tiếng Hàn, tính từ tự đứng làm vị ngữ như động từ (không cần 'là'), chia đuôi -아요/어요 giống động từ: 좋다 → 좋아요, 싸다 → 싸요, 복잡하다 → 복잡해요, 맛있다 → 맛있어요.\n\nDanh từ được tính từ miêu tả là chủ ngữ nên đi với tiểu từ chủ ngữ 이/가: 학교가 좋아요, 길이 복잡해요.\n\nMiêu tả trạng thái trong quá khứ dùng -았어요/었어요: 어제 날씨가 좋았어요.",
       "examples": [
         { "ko": "학교가 좋아요.", "vi": "Trường học tốt.", "vocab": "", "breakdown": "좋다: ㅗ + 아요 → 좋아요" },

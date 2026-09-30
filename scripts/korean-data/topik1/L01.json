@@ -66,7 +66,7 @@
     {
       "front": "N은/는 N이에요/예요",
       "meaning": "N (chủ đề) là N — câu giới thiệu, xác định (thân mật, lịch sự)",
-      "note": "은/는: danh từ có patchim + 은 · không patchim + 는 · 이에요/예요: có patchim + 이에요 · không patchim + 예요 · Hỏi: lên giọng cuối câu",
+      "note": "N받침O: N은 N이에요 · N받침X: N는 N예요 · Hỏi: lên giọng cuối câu",
       "theory": "은/는 là tiểu từ chủ đề, gắn sau danh từ để cho biết câu đang nói về ai/cái gì. Danh từ có patchim (phụ âm cuối) dùng 은, không có patchim dùng 는: 스티븐은, 저는.\n\n이에요/예요 là đuôi câu 'là' ở dạng lịch sự thân mật (không trang trọng), dùng để hỏi hoặc nói về danh tính, thuộc tính của chủ ngữ. Danh từ có patchim + 이에요, không patchim + 예요: 학생이에요, 나나예요.\n\nCùng một câu có thể là câu hỏi hoặc câu trả lời: lên giọng ở cuối câu thì thành câu hỏi, xuống giọng thì là câu trả lời.",
       "examples": [
         { "ko": "저는 유진이에요.", "vi": "Tôi là Yujin.", "vocab": "", "breakdown": "저 + 는 (không patchim) · 유진 + 이에요 (có patchim ㄴ)" },

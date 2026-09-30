@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
@@ -17,6 +17,8 @@ import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speaki
 import { TOPIK1_DIALOGUES } from '@/lib/korean/topik1'
 import { TOPIK2_DIALOGUES } from '@/lib/korean/topik2-dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
+import { Handbook } from '@/components/korean/Handbook'
+import { HANDBOOK_CATEGORIES } from '@/lib/korean/handbook'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
 import { createLoadingTracker } from '@/lib/loading/tracker'
@@ -93,6 +95,10 @@ export function KoreanApp() {
       : { type: 'overview' }
   // Chỉ đúng "/korean" (không có gì sau) là màn hình chọn cấp độ — mọi route con khác đều đã "vào trong".
   const showLanding = pathname === '/korean'
+  // Cẩm nang ngữ pháp gộp cả TOPIK I + II nên không dùng Sidebar (Sidebar chỉ hiện 1 cấp độ) — full width như màn hình đầu.
+  const showHandbook = pathname === '/korean/handbook'
+  // ?g=<cardId> — mở bài và cuộn thẳng tới thẻ ngữ pháp đó (link "Mở trong bài" từ Cẩm nang).
+  const focusCardId = searchParams.get('g')
   const kindParam = searchParams.get('kind')
   const contentKind: 'vocab' | 'grammar' | null = kindParam === 'vocab' || kindParam === 'grammar' ? kindParam : null
 
@@ -131,10 +137,12 @@ export function KoreanApp() {
   const learnedPercent = overviewCards.length > 0 ? Math.round((learnedCount / overviewCards.length) * 100) : 0
 
   function pickLevel(key: string) {
-    navigate(`/korean/lessons?open=${key}`)
+    navigate(key === 'handbook' ? '/korean/handbook' : `/korean/lessons?open=${key}`)
   }
 
-  const landingItems: LandingItem[] = (['topik1', 'topik2'] as const).map((key) => {
+  const grammarCards = sortedCards.filter((card) => card.kind === 'grammar')
+
+  const levelItems: LandingItem[] = (['topik1', 'topik2'] as const).map((key) => {
     const lessons = lessonNumbersForLevel(key)
     const levelCards = cardsOfLevel(key)
     return {
@@ -150,9 +158,22 @@ export function KoreanApp() {
     }
   })
 
+  const landingItems: LandingItem[] = [
+    ...levelItems,
+    {
+      key: 'handbook',
+      icon: '📖',
+      label: 'Cẩm nang',
+      meta: `${HANDBOOK_CATEGORIES.length} nhóm · ${grammarCards.length} mẫu ngữ pháp`,
+      accent: '#7048e8',
+      glyph: '법',
+      desc: 'Ngữ pháp TOPIK I + II gom theo nghĩa, so sánh các mẫu dễ nhầm',
+    },
+  ]
+
   return (
     <div className="kr-shell">
-      {!showLanding && (
+      {!showLanding && !showHandbook && (
         <Sidebar
           cards={sortedCards}
           isLearned={isLearned}
@@ -168,7 +189,7 @@ export function KoreanApp() {
 
       <div className="kr-main">
         <header className="kr-topbar">
-          {!showLanding && (
+          {!showLanding && !showHandbook && (
             <button
               type="button"
               onClick={() => setMobileNavOpen(true)}
@@ -181,6 +202,7 @@ export function KoreanApp() {
           {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
               cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn cấp độ chưa có sidebar. */}
           {showLanding && <AppBreadcrumb app="/korean" />}
+          {showHandbook && <AppBreadcrumb app="/korean" trail={[{ label: 'Cẩm nang', glyph: '법' }]} />}
           <input
             type="search"
             value={searchQuery}
@@ -191,7 +213,7 @@ export function KoreanApp() {
               // string vì route đổi (unmount) khiến state cục bộ mất, không animation (ô nhập đang focus).
               if (showLanding && value.trim()) navigate(`/korean/vocab?q=${encodeURIComponent(value.trim())}`)
             }}
-            placeholder="🔍 Tìm theo Hangul, mẫu ngữ pháp hoặc nghĩa…"
+            placeholder={showHandbook ? '🔍 Tìm mẫu ngữ pháp, nghĩa hoặc nhóm…' : '🔍 Tìm theo Hangul, mẫu ngữ pháp hoặc nghĩa…'}
             className="kr-search"
           />
           <button type="button" onClick={() => openAddCard()} className="kr-btn-outline">
@@ -211,6 +233,8 @@ export function KoreanApp() {
               onPick={pickLevel}
             />
           </div>
+        ) : showHandbook ? (
+          <Handbook grammarCards={grammarCards} searchQuery={searchQuery} renderDetail={(card) => <GrammarBody card={card} />} />
         ) : selection.type === 'knowledge' ? (
           <KnowledgeIndex
             icon="한"
@@ -247,7 +271,7 @@ export function KoreanApp() {
             setVisibleCount={setVisibleCount}
           />
         ) : (
-          <LessonContent lesson={selection.lesson} cards={sortedCards} progressByCard={progressByCard} isLearned={isLearned} />
+          <LessonContent lesson={selection.lesson} cards={sortedCards} progressByCard={progressByCard} isLearned={isLearned} focusCardId={focusCardId} />
         )}
       </div>
     </div>
@@ -408,11 +432,13 @@ function LessonContent({
   cards,
   progressByCard,
   isLearned,
+  focusCardId,
 }: {
   lesson: number
   cards: KoreanCard[]
   progressByCard: Map<string, KoreanProgress>
   isLearned: (id: string) => boolean
+  focusCardId: string | null
 }) {
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
@@ -439,8 +465,18 @@ function LessonContent({
   // (CSS chỉ hiện .kr-mobile-tabs và áp dụng .kr-mobile-section ở @media ≤860px — desktop vẫn giữ
   // nguyên bố cục cuộn dọc như cũ, xem korean.css). Nếu bài không có Luyện nói mà tab đang chọn lại
   // là 'speaking' (dư từ bài trước đó), coi như đang ở 'vocab' thay vì crash hoặc màn hình trắng.
-  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>('vocab')
+  // Vào từ Cẩm nang (?g=<cardId>) thì mở sẵn tab Ngữ pháp trên mobile để thẻ đích hiện ra.
+  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>(focusCardId ? 'grammar' : 'vocab')
   const effectiveMobileTab = mobileTab === 'speaking' && !hasSpeaking ? 'vocab' : mobileTab
+
+  // Cuộn tới thẻ ?g= sau khi thẻ đã render (thẻ lấy từ store nên có thể chưa có ở lần render đầu) — chỉ 1 lần.
+  const focusedOnce = useRef(false)
+  const focusTargetReady = !!focusCardId && grammarCards.some((c) => c.id === focusCardId)
+  useEffect(() => {
+    if (!focusTargetReady || focusedOnce.current) return
+    focusedOnce.current = true
+    requestAnimationFrame(() => document.getElementById(`kr-grammar-${focusCardId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+  }, [focusTargetReady, focusCardId])
 
   return (
     <div className="kr-content">
@@ -674,77 +710,129 @@ interface StructureSegment {
   result: string
 }
 
-// Ghi chú cấu trúc "chuẩn" là chuỗi các cặp điều kiện:kết quả ngắn, ngăn bởi " · "
-// (ví dụ "V받침O: 려고 · V받침X: (으)려고"). Ghi chú của các động từ bất quy tắc (ㄹ/ㅅ/ㅎ)
-// là văn xuôi mô tả dài, tình cờ cũng chứa dấu ":" nên phải chặn bằng độ dài điều kiện —
-// nếu bất kỳ đoạn nào có phần điều kiện quá dài thì rơi về hiển thị dạng văn bản phẳng.
-function parseStructureSegments(note: string): StructureSegment[] | null {
-  const parts = note
-    .split('·')
-    .map((s) => s.trim())
-    .filter(Boolean)
-  if (parts.length < 2) return null
+interface ParsedStructure {
+  branches: StructureSegment[] // quy tắc chia "điều kiện → kết quả", vẽ thành nhánh cây
+  notes: string[] // phần còn lại (lưu ý cách dùng, danh sách ví dụ bất quy tắc…), hiện dạng gạch đầu dòng
+}
 
-  const segments: StructureSegment[] = []
-  for (const part of parts) {
-    const colonIndex = part.indexOf(':')
-    if (colonIndex === -1) return null
-    const condition = part.slice(0, colonIndex).trim()
-    const result = part.slice(colonIndex + 1).trim()
-    if (!condition || !result || condition.length > 25) return null
-    segments.push({ condition, result })
+// Ghi chú cấu trúc là các đoạn ngăn bởi " · ". Hai kiểu viết cùng tồn tại trong dữ liệu:
+//   - TOPIK II: "V받침O: 으니까 · V받침X: 니까"                 (điều kiện: kết quả)
+//   - TOPIK I:  "ㅏ, ㅗ + 아서 · 하다 → 해서 · Vế sau không…"    (điều kiện + kết quả / A → B, lẫn câu lưu ý)
+// Mỗi đoạn được xét riêng: tách được thành quy tắc ngắn thì thành nhánh, không thì thành 1 dòng lưu ý — trước đây
+// chỉ cần 1 đoạn không đúng kiểu TOPIK II là cả khối rơi về chữ phẳng.
+function parseStructure(note: string): ParsedStructure {
+  const branches: StructureSegment[] = []
+  const notes: string[] = []
+  for (const part of note.split('·').map((s) => s.trim()).filter(Boolean)) {
+    // Đoạn chỉ gồm các cặp ví dụ biến âm "덥다 → 더워요, 춥다 → 추워요" → mỗi cặp 1 nhánh.
+    if (/^[^,→:]+→[^,→:]+(,\s*[^,→:]+→[^,→:]+)+$/.test(part)) {
+      for (const pair of part.split(',')) {
+        const [condition, result] = pair.split('→').map((s) => s.trim())
+        branches.push({ condition, result })
+      }
+      continue
+    }
+    const rule = splitRule(part)
+    if (rule) branches.push(rule)
+    else notes.push(part)
   }
-  return segments
+  return { branches, notes }
+}
+
+// Mũi tên trong ngoặc là ví dụ đi kèm ("ㄹ라 (vd: 자르다 → 잘라요)"), không tính là quy tắc thứ hai.
+const countArrows = (s: string) => (s.replace(/\([^()]*\)/g, '').match(/→/g) ?? []).length
+const hasOpenParen = (s: string) => (s.match(/\(/g) ?? []).length > (s.match(/\)/g) ?? []).length
+
+// Chặn theo độ dài phần điều kiện vì câu lưu ý dài đôi khi cũng chứa ":" / "+" / "→"; kết quả có nhiều "→" là
+// danh sách ví dụ (덥다 → 더워요, 춥다 → 추워요…) nên để nguyên thành lưu ý.
+function splitRule(part: string): StructureSegment | null {
+  const colon = part.indexOf(':')
+  const colonCondition = colon === -1 ? '' : part.slice(0, colon).trim()
+  // Dấu ":" nằm trong ngoặc ví dụ hoặc sau mũi tên thì không phải "điều kiện: kết quả" — xét tiếp → / +.
+  if (colon !== -1 && !colonCondition.includes('→') && !hasOpenParen(colonCondition)) {
+    const result = part.slice(colon + 1).trim()
+    if (!colonCondition || !result || colonCondition.length > 40 || countArrows(result) > 1) return null
+    return { condition: colonCondition, result }
+  }
+  for (const op of ['→', ' + ']) {
+    const i = part.indexOf(op)
+    if (i === -1) continue
+    const condition = part.slice(0, i).trim()
+    const result = part.slice(i + op.length).trim()
+    if (!condition || !result || condition.length > 32 || countArrows(result) > 0) return null
+    return { condition, result }
+  }
+  return null
 }
 
 type ConditionKind = 'patchim-o' | 'patchim-x' | 'special' | 'base'
 
-// Tô màu phần điều kiện theo loại 받침 để mắt phân biệt nhanh giữa các nhánh:
-// có patchim (받침O), không patchim (받침X), hoặc phụ âm đặc biệt của động từ bất quy tắc
-// (받침ㄹ/ㅅ/ㅎ...). Trường hợp mơ hồ (받침O/X) hoặc không nhắc tới 받침 thì giữ màu trung tính.
+// Tô màu phần điều kiện để mắt phân biệt nhanh các nhánh: xanh lá = có patchim / nguyên âm ㅏ,ㅗ (nhánh "아"),
+// cam = không patchim / nguyên âm còn lại (nhánh "어"), tím = patchim ㄹ, 하다 hoặc phụ âm bất quy tắc.
+// Không rõ loại (받침O/X, "Hỏi", "Danh từ"…) thì giữ màu trung tính.
 function classifyCondition(condition: string): ConditionKind {
   const idx = condition.indexOf('받침')
-  if (idx === -1) return 'base'
-  const rest = condition.slice(idx + 2)
-  if (/[ㄱ-ㅎ]/.test(rest)) return 'special'
-  const hasO = rest.includes('O')
-  const hasX = rest.includes('X')
-  if (hasO && !hasX) return 'patchim-o'
-  if (hasX && !hasO) return 'patchim-x'
+  if (idx !== -1) {
+    const rest = condition.slice(idx + 2)
+    if (/[ㄱ-ㅎ]/.test(rest)) return 'special'
+    const hasO = rest.includes('O')
+    const hasX = rest.includes('X')
+    if (hasO && !hasX) return 'patchim-o'
+    if (hasX && !hasO) return 'patchim-x'
+    return 'base'
+  }
+  const lower = condition.toLowerCase()
+  if (/không\s+patchim/.test(lower)) return 'patchim-x'
+  if (/patchim\s*ㄹ|bất quy tắc|ngoại lệ/.test(lower)) return 'special'
+  if (/có\s+patchim/.test(lower)) return 'patchim-o'
+  if (/하다/.test(condition)) return 'special'
+  if (/ㅓ|ㅡ|ㅣ|ㅜ|^khác$|nguyên âm khác/.test(lower)) return 'patchim-x'
+  if (/ㅏ|ㅗ/.test(condition)) return 'patchim-o'
   return 'base'
 }
 
-function GrammarStructure({ note }: { note: string }) {
-  const segments = parseStructureSegments(note)
+// Kết quả là chữ Hàn (으니까, 해서…) thì hiện to, đậm; kết quả là câu giải thích tiếng Việt thì chữ thường, cho xuống dòng.
+const isTextResult = (result: string) => /[A-Za-zÀ-ỹĐđ]{3,}/.test(result)
 
-  if (!segments) {
-    return (
-      <div className="kr-grammar-structure">
-        <span className="kr-grammar-structure-label">Cấu trúc</span>
-        <span className="kr-grammar-structure-text">{note}</span>
-      </div>
-    )
-  }
+// Nút gốc của cây: phần trước "받침" ở điều kiện đầu (V/A받침O → V/A), hoặc loại từ ở đầu mẫu ngữ pháp (A/V-아서 → A/V).
+function structureRoot(branches: StructureSegment[], front: string): string | null {
+  const first = branches[0]?.condition ?? ''
+  if (first.includes('받침')) return first.split('받침')[0].trim() || null
+  if (/^(A\/V|V\/A|V|A|N)$/.test(first)) return first
+  return front.match(/^(A\/V|V\/A|V|A|N)\b/)?.[1] ?? null
+}
 
-  // Nhãn gốc là phần chung trước "받침" của điều kiện đầu tiên (vd "N받침O"/"N받침X" → "N") —
-  // hiển thị như 1 node gốc mà các nhánh điều kiện toả ra, giống sơ đồ cây thật thay vì liệt kê.
-  const rootLabel = segments[0].condition.split('받침')[0].trim() || segments[0].condition
+function GrammarStructure({ note, front }: { note: string; front: string }) {
+  const { branches, notes } = parseStructure(note)
+  const root = structureRoot(branches, front)
 
   return (
     <div className="kr-structure-diagram">
       <span className="kr-grammar-structure-label">Cấu trúc</span>
-      <div className="kr-structure-tree">
-        <div className="kr-structure-root">{rootLabel}</div>
-        <div className="kr-structure-branches">
-          {segments.map((seg, i) => (
-            <div key={i} className="kr-structure-branch">
-              <span className={`kr-structure-condition kr-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
-              <span className="kr-structure-arrow">→</span>
-              <span className="kr-structure-result">{seg.result}</span>
-            </div>
-          ))}
+      {branches.length > 0 && (
+        <div className="kr-structure-tree">
+          {root && <div className="kr-structure-root">{root}</div>}
+          <div className={`kr-structure-branches${root ? '' : ' kr-structure-branches--rootless'}`}>
+            {branches.map((seg, i) => {
+              const text = isTextResult(seg.result)
+              return (
+                <div key={i} className={`kr-structure-branch${text ? ' kr-structure-branch--text' : ''}`}>
+                  <span className={`kr-structure-condition kr-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
+                  <span className="kr-structure-arrow">→</span>
+                  <span className={`kr-structure-result${text ? ' kr-structure-result--text' : ''}`}>{seg.result}</span>
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      )}
+      {notes.length > 0 && (
+        <ul className={`kr-structure-notes${branches.length > 0 ? '' : ' kr-structure-notes--only'}`}>
+          {notes.map((n, i) => (
+            <li key={i}>{n}</li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
@@ -761,7 +849,16 @@ function GrammarCard({ card, index }: { card: KoreanCard; index: number }) {
       </div>
       <p className="kr-grammar-meaning">{card.meaning}</p>
 
-      {card.note && <GrammarStructure note={card.note} />}
+      <GrammarBody card={card} />
+    </div>
+  )
+}
+
+// Phần thân thẻ ngữ pháp (cấu trúc + lý thuyết + ví dụ) — dùng chung cho thẻ trong bài và dòng mở rộng ở Cẩm nang.
+function GrammarBody({ card }: { card: KoreanCard }) {
+  return (
+    <>
+      {card.note && <GrammarStructure note={card.note} front={card.front} />}
 
       {card.theory && (
         <div className="kr-grammar-theory">
@@ -772,7 +869,7 @@ function GrammarCard({ card, index }: { card: KoreanCard; index: number }) {
       )}
 
       <GrammarExamples card={card} />
-    </div>
+    </>
   )
 }
 
