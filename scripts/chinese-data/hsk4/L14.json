@@ -1,0 +1,134 @@
+{
+  "level": "hsk4",
+  "lesson": 64,
+  "bookLesson": 14,
+  "title": "工作态度",
+  "titleVi": "Thái độ làm việc",
+  "pages": [116, 123],
+  "vocab": [
+    { "hanzi": "顺序", "pinyin": "shùnxù", "pos": "dt.", "meaning": "thứ tự" },
+    { "hanzi": "光", "pinyin": "guāng", "pos": "phó.", "meaning": "chỉ" },
+    { "hanzi": "之后", "pinyin": "zhīhòu", "pos": "liên.", "meaning": "sau đó, sau khi" },
+    { "hanzi": "排列", "pinyin": "páiliè", "pos": "đt.", "meaning": "sắp xếp, liệt kê" },
+    { "hanzi": "严格", "pinyin": "yángé", "pos": "tt.", "meaning": "nghiêm khắc" },
+    { "hanzi": "表格", "pinyin": "biǎogé", "pos": "dt.", "meaning": "bảng biểu" },
+    { "hanzi": "动作", "pinyin": "dòngzuò", "pos": "dt.", "meaning": "động tác, hành động", "hanViet": "động tác" },
+    { "hanzi": "迷路", "pinyin": "mílù", "pos": "đt.", "meaning": "lạc đường" },
+    { "hanzi": "避免", "pinyin": "bìmiǎn", "pos": "đt.", "meaning": "tránh" },
+    { "hanzi": "目标", "pinyin": "mùbiāo", "pos": "dt.", "meaning": "mục tiêu", "hanViet": "mục tiêu" },
+    { "hanzi": "来得及", "pinyin": "láidejí", "pos": "đt.", "meaning": "kịp, còn kịp" },
+    { "hanzi": "餐桌", "pinyin": "cānzhuō", "pos": "dt.", "meaning": "bàn ăn" },
+    { "hanzi": "刀", "pinyin": "dāo", "pos": "dt.", "meaning": "dao", "hanViet": "đao" },
+    { "hanzi": "勺子", "pinyin": "sháozi", "pos": "dt.", "meaning": "thìa" },
+    { "hanzi": "厨房", "pinyin": "chúfáng", "pos": "dt.", "meaning": "bếp" },
+    { "hanzi": "垃圾桶", "pinyin": "lājī tǒng", "pos": "dt.", "meaning": "thùng rác" },
+    { "hanzi": "卫生间", "pinyin": "wèishēngjiān", "pos": "dt.", "meaning": "nhà vệ sinh" },
+    { "hanzi": "售货员", "pinyin": "shòuhuòyuán", "pos": "dt.", "meaning": "nhân viên bán hàng" },
+    { "hanzi": "盒子", "pinyin": "hézi", "pos": "dt.", "meaning": "hộp" },
+    { "hanzi": "袋子", "pinyin": "dàizi", "pos": "dt.", "meaning": "túi" },
+    { "hanzi": "把", "pinyin": "bǎ", "pos": "lượng.", "meaning": "tay, cái, nắm" }
+  ],
+  "expand": [
+    { "hanzi": "全心全意", "pinyin": "quán xīn quán yì", "meaning": "Toàn tâm toàn ý" },
+    { "hanzi": "一心一意", "pinyin": "yì xīn yí yì", "meaning": "Một lòng một dạ" },
+    { "hanzi": "举一反三", "pinyin": "jǔ yī fǎn sān", "meaning": "Học một biết mười" },
+    { "hanzi": "精益求精", "pinyin": "jīng yì qiú jīng", "meaning": "Không ngừng hoàn thiện" },
+    { "hanzi": "持之以恒", "pinyin": "chí zhī yǐ héng", "meaning": "Quyết tâm đến cùng" },
+    { "hanzi": "走马观花", "pinyin": "zǒu mǎ guān huā", "meaning": "Cưỡi ngựa xem hoa" },
+    { "hanzi": "半途而废", "pinyin": "bàn tú ér fèi", "meaning": "Bỏ cuộc giữa chừng" },
+    { "hanzi": "事半功倍", "pinyin": "shì bàn gōng bèi", "meaning": "Làm chơi ăn thật" }
+  ],
+  "tree": {
+    "hanzi": "解",
+    "pinyin": "jiě",
+    "meaning": "Giải",
+    "words": [
+      { "hanzi": "解剖", "pinyin": "jiěpōu", "meaning": "Giải phẫu" },
+      { "hanzi": "解答", "pinyin": "jiědá", "meaning": "Giải đáp" },
+      { "hanzi": "解脱", "pinyin": "jiětuō", "meaning": "Giải thoát" },
+      { "hanzi": "解散", "pinyin": "jiěsàn", "meaning": "Giải tán" },
+      { "hanzi": "讲解", "pinyin": "jiǎngjiě", "meaning": "Giảng giải" },
+      { "hanzi": "解放", "pinyin": "jiěfàng", "meaning": "Giải phóng" },
+      { "hanzi": "解渴", "pinyin": "jiěkě", "meaning": "Giải khát" },
+      { "hanzi": "解释", "pinyin": "jiěshì", "meaning": "Giải thích" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "14.1",
+      "hanzi": "一 + Lượng + 一 + Lượng + 地",
+      "pinyin": "yī … yī … de",
+      "meaning": "từng … một (lượng từ lặp lại làm trạng ngữ)",
+      "note": "Cấu trúc: 一 + Lượng + 一 + Lượng + 地 + Động · Hành động lặp lại hay diễn ra tuần tự từng việc một · 地 có thể thêm hoặc không",
+      "theory": "Số lượng từ trong tiếng Trung có thể lặp lại làm trạng ngữ, để thể hiện ý nghĩa hành động lặp lại hay diễn ra tuần tự từng việc một. Khi lặp lại số lượng từ làm trạng ngữ có thể thêm hay không thêm 地 vào phía sau cụm từ lặp lại đều được.\n\nCấu trúc: 一 + Lượng + 一 + Lượng + 地 + Động\n\nNgữ pháp đã học xuất hiện lại trong bài: 之一 (NP 24.3, Tăng tốc), câu chữ 把 (NP 5.3, Tăng tốc), bổ ngữ xu hướng kép (NP 2.4, Tăng tốc), 甚至 (NP 23.1, Tăng tốc), 弄 (NP 11.2, Cất cánh).",
+      "examples": [
+        {
+          "zh": "我一遍一遍地写这些汉字，终于都记住了。",
+          "pinyin": "Wǒ yí biàn yí biàn de xiě zhèxiē Hànzì, zhōngyú dōu jìzhù le.",
+          "vi": "Tôi đã viết đi viết lại những chữ Hán này, cuối cùng đã nhớ được rồi.",
+          "vocab": "遍: lượt, lần · 记住: nhớ",
+          "breakdown": "一 + 遍 + 一 + 遍 + 地 + 写"
+        },
+        {
+          "zh": "饭要一口一口地吃，路要一步一步地走，事要一件一件地做。",
+          "pinyin": "Fàn yào yì kǒu yì kǒu de chī, lù yào yí bù yí bù de zǒu, shì yào yí jiàn yí jiàn de zuò.",
+          "vi": "Cơm phải ăn từng miếng, đường phải bước từng bước, việc phải làm từng việc một.",
+          "vocab": "口: miếng · 步: bước",
+          "breakdown": "一口一口地吃 / 一步一步地走 / 一件一件地做"
+        },
+        {
+          "zh": "时间一天一天地过去了，我们学好汉语的那一天很快就要到了。",
+          "pinyin": "Shíjiān yì tiān yì tiān de guòqù le, wǒmen xuéhǎo Hànyǔ de nà yì tiān hěn kuài jiù yào dào le.",
+          "vi": "Thời gian trôi qua từng ngày, ngày chúng ta học tốt Tiếng Trung sắp đến rồi.",
+          "vocab": "过去: trôi qua",
+          "breakdown": "一 + 天 + 一 + 天 + 地 + 过去了"
+        }
+      ]
+    },
+    {
+      "np": "14.2",
+      "hanzi": "光",
+      "pinyin": "guāng",
+      "meaning": "chỉ",
+      "note": "Phó từ dùng trong khẩu ngữ, giống 只 hoặc 总是 · Biểu thị giới hạn phạm vi hoặc tần suất thường xuyên",
+      "theory": "Phó từ 光 /guāng/ thường dùng trong khẩu ngữ, ý nghĩa giống với phó từ 只 hoặc 总是, biểu thị ý nghĩa giới hạn trong một phạm vi hoặc tần suất thường xuyên của một sự việc, thường dịch là \"chỉ\".",
+      "examples": [
+        {
+          "zh": "今天的晚会你光买这点儿水果恐怕不够啊！",
+          "pinyin": "Jīntiān de wǎnhuì nǐ guāng mǎi zhè diǎnr shuǐguǒ kǒngpà búgòu a!",
+          "vi": "Bữa tiệc tối nay cậu chỉ mua chút hoa quả thế này e rằng không đủ đâu.",
+          "vocab": "晚会: tiệc tối · 恐怕: e rằng · 够: đủ",
+          "breakdown": "光 + 买 + 这点儿水果"
+        },
+        {
+          "zh": "你现在在减肥也不能光喝水啊，要好好儿吃饭，多多运动才有效。",
+          "pinyin": "Nǐ xiànzài zài jiǎnféi yě bùnéng guāng hē shuǐ a, yào hǎohāor chīfàn, duōduō yùndòng cái yǒuxiào.",
+          "vi": "Bây giờ cậu đang giảm cân cũng không thể chỉ uống nước như vậy, phải ăn uống hợp lý, thường xuyên luyện tập thể dục thể thao mới có tác dụng.",
+          "vocab": "减肥: giảm cân · 有效: có hiệu quả",
+          "breakdown": "不能 + 光 + 喝水"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Cơm nên ăn từng miếng một, việc cũng cần làm theo [0:顺序] từng cái một, đây là một trong những cách để nâng cao hiệu quả công việc. Nhưng đừng [0:光] nói suông mà không làm, vào mỗi buổi sáng, [0:之后] ra khỏi nhà và đến công ty, bạn cần [0:排列] hết tất cả những việc cần làm trong ngày hôm đó ra giấy thành một [0:表格] công việc, sau đó tuân thủ thật [0:严格] và tiến hành giải quyết. Thành công lớn bắt đầu từ những [0:动作] nhỏ, việc làm này sẽ giúp bạn không bị \"[0:迷路]\" khi đi tìm đường giữa núi việc, giúp bạn [0:避免] tình trạng quên [0:目标] mà công việc hướng tới." },
+        { "who": "", "zh": "Hôm nay là Ngày của Mẹ, cửa hàng rất bận, người phục vụ luôn tay luôn chân, không [0:来得及] dọn dẹp, nên trên [0:餐桌] bày đầy [0:刀] cắt, đĩa và [0:勺子] cán súp; chỗ [0:厨房] nơi đầu bếp nấu nướng, [0:垃圾桶] đựng rác đã đầy ắp, và [0:卫生间] nơi khách \"xả nước cứu thân\" cũng không kịp dọn dẹp. Ngay cả [0:售货员] là tôi cũng phải giúp khách hàng gói đồ vào [0:盒子] giấy và đặt vào [0:袋子] để xách đi khác mang về. Tôi cảm thấy rất tự hào vì hôm nay có thể giúp đỡ đồng nghiệp một [0:把] một chân." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "饭要[1:一口一口地]吃，事也要按顺序[1:一件一件地]做，这是提高工作效果的办法之一。但不要[2:光]说不做，每天早上到公司之后，一定要把这一天要做的所有事情排列出来，然后严格地按照那表格进行工作安排。小动作，大效果，这样就帮你不\"迷路\"，避免了忘记工作目标的情况。", "py": "Fàn yào [1:yì kǒu yì kǒu de] chī, shì yě yào àn shùnxù [1:yí jiàn yí jiàn de] zuò, zhè shì tígāo gōngzuò xiàoguǒ de bànfǎ zhī yī. Dàn búyào [2:guāng] shuō bú zuò, měitiān zǎoshang dào gōngsī zhīhòu, yídìng yào bǎ zhè yì tiān yào zuò de suǒyǒu shìqing páiliè chūlái, ránhòu yángé de ànzhào nà biǎogé jìnxíng gōngzuò ānpái. Xiǎo dòngzuò, dà xiàoguǒ, zhèyàng jiù bāng nǐ bù \"mílù\", bìmiǎn le wàngjì gōngzuò mùbiāo de qíngkuàng.", "vi": "Cơm nên ăn [1:từng miếng một], việc cũng cần làm theo thứ tự [1:từng việc một], đây là một trong những cách để nâng cao hiệu quả công việc. Nhưng đừng [2:chỉ] nói mà không làm, vào mỗi buổi sáng sau khi đến công ty, bạn phải sắp xếp tất cả những việc cần làm trong ngày hôm đó, sau đó tuân thủ nghiêm ngặt biểu mẫu để tiến hành làm việc. Hành động nhỏ, hiệu quả lớn, điều này sẽ giúp bạn không bị \"lạc\" và tránh tình trạng quên mục tiêu công việc." },
+        { "who": "", "zh": "今天是母亲节，店里很忙，服务员没来得及收拾，所以餐桌上的刀和勺子没人收拾，厨房后边的垃圾桶都满了，卫生间也不能及时打扫，甚至售货员的我也要来帮客人用盒子和袋子把菜打包回去。虽然这样忙过头的情况弄得我哭笑不得，但能帮同事一把，能为客人服务，我心里觉得很骄傲。", "py": "Jīntiān shì Mǔqīn jié, diàn lǐ hěn máng, fúwùyuán méi láidejí shōushi, suǒyǐ cānzhuō shang de dāo hé sháozi méi rén shōushi, chúfáng hòubian de lājī tǒng dōu mǎn le, wèishēngjiān yě bùnéng jíshí dǎsǎo, shènzhì shòuhuòyuán de wǒ yě yào lái bāng kèrén yòng hézi hé dàizi bǎ cài dǎbāo huíqù. Suīrán zhèyàng máng guòtóu de qíngkuàng nòng de wǒ kūxiàobùdé, dàn néng bāng tóngshì yì bǎ, néng wèi kèrén fúwù, wǒ xīnlǐ juéde hěn jiāo'ào.", "vi": "Hôm nay là Ngày của Mẹ, cửa hàng rất bận, người phục vụ không có thời gian dọn dẹp, nên dao và thìa trên bàn không ai thu dọn, thùng rác sau bếp đã đầy, phòng vệ sinh không kịp dọn dẹp. Ngay cả nhân viên bán hàng là tôi cũng phải đến và giúp khách hàng gói đồ vào hộp và túi để mang về. Tuy tình hình công việc bận ngập đầu này khiến tôi dở khóc dở cười, nhưng có thể giúp đỡ đồng nghiệp một tay, có thể phục vụ khách hàng, trong lòng tôi thấy rất đỗi tự hào." }
+      ],
+      "legend": [
+        { "n": 1, "label": "一…一…地", "np": "NP 14.1" },
+        { "n": 2, "label": "光", "np": "NP 14.2" }
+      ]
+    }
+  ]
+}

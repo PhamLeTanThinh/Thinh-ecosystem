@@ -1,0 +1,233 @@
+{
+  "level": "hsk4",
+  "lesson": 61,
+  "bookLesson": 11,
+  "title": "快乐成长",
+  "titleVi": "Vui vẻ lớn lên",
+  "pages": [88, 97],
+  "vocab": [
+    { "hanzi": "乱", "pinyin": "luàn", "pos": "tt.", "meaning": "loạn, lộn xộn", "hanViet": "loạn" },
+    { "hanzi": "扔", "pinyin": "rēng", "pos": "đt.", "meaning": "ném, vứt" },
+    { "hanzi": "笨", "pinyin": "bèn", "pos": "tt.", "meaning": "ngốc" },
+    { "hanzi": "粗心", "pinyin": "cūxīn", "pos": "tt.", "meaning": "sơ ý" },
+    { "hanzi": "生气", "pinyin": "shēngqì", "pos": "đt.", "meaning": "tức giận" },
+    { "hanzi": "之前", "pinyin": "zhīqián", "pos": "dt.", "meaning": "trước đây, trước khi" },
+    { "hanzi": "仔细", "pinyin": "zǐxì", "pos": "tt.", "meaning": "tỉ mỉ" },
+    { "hanzi": "陪", "pinyin": "péi", "pos": "đt.", "meaning": "cùng, đi cùng" },
+    { "hanzi": "整理", "pinyin": "zhěnglǐ", "pos": "đt.", "meaning": "thu dọn", "hanViet": "chỉnh lý" },
+    { "hanzi": "支持", "pinyin": "zhīchí", "pos": "đt.", "meaning": "ủng hộ" },
+    { "hanzi": "弄", "pinyin": "nòng", "pos": "đt.", "meaning": "làm" },
+    { "hanzi": "弹钢琴", "pinyin": "tán gāngqín", "pos": "cụm.", "meaning": "chơi piano" },
+    { "hanzi": "过程", "pinyin": "guòchéng", "pos": "dt.", "meaning": "quá trình", "hanViet": "quá trình" },
+    { "hanzi": "优秀", "pinyin": "yōuxiù", "pos": "tt.", "meaning": "ưu tú", "hanViet": "ưu tú" },
+    { "hanzi": "至少", "pinyin": "zhìshǎo", "pos": "phó.", "meaning": "ít nhất, chí ít" },
+    { "hanzi": "同情", "pinyin": "tóngqíng", "pos": "đt.", "meaning": "thông cảm, đồng cảm" },
+    { "hanzi": "只好", "pinyin": "zhǐhǎo", "pos": "phó.", "meaning": "đành phải" },
+    { "hanzi": "同时", "pinyin": "tóngshí", "pos": "liên.", "meaning": "đồng thời", "hanViet": "đồng thời" }
+  ],
+  "expand": [
+    { "hanzi": "诚实", "pinyin": "chéngshí", "meaning": "Thành thực" },
+    { "hanzi": "善良", "pinyin": "shànliáng", "meaning": "Lương thiện" },
+    { "hanzi": "谦虚", "pinyin": "qiānxū", "meaning": "Khiêm tốn" },
+    { "hanzi": "乐观", "pinyin": "lèguān", "meaning": "Lạc quan" },
+    { "hanzi": "坚强", "pinyin": "jiānqiáng", "meaning": "Kiên cường" },
+    { "hanzi": "伶俐", "pinyin": "línglì", "meaning": "Lanh lợi" },
+    { "hanzi": "乖巧", "pinyin": "guāiqiǎo", "meaning": "Ngoan ngoãn" },
+    { "hanzi": "天真", "pinyin": "tiānzhēn", "meaning": "Ngây thơ" }
+  ],
+  "tree": {
+    "hanzi": "理",
+    "pinyin": "lǐ",
+    "meaning": "Lý",
+    "words": [
+      { "hanzi": "理智", "pinyin": "lǐzhì", "meaning": "Lý trí" },
+      { "hanzi": "物理", "pinyin": "wùlǐ", "meaning": "Vật lý" },
+      { "hanzi": "管理", "pinyin": "guǎnlǐ", "meaning": "Quản lý" },
+      { "hanzi": "理论", "pinyin": "lǐlùn", "meaning": "Lý luận" },
+      { "hanzi": "处理", "pinyin": "chǔlǐ", "meaning": "Xử lý" },
+      { "hanzi": "理由", "pinyin": "lǐyóu", "meaning": "Lý do" },
+      { "hanzi": "合理", "pinyin": "hélǐ", "meaning": "Hợp lý" },
+      { "hanzi": "理解", "pinyin": "lǐjiě", "meaning": "Lý giải" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "11.1",
+      "hanzi": "之前",
+      "pinyin": "zhīqián",
+      "meaning": "trước khi, phía trước",
+      "note": "Danh từ chỉ khoảng thời gian/địa điểm phía trước · Thường dùng chỉ thời gian, ít chỉ địa điểm · So sánh với 以前",
+      "theory": "Danh từ 之前 /zhīqián/ biểu thị ý nghĩa phía trước một khoảng thời gian hoặc địa điểm nào, tuy nhiên cần lưu ý 之前 thường dùng chỉ thời gian, ít chỉ địa điểm, thường dịch là \"trước khi, phía trước\".\n\nSo sánh 之前 với 以前:\n• Giống nhau: đều có thể là phó từ đi kèm với các thành phần phía trước để biểu thị ý nghĩa \"trước/trước khi...\".\n• Khác nhau:\n1. 之前 có thể kết hợp với địa điểm đặt phía trước, còn 以前 thì không: 麻烦你帮我把这几盆花放在门之前。\n2. 以前 có thể đứng đầu câu làm danh từ chỉ thời gian; 之前 không thể đứng đầu câu: 以前和现在当然不一样了…\n3. 之前 dùng với khoảng thời gian ngắn, nhấn mạnh việc hành động xảy ra cách mốc thời gian/địa điểm tham chiếu không xa; 以前 dùng cho khoảng thời gian xa hơn: 吃饭之前要洗手 (nhấn mạnh rửa tay xong là ăn luôn) / 吃饭以前要洗手 (không nhấn mạnh).\n4. 之前 nhấn mạnh thứ tự xảy ra, điều này xảy ra trước điều kia, dùng khi đưa ra lời chỉ dẫn/hướng dẫn; 以前 không có cách dùng này.\n\nNgữ pháp đã học xuất hiện lại trong bài: 突然 (NP 9.4, Tăng tốc), 首先…其次… (NP 16.4, Tăng tốc), 起来 (NP 1.1, Cất cánh), 认为 (NP 10.1, Tăng tốc), 不管 (NP 16.5, Tăng tốc), 否则 (NP 2.1, Cất cánh).",
+      "examples": [
+        {
+          "zh": "他在满17岁之前发表了第一篇小说。",
+          "pinyin": "Tā zài mǎn shíqī suì zhīqián fābiǎo le dì yī piān xiǎoshuō.",
+          "vi": "Anh ấy đã xuất bản cuốn tiểu thuyết đầu tiên của mình trước khi tròn mười bảy tuổi.",
+          "vocab": "满: tròn, đủ · 发表: xuất bản, công bố · 小说: tiểu thuyết",
+          "breakdown": "在 + 满17岁 + 之前 + 发表了…"
+        },
+        {
+          "zh": "遇见你之前，我的世界只有黑白；遇见你之后，全黑了。",
+          "pinyin": "Yùjiàn nǐ zhīqián, wǒ de shìjiè zhǐyǒu hēibái; yùjiàn nǐ zhīhòu, quán hēi le.",
+          "vi": "Trước khi gặp em, thế giới của anh chỉ có hai màu đen và trắng; sau khi gặp em, tất cả chỉ còn toàn là màu đen!",
+          "vocab": "遇见: gặp · 世界: thế giới",
+          "breakdown": "遇见你 + 之前 / 遇见你 + 之后"
+        },
+        {
+          "zh": "去看你之前/以前我已经和妈妈说过了，你放心。",
+          "pinyin": "Qù kàn nǐ zhīqián/yǐqián wǒ yǐjīng hé māma shuōguo le, nǐ fàngxīn.",
+          "vi": "Trước khi đi thăm cậu tớ đã nói với mẹ rồi, cậu yên tâm đi.",
+          "vocab": "放心: yên tâm",
+          "breakdown": "Giống nhau: 之前 / 以前 đều được"
+        },
+        {
+          "zh": "麻烦你帮我把这几盆花放在门之前。",
+          "pinyin": "Máfan nǐ bāng wǒ bǎ zhè jǐ pén huā fàng zài mén zhīqián.",
+          "vi": "Phiền cậu giúp tôi bê mấy chậu hoa này ra phía trước cửa.",
+          "vocab": "盆: chậu",
+          "breakdown": "Địa điểm + 之前 (không dùng 以前)"
+        },
+        {
+          "zh": "以前和现在当然不一样了，那时我才90斤，比现在瘦多了。",
+          "pinyin": "Yǐqián hé xiànzài dāngrán bù yíyàng le, nà shí wǒ cái jiǔshí jīn, bǐ xiànzài shòu duō le.",
+          "vi": "Trước đây với bây giờ đương nhiên khác nhau rồi, tôi khi ấy chỉ có 45kg, gầy hơn bây giờ nhiều.",
+          "vocab": "斤: cân (0,5kg) · 瘦: gầy",
+          "breakdown": "以前 đứng đầu câu (之前 không dùng được)"
+        },
+        {
+          "zh": "吃饭之前要洗手。",
+          "pinyin": "Chīfàn zhīqián yào xǐshǒu.",
+          "vi": "Phải rửa tay sạch sẽ trước khi ăn (nhấn mạnh rửa tay xong là ăn luôn).",
+          "vocab": "洗手: rửa tay",
+          "breakdown": "之前: khoảng thời gian ngắn"
+        },
+        {
+          "zh": "你做决定之前要考虑到这件事的后果。",
+          "pinyin": "Nǐ zuò juédìng zhīqián yào kǎolǜ dào zhè jiàn shì de hòuguǒ.",
+          "vi": "Hãy xem xét hậu quả của vấn đề này trước khi bạn đưa ra quyết định.",
+          "vocab": "决定: quyết định · 考虑: cân nhắc · 后果: hậu quả",
+          "breakdown": "之前: nhấn mạnh thứ tự, dùng trong lời chỉ dẫn"
+        },
+        {
+          "zh": "发表意见之前必须对事情的真实情况先有所了解。",
+          "pinyin": "Fābiǎo yìjiàn zhīqián bìxū duì shìqing de zhēnshí qíngkuàng xiān yǒu suǒ liǎojiě.",
+          "vi": "Trước khi bày tỏ ý kiến, bạn phải hiểu tình hình thực tế của vấn đề đã.",
+          "vocab": "意见: ý kiến · 真实: chân thực · 情况: tình hình",
+          "breakdown": "发表意见 + 之前 + 必须…"
+        }
+      ]
+    },
+    {
+      "np": "11.2",
+      "hanzi": "弄",
+      "pinyin": "nòng",
+      "meaning": "làm (thực hiện việc nhỏ, trong thời gian ngắn)",
+      "note": "Động từ mang nghĩa làm/thực hiện một sự việc tương đối nhỏ · Có thể đi với tính từ/động từ chỉ sự thay đổi trạng thái · So sánh với 做",
+      "theory": "Động từ 弄 /nòng/ mang ý nghĩa làm hay thực hiện một sự vật, sự việc tương đối nhỏ hoặc được thực hiện trong thời gian ngắn, thường dịch là \"làm\".\n\nSo sánh 弄 với 做:\n• 弄 thường được sử dụng trong khẩu ngữ mang ý nghĩa làm ra sự vật, sự việc. 弄 còn có thể sử dụng với các tính từ hoặc số ít động từ để biểu thị ý nghĩa thay đổi về trạng thái (弄丢, 弄坏, 弄清楚…).\n• 做 thường chỉ việc thực hiện hoặc giải quyết các việc cụ thể và có thể đi cùng với nhiều loại tân ngữ (做作业, 做爸爸…).",
+      "examples": [
+        {
+          "zh": "小心，不要弄脏刚买的衣服。",
+          "pinyin": "Xiǎoxīn, búyào nòng zāng gāng mǎi de yīfu.",
+          "vi": "Cẩn thận, đừng làm bẩn quần áo mới mua nhé!",
+          "vocab": "小心: cẩn thận · 脏: bẩn",
+          "breakdown": "弄 + 脏 (tính từ chỉ trạng thái)"
+        },
+        {
+          "zh": "这件事真的不好弄，让我好好儿想想吧。",
+          "pinyin": "Zhè jiàn shì zhēn de bù hǎo nòng, ràng wǒ hǎohāor xiǎng xiǎng ba.",
+          "vi": "Việc này thật không dễ làm, để tôi nghĩ kỹ đã.",
+          "vocab": "好好儿: kỹ càng",
+          "breakdown": "不好 + 弄"
+        },
+        {
+          "zh": "对不起，我不小心把你的手机弄丢了。",
+          "pinyin": "Duìbuqǐ, wǒ bù xiǎoxīn bǎ nǐ de shǒujī nòng diū le.",
+          "vi": "Xin lỗi, tớ không cẩn thận làm mất điện thoại của cậu rồi. (không thể nói: 做丢了)",
+          "vocab": "丢: mất",
+          "breakdown": "把 + 手机 + 弄丢了"
+        },
+        {
+          "zh": "我的手机就是被他弄坏的。",
+          "pinyin": "Wǒ de shǒujī jiùshì bèi tā nòng huài de.",
+          "vi": "Điện thoại của tôi bị cậu ấy làm hỏng. (không thể nói: 做坏的)",
+          "vocab": "坏: hỏng",
+          "breakdown": "被 + 他 + 弄坏"
+        },
+        {
+          "zh": "我今天下午一直在家里做作业。",
+          "pinyin": "Wǒ jīntiān xiàwǔ yìzhí zài jiālǐ zuò zuòyè.",
+          "vi": "Chiều hôm nay tôi chỉ ở nhà làm bài tập về nhà. (không thể nói: 弄作业)",
+          "vocab": "作业: bài tập",
+          "breakdown": "做 + 作业 (việc cụ thể)"
+        },
+        {
+          "zh": "他很快就要做爸爸了。",
+          "pinyin": "Tā hěn kuài jiù yào zuò bàba le.",
+          "vi": "Anh ấy sắp được làm bố rồi. (không thể nói: 弄爸爸)",
+          "vocab": "快要…了: sắp",
+          "breakdown": "做 + 爸爸"
+        }
+      ]
+    },
+    {
+      "np": "11.3",
+      "hanzi": "同时",
+      "pinyin": "tóngshí",
+      "meaning": "đồng thời; hơn nữa",
+      "note": "TH1: đầu vế sau, quan hệ song song → \"đồng thời\" · TH2: đầu vế sau, quan hệ tăng tiến → \"hơn nữa\"",
+      "theory": "Liên từ 同时 /tóngshí/ thường được sử dụng trong 2 trường hợp:\n\n• Trường hợp 1: Đặt tại đầu vế câu sau, biểu thị mối quan hệ song song, 2 sự việc được xảy ra cùng một lúc hoặc cùng mang một ý nghĩa, nhiệm vụ, chức danh..., thường dịch là \"đồng thời\".\n• Trường hợp 2: Cũng thường được đặt tại vế câu sau tuy nhiên lại biểu thị mối quan hệ tăng tiến, thường dịch là \"hơn nữa\".",
+      "examples": [
+        {
+          "zh": "他是病人，同时也是一名医生。这些小病他都可以给自己开药的。",
+          "pinyin": "Tā shì bìngrén, tóngshí yěshì yì míng yīshēng. Zhèxiē xiǎo bìng tā dōu kěyǐ gěi zìjǐ kāi yào de.",
+          "vi": "Anh ấy là bệnh nhân đồng thời cũng là bác sỹ. Mấy bệnh vặt này anh ấy đều có thể tự kê thuốc cho mình.",
+          "vocab": "病人: bệnh nhân · 开药: kê thuốc",
+          "breakdown": "TH1 (song song): A，同时也是 B"
+        },
+        {
+          "zh": "苹果是一种水果，同时也是美国的一家手机公司的名字。",
+          "pinyin": "Píngguǒ shì yì zhǒng shuǐguǒ, tóngshí yěshì Měiguó de yì jiā shǒujī gōngsī de míngzi.",
+          "vi": "Táo là một loại hoa quả đồng thời cũng là tên một công ty sản xuất điện thoại của Mỹ.",
+          "vocab": "苹果: táo · 公司: công ty",
+          "breakdown": "TH1 (song song): A，同时也是 B"
+        },
+        {
+          "zh": "减肥不但需要少吃饭，同时也要坚持每天锻炼身体。",
+          "pinyin": "Jiǎnféi búdàn xūyào shǎo chīfàn, tóngshí yě yào jiānchí měitiān duànliàn shēntǐ.",
+          "vi": "Giảm cân không chỉ cần phải ăn ít lại, hơn nữa còn cần phải kiên trì rèn luyện thể dục thể thao mỗi ngày.",
+          "vocab": "减肥: giảm cân · 坚持: kiên trì · 锻炼: rèn luyện",
+          "breakdown": "TH2 (tăng tiến): 不但…，同时也…"
+        },
+        {
+          "zh": "你这样批评会让他觉得你不喜欢他的，同时也不一定能改变什么。",
+          "pinyin": "Nǐ zhèyàng pīpíng huì ràng tā juéde nǐ bù xǐhuan tā de, tóngshí yě bù yídìng néng gǎibiàn shénme.",
+          "vi": "Bạn phê bình như vậy sẽ làm cậu ấy cảm thấy bạn không thích cậu ấy, hơn nữa cũng không nhất định có thể thay đổi được gì.",
+          "vocab": "批评: phê bình · 改变: thay đổi",
+          "breakdown": "TH2 (tăng tiến): …，同时也不一定…"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Nếu bạn thấy con mình bất ngờ [0:扔] bừa bãi đồ đạc, làm cả nhà [0:乱] hết cả lên, xin đừng mắng con bằng những từ như \"con hư thế\", \"sao mà [0:笨] như bò\", \"nhanh nhảu [0:粗心], sao chẳng cẩn thận gì\" hay \"bất lịch sự thế\". Điều này có thể là do chúng đang gặp khó khăn hoặc đang tức giận nên mới [0:生气] cả chém thớt. Nhưng [0:之前] khi cha mẹ phê bình con, thì phải đi tìm nguyên nhân sâu xa một cách thật [0:仔细] để tránh phán đoán sai lầm. Cha mẹ nên dừng việc đang làm, [0:同时] ngay lúc đó nên ngồi xuống bên con luôn, [0:陪] con [0:整理] lại đồ đạc cho gọn gàng, hãy lắng nghe, giúp con [0:弄] rõ và nói ra những khúc mắc trong lòng là được. Việc cha mẹ dành tình yêu thương, sự quan tâm và [0:支持] mọi hành vi tốt của trẻ sẽ khiến trẻ cảm thấy hạnh phúc." },
+        { "who": "", "zh": "Một số phụ huynh tin rằng việc con mình được học cách [0:弹钢琴] từ nhỏ sẽ giúp con thông minh, trở nên [0:优秀] hơn các bạn cùng trang lứa. Nhưng không chỉ chơi đàn piano đâu, việc học cách chơi các loại nhạc cụ khác đều đem tới tác dụng tích cực tới não bộ. [0:过程] trải nghiệm quan trọng hơn kết quả cuối cùng. Phụ huynh nên tôn trọng sở thích, [0:同情] với quan điểm của con, điều [0:至少] cần làm và nên làm là hỏi xem con có hứng thú không. Nếu không việc đó [0:只好] mang tới cho con áp lực." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "如果你突然发现孩子开始在家里乱扔东西，首先请不要用\"懒\"\"笨\"\"粗心\"\"不礼貌\"这种词批评孩子。这可能是因为他们遇到困难或者生气了。批评[1:之前]一定要仔细找原因。这时候父母应该停下手中的事情，一边陪孩子整理东西，一边支持他们说出心里话，[2:弄]清楚他们的问题。父母的关心可以让孩子心情愉快起来。", "py": "Rúguǒ nǐ tūrán fāxiàn háizi kāishǐ zài jiālǐ luàn rēng dōngxi, shǒuxiān qǐng búyào yòng \"lǎn\" \"bèn\" \"cūxīn\" \"bù lǐmào\" zhè zhǒng cí pīpíng háizi. Zhè kěnéng shì yīnwèi tāmen yùdào kùnnan huòzhě shēngqì le. Pīpíng [1:zhīqián] yídìng yào zǐxì zhǎo yuányīn. Zhè shíhou fùmǔ yīnggāi tíng xià shǒu zhōng de shìqing, yìbiān péi háizi zhěnglǐ dōngxi, yìbiān zhīchí tāmen shuō chū xīnlǐ huà, [2:nòng] qīngchu tāmen de wèntí. Fùmǔ de guānxīn kěyǐ ràng háizi xīnqíng yúkuài qǐlái.", "vi": "Nếu bất ngờ bạn thấy con mình ném đồ đạc trong nhà, xin đừng mắng con bằng những từ như \"lười biếng\", \"ngu ngốc\", \"bất cẩn\" hay \"không lễ phép\". Điều này có thể là do các con đang gặp khó khăn hoặc đang tức giận. [1:Trước khi] chỉ trích, bạn phải cẩn thận tìm lý do. Lúc này, cha mẹ nên dừng việc đang làm, vừa thu dọn đồ cùng con, vừa khuyến khích con nói ra tâm sự, [2:làm] rõ vấn đề của mình. Sự quan tâm của cha mẹ có thể khiến tâm trạng của trẻ vui vẻ lên." },
+        { "who": "", "zh": "有些父母希望自己的孩子从小就学习弹钢琴，他们认为学弹钢琴的过程能使孩子变得更聪明、更优秀。但不管学什么，你至少也应该尊重孩子的兴趣，用同情心去听他们的想法，否则孩子只好带着压力学习，[3:同时]效果不一定好。", "py": "Yǒuxiē fùmǔ xīwàng zìjǐ de háizi cóng xiǎo jiù xuéxí tán gāngqín, tāmen rènwéi xué tán gāngqín de guòchéng néng shǐ háizi biàn de gèng cōngmíng, gèng yōuxiù. Dàn bùguǎn xué shénme, nǐ zhìshǎo yě yīnggāi zūnzhòng háizi de xìngqù, yòng tóngqíng xīn qù tīng tāmen de xiǎngfǎ, fǒuzé háizi zhǐhǎo dàizhe yālì xuéxí, [3:tóngshí] xiàoguǒ bù yídìng hǎo.", "vi": "Một số phụ huynh hy vọng rằng con mình sẽ học chơi piano từ khi còn nhỏ, họ tin rằng quá trình học chơi piano có thể giúp con họ thông minh và giỏi hơn. Nhưng dù học gì đi chăng nữa thì ít nhất bạn cũng nên tôn trọng sở thích của con cái và lắng nghe tâm tư của chúng bằng lòng cảm thông. Nếu không, con cái học hành sẽ bị áp lực, [3:đồng thời] hiệu quả chưa chắc đã tốt." }
+      ],
+      "legend": [
+        { "n": 1, "label": "之前", "np": "NP 11.1" },
+        { "n": 2, "label": "弄", "np": "NP 11.2" },
+        { "n": 3, "label": "同时", "np": "NP 11.3" }
+      ]
+    }
+  ]
+}

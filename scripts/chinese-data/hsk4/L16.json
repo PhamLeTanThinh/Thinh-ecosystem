@@ -1,0 +1,77 @@
+{
+  "level": "hsk4",
+  "lesson": 66,
+  "bookLesson": 16,
+  "title": "生活常识",
+  "titleVi": "Thường thức cuộc sống",
+  "pages": [132, 139],
+  "vocab": [
+    { "hanzi": "刷牙", "pinyin": "shuāyá", "pos": "đt.", "meaning": "đánh răng" },
+    { "hanzi": "牙膏", "pinyin": "yágāo", "pos": "dt.", "meaning": "kem đánh răng" },
+    { "hanzi": "打招呼", "pinyin": "dǎzhāohu", "pos": "đt.", "meaning": "chào hỏi" },
+    { "hanzi": "干杯", "pinyin": "gānbēi", "pos": "đt.", "meaning": "cạn ly" },
+    { "hanzi": "准确", "pinyin": "zhǔnquè", "pos": "tt.", "meaning": "chính xác", "hanViet": "chuẩn xác" },
+    { "hanzi": "倒", "pinyin": "dào", "pos": "đt.", "meaning": "rót, đổ" },
+    { "hanzi": "汗", "pinyin": "hàn", "pos": "dt.", "meaning": "mồ hôi" },
+    { "hanzi": "皮肤", "pinyin": "pífū", "pos": "dt.", "meaning": "da" },
+    { "hanzi": "擦", "pinyin": "cā", "pos": "đt.", "meaning": "lau" },
+    { "hanzi": "毛巾", "pinyin": "máojīn", "pos": "dt.", "meaning": "khăn" },
+    { "hanzi": "脱", "pinyin": "tuō", "pos": "đt.", "meaning": "cởi" },
+    { "hanzi": "坏处", "pinyin": "huàichu", "pos": "dt.", "meaning": "hại, tác hại" },
+    { "hanzi": "厕所", "pinyin": "cèsuǒ", "pos": "dt.", "meaning": "nhà vệ sinh" },
+    { "hanzi": "世纪", "pinyin": "shìjì", "pos": "dt.", "meaning": "thế kỷ", "hanViet": "thế kỷ" },
+    { "hanzi": "数量", "pinyin": "shùliàng", "pos": "dt.", "meaning": "số lượng", "hanViet": "số lượng" },
+    { "hanzi": "亚洲", "pinyin": "Yàzhōu", "pos": "dt.", "meaning": "Châu Á", "hanViet": "Á Châu" },
+    { "hanzi": "禁止", "pinyin": "jìnzhǐ", "pos": "đt.", "meaning": "cấm" },
+    { "hanzi": "敲", "pinyin": "qiāo", "pos": "đt.", "meaning": "gõ" },
+    { "hanzi": "汤", "pinyin": "tāng", "pos": "dt.", "meaning": "canh" },
+    { "hanzi": "儿童", "pinyin": "értóng", "pos": "dt.", "meaning": "trẻ con, nhi đồng", "hanViet": "nhi đồng" }
+  ],
+  "expand": [
+    { "hanzi": "货物", "pinyin": "huòwù", "meaning": "Hàng hóa" },
+    { "hanzi": "原价", "pinyin": "yuánjià", "meaning": "Giá gốc" },
+    { "hanzi": "主原料", "pinyin": "zhǔ yuánliào", "meaning": "Nguyên liệu chính" },
+    { "hanzi": "净重", "pinyin": "jìngzhòng", "meaning": "Khối lượng tịnh" },
+    { "hanzi": "制造日期", "pinyin": "zhìzào rìqī", "meaning": "Ngày sản xuất" },
+    { "hanzi": "保存条件", "pinyin": "bǎocún tiáojiàn", "meaning": "Điều kiện bảo quản" },
+    { "hanzi": "保存期限", "pinyin": "bǎocún qīxiàn", "meaning": "Thời hạn bảo quản" },
+    { "hanzi": "保修期", "pinyin": "bǎoxiū qī", "meaning": "Thời gian bảo hành" }
+  ],
+  "tree": {
+    "hanzi": "功",
+    "pinyin": "gōng",
+    "meaning": "Công",
+    "words": [
+      { "hanzi": "功名", "pinyin": "gōngmíng", "meaning": "Công danh" },
+      { "hanzi": "功德", "pinyin": "gōngdé", "meaning": "Công đức" },
+      { "hanzi": "功用", "pinyin": "gōngyòng", "meaning": "Công dụng" },
+      { "hanzi": "功臣", "pinyin": "gōngchén", "meaning": "Công thần" },
+      { "hanzi": "战功", "pinyin": "zhàngōng", "meaning": "Chiến công" },
+      { "hanzi": "功效", "pinyin": "gōngxiào", "meaning": "Công hiệu" },
+      { "hanzi": "庆功", "pinyin": "qìnggōng", "meaning": "Khánh công" },
+      { "hanzi": "功劳", "pinyin": "gōngláo", "meaning": "Công lao" }
+    ]
+  },
+  "grammar": [],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Bạn biết không, mỗi sáng mỗi tối khi dùng bàn chải [0:刷牙] để bảo vệ răng, chỉ cần thêm một chút muối vào [0:牙膏] và kiên trì lâu ngày có thể làm cho răng trắng lên. Vẫn còn rất nhiều kiến thức nhỏ trong cuộc sống như: lần đầu gặp mặt nên [0:打招呼] và bắt chuyện thế nào; uống rượu có nên làm một hơi [0:干杯] hết cả ly; cách uống rượu vang thế nào mới là [0:准确], khi rót rượu thì có nên [0:倒] đầy cốc không; cho trẻ ăn gì để đêm ngủ bớt đổ [0:汗] trộm ướt sũng áo; cách bảo vệ làn [0:皮肤] dưới nắng hè chang chang; nên dùng loại [0:毛巾] chất liệu gì để mỗi khi [0:擦] lên mặt vừa sạch vừa không thô ráp; khi ngủ có nên [0:脱] hết quần áo để \"thả rông\", nếu không thì sẽ gây ra [0:坏处] gì có hại, làm sao để dễ dàng lau dọn bệ xí của [0:厕所], v.v. Bạn thấy đấy, chúng ta đã bước sang [0:世纪] 21 được hơn 20 năm, thế giới đã thay đổi rất nhiều, [0:数量] kiến thức mới tăng theo cấp số nhân, nhưng chỉ cần bạn chú ý hơn đến nó thì cuộc sống của bạn sẽ dễ dàng hơn." },
+        { "who": "", "zh": "Bàn ăn rất quan trọng với người [0:亚洲] (như Việt Nam, Trung Quốc, Nhật Bản, Hàn Quốc) và là nơi để mọi người hiểu nhau. Trên bàn ăn có nhiều điều cấm kỵ cần chú ý, ví dụ như người lớn luôn nhắc chúng ta [0:禁止] dùng đũa [0:敲] vào đĩa, bát vì như vậy là kiêng kị, không được gây ồn ào xì xà xì xụp khi húp [0:汤], trong bữa ăn cũng nên nhắc nhở [0:儿童] không được chạy lung tung lăng xăng khi đang ăn,... Điều này sẽ khiến người khác sẽ cảm thấy bạn không lịch sự." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "你知道吗，刷牙时在牙膏上加点儿盐，坚持一段时间，就能使牙变白。生活中还有很多小知识，比如：怎么打招呼更幽默；喝红酒怎么干杯才准确，倒酒时要倒多少才合适；吃什么能减少出汗；怎样保护皮肤；擦脸应该用什么毛巾；睡觉不脱衣服有什么坏处，怎样轻松地收拾厕所等等。你看，21世纪了，世界变化很大，新知识的数量一天比一天多，只要多注意一点儿，你的生活就会更加方便。", "py": "Nǐ zhīdào ma, shuāyá shí zài yágāo shang jiā diǎnr yán, jiānchí yí duàn shíjiān, jiù néng shǐ yá biàn bái. Shēnghuó zhōng hái yǒu hěn duō xiǎo zhīshi, bǐrú: Zěnme dǎzhāohu gèng yōumò; hē hóngjiǔ zěnme gānbēi cái zhǔnquè, dào jiǔ shí yào dào duōshao cái héshì; chī shénme néng jiǎnshǎo chū hàn; zěnyàng bǎohù pífū; cā liǎn yīnggāi yòng shénme máojīn; shuìjiào bù tuō yīfu yǒu shénme huàichu, zěnyàng qīngsōng de shōushi cèsuǒ děngděng. Nǐ kàn, èrshíyī shìjì le, shìjiè biànhuà hěn dà, xīn zhīshi de shùliàng yì tiān bǐ yì tiān duō, zhǐyào duō zhùyì yìdiǎnr, nǐ de shēnghuó jiù huì gèngjiā fāngbiàn.", "vi": "Bạn có biết rằng thêm một chút muối vào kem đánh răng khi đánh răng và kiên trì lâu ngày có thể làm răng trắng lên. Vẫn còn rất nhiều kiến thức nhỏ trong cuộc sống như: cách chào hỏi hài hước hơn; cách nâng ly uống rượu vang đỏ thế nào mới là chính xác, khi rót rượu thì rót bao nhiêu là phù hợp; ăn gì để bớt đổ mồ hôi; cách bảo vệ da; nên dùng khăn gì để rửa mặt; không cởi quần áo khi ngủ có nhược điểm gì, làm sao để dễ dàng lau dọn nhà vệ sinh, v.v. Bạn thấy đấy, trong thế kỷ 21, thế giới đã thay đổi rất nhiều, lượng kiến thức mới ngày một nhiều lên, chỉ cần bạn chú ý hơn đến nó thì cuộc sống của bạn sẽ dễ dàng hơn." },
+        { "who": "", "zh": "餐桌文化对亚洲人来说很重要。在餐桌上有很多事情要注意，例如：禁止用筷子敲盘子、碗，喝汤时不发出声音，儿童吃饭时不可以乱跑乱跳等，这样都会让别人觉得你很没礼貌。", "py": "Cānzhuō wénhuà duì Yàzhōu rén lái shuō hěn zhòngyào. Zài cānzhuō shang yǒu hěn duō shìqing yào zhùyì, lìrú: Jìnzhǐ yòng kuàizi qiāo pánzi, wǎn, hē tāng shí bù fāchū shēngyīn, értóng chīfàn shí bù kěyǐ luàn pǎo luàn tiào děng, zhèyàng dōu huì ràng biérén juéde nǐ hěn méi lǐmào.", "vi": "Bàn ăn rất quan trọng với người Á Đông và là nơi để mọi người hiểu nhau. Trên bàn ăn có nhiều điều cần chú ý, ví dụ như không được dùng đũa gõ vào đĩa, bát, không được gây ồn ào khi uống nước canh, trẻ em không được chạy lung tung khi đang ăn,... Điều này sẽ khiến người khác sẽ cảm thấy bạn không lịch sự." }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 一天比一天 (NP 25.2, Tăng tốc): 新知识的数量一天比一天多"
+      }
+    }
+  ]
+}

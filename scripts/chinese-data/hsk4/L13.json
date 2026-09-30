@@ -1,0 +1,112 @@
+{
+  "level": "hsk4",
+  "lesson": 63,
+  "bookLesson": 13,
+  "title": "理解别人",
+  "titleVi": "Thấu hiểu người khác",
+  "pages": [108, 115],
+  "vocab": [
+    { "hanzi": "理解", "pinyin": "lǐjiě", "pos": "đt.", "meaning": "hiểu", "hanViet": "lý giải" },
+    { "hanzi": "随便", "pinyin": "suíbiàn", "pos": "phó.", "meaning": "tùy tiện", "hanViet": "tùy tiện" },
+    { "hanzi": "否定", "pinyin": "fǒudìng", "pos": "đt.", "meaning": "phủ định", "hanViet": "phủ định" },
+    { "hanzi": "伤心", "pinyin": "shāngxīn", "pos": "tt.", "meaning": "đau lòng", "hanViet": "thương tâm" },
+    { "hanzi": "举", "pinyin": "jǔ", "pos": "đt.", "meaning": "lấy (ví dụ)", "hanViet": "cử" },
+    { "hanzi": "例子", "pinyin": "lìzi", "pos": "dt.", "meaning": "ví dụ" },
+    { "hanzi": "实在", "pinyin": "shízài", "pos": "phó.", "meaning": "thực sự", "hanViet": "thực tại" },
+    { "hanzi": "更加", "pinyin": "gèngjiā", "pos": "phó.", "meaning": "càng thêm" },
+    { "hanzi": "道歉", "pinyin": "dàoqiàn", "pos": "đt.", "meaning": "xin lỗi" },
+    { "hanzi": "原谅", "pinyin": "yuánliàng", "pos": "đt.", "meaning": "tha thứ" },
+    { "hanzi": "错误", "pinyin": "cuòwù", "pos": "dt.", "meaning": "lỗi lầm" },
+    { "hanzi": "感谢", "pinyin": "gǎnxiè", "pos": "đt.", "meaning": "cảm ơn", "hanViet": "cảm tạ" },
+    { "hanzi": "重新", "pinyin": "chóngxīn", "pos": "phó.", "meaning": "lại từ đầu" },
+    { "hanzi": "总结", "pinyin": "zǒngjié", "pos": "đt.", "meaning": "tổng kết", "hanViet": "tổng kết" },
+    { "hanzi": "样子", "pinyin": "yàngzi", "pos": "dt.", "meaning": "dáng vẻ" },
+    { "hanzi": "开玩笑", "pinyin": "kāi wánxiào", "pos": "cụm.", "meaning": "đùa" },
+    { "hanzi": "难道", "pinyin": "nándào", "pos": "phó.", "meaning": "lẽ nào" }
+  ],
+  "expand": [
+    { "hanzi": "包容", "pinyin": "bāoróng", "meaning": "Bao dung" },
+    { "hanzi": "忍让", "pinyin": "rěnràng", "meaning": "Nhường nhịn" },
+    { "hanzi": "体谅", "pinyin": "tǐliàng", "meaning": "Cảm thông" },
+    { "hanzi": "赞赏", "pinyin": "zànshǎng", "meaning": "Tán thưởng" },
+    { "hanzi": "感恩", "pinyin": "gǎn'ēn", "meaning": "Biết ơn" },
+    { "hanzi": "夸奖", "pinyin": "kuājiǎng", "meaning": "Khen ngợi" },
+    { "hanzi": "激情", "pinyin": "jīqíng", "meaning": "Đam mê" },
+    { "hanzi": "满足", "pinyin": "mǎnzú", "meaning": "Thỏa mãn" }
+  ],
+  "tree": {
+    "hanzi": "重",
+    "pinyin": "zhòng",
+    "meaning": "Trọng",
+    "words": [
+      { "hanzi": "重用", "pinyin": "zhòngyòng", "meaning": "Trọng dụng" },
+      { "hanzi": "严重", "pinyin": "yánzhòng", "meaning": "Nghiêm trọng" },
+      { "hanzi": "尊重", "pinyin": "zūnzhòng", "meaning": "Tôn trọng" },
+      { "hanzi": "重心", "pinyin": "zhòngxīn", "meaning": "Trọng tâm" },
+      { "hanzi": "隆重", "pinyin": "lóngzhòng", "meaning": "Long trọng" },
+      { "hanzi": "重伤", "pinyin": "zhòngshāng", "meaning": "Trọng thương" },
+      { "hanzi": "注重", "pinyin": "zhùzhòng", "meaning": "Chú trọng" },
+      { "hanzi": "重量", "pinyin": "zhòngliàng", "meaning": "Trọng lượng" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "13.1",
+      "hanzi": "难道",
+      "pinyin": "nándào",
+      "meaning": "lẽ nào, không lẽ, chẳng lẽ",
+      "note": "Nhấn mạnh ngữ khí trong câu hỏi tu từ · Câu nghi vấn mang nghĩa phủ định lại tạo ý khẳng định và ngược lại",
+      "theory": "Phó từ 难道 /nándào/ thường được dùng để nhấn mạnh ngữ khí trong câu hỏi tu từ, dịch là \"lẽ nào, không lẽ, chẳng lẽ\".\n\nNgoài ra, trong một số trường hợp phó từ ngữ khí 难道 khi dùng trong câu nghi vấn mang nghĩa phủ định lại có thể tạo ra ý nghĩa khẳng định và ngược lại.\n\nNgữ pháp đã học xuất hiện lại trong bài: 因此 (NP 3.1, Cất cánh), 可是 (NP 18.3, Tăng tốc), giới từ 连 (NP 20.3, Tăng tốc), bổ ngữ xu hướng kép (NP 2.4, Tăng tốc).",
+      "examples": [
+        {
+          "zh": "难道他真的喜欢上我了吗？",
+          "pinyin": "Nándào tā zhēn de xǐhuan shàng wǒ le ma?",
+          "vi": "Không lẽ anh ấy thật sự thích tớ rồi à?",
+          "vocab": "喜欢上: thích, phải lòng",
+          "breakdown": "难道 + mệnh đề + 吗？"
+        },
+        {
+          "zh": "这些菜我花了很长时间去做的，难道还是不好吃吗？",
+          "pinyin": "Zhèxiē cài wǒ huā le hěn cháng shíjiān qù zuò de, nándào háishi bù hǎochī ma?",
+          "vi": "Mấy món này em đã mất rất nhiều thời gian để nấu, chẳng lẽ vẫn không ngon sao?",
+          "vocab": "花: tiêu tốn (thời gian)",
+          "breakdown": "…，难道还是 + 不… + 吗？"
+        },
+        {
+          "zh": "你放心吧！你都坐那么久的飞机来看我了，我难道还能不去接你吗？",
+          "pinyin": "Nǐ fàngxīn ba! Nǐ dōu zuò nàme jiǔ de fēijī lái kàn wǒ le, wǒ nándào hái néng bú qù jiē nǐ ma?",
+          "vi": "Cậu yên tâm đi, cậu đã ngồi máy bay lâu như thế đến thăm tới rồi, chẳng lẽ tớ lại không đến sân bay đón cậu nữa sao? (khẳng định sẽ đến đón)",
+          "vocab": "接: đón",
+          "breakdown": "难道 + phủ định + 吗？→ ý khẳng định"
+        },
+        {
+          "zh": "难道我说得不对吗？",
+          "pinyin": "Nándào wǒ shuō de bú duì ma?",
+          "vi": "Lẽ nào tôi nói không đúng à? (thể hiện ý kiến rằng bản thân nói đúng)",
+          "vocab": "",
+          "breakdown": "难道 + 不对 + 吗？→ khẳng định mình đúng"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Hiểu mình [0:理解] người, trăm trận trăm thắng, bởi khi chưa lắng nghe và suy xét đầy đủ, đừng [0:否定] ý kiến của người khác. Nhiều khi chúng ta làm những việc khiến người khác cảm thấy \"[0:伤心] như cắt, nước mắt đầm đìa\", chỉ vì chúng ta chưa trải qua những chuyện như của người khác. [0:举] một [0:例子] thế này để cả nhà dễ hiểu, sau khi con gái chào đời, tôi mới biết việc làm mẹ [0:实在] không hề đơn giản như tôi vốn tưởng. Làm mẹ rồi tôi mới [0:更加] hiểu thêm những vất vả của bố mẹ mình, xin bố mẹ [0:原谅] cho những việc làm [0:错误] trước đây tôi gây ra, tôi muốn nói lời [0:道歉] với họ và [0:感谢] thật nhiều vì tình yêu mà họ đã dành cho tôi." },
+        { "who": "", "zh": "Do người phụ trách trước đó viết rất [0:随便] không theo quy củ gì và không đạt yêu cầu, giám đốc yêu cầu anh Lý viết [0:重新] bản báo cáo, bản này sẽ [0:总结] tất cả kết quả thu được từ hội nghị vừa qua, nhưng nửa ngày rồi mà anh ấy không viết nổi một chữ. Thấy [0:样子] mệt mỏi của anh, vợ anh muốn bông đùa giúp anh vui lên nên mới tiến lại vừa cười vừa [0:开玩笑] với anh rằng: \"[0:难道] viết báo cáo lại khó hơn việc em sinh con sao?\" Anh Lý cười trả lời: \"Em không biết rồi, khi sinh con, con có trong bụng rồi, nhưng trong bụng anh bây giờ không có cơ sở gì thì làm sao viết ra được\"." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "要学会理解别人，不要随便否定别人的意见。很多时候我们让别人伤心，只是因为没有经历过别人的经历。举个例子来说，女儿出生以后，我才知道做妈妈实在不容易。因此，我更加理解我的父母了，想向他们道歉，希望他们原谅我以前的错误，也感谢他们这么多年来给我的爱。", "py": "Yào xuéhuì lǐjiě biérén, búyào suíbiàn fǒudìng biérén de yìjiàn. Hěn duō shíhou wǒmen ràng biérén shāngxīn, zhǐshì yīnwèi méiyǒu jīnglì guo biérén de jīnglì. Jǔ ge lìzi lái shuō, nǚ'ér chūshēng yǐhòu, wǒ cái zhīdào zuò māma shízài bù róngyì. Yīncǐ, wǒ gèngjiā lǐjiě wǒ de fùmǔ le, xiǎng xiàng tāmen dàoqiàn, xīwàng tāmen yuánliàng wǒ yǐqián de cuòwù, yě gǎnxiè tāmen zhème duō nián lái gěi wǒ de ài.", "vi": "Cần học cách được hiểu người khác, đừng phủ nhận ý kiến của người khác một cách tùy tiện. Nhiều khi chúng ta làm người khác buồn, chỉ vì chúng ta chưa trải qua những chuyện như của người khác. Lấy một ví dụ, sau khi con gái chào đời, tôi mới biết làm mẹ không dễ chút nào. Vì vậy, tôi hiểu bố mẹ hơn và muốn xin lỗi họ, mong họ tha thứ cho lỗi lầm trước đây của tôi và cảm ơn vì tình yêu mà họ đã dành cho tôi suốt bao năm qua." },
+        { "who": "", "zh": "一次，经理让小李重新写一篇会议总结，可是过了半天他连一个字也没写出来。看着他烦恼的样子，妻子就跟他开玩笑说：\"写文章[1:难道]比我生孩子还难？\"小李笑着回答：\"你不知道，生孩子时，孩子已经在肚子里了，可我现在肚子里什么基础也没有，怎么能写出来呢？\"", "py": "Yí cì, jīnglǐ ràng Xiǎo Lǐ chóngxīn xiě yì piān huìyì zǒngjié, kěshì guò le bàntiān tā lián yí ge zì yě méi xiě chūlái. Kànzhe tā fánnǎo de yàngzi, qīzi jiù gēn tā kāi wánxiào shuō: \"Xiě wénzhāng [1:nándào] bǐ wǒ shēng háizi hái nán?\" Xiǎo Lǐ xiàozhe huídá: \"Nǐ bù zhīdào, shēng háizi shí, háizi yǐjīng zài dùzi lǐ le, kě wǒ xiànzài dùzi lǐ shénme jīchǔ yě méiyǒu, zěnme néng xiě chūlái ne?\"", "vi": "Một lần, giám đốc yêu cầu Tiểu Lý viết lại một bản tổng kết cuộc họp, nhưng qua nửa ngày rồi anh ấy thậm chí một chữ cũng không viết ra được. Thấy dáng vẻ anh gặp rắc rối, vợ anh đã nói đùa với anh: \"[1:Chẳng lẽ] viết một bài báo khó hơn việc em sinh con sao?\" Tiểu Lý cười trả lời: \"Em không biết rồi, khi sinh con, con có trong bụng rồi, nhưng trong bụng anh bây giờ không có cơ sở gì thì làm sao viết ra được\"." }
+      ],
+      "legend": [
+        { "n": 1, "label": "难道", "np": "NP 13.1" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "level": "hsk4",
+  "lesson": 65,
+  "bookLesson": 15,
+  "title": "为梦想做好准备",
+  "titleVi": "Chuẩn bị cho ước mơ",
+  "pages": [124, 131],
+  "vocab": [
+    { "hanzi": "遍", "pinyin": "biàn", "pos": "đt.", "meaning": "khắp" },
+    { "hanzi": "长城", "pinyin": "Chángchéng", "pos": "dt.", "meaning": "Trường Thành", "hanViet": "Trường Thành" },
+    { "hanzi": "长江", "pinyin": "Chángjiāng", "pos": "dt.", "meaning": "Trường Giang", "hanViet": "Trường Giang" },
+    { "hanzi": "烤鸭", "pinyin": "kǎoyā", "pos": "dt.", "meaning": "vịt quay" },
+    { "hanzi": "功夫", "pinyin": "gōngfu", "pos": "dt.", "meaning": "kungfu", "hanViet": "công phu" },
+    { "hanzi": "美味", "pinyin": "měiwèi", "pos": "dt.", "meaning": "mỹ vị, món ngon", "hanViet": "mỹ vị" },
+    { "hanzi": "省", "pinyin": "shěng", "pos": "dt.", "meaning": "tỉnh", "hanViet": "tỉnh" },
+    { "hanzi": "美景", "pinyin": "měijǐng", "pos": "dt.", "meaning": "phong cảnh đẹp" },
+    { "hanzi": "普通话", "pinyin": "pǔtōnghuà", "pos": "dt.", "meaning": "tiếng Phổ thông" },
+    { "hanzi": "大使馆", "pinyin": "dàshǐ guǎn", "pos": "dt.", "meaning": "Đại sứ quán", "hanViet": "đại sứ quán" },
+    { "hanzi": "签证", "pinyin": "qiānzhèng", "pos": "dt.", "meaning": "thị thực, visa" },
+    { "hanzi": "放暑假", "pinyin": "fàng shǔjià", "pos": "cụm.", "meaning": "nghỉ hè" },
+    { "hanzi": "做梦", "pinyin": "zuòmèng", "pos": "đt.", "meaning": "nằm mơ" },
+    { "hanzi": "激动", "pinyin": "jīdòng", "pos": "đt.", "meaning": "xúc động", "hanViet": "kích động" },
+    { "hanzi": "旅程", "pinyin": "lǚchéng", "pos": "dt.", "meaning": "hành trình", "hanViet": "lữ hành" },
+    { "hanzi": "老虎", "pinyin": "lǎohǔ", "pos": "dt.", "meaning": "hổ" },
+    { "hanzi": "猜", "pinyin": "cāi", "pos": "đt.", "meaning": "đoán" },
+    { "hanzi": "取", "pinyin": "qǔ", "pos": "đt.", "meaning": "đặt, lấy" },
+    { "hanzi": "座", "pinyin": "zuò", "pos": "lượng.", "meaning": "ngọn, tòa (lượng từ)", "hanViet": "tọa" }
+  ],
+  "expand": [
+    { "hanzi": "名胜古迹", "pinyin": "míngshèng gǔjì", "meaning": "Danh lam thắng cảnh" },
+    { "hanzi": "文化遗产", "pinyin": "wénhuà yíchǎn", "meaning": "Di sản văn hóa" },
+    { "hanzi": "游乐园", "pinyin": "yóulèyuán", "meaning": "Công viên trò chơi" },
+    { "hanzi": "人文景观", "pinyin": "rénwén jǐngguān", "meaning": "Cảnh quan nhân văn" },
+    { "hanzi": "自然景观", "pinyin": "zìrán jǐngguān", "meaning": "Cảnh quan tự nhiên" },
+    { "hanzi": "建筑物", "pinyin": "jiànzhù wù", "meaning": "Công trình kiến trúc" },
+    { "hanzi": "自然保护区", "pinyin": "zìrán bǎohù qū", "meaning": "Khu bảo tồn tự nhiên" },
+    { "hanzi": "度假区", "pinyin": "dùjià qū", "meaning": "Khu nghỉ dưỡng" }
+  ],
+  "tree": {
+    "hanzi": "景",
+    "pinyin": "jǐng",
+    "meaning": "Cảnh",
+    "words": [
+      { "hanzi": "景物", "pinyin": "jǐngwù", "meaning": "Cảnh vật" },
+      { "hanzi": "背景", "pinyin": "bèijǐng", "meaning": "Bối cảnh" },
+      { "hanzi": "情景", "pinyin": "qíngjǐng", "meaning": "Tình cảnh" },
+      { "hanzi": "景象", "pinyin": "jǐngxiàng", "meaning": "Cảnh tượng" },
+      { "hanzi": "远景", "pinyin": "yuǎnjǐng", "meaning": "Viễn cảnh" },
+      { "hanzi": "景观", "pinyin": "jǐngguān", "meaning": "Cảnh quan" },
+      { "hanzi": "全景", "pinyin": "quánjǐng", "meaning": "Toàn cảnh" },
+      { "hanzi": "景色", "pinyin": "jǐngsè", "meaning": "Cảnh sắc" }
+    ]
+  },
+  "grammar": [],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Đi du lịch vòng [0:遍] Trung Quốc đã là ước mơ của tôi từ khi còn là một đứa trẻ. Trong giấc mơ của mình, tôi sẽ leo lên Vạn Lý [0:长城], du ngoạn con sông dài nhất Trung Quốc - [0:长江], ăn [0:烤鸭] Bắc Kinh béo ngậy, luyện tập [0:功夫], nếm thử nhiều món cao lương [0:美味] và ngắm nhìn những [0:美景] nổi tiếng của nhiều [0:省] và thành phố. Mặc dù tôi chưa có cơ hội làm điều đó, nhưng tôi đã rất chăm chỉ học Tiếng Trung. Năm nay tôi đã tham gia cuộc thi Nói giỏi [0:普通话] của Trung Quốc và giành được giải Nhất." },
+        { "who": "", "zh": "Bất ngờ thay, [0:大使馆] Trung Quốc tại Việt Nam sẽ tặng cho ba người đứng đầu cuộc thi này cơ hội một tháng đến Trung Quốc để tham gia giao lưu và được cấp [0:签证] du lịch miễn phí. Đến tháng 6 khi học sinh chúng tôi được chính thức [0:放暑假], giấc mơ Trung Quốc của tôi không còn phải [0:做梦] mỗi đêm nữa rồi. Tôi vừa vui mừng hạnh phúc vừa [0:激动] không nói nên lời, và ngay lập tức sắp xếp một [0:旅程] sao cho đi được nhiều nơi, trải nghiệm nhiều trong thời gian ngắn này." },
+        { "who": "", "zh": "Chúng ta đang nhìn thấy \"Núi Hổ\". Mọi người thử [0:猜] xem, tại sao người ta lại [0:取] cái tên đặc biệt này? Không phải vì trên núi có [0:老虎] đâu, mà bởi vì [0:座] núi này trông giống như một con hổ, thật thú vị nhỉ!" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "走遍中国是我从小的梦想。在梦里，我爬长城，游长江，吃烤鸭，练功夫，尝各种各样美味，看各省各地美景。虽然还没机会做到，但我一直努力学习汉语。今年我参加了说好普通话比赛并得了第一名。", "py": "Zǒu biàn Zhōngguó shì wǒ cóng xiǎo de mèngxiǎng. Zài mèng lǐ, wǒ pá Chángchéng, yóu Chángjiāng, chī kǎoyā, liàn gōngfu, cháng gè zhǒng gè yàng měiwèi, kàn gè shěng gè dì měijǐng. Suīrán hái méi jīhuì zuò dào, dàn wǒ yìzhí nǔlì xuéxí Hànyǔ. Jīnnián wǒ cānjiā le shuō hǎo pǔtōnghuà bǐsài bìng dé le dì yī míng.", "vi": "Đi du lịch vòng quanh Trung Quốc đã là ước mơ của tôi từ khi còn là một đứa trẻ. Trong giấc mơ của mình, tôi sẽ leo lên Vạn Lý Trường Thành, du ngoạn sông Dương Tử, ăn vịt quay, luyện tập Kungfu, nếm thử nhiều món ngon và ngắm nhìn cảnh đẹp của nhiều tỉnh. Mặc dù tôi chưa có cơ hội làm điều đó, nhưng tôi đã rất chăm chỉ học tiếng Trung. Năm nay tôi đã tham gia cuộc thi Nói tiếng phổ thông và giành được giải Nhất." },
+        { "who": "", "zh": "没想到，中国大使馆会为这次比赛前三名提供一个月去中国参加交流的机会和免费办旅游签证。放暑假的时候，我的中国梦不再是做梦了。我既兴奋，又激动，马上做了个旅程安排。我相信，有梦想并一直为它做好准备，机会总有一天就会出现的。", "py": "Méi xiǎngdào, Zhōngguó dàshǐ guǎn huì wèi zhè cì bǐsài qián sān míng tígōng yí ge yuè qù Zhōngguó cānjiā jiāoliú de jīhuì hé miǎnfèi bàn lǚyóu qiānzhèng. Fàng shǔjià de shíhou, wǒ de Zhōngguó mèng bú zài shì zuòmèng le. Wǒ jì xīngfèn, yòu jīdòng, mǎshàng zuò le ge lǚchéng ānpái. Wǒ xiāngxìn, yǒu mèngxiǎng bìng yìzhí wèi tā zuò hǎo zhǔnbèi, jīhuì zǒng yǒu yì tiān jiù huì chūxiàn de.", "vi": "Bất ngờ thay, Đại sứ quán Trung Quốc sẽ tặng cho ba người đứng đầu cuộc thi này cơ hội một tháng đến Trung Quốc để tham gia giao lưu và được cấp thị thực du lịch miễn phí. Khi kỳ nghỉ hè đến, giấc mơ Trung Quốc của tôi không còn là giấc mơ nữa. Tôi vừa vui mừng vừa háo hức, và ngay lập tức sắp xếp một lộ trình lần này. Tôi tin rằng nếu bạn có ước mơ và luôn chuẩn bị cho nó thì một ngày nào đó cơ hội sẽ xuất hiện." },
+        { "who": "", "zh": "我们看到的就是\"老虎山\"。你们猜猜，为什么人们取这个名字呢？不是因为山里有老虎，而是因为这座山很像一只老虎，有趣吧！", "py": "Wǒmen kàn dào de jiùshì \"lǎohǔ shān\". Nǐmen cāicai, wèishénme rénmen qǔ zhège míngzi ne? Búshì yīnwèi shān lǐ yǒu lǎohǔ, ér shì yīnwèi zhè zuò shān hěn xiàng yì zhī lǎohǔ, yǒuqù ba!", "vi": "Ngọn núi chúng ta đang nhìn thấy là \"Núi Hổ\". Mọi người thử đoán xem, tại sao người ta lại lấy tên này? Không phải vì trên núi có hổ, mà bởi vì ngọn núi này trông giống như một con hổ, thật thú vị!" }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 并 (NP 16.3, Tăng tốc): 参加了说好普通话比赛并得了第一名 · 为 và 为了 (NP 8.1, Tăng tốc): 一直为它做好准备 · 不是…而是… (NP 9.1, Tăng tốc): 不是因为山里有老虎，而是因为这座山很像一只老虎. Chú thích: 各种各样 /gè zhǒng gè yàng/ là cụm bốn chữ diễn tả ý \"đa dạng chủng loại, kiểu dáng\"."
+      }
+    }
+  ]
+}

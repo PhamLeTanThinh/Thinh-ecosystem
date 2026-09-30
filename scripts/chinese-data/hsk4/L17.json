@@ -1,0 +1,79 @@
+{
+  "level": "hsk4",
+  "lesson": 67,
+  "bookLesson": 17,
+  "title": "艺术欣赏",
+  "titleVi": "Thưởng thức nghệ thuật",
+  "pages": [140, 147],
+  "vocab": [
+    { "hanzi": "国籍", "pinyin": "guójí", "pos": "dt.", "meaning": "quốc tịch", "hanViet": "quốc tịch" },
+    { "hanzi": "性别", "pinyin": "xìngbié", "pos": "dt.", "meaning": "giới tính" },
+    { "hanzi": "肤色", "pinyin": "fūsè", "pos": "dt.", "meaning": "màu da" },
+    { "hanzi": "底", "pinyin": "dǐ", "pos": "dt.", "meaning": "đáy", "hanViet": "đáy" },
+    { "hanzi": "鼓掌", "pinyin": "gǔzhǎng", "pos": "đt.", "meaning": "vỗ tay" },
+    { "hanzi": "台", "pinyin": "tái", "pos": "dt.", "meaning": "sân khấu", "hanViet": "đài" },
+    { "hanzi": "表演者", "pinyin": "biǎoyǎn zhě", "pos": "dt.", "meaning": "người biểu diễn" },
+    { "hanzi": "掌声", "pinyin": "zhǎngshēng", "pos": "dt.", "meaning": "tiếng vỗ tay" },
+    { "hanzi": "完整", "pinyin": "wánzhěng", "pos": "tt.", "meaning": "hoàn chỉnh", "hanViet": "hoàn chỉnh" },
+    { "hanzi": "性", "pinyin": "xìng", "pos": "dt.", "meaning": "tính", "hanViet": "tính" },
+    { "hanzi": "严重", "pinyin": "yánzhòng", "pos": "tt.", "meaning": "nghiêm trọng", "hanViet": "nghiêm trọng" },
+    { "hanzi": "当时", "pinyin": "dāngshí", "pos": "dt.", "meaning": "lúc đó", "hanViet": "đương thời" },
+    { "hanzi": "演出", "pinyin": "yǎnchū", "pos": "đt.", "meaning": "diễn xuất", "hanViet": "diễn xuất" },
+    { "hanzi": "合格", "pinyin": "hégé", "pos": "tt.", "meaning": "đạt yêu cầu" },
+    { "hanzi": "接着", "pinyin": "jiēzhe", "pos": "liên.", "meaning": "tiếp đó" },
+    { "hanzi": "京剧", "pinyin": "jīngjù", "pos": "dt.", "meaning": "Kinh Kịch", "hanViet": "Kinh Kịch" },
+    { "hanzi": "举办", "pinyin": "jǔbàn", "pos": "đt.", "meaning": "tổ chức" },
+    { "hanzi": "来自", "pinyin": "láizì", "pos": "đt.", "meaning": "đến từ" },
+    { "hanzi": "讨论", "pinyin": "tǎolùn", "pos": "đt.", "meaning": "thảo luận", "hanViet": "thảo luận" },
+    { "hanzi": "得意", "pinyin": "déyì", "pos": "đt.", "meaning": "đắc ý", "hanViet": "đắc ý" }
+  ],
+  "expand": [
+    { "hanzi": "文艺", "pinyin": "wényì", "meaning": "Văn học nghệ thuật" },
+    { "hanzi": "欣赏", "pinyin": "xīnshǎng", "meaning": "Thưởng thức" },
+    { "hanzi": "绘画", "pinyin": "huìhuà", "meaning": "Hội họa" },
+    { "hanzi": "雕塑", "pinyin": "diāosù", "meaning": "Điêu khắc" },
+    { "hanzi": "戏剧", "pinyin": "xìjù", "meaning": "Kịch" },
+    { "hanzi": "建筑", "pinyin": "jiànzhù", "meaning": "Kiến trúc" },
+    { "hanzi": "舞蹈", "pinyin": "wǔdǎo", "meaning": "Nhảy múa" },
+    { "hanzi": "摄影", "pinyin": "shèyǐng", "meaning": "Nhiếp ảnh" }
+  ],
+  "tree": {
+    "hanzi": "性",
+    "pinyin": "xìng",
+    "meaning": "Tính",
+    "words": [
+      { "hanzi": "性情", "pinyin": "xìngqíng", "meaning": "Tính tình" },
+      { "hanzi": "个性", "pinyin": "gèxìng", "meaning": "Cá tính" },
+      { "hanzi": "毒性", "pinyin": "dúxìng", "meaning": "Độc tính" },
+      { "hanzi": "性能", "pinyin": "xìngnéng", "meaning": "Tính năng" },
+      { "hanzi": "磁性", "pinyin": "cíxìng", "meaning": "Từ tính" },
+      { "hanzi": "性质", "pinyin": "xìngzhì", "meaning": "Tính chất" },
+      { "hanzi": "中性", "pinyin": "zhōngxìng", "meaning": "Trung tính" },
+      { "hanzi": "特性", "pinyin": "tèxìng", "meaning": "Đặc tính" }
+    ]
+  },
+  "grammar": [],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Âm nhạc cũng là một ngôn ngữ toàn cầu. Không phân biệt mang [0:国籍] nước nào, dân tộc nào, [0:性别] nam hay nữ, [0:肤色] vàng - trắng hay đen, mọi người đều có thể sử dụng âm nhạc để thể hiện cảm xúc của mình và dễ dàng nói ra những lời từ tận sâu [0:底] lòng mình. So với các ngôn ngữ khác, cảm xúc được thể hiện bằng âm nhạc đôi khi dễ hiểu hơn." },
+        { "who": "", "zh": "Vỗ tay là một cách thể hiện sự nhiệt tình. Tuy nhiên, nếu [0:鼓掌] quá khích khi nghe hòa nhạc, [0:表演者] đang biểu diễn trên [0:台] sẽ phải dừng lại giữa chừng và chờ tràng [0:掌声] giòn giã kết thúc, việc bị gián đoạn không chỉ ảnh hưởng đến tính [0:完整] của chương trình, mà còn ảnh hưởng trực tiếp một cách [0:严重] đến tâm trạng khi đang trên sân khấu [0:演出] của nghệ sỹ vào ngay [0:当时]. Những khán giả \"[0:合格] chuẩn ISO\" đầu tiên nên đợi cho đến khi âm nhạc kết thúc, [0:接着] mới nên vỗ tay." },
+        { "who": "", "zh": "Tôi rất quan tâm đến nghệ thuật biểu diễn Kinh kịch, cũng thỉnh thoảng hát một hai câu [0:京剧] khi ở nhà. Sau khi đến Trung Quốc, tôi nhận được lời mời của trường, tôi có cơ hội tham gia lớp nghiên cứu Kinh kịch do Đại học Bắc Kinh [0:举办], được cùng [0:讨论] các chủ đề với những chuyên gia [0:来自] khắp nơi trên thế giới, tôi cảm thấy rất [0:得意] về điều đó." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "音乐也是一种语言。无论国籍、民族、性别、肤色，人们都可以用音乐来表达感情，轻松地说出自己的心底话。和其他语言比起来，音乐表达的感情有时更容易让人听懂。", "py": "Yīnyuè yěshì yì zhǒng yǔyán. Wúlùn guójí, mínzú, xìngbié, fūsè, rénmen dōu kěyǐ yòng yīnyuè lái biǎodá gǎnqíng, qīngsōng de shuō chū zìjǐ de xīndǐ huà. Hé qítā yǔyán bǐ qǐlái, yīnyuè biǎodá de gǎnqíng yǒushí gèng róngyì ràng rén tīng dǒng.", "vi": "Âm nhạc cũng là một ngôn ngữ. Không phân biệt quốc tịch, dân tộc, giới tính, màu da, mọi người đều có thể sử dụng âm nhạc để thể hiện cảm xúc của mình và dễ dàng nói ra những lời từ đáy lòng mình. So với các ngôn ngữ khác, cảm xúc được thể hiện bằng âm nhạc đôi khi dễ hiểu hơn." },
+        { "who": "", "zh": "鼓掌是表达热情的方式。但是，如果在听音乐会时鼓掌太积极，就会使台上的表演者不得不中间停下来，等掌声结束，这样不但影响了节目的完整性，也严重影响了表演者当时的演出心情。合格的观众应该等音乐结束后，接着才大声鼓掌。", "py": "Gǔzhǎng shì biǎodá rèqíng de fāngshì. Dànshì, rúguǒ zài tīng yīnyuè huì shí gǔzhǎng tài jījí, jiù huì shǐ tái shàng de biǎoyǎn zhě bùdébù zhōngjiān tíng xiàlái, děng zhǎngshēng jiéshù, zhèyàng búdàn yǐngxiǎng le jiémù de wánzhěng xìng, yě yánzhòng yǐngxiǎng le biǎoyǎn zhě dāngshí de yǎnchū xīnqíng. Hégé de guānzhòng yīnggāi děng yīnyuè jiéshù hòu, jiēzhe cái dàshēng gǔzhǎng.", "vi": "Vỗ tay là một cách thể hiện sự nhiệt tình. Tuy nhiên, nếu vỗ tay quá khích khi nghe hòa nhạc, người biểu diễn trên sân khấu sẽ phải dừng lại giữa chừng và chờ hết tiếng vỗ tay, điều này không chỉ ảnh hưởng đến tính toàn vẹn của chương trình mà còn ảnh hưởng nghiêm trọng đến tâm trạng người biểu diễn vào thời điểm đó. Khán giả \"đạt chuẩn\" nên đợi cho đến khi âm nhạc kết thúc rồi mới vỗ tay lớn." },
+        { "who": "", "zh": "我对京剧表演艺术非常感兴趣，偶尔也在家里唱一两句。来中国以后收到学校的邀请，我有机会参加由北京大学举办的京剧研究班，跟其他来自世界各地的京剧爱好者讨论，我心里非常得意。", "py": "Wǒ duì Jīngjù biǎoyǎn yìshù fēicháng gǎn xìngqù, ǒu'ěr yě zài jiālǐ chàng yì liǎng jù. Lái Zhōngguó yǐhòu shōu dào xuéxiào de yāoqǐng, wǒ yǒu jīhuì cānjiā yóu Běijīng dàxué jǔbàn de Jīngjù yánjiū bān, gēn qítā láizì shìjiè gè dì de jīngjù àihào zhě tǎolùn, wǒ xīnlǐ fēicháng déyì.", "vi": "Tôi rất quan tâm đến nghệ thuật biểu diễn Kinh kịch, cũng thỉnh thoảng hát một hai câu khi ở nhà. Sau khi đến Trung Quốc, tôi nhận được lời mời của trường, tôi có cơ hội tham gia lớp nghiên cứu Kinh kịch do Đại học Bắc Kinh tổ chức và thảo luận với những người hâm mộ Kinh kịch khác từ khắp nơi trên thế giới. Tôi rất tự hào về điều đó." }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 无论 (NP 20.1, Tăng tốc): 无论国籍、民族、性别、肤色… · 不得不 (NP 21.1, Tăng tốc): 表演者不得不中间停下来 · 不但…而且… (NP 2.2, Tăng tốc): 这样不但影响了节目的完整性 · A 对 B 感兴趣 (NP 7.3, Tăng tốc): 我对京剧表演艺术非常感兴趣 · 偶尔 (NP 6.3, Cất cánh): 偶尔也在家里唱一两句 · 由 (NP 24.4, Tăng tốc): 由北京大学举办的京剧研究班"
+      }
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "level": "hsk4",
+  "lesson": 62,
+  "bookLesson": 12,
+  "title": "解决烦恼",
+  "titleVi": "Thoát khỏi phiền não",
+  "pages": [98, 107],
+  "vocab": [
+    { "hanzi": "不安", "pinyin": "bù'ān", "pos": "tt.", "meaning": "bất an", "hanViet": "bất an" },
+    { "hanzi": "无聊", "pinyin": "wúliáo", "pos": "tt.", "meaning": "vô vị, nhạt nhẽo" },
+    { "hanzi": "丢", "pinyin": "diū", "pos": "đt.", "meaning": "vứt" },
+    { "hanzi": "户外", "pinyin": "hùwài", "pos": "dt.", "meaning": "ngoài trời" },
+    { "hanzi": "散步", "pinyin": "sànbù", "pos": "đt.", "meaning": "tản bộ", "hanViet": "tản bộ" },
+    { "hanzi": "篇", "pinyin": "piān", "pos": "lượng.", "meaning": "bài" },
+    { "hanzi": "文章", "pinyin": "wénzhāng", "pos": "dt.", "meaning": "bài văn", "hanViet": "văn chương" },
+    { "hanzi": "幽默", "pinyin": "yōumò", "pos": "tt.", "meaning": "hài hước" },
+    { "hanzi": "笑话", "pinyin": "xiàohuà", "pos": "dt.", "meaning": "chuyện cười" },
+    { "hanzi": "加倍", "pinyin": "jiābèi", "pos": "đt.", "meaning": "gấp bội" },
+    { "hanzi": "倍", "pinyin": "bèi", "pos": "lượng.", "meaning": "lần", "hanViet": "bội" },
+    { "hanzi": "吃惊", "pinyin": "chījīng", "pos": "đt.", "meaning": "ngạc nhiên" },
+    { "hanzi": "马虎", "pinyin": "mǎhu", "pos": "tt.", "meaning": "qua loa" },
+    { "hanzi": "礼拜天", "pinyin": "lǐbài tiān", "pos": "dt.", "meaning": "chủ nhật" },
+    { "hanzi": "礼拜", "pinyin": "lǐbài", "pos": "dt.", "meaning": "tuần, thứ" },
+    { "hanzi": "呀", "pinyin": "ya", "pos": "trợ.", "meaning": "a (trợ từ ngữ khí)" },
+    { "hanzi": "保证", "pinyin": "bǎozhèng", "pos": "đt.", "meaning": "bảo đảm", "hanViet": "bảo chứng" },
+    { "hanzi": "父亲", "pinyin": "fùqin", "pos": "dt.", "meaning": "bố", "hanViet": "phụ thân" },
+    { "hanzi": "母亲", "pinyin": "mǔqin", "pos": "dt.", "meaning": "mẹ", "hanViet": "mẫu thân" },
+    { "hanzi": "反对", "pinyin": "fǎnduì", "pos": "đt.", "meaning": "phản đối", "hanViet": "phản đối" },
+    { "hanzi": "到底", "pinyin": "dàodǐ", "pos": "phó.", "meaning": "rốt cuộc" }
+  ],
+  "expand": [
+    { "hanzi": "外向", "pinyin": "wàixiàng", "meaning": "Hướng ngoại" },
+    { "hanzi": "内向", "pinyin": "nèixiàng", "meaning": "Hướng nội" },
+    { "hanzi": "开朗", "pinyin": "kāilǎng", "meaning": "Cởi mở" },
+    { "hanzi": "任性", "pinyin": "rènxìng", "meaning": "Ngang bướng" },
+    { "hanzi": "果断", "pinyin": "guǒduàn", "meaning": "Quyết đoán" },
+    { "hanzi": "犹豫", "pinyin": "yóuyù", "meaning": "Do dự" },
+    { "hanzi": "大方", "pinyin": "dàfāng", "meaning": "Hào phóng" },
+    { "hanzi": "小气", "pinyin": "xiǎoqi", "meaning": "Keo kiệt" }
+  ],
+  "tree": {
+    "hanzi": "证",
+    "pinyin": "zhèng",
+    "meaning": "Chứng",
+    "words": [
+      { "hanzi": "公证", "pinyin": "gōngzhèng", "meaning": "Công chứng" },
+      { "hanzi": "验证", "pinyin": "yànzhèng", "meaning": "Nghiệm chứng" },
+      { "hanzi": "人证", "pinyin": "rénzhèng", "meaning": "Nhân chứng" },
+      { "hanzi": "证实", "pinyin": "zhèngshí", "meaning": "Chứng thực" },
+      { "hanzi": "物证", "pinyin": "wùzhèng", "meaning": "Vật chứng" },
+      { "hanzi": "证据", "pinyin": "zhèngjù", "meaning": "Chứng cứ" },
+      { "hanzi": "辩证", "pinyin": "biànzhèng", "meaning": "Biện chứng" },
+      { "hanzi": "证明", "pinyin": "zhèngmíng", "meaning": "Chứng minh" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "12.1",
+      "hanzi": "总的来说",
+      "pinyin": "zǒng de lái shuō",
+      "meaning": "nói tóm lại, nói chung, nhìn chung",
+      "note": "Cụm từ đưa ra nhận xét/nhận định dựa trên tổng thể tình huống",
+      "theory": "Cụm từ 总的来说 /zǒng de lái shuō/ được dùng để đưa ra nhận xét/nhận định dựa trên tổng thể tình huống, thường được dịch là \"nói tóm lại, nói chung, nhìn chung\".\n\nNgữ pháp đã học xuất hiện lại trong bài: câu chữ 把 (NP 5.3, Tăng tốc), liên từ 并且 (NP 4.1, Cất cánh), bổ ngữ xu hướng kép (NP 2.4, Tăng tốc), cách dùng mở rộng của bổ ngữ xu hướng kép (NP 6.3, Tăng tốc).",
+      "examples": [
+        {
+          "zh": "虽然下大雨，但是总的来说那次旅行挺不错的。",
+          "pinyin": "Suīrán xià dàyǔ, dànshì zǒng de lái shuō nà cì lǚxíng tǐng búcuò de.",
+          "vi": "Mặc dù trời mưa to, nhưng nhìn chung chuyến đi khá tốt.",
+          "vocab": "旅行: du lịch · 挺: khá",
+          "breakdown": "虽然…，但是 + 总的来说 + nhận xét"
+        },
+        {
+          "zh": "总的来说，她给了我们很多帮助。",
+          "pinyin": "Zǒng de lái shuō, tā gěi le wǒmen hěn duō bāngzhù.",
+          "vi": "Nói chung, cô ấy đã giúp chúng tôi rất nhiều.",
+          "vocab": "帮助: giúp đỡ",
+          "breakdown": "总的来说 + ，+ nhận xét"
+        }
+      ]
+    },
+    {
+      "np": "12.2",
+      "hanzi": "到底",
+      "pinyin": "dàodǐ",
+      "meaning": "cuối cùng, rốt cuộc",
+      "note": "TH1: trong câu nghi vấn · TH2: sau một thời gian dài chờ đợi/cố gắng thì đạt được kết quả · So sánh với 终于",
+      "theory": "Phó từ 到底 /dàodǐ/ là phó từ ngữ khí, thường được dịch là \"cuối cùng, rốt cuộc\", sử dụng trong 2 trường hợp:\n• Trường hợp 1: Dùng trong câu nghi vấn.\n• Trường hợp 2: Biểu thị sau khi trải qua một thời gian dài chờ đợi hoặc cố gắng thì đạt được kết quả nào đó.\n\nSo sánh 到底 và 终于:\n1. 到底 dùng trong trường hợp biểu đạt kết quả như ý và không như ý, có thể dùng trong câu phủ định; 终于 thường dùng trong trường hợp biểu đạt kết quả như ý, như mong muốn, hầu như không dùng trong câu phủ định.\n2. 到底 + Động/Tính phía sau nhất định phải có 了 hoặc các từ ngữ biểu thị sự hoàn thành; 终于 không cần.\n3. 到底 biểu thị ý hỏi dồn, truy hỏi một sự việc/vấn đề nào đó; 终于 không có cách dùng này.",
+      "examples": [
+        {
+          "zh": "你到底去不去呢？",
+          "pinyin": "Nǐ dàodǐ qù bu qù ne?",
+          "vi": "Cậu rốt cuộc là có đi hay không nào?",
+          "vocab": "",
+          "breakdown": "TH1: 到底 + câu hỏi chính phản"
+        },
+        {
+          "zh": "这到底是谁唱的歌啊？",
+          "pinyin": "Zhè dàodǐ shì shuí chàng de gē a?",
+          "vi": "Đây rốt cuộc là bài hát của ai thế?",
+          "vocab": "唱: hát",
+          "breakdown": "TH1: 到底 + 是谁…"
+        },
+        {
+          "zh": "努力了这么久，到底也能考上北大了。",
+          "pinyin": "Nǔlì le zhème jiǔ, dàodǐ yě néng kǎo shàng Běidà le.",
+          "vi": "Cố gắng lâu như vậy cuối cùng cũng thi đỗ vào Đại học Bắc Kinh rồi.",
+          "vocab": "考上: thi đỗ · 北大: Đại học Bắc Kinh",
+          "breakdown": "TH2: 努力… + 到底 + kết quả + 了"
+        },
+        {
+          "zh": "他到底还是同意跟我们一起去看小明了。",
+          "pinyin": "Tā dàodǐ háishi tóngyì gēn wǒmen yìqǐ qù kàn Xiǎo Míng le.",
+          "vi": "Anh ấy cuối cùng cũng đồng ý đi cùng chúng tôi tới thăm Tiểu Minh rồi.",
+          "vocab": "同意: đồng ý",
+          "breakdown": "TH2: 到底 + 还是 + đồng ý…了"
+        },
+        {
+          "zh": "他到底没把那件事情办成。",
+          "pinyin": "Tā dàodǐ méi bǎ nà jiàn shìqing bàn chéng.",
+          "vi": "Rốt cuộc thì anh ấy vẫn chưa hoàn thành việc đó. (không dùng 终于)",
+          "vocab": "办成: làm xong",
+          "breakdown": "到底 dùng được trong câu phủ định"
+        },
+        {
+          "zh": "几个月过后，她终于找到一份理想的工作。",
+          "pinyin": "Jǐ ge yuè guòhòu, tā zhōngyú zhǎodào yí fèn lǐxiǎng de gōngzuò.",
+          "vi": "Sau vài tháng, cuối cùng cô ấy cũng tìm được một công việc lý tưởng. (không dùng được 到底 vì thiếu 了)",
+          "vocab": "理想: lý tưởng",
+          "breakdown": "终于 + động từ (không cần 了)"
+        },
+        {
+          "zh": "我不知道他到底是中国人还是日本人。",
+          "pinyin": "Wǒ bù zhīdào tā dàodǐ shì Zhōngguó rén háishi Rìběn rén.",
+          "vi": "Tôi không biết anh ấy rốt cuộc là người Trung Quốc hay Nhật Bản. (không dùng 终于)",
+          "vocab": "",
+          "breakdown": "到底 + 是A还是B (truy hỏi)"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Bước đầu tiên để giải quyết những rắc rối là gạt bỏ tất cả những suy nghĩ tiêu cực, làm chúng biến [0:丢] khỏi tâm trí, chẳng hạn như sự [0:不安] (không yên tâm), sự [0:无聊] thiếu muối, sự hối hận, việc không có niềm tin vào bản thân, v.v...; thứ hai là tích cực tham gia các hoạt động [0:户外] như [0:散步], leo núi... Đồng thời, thường xuyên tán gẫu với bạn bè, đọc vài đoạn, vài trang hoặc vài [0:篇] tản văn với lối viết [0:文章] bay bổng nhẹ nhàng, đọc những mẩu chuyện [0:笑话] như chuyện tiểu lâm đầy câu thoại [0:幽默] khiến bạn cười phá lên, v.v. Việc chuyển hướng sự quan tâm sẽ làm bạn thoát khỏi tâm trạng không vui và từ từ bình tĩnh lại." },
+        { "who": "", "zh": "Ngủ nướng cũng có thể làm hiệu quả của công việc [0:加倍] lên, từ 1 thành 2, từ 2 thành 4. Kết quả của cuộc nghiên cứu này khiến bạn [0:吃惊] mắt chữ O mồm chữ A đúng không? Nhưng khi chưa suy xét kỹ thì đừng vội đưa ra quyết định một cách cẩu thả qua loa [0:马虎] rằng: ngoài thứ bảy cần ra ngoài, thì bạn sẽ nằm trên giường cả ngày [0:礼拜天] trước khi đi làm trở lại vào thứ Hai nhé [0:呀]. Tôi dám [0:保证] rằng với quan điểm của phụ huynh, thì [0:父亲] và [0:母亲] của bạn chắc chắn sẽ [0:反对] kịch liệt sự lười biếng đó. Tuy chưa rõ [0:到底] thì chúng ta cần ngủ bao nhiêu tiếng mới được coi là tốt cho sức khỏe, nhưng chỉ cần bạn ngủ đủ giấc để thức dậy tự nhiên, tinh thần thoải mái, công việc của bạn sẽ diễn ra suôn sẻ hơn." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "解决烦恼的第一步，就是把一切不积极的想法，把不安、无聊、后悔、无信心、紧张等想法全部丢到脑外；第二是积极参加户外活动，例如去散步、爬山、看球赛、游泳等，并且与熟悉的朋友聊聊有趣的事，阅读几篇比较轻松的文章，幽默的笑话等。[1:总的来说]，找办法转换你的注意力就会让自己从不高兴的心情中走出来，慢慢地冷静下来。", "py": "Jiějué fánnǎo de dì yī bù, jiùshì bǎ yíqiè bù jījí de xiǎngfǎ, bǎ bù'ān, wúliáo, hòuhuǐ, wú xìnxīn, jǐnzhāng děng xiǎngfǎ quánbù diū dào nǎo wài; dì èr shì jījí cānjiā hùwài huódòng, lìrú qù sànbù, páshān, kàn qiúsài, yóuyǒng děng, bìngqiě yǔ shúxī de péngyou liáo liao yǒuqù de shì, yuèdú jǐ piān bǐjiào qīngsōng de wénzhāng, yōumò de xiàohuà děng. [1:Zǒng de lái shuō], zhǎo bànfǎ zhuǎnhuàn nǐ de zhùyìlì jiù huì ràng zìjǐ cóng bù gāoxìng de xīnqíng zhōng zǒu chūlái, mànmàn de lěngjìng xiàlái.", "vi": "Bước đầu tiên để giải quyết những rắc rối là gạt bỏ tất cả những suy nghĩ thiếu tích cực ra khỏi tâm trí, chẳng hạn như lo lắng, buồn chán, hối hận, thiếu tự tin, căng thẳng, v.v...; thứ hai là tích cực tham gia các hoạt động ngoài trời, chẳng hạn như đi dạo, leo núi, xem bóng đá, bơi lội, v.v. Đồng thời, tán gẫu với những người bạn thân quen về những điều thú vị, đọc một vài trang sách nhẹ nhàng hơn, truyện cười hài hước, v.v. [1:Nói chung], tìm cách chuyển những mối quan tâm của bạn sẽ làm bạn thoát khỏi tâm trạng không vui và từ từ bình tĩnh lại." },
+        { "who": "", "zh": "睡懒觉也能加倍工作效果。这个研究结果让你吃惊吧？但不要马虎下决定这个礼拜天一直躺在床上睡觉呀，我敢保证你这样做一定带来父亲、母亲的反对。不能说清楚[2:到底]需要睡几个小时才健康，只要你睡得够到自然醒，懒一点儿但心里舒服，工作会更顺利地进行。", "py": "Shuì lǎnjiào yě néng jiābèi gōngzuò xiàoguǒ. Zhège yánjiū jiéguǒ ràng nǐ chījīng ba? Dàn búyào mǎhu xià juédìng zhège lǐbài tiān yìzhí tǎng zài chuáng shàng shuìjiào ya, wǒ gǎn bǎozhèng nǐ zhèyàng zuò yídìng dài lái fùqin, mǔqin de fǎnduì. Bùnéng shuō qīngchu [2:dàodǐ] xūyào shuì jǐ ge xiǎoshí cái jiànkāng, zhǐyào nǐ shuì de gòu dào zìrán xǐng, lǎn yìdiǎnr dàn xīnlǐ shūfu, gōngzuò huì gèng shùnlì de jìnxíng.", "vi": "Ngủ nướng cũng có thể tăng gấp đôi hiệu quả của công việc. Kết quả của cuộc nghiên cứu này khiến bạn ngạc nhiên đúng không? Nhưng đừng đưa ra một quyết định một cách cẩu thả là bạn sẽ nằm trên giường cả ngày chủ nhật nhé! Tôi dám đảm bảo rằng bạn sẽ vấp phải sự phản đối của bố và mẹ. Không rõ [2:rốt cuộc] cần ngủ bao nhiêu tiếng mới tốt cho sức khỏe, chỉ cần bạn ngủ đủ giấc để thức dậy tự nhiên, lười biếng chút nhưng trong lòng thoải mái, công việc sẽ diễn ra càng suôn sẻ hơn." }
+      ],
+      "legend": [
+        { "n": 1, "label": "总的来说", "np": "NP 12.1" },
+        { "n": 2, "label": "到底", "np": "NP 12.2" }
+      ]
+    }
+  ]
+}

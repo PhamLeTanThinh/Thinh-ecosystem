@@ -52,6 +52,41 @@ export const HSK4_LESSON_META: Record<number, LessonMeta> = {
     "level": "hsk4",
     "title": "经济",
     "titleVi": "Kinh tế"
+  },
+  "61": {
+    "level": "hsk4",
+    "title": "快乐成长",
+    "titleVi": "Vui vẻ lớn lên"
+  },
+  "62": {
+    "level": "hsk4",
+    "title": "解决烦恼",
+    "titleVi": "Thoát khỏi phiền não"
+  },
+  "63": {
+    "level": "hsk4",
+    "title": "理解别人",
+    "titleVi": "Thấu hiểu người khác"
+  },
+  "64": {
+    "level": "hsk4",
+    "title": "工作态度",
+    "titleVi": "Thái độ làm việc"
+  },
+  "65": {
+    "level": "hsk4",
+    "title": "为梦想做好准备",
+    "titleVi": "Chuẩn bị cho ước mơ"
+  },
+  "66": {
+    "level": "hsk4",
+    "title": "生活常识",
+    "titleVi": "Thường thức cuộc sống"
+  },
+  "67": {
+    "level": "hsk4",
+    "title": "艺术欣赏",
+    "titleVi": "Thưởng thức nghệ thuật"
   }
 }
 
@@ -550,6 +585,317 @@ export const HSK4_DIALOGUES: Record<number, Dialogue[]> = {
           "np": "NP 10.1"
         }
       ]
+    }
+  ],
+  "61": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Nếu bạn thấy con mình bất ngờ [0:扔] bừa bãi đồ đạc, làm cả nhà [0:乱] hết cả lên, xin đừng mắng con bằng những từ như \"con hư thế\", \"sao mà [0:笨] như bò\", \"nhanh nhảu [0:粗心], sao chẳng cẩn thận gì\" hay \"bất lịch sự thế\". Điều này có thể là do chúng đang gặp khó khăn hoặc đang tức giận nên mới [0:生气] cả chém thớt. Nhưng [0:之前] khi cha mẹ phê bình con, thì phải đi tìm nguyên nhân sâu xa một cách thật [0:仔细] để tránh phán đoán sai lầm. Cha mẹ nên dừng việc đang làm, [0:同时] ngay lúc đó nên ngồi xuống bên con luôn, [0:陪] con [0:整理] lại đồ đạc cho gọn gàng, hãy lắng nghe, giúp con [0:弄] rõ và nói ra những khúc mắc trong lòng là được. Việc cha mẹ dành tình yêu thương, sự quan tâm và [0:支持] mọi hành vi tốt của trẻ sẽ khiến trẻ cảm thấy hạnh phúc."
+        },
+        {
+          "who": "",
+          "zh": "Một số phụ huynh tin rằng việc con mình được học cách [0:弹钢琴] từ nhỏ sẽ giúp con thông minh, trở nên [0:优秀] hơn các bạn cùng trang lứa. Nhưng không chỉ chơi đàn piano đâu, việc học cách chơi các loại nhạc cụ khác đều đem tới tác dụng tích cực tới não bộ. [0:过程] trải nghiệm quan trọng hơn kết quả cuối cùng. Phụ huynh nên tôn trọng sở thích, [0:同情] với quan điểm của con, điều [0:至少] cần làm và nên làm là hỏi xem con có hứng thú không. Nếu không việc đó [0:只好] mang tới cho con áp lực."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "如果你突然发现孩子开始在家里乱扔东西，首先请不要用\"懒\"\"笨\"\"粗心\"\"不礼貌\"这种词批评孩子。这可能是因为他们遇到困难或者生气了。批评[1:之前]一定要仔细找原因。这时候父母应该停下手中的事情，一边陪孩子整理东西，一边支持他们说出心里话，[2:弄]清楚他们的问题。父母的关心可以让孩子心情愉快起来。",
+          "py": "Rúguǒ nǐ tūrán fāxiàn háizi kāishǐ zài jiālǐ luàn rēng dōngxi, shǒuxiān qǐng búyào yòng \"lǎn\" \"bèn\" \"cūxīn\" \"bù lǐmào\" zhè zhǒng cí pīpíng háizi. Zhè kěnéng shì yīnwèi tāmen yùdào kùnnan huòzhě shēngqì le. Pīpíng [1:zhīqián] yídìng yào zǐxì zhǎo yuányīn. Zhè shíhou fùmǔ yīnggāi tíng xià shǒu zhōng de shìqing, yìbiān péi háizi zhěnglǐ dōngxi, yìbiān zhīchí tāmen shuō chū xīnlǐ huà, [2:nòng] qīngchu tāmen de wèntí. Fùmǔ de guānxīn kěyǐ ràng háizi xīnqíng yúkuài qǐlái.",
+          "vi": "Nếu bất ngờ bạn thấy con mình ném đồ đạc trong nhà, xin đừng mắng con bằng những từ như \"lười biếng\", \"ngu ngốc\", \"bất cẩn\" hay \"không lễ phép\". Điều này có thể là do các con đang gặp khó khăn hoặc đang tức giận. [1:Trước khi] chỉ trích, bạn phải cẩn thận tìm lý do. Lúc này, cha mẹ nên dừng việc đang làm, vừa thu dọn đồ cùng con, vừa khuyến khích con nói ra tâm sự, [2:làm] rõ vấn đề của mình. Sự quan tâm của cha mẹ có thể khiến tâm trạng của trẻ vui vẻ lên."
+        },
+        {
+          "who": "",
+          "zh": "有些父母希望自己的孩子从小就学习弹钢琴，他们认为学弹钢琴的过程能使孩子变得更聪明、更优秀。但不管学什么，你至少也应该尊重孩子的兴趣，用同情心去听他们的想法，否则孩子只好带着压力学习，[3:同时]效果不一定好。",
+          "py": "Yǒuxiē fùmǔ xīwàng zìjǐ de háizi cóng xiǎo jiù xuéxí tán gāngqín, tāmen rènwéi xué tán gāngqín de guòchéng néng shǐ háizi biàn de gèng cōngmíng, gèng yōuxiù. Dàn bùguǎn xué shénme, nǐ zhìshǎo yě yīnggāi zūnzhòng háizi de xìngqù, yòng tóngqíng xīn qù tīng tāmen de xiǎngfǎ, fǒuzé háizi zhǐhǎo dàizhe yālì xuéxí, [3:tóngshí] xiàoguǒ bù yídìng hǎo.",
+          "vi": "Một số phụ huynh hy vọng rằng con mình sẽ học chơi piano từ khi còn nhỏ, họ tin rằng quá trình học chơi piano có thể giúp con họ thông minh và giỏi hơn. Nhưng dù học gì đi chăng nữa thì ít nhất bạn cũng nên tôn trọng sở thích của con cái và lắng nghe tâm tư của chúng bằng lòng cảm thông. Nếu không, con cái học hành sẽ bị áp lực, [3:đồng thời] hiệu quả chưa chắc đã tốt."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "之前",
+          "np": "NP 11.1"
+        },
+        {
+          "n": 2,
+          "label": "弄",
+          "np": "NP 11.2"
+        },
+        {
+          "n": 3,
+          "label": "同时",
+          "np": "NP 11.3"
+        }
+      ]
+    }
+  ],
+  "62": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Bước đầu tiên để giải quyết những rắc rối là gạt bỏ tất cả những suy nghĩ tiêu cực, làm chúng biến [0:丢] khỏi tâm trí, chẳng hạn như sự [0:不安] (không yên tâm), sự [0:无聊] thiếu muối, sự hối hận, việc không có niềm tin vào bản thân, v.v...; thứ hai là tích cực tham gia các hoạt động [0:户外] như [0:散步], leo núi... Đồng thời, thường xuyên tán gẫu với bạn bè, đọc vài đoạn, vài trang hoặc vài [0:篇] tản văn với lối viết [0:文章] bay bổng nhẹ nhàng, đọc những mẩu chuyện [0:笑话] như chuyện tiểu lâm đầy câu thoại [0:幽默] khiến bạn cười phá lên, v.v. Việc chuyển hướng sự quan tâm sẽ làm bạn thoát khỏi tâm trạng không vui và từ từ bình tĩnh lại."
+        },
+        {
+          "who": "",
+          "zh": "Ngủ nướng cũng có thể làm hiệu quả của công việc [0:加倍] lên, từ 1 thành 2, từ 2 thành 4. Kết quả của cuộc nghiên cứu này khiến bạn [0:吃惊] mắt chữ O mồm chữ A đúng không? Nhưng khi chưa suy xét kỹ thì đừng vội đưa ra quyết định một cách cẩu thả qua loa [0:马虎] rằng: ngoài thứ bảy cần ra ngoài, thì bạn sẽ nằm trên giường cả ngày [0:礼拜天] trước khi đi làm trở lại vào thứ Hai nhé [0:呀]. Tôi dám [0:保证] rằng với quan điểm của phụ huynh, thì [0:父亲] và [0:母亲] của bạn chắc chắn sẽ [0:反对] kịch liệt sự lười biếng đó. Tuy chưa rõ [0:到底] thì chúng ta cần ngủ bao nhiêu tiếng mới được coi là tốt cho sức khỏe, nhưng chỉ cần bạn ngủ đủ giấc để thức dậy tự nhiên, tinh thần thoải mái, công việc của bạn sẽ diễn ra suôn sẻ hơn."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "解决烦恼的第一步，就是把一切不积极的想法，把不安、无聊、后悔、无信心、紧张等想法全部丢到脑外；第二是积极参加户外活动，例如去散步、爬山、看球赛、游泳等，并且与熟悉的朋友聊聊有趣的事，阅读几篇比较轻松的文章，幽默的笑话等。[1:总的来说]，找办法转换你的注意力就会让自己从不高兴的心情中走出来，慢慢地冷静下来。",
+          "py": "Jiějué fánnǎo de dì yī bù, jiùshì bǎ yíqiè bù jījí de xiǎngfǎ, bǎ bù'ān, wúliáo, hòuhuǐ, wú xìnxīn, jǐnzhāng děng xiǎngfǎ quánbù diū dào nǎo wài; dì èr shì jījí cānjiā hùwài huódòng, lìrú qù sànbù, páshān, kàn qiúsài, yóuyǒng děng, bìngqiě yǔ shúxī de péngyou liáo liao yǒuqù de shì, yuèdú jǐ piān bǐjiào qīngsōng de wénzhāng, yōumò de xiàohuà děng. [1:Zǒng de lái shuō], zhǎo bànfǎ zhuǎnhuàn nǐ de zhùyìlì jiù huì ràng zìjǐ cóng bù gāoxìng de xīnqíng zhōng zǒu chūlái, mànmàn de lěngjìng xiàlái.",
+          "vi": "Bước đầu tiên để giải quyết những rắc rối là gạt bỏ tất cả những suy nghĩ thiếu tích cực ra khỏi tâm trí, chẳng hạn như lo lắng, buồn chán, hối hận, thiếu tự tin, căng thẳng, v.v...; thứ hai là tích cực tham gia các hoạt động ngoài trời, chẳng hạn như đi dạo, leo núi, xem bóng đá, bơi lội, v.v. Đồng thời, tán gẫu với những người bạn thân quen về những điều thú vị, đọc một vài trang sách nhẹ nhàng hơn, truyện cười hài hước, v.v. [1:Nói chung], tìm cách chuyển những mối quan tâm của bạn sẽ làm bạn thoát khỏi tâm trạng không vui và từ từ bình tĩnh lại."
+        },
+        {
+          "who": "",
+          "zh": "睡懒觉也能加倍工作效果。这个研究结果让你吃惊吧？但不要马虎下决定这个礼拜天一直躺在床上睡觉呀，我敢保证你这样做一定带来父亲、母亲的反对。不能说清楚[2:到底]需要睡几个小时才健康，只要你睡得够到自然醒，懒一点儿但心里舒服，工作会更顺利地进行。",
+          "py": "Shuì lǎnjiào yě néng jiābèi gōngzuò xiàoguǒ. Zhège yánjiū jiéguǒ ràng nǐ chījīng ba? Dàn búyào mǎhu xià juédìng zhège lǐbài tiān yìzhí tǎng zài chuáng shàng shuìjiào ya, wǒ gǎn bǎozhèng nǐ zhèyàng zuò yídìng dài lái fùqin, mǔqin de fǎnduì. Bùnéng shuō qīngchu [2:dàodǐ] xūyào shuì jǐ ge xiǎoshí cái jiànkāng, zhǐyào nǐ shuì de gòu dào zìrán xǐng, lǎn yìdiǎnr dàn xīnlǐ shūfu, gōngzuò huì gèng shùnlì de jìnxíng.",
+          "vi": "Ngủ nướng cũng có thể tăng gấp đôi hiệu quả của công việc. Kết quả của cuộc nghiên cứu này khiến bạn ngạc nhiên đúng không? Nhưng đừng đưa ra một quyết định một cách cẩu thả là bạn sẽ nằm trên giường cả ngày chủ nhật nhé! Tôi dám đảm bảo rằng bạn sẽ vấp phải sự phản đối của bố và mẹ. Không rõ [2:rốt cuộc] cần ngủ bao nhiêu tiếng mới tốt cho sức khỏe, chỉ cần bạn ngủ đủ giấc để thức dậy tự nhiên, lười biếng chút nhưng trong lòng thoải mái, công việc sẽ diễn ra càng suôn sẻ hơn."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "总的来说",
+          "np": "NP 12.1"
+        },
+        {
+          "n": 2,
+          "label": "到底",
+          "np": "NP 12.2"
+        }
+      ]
+    }
+  ],
+  "63": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Hiểu mình [0:理解] người, trăm trận trăm thắng, bởi khi chưa lắng nghe và suy xét đầy đủ, đừng [0:否定] ý kiến của người khác. Nhiều khi chúng ta làm những việc khiến người khác cảm thấy \"[0:伤心] như cắt, nước mắt đầm đìa\", chỉ vì chúng ta chưa trải qua những chuyện như của người khác. [0:举] một [0:例子] thế này để cả nhà dễ hiểu, sau khi con gái chào đời, tôi mới biết việc làm mẹ [0:实在] không hề đơn giản như tôi vốn tưởng. Làm mẹ rồi tôi mới [0:更加] hiểu thêm những vất vả của bố mẹ mình, xin bố mẹ [0:原谅] cho những việc làm [0:错误] trước đây tôi gây ra, tôi muốn nói lời [0:道歉] với họ và [0:感谢] thật nhiều vì tình yêu mà họ đã dành cho tôi."
+        },
+        {
+          "who": "",
+          "zh": "Do người phụ trách trước đó viết rất [0:随便] không theo quy củ gì và không đạt yêu cầu, giám đốc yêu cầu anh Lý viết [0:重新] bản báo cáo, bản này sẽ [0:总结] tất cả kết quả thu được từ hội nghị vừa qua, nhưng nửa ngày rồi mà anh ấy không viết nổi một chữ. Thấy [0:样子] mệt mỏi của anh, vợ anh muốn bông đùa giúp anh vui lên nên mới tiến lại vừa cười vừa [0:开玩笑] với anh rằng: \"[0:难道] viết báo cáo lại khó hơn việc em sinh con sao?\" Anh Lý cười trả lời: \"Em không biết rồi, khi sinh con, con có trong bụng rồi, nhưng trong bụng anh bây giờ không có cơ sở gì thì làm sao viết ra được\"."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "要学会理解别人，不要随便否定别人的意见。很多时候我们让别人伤心，只是因为没有经历过别人的经历。举个例子来说，女儿出生以后，我才知道做妈妈实在不容易。因此，我更加理解我的父母了，想向他们道歉，希望他们原谅我以前的错误，也感谢他们这么多年来给我的爱。",
+          "py": "Yào xuéhuì lǐjiě biérén, búyào suíbiàn fǒudìng biérén de yìjiàn. Hěn duō shíhou wǒmen ràng biérén shāngxīn, zhǐshì yīnwèi méiyǒu jīnglì guo biérén de jīnglì. Jǔ ge lìzi lái shuō, nǚ'ér chūshēng yǐhòu, wǒ cái zhīdào zuò māma shízài bù róngyì. Yīncǐ, wǒ gèngjiā lǐjiě wǒ de fùmǔ le, xiǎng xiàng tāmen dàoqiàn, xīwàng tāmen yuánliàng wǒ yǐqián de cuòwù, yě gǎnxiè tāmen zhème duō nián lái gěi wǒ de ài.",
+          "vi": "Cần học cách được hiểu người khác, đừng phủ nhận ý kiến của người khác một cách tùy tiện. Nhiều khi chúng ta làm người khác buồn, chỉ vì chúng ta chưa trải qua những chuyện như của người khác. Lấy một ví dụ, sau khi con gái chào đời, tôi mới biết làm mẹ không dễ chút nào. Vì vậy, tôi hiểu bố mẹ hơn và muốn xin lỗi họ, mong họ tha thứ cho lỗi lầm trước đây của tôi và cảm ơn vì tình yêu mà họ đã dành cho tôi suốt bao năm qua."
+        },
+        {
+          "who": "",
+          "zh": "一次，经理让小李重新写一篇会议总结，可是过了半天他连一个字也没写出来。看着他烦恼的样子，妻子就跟他开玩笑说：\"写文章[1:难道]比我生孩子还难？\"小李笑着回答：\"你不知道，生孩子时，孩子已经在肚子里了，可我现在肚子里什么基础也没有，怎么能写出来呢？\"",
+          "py": "Yí cì, jīnglǐ ràng Xiǎo Lǐ chóngxīn xiě yì piān huìyì zǒngjié, kěshì guò le bàntiān tā lián yí ge zì yě méi xiě chūlái. Kànzhe tā fánnǎo de yàngzi, qīzi jiù gēn tā kāi wánxiào shuō: \"Xiě wénzhāng [1:nándào] bǐ wǒ shēng háizi hái nán?\" Xiǎo Lǐ xiàozhe huídá: \"Nǐ bù zhīdào, shēng háizi shí, háizi yǐjīng zài dùzi lǐ le, kě wǒ xiànzài dùzi lǐ shénme jīchǔ yě méiyǒu, zěnme néng xiě chūlái ne?\"",
+          "vi": "Một lần, giám đốc yêu cầu Tiểu Lý viết lại một bản tổng kết cuộc họp, nhưng qua nửa ngày rồi anh ấy thậm chí một chữ cũng không viết ra được. Thấy dáng vẻ anh gặp rắc rối, vợ anh đã nói đùa với anh: \"[1:Chẳng lẽ] viết một bài báo khó hơn việc em sinh con sao?\" Tiểu Lý cười trả lời: \"Em không biết rồi, khi sinh con, con có trong bụng rồi, nhưng trong bụng anh bây giờ không có cơ sở gì thì làm sao viết ra được\"."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "难道",
+          "np": "NP 13.1"
+        }
+      ]
+    }
+  ],
+  "64": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Cơm nên ăn từng miếng một, việc cũng cần làm theo [0:顺序] từng cái một, đây là một trong những cách để nâng cao hiệu quả công việc. Nhưng đừng [0:光] nói suông mà không làm, vào mỗi buổi sáng, [0:之后] ra khỏi nhà và đến công ty, bạn cần [0:排列] hết tất cả những việc cần làm trong ngày hôm đó ra giấy thành một [0:表格] công việc, sau đó tuân thủ thật [0:严格] và tiến hành giải quyết. Thành công lớn bắt đầu từ những [0:动作] nhỏ, việc làm này sẽ giúp bạn không bị \"[0:迷路]\" khi đi tìm đường giữa núi việc, giúp bạn [0:避免] tình trạng quên [0:目标] mà công việc hướng tới."
+        },
+        {
+          "who": "",
+          "zh": "Hôm nay là Ngày của Mẹ, cửa hàng rất bận, người phục vụ luôn tay luôn chân, không [0:来得及] dọn dẹp, nên trên [0:餐桌] bày đầy [0:刀] cắt, đĩa và [0:勺子] cán súp; chỗ [0:厨房] nơi đầu bếp nấu nướng, [0:垃圾桶] đựng rác đã đầy ắp, và [0:卫生间] nơi khách \"xả nước cứu thân\" cũng không kịp dọn dẹp. Ngay cả [0:售货员] là tôi cũng phải giúp khách hàng gói đồ vào [0:盒子] giấy và đặt vào [0:袋子] để xách đi khác mang về. Tôi cảm thấy rất tự hào vì hôm nay có thể giúp đỡ đồng nghiệp một [0:把] một chân."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "饭要[1:一口一口地]吃，事也要按顺序[1:一件一件地]做，这是提高工作效果的办法之一。但不要[2:光]说不做，每天早上到公司之后，一定要把这一天要做的所有事情排列出来，然后严格地按照那表格进行工作安排。小动作，大效果，这样就帮你不\"迷路\"，避免了忘记工作目标的情况。",
+          "py": "Fàn yào [1:yì kǒu yì kǒu de] chī, shì yě yào àn shùnxù [1:yí jiàn yí jiàn de] zuò, zhè shì tígāo gōngzuò xiàoguǒ de bànfǎ zhī yī. Dàn búyào [2:guāng] shuō bú zuò, měitiān zǎoshang dào gōngsī zhīhòu, yídìng yào bǎ zhè yì tiān yào zuò de suǒyǒu shìqing páiliè chūlái, ránhòu yángé de ànzhào nà biǎogé jìnxíng gōngzuò ānpái. Xiǎo dòngzuò, dà xiàoguǒ, zhèyàng jiù bāng nǐ bù \"mílù\", bìmiǎn le wàngjì gōngzuò mùbiāo de qíngkuàng.",
+          "vi": "Cơm nên ăn [1:từng miếng một], việc cũng cần làm theo thứ tự [1:từng việc một], đây là một trong những cách để nâng cao hiệu quả công việc. Nhưng đừng [2:chỉ] nói mà không làm, vào mỗi buổi sáng sau khi đến công ty, bạn phải sắp xếp tất cả những việc cần làm trong ngày hôm đó, sau đó tuân thủ nghiêm ngặt biểu mẫu để tiến hành làm việc. Hành động nhỏ, hiệu quả lớn, điều này sẽ giúp bạn không bị \"lạc\" và tránh tình trạng quên mục tiêu công việc."
+        },
+        {
+          "who": "",
+          "zh": "今天是母亲节，店里很忙，服务员没来得及收拾，所以餐桌上的刀和勺子没人收拾，厨房后边的垃圾桶都满了，卫生间也不能及时打扫，甚至售货员的我也要来帮客人用盒子和袋子把菜打包回去。虽然这样忙过头的情况弄得我哭笑不得，但能帮同事一把，能为客人服务，我心里觉得很骄傲。",
+          "py": "Jīntiān shì Mǔqīn jié, diàn lǐ hěn máng, fúwùyuán méi láidejí shōushi, suǒyǐ cānzhuō shang de dāo hé sháozi méi rén shōushi, chúfáng hòubian de lājī tǒng dōu mǎn le, wèishēngjiān yě bùnéng jíshí dǎsǎo, shènzhì shòuhuòyuán de wǒ yě yào lái bāng kèrén yòng hézi hé dàizi bǎ cài dǎbāo huíqù. Suīrán zhèyàng máng guòtóu de qíngkuàng nòng de wǒ kūxiàobùdé, dàn néng bāng tóngshì yì bǎ, néng wèi kèrén fúwù, wǒ xīnlǐ juéde hěn jiāo'ào.",
+          "vi": "Hôm nay là Ngày của Mẹ, cửa hàng rất bận, người phục vụ không có thời gian dọn dẹp, nên dao và thìa trên bàn không ai thu dọn, thùng rác sau bếp đã đầy, phòng vệ sinh không kịp dọn dẹp. Ngay cả nhân viên bán hàng là tôi cũng phải đến và giúp khách hàng gói đồ vào hộp và túi để mang về. Tuy tình hình công việc bận ngập đầu này khiến tôi dở khóc dở cười, nhưng có thể giúp đỡ đồng nghiệp một tay, có thể phục vụ khách hàng, trong lòng tôi thấy rất đỗi tự hào."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "一…一…地",
+          "np": "NP 14.1"
+        },
+        {
+          "n": 2,
+          "label": "光",
+          "np": "NP 14.2"
+        }
+      ]
+    }
+  ],
+  "65": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Đi du lịch vòng [0:遍] Trung Quốc đã là ước mơ của tôi từ khi còn là một đứa trẻ. Trong giấc mơ của mình, tôi sẽ leo lên Vạn Lý [0:长城], du ngoạn con sông dài nhất Trung Quốc - [0:长江], ăn [0:烤鸭] Bắc Kinh béo ngậy, luyện tập [0:功夫], nếm thử nhiều món cao lương [0:美味] và ngắm nhìn những [0:美景] nổi tiếng của nhiều [0:省] và thành phố. Mặc dù tôi chưa có cơ hội làm điều đó, nhưng tôi đã rất chăm chỉ học Tiếng Trung. Năm nay tôi đã tham gia cuộc thi Nói giỏi [0:普通话] của Trung Quốc và giành được giải Nhất."
+        },
+        {
+          "who": "",
+          "zh": "Bất ngờ thay, [0:大使馆] Trung Quốc tại Việt Nam sẽ tặng cho ba người đứng đầu cuộc thi này cơ hội một tháng đến Trung Quốc để tham gia giao lưu và được cấp [0:签证] du lịch miễn phí. Đến tháng 6 khi học sinh chúng tôi được chính thức [0:放暑假], giấc mơ Trung Quốc của tôi không còn phải [0:做梦] mỗi đêm nữa rồi. Tôi vừa vui mừng hạnh phúc vừa [0:激动] không nói nên lời, và ngay lập tức sắp xếp một [0:旅程] sao cho đi được nhiều nơi, trải nghiệm nhiều trong thời gian ngắn này."
+        },
+        {
+          "who": "",
+          "zh": "Chúng ta đang nhìn thấy \"Núi Hổ\". Mọi người thử [0:猜] xem, tại sao người ta lại [0:取] cái tên đặc biệt này? Không phải vì trên núi có [0:老虎] đâu, mà bởi vì [0:座] núi này trông giống như một con hổ, thật thú vị nhỉ!"
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "走遍中国是我从小的梦想。在梦里，我爬长城，游长江，吃烤鸭，练功夫，尝各种各样美味，看各省各地美景。虽然还没机会做到，但我一直努力学习汉语。今年我参加了说好普通话比赛并得了第一名。",
+          "py": "Zǒu biàn Zhōngguó shì wǒ cóng xiǎo de mèngxiǎng. Zài mèng lǐ, wǒ pá Chángchéng, yóu Chángjiāng, chī kǎoyā, liàn gōngfu, cháng gè zhǒng gè yàng měiwèi, kàn gè shěng gè dì měijǐng. Suīrán hái méi jīhuì zuò dào, dàn wǒ yìzhí nǔlì xuéxí Hànyǔ. Jīnnián wǒ cānjiā le shuō hǎo pǔtōnghuà bǐsài bìng dé le dì yī míng.",
+          "vi": "Đi du lịch vòng quanh Trung Quốc đã là ước mơ của tôi từ khi còn là một đứa trẻ. Trong giấc mơ của mình, tôi sẽ leo lên Vạn Lý Trường Thành, du ngoạn sông Dương Tử, ăn vịt quay, luyện tập Kungfu, nếm thử nhiều món ngon và ngắm nhìn cảnh đẹp của nhiều tỉnh. Mặc dù tôi chưa có cơ hội làm điều đó, nhưng tôi đã rất chăm chỉ học tiếng Trung. Năm nay tôi đã tham gia cuộc thi Nói tiếng phổ thông và giành được giải Nhất."
+        },
+        {
+          "who": "",
+          "zh": "没想到，中国大使馆会为这次比赛前三名提供一个月去中国参加交流的机会和免费办旅游签证。放暑假的时候，我的中国梦不再是做梦了。我既兴奋，又激动，马上做了个旅程安排。我相信，有梦想并一直为它做好准备，机会总有一天就会出现的。",
+          "py": "Méi xiǎngdào, Zhōngguó dàshǐ guǎn huì wèi zhè cì bǐsài qián sān míng tígōng yí ge yuè qù Zhōngguó cānjiā jiāoliú de jīhuì hé miǎnfèi bàn lǚyóu qiānzhèng. Fàng shǔjià de shíhou, wǒ de Zhōngguó mèng bú zài shì zuòmèng le. Wǒ jì xīngfèn, yòu jīdòng, mǎshàng zuò le ge lǚchéng ānpái. Wǒ xiāngxìn, yǒu mèngxiǎng bìng yìzhí wèi tā zuò hǎo zhǔnbèi, jīhuì zǒng yǒu yì tiān jiù huì chūxiàn de.",
+          "vi": "Bất ngờ thay, Đại sứ quán Trung Quốc sẽ tặng cho ba người đứng đầu cuộc thi này cơ hội một tháng đến Trung Quốc để tham gia giao lưu và được cấp thị thực du lịch miễn phí. Khi kỳ nghỉ hè đến, giấc mơ Trung Quốc của tôi không còn là giấc mơ nữa. Tôi vừa vui mừng vừa háo hức, và ngay lập tức sắp xếp một lộ trình lần này. Tôi tin rằng nếu bạn có ước mơ và luôn chuẩn bị cho nó thì một ngày nào đó cơ hội sẽ xuất hiện."
+        },
+        {
+          "who": "",
+          "zh": "我们看到的就是\"老虎山\"。你们猜猜，为什么人们取这个名字呢？不是因为山里有老虎，而是因为这座山很像一只老虎，有趣吧！",
+          "py": "Wǒmen kàn dào de jiùshì \"lǎohǔ shān\". Nǐmen cāicai, wèishénme rénmen qǔ zhège míngzi ne? Búshì yīnwèi shān lǐ yǒu lǎohǔ, ér shì yīnwèi zhè zuò shān hěn xiàng yì zhī lǎohǔ, yǒuqù ba!",
+          "vi": "Ngọn núi chúng ta đang nhìn thấy là \"Núi Hổ\". Mọi người thử đoán xem, tại sao người ta lại lấy tên này? Không phải vì trên núi có hổ, mà bởi vì ngọn núi này trông giống như một con hổ, thật thú vị!"
+        }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 并 (NP 16.3, Tăng tốc): 参加了说好普通话比赛并得了第一名 · 为 và 为了 (NP 8.1, Tăng tốc): 一直为它做好准备 · 不是…而是… (NP 9.1, Tăng tốc): 不是因为山里有老虎，而是因为这座山很像一只老虎. Chú thích: 各种各样 /gè zhǒng gè yàng/ là cụm bốn chữ diễn tả ý \"đa dạng chủng loại, kiểu dáng\"."
+      }
+    }
+  ],
+  "66": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Bạn biết không, mỗi sáng mỗi tối khi dùng bàn chải [0:刷牙] để bảo vệ răng, chỉ cần thêm một chút muối vào [0:牙膏] và kiên trì lâu ngày có thể làm cho răng trắng lên. Vẫn còn rất nhiều kiến thức nhỏ trong cuộc sống như: lần đầu gặp mặt nên [0:打招呼] và bắt chuyện thế nào; uống rượu có nên làm một hơi [0:干杯] hết cả ly; cách uống rượu vang thế nào mới là [0:准确], khi rót rượu thì có nên [0:倒] đầy cốc không; cho trẻ ăn gì để đêm ngủ bớt đổ [0:汗] trộm ướt sũng áo; cách bảo vệ làn [0:皮肤] dưới nắng hè chang chang; nên dùng loại [0:毛巾] chất liệu gì để mỗi khi [0:擦] lên mặt vừa sạch vừa không thô ráp; khi ngủ có nên [0:脱] hết quần áo để \"thả rông\", nếu không thì sẽ gây ra [0:坏处] gì có hại, làm sao để dễ dàng lau dọn bệ xí của [0:厕所], v.v. Bạn thấy đấy, chúng ta đã bước sang [0:世纪] 21 được hơn 20 năm, thế giới đã thay đổi rất nhiều, [0:数量] kiến thức mới tăng theo cấp số nhân, nhưng chỉ cần bạn chú ý hơn đến nó thì cuộc sống của bạn sẽ dễ dàng hơn."
+        },
+        {
+          "who": "",
+          "zh": "Bàn ăn rất quan trọng với người [0:亚洲] (như Việt Nam, Trung Quốc, Nhật Bản, Hàn Quốc) và là nơi để mọi người hiểu nhau. Trên bàn ăn có nhiều điều cấm kỵ cần chú ý, ví dụ như người lớn luôn nhắc chúng ta [0:禁止] dùng đũa [0:敲] vào đĩa, bát vì như vậy là kiêng kị, không được gây ồn ào xì xà xì xụp khi húp [0:汤], trong bữa ăn cũng nên nhắc nhở [0:儿童] không được chạy lung tung lăng xăng khi đang ăn,... Điều này sẽ khiến người khác sẽ cảm thấy bạn không lịch sự."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "你知道吗，刷牙时在牙膏上加点儿盐，坚持一段时间，就能使牙变白。生活中还有很多小知识，比如：怎么打招呼更幽默；喝红酒怎么干杯才准确，倒酒时要倒多少才合适；吃什么能减少出汗；怎样保护皮肤；擦脸应该用什么毛巾；睡觉不脱衣服有什么坏处，怎样轻松地收拾厕所等等。你看，21世纪了，世界变化很大，新知识的数量一天比一天多，只要多注意一点儿，你的生活就会更加方便。",
+          "py": "Nǐ zhīdào ma, shuāyá shí zài yágāo shang jiā diǎnr yán, jiānchí yí duàn shíjiān, jiù néng shǐ yá biàn bái. Shēnghuó zhōng hái yǒu hěn duō xiǎo zhīshi, bǐrú: Zěnme dǎzhāohu gèng yōumò; hē hóngjiǔ zěnme gānbēi cái zhǔnquè, dào jiǔ shí yào dào duōshao cái héshì; chī shénme néng jiǎnshǎo chū hàn; zěnyàng bǎohù pífū; cā liǎn yīnggāi yòng shénme máojīn; shuìjiào bù tuō yīfu yǒu shénme huàichu, zěnyàng qīngsōng de shōushi cèsuǒ děngděng. Nǐ kàn, èrshíyī shìjì le, shìjiè biànhuà hěn dà, xīn zhīshi de shùliàng yì tiān bǐ yì tiān duō, zhǐyào duō zhùyì yìdiǎnr, nǐ de shēnghuó jiù huì gèngjiā fāngbiàn.",
+          "vi": "Bạn có biết rằng thêm một chút muối vào kem đánh răng khi đánh răng và kiên trì lâu ngày có thể làm răng trắng lên. Vẫn còn rất nhiều kiến thức nhỏ trong cuộc sống như: cách chào hỏi hài hước hơn; cách nâng ly uống rượu vang đỏ thế nào mới là chính xác, khi rót rượu thì rót bao nhiêu là phù hợp; ăn gì để bớt đổ mồ hôi; cách bảo vệ da; nên dùng khăn gì để rửa mặt; không cởi quần áo khi ngủ có nhược điểm gì, làm sao để dễ dàng lau dọn nhà vệ sinh, v.v. Bạn thấy đấy, trong thế kỷ 21, thế giới đã thay đổi rất nhiều, lượng kiến thức mới ngày một nhiều lên, chỉ cần bạn chú ý hơn đến nó thì cuộc sống của bạn sẽ dễ dàng hơn."
+        },
+        {
+          "who": "",
+          "zh": "餐桌文化对亚洲人来说很重要。在餐桌上有很多事情要注意，例如：禁止用筷子敲盘子、碗，喝汤时不发出声音，儿童吃饭时不可以乱跑乱跳等，这样都会让别人觉得你很没礼貌。",
+          "py": "Cānzhuō wénhuà duì Yàzhōu rén lái shuō hěn zhòngyào. Zài cānzhuō shang yǒu hěn duō shìqing yào zhùyì, lìrú: Jìnzhǐ yòng kuàizi qiāo pánzi, wǎn, hē tāng shí bù fāchū shēngyīn, értóng chīfàn shí bù kěyǐ luàn pǎo luàn tiào děng, zhèyàng dōu huì ràng biérén juéde nǐ hěn méi lǐmào.",
+          "vi": "Bàn ăn rất quan trọng với người Á Đông và là nơi để mọi người hiểu nhau. Trên bàn ăn có nhiều điều cần chú ý, ví dụ như không được dùng đũa gõ vào đĩa, bát, không được gây ồn ào khi uống nước canh, trẻ em không được chạy lung tung khi đang ăn,... Điều này sẽ khiến người khác sẽ cảm thấy bạn không lịch sự."
+        }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 一天比一天 (NP 25.2, Tăng tốc): 新知识的数量一天比一天多"
+      }
+    }
+  ],
+  "67": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Âm nhạc cũng là một ngôn ngữ toàn cầu. Không phân biệt mang [0:国籍] nước nào, dân tộc nào, [0:性别] nam hay nữ, [0:肤色] vàng - trắng hay đen, mọi người đều có thể sử dụng âm nhạc để thể hiện cảm xúc của mình và dễ dàng nói ra những lời từ tận sâu [0:底] lòng mình. So với các ngôn ngữ khác, cảm xúc được thể hiện bằng âm nhạc đôi khi dễ hiểu hơn."
+        },
+        {
+          "who": "",
+          "zh": "Vỗ tay là một cách thể hiện sự nhiệt tình. Tuy nhiên, nếu [0:鼓掌] quá khích khi nghe hòa nhạc, [0:表演者] đang biểu diễn trên [0:台] sẽ phải dừng lại giữa chừng và chờ tràng [0:掌声] giòn giã kết thúc, việc bị gián đoạn không chỉ ảnh hưởng đến tính [0:完整] của chương trình, mà còn ảnh hưởng trực tiếp một cách [0:严重] đến tâm trạng khi đang trên sân khấu [0:演出] của nghệ sỹ vào ngay [0:当时]. Những khán giả \"[0:合格] chuẩn ISO\" đầu tiên nên đợi cho đến khi âm nhạc kết thúc, [0:接着] mới nên vỗ tay."
+        },
+        {
+          "who": "",
+          "zh": "Tôi rất quan tâm đến nghệ thuật biểu diễn Kinh kịch, cũng thỉnh thoảng hát một hai câu [0:京剧] khi ở nhà. Sau khi đến Trung Quốc, tôi nhận được lời mời của trường, tôi có cơ hội tham gia lớp nghiên cứu Kinh kịch do Đại học Bắc Kinh [0:举办], được cùng [0:讨论] các chủ đề với những chuyên gia [0:来自] khắp nơi trên thế giới, tôi cảm thấy rất [0:得意] về điều đó."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "音乐也是一种语言。无论国籍、民族、性别、肤色，人们都可以用音乐来表达感情，轻松地说出自己的心底话。和其他语言比起来，音乐表达的感情有时更容易让人听懂。",
+          "py": "Yīnyuè yěshì yì zhǒng yǔyán. Wúlùn guójí, mínzú, xìngbié, fūsè, rénmen dōu kěyǐ yòng yīnyuè lái biǎodá gǎnqíng, qīngsōng de shuō chū zìjǐ de xīndǐ huà. Hé qítā yǔyán bǐ qǐlái, yīnyuè biǎodá de gǎnqíng yǒushí gèng róngyì ràng rén tīng dǒng.",
+          "vi": "Âm nhạc cũng là một ngôn ngữ. Không phân biệt quốc tịch, dân tộc, giới tính, màu da, mọi người đều có thể sử dụng âm nhạc để thể hiện cảm xúc của mình và dễ dàng nói ra những lời từ đáy lòng mình. So với các ngôn ngữ khác, cảm xúc được thể hiện bằng âm nhạc đôi khi dễ hiểu hơn."
+        },
+        {
+          "who": "",
+          "zh": "鼓掌是表达热情的方式。但是，如果在听音乐会时鼓掌太积极，就会使台上的表演者不得不中间停下来，等掌声结束，这样不但影响了节目的完整性，也严重影响了表演者当时的演出心情。合格的观众应该等音乐结束后，接着才大声鼓掌。",
+          "py": "Gǔzhǎng shì biǎodá rèqíng de fāngshì. Dànshì, rúguǒ zài tīng yīnyuè huì shí gǔzhǎng tài jījí, jiù huì shǐ tái shàng de biǎoyǎn zhě bùdébù zhōngjiān tíng xiàlái, děng zhǎngshēng jiéshù, zhèyàng búdàn yǐngxiǎng le jiémù de wánzhěng xìng, yě yánzhòng yǐngxiǎng le biǎoyǎn zhě dāngshí de yǎnchū xīnqíng. Hégé de guānzhòng yīnggāi děng yīnyuè jiéshù hòu, jiēzhe cái dàshēng gǔzhǎng.",
+          "vi": "Vỗ tay là một cách thể hiện sự nhiệt tình. Tuy nhiên, nếu vỗ tay quá khích khi nghe hòa nhạc, người biểu diễn trên sân khấu sẽ phải dừng lại giữa chừng và chờ hết tiếng vỗ tay, điều này không chỉ ảnh hưởng đến tính toàn vẹn của chương trình mà còn ảnh hưởng nghiêm trọng đến tâm trạng người biểu diễn vào thời điểm đó. Khán giả \"đạt chuẩn\" nên đợi cho đến khi âm nhạc kết thúc rồi mới vỗ tay lớn."
+        },
+        {
+          "who": "",
+          "zh": "我对京剧表演艺术非常感兴趣，偶尔也在家里唱一两句。来中国以后收到学校的邀请，我有机会参加由北京大学举办的京剧研究班，跟其他来自世界各地的京剧爱好者讨论，我心里非常得意。",
+          "py": "Wǒ duì Jīngjù biǎoyǎn yìshù fēicháng gǎn xìngqù, ǒu'ěr yě zài jiālǐ chàng yì liǎng jù. Lái Zhōngguó yǐhòu shōu dào xuéxiào de yāoqǐng, wǒ yǒu jīhuì cānjiā yóu Běijīng dàxué jǔbàn de Jīngjù yánjiū bān, gēn qítā láizì shìjiè gè dì de jīngjù àihào zhě tǎolùn, wǒ xīnlǐ fēicháng déyì.",
+          "vi": "Tôi rất quan tâm đến nghệ thuật biểu diễn Kinh kịch, cũng thỉnh thoảng hát một hai câu khi ở nhà. Sau khi đến Trung Quốc, tôi nhận được lời mời của trường, tôi có cơ hội tham gia lớp nghiên cứu Kinh kịch do Đại học Bắc Kinh tổ chức và thảo luận với những người hâm mộ Kinh kịch khác từ khắp nơi trên thế giới. Tôi rất tự hào về điều đó."
+        }
+      ],
+      "note": {
+        "title": "Ngữ pháp đã học trong bài",
+        "text": "Bài này không có ngữ pháp mới. Ôn lại: 无论 (NP 20.1, Tăng tốc): 无论国籍、民族、性别、肤色… · 不得不 (NP 21.1, Tăng tốc): 表演者不得不中间停下来 · 不但…而且… (NP 2.2, Tăng tốc): 这样不但影响了节目的完整性 · A 对 B 感兴趣 (NP 7.3, Tăng tốc): 我对京剧表演艺术非常感兴趣 · 偶尔 (NP 6.3, Cất cánh): 偶尔也在家里唱一两句 · 由 (NP 24.4, Tăng tốc): 由北京大学举办的京剧研究班"
+      }
     }
   ]
 }
