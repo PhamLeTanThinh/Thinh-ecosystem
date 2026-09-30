@@ -15,6 +15,7 @@ import { SegmentedControl } from '@/components/korean/SegmentedControl'
 import type { ExampleDetail } from '@/lib/korean/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speakingPractice'
 import { TOPIK1_DIALOGUES } from '@/lib/korean/topik1'
+import { TOPIK2_DIALOGUES } from '@/lib/korean/topik2-dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
@@ -417,8 +418,8 @@ function LessonContent({
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
   const grammarCards = lessonCards.filter((c) => c.kind === 'grammar')
   const speaking = SPEAKING_PRACTICE[lesson]
-  // Hội thoại 말하기 của giáo trình (hiện có ở TOPIK I) — cùng tab "Luyện nói" trên mobile với SPEAKING_PRACTICE.
-  const dialogues = TOPIK1_DIALOGUES[lesson]
+  // Hội thoại 말하기 của giáo trình (TOPIK I: 서울대 1A/1B, TOPIK II: 2A/2B) — cùng tab "Luyện nói" trên mobile với SPEAKING_PRACTICE.
+  const dialogues = TOPIK1_DIALOGUES[lesson] ?? TOPIK2_DIALOGUES[lesson]
   const hasSpeaking = !!speaking || !!dialogues
 
   // Mục lục "Đang đọc" bên phải — mỗi mục là 1 điểm ngữ pháp cụ thể (không chỉ tiêu đề mục lớn)

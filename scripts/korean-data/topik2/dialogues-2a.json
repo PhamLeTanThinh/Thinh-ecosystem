@@ -1,0 +1,188 @@
+{
+  "note": "Hội thoại 말하기 1 / 말하기 2 của 서울대 한국어 2A (bài 1-9), chép từ sách; bản dịch tiếng Việt tự dịch. Key = số bài (lesson 1-18 của TOPIK II).",
+  "lessons": {
+    "1": [
+      { "title": "말하기 1", "lines": [
+        { "who": "마리코", "ko": "처음 뵙겠습니다. 저는 다나카 마리코라고 합니다.", "vi": "Rất hân hạnh được gặp anh. Tôi tên là Tanaka Mariko." },
+        { "who": "스티븐", "ko": "만나서 반가워요, 다나카 마리코 씨. 저는 스티븐입니다.", "vi": "Rất vui được gặp chị, Tanaka Mariko. Tôi là Steven." },
+        { "who": "마리코", "ko": "그냥 마리코라고 부르세요. 실례지만 스티븐 씨는 무슨 일을 하세요?", "vi": "Anh cứ gọi tôi là Mariko thôi. Xin lỗi, anh Steven làm nghề gì vậy?" },
+        { "who": "스티븐", "ko": "저는 대학교에서 한국 역사를 공부하고 있어요. 마리코 씨는 왜 한국어를 공부하세요?", "vi": "Tôi đang học lịch sử Hàn Quốc ở trường đại học. Còn Mariko học tiếng Hàn để làm gì?" },
+        { "who": "마리코", "ko": "좋아하는 한국 드라마를 한국어로 보려고 공부해요.", "vi": "Tôi học để xem phim truyền hình Hàn Quốc mình thích bằng tiếng Hàn." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "샤오밍", "ko": "마리코 씨는 주말에 보통 뭐 하세요?", "vi": "Mariko cuối tuần thường làm gì?" },
+        { "who": "마리코", "ko": "집에서 쉬거나 친구를 만나요. 샤오밍 씨는요?", "vi": "Tôi nghỉ ở nhà hoặc gặp bạn bè. Còn Tiểu Minh?" },
+        { "who": "샤오밍", "ko": "저는 주말에는 항상 운동을 해요.", "vi": "Cuối tuần tôi luôn tập thể thao." },
+        { "who": "마리코", "ko": "무슨 운동을 해요?", "vi": "Anh tập môn gì?" },
+        { "who": "샤오밍", "ko": "수영이나 농구를 해요.", "vi": "Tôi bơi hoặc chơi bóng rổ." },
+        { "who": "마리코", "ko": "그래요? 저도 매일 수영을 해요.", "vi": "Vậy à? Tôi cũng bơi mỗi ngày." },
+        { "who": "샤오밍", "ko": "어, 우리는 취미가 같네요.", "vi": "Ồ, chúng ta có cùng sở thích nhỉ." }
+      ] }
+    ],
+    "2": [
+      { "title": "말하기 1", "lines": [
+        { "who": "나나", "ko": "정우 씨는 취미가 뭐예요?", "vi": "Sở thích của Jeongwoo là gì?" },
+        { "who": "정우", "ko": "저는 운동하는 것을 좋아해요. 나나 씨는요?", "vi": "Tôi thích tập thể thao. Còn Nana?" },
+        { "who": "나나", "ko": "저도 운동하는 것을 좋아해요. 정우 씨는 무슨 운동을 잘하세요?", "vi": "Tôi cũng thích tập thể thao. Jeongwoo giỏi môn gì?" },
+        { "who": "정우", "ko": "테니스를 좀 칠 줄 알아요. 나나 씨도 테니스를 칠 줄 아세요?", "vi": "Tôi biết chơi tennis một chút. Nana cũng biết chơi tennis chứ?" },
+        { "who": "나나", "ko": "아니요, 저는 테니스를 전혀 못 쳐요. 시간이 나면 한번 배워 보고 싶어요.", "vi": "Không, tôi hoàn toàn không biết chơi tennis. Có thời gian tôi muốn học thử một lần." },
+        { "who": "정우", "ko": "그럼 제가 가르쳐 드릴까요?", "vi": "Vậy để tôi dạy cho nhé?" },
+        { "who": "나나", "ko": "네, 좋아요. 고마워요.", "vi": "Vâng, được đấy. Cảm ơn anh." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "나나", "ko": "마리코 씨, 요리하는 것을 좋아해요?", "vi": "Mariko, cậu thích nấu ăn à?" },
+        { "who": "마리코", "ko": "네, 그래서 요리 동호회에 가입했어요. 어제도 모임이 있었어요.", "vi": "Ừ, nên tớ đã tham gia câu lạc bộ nấu ăn. Hôm qua cũng có buổi họp mặt." },
+        { "who": "나나", "ko": "어제는 뭘 했어요?", "vi": "Hôm qua các cậu làm gì?" },
+        { "who": "마리코", "ko": "한국 음식을 만들었어요. 어제 만든 음식은 김밥이에요.", "vi": "Bọn tớ làm món Hàn. Món làm hôm qua là kimbap." },
+        { "who": "나나", "ko": "한국 음식 만드는 게 어렵지 않았어요?", "vi": "Làm món Hàn không khó à?" },
+        { "who": "마리코", "ko": "별로 어렵지 않았어요. 재미있었어요.", "vi": "Không khó lắm. Vui lắm." }
+      ] }
+    ],
+    "3": [
+      { "title": "말하기 1", "lines": [
+        { "who": "나나", "ko": "히엔 씨, 방학 동안 뭐 했어요?", "vi": "Hiền, kỳ nghỉ cậu đã làm gì?" },
+        { "who": "히엔", "ko": "제주도에 갔다 왔어요.", "vi": "Tớ đã đi đảo Jeju về." },
+        { "who": "나나", "ko": "아, 저도 작년에 제주도에 가 봤어요. 제주도에서 낚시해 봤어요?", "vi": "À, năm ngoái tớ cũng đi Jeju rồi. Cậu đã thử câu cá ở Jeju chưa?" },
+        { "who": "히엔", "ko": "네, 낚시도 해 보고 생선회도 먹어 봤어요.", "vi": "Rồi, tớ đã thử câu cá và cũng ăn thử gỏi cá sống." },
+        { "who": "나나", "ko": "제주도에 얼마 동안 있었어요?", "vi": "Cậu ở Jeju bao lâu?" },
+        { "who": "히엔", "ko": "5일 있었어요. 정말 재미있었어요.", "vi": "Tớ ở 5 ngày. Vui thật sự." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "나나", "ko": "줄리앙 씨, 한국 가수 콘서트에 가 봤어요?", "vi": "Julien, anh đã đi xem concert ca sĩ Hàn Quốc chưa?" },
+        { "who": "줄리앙", "ko": "아니요, 못 가 봤어요.", "vi": "Chưa, tôi chưa đi được." },
+        { "who": "나나", "ko": "그럼 이번 주말에 시간 괜찮아요? 콘서트 표가 있는데 같이 가요.", "vi": "Vậy cuối tuần này anh có rảnh không? Tôi có vé concert, mình đi cùng nhé." },
+        { "who": "줄리앙", "ko": "미안해요. 저도 가고 싶지만 갈 시간이 없어요.", "vi": "Xin lỗi nhé. Tôi cũng muốn đi nhưng không có thời gian." },
+        { "who": "나나", "ko": "왜요? 무슨 일 있어요?", "vi": "Sao thế? Có chuyện gì à?" },
+        { "who": "줄리앙", "ko": "고향에서 친구가 와요.", "vi": "Bạn tôi từ quê sang chơi." },
+        { "who": "나나", "ko": "그래요? 그럼 다음에 꼭 같이 가요.", "vi": "Vậy à? Thế lần sau nhất định cùng đi nhé." }
+      ] }
+    ],
+    "4": [
+      { "title": "말하기 1", "lines": [
+        { "who": "점원", "ko": "손님, 어떤 옷을 찾으세요?", "vi": "Quý khách tìm loại quần áo nào ạ?" },
+        { "who": "유진", "ko": "코트 좀 보려고 왔어요.", "vi": "Tôi đến để xem áo khoác." },
+        { "who": "점원", "ko": "이건 어떠세요? 요즘 유행하는 스타일이에요.", "vi": "Cái này thì sao ạ? Đây là kiểu đang thịnh hành." },
+        { "who": "유진", "ko": "네, 한번 입어 볼게요.", "vi": "Vâng, tôi mặc thử xem." },
+        { "who": "점원", "ko": "어떠세요? 마음에 드세요?", "vi": "Thế nào ạ? Chị có ưng không?" },
+        { "who": "유진", "ko": "사이즈가 좀 큰 것 같아요.", "vi": "Hình như cỡ hơi rộng." },
+        { "who": "점원", "ko": "그럼 한 사이즈 작은 거로 보여 드릴게요. 잠깐만 기다리세요.", "vi": "Vậy để tôi cho chị xem cỡ nhỏ hơn một số. Chị đợi một chút nhé." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "점원", "ko": "어서 오세요. 찾으시는 거 있으세요?", "vi": "Xin mời vào. Anh đang tìm gì ạ?" },
+        { "who": "아키라", "ko": "어제 이 넥타이를 샀는데 다른 거로 바꿨으면 좋겠어요.", "vi": "Hôm qua tôi mua cái cà vạt này, tôi muốn đổi sang cái khác." },
+        { "who": "점원", "ko": "왜요? 마음에 안 드세요?", "vi": "Sao vậy ạ? Anh không ưng à?" },
+        { "who": "아키라", "ko": "네, 색깔이 너무 어두운 것 같아요. 이것보다 좀 더 밝은 거 있어요?", "vi": "Vâng, hình như màu tối quá. Có cái nào sáng màu hơn cái này không?" },
+        { "who": "점원", "ko": "그럼 이건 어떠세요? 한번 해 보세요.", "vi": "Vậy cái này thì sao ạ? Anh đeo thử xem." },
+        { "who": "점원", "ko": "잘 어울리시네요. 이거로 드릴까요?", "vi": "Anh đeo hợp lắm. Tôi gói cái này cho anh nhé?" },
+        { "who": "아키라", "ko": "네, 이거로 주세요.", "vi": "Vâng, lấy cho tôi cái này." }
+      ] }
+    ],
+    "5": [
+      { "title": "말하기 1", "lines": [
+        { "who": "마리코", "ko": "다음 주에 친구가 한국에 와요.", "vi": "Tuần sau bạn tôi sang Hàn Quốc." },
+        { "who": "지연", "ko": "그래요? 여행 오는 거예요?", "vi": "Vậy à? Bạn sang du lịch à?" },
+        { "who": "마리코", "ko": "네, 그런데 친구하고 어디에 가면 좋을까요?", "vi": "Ừ, nhưng đi đâu với bạn thì hay nhỉ?" },
+        { "who": "지연", "ko": "안동에 가 봤어요? 안 가 봤으면 한번 가 보세요.", "vi": "Cậu đi Andong chưa? Nếu chưa thì thử đi một lần xem." },
+        { "who": "마리코", "ko": "안동이 어떤 곳이에요?", "vi": "Andong là nơi thế nào?" },
+        { "who": "지연", "ko": "경치도 아름답고 한국의 전통문화도 느낄 수 있는 곳이에요. 친구가 좋아할 거예요.", "vi": "Là nơi cảnh đẹp mà còn cảm nhận được văn hóa truyền thống Hàn Quốc. Bạn cậu chắc sẽ thích." },
+        { "who": "마리코", "ko": "아, 그래요? 안동 가는 패키지여행이 있을까요?", "vi": "À, vậy à? Không biết có tour trọn gói đi Andong không nhỉ?" },
+        { "who": "지연", "ko": "네, 있을 거예요. 여행사에 가서 한번 알아보세요.", "vi": "Chắc là có. Cậu thử đến công ty du lịch hỏi xem." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "직원", "ko": "어서 오세요.", "vi": "Xin mời vào." },
+        { "who": "마리코", "ko": "1박 2일로 안동에 가려고 하는데 어떤 여행 상품이 있어요?", "vi": "Tôi định đi Andong 2 ngày 1 đêm, có những tour nào vậy?" },
+        { "who": "직원", "ko": "언제 가실 거예요?", "vi": "Chị định đi khi nào ạ?" },
+        { "who": "마리코", "ko": "다음 주말에 가려고 해요.", "vi": "Tôi định đi cuối tuần sau." },
+        { "who": "직원", "ko": "그럼 토요일 아침에 출발하는 게 있는데 어떠세요? 자세한 일정은 여기 있으니까 한번 보세요.", "vi": "Vậy có tour xuất phát sáng thứ Bảy, chị thấy sao ạ? Lịch trình chi tiết ở đây, chị xem thử nhé." },
+        { "who": "마리코", "ko": "네, 좋네요. 그런데 요금이 어떻게 돼요?", "vi": "Vâng, được đấy. Mà giá bao nhiêu ạ?" },
+        { "who": "직원", "ko": "한 분에 10만 원인데 교통비와 숙박비가 포함되어 있습니다.", "vi": "Mỗi người 100.000 won, đã bao gồm phí đi lại và tiền phòng." },
+        { "who": "마리코", "ko": "네, 알겠습니다. 생각해 보고 나서 연락드릴게요.", "vi": "Vâng, tôi hiểu rồi. Tôi suy nghĩ rồi sẽ liên lạc lại." },
+        { "who": "직원", "ko": "네, 연락 주세요.", "vi": "Vâng, chị liên lạc nhé." }
+      ] }
+    ],
+    "6": [
+      { "title": "말하기 1", "lines": [
+        { "who": "직원", "ko": "어서 오세요.", "vi": "Xin mời vào." },
+        { "who": "줄리앙", "ko": "프랑스에 소포를 보내려고 왔어요.", "vi": "Tôi đến để gửi bưu kiện sang Pháp." },
+        { "who": "직원", "ko": "네, 여기에 받는 분 성함과 주소를 쓰시고 저울 위에 올려 주세요. 안에 뭐가 들었어요?", "vi": "Vâng, anh ghi tên và địa chỉ người nhận vào đây rồi đặt lên cân nhé. Bên trong có gì ạ?" },
+        { "who": "줄리앙", "ko": "옷이 들었어요. 비행기로 보내면 요금이 얼마예요?", "vi": "Có quần áo. Gửi bằng máy bay thì cước bao nhiêu?" },
+        { "who": "직원", "ko": "6만 원이에요. 비행기로 보내시겠어요?", "vi": "60.000 won. Anh gửi đường hàng không chứ?" },
+        { "who": "줄리앙", "ko": "네, 지금 보내면 언제 도착할까요?", "vi": "Vâng, gửi bây giờ thì khi nào đến nơi?" },
+        { "who": "직원", "ko": "다음 주 금요일쯤 도착할 거예요. 내일이 휴일이라서 하루 정도 더 걸려요.", "vi": "Khoảng thứ Sáu tuần sau sẽ đến. Mai là ngày nghỉ nên mất thêm khoảng một ngày." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "직원", "ko": "어서 오세요. 뭘 도와 드릴까요?", "vi": "Xin mời vào. Tôi có thể giúp gì ạ?" },
+        { "who": "스티븐", "ko": "환전을 하려고 왔습니다.", "vi": "Tôi đến để đổi tiền." },
+        { "who": "직원", "ko": "얼마를 바꿔 드릴까요?", "vi": "Anh muốn đổi bao nhiêu ạ?" },
+        { "who": "스티븐", "ko": "1,000달러를 전부 원으로 바꿔 주세요. 오늘 환율이 어떻게 돼요?", "vi": "Đổi hết 1.000 đô la sang won giúp tôi. Tỷ giá hôm nay thế nào?" },
+        { "who": "직원", "ko": "1달러에 1,200원입니다.", "vi": "1 đô la ăn 1.200 won." },
+        { "who": "스티븐", "ko": "지난주보다 오른 것 같네요.", "vi": "Hình như tăng so với tuần trước nhỉ." },
+        { "who": "직원", "ko": "네, 조금 올랐어요. 신분증 좀 주시겠어요?", "vi": "Vâng, tăng một chút. Anh cho tôi xem giấy tờ tùy thân được không?" },
+        { "who": "스티븐", "ko": "외국인등록증이 없는데 여권도 괜찮아요?", "vi": "Tôi không có thẻ đăng ký người nước ngoài, hộ chiếu có được không?" },
+        { "who": "직원", "ko": "네, 여권만 주시면 됩니다.", "vi": "Vâng, chỉ cần đưa hộ chiếu là được." }
+      ] }
+    ],
+    "7": [
+      { "title": "말하기 1", "lines": [
+        { "who": "아키라", "ko": "유진 씨, 내일 나나 씨 생일인데 무슨 선물이 좋을까요?", "vi": "Yujin, mai là sinh nhật Nana, tặng quà gì thì hay nhỉ?" },
+        { "who": "유진", "ko": "나나 씨는 요리하는 것을 좋아하니까 요리책이 좋을 것 같아요.", "vi": "Nana thích nấu ăn nên chắc sách dạy nấu ăn sẽ hợp." },
+        { "who": "아키라", "ko": "아, 그게 좋을 것 같네요. 그런데 이 근처에 서점이 어디에 있는지 아세요?", "vi": "À, chắc cái đó hay đấy. Mà chị có biết hiệu sách gần đây ở đâu không?" },
+        { "who": "유진", "ko": "네, 우체국 옆에 있어요.", "vi": "Có, ở cạnh bưu điện." },
+        { "who": "아키라", "ko": "우체국은 어디에 있어요?", "vi": "Bưu điện ở đâu?" },
+        { "who": "유진", "ko": "이쪽으로 10분쯤 걸어가면 보여요.", "vi": "Đi bộ về phía này khoảng 10 phút là thấy." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "켈리", "ko": "저기요, 한옥마을이 어디에 있는지 아세요?", "vi": "Cho tôi hỏi, bác có biết làng Hanok ở đâu không ạ?" },
+        { "who": "아저씨", "ko": "저도 여기가 처음이라서 잘 모르겠어요.", "vi": "Tôi cũng mới đến đây lần đầu nên không rõ lắm." },
+        { "who": "켈리", "ko": "실례지만 한옥마을에 가려면 어느 쪽으로 가야 돼요?", "vi": "Xin lỗi, muốn đến làng Hanok thì phải đi hướng nào ạ?" },
+        { "who": "아주머니", "ko": "4번 출구로 나가면 돼요.", "vi": "Ra lối số 4 là được." },
+        { "who": "켈리", "ko": "4번 출구에서 한참 가야 돼요?", "vi": "Từ lối số 4 có phải đi xa lắm không ạ?" },
+        { "who": "아주머니", "ko": "아니요, 가까워요. 쭉 가다가 사거리에서 길을 건너면 한옥마을이 나와요.", "vi": "Không, gần lắm. Cứ đi thẳng, đến ngã tư thì sang đường là thấy làng Hanok." },
+        { "who": "켈리", "ko": "감사합니다.", "vi": "Cảm ơn bác." }
+      ] }
+    ],
+    "8": [
+      { "title": "말하기 1", "lines": [
+        { "who": "유진", "ko": "줄리앙 씨, 무슨 안 좋은 일 있어요?", "vi": "Julien, có chuyện gì không vui à?" },
+        { "who": "줄리앙", "ko": "네, 친구 때문에 좀 걱정이 돼서요.", "vi": "Ừ, tôi hơi lo vì bạn tôi." },
+        { "who": "유진", "ko": "왜요? 무슨 일 있어요?", "vi": "Sao thế? Có chuyện gì à?" },
+        { "who": "줄리앙", "ko": "친구가 교통사고가 나서 병원에 있어요.", "vi": "Bạn tôi bị tai nạn giao thông nên đang nằm viện." },
+        { "who": "유진", "ko": "아, 그래요? 정말 걱정되겠어요.", "vi": "À, vậy à? Chắc anh lo lắm." },
+        { "who": "줄리앙", "ko": "네, 친구가 빨리 퇴원했으면 좋겠어요.", "vi": "Ừ, mong bạn tôi mau được xuất viện." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "마리코", "ko": "오늘은 정말 운이 없는 날인 것 같아요.", "vi": "Hôm nay đúng là một ngày xui xẻo." },
+        { "who": "지연", "ko": "왜요? 무슨 일 있었어요?", "vi": "Sao thế? Có chuyện gì à?" },
+        { "who": "마리코", "ko": "지하철에서 잠이 들어서 내릴 곳을 지나가 버렸어요.", "vi": "Tớ ngủ quên trên tàu điện ngầm nên đi quá ga mất rồi." },
+        { "who": "지연", "ko": "그래요? 그럼 학교에 늦었겠네요?", "vi": "Vậy à? Thế chắc cậu đến trường muộn nhỉ?" },
+        { "who": "마리코", "ko": "네, 그리고 집에 올 때 지갑을 잃어버렸어요.", "vi": "Ừ, rồi lúc về nhà tớ còn làm mất ví nữa." },
+        { "who": "지연", "ko": "정말 속상하겠어요.", "vi": "Chắc cậu buồn lắm." }
+      ] }
+    ],
+    "9": [
+      { "title": "말하기 1", "lines": [
+        { "who": "유진", "ko": "여보세요? 켈리 씨 휴대폰이지요?", "vi": "Alô? Đây là điện thoại của Kelly phải không?" },
+        { "who": "켈리", "ko": "네, 전데요.", "vi": "Vâng, tôi đây." },
+        { "who": "유진", "ko": "켈리 씨, 저 유진인데요. 지금 통화 괜찮아요?", "vi": "Kelly, tôi là Yujin đây. Giờ nói chuyện được không?" },
+        { "who": "켈리", "ko": "네, 괜찮아요. 숙제하는 중이었어요.", "vi": "Ừ, được. Tôi đang làm bài tập." },
+        { "who": "유진", "ko": "켈리 씨, 한국 전통 음악 좋아하지요?", "vi": "Kelly thích nhạc truyền thống Hàn Quốc phải không?" },
+        { "who": "켈리", "ko": "네, 좋아해요. 그런데 왜요?", "vi": "Ừ, thích. Mà sao thế?" },
+        { "who": "유진", "ko": "국립국악원에서 외국인을 위한 국악 수업을 해요. 켈리 씨가 좋아할 것 같아서 전화했어요.", "vi": "Viện Quốc nhạc Quốc gia có lớp nhạc truyền thống dành cho người nước ngoài. Tôi nghĩ Kelly sẽ thích nên gọi điện." },
+        { "who": "켈리", "ko": "그래요? 무슨 요일에 하는데요?", "vi": "Vậy à? Học vào thứ mấy?" },
+        { "who": "유진", "ko": "매주 토요일에 하는데 자세한 것은 전화해서 물어보세요. 문자로 전화번호 보내 줄게요.", "vi": "Học thứ Bảy hằng tuần, chi tiết thì chị gọi điện hỏi nhé. Tôi sẽ nhắn số điện thoại cho." },
+        { "who": "켈리", "ko": "네, 고마워요.", "vi": "Ừ, cảm ơn chị." }
+      ] },
+      { "title": "말하기 2", "lines": [
+        { "who": "켈리", "ko": "여보세요? 거기 국립국악원이지요? 문의할 게 있어서 전화드렸는데요.", "vi": "Alô? Đó là Viện Quốc nhạc Quốc gia phải không ạ? Tôi có việc muốn hỏi nên gọi điện." },
+        { "who": "직원", "ko": "네, 말씀하세요.", "vi": "Vâng, chị cứ nói ạ." },
+        { "who": "켈리", "ko": "사물놀이를 배우고 싶은데 외국인을 위한 수업은 토요일밖에 없나요?", "vi": "Tôi muốn học samulnori, lớp cho người nước ngoài chỉ có thứ Bảy thôi ạ?" },
+        { "who": "직원", "ko": "네, 토요일에만 있는데요.", "vi": "Vâng, chỉ có vào thứ Bảy thôi ạ." },
+        { "who": "켈리", "ko": "신청하려면 어떻게 해야 하지요?", "vi": "Muốn đăng ký thì phải làm thế nào ạ?" },
+        { "who": "직원", "ko": "다음 주 금요일까지 전화나 인터넷으로 하시면 됩니다.", "vi": "Chị đăng ký qua điện thoại hoặc internet trước thứ Sáu tuần sau là được." },
+        { "who": "켈리", "ko": "네, 알겠습니다. 그런데 수업 들을 때 필요한 것이 있나요?", "vi": "Vâng, tôi hiểu rồi. Mà khi đi học có cần mang gì không ạ?" },
+        { "who": "직원", "ko": "아니요, 필요한 것은 모두 무료로 빌려 드리니까 그냥 오시면 됩니다.", "vi": "Không ạ, những thứ cần thiết đều được cho mượn miễn phí nên chị cứ đến là được." },
+        { "who": "켈리", "ko": "감사합니다.", "vi": "Cảm ơn anh." }
+      ] }
+    ]
+  }
+}
