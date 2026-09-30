@@ -26,7 +26,8 @@
   min-height: 100dvh;
   background: var(--color-adm-bg);
   color: var(--color-adm-ink);
-  font-family: var(--font-adm-body), 'Inter', system-ui, sans-serif;
+  /* Biến --font-ih-body vì admin/fonts.ts tái dùng đúng instance Inter của ielts/fonts.ts (xem file đó). */
+  font-family: var(--font-ih-body), 'Inter', system-ui, sans-serif;
   font-size: 14px;
 }
 
