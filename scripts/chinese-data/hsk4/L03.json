@@ -1,0 +1,106 @@
+{
+  "level": "hsk4",
+  "lesson": 53,
+  "bookLesson": 3,
+  "title": "去旅行",
+  "titleVi": "Đi du lịch",
+  "pages": [37, 45],
+  "vocab": [
+    { "hanzi": "旅行", "pinyin": "lǚxíng", "pos": "đt.", "meaning": "du lịch, lữ hành", "hanViet": "lữ hành" },
+    { "hanzi": "经历", "pinyin": "jīnglì", "pos": "dt., đt.", "meaning": "trải qua, trải nghiệm" },
+    { "hanzi": "享受", "pinyin": "xiǎngshòu", "pos": "đt.", "meaning": "hưởng thụ", "hanViet": "hưởng thụ" },
+    { "hanzi": "参观", "pinyin": "cānguān", "pos": "đt.", "meaning": "tham quan", "hanViet": "tham quan" },
+    { "hanzi": "地点", "pinyin": "dìdiǎn", "pos": "dt.", "meaning": "địa điểm", "hanViet": "địa điểm" },
+    { "hanzi": "导游", "pinyin": "dǎoyóu", "pos": "dt.", "meaning": "hướng dẫn viên du lịch" },
+    { "hanzi": "目的地", "pinyin": "mùdìdì", "pos": "dt.", "meaning": "điểm đến" },
+    { "hanzi": "信息", "pinyin": "xìnxī", "pos": "dt.", "meaning": "thông tin", "hanViet": "tín tức" },
+    { "hanzi": "详细", "pinyin": "xiángxì", "pos": "tt.", "meaning": "chi tiết" },
+    { "hanzi": "距离", "pinyin": "jùlí", "pos": "dt.", "meaning": "khoảng cách", "hanViet": "cự ly" },
+    { "hanzi": "因此", "pinyin": "yīncǐ", "pos": "liên.", "meaning": "do đó" },
+    { "hanzi": "区别", "pinyin": "qūbié", "pos": "dt.", "meaning": "sự khác biệt", "hanViet": "khu biệt" },
+    { "hanzi": "温度", "pinyin": "wēndù", "pos": "dt.", "meaning": "nhiệt độ" },
+    { "hanzi": "暖和", "pinyin": "nuǎnhuo", "pos": "tt.", "meaning": "ấm áp" },
+    { "hanzi": "段", "pinyin": "duàn", "pos": "dt.", "meaning": "khoảng, đoạn", "hanViet": "đoạn" },
+    { "hanzi": "毛衣", "pinyin": "máoyī", "pos": "dt.", "meaning": "áo len" },
+    { "hanzi": "十分", "pinyin": "shífēn", "pos": "phó.", "meaning": "vô cùng" },
+    { "hanzi": "出发", "pinyin": "chūfā", "pos": "đt.", "meaning": "xuất phát", "hanViet": "xuất phát" }
+  ],
+  "expand": [
+    { "hanzi": "大海", "pinyin": "dàhǎi", "meaning": "Biển lớn" },
+    { "hanzi": "山区", "pinyin": "shānqū", "meaning": "Vùng núi" },
+    { "hanzi": "景点", "pinyin": "jǐngdiǎn", "meaning": "Điểm tham quan" },
+    { "hanzi": "服务区", "pinyin": "fúwù qū", "meaning": "Khu dịch vụ" },
+    { "hanzi": "乘客", "pinyin": "chéngkè", "meaning": "Hành khách" },
+    { "hanzi": "售票员", "pinyin": "shòupiàoyuán", "meaning": "Người bán vé" },
+    { "hanzi": "游山玩水", "pinyin": "yóu shān wán shuǐ", "meaning": "Du ngoạn non nước" },
+    { "hanzi": "丰富多彩", "pinyin": "fēngfù duōcǎi", "meaning": "Muôn màu muôn vẻ" }
+  ],
+  "tree": {
+    "hanzi": "度",
+    "pinyin": "dù",
+    "meaning": "Độ",
+    "words": [
+      { "hanzi": "密度", "pinyin": "mìdù", "meaning": "Mật độ" },
+      { "hanzi": "过度", "pinyin": "guòdù", "meaning": "Quá độ" },
+      { "hanzi": "风度", "pinyin": "fēngdù", "meaning": "Phong độ" },
+      { "hanzi": "年度", "pinyin": "niándù", "meaning": "Niên độ" },
+      { "hanzi": "高度", "pinyin": "gāodù", "meaning": "Cao độ" },
+      { "hanzi": "进度", "pinyin": "jìndù", "meaning": "Tiến độ" },
+      { "hanzi": "制度", "pinyin": "zhìdù", "meaning": "Chế độ" },
+      { "hanzi": "态度", "pinyin": "tàidù", "meaning": "Thái độ" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "3.1",
+      "hanzi": "因此",
+      "pinyin": "yīncǐ",
+      "meaning": "cho nên, bởi vậy (quan hệ nhân quả)",
+      "note": "Loại từ: liên từ · Vị trí: vế câu biểu thị kết quả · Nghĩa: gần giống 所以, dịch là \"cho nên, bởi vậy\" · Khác 所以: 所以 đi được với 因为, còn 因此 thì không (không nói 因为…, 因此…)",
+      "theory": "Liên từ 因此 /yīncǐ/ biểu thị mối quan hệ nguyên nhân kết quả, thường đặt trong vế câu biểu thị kết quả. Ý nghĩa gần giống với \"所以\", thường dịch là \"cho nên, bởi vậy\".\n\nSo sánh 因此 và 所以:\n\nGiống nhau: đều biểu thị mối quan hệ nguyên nhân kết quả và đứng đầu vế câu biểu thị kết quả.\n\nKhác nhau: 所以 có thể đi cùng với 因为 nhưng 因此 thì không. Ví dụ nói 因为我昨天刚发工资，所以今天想请大家喝奶茶, không nói 因为…，因此….\n\nNgữ pháp đã học ở cuốn Tăng tốc xuất hiện lại trong bài: 不仅 (NP 14.3), câu chữ 把 (1) (NP 5.3), 大约 và 左右 (NP 12.3).",
+      "examples": [
+        { "zh": "他在中国已经15年了，因此很了解中国文化。", "pinyin": "Tā zài Zhōngguó yǐjīng 15 nián le, yīncǐ hěn liǎojiě Zhōngguó wénhuà.", "vi": "Anh ấy đã ở Trung Quốc 15 năm rồi, bởi vậy hiểu rất rõ về văn hóa Trung Quốc.", "vocab": "了解: hiểu rõ", "breakdown": "nguyên nhân, 因此 + kết quả" },
+        { "zh": "我上次考试没有考好，因此我这次一定得好好儿复习复习。", "pinyin": "Wǒ shàngcì kǎoshì méiyǒu kǎo hǎo, yīncǐ wǒ zhè cì yídìng děi hǎohāor fùxí fùxí.", "vi": "Bài kiểm tra lần trước tôi làm bài không được tốt, cho nên lần này tôi nhất định phải ôn bài thật cẩn thận.", "vocab": "复习: ôn tập", "breakdown": "因此 đầu vế kết quả" },
+        { "zh": "小明的自行车坏了，因此/所以今天又迟到了。", "pinyin": "Xiǎo Míng de zìxíngchē huài le, yīncǐ/suǒyǐ jīntiān yòu chídào le.", "vi": "Xe đạp của Tiểu Minh hỏng rồi, do vậy hôm nay cậu ấy lại đến muộn.", "vocab": "迟到: đến muộn", "breakdown": "Giống nhau: 因此 = 所以" },
+        { "zh": "因为我昨天刚发工资，所以今天想请大家喝奶茶。", "pinyin": "Yīnwèi wǒ zuótiān gāng fā gōngzī, suǒyǐ jīntiān xiǎng qǐng dàjiā hē nǎichá.", "vi": "Bởi vì hôm qua tôi vừa nhận lương nên hôm nay muốn mời mọi người uống trà sữa.", "vocab": "奶茶: trà sữa", "breakdown": "Khác nhau: 因为… chỉ đi với 所以, không đi với 因此" }
+      ]
+    },
+    {
+      "np": "3.2",
+      "hanzi": "十分",
+      "pinyin": "shífēn",
+      "meaning": "vô cùng, rất (mức độ cao)",
+      "note": "Loại từ: phó từ · Vị trí: đứng trước tính từ · Nghĩa: mức độ rất cao, dịch là \"vô cùng\"",
+      "theory": "Phó từ 十分 /shífēn/ thường đứng trước các tính từ, biểu thị mức độ rất cao, thường dịch là \"vô cùng\".",
+      "examples": [
+        { "zh": "张老师对小明的回答十分满意。", "pinyin": "Zhāng lǎoshī duì Xiǎo Míng de huídá shífēn mǎnyì.", "vi": "Thầy Trương vô cùng hài lòng với câu trả lời của Tiểu Minh.", "vocab": "满意: hài lòng", "breakdown": "十分 + 满意" },
+        { "zh": "我家小狗小黑长得十分可爱，一看见就想把它抱起来。", "pinyin": "Wǒjiā xiǎo gǒu xiǎo hēi zhǎng de shífēn kě'ài, yí kànjiàn jiù xiǎng bǎ tā bào qǐlai.", "vi": "Chú chó con Tiểu Hắc nhà tôi trông vô cùng đáng yêu, nhìn là muốn ôm.", "vocab": "抱: ôm", "breakdown": "十分 + 可爱" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Chúng ta cần đi du lịch. Việc đi [0:旅行] có thể làm phong phú thêm [0:经历] muôn màu cuộc sống của bạn. Nhưng trước khi có thể [0:享受] sự thư giãn của chuyến đi, bạn nên lên kế hoạch trước, chẳng hạn như sẽ đi [0:参观] mấy [0:地点] một ngày thì vừa thời gian và sức lực, từ nơi xuất phát đến [0:目的地] đi như thế nào cho tiện, tự đi hay tìm một [0:导游] là người dân địa phương dẫn đi giới thiệu về từng địa điểm, làm sao để tìm trên mạng những bài hướng dẫn đầy [0:信息] hữu ích về gợi ý ăn uống, vui chơi. Bạn lên kế hoạch càng [0:详细] bao nhiêu, thì bạn đi du lịch càng dễ dàng bấy nhiêu." },
+        { "who": "", "zh": "Từ phía Bắc Trung Quốc xuống tới phía Nam có [0:距离] vào khoảng 5.500 km, [0:因此] mà hai miền có sự [0:区别] một trời một vực về khí hậu. Nhiều nơi ở miền Nam, mùa đông không lạnh chút nào, [0:温度] hằng ngày chỉ khoảng 20 độ, tương tự như mùa xuân miền Bắc, vào khoảng thời gian tháng 2 đầu năm trời đã rất [0:暖和] rồi, không còn lạnh nữa. Trong [0:段] thời gian giao mùa này, chỉ cần áo khoác mỏng hoặc một chiếc [0:毛衣] làm lông cừu mỏng là được rồi. Cây thay lá mới, hoa cũng nở rộ, cảnh sắc thật [0:十分] rực rỡ. Vì vậy, nhiều người miền Bắc rất thích lên xe [0:出发] đi du lịch miền Nam vào thời điểm này." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "人一定要旅行，旅行能丰富你的经历，不仅会让你对很多事情有新的认识和看法，享受旅行时还能让你变得更自信。但去旅游前最好做个计划，比如要去参观几个地点，怎么坐车，带哪些东西，一共要玩儿多少天，要不要找导游，了解目的地的信息，一路怎么吃喝玩乐等。把这些都详细计划好，旅游时才会过得更轻松。", "py": "Rén yídìng yào lǚxíng, lǚxíng néng fēngfù nǐ de jīnglì, bùjǐn huì ràng nǐ duì hěn duō shìqing yǒu xīn de rènshi hé kànfǎ, xiǎngshòu lǚxíng shí hái néng ràng nǐ biàn de gèng zìxìn. Dàn qù lǚyóu qián zuì hǎo zuò gè jìhuà, bǐrú yào qù cānguān jǐ gè dìdiǎn, zěnme zuò chē, dài nǎxiē dōngxi, yígòng yào wánr duōshao tiān, yào bu yào zhǎo dǎoyóu, liǎojiě mùdìdì de xìnxī, yílù zěnme chī hē wán lè děng. Bǎ zhèxiē dōu xiángxì jìhuà hǎo, lǚyóu shí cái huì guò de gèng qīngsōng.", "vi": "Con người nhất định cần đi du lịch. Du lịch có thể làm phong phú thêm trải nghiệm của bạn. Du lịch không chỉ mang lại cho bạn sự hiểu biết và cái nhìn mới về mọi vật, mà còn khiến bạn tự tin hơn khi tận hưởng chuyến du lịch. Nhưng tốt nhất bạn nên lên kế hoạch trước khi đi du lịch, chẳng hạn như tham quan bao nhiêu nơi, đi tàu xe như thế nào, mang theo những gì, chơi tổng cộng bao nhiêu ngày hoặc có cần tìm một hướng dẫn viên du lịch không? Hiểu rõ những thông tin về điểm đến và trong cả chuyến du lịch sẽ ăn uống và vui chơi như thế nào. Lên kế hoạch chi tiết cho tất cả những điều này, sẽ giúp bạn đi du lịch dễ dàng hơn." },
+        { "who": "", "zh": "中国南北方距离大约5500公里，[1:因此]南北气候有很大区别。南方很多地方的冬天一点儿也不冷，温度跟北方春天差不多，2月份的时候已经很暖和了，这段时间人们可以只穿一件毛衣了，树长新叶，花也开了，[2:十分]漂亮。所以这个时候很多北方人喜欢出发去南方旅游。", "py": "Zhōngguó nán běi fāng jùlí dàyuē wǔ qiān wǔ bǎi gōnglǐ, [1:yīncǐ] nánběi qìhòu yǒu hěn dà qūbié. Nánfāng hěn duō dìfang de dōngtiān yìdiǎnr yě bù lěng, wēndù gēn běifāng chūntiān chàbuduō, èr yuèfèn de shíhou yǐjīng hěn nuǎnhuo le, zhè duàn shíjiān rénmen kěyǐ zhǐ chuān yí jiàn máoyī le, shù zhǎng xīn yè, huā yě kāi le, [2:shífēn] piàoliang. Suǒyǐ zhège shíhou hěn duō běifāng rén xǐhuan chūfā qù nánfāng lǚyóu.", "vi": "Khoảng cách giữa Bắc - Nam của Trung Quốc là khoảng 5.500 km, [1:do đó] có sự khác biệt lớn về khí hậu giữa 2 miền. Nhiều nơi ở miền Nam, mùa đông không lạnh chút nào, nhiệt độ cũng tương tự như mùa xuân miền Bắc, vào tháng 2 trời đã rất ấm. Trong thời gian này, người ta chỉ cần mặc một chiếc áo len là được rồi. Cây thay lá mới, hoa cũng nở rộ, cảnh sắc [2:rất] đẹp. Vì vậy, vào thời điểm này, nhiều người miền Bắc thích đi miền Nam du lịch." }
+      ],
+      "legend": [
+        { "n": 1, "label": "因此", "np": "NP 3.1" },
+        { "n": 2, "label": "十分", "np": "NP 3.2" }
+      ],
+      "note": {
+        "title": "Chú thích",
+        "text": "1. 吃喝玩乐 /chī hē wán lè/ là cụm bốn chữ dùng để diễn tả ý \"ăn chơi hưởng thụ\".\n2. 月份 /yuèfèn/ là cách diễn đạt văn viết của từ 月 khi nói về thời gian, thường dịch là \"tháng\"."
+      }
+    }
+  ]
+}

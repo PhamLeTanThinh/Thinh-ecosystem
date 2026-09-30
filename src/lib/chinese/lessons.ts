@@ -1,9 +1,10 @@
 import { HSK3_LESSON_META } from './hsk3'
+import { HSK4_LESSON_META } from './hsk4'
 
 // Bài học tiếng Trung chia theo cấp độ HSK — CHỈ thêm bài vào đây khi đã có nội dung thật (xác nhận
 // qua ảnh giáo trình), giống cách lib/korean/lessons.ts lấy từ "Seoul Korean 2". Chưa có bài nào
 // thì KHÔNG tạo placeholder rỗng — tránh hiển thị bài học giả trong Sidebar.
-// HSK 3 (cuốn "Tăng tốc", bài 26-50) sinh tự động vào ./hsk3.ts bởi scripts/import-chinese-lessons.mjs.
+// HSK 3 (cuốn "Tăng tốc", bài 26-50) và HSK 4 (cuốn "Cất cánh", bài 51-70) sinh tự động vào ./hsk3.ts, ./hsk4.ts bởi scripts/import-chinese-lessons.mjs.
 export type HskLevel = 'hsk12' | 'hsk3' | 'hsk4' | 'hsk5' | 'hsk6'
 
 export const HSK_LEVELS: { key: HskLevel; label: string }[] = [
@@ -48,6 +49,7 @@ export const LESSON_META: Record<number, LessonMeta> = {
   24: { level: 'hsk12', title: '她工作又认真又热情', titleVi: 'Cô ấy làm việc vừa chăm chỉ vừa nhiệt tình' },
   25: { level: 'hsk12', title: '时间过得真快', titleVi: 'Thời gian trôi thật nhanh' },
   ...HSK3_LESSON_META,
+  ...HSK4_LESSON_META,
 }
 
 // Thẻ chưa được gán vào bài nào (vd: dữ liệu cũ trước khi có khái niệm "bài học") nằm ở đây,

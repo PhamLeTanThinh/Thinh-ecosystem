@@ -1,0 +1,129 @@
+{
+  "level": "hsk4",
+  "lesson": 56,
+  "bookLesson": 6,
+  "title": "结婚成家",
+  "titleVi": "Hôn nhân – Gia đình",
+  "pages": [64, 72],
+  "vocab": [
+    { "hanzi": "婚姻", "pinyin": "hūnyīn", "pos": "dt.", "meaning": "hôn nhân", "hanViet": "hôn nhân" },
+    { "hanzi": "通过", "pinyin": "tōngguò", "pos": "giới.", "meaning": "thông qua", "hanViet": "thông qua" },
+    { "hanzi": "互相", "pinyin": "hùxiāng", "pos": "phó.", "meaning": "lẫn nhau" },
+    { "hanzi": "感冒", "pinyin": "gǎnmào", "pos": "đt.", "meaning": "cảm cúm" },
+    { "hanzi": "深", "pinyin": "shēn", "pos": "tt.", "meaning": "sâu, đậm", "hanViet": "thâm" },
+    { "hanzi": "感动", "pinyin": "gǎndòng", "pos": "đt.", "meaning": "cảm động", "hanViet": "cảm động" },
+    { "hanzi": "浪漫", "pinyin": "làngmàn", "pos": "tt.", "meaning": "lãng mạn", "hanViet": "lãng mạn" },
+    { "hanzi": "破", "pinyin": "pò", "pos": "đt.", "meaning": "vỡ, rách" },
+    { "hanzi": "夫妻", "pinyin": "fūqī", "pos": "dt.", "meaning": "vợ chồng", "hanViet": "phu thê" },
+    { "hanzi": "成长", "pinyin": "chéngzhǎng", "pos": "đt.", "meaning": "trưởng thành", "hanViet": "thành trưởng" },
+    { "hanzi": "吵架", "pinyin": "chǎojià", "pos": "đt.", "meaning": "cãi nhau" },
+    { "hanzi": "幸福", "pinyin": "xìngfú", "pos": "tt., dt.", "meaning": "hạnh phúc", "hanViet": "hạnh phúc" },
+    { "hanzi": "永远", "pinyin": "yǒngyuǎn", "pos": "phó.", "meaning": "mãi mãi, vĩnh viễn", "hanViet": "vĩnh viễn" },
+    { "hanzi": "接受", "pinyin": "jiēshòu", "pos": "đt.", "meaning": "tiếp nhận", "hanViet": "tiếp thụ" },
+    { "hanzi": "故意", "pinyin": "gùyì", "pos": "đt.", "meaning": "cố ý", "hanViet": "cố ý" },
+    { "hanzi": "耐心", "pinyin": "nàixīn", "pos": "dt.", "meaning": "lòng kiên nhẫn" },
+    { "hanzi": "商量", "pinyin": "shāngliang", "pos": "đt.", "meaning": "thương lượng", "hanViet": "thương lượng" },
+    { "hanzi": "偶尔", "pinyin": "ǒu'ěr", "pos": "phó.", "meaning": "thỉnh thoảng" },
+    { "hanzi": "对于", "pinyin": "duìyú", "pos": "giới.", "meaning": "đối với" }
+  ],
+  "expand": [
+    { "hanzi": "婆媳关系", "pinyin": "póxí guānxì", "meaning": "Quan hệ mẹ chồng nàng dâu" },
+    { "hanzi": "嫁妆", "pinyin": "jiàzhuang", "meaning": "Của hồi môn" },
+    { "hanzi": "婚宴", "pinyin": "hūnyàn", "meaning": "Tiệc cưới" },
+    { "hanzi": "蜜月", "pinyin": "mìyuè", "meaning": "Tuần trăng mật" },
+    { "hanzi": "再婚", "pinyin": "zàihūn", "meaning": "Tái hôn" },
+    { "hanzi": "离婚", "pinyin": "líhūn", "meaning": "Li hôn" },
+    { "hanzi": "订婚", "pinyin": "dìnghūn", "meaning": "Đính hôn" },
+    { "hanzi": "提亲", "pinyin": "tíqīn", "meaning": "Dạm ngõ" }
+  ],
+  "tree": {
+    "hanzi": "感",
+    "pinyin": "gǎn",
+    "meaning": "Cảm",
+    "words": [
+      { "hanzi": "感动", "pinyin": "gǎndòng", "meaning": "Cảm động" },
+      { "hanzi": "感激", "pinyin": "gǎnjī", "meaning": "Cảm kích" },
+      { "hanzi": "感触", "pinyin": "gǎnchù", "meaning": "Cảm xúc" },
+      { "hanzi": "同感", "pinyin": "tónggǎn", "meaning": "Đồng cảm" },
+      { "hanzi": "感叹", "pinyin": "gǎntàn", "meaning": "Cảm thán" },
+      { "hanzi": "反感", "pinyin": "fǎngǎn", "meaning": "Phản cảm" },
+      { "hanzi": "敏感", "pinyin": "mǐngǎn", "meaning": "Mẫn cảm" },
+      { "hanzi": "灵感", "pinyin": "línggǎn", "meaning": "Linh cảm" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "6.1",
+      "hanzi": "通过……来……",
+      "pinyin": "tōngguò…… lái……",
+      "meaning": "dùng… để… (phương thức thực hiện hành động)",
+      "note": "Cấu trúc: 通过 + Phương thức + 来 + Động · Nghĩa: diễn tả sử dụng phương thức gì thực hiện được hành động, dịch là \"dùng…để…\"",
+      "theory": "Cấu trúc 通过 /tōngguò/ + Phương thức + 来 /lái/ + Động diễn tả sử dụng phương thức gì thực hiện được hành động, thường dịch là \"dùng…để…\".\n\nNgữ pháp đã học xuất hiện lại trong bài: 即使 (NP 2.2, Cất cánh), 不仅 (NP 14.3, Tăng tốc), 以为 (NP 16.2, Tăng tốc).",
+      "examples": [
+        { "zh": "很多年轻人通过手机APP来点外卖。", "pinyin": "Hěn duō niánqīng rén tōngguò shǒujī APP lái diǎn wàimài.", "vi": "Nhiều người trẻ sử dụng các ứng dụng di động để gọi đồ ăn ngoài.", "vocab": "外卖 (wàimài): đồ ăn ngoài", "breakdown": "通过 + 手机APP + 来 + 点外卖" },
+        { "zh": "我可以通过脸书来做些什么？", "pinyin": "Wǒ kěyǐ tōngguò liǎnshū lái zuò xiē shénme?", "vi": "Tôi có thể làm gì với Facebook?", "vocab": "脸书: Facebook", "breakdown": "通过 + 脸书 + 来 + 做…" }
+      ]
+    },
+    {
+      "np": "6.2",
+      "hanzi": "相反",
+      "pinyin": "xiāngfǎn",
+      "meaning": "ngược lại; trái ngược",
+      "note": "Liên từ: sự chuyển biến về ý nghĩa hoặc tăng tiến giữa hai vế câu, đứng đầu hoặc giữa vế sau, dịch là \"ngược lại\" · Tính từ: hai sự việc đối lập, mâu thuẫn, dịch là \"trái ngược\"; bổ nghĩa danh từ thì thêm 的 (相反的人)",
+      "theory": "Liên từ 相反 /xiāngfǎn/ thể hiện sự chuyển biến về ý nghĩa hoặc diễn tả sự tăng tiến giữa hai vế câu. 相反 thường đứng ở đầu hoặc ở giữa vế câu sau, thường dịch là \"ngược lại\".\n\nBên cạnh đó, 相反 khi đóng vai trò làm tính từ mang ý chỉ sự đối lập, mâu thuẫn lẫn nhau của hai sự việc hoặc hai mặt của một sự vật, sự việc. Nếu đi cùng 相反 có danh từ liền sau thì phải thêm 的 để bổ nghĩa danh từ đó, thường dịch là \"trái ngược\".",
+      "examples": [
+        { "zh": "他的病很久了都没有好起来，相反还病得更重了。", "pinyin": "Tā de bìng hěnjiǔ le dōu méiyǒu hǎo qǐlai, xiāngfǎn hái bìng de gèng zhòng le.", "vi": "Anh ấy ốm rất lâu rồi mà vẫn chưa đỡ, ngược lại còn ốm nặng hơn.", "vocab": "", "breakdown": "Liên từ: 相反 đầu vế sau" },
+        { "zh": "有时候批评不是因为人家不喜欢你，相反，是为你好的。", "pinyin": "Yǒu shíhou pīpíng búshì yīnwèi rénjiā bù xǐhuan nǐ, xiāngfǎn, shì wèi nǐ hǎo de.", "vi": "Đôi khi phê bình không phải là bởi người khác không thích bạn, ngược lại là vì muốn tốt cho bạn.", "vocab": "批评: phê bình", "breakdown": "Liên từ: 相反" },
+        { "zh": "他的想法和我的完全相反。", "pinyin": "Tā de xiǎngfǎ hé wǒ de wánquán xiāngfǎn.", "vi": "Cách nghĩ của anh ấy với tôi hoàn toàn trái ngược.", "vocab": "", "breakdown": "Tính từ: 完全相反" },
+        { "zh": "你会跟一个性格和你相反的人做朋友吗？", "pinyin": "Nǐ huì gēn yí ge xìnggé hé nǐ xiāngfǎn de rén zuò péngyou ma?", "vi": "Bạn sẽ làm bạn với một người có tính cách trái ngược bạn chứ?", "vocab": "性格: tính cách", "breakdown": "Tính từ + 的 + 人" }
+      ]
+    },
+    {
+      "np": "6.3",
+      "hanzi": "偶尔",
+      "pinyin": "ǒu'ěr",
+      "meaning": "thỉnh thoảng (tần suất thấp)",
+      "note": "Loại từ: phó từ · Nghĩa: sự việc xảy ra với tần suất thấp, không thường xuyên, dịch là \"thỉnh thoảng, thi thoảng\"",
+      "theory": "Phó từ 偶尔 /ǒu'ěr/ thể hiện sự việc được xảy ra với tần suất thấp, không thường xuyên; thường dịch là \"thỉnh thoảng, thi thoảng\".",
+      "examples": [
+        { "zh": "周末小明经常在家里复习功课，偶尔也会跟朋友出来看个电影。", "pinyin": "Zhōumò Xiǎo Míng jīngcháng zài jiālǐ fùxí gōngkè, ǒu'ěr yě huì gēn péngyou chūlái kàn gè diànyǐng.", "vi": "Cuối tuần Tiểu Minh thường ở nhà ôn tập bài vở, thỉnh thoảng cũng cùng bạn bè ra ngoài xem phim.", "vocab": "功课: bài vở", "breakdown": "经常 ↔ 偶尔" },
+        { "zh": "偶尔犯点小错误也是难免的。", "pinyin": "Ǒu'ěr fàn diǎn xiǎo cuòwù yěshì nánmiǎn de.", "vi": "Thỉnh thoảng phạm chút lỗi nhỏ cũng là chuyện khó tránh.", "vocab": "难免: khó tránh", "breakdown": "偶尔 + 犯…" }
+      ]
+    },
+    {
+      "np": "6.4",
+      "hanzi": "对于",
+      "pinyin": "duìyú",
+      "meaning": "đối, đối với",
+      "note": "Loại từ: giới từ · Nghĩa: mối quan hệ dẫn dắt người, sự vật hoặc sự việc có liên quan, dịch là \"đối, đối với\"",
+      "theory": "Giới từ 对于 /duìyú/ biểu thị mối quan hệ dẫn dắt người, sự vật hoặc sự việc có liên quan, thường dịch là \"đối, đối với\".",
+      "examples": [
+        { "zh": "对于这个消息，大家都很感兴趣。", "pinyin": "Duìyú zhège xiāoxi, dàjiā dōu hěn gǎn xìngqù.", "vi": "Mọi người đều rất quan tâm đến tin tức này.", "vocab": "消息: tin tức", "breakdown": "对于 + 这个消息" },
+        { "zh": "这个机会对于我来说真是十分难得，我一定要努力争取。", "pinyin": "Zhège jīhuì duìyú wǒ lái shuō zhēnshi shífēn nándé, wǒ yídìng yào nǔlì zhēngqǔ.", "vi": "Cơ hội này đối với tôi mà nói thật sự rất khó có được, tôi nhất định phải nỗ lực giành lấy.", "vocab": "争取: giành lấy", "breakdown": "对于 + 我 + 来说" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Việc [0:婚姻] đại sự của người trẻ hiện đại ngày nay là dựa theo cảm tính, ý kiến của bố mẹ không còn quá quan trọng. Dù quen nhau [0:通过] sự giới thiệu của bạn bè, nhưng nếu cả hai bên thiếu đi sự tôn trọng [0:互相], thiếu tin tưởng đối phương, không thể làm đối phương \"[0:感冒]\" nắng, hay khiến trái tim mình [0:感动] một cách [0:深] sắc thì người ta có thể đi mất, chuyện tình cảm [0:浪漫] vẫn chưa bắt đầu đã [0:破] thành từng mảnh rồi." },
+        { "who": "", "zh": "Một cặp [0:夫妻] son sau khi cưới về chung một nhà, nhưng không thể phủ nhận họ từ bé được nuôi lớn và [0:成长] trong những môi trường khác nhau, nên chuyện [0:吵架] lớn tiếng sau hôn nhân không có gì là lạ. Ngược lại, thật bất bình thường nếu bạn nghĩ rằng một cuộc hôn nhân [0:幸福] mỹ mãn nghĩa là [0:永远] không bao giờ cãi vã. Học cách chấp nhận là điều rất quan trọng, học cách [0:接受] mọi việc với thái độ tích cực, đừng [0:故意] tìm cớ gây sự, phải thật [0:耐心] để lắng nghe tâm tư của đối phương, cùng đối phương [0:商量] về giải pháp, được như thế thì lâu lâu [0:偶尔] cãi vã một vài lần sẽ không ảnh hưởng [0:对于] chất lượng hôn nhân đâu." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "现代年轻人的婚姻是跟着感觉走，父母的意见已经不那么重要了。即使是[1:通过]朋友介绍互相认识，如果对对方不\"感冒\"，没有给自己留下深深的感动，也可以马上走人，浪漫故事还没开始一下子就被打破了。", "py": "Xiàndài niánqīng rén de hūnyīn shì gēnzhe gǎnjué zǒu, fùmǔ de yìjiàn yǐjīng bú nàme zhòngyào le. Jíshǐ shì [1:tōngguò] péngyou jièshào hùxiāng rènshi, rúguǒ duì duìfāng bù \"gǎnmào\", méiyǒu gěi zìjǐ liú xià shēnshēn de gǎndòng, yě kěyǐ mǎshàng zǒu rén, làngmàn gùshi hái méi kāishǐ yíxiàzi jiù bèi dǎpò le.", "vi": "Việc kết hôn của giới trẻ hiện đại ngày nay là dựa theo cảm tính, ý kiến của bố mẹ không còn quá quan trọng. Dù quen nhau [1:thông qua] sự giới thiệu của bạn bè nhưng nếu không \"cảm nắng\" nhau và khiến bản thân xúc động thì có thể rời đi ngay lập tức. Chuyện tình cảm lãng mạn vẫn chưa bắt đầu đã tan vỡ." },
+        { "who": "", "zh": "一对夫妻不仅成长环境不同，性格爱好、习惯基础也不同，所以婚后吵架也不是什么奇怪的事。[2:相反]，要是以为幸福的婚姻就是永远不吵架，这才是不正常的。其实，只要学会以积极的态度来接受，不要故意没事找事，耐心地跟另一半共同努力，商量办法，[3:偶尔]吵吵架[4:对于]婚姻并不会影响，而且还能提高婚姻质量。", "py": "Yí duì fūqī bùjǐn chéngzhǎng huánjìng bùtóng, xìnggé àihào, xíguàn jīchǔ yě bùtóng, suǒyǐ hūn hòu chǎojià yě búshì shénme qíguài de shì. [2:Xiāngfǎn], yàoshi yǐwéi xìngfú de hūnyīn jiùshì yǒngyuǎn bù chǎojià, zhè cái shì bú zhèngcháng de. Qíshí, zhǐyào xuéhuì yǐ jījí de tàidù lái jiēshòu, búyào gùyì méishì zhǎoshì, nàixīn de gēn lìng yí bàn gòngtóng nǔlì, shāngliang bànfǎ, [3:ǒu'ěr] chǎochao jià [4:duìyú] hūnyīn bìng bú huì yǐngxiǎng, érqiě hái néng tígāo hūnyīn zhìliàng.", "vi": "Một cặp vợ chồng không chỉ lớn lên trong những môi trường khác nhau mà còn có những tính cách, sở thích, thói quen khác nhau nên chuyện cãi vã sau hôn nhân không có gì là lạ. [2:Ngược lại], thật bất bình thường nếu bạn nghĩ rằng một cuộc hôn nhân hạnh phúc nghĩa là không bao giờ cãi vã. Trên thực tế, chỉ cần bạn học cách chấp nhận với thái độ tích cực, không cố tình tìm cớ gây sự, và kiên nhẫn cùng đối phương thảo luận về biện pháp thì việc [3:thi thoảng] xảy ra cãi vã cũng sẽ không ảnh hưởng [4:đối với] hôn nhân, thậm chí nó còn có thể nâng cao chất lượng cuộc hôn nhân." }
+      ],
+      "legend": [
+        { "n": 1, "label": "通过", "np": "NP 6.1" },
+        { "n": 2, "label": "相反", "np": "NP 6.2" },
+        { "n": 3, "label": "偶尔", "np": "NP 6.3" },
+        { "n": 4, "label": "对于", "np": "NP 6.4" }
+      ]
+    }
+  ]
+}

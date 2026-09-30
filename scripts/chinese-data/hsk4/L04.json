@@ -1,0 +1,117 @@
+{
+  "level": "hsk4",
+  "lesson": 54,
+  "bookLesson": 4,
+  "title": "交通工具",
+  "titleVi": "Phương tiện giao thông",
+  "pages": [46, 54],
+  "vocab": [
+    { "hanzi": "交通", "pinyin": "jiāotōng", "pos": "dt.", "meaning": "giao thông", "hanViet": "giao thông" },
+    { "hanzi": "汽车", "pinyin": "qìchē", "pos": "dt.", "meaning": "xe hơi" },
+    { "hanzi": "拉", "pinyin": "lā", "pos": "đt.", "meaning": "kéo" },
+    { "hanzi": "之间", "pinyin": "zhījiān", "pos": "dt.", "meaning": "giữa" },
+    { "hanzi": "并且", "pinyin": "bìngqiě", "pos": "liên.", "meaning": "đồng thời" },
+    { "hanzi": "大概", "pinyin": "dàgài", "pos": "phó.", "meaning": "đại khái, khoảng", "hanViet": "đại khái" },
+    { "hanzi": "高速公路", "pinyin": "gāosù gōnglù", "pos": "cụm.", "meaning": "đường cao tốc" },
+    { "hanzi": "速度", "pinyin": "sùdù", "pos": "dt.", "meaning": "tốc độ", "hanViet": "tốc độ" },
+    { "hanzi": "出现", "pinyin": "chūxiàn", "pos": "đt.", "meaning": "xuất hiện", "hanViet": "xuất hiện" },
+    { "hanzi": "优点", "pinyin": "yōudiǎn", "pos": "dt.", "meaning": "ưu điểm", "hanViet": "ưu điểm" },
+    { "hanzi": "安全", "pinyin": "ānquán", "pos": "tt.", "meaning": "an toàn", "hanViet": "an toàn" },
+    { "hanzi": "乘坐", "pinyin": "chéngzuò", "pos": "đt.", "meaning": "ngồi" },
+    { "hanzi": "然而", "pinyin": "rán'ér", "pos": "liên.", "meaning": "song, nhưng" },
+    { "hanzi": "收费", "pinyin": "shōufèi", "pos": "đt.", "meaning": "thu phí", "hanViet": "thu phí" },
+    { "hanzi": "收", "pinyin": "shōu", "pos": "đt.", "meaning": "thu", "hanViet": "thu" },
+    { "hanzi": "共同", "pinyin": "gòngtóng", "pos": "tt.", "meaning": "chung" },
+    { "hanzi": "金钱", "pinyin": "jīnqián", "pos": "dt.", "meaning": "tiền" },
+    { "hanzi": "堵车", "pinyin": "dǔchē", "pos": "đt.", "meaning": "tắc đường" }
+  ],
+  "expand": [
+    { "hanzi": "车位", "pinyin": "chēwèi", "meaning": "Chỗ đỗ xe" },
+    { "hanzi": "迷路", "pinyin": "mílù", "meaning": "Lạc đường" },
+    { "hanzi": "导航", "pinyin": "dǎoháng", "meaning": "Định vị chỉ đường" },
+    { "hanzi": "停车场", "pinyin": "tíngchē chǎng", "meaning": "Bãi đỗ xe" },
+    { "hanzi": "交警", "pinyin": "jiāojǐng", "meaning": "Cảnh sát giao thông" },
+    { "hanzi": "人行横道线", "pinyin": "rénxínghéngdào xiàn", "meaning": "Vạch kẻ đường dành cho người đi bộ" },
+    { "hanzi": "超速", "pinyin": "chāosù", "meaning": "Vượt tốc độ" },
+    { "hanzi": "交通事故", "pinyin": "jiāotōng shìgù", "meaning": "Tai nạn giao thông" }
+  ],
+  "tree": {
+    "hanzi": "工",
+    "pinyin": "gōng",
+    "meaning": "Công",
+    "words": [
+      { "hanzi": "工程", "pinyin": "gōngchéng", "meaning": "Công trình" },
+      { "hanzi": "加工", "pinyin": "jiāgōng", "meaning": "Gia công" },
+      { "hanzi": "手工", "pinyin": "shǒugōng", "meaning": "Thủ công" },
+      { "hanzi": "工厂", "pinyin": "gōngchǎng", "meaning": "Công xưởng" },
+      { "hanzi": "施工", "pinyin": "shīgōng", "meaning": "Thi công" },
+      { "hanzi": "工人", "pinyin": "gōngrén", "meaning": "Công nhân" },
+      { "hanzi": "罢工", "pinyin": "bàgōng", "meaning": "Bãi công" },
+      { "hanzi": "工业", "pinyin": "gōngyè", "meaning": "Công nghiệp" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "4.1",
+      "hanzi": "并且",
+      "pinyin": "bìngqiě",
+      "meaning": "đồng thời, hơn nữa, mà còn… (quan hệ tăng tiến)",
+      "note": "Loại từ: liên từ · Nghĩa: quan hệ tăng tiến, hai động tác thực hiện cùng lúc hoặc lần lượt · Vị trí: giữa hai động từ hoặc nối hai vế câu; trong câu phức thường nằm ở vế sau, dịch là \"đồng thời, hơn nữa, mà còn…\"",
+      "theory": "Liên từ 并且 /bìngqiě/ biểu thị mối quan hệ tăng tiến, hai động tác được thực hiện cùng lúc hoặc lần lượt tiến hành, thường đặt giữa hai động từ hoặc để nối hai vế câu với nhau. Trong câu phức, 并且 thường nằm ở vế câu sau biểu thị sự tăng tiến trong mặt ý nghĩa, thường dịch là \"đồng thời, hơn nữa, mà còn…\".\n\nNgữ pháp đã học ở cuốn Tăng tốc xuất hiện lại trong bài: 既…又/也/还… (NP 23.3), 越来越 (NP 1.1), 不仅 (NP 14.3), 连 (NP 20.3).",
+      "examples": [
+        { "zh": "一看到我走进房间，他满脸笑容并且用汉语大声地说\"好久不见\"。", "pinyin": "Yí kàn dào wǒ zǒu jìn fángjiān, tā mǎn liǎn xiàoróng bìngqiě yòng Hànyǔ dàshēng de shuō \"Hǎojiǔ bújiàn\".", "vi": "Vừa thấy tôi bước vào phòng, anh ấy đã cười tít mắt và nói to \"Lâu lắm không gặp\" bằng Tiếng Trung.", "vocab": "满脸笑容: tươi cười rạng rỡ", "breakdown": "并且 nối hai hành động" },
+        { "zh": "她写汉字写得很快，并且也写得很好看。", "pinyin": "Tā xiě hànzì xiě de hěn kuài, bìngqiě yě xiě de hěn hǎokàn.", "vi": "Cô ấy viết chữ hán rất nhanh, hơn nữa còn viết rất đẹp.", "vocab": "", "breakdown": "并且 + 也: tăng tiến" }
+      ]
+    },
+    {
+      "np": "4.2",
+      "hanzi": "大概",
+      "pinyin": "dàgài",
+      "meaning": "đại khái, có lẽ, khoảng (ước chừng / phỏng đoán)",
+      "note": "Loại từ: phó từ · Nghĩa 1: ước chừng, không rõ ràng về số lượng, thời gian, trạng thái · Nghĩa 2: phỏng đoán về khả năng, tình hình của sự việc · Dịch: \"đại khái, có lẽ, khoảng\"",
+      "theory": "Phó từ 大概 /dàgài/ biểu thị ý nghĩa ước chừng, không rõ ràng, chính xác của số lượng, thời gian hoặc trạng thái nào đó, thường dịch là \"đại khái, có lẽ, khoảng\".\n\nNgoài ra phó từ 大概 còn mang ý nghĩa phỏng đoán, ước chừng về khả năng, tình hình của một sự việc hoặc trạng thái.",
+      "examples": [
+        { "zh": "请问，我需要的那些书大概几点能送到呢？", "pinyin": "Qǐngwèn, wǒ xūyào de nàxiē shū dàgài jǐ diǎn néng sòng dào ne?", "vi": "Xin hỏi mấy quyển sách tôi cần khoảng mấy giờ có thể mang tới vậy?", "vocab": "送到: gửi đến", "breakdown": "Ước chừng thời gian" },
+        { "zh": "他大概是怎么样的一个人啊？", "pinyin": "Tā dàgài shì zěnmeyàng de yí gè rén a?", "vi": "Anh ấy đại khái là một người như thế nào?", "vocab": "", "breakdown": "Ước chừng trạng thái" },
+        { "zh": "小明对你那么好，大概是因为喜欢你了吧。", "pinyin": "Xiǎo Míng duì nǐ nàme hǎo, dàgài shì yīnwèi xǐhuan nǐ le ba.", "vi": "Tiểu Minh đối với cậu tốt như thế, có lẽ là bởi vì thích cậu rồi đấy.", "vocab": "", "breakdown": "Phỏng đoán khả năng" },
+        { "zh": "大概再过两天他会回来的，你不用太着急。", "pinyin": "Dàgài zài guò liǎng tiān tā huì huílái de, nǐ búyòng tài zháojí.", "vi": "Khoảng hai hôm nữa anh ấy sẽ quay lại, bạn không cần lo lắng quá đâu.", "vocab": "", "breakdown": "Phỏng đoán" }
+      ]
+    },
+    {
+      "np": "4.3",
+      "hanzi": "然而",
+      "pinyin": "rán'ér",
+      "meaning": "song, vậy mà, thế mà… (chuyển ngoặt)",
+      "note": "Loại từ: liên từ · Vị trí: đầu vế câu sau · Nghĩa: vế sau tương phản hoặc nằm ngoài dự đoán ở vế trước, dịch là \"song, vậy mà, thế mà…\"",
+      "theory": "Liên từ 然而 /rán'ér/ biểu thị mối quan hệ chuyển ngoặt, thường đặt ở đầu vế câu sau mang ý nghĩa vế câu sau tương phản hoặc nằm ngoài dự đoán được đưa ra ở vế câu trước, thường dịch là \"song, vậy mà, thế mà…\".",
+      "examples": [
+        { "zh": "我以为他会因此生气，然而他却笑了说没关系。", "pinyin": "Wǒ yǐwéi tā huì yīncǐ shēngqì, rán'ér tā què xiào le shuō méiguānxi.", "vi": "Tôi cứ tưởng anh ấy sẽ bởi vậy tức giận, thế mà anh ấy lại cười nói không sao đâu.", "vocab": "生气: tức giận", "breakdown": "Ngoài dự đoán: 然而 + 却" },
+        { "zh": "这几年城市的变化很大，然而那条小路还是像以前一样不好走。", "pinyin": "Zhè jǐ nián chéngshì de biànhuà hěn dà, rán'ér nà tiáo xiǎolù háishi xiàng yǐqián yíyàng bù hǎo zǒu.", "vi": "Mấy năm nay thành phố có sự thay đổi rất lớn, song con đường này vẫn giống hệt như trước rất khó đi.", "vocab": "", "breakdown": "Tương phản: 然而 đầu vế sau" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Phương tiện [0:交通] là một phần không thể thiếu trong cuộc sống, như [0:汽车] 4 chỗ - 7 chỗ, máy bay, tàu thuyền,... Nhờ giao thông phát triển mà khoảng cách [0:之间] người với người được [0:拉] gần lại, sự phát triển ấy có thể tăng cường phát triển kinh tế [0:并且] nâng cao chất lượng cuộc sống của người dân." },
+        { "who": "", "zh": "Hiện nay trên thế giới ước tính có [0:大概] 80-81 quốc gia đã có [0:公路] cao tốc. Đường [0:高速] nói chung có thể thích hợp với [0:速度] trên 120 km/h trở lên. Sự [0:出现] của đường cao tốc mang lại cả [0:优点] và nhược điểm. Tốc độ nhanh, vận hành [0:安全] tiết kiệm, chúng ta vì chỉ cần [0:乘坐] yên vị trên ghế là dễ dàng di chuyển giữa các nơi. Tuy ưu điểm là thế, [0:然而] đường cao tốc lại tác động lớn đến môi trường và mức phí tại các trạm [0:收费] đường bộ khá cao." },
+        { "who": "", "zh": "Hiện nay ở các thành phố, ngày càng nhiều người lựa chọn đi bộ đi làm, lý do [0:共同] mà họ đưa ra là bởi như thế không chỉ rèn luyện thân thể, tiết kiệm [0:金钱] di chuyển hằng tháng, mà còn giảm [0:堵车] giao thông giờ cao điểm." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "交通工具是生活中不可缺少的一部分。常见的交通工具有汽车、飞机、船等，这一切拉近了人与人之间的距离，[1:并且]增加了各地方之间的经济联系和发展，提高人们的生活质量。", "py": "Jiāotōng gōngjù shì shēnghuó zhōng bùkě quēshǎo de yí bùfen. Chángjiàn de jiāotōng gōngjù yǒu qìchē, fēijī, chuán děng, zhè yíqiè lā jìn le rén yǔ rén zhī jiān de jùlí, [1:bìngqiě] zēngjiā le gè dìfang zhī jiān de jīngjì liánxì hé fāzhǎn, tígāo rénmen de shēnghuó zhìliàng.", "vi": "Phương tiện giao thông là một phần không thể thiếu trong cuộc sống. Một số phương tiện giao thông phổ biến là ô tô, máy bay, tàu thuyền,... tất cả đều rút ngắn khoảng cách giữa con người với nhau, tăng cường kết nối và phát triển kinh tế giữa các nơi, [1:và] nâng cao chất lượng cuộc sống của người dân." },
+        { "who": "", "zh": "现在全世界[2:大概]80多个国家有高速公路。高速公路一般能适应每小时120公里以上的速度。高速公路的出现既带来了优点，也有些缺点，虽然速度快，安全，方便人们乘坐，[3:然而]对环境影响也大、收费高。", "py": "Xiànzài quán shìjiè [2:dàgài] 80 duō gè guójiā yǒu gāosù gōnglù. Gāosù gōnglù yìbān néng shìyìng měi xiǎoshí 120 gōnglǐ yǐshàng de sùdù. Gāosù gōnglù de chūxiàn jì dài lái le yōudiǎn yě yǒuxiē quēdiǎn, suīrán sùdù kuài, ānquán, fāngbiàn rénmen chéngzuò, [3:rán'ér] duì huánjìng yǐngxiǎng yě dà, shōufèi gāo.", "vi": "Hiện nay trên thế giới [2:hơn] 80 quốc gia đã có đường cao tốc. Đường cao tốc nói chung có thể thích hợp với tốc độ trên 120 km/h trở lên. Sự ra đời của đường cao tốc mang lại cả ưu và nhược điểm. Tuy chúng nhanh, an toàn, thuận tiện cho người dân đi lại, [3:nhưng lại] tác động lớn đến môi trường và mức thu phí cao." },
+        { "who": "", "zh": "现在，城市里越来越多的\"汽车族\"变成了\"弃车族\"，走路上下班成为他们共同的生活习惯。人们放弃开车，不仅能锻炼身体，节约金钱，还减少路上堵车情况，这样一来，连空气也变新鲜了。", "py": "Xiànzài, chéngshì lǐ yuè lái yuè duō de \"qìchē zú\" biàn chéng le \"qì chē zú\", zǒulù shàng xià bān chéngwéi tāmen gòngtóng de shēnghuó xíguàn. Rénmen fàngqì kāichē, bùjǐn néng duànliàn shēntǐ, jiéyuē jīnqián, hái jiǎnshǎo lùshang dǔchē qíngkuàng, zhèyàng yì lái, lián kōngqì yě biàn xīnxiān le.", "vi": "Giờ đây, ở các thành phố ngày càng có nhiều \"dân xe hơi\" trở thành \"dân không xe\", và việc đi bộ đi làm, tan làm đã trở thành thói quen sinh hoạt chung của họ. Mọi người từ bỏ việc lái xe, không chỉ rèn luyện thân thể, tiết kiệm chi phí mà còn giảm ùn tắc giao thông trên đường. Hiện tượng như vậy xuất hiện, không khí cũng trở nên trong lành hơn." }
+      ],
+      "legend": [
+        { "n": 1, "label": "并且", "np": "NP 4.1" },
+        { "n": 2, "label": "大概", "np": "NP 4.2" },
+        { "n": 3, "label": "然而", "np": "NP 4.3" }
+      ]
+    }
+  ]
+}

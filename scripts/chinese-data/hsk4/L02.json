@@ -1,0 +1,128 @@
+{
+  "level": "hsk4",
+  "lesson": 52,
+  "bookLesson": 2,
+  "title": "文化故事",
+  "titleVi": "Câu chuyện văn hóa",
+  "pages": [28, 36],
+  "vocab": [
+    { "hanzi": "否则", "pinyin": "fǒuzé", "pos": "liên.", "meaning": "nếu không" },
+    { "hanzi": "稍", "pinyin": "shāo", "pos": "phó.", "meaning": "hơi" },
+    { "hanzi": "引起", "pinyin": "yǐnqǐ", "pos": "đt.", "meaning": "dẫn đến" },
+    { "hanzi": "误会", "pinyin": "wùhuì", "pos": "dt.", "meaning": "hiểu lầm" },
+    { "hanzi": "亲戚", "pinyin": "qīnqi", "pos": "dt.", "meaning": "họ hàng", "hanViet": "thân thích" },
+    { "hanzi": "友好", "pinyin": "yǒuhǎo", "pos": "tt.", "meaning": "thân thiện", "hanViet": "hữu hảo" },
+    { "hanzi": "即使", "pinyin": "jíshǐ", "pos": "liên.", "meaning": "dù" },
+    { "hanzi": "饺子", "pinyin": "jiǎozi", "pos": "dt.", "meaning": "sủi cảo" },
+    { "hanzi": "包子", "pinyin": "bāozi", "pos": "dt.", "meaning": "bánh bao" },
+    { "hanzi": "往往", "pinyin": "wǎngwǎng", "pos": "phó.", "meaning": "luôn, thường" },
+    { "hanzi": "邀请", "pinyin": "yāoqǐng", "pos": "đt.", "meaning": "mời" },
+    { "hanzi": "表示", "pinyin": "biǎoshì", "pos": "đt.", "meaning": "bày tỏ", "hanViet": "biểu thị" },
+    { "hanzi": "礼貌", "pinyin": "lǐmào", "pos": "tt.", "meaning": "lễ phép" },
+    { "hanzi": "小名", "pinyin": "xiǎo míng", "pos": "dt.", "meaning": "tên lúc nhỏ" },
+    { "hanzi": "出生", "pinyin": "chūshēng", "pos": "đt.", "meaning": "ra đời" },
+    { "hanzi": "起", "pinyin": "qǐ", "pos": "đt.", "meaning": "đặt", "hanViet": "khởi" },
+    { "hanzi": "相同", "pinyin": "xiāngtóng", "pos": "tt.", "meaning": "giống nhau", "hanViet": "tương đồng" },
+    { "hanzi": "例如", "pinyin": "lìrú", "pos": "đt.", "meaning": "ví dụ" }
+  ],
+  "expand": [
+    { "hanzi": "传统", "pinyin": "chuántǒng", "meaning": "Truyền thống" },
+    { "hanzi": "风俗习惯", "pinyin": "fēngsú xíguàn", "meaning": "Phong tục tập quán" },
+    { "hanzi": "宗教", "pinyin": "zōngjiào", "meaning": "Tôn giáo" },
+    { "hanzi": "信仰", "pinyin": "xìnyǎng", "meaning": "Tín ngưỡng" },
+    { "hanzi": "粽子", "pinyin": "zòngzi", "meaning": "Bánh chưng" },
+    { "hanzi": "月饼", "pinyin": "yuèbǐng", "meaning": "Bánh trung thu" },
+    { "hanzi": "挂灯笼", "pinyin": "guà dēnglóng", "meaning": "Treo đèn lồng" },
+    { "hanzi": "划船", "pinyin": "huá chuán", "meaning": "Chèo thuyền" }
+  ],
+  "tree": {
+    "hanzi": "相",
+    "pinyin": "xiāng",
+    "meaning": "Tương",
+    "words": [
+      { "hanzi": "相应", "pinyin": "xiāngyìng", "meaning": "Tương ứng" },
+      { "hanzi": "相关", "pinyin": "xiāngguān", "meaning": "Tương quan" },
+      { "hanzi": "相通", "pinyin": "xiāngtōng", "meaning": "Tương thông" },
+      { "hanzi": "相对", "pinyin": "xiāngduì", "meaning": "Tương đối" },
+      { "hanzi": "相逢", "pinyin": "xiāngféng", "meaning": "Tương phùng" },
+      { "hanzi": "相反", "pinyin": "xiāngfǎn", "meaning": "Tương phản" },
+      { "hanzi": "相传", "pinyin": "xiāngchuán", "meaning": "Tương truyền" },
+      { "hanzi": "相当", "pinyin": "xiāngdāng", "meaning": "Tương đương" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "2.1",
+      "hanzi": "否则",
+      "pinyin": "fǒuzé",
+      "meaning": "nếu không thì… (giả thiết)",
+      "note": "Loại từ: liên từ · Vị trí: đầu vế câu sau · Thường đi cùng 就 hoặc 的话 · Nghĩa: nếu không thực hiện vế trước thì dẫn đến kết quả ở vế sau, dịch là \"nếu không thì…\"",
+      "theory": "Liên từ 否则 /fǒuzé/ thường mang ý nghĩa giả thiết: nếu không thực hiện vế câu trước thì sẽ dẫn đến tình huống hoặc kết quả như vế câu sau. 否则 đặt ở đầu vế câu sau, thường đi cùng với từ \"就\" hoặc \"的话\", thường dịch là \"nếu không thì…\".\n\nNgữ pháp đã học ở cuốn Tăng tốc xuất hiện lại trong bài: câu chữ 把 (2) (NP 6.2), 除了…(以外) (NP 5.4), 不但…而且… (NP 2.2).",
+      "examples": [
+        { "zh": "出门前要跟妈妈说一声，否则她会担心的。", "pinyin": "Chūmén qián yào gēn māma shuō yì shēng, fǒuzé tā huì dānxīn de.", "vi": "Trước khi đi ra ngoài phải báo với mẹ một tiếng, nếu không thì mẹ sẽ lo lắng đấy.", "vocab": "出门: ra ngoài", "breakdown": "否则 đặt đầu vế sau" },
+        { "zh": "你先做完作业，否则别想看电视。", "pinyin": "Nǐ xiān zuò wán zuòyè, fǒuzé bié xiǎng kàn diànshì.", "vi": "Con làm xong bài tập về nhà trước đi, nếu không thì đừng mong được xem tivi nhé.", "vocab": "", "breakdown": "否则 + 别想…" }
+      ]
+    },
+    {
+      "np": "2.2",
+      "hanzi": "即使……也……",
+      "pinyin": "jíshǐ…… yě……",
+      "meaning": "dẫu, cho dù, dù cho… (nhượng bộ, giả định)",
+      "note": "Loại từ: liên từ · Vị trí: trước hoặc sau chủ ngữ trong vế trước · Vế sau thường đi cùng 也 · Nghĩa: quan hệ nhượng bộ hoặc giả định, dịch là \"dẫu, cho dù, dù cho…\"",
+      "theory": "Liên từ 即使 /jíshǐ/ thường dùng để biểu thị mối quan hệ nhượng bộ hoặc sự giả định. 即使 được đặt trước hoặc sau chủ ngữ trong vế câu trước, vế câu sau thường đi cùng \"也\", thường dịch là \"Dẫu, cho dù, dù cho…\".",
+      "examples": [
+        { "zh": "即使前面的路有多困难，我们也要向前走。", "pinyin": "Jíshǐ qiánmiàn de lù yǒu duō kùnnán, wǒmen yě yào xiàng qián zǒu.", "vi": "Dù cho con đường phía trước có rất nhiều khó khăn, chúng ta vẫn phải tiến về phía trước.", "vocab": "困难: khó khăn", "breakdown": "即使…, 也…" },
+        { "zh": "有些人即使一天只睡4-5个小时也不觉得累。", "pinyin": "Yǒuxiē rén jíshǐ yì tiān zhǐ shuì sì-wǔ ge xiǎoshí yě bù juéde lèi.", "vi": "Có một số người dù cho một ngày chỉ ngủ 4-5 tiếng cũng không thấy mệt.", "vocab": "", "breakdown": "即使 đặt sau chủ ngữ 有些人" }
+      ]
+    },
+    {
+      "np": "2.3",
+      "hanzi": "往往",
+      "pinyin": "wǎngwǎng",
+      "meaning": "luôn, thường (dựa theo kinh nghiệm, mang tính quy luật)",
+      "note": "Loại từ: phó từ · Nghĩa: dựa theo kinh nghiệm đã có, một tình huống dưới điều kiện nào đó nhất định sẽ xảy ra, mang tính quy luật, dịch là \"luôn, thường\"",
+      "theory": "Phó từ 往往 /wǎngwǎng/ biểu thị ý nghĩa dựa theo kinh nghiệm đã có, một tình huống dưới điều kiện nào đó nhất định sẽ xảy ra, thường mang tính quy luật, thường dịch là \"luôn, thường\".",
+      "examples": [
+        { "zh": "他往往出现在我最需要的时候。", "pinyin": "Tā wǎngwǎng chūxiàn zài wǒ zuì xūyào de shíhou.", "vi": "Anh ấy luôn xuất hiện vào lúc tôi cần nhất.", "vocab": "出现: xuất hiện", "breakdown": "往往 + 出现" },
+        { "zh": "太着急的人往往做不了大事。", "pinyin": "Tài zháojí de rén wǎngwǎng zuò bu liǎo dàshì.", "vi": "Người quá nóng vội thường không làm được việc lớn.", "vocab": "着急: nóng vội", "breakdown": "往往 + 做不了" }
+      ]
+    },
+    {
+      "np": "2.4",
+      "hanzi": "以",
+      "pinyin": "yǐ",
+      "meaning": "để (chỉ mục đích)",
+      "note": "Loại từ: liên từ · Vị trí: đầu vế câu mang ý chỉ mục đích · Nghĩa: điều sắp nêu ra là mục đích của sự việc đã được nói trước đó, dịch là \"để\"",
+      "theory": "Liên từ 以 /yǐ/ biểu thị ý nghĩa điều sắp nêu ra là mục đích của sự việc đã được nói đến trước đó. \"以\" thường đặt ở đầu vế câu mang ý chỉ mục đích, thường dịch là \"để\".",
+      "examples": [
+        { "zh": "我们现在要好好儿努力学习，以将来能找到好的工作。", "pinyin": "Wǒmen xiànzài yào hǎohāor nǔlì xuéxí, yǐ jiānglái néng zhǎodào hǎo de gōngzuò.", "vi": "Chúng mình bây giờ phải cố gắng nỗ lực học tập, để sau này có thể tìm được công việc tốt.", "vocab": "将来: tương lai", "breakdown": "以 đặt đầu vế chỉ mục đích" },
+        { "zh": "全部行李我都准备好了，以明天早点儿出发。", "pinyin": "Quánbù xíngli wǒ dōu zhǔnbèi hǎo le, yǐ míngtiān zǎodiǎnr chūfā.", "vi": "Tôi đã chuẩn bị xong hết hành lý rồi, để ngày mai xuất phát sớm một chút.", "vocab": "出发: xuất phát", "breakdown": "以 + 明天早点儿出发" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Khi giao tiếp với người nước ngoài, tốt nhất bạn nên tìm hiểu văn hóa đất nước của họ trước, [0:否则] tìm hiểu sẽ làm ảnh hưởng đến hiệu quả giao tiếp, dễ khiến hai bên [0:误会] ý của nhau, [0:引起] rắc rối không đáng có." },
+        { "who": "", "zh": "Sự nồng hậu và [0:友好] của người Trung Quốc đối với anh em họ hàng [0:亲戚], nội ngoại và anh em bạn bè nổi tiếng khắp thế giới. Cho dù ai là khách, người Trung Quốc sẽ [0:往往] chọn lấy những thứ ngon nhất trong nhà ra mời khách ăn, [0:即使] trong nhà chỉ còn có món [0:饺子] hấp có hình nén bạc, mì sợi, [0:包子] hai trứng cút cũng sẽ để khách ăn no, ăn đủ. Nếu đó là một người bạn rất quan trọng, người Trung Quốc sẽ đưa ra lời [0:邀请] khách quý đi ăn ở nhà hàng, họ làm như thế [0:以表示] sự tôn trọng và phép [0:礼貌] với khách." },
+        { "who": "", "zh": "Ngoài các tên chính thức, người Trung Quốc thường có một [0:小名] để gọi ở nhà. Thường thì trước khi đứa trẻ được [0:出生], cha mẹ đã [0:起] biệt danh đó để gọi trẻ. Các biệt hiệu thường đều dễ nghe dễ nhớ, và hầu hết chúng thường là từ có hai âm [0:相同] với nhau, [0:例如] như \"Lạc Lạc\", \"Tiếu Tiếu\", \"Thông Thông\", v.v..." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "与不同国家的人交流时，最好先了解一下这个国家的文化，[1:否则]很可能会影响正常的交流活动，稍不注意还可能会引起误会，带来麻烦。", "py": "Yǔ bùtóng guójiā de rén jiāoliú shí, zuì hǎo xiān liǎojiě yíxià zhège guójiā de wénhuà, [1:fǒuzé] hěn kěnéng huì yǐngxiǎng zhèngcháng de jiāoliú huódòng, shāo bú zhùyì hái kěnéng huì yǐnqǐ wùhuì, dài lái máfan.", "vi": "Khi giao tiếp với những người đến từ các quốc gia khác nhau, tốt nhất bạn nên tìm hiểu văn hóa của quốc gia đó trước, [1:nếu không] rất có thể ảnh hưởng đến hoạt động giao tiếp bình thường, và một chút bất cẩn có thể khiến hiểu nhầm và gây ra rắc rối." },
+        { "who": "", "zh": "中国人对亲戚和朋友的热情、友好，在全世界都是有名的。客人来了，中国人一定要把家里最好吃的东西拿出来给客人吃，[2:即使]只有饺子、面条儿、包子，也得让客人吃个够、吃个饱。如果是很重要的朋友，中国人[3:往往]会邀请他们去餐厅吃，[4:以]表示对客人的尊重和礼貌。", "py": "Zhōngguó rén duì qīnqi hé péngyou de rèqíng, yǒuhǎo, zài quán shìjiè dōu shì yǒumíng de. Kèrén lái le, Zhōngguó rén yídìng yào bǎ jiālǐ zuì hǎochī de dōngxi ná chūlái gěi kèrén chī, [2:jíshǐ] zhǐyǒu jiǎozi, miàntiáor, bāozi, yě děi ràng kèrén chī gè gòu, chī gè bǎo. Rúguǒ shì hěn zhòngyào de péngyou, Zhōngguó rén [3:wǎngwǎng] huì yāoqǐng tāmen qù cāntīng chī, [4:yǐ] biǎoshì duì kèrén de zūnzhòng hé lǐmào.", "vi": "Sự nồng hậu và thân thiện của người Trung Quốc với họ hàng và bạn bè nổi tiếng khắp thế giới. Khi khách đến, người Trung Quốc nhất định sẽ mang những thứ ngon nhất trong nhà ra mời khách ăn, [2:kể cả] chỉ có bánh chẻo, mì sợi, bánh bao cũng phải mời khách ăn đầy đủ, ăn no. Nếu đó là một người bạn rất quan trọng, người Trung Quốc [3:thường] sẽ mời đi nhà hàng ăn, [4:để] thể hiện sự tôn trọng và lịch sự với khách." },
+        { "who": "", "zh": "除了正式的名字，中国人一般都有个小名。孩子往往还没出生，父母就已经起好了小名。小名都比较好听好记，而且多数是两个相同的字，例如\"乐乐\"\"笑笑\"\"聪聪\"等。", "py": "Chúle zhèngshì de míngzi, Zhōngguó rén yìbān dōu yǒu gè xiǎo míng. Háizi wǎngwǎng hái méi chūshēng, fùmǔ jiù yǐjīng qǐ hǎo le xiǎo míng. Xiǎo míng dōu bǐjiào hǎotīng hǎojì, érqiě duōshù shì liǎng gè xiāngtóng de zì, lìrú \"lè le\" \"xiào xiao\" \"cōng cong\" děng.", "vi": "Ngoài tên gọi chính thức, người Trung Quốc thường có một biệt danh. Thường thì cha mẹ đã đặt biệt danh trước khi đứa trẻ được sinh ra. Các biệt danh thường đều dễ nghe dễ nhớ, hầu hết thường là từ có hai âm tiết giống nhau, ví dụ \"Lạc Lạc\", \"Tiếu Tiếu\", \"Thông Thông\", v.v." }
+      ],
+      "legend": [
+        { "n": 1, "label": "否则", "np": "NP 2.1" },
+        { "n": 2, "label": "即使", "np": "NP 2.2" },
+        { "n": 3, "label": "往往", "np": "NP 2.3" },
+        { "n": 4, "label": "以", "np": "NP 2.4" }
+      ]
+    }
+  ]
+}

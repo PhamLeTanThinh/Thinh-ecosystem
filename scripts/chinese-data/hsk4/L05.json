@@ -1,0 +1,105 @@
+{
+  "level": "hsk4",
+  "lesson": 55,
+  "bookLesson": 5,
+  "title": "身体健康",
+  "titleVi": "Cơ thể mạnh khỏe",
+  "pages": [55, 63],
+  "vocab": [
+    { "hanzi": "感觉", "pinyin": "gǎnjué", "pos": "dt., đt.", "meaning": "cảm giác, cảm thấy", "hanViet": "cảm giác" },
+    { "hanzi": "骗", "pinyin": "piàn", "pos": "đt.", "meaning": "lừa" },
+    { "hanzi": "食物", "pinyin": "shíwù", "pos": "dt.", "meaning": "đồ ăn" },
+    { "hanzi": "吸引", "pinyin": "xīyǐn", "pos": "đt.", "meaning": "thu hút", "hanViet": "hấp dẫn" },
+    { "hanzi": "肚子", "pinyin": "dùzi", "pos": "dt.", "meaning": "bụng" },
+    { "hanzi": "实际", "pinyin": "shíjì", "pos": "dt.", "meaning": "thực tế", "hanViet": "thực tế" },
+    { "hanzi": "关键", "pinyin": "guānjiàn", "pos": "tt.", "meaning": "then chốt" },
+    { "hanzi": "稍微", "pinyin": "shāowēi", "pos": "phó.", "meaning": "hơi" },
+    { "hanzi": "盐", "pinyin": "yán", "pos": "dt.", "meaning": "muối" },
+    { "hanzi": "糖", "pinyin": "táng", "pos": "dt.", "meaning": "đường", "hanViet": "đường" },
+    { "hanzi": "生物钟", "pinyin": "shēngwùzhōng", "pos": "dt.", "meaning": "đồng hồ sinh học" },
+    { "hanzi": "葡萄", "pinyin": "pútáo", "pos": "dt.", "meaning": "nho" },
+    { "hanzi": "相反", "pinyin": "xiāngfǎn", "pos": "liên.", "meaning": "ngược lại", "hanViet": "tương phản" },
+    { "hanzi": "提醒", "pinyin": "tíxǐng", "pos": "đt.", "meaning": "nhắc nhở" },
+    { "hanzi": "静", "pinyin": "jìng", "pos": "tt.", "meaning": "tĩnh", "hanViet": "tĩnh" },
+    { "hanzi": "网球", "pinyin": "wǎngqiú", "pos": "dt.", "meaning": "tennis" },
+    { "hanzi": "乒乓球", "pinyin": "pīngpāng qiú", "pos": "dt.", "meaning": "bóng bàn" },
+    { "hanzi": "羽毛球", "pinyin": "yǔmáoqiú", "pos": "dt.", "meaning": "cầu lông" },
+    { "hanzi": "生命", "pinyin": "shēngmìng", "pos": "dt.", "meaning": "sinh mệnh", "hanViet": "sinh mệnh" }
+  ],
+  "expand": [
+    { "hanzi": "养生", "pinyin": "yǎngshēng", "meaning": "Dưỡng sinh" },
+    { "hanzi": "保健品", "pinyin": "bǎojiàn pǐn", "meaning": "Thực phẩm chức năng" },
+    { "hanzi": "瑜伽", "pinyin": "yújiā", "meaning": "Yoga" },
+    { "hanzi": "高热量食物", "pinyin": "gāo rèliàng shíwù", "meaning": "Đồ ăn nhiều calo" },
+    { "hanzi": "坐禅", "pinyin": "zuòchán", "meaning": "Ngồi thiền" },
+    { "hanzi": "排毒", "pinyin": "páidú", "meaning": "Thải độc (detox)" },
+    { "hanzi": "净化饮食", "pinyin": "jìnghuà yǐnshí", "meaning": "Eat clean" },
+    { "hanzi": "素食", "pinyin": "sùshí", "meaning": "Đồ chay" }
+  ],
+  "tree": {
+    "hanzi": "提",
+    "pinyin": "tí",
+    "meaning": "Đề",
+    "words": [
+      { "hanzi": "提出", "pinyin": "tíchū", "meaning": "Đề xuất" },
+      { "hanzi": "提议", "pinyin": "tíyì", "meaning": "Đề nghị" },
+      { "hanzi": "提拔", "pinyin": "tíbá", "meaning": "Đề bạt" },
+      { "hanzi": "提及", "pinyin": "tíjí", "meaning": "Đề cập" },
+      { "hanzi": "提案", "pinyin": "tí'àn", "meaning": "Đề án" },
+      { "hanzi": "提纲", "pinyin": "tígāng", "meaning": "Đề cương" },
+      { "hanzi": "前提", "pinyin": "qiántí", "meaning": "Tiền đề" },
+      { "hanzi": "提倡", "pinyin": "tíchàng", "meaning": "Đề xướng" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "5.1",
+      "hanzi": "在于",
+      "pinyin": "zàiyú",
+      "meaning": "ở chỗ, chính là, nằm ở chỗ",
+      "note": "Loại từ: động từ (văn viết) · Nghĩa: chỉ nội dung, bản chất hoặc mục đích của sự vật, sự việc · Trước 在于: cụm danh từ làm chủ ngữ · Sau 在于: động từ, danh từ hoặc câu ngắn làm tân ngữ · Dịch: \"ở chỗ, chính là, nằm ở chỗ\"",
+      "theory": "Động từ 在于 /zàiyú/ thường được dùng trong văn viết. Mang ý nghĩa chỉ nội dung, bản chất hoặc mục đích của sự vật, sự việc. Đằng trước của 在于 thường là các cụm danh từ đóng vai trò làm chủ ngữ, động từ, danh từ hoặc câu ngắn đứng đằng sau đóng vai trò làm tân ngữ, thường dịch là \"ở chỗ, chính là, nằm ở chỗ\".\n\nNgữ pháp đã học xuất hiện lại trong bài: 起来 (NP 6.3, Tăng tốc), 并 (NP 16.3, Tăng tốc), 十分 (NP 3.2, Cất cánh), 而 (NP 1.2, Cất cánh), 却 (NP 19.4, Tăng tốc), 尤其 (NP 14.4, Tăng tốc).",
+      "examples": [
+        { "zh": "人的幸福在于懂得珍惜。", "pinyin": "Rén de xìngfú zàiyú dǒngdé zhēnxī.", "vi": "Hạnh phúc của con người nằm ở chỗ biết trân trọng.", "vocab": "珍惜: trân trọng", "breakdown": "Chủ ngữ + 在于 + động từ" },
+        { "zh": "现在的问题在于信任。如果你们相信我的话，明天我们就可以开始合作了。", "pinyin": "Xiànzài de wèntí zàiyú xìnrèn. Rúguǒ nǐmen xiāngxìn wǒ dehuà, míngtiān wǒmen jiù kěyǐ kāishǐ hézuò le.", "vi": "Vấn đề hiện tại chính là sự tín nhiệm. Nếu các ngài tin tưởng, thì từ ngày mai chúng ta có thể bắt đầu hợp tác.", "vocab": "信任: tín nhiệm · 合作: hợp tác", "breakdown": "问题 + 在于 + danh từ" }
+      ]
+    },
+    {
+      "np": "5.2",
+      "hanzi": "记住 / 记得",
+      "pinyin": "jìzhù / jìde",
+      "meaning": "nhớ, ghi nhớ (phân biệt 记住 và 记得)",
+      "note": "Giống nhau: đều dịch là \"nhớ, ghi nhớ\" · 记住: phải làm một việc gì hoặc học thuộc lòng, nhớ rất sâu, rất kỹ; dùng trong câu nhắc nhở với sự việc CHƯA phát sinh · 记得: có ấn tượng hoặc nhớ lại một sự việc; dùng cho sự việc ĐÃ xảy ra hoặc đang xảy ra",
+      "theory": "So sánh 记住 và 记得 — điểm giống nhau: đều được dịch là \"nhớ, ghi nhớ\" trong Tiếng Việt.\n\n记住 /jìzhù/ mang ý nghĩa nhớ phải làm một việc gì hoặc học thuộc lòng, nhớ rất sâu, rất kỹ một sự việc nào đó. 记住 dùng trong câu nhắc nhở đối với sự việc chưa phát sinh.\n\n记得 /jìde/ mang ý nghĩa có ấn tượng hoặc nhớ lại một sự việc gì đó. 记得 thường dùng cho các sự việc đã xảy ra hoặc đang xảy ra.",
+      "examples": [
+        { "zh": "记住！十点以前一定要回到家啊！", "pinyin": "Jì zhù! Shí diǎn yǐqián yídìng yào huí dào jiā a!", "vi": "Nhớ đấy nhé! Trước mười giờ phải có mặt ở nhà đấy!", "vocab": "", "breakdown": "记住: nhắc nhở việc chưa phát sinh" },
+        { "zh": "你们一定要记住这些内容，考试的时候可能会遇到的。", "pinyin": "Nǐmen yídìng yào jì zhù zhèxiē nèiróng, kǎoshì de shíhou kěnéng huì yù dào de.", "vi": "Các em nhất định phải học thuộc lòng các phần nội dung này, khi kiểm tra rất có thể sẽ gặp phải đó.", "vocab": "内容: nội dung", "breakdown": "记住: học thuộc, nhớ kỹ" },
+        { "zh": "我记得以前在学校见过他，我们还一起吃过几顿饭呢。", "pinyin": "Wǒ jìde yǐqián zài xuéxiào jiàn guo tā, wǒmen hái yìqǐ chī guo jǐ dùn fàn ne.", "vi": "Tôi nhớ là trước đây đã từng gặp anh ấy ở trường rồi, còn cùng nhau ăn mấy bữa cơm nữa.", "vocab": "顿: bữa", "breakdown": "记得: nhớ lại việc đã xảy ra" },
+        { "zh": "事情已经过去那么久了，他怎么还记得啊，而且还记得那么清楚。", "pinyin": "Shìqing yǐjīng guòqù nàme jiǔ le, tā zěnme hái jìde a, érqiě hái jìde nàme qīngchu.", "vi": "Sự việc đã trôi qua lâu như thế rồi, làm sao mà anh ấy vẫn nhớ được nhỉ, hơn nữa còn nhớ rất rõ ràng.", "vocab": "", "breakdown": "记得: còn nhớ (ấn tượng)" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Các nhà khoa học đã phát hiện ra rằng khi con người [0:感觉] đói, cơ thể sẽ đưa nhầm tín hiệu để [0:骗] mọi người và khiến [0:食物] trông ngon mắt hơn, tăng sức [0:吸引] với chúng ta hơn. Vì vậy, đừng đi siêu thị khi [0:肚子] đang cảm thấy đói, bạn sẽ dễ bị dụ mua những thứ mà trong [0:实际] bạn cũng không cần đến." },
+        { "who": "", "zh": "Mùi vị rất [0:关键] đối với sức khỏe, chỉ cần bạn thay đổi thói quen một [0:稍微] xíu thôi là có thể thay đổi được sức khỏe. Ví dụ, khi ăn cơm tăng thêm nhiều [0:盐] trắng mặn chát hay nhiều [0:糖] ngọt lịm có thể làm cho nhịp điệu tích tắc của [0:钟] sinh học trong cơ thể nhanh hơn và làm cho người lười vận động cũng trở nên năng động hơn. Đó là cách khiến đồng hồ [0:生物] chạy nhanh, còn [0:相反], nếu muốn làm chậm lại, uống rượu vang đỏ làm từ quả [0:葡萄] sẽ là giải pháp khả thi." },
+        { "who": "", "zh": "Các nhà khoa học thường xuyên đưa lời khuyên và [0:提醒] mọi người rằng, tốt nhất là không nên ngồi [0:静] một chỗ liên tục 4 tiếng mỗi ngày, nhất là những người ngồi văn phòng, phải đứng dậy đi lại vận động khi có thời gian. Sau khi tan làm, nên vận động cơ thể như chơi [0:网球] sân đất nện, môn [0:乒乓球] với tiếng đập ping-pong của quả bóng vào bàn và vợt gỗ, hay luyện tập môn [0:羽毛球] giỏi như tay vợt Nguyễn Tiến Minh,.... Đừng quên rằng [0:生命] của bạn dài hay ngắn, chính là nhờ vào vận động, bạn phải [0:记住] đấy nhé!" }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "科学家研究发现，人在感觉饿的时候，身体会骗人，让食物看起来更吸引人。因此在肚子饿的时候去超市，你就容易买很多实际上并不需要的东西。", "py": "Kēxuéjiā yánjiū fāxiàn, rén zài gǎnjué è de shíhou, shēntǐ huì piàn rén, ràng shíwù kàn qǐlai gèng xīyǐn rén. Yīncǐ zài dùzi è de shíhou qù chāoshì, nǐ jiù róngyì mǎi hěn duō shíjì shang bìng bù xūyào de dōngxi.", "vi": "Các nhà khoa học đã phát hiện ra rằng khi con người cảm thấy đói, cơ thể sẽ đánh lừa mọi người và khiến thức ăn trông hấp dẫn hơn. Vì vậy lúc đói mà đi siêu thị, bạn có thể dễ dàng mua rất nhiều thứ mà bạn không thực sự cần." },
+        { "who": "", "zh": "味道对身体十分关键，只要稍微改变一下自己的习惯，就可以改变身体的健康。比如吃饭时增加高盐、高糖的食物，就可以使生物钟变快，使懒人变得活泼起来；而喝红葡萄酒却相反，可以使生物钟变慢。", "py": "Wèidao duì shēntǐ shífēn guānjiàn, zhǐyào shāowēi gǎibiàn yíxià zìjǐ de xíguàn, jiù kěyǐ gǎibiàn shēntǐ de jiànkāng. Bǐrú chī fàn shí zēngjiā gāo yán, gāo táng de shíwù, jiù kěyǐ shǐ shēngwùzhōng biàn kuài, shǐ lǎn rén biàn de huópō qǐlai; ér hē hóng pútáojiǔ què xiāngfǎn, kěyǐ shǐ shēngwùzhōng biàn màn.", "vi": "Mùi vị rất quan trọng đối với cơ thể, chỉ cần bạn thay đổi thói quen một chút là có thể thay đổi sức khỏe. Ví dụ, khi ăn cơm tăng thêm thực phẩm nhiều muối, nhiều đường có thể làm cho đồng hồ sinh học nhanh hơn và làm cho người lười vận động cũng trở nên năng động hơn. Ngược lại, uống rượu vang đỏ có thể làm chậm đồng hồ sinh học." },
+        { "who": "", "zh": "科学家提醒人们，每天静坐的时间最好不要超过4小时，尤其是久坐办公室的人，有时间一定要站起来活动活动，下班后参加锻炼网球、乒乓球、羽毛球等运动。生命[1:在于]运动，一定要[2:记住]哦！", "py": "Kēxuéjiā tíxǐng rénmen, měitiān jìngzuò de shíjiān zuì hǎo búyào chāoguò 4 xiǎoshí, yóuqí shì jiǔ zuò bàngōngshì de rén, yǒu shíjiān yídìng yào zhàn qǐlai huódòng huódòng, xiàbān hòu cānjiā duànliàn wǎngqiú, pīngpāng qiú, yǔmáoqiú děng yùndòng. Shēngmìng [1:zàiyú] yùndòng, yídìng yào [2:jì zhù] ò!", "vi": "Các nhà khoa học nhắc nhở mọi người rằng, tốt nhất là không nên ngồi quá 4 tiếng mỗi ngày, nhất là những người ngồi văn phòng, phải đứng dậy đi lại vận động khi có thời gian. Sau khi tan làm, nên vận động thân thể như chơi tennis, bóng bàn, cầu lông,.... Sinh mệnh [1:nằm ở] vận động, bạn phải [2:nhớ kỹ] nhé!" }
+      ],
+      "legend": [
+        { "n": 1, "label": "在于", "np": "NP 5.1" },
+        { "n": 2, "label": "记住", "np": "NP 5.2" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "level": "hsk4",
+  "lesson": 51,
+  "bookLesson": 1,
+  "title": "活到老，学到老",
+  "titleVi": "Sống đến già, học đến già",
+  "pages": [19, 27],
+  "vocab": [
+    { "hanzi": "加", "pinyin": "jiā", "pos": "đt.", "meaning": "cộng" },
+    { "hanzi": "而", "pinyin": "ér", "pos": "liên.", "meaning": "nhưng, mà" },
+    { "hanzi": "语言", "pinyin": "yǔyán", "pos": "dt.", "meaning": "ngôn ngữ" },
+    { "hanzi": "超过", "pinyin": "chāoguò", "pos": "đt.", "meaning": "quá, vượt quá" },
+    { "hanzi": "表达", "pinyin": "biǎodá", "pos": "đt.", "meaning": "biểu đạt", "hanViet": "biểu đạt" },
+    { "hanzi": "工具", "pinyin": "gōngjù", "pos": "dt.", "meaning": "công cụ", "hanViet": "công cụ" },
+    { "hanzi": "民族", "pinyin": "mínzú", "pos": "dt.", "meaning": "dân tộc", "hanViet": "dân tộc" },
+    { "hanzi": "可惜", "pinyin": "kěxī", "pos": "tt.", "meaning": "đáng tiếc" },
+    { "hanzi": "由于", "pinyin": "yóuyú", "pos": "liên.", "meaning": "do" },
+    { "hanzi": "人数", "pinyin": "rénshù", "pos": "dt.", "meaning": "số người" },
+    { "hanzi": "全部", "pinyin": "quánbù", "pos": "dt.", "meaning": "toàn bộ, tất cả", "hanViet": "toàn bộ" },
+    { "hanzi": "剩", "pinyin": "shèng", "pos": "đt.", "meaning": "còn lại, thừa lại", "hanViet": "thặng" },
+    { "hanzi": "流利", "pinyin": "liúlì", "pos": "tt.", "meaning": "trôi chảy, lưu loát", "hanViet": "lưu loát" },
+    { "hanzi": "基础", "pinyin": "jīchǔ", "pos": "dt.", "meaning": "cơ sở, nền tảng", "hanViet": "cơ sở" },
+    { "hanzi": "条件", "pinyin": "tiáojiàn", "pos": "dt.", "meaning": "điều kiện", "hanViet": "điều kiện" },
+    { "hanzi": "于是", "pinyin": "yúshì", "pos": "liên.", "meaning": "thế là" },
+    { "hanzi": "信心", "pinyin": "xìnxīn", "pos": "dt.", "meaning": "sự tự tin" }
+  ],
+  "expand": [
+    { "hanzi": "入学", "pinyin": "rùxué", "meaning": "Nhập học" },
+    { "hanzi": "学期", "pinyin": "xuéqī", "meaning": "Học kỳ" },
+    { "hanzi": "语法", "pinyin": "yǔfǎ", "meaning": "Ngữ pháp" },
+    { "hanzi": "预习", "pinyin": "yùxí", "meaning": "Chuẩn bị bài trước" },
+    { "hanzi": "翻译", "pinyin": "fānyì", "meaning": "Phiên dịch" },
+    { "hanzi": "谈话", "pinyin": "tánhuà", "meaning": "Nói chuyện" },
+    { "hanzi": "暑假", "pinyin": "shǔjià", "meaning": "Nghỉ hè" },
+    { "hanzi": "寒假", "pinyin": "hánjià", "meaning": "Nghỉ đông" }
+  ],
+  "tree": {
+    "hanzi": "交",
+    "pinyin": "jiāo",
+    "meaning": "Giao",
+    "words": [
+      { "hanzi": "交点", "pinyin": "jiāodiǎn", "meaning": "Giao điểm" },
+      { "hanzi": "结交", "pinyin": "jiéjiāo", "meaning": "Kết giao" },
+      { "hanzi": "转交", "pinyin": "zhuǎnjiāo", "meaning": "Chuyển giao" },
+      { "hanzi": "绝交", "pinyin": "juéjiāo", "meaning": "Tuyệt giao" },
+      { "hanzi": "交响", "pinyin": "jiāoxiǎng", "meaning": "Giao hưởng" },
+      { "hanzi": "交易", "pinyin": "jiāoyì", "meaning": "Giao dịch" },
+      { "hanzi": "外交", "pinyin": "wàijiāo", "meaning": "Ngoại giao" },
+      { "hanzi": "交流", "pinyin": "jiāoliú", "meaning": "Giao lưu" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "1.1",
+      "hanzi": "Động + 起来",
+      "pinyin": "qǐlai",
+      "meaning": "từ phân tán đến tập trung (nghĩa mở rộng của BNXH 起来)",
+      "note": "Cấu trúc: Động từ + 起来 · Nghĩa: \"từ phân tán đến tập trung\" — cách dùng với ý nghĩa mở rộng của bổ ngữ xu hướng 起来",
+      "theory": "Động từ + 起来 biểu đạt ý \"từ phân tán đến tập trung\", là cách dùng với ý nghĩa mở rộng của bổ ngữ xu hướng 起来.\n\nNgữ pháp đã học ở cuốn Tăng tốc xuất hiện lại trong bài: 却 (NP 19.4), 不但…而且… (NP 2.2), 只要 (NP 17.3), 下去 (NP 6.3), 越来越 (NP 1.1).",
+      "examples": [
+        { "zh": "他把衣服都收起来了。", "pinyin": "Tā bǎ yīfu dōu shōu qǐlai le.", "vi": "Anh ấy đã thu dọn hết quần áo của mình lại.", "vocab": "收: thu dọn", "breakdown": "收 + 起来: gom lại một chỗ" },
+        { "zh": "每个月的工资我都给老婆存起来了。", "pinyin": "Měi gè yuè de gōngzī wǒ dōu gěi lǎopó cún qǐlai le.", "vi": "Tiền lương hằng tháng tôi đều đưa vợ giữ.", "vocab": "存 (cún): gửi, cất giữ", "breakdown": "存 + 起来: cất gom lại" }
+      ]
+    },
+    {
+      "np": "1.2",
+      "hanzi": "而",
+      "pinyin": "ér",
+      "meaning": "còn, mà còn, nhưng (liên từ nối 2 vế câu)",
+      "note": "Loại từ: liên từ · Nghĩa: nối 2 vế câu, biểu thị quan hệ đẳng lập hoặc chuyển ý, dịch là \"còn, mà còn, nhưng\"",
+      "theory": "Liên từ 而 /ér/ được dùng để nối 2 vế câu, biểu thị quan hệ đẳng lập hoặc chuyển ý, thường dịch là \"còn, mà còn, nhưng\".",
+      "examples": [
+        { "zh": "她是个很受欢迎的演员，而我并不喜欢她。", "pinyin": "Tā shì gè hěn shòu huānyíng de yǎnyuán, ér wǒ bìng bù xǐhuan tā.", "vi": "Cô ấy là một diễn viên rất nổi tiếng, nhưng tôi lại không thích cô ấy.", "vocab": "受欢迎: được yêu thích", "breakdown": "而 nối 2 vế chuyển ý" },
+        { "zh": "为什么我很关心你，而你一点也不关心我呢？", "pinyin": "Wèishénme wǒ hěn guānxīn nǐ, ér nǐ yìdiǎn yě bù guānxīn wǒ ne?", "vi": "Tại sao tôi rất quan tâm đến em, còn em lại chẳng quan tâm đến tôi một chút nào vậy?", "vocab": "", "breakdown": "而 nối 2 vế đối lập" }
+      ]
+    },
+    {
+      "np": "1.3",
+      "hanzi": "由于",
+      "pinyin": "yóuyú",
+      "meaning": "do, vì (chỉ nguyên nhân)",
+      "note": "Loại từ: liên từ · Vị trí: đầu câu hoặc vế câu · Theo sau là một câu hoặc cụm danh từ · Nghĩa: chỉ nguyên nhân, dịch là \"do, vì\"",
+      "theory": "Liên từ 由于 /yóuyú/ thường được đặt đầu câu hoặc vế câu, dùng để chỉ nguyên nhân; theo sau 由于 là một câu hoặc một cụm danh từ, thường dịch là \"do, vì\".",
+      "examples": [
+        { "zh": "由于公司发展的需要，我们想招聘研究员两名。", "pinyin": "Yóuyú gōngsī fāzhǎn de xūyào, wǒmen xiǎng zhāopìn yánjiūyuán liǎng míng.", "vi": "Do nhu cầu phát triển của công ty, chúng tôi muốn tuyển dụng hai nhân viên nghiên cứu.", "vocab": "招聘: tuyển dụng", "breakdown": "由于 + cụm danh từ" },
+        { "zh": "由于天气原因，所有的航班都取消了。", "pinyin": "Yóuyú tiānqì yuányīn, suǒyǒu de hángbān dōu qǔxiāo le.", "vi": "Do nguyên nhân thời tiết, tất cả các chuyến bay đều đã bị hủy.", "vocab": "航班 (hángbān): chuyến bay", "breakdown": "由于 + 天气原因" }
+      ]
+    },
+    {
+      "np": "1.4",
+      "hanzi": "A，于是 B",
+      "pinyin": "yúshì",
+      "meaning": "thế là (sự việc nối tiếp)",
+      "note": "Cấu trúc: A, 于是 B… · Nghĩa: sự việc A xảy ra trước, B xảy ra sau, 于是 đặt đầu vế sau, dịch là \"thế là\"",
+      "theory": "Liên từ 于是 /yúshì/ thường được dùng trong cấu trúc \"A, 于是 B…\" để thể hiện sự tiếp nối, chỉ sự việc A xảy ra trước, sự việc B xảy ra sau, 于是 đặt ở đầu vế câu sau, thường dịch là \"thế là\".",
+      "examples": [
+        { "zh": "早上醒来时我觉得有点儿不舒服，于是就去了医院。", "pinyin": "Zǎoshang xǐng lái shí wǒ juéde yǒudiǎnr bù shūfu, yúshì jiù qù le yīyuàn.", "vi": "Sáng thức dậy, thấy hơi khó chịu, thế là tôi liền đến bệnh viện khám.", "vocab": "醒来: tỉnh dậy", "breakdown": "A (不舒服), 于是 B (去医院)" },
+        { "zh": "晚上写作业时太困了，于是我就睡着了。", "pinyin": "Wǎnshang xiě zuòyè shí tài kùn le, yúshì wǒ jiù shuìzháo le.", "vi": "Tối làm bài tập buồn ngủ quá, thế là tôi ngủ quên mất.", "vocab": "困: buồn ngủ", "breakdown": "A (太困), 于是 B (睡着)" }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Số lượng các quốc gia trên Trái Đất đem [0:加] tổng tất cả lại chỉ có hơn 200, nhưng [0:而], thế giới đã biết [0:超过] 5000 loại ngôn ngữ (cụ thể là 5651 loại). [0:语言] không chỉ là [0:工具] để con người giao tiếp và [0:表达] ý tưởng, mà còn là một bộ phận không thể thiếu của nền văn hóa của từng quốc gia, từng nhóm [0:民族] thiểu số khác nhau. Tuy số lượng nhiều như vậy, nhưng [0:由于] con người không chú ý bảo vệ, [0:人数] sử dụng ngôn ngữ ấy ngày càng giảm, ngôn ngữ của nhiều dân tộc đã dần trở thành lịch sử, và [0:全部] những gì chúng ta biết về chúng chỉ [0:剩] lại một cái tên, thật là [0:可惜]!" },
+        { "who": "", "zh": "Làm thế nào để có thể nói [0:流利] một ngôn ngữ như người bản xứ? Nếu như bạn không có gì ngoài [0:条件] và đã có một trình độ [0:基础] về ngôn ngữ, thì việc đi ra nước ngoài là một lựa chọn tốt. Nhưng nhiều người vấp phải chút khó khăn ban đầu, [0:于是] mới bắt đầu đã bỏ cuộc. Muốn học tốt ngôn ngữ trước hết cần tin tưởng chính mình và đặt [0:信心] vào việc mình nhất định sẽ học được ngôn ngữ đó thì mới thành công." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "地球上所有的国家[1:加起来]只有200多个，[2:而]全世界已经知道的语言却超过了5000种。语言不但是人们交流和表达的工具，而且是民族文化不可缺少的部分。可惜的是，[3:由于]不注意保护和使用人数的减少，许多民族的语言慢慢成为了历史，我们对它们的全部了解也只剩下了一个名字。", "py": "Dìqiú shang suǒyǒu de guójiā [1:jiā qǐlai] zhǐyǒu liǎng bǎi duō gè, [2:ér] quán shìjiè yǐjīng zhīdào de yǔyán què chāoguò le wǔqiān zhǒng. Yǔyán búdàn shì rénmen jiāoliú hé biǎodá de gōngjù, érqiě shì mínzú wénhuà bù kě quēshǎo de bùfen. Kěxī de shì, [3:yóuyú] bú zhùyì bǎohù hé shǐyòng rénshù de jiǎnshǎo, xǔduō mínzú de yǔyán mànman chéngwéi le lìshǐ, wǒmen duì tāmen de quánbù liǎojiě yě zhǐ shèng xià le yí gè míngzi.", "vi": "Tất cả các quốc gia trên Trái Đất [1:cộng lại] chỉ có hơn 200, [2:nhưng] ngôn ngữ mà thế giới biết tới đã hơn 5.000 loại. Ngôn ngữ không chỉ là công cụ để con người giao tiếp và biểu đạt, mà còn là một bộ phận không thể thiếu của văn hóa dân tộc. Điều đáng tiếc là [3:do] không chú ý bảo vệ và số lượng người sử dụng ngày càng giảm, ngôn ngữ của nhiều dân tộc đã dần trở thành lịch sử, và tất cả những gì chúng ta biết về chúng chỉ còn lại một cái tên." },
+        { "who": "", "zh": "怎样才能说一口流利的外语呢？如果你有一定的语言基础和经济条件，那么出国走走是最好的选择。学习一种语言不是简单的事情，许多人在开始学的时候觉得很困难，[4:于是]就放弃了。但是只要坚持下去，从最基础的东西学起，慢慢就会发现自己的变化。这时候信心就会增加，我们离学好这门语言的那一天也越来越近了。", "py": "Zěnyàng cáinéng shuō yì kǒu liúlì de wàiyǔ ne? Rúguǒ nǐ yǒu yídìng de yǔyán jīchǔ hé jīngjì tiáojiàn, nàme chūguó zǒuzou shì zuì hǎo de xuǎnzé. Xuéxí yì zhǒng yǔyán búshì jiǎndān de shìqing, xǔduō rén zài kāishǐ xué de shíhou juéde hěn kùnnan, [4:yúshì] jiù fàngqì le. Dànshì zhǐyào jiānchí xiàqu, cóng zuì jīchǔ de dōngxi xué qǐ, mànman jiù huì fāxiàn zìjǐ de biànhuà. Zhè shíhou xìnxīn jiù huì zēngjiā, wǒmen lí xué hǎo zhè mén yǔyán de nà yì tiān yě yuè lái yuè jìn le.", "vi": "Làm thế nào để có thể nói lưu loát một ngoại ngữ? Nếu bạn đã có một nền tảng ngôn ngữ và điều kiện kinh tế nhất định thì việc đi ra nước ngoài là lựa chọn tốt nhất. Học ngoại ngữ không phải là chuyện đơn giản, nhiều người cảm thấy khó khăn khi mới học [4:nên] đã bỏ cuộc. Nhưng chỉ cần bạn kiên trì tiếp, học từ những điều cơ bản nhất, bạn sẽ dần dần khám phá ra những thay đổi của chính mình. Lúc này sự tự tin sẽ tăng lên, chúng ta ngày càng tiến gần hơn đến ngày học tốt ngôn ngữ này." }
+      ],
+      "legend": [
+        { "n": 1, "label": "加起来", "np": "NP 1.1" },
+        { "n": 2, "label": "而", "np": "NP 1.2" },
+        { "n": 3, "label": "由于", "np": "NP 1.3" },
+        { "n": 4, "label": "于是", "np": "NP 1.4" }
+      ]
+    }
+  ]
+}
