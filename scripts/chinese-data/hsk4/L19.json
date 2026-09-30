@@ -1,0 +1,111 @@
+{
+  "level": "hsk4",
+  "lesson": 69,
+  "bookLesson": 19,
+  "title": "回忆学生时代",
+  "titleVi": "Kỷ niệm thời học sinh",
+  "pages": [155, 162],
+  "vocab": [
+    { "hanzi": "母校", "pinyin": "mǔxiào", "pos": "dt.", "meaning": "trường cũ" },
+    { "hanzi": "阳光", "pinyin": "yángguāng", "pos": "dt.", "meaning": "ánh mặt trời" },
+    { "hanzi": "首都", "pinyin": "shǒudū", "pos": "dt.", "meaning": "thủ đô", "hanViet": "thủ đô" },
+    { "hanzi": "学期", "pinyin": "xuéqī", "pos": "dt.", "meaning": "học kỳ", "hanViet": "học kỳ" },
+    { "hanzi": "主意", "pinyin": "zhǔyi", "pos": "dt.", "meaning": "chủ ý", "hanViet": "chủ ý" },
+    { "hanzi": "入学", "pinyin": "rùxué", "pos": "đt.", "meaning": "nhập học", "hanViet": "nhập học" },
+    { "hanzi": "对面", "pinyin": "duìmiàn", "pos": "dt.", "meaning": "đối diện", "hanViet": "đối diện" },
+    { "hanzi": "进入", "pinyin": "jìnrù", "pos": "đt.", "meaning": "bước vào" },
+    { "hanzi": "班主任", "pinyin": "bānzhǔrèn", "pos": "dt.", "meaning": "giáo viên chủ nhiệm" },
+    { "hanzi": "校园", "pinyin": "xiàoyuán", "pos": "dt.", "meaning": "vườn trường" },
+    { "hanzi": "棵", "pinyin": "kē", "pos": "lượng.", "meaning": "cái, cây (lượng từ cho cây)" },
+    { "hanzi": "留言", "pinyin": "liúyán", "pos": "dt.", "meaning": "lời nhắn" },
+    { "hanzi": "语法", "pinyin": "yǔfǎ", "pos": "dt.", "meaning": "ngữ pháp", "hanViet": "ngữ pháp" },
+    { "hanzi": "预习", "pinyin": "yùxí", "pos": "đt.", "meaning": "chuẩn bị bài trước" },
+    { "hanzi": "海洋", "pinyin": "hǎiyáng", "pos": "dt.", "meaning": "biển cả", "hanViet": "hải dương" },
+    { "hanzi": "建立", "pinyin": "jiànlì", "pos": "đt.", "meaning": "xây dựng" },
+    { "hanzi": "桥", "pinyin": "qiáo", "pos": "dt.", "meaning": "cầu" },
+    { "hanzi": "获取", "pinyin": "huòqǔ", "pos": "đt.", "meaning": "đạt được" },
+    { "hanzi": "云", "pinyin": "yún", "pos": "dt.", "meaning": "mây", "hanViet": "vân" },
+    { "hanzi": "浪", "pinyin": "làng", "pos": "dt.", "meaning": "sóng" },
+    { "hanzi": "存", "pinyin": "cún", "pos": "đt.", "meaning": "cất giữ", "hanViet": "tồn" }
+  ],
+  "expand": [
+    { "hanzi": "开学典礼", "pinyin": "kāixué diǎnlǐ", "meaning": "Lễ khai giảng" },
+    { "hanzi": "试卷", "pinyin": "shìjuàn", "meaning": "Bài kiểm tra" },
+    { "hanzi": "期末考试", "pinyin": "qīmò kǎoshì", "meaning": "Thi cuối kỳ" },
+    { "hanzi": "家长会", "pinyin": "jiāzhǎng huì", "meaning": "Họp phụ huynh" },
+    { "hanzi": "作弊", "pinyin": "zuòbì", "meaning": "Gian lận" },
+    { "hanzi": "退学", "pinyin": "tuìxué", "meaning": "Thôi học" },
+    { "hanzi": "实验室", "pinyin": "shíyàn shì", "meaning": "Phòng thí nghiệm" },
+    { "hanzi": "自习室", "pinyin": "zìxí shì", "meaning": "Phòng tự học" }
+  ],
+  "tree": {
+    "hanzi": "海",
+    "pinyin": "hǎi",
+    "meaning": "Hải",
+    "words": [
+      { "hanzi": "海港", "pinyin": "hǎigǎng", "meaning": "Hải cảng" },
+      { "hanzi": "海岛", "pinyin": "hǎidǎo", "meaning": "Hải đảo" },
+      { "hanzi": "海贼", "pinyin": "hǎizéi", "meaning": "Hải tặc" },
+      { "hanzi": "海军", "pinyin": "hǎijūn", "meaning": "Hải quân" },
+      { "hanzi": "海潮", "pinyin": "hǎicháo", "meaning": "Hải triều" },
+      { "hanzi": "海外", "pinyin": "hǎiwài", "meaning": "Hải ngoại" },
+      { "hanzi": "航海", "pinyin": "hánghǎi", "meaning": "Hàng hải" },
+      { "hanzi": "海关", "pinyin": "hǎiguān", "meaning": "Hải quan" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "19.1",
+      "hanzi": "之",
+      "pinyin": "zhī",
+      "meaning": "của (trợ từ, văn viết)",
+      "note": "Trợ từ dùng trong văn viết, thơ văn cổ · Làm định ngữ / biểu thị quan hệ sở hữu giống 的 · Sau 之 thường là từ đơn âm tiết",
+      "theory": "Trợ từ 之 /zhī/ thường dùng trong văn viết, hay gặp trong thơ văn cổ. Về ý nghĩa 之 có thể đóng vai trò định ngữ hoặc biểu thị mối quan hệ sở hữu giống với trợ từ 的. Tuy nhiên trợ từ 的 được dùng phổ biến trong Tiếng Hán hiện đại ở cả văn viết và văn nói, còn trợ từ 之 được sử dụng với tần suất tương đối thấp trong Tiếng Hán hiện đại, theo sau 之 thường là từ đơn âm tiết.\n\nNgữ pháp đã học xuất hiện lại trong bài: Động + 起来 (NP 9.3, Tăng tốc), bổ ngữ xu hướng kép (NP 2.4, Tăng tốc).",
+      "examples": [
+        {
+          "zh": "明日之子",
+          "pinyin": "Míngrì zhī zǐ",
+          "vi": "Chàng trai của ngày mai (tên một chương trình thi hát, thí sinh đều là nam)",
+          "vocab": "明日: ngày mai · 子: con, chàng trai",
+          "breakdown": "明日 + 之 + 子 (sau 之 là từ đơn âm tiết)"
+        },
+        {
+          "zh": "美丽之星",
+          "pinyin": "Měilì zhī xīng",
+          "vi": "Ngôi sao xinh đẹp (tên một tiểu thuyết khoa học viễn tưởng của Nhật Bản)",
+          "vocab": "美丽: xinh đẹp · 星: ngôi sao",
+          "breakdown": "美丽 + 之 + 星"
+        },
+        {
+          "zh": "在这里，我跟老师们游过知识的海洋，跟同学们建立了友谊之桥。",
+          "pinyin": "Zài zhèlǐ, wǒ gēn lǎoshīmen yóu guo zhīshi de hǎiyáng, gēn tóngxuémen jiànlì le yǒuyì zhī qiáo.",
+          "vi": "Tại đây, tôi và thầy cô cùng nhau bơi qua đại dương tri thức, cùng bạn bè dựng nên cây cầu của tình bạn.",
+          "vocab": "知识: tri thức · 友谊: tình bạn",
+          "breakdown": "友谊 + 之 + 桥"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Hôm nay là một ngày đẹp trời, [0:阳光] chói chang, tôi và bạn học về thăm trường cũ. [0:母校] cấp 3 của tôi là một trường trọng điểm của Hà Nội - [0:首都] của Việt Nam." },
+        { "who": "", "zh": "Tôi còn nhớ ngày nhập học, cầm tờ giấy thông báo [0:入学] của trường đến làm thủ tục chuẩn bị bước vào [0:学期] đầu tiên của năm lớp 10, tôi ngại ngùng đứng phía [0:对面] với cổng trường mà không dám [0:进入]. Một lúc sau, có một giáo viên đến bên động viên tôi, cô chính là [0:班主任] của chúng tôi suốt 3 năm trung học. Những [0:棵] cây trồng trong [0:校园] xanh ngát phía sau trường kia là nơi lũ học trò tinh nghịch chúng tôi nảy ra [0:主意] viết những dòng [0:留言] cho nhau trước ngày tốt nghiệp và hẹn 10 năm sau về trường tìm đọc lại; bảng đen trong lớp học này là nơi chúng tôi ôn lại cấu trúc [0:语法] của Tiếng Trung và [0:预习] trước kiến thức bài học ngày hôm sau bằng việc học chữ Hán. \"Muốn sang thì bắc [0:桥] kiều\", tại đây tôi và thầy cô cùng nhau lên thuyền vượt qua [0:海洋] tri thức mênh mông, cùng bạn bè [0:建立] nên cây cầu tình bạn vững chãi. Có thể [0:获取] được nhiều thành công như ngày hôm nay, tôi rất biết ơn khoảng thời gian trung học ấy." },
+        { "who": "", "zh": "Dù là trời xanh [0:云] trắng hay [0:浪] to gió lớn, mỗi kỷ niệm đều phải được [0:存] thật tốt trong ngăn ký ức, bởi vì chúng ta của hiện tại đều trưởng thành từ những ký ức ấy." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "我的母校，阳光中学，是首都重点学校。今天是她五十岁的生日，也是新学期的开始，所以我出主意，约好同学们一起回母校。", "py": "Wǒ de mǔxiào, Yángguāng zhōngxué, shì shǒudū zhòngdiǎn xuéxiào. Jīntiān shì tā wǔshí suì de shēngrì, yěshì xīn xuéqī de kāishǐ, suǒyǐ wǒ chū zhǔyi, yuē hǎo tóngxuémen yìqǐ huí mǔxiào.", "vi": "Trường cũ của tôi, Trung học Ánh Dương, là một trường trọng điểm của thủ đô. Hôm nay là sinh nhật lần thứ 50 của trường và ngày đầu của học kỳ mới nên tôi đã hẹn các bạn cũ quay lại trường xưa." },
+        { "who": "", "zh": "我还记得入学的那一天，害羞的我站在学校大门对面，不敢进入。过了一会儿，有一位老师主动过来鼓励我，后来她就成了我们的班主任。校园里的那棵树还留着我们毕业时写的很多留言，这间教室的黑板是我们复习语法，预习汉字的地方。在这里，我跟老师们游过知识的海洋，跟同学们建立了友谊[1:之]桥。我们能获取今天的成就，也感谢中学的那段美好的日子。", "py": "Wǒ hái jìdé rùxué de nà yì tiān, hàixiū de wǒ zhàn zài xuéxiào dàmén duìmiàn, bù gǎn jìnrù. Guò le yíhuìr, yǒu yí wèi lǎoshī zhǔdòng guòlái gǔlì wǒ, hòulái tā jiù chéng le wǒmen de bānzhǔrèn. Xiàoyuán lǐ de nà kē shù hái liúzhe wǒmen bìyè shí xiě de hěn duō liúyán, zhè jiān jiàoshì de hēibǎn shì wǒmen fùxí yǔfǎ, yùxí Hànzì de dìfang. Zài zhèlǐ, wǒ gēn lǎoshīmen yóu guo zhīshi de hǎiyáng, gēn tóngxuémen jiànlì le yǒuyì [1:zhī] qiáo. Wǒmen néng huòqǔ jīntiān de chéngjiù, yě gǎnxiè zhōngxué de nà duàn měihǎo de rìzi.", "vi": "Tôi còn nhớ ngày nhập học, tôi ngại ngùng đứng đối diện cổng trường không dám bước vào. Sau một thời gian, một giáo viên đã chủ động đến động viên tôi, sau này cô ấy trở thành giáo viên chủ nhiệm của chúng tôi. Cái cây trong khuôn viên trường vẫn lưu lại nhiều lời nhắn nhủ chúng tôi đã viết khi tốt nghiệp. Bảng đen trong lớp học này là nơi chúng tôi ôn lại ngữ pháp và chuẩn bị học chữ Hán mới. Tại đây, tôi và thầy cô cùng nhau bơi qua đại dương tri thức, cùng bạn bè dựng nên cây cầu [1:của] tình bạn. Tôi có thể có được thành tựu như ngày hôm nay, tôi cũng rất biết ơn khoảng thời gian cấp hai." },
+        { "who": "", "zh": "无论是蓝天白云还是大风大浪，每个回忆都要好好儿地存起来，因为现在的我们都是从这些回忆中走出来的。", "py": "Wúlùn shì lántiān báiyún háishi dàfēng dàlàng, měi ge huíyì dōu yào hǎohāor de cún qǐlái, yīnwèi xiànzài de wǒmen dōu cóng zhèxiē huíyì zhōng zǒu chūlái de.", "vi": "Dù là trời xanh mây trắng hay mưa to gió lớn, mỗi ký ức đều phải được lưu giữ thật tốt, bởi vì bây giờ chúng ta đều bước ra từ những ký ức này." }
+      ],
+      "legend": [
+        { "n": 1, "label": "之", "np": "NP 19.1" }
+      ]
+    }
+  ]
+}

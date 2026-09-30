@@ -1,0 +1,148 @@
+{
+  "level": "hsk4",
+  "lesson": 68,
+  "bookLesson": 18,
+  "title": "行为规则",
+  "titleVi": "Quy tắc ứng xử",
+  "pages": [148, 154],
+  "vocab": [
+    { "hanzi": "聚会", "pinyin": "jùhuì", "pos": "đt.", "meaning": "tụ họp", "hanViet": "tụ hội" },
+    { "hanzi": "照", "pinyin": "zhào", "pos": "đt.", "meaning": "chụp, soi (gương)", "hanViet": "chiếu" },
+    { "hanzi": "镜子", "pinyin": "jìngzi", "pos": "dt.", "meaning": "gương" },
+    { "hanzi": "究竟", "pinyin": "jiūjìng", "pos": "phó.", "meaning": "rốt cuộc, cuối cùng" },
+    { "hanzi": "代表", "pinyin": "dàibiǎo", "pos": "đt., dt.", "meaning": "đại diện, đại biểu", "hanViet": "đại biểu" },
+    { "hanzi": "重大", "pinyin": "zhòngdà", "pos": "tt.", "meaning": "trọng đại", "hanViet": "trọng đại" },
+    { "hanzi": "讲究", "pinyin": "jiǎngjiū", "pos": "đt.", "meaning": "chú trọng" },
+    { "hanzi": "戴", "pinyin": "dài", "pos": "đt.", "meaning": "đeo (phụ kiện)" },
+    { "hanzi": "打扮", "pinyin": "dǎbàn", "pos": "đt.", "meaning": "trang điểm" },
+    { "hanzi": "抽烟", "pinyin": "chōuyān", "pos": "đt.", "meaning": "hút thuốc" },
+    { "hanzi": "显示", "pinyin": "xiǎnshì", "pos": "đt.", "meaning": "biểu thị, chứng tỏ", "hanViet": "hiển thị" },
+    { "hanzi": "加油站", "pinyin": "jiāyóu zhàn", "pos": "dt.", "meaning": "trạm xăng" },
+    { "hanzi": "危险", "pinyin": "wēixiǎn", "pos": "tt.", "meaning": "nguy hiểm", "hanViet": "nguy hiểm" },
+    { "hanzi": "空间", "pinyin": "kōngjiān", "pos": "dt.", "meaning": "không gian", "hanViet": "không gian" },
+    { "hanzi": "响", "pinyin": "xiǎng", "pos": "đt.", "meaning": "kêu, vang lên" },
+    { "hanzi": "同屋", "pinyin": "tóngwū", "pos": "dt.", "meaning": "bạn cùng phòng" },
+    { "hanzi": "抱歉", "pinyin": "bàoqiàn", "pos": "tt.", "meaning": "có lỗi, xin lỗi" },
+    { "hanzi": "打扰", "pinyin": "dǎrǎo", "pos": "đt.", "meaning": "làm phiền" },
+    { "hanzi": "受不了", "pinyin": "shòu bùliǎo", "pos": "cụm.", "meaning": "không chịu nổi" }
+  ],
+  "expand": [
+    { "hanzi": "礼仪", "pinyin": "lǐyí", "meaning": "Phép lịch sự" },
+    { "hanzi": "面子", "pinyin": "miànzi", "meaning": "Thể diện" },
+    { "hanzi": "握手", "pinyin": "wòshǒu", "meaning": "Bắt tay" },
+    { "hanzi": "鞠躬", "pinyin": "jūgōng", "meaning": "Cúi chào" },
+    { "hanzi": "身体语言", "pinyin": "shēntǐ yǔyán", "meaning": "Ngôn ngữ cơ thể" },
+    { "hanzi": "敬语", "pinyin": "jìngyǔ", "meaning": "Kính ngữ" },
+    { "hanzi": "红包", "pinyin": "hóngbāo", "meaning": "Hồng bao, lì xì" },
+    { "hanzi": "小费", "pinyin": "xiǎofèi", "meaning": "Tiền boa" }
+  ],
+  "tree": {
+    "hanzi": "道",
+    "pinyin": "dào",
+    "meaning": "Đạo",
+    "words": [
+      { "hanzi": "道教", "pinyin": "dàojiào", "meaning": "Đạo giáo" },
+      { "hanzi": "轨道", "pinyin": "guǐdào", "meaning": "Quỹ đạo" },
+      { "hanzi": "赤道", "pinyin": "chìdào", "meaning": "Xích đạo" },
+      { "hanzi": "道具", "pinyin": "dàojù", "meaning": "Đạo cụ" },
+      { "hanzi": "地道", "pinyin": "dìdào", "meaning": "Địa đạo" },
+      { "hanzi": "道理", "pinyin": "dàolǐ", "meaning": "Đạo lý" },
+      { "hanzi": "穴道", "pinyin": "xuédào", "meaning": "Huyệt đạo" },
+      { "hanzi": "道德", "pinyin": "dàodé", "meaning": "Đạo đức" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "18.1",
+      "hanzi": "究竟",
+      "pinyin": "jiūjìng",
+      "meaning": "rốt cuộc, cuối cùng; xét cho cùng",
+      "note": "Trong câu nghi vấn: truy vấn, nhấn mạnh ngữ khí → \"rốt cuộc\" · Trong câu trần thuật: sự vật vốn dĩ như vậy → \"xét cho cùng, nói cho cùng\"",
+      "theory": "Phó từ 究竟 /jiūjìng/ được dùng trong câu nghi vấn để thể hiện ý truy vấn và nhấn mạnh ngữ khí, thường dịch là \"rốt cuộc, cuối cùng\".\n\nPhó từ 究竟 còn được dùng trong câu trần thuật, biểu thị sự vật, sự việc vốn dĩ như vậy, thường dịch là \"xét cho cùng, nói cho cùng\".\n\nNgữ pháp đã học xuất hiện lại trong bài: 不仅 (NP 14.3, Tăng tốc).",
+      "examples": [
+        {
+          "zh": "你这样坚持下去究竟是为了什么啊？",
+          "pinyin": "Nǐ zhèyàng jiānchí xiàqù jiūjìng shì wèile shénme a?",
+          "vi": "Rốt cuộc cậu tiếp tục kiên trì thế này vì cái gì chứ?",
+          "vocab": "坚持: kiên trì",
+          "breakdown": "Câu nghi vấn: …究竟 + 是为了什么？"
+        },
+        {
+          "zh": "我们究竟还要等多久？",
+          "pinyin": "Wǒmen jiūjìng hái yào děng duōjiǔ?",
+          "vi": "Chúng ta phải đợi bao lâu?",
+          "vocab": "",
+          "breakdown": "Câu nghi vấn: 究竟 + 还要等多久？"
+        },
+        {
+          "zh": "孩子究竟是孩子，总是想着怎么玩。",
+          "pinyin": "Háizi jiūjìng shì háizi, zǒng shì xiǎngzhe zěnme wán.",
+          "vi": "Xét cho cùng trẻ con vẫn là trẻ con, chỉ luôn nghĩ đến việc chơi.",
+          "vocab": "总是: luôn luôn",
+          "breakdown": "Câu trần thuật: A + 究竟是 + A"
+        },
+        {
+          "zh": "他究竟也是一个越南人，对越南的历史肯定了解一些。",
+          "pinyin": "Tā jiūjìng yěshì yí ge Yuènán rén, duì Yuènán de lìshǐ kěndìng liǎojiě yìxiē.",
+          "vi": "Xét cho cùng anh ấy cũng là người Việt Nam, chắc chắn hiểu biết chút ít về lịch sử Việt Nam rồi.",
+          "vocab": "历史: lịch sử · 肯定: chắc chắn",
+          "breakdown": "Câu trần thuật: 究竟 + 也是…"
+        }
+      ]
+    },
+    {
+      "np": "18.2",
+      "hanzi": "受不了",
+      "pinyin": "shòu bùliǎo",
+      "meaning": "không chịu nổi",
+      "note": "Bổ ngữ khả năng: Động + 不了 → không thể / không có khả năng làm việc gì · 受不了: không thể chịu đựng được",
+      "theory": "Cấu trúc bổ ngữ khả năng Động + 不了 /bùliǎo/ biểu thị ý nghĩa không thể hoặc không có khả năng làm việc gì đó. Trong đó 受不了 /shòu bùliǎo/ mang ý nghĩa không thể chịu đựng được việc gì.\n\nCấu trúc: Động từ + 不了",
+      "examples": [
+        {
+          "zh": "我今年夏天比去年胖多了，好多以前的衣服现在都穿不了了。",
+          "pinyin": "Wǒ jīnnián xiàtiān bǐ qùnián pàng duō le, hǎoduō yǐqián de yīfu xiànzài dōu chuān bùliǎo le.",
+          "vi": "Mùa hè năm nay tôi béo hơn nhiều so với mùa hè năm ngoái, rất nhiều quần áo ngày trước bây giờ đã không mặc vừa nữa rồi.",
+          "vocab": "胖: béo",
+          "breakdown": "穿 + 不了 (không mặc được)"
+        },
+        {
+          "zh": "说实话，你们给我这么短的时间我真的做不了。",
+          "pinyin": "Shuō shíhuà, nǐmen gěi wǒ zhème duǎn de shíjiān wǒ zhēn de zuò bùliǎo.",
+          "vi": "Nói thật, các ông cho tôi thời gian ngắn thế này tôi thật sự không làm được đâu.",
+          "vocab": "说实话: nói thật · 短: ngắn",
+          "breakdown": "做 + 不了 (không làm được)"
+        },
+        {
+          "zh": "他虽然每次都红着脸向我说抱歉，可过不了几天他又回到老样子。我实在受不了了。",
+          "pinyin": "Tā suīrán měi cì dōu hóngzhe liǎn xiàng wǒ shuō bàoqiàn, kě guò bùliǎo jǐ tiān tā yòu huí dào lǎo yàngzi. Wǒ shízài shòu bùliǎo le.",
+          "vi": "Dù lần nào anh ấy cũng đỏ mặt nói xin lỗi tôi, nhưng chưa được mấy ngày anh ấy lại trở lại như cũ. Tôi thực sự không thể chịu đựng được nữa rồi.",
+          "vocab": "抱歉: xin lỗi · 老样子: như cũ",
+          "breakdown": "实在 + 受不了 + 了"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Nhiều cô gái cảm thấy không có quần áo để mặc mỗi khi đi ra ngoài [0:聚会] cà phê chuyện trò với nhóm bạn, cứ đứng trước [0:镜子] ngắm đi ngắm lại cả buổi, thay xong 1 bộ lại đi [0:照] gương, thay tái thay hồi [0:究竟] cũng chọn ra được một bộ. Cầu toàn về trang phục là điều bình thường, vì quần áo cũng sẽ [0:代表] sự tôn trọng của bạn đối với người nhìn. Vì vậy, khi tham gia các sự kiện [0:重大], phái đẹp thường rất [0:讲究] đến việc mặc gì, [0:戴] lên người phụ kiện vòng nhẫn hoa tai gì, cũng không quên [0:打扮] cho má hồng môi xinh thật rạng rỡ." },
+        { "who": "", "zh": "Mọi người đều biết rằng hút thuốc có hại cho sức khỏe. Nhưng [0:抽烟] không chỉ ảnh hưởng đến sức khỏe, còn [0:显示] cho người ngoài thấy phép lịch sự của bạn. Ví dụ, hút thuốc ở gần [0:加油站] mọi người qua lại đổ xăng cũng rất [0:危险] vì nguy cơ cháy nổ do gần chỗ xăng dầu dễ bắt lửa, do đó, việc hút thuốc ở [0:空间] công cộng bị cấm." },
+        { "who": "", "zh": "Vào buổi tối, ngay khi tôi nằm xuống, có tiếng gõ cửa [0:响] lên \"Cốc, cốc\". Vừa đoán là tôi biết ngay là bạn [0:同屋] ở cùng tôi lại không mang chìa khóa. Dù lần nào anh ấy cũng đỏ mặt nói [0:抱歉] rối rít vì đã [0:打扰] đến giờ nghỉ ngơi của tôi, nhưng vài ngày sau anh ấy lại trở lại như cũ. Tôi thực sự [0:受不了] nữa và bực lắm rồi." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "许多女孩子每次参加聚会的时候，就会觉得自己没有衣服穿，照着镜子换了许多件都觉得不满意。这也很正常，因为衣服[1:究竟]也能代表你对人的尊重。所以，参加重大活动时，女人常讲究穿戴，也不忘打扮。", "py": "Xǔduō nǚ háizi měi cì cānjiā jùhuì de shíhou, jiù huì juéde zìjǐ méiyǒu yīfu chuān, zhàozhe jìngzi huàn le xǔduō jiàn dōu juéde bù mǎnyì. Zhè yě hěn zhèngcháng, yīnwèi yīfu [1:jiūjìng] yě néng dàibiǎo nǐ duì rén de zūnzhòng. Suǒyǐ, cānjiā zhòngdà huódòng shí, nǚrén cháng jiǎngjiū chuāndài, yě bú wàng dǎbàn.", "vi": "Nhiều cô gái cảm thấy không có quần áo để mặc mỗi khi đi dự tiệc, cảm thấy bản thân chẳng có gì để mặc, đứng trước gương thay rất nhiều bộ nhưng không hài lòng. Đây cũng là điều bình thường, vì quần áo [1:xét cho cùng] cũng thể hiện sự tôn trọng của bạn đối với mọi người. Vì vậy, khi tham gia các sự kiện lớn, phái đẹp thường rất chú ý đến việc ăn mặc và không quên trang điểm." },
+        { "who": "", "zh": "抽烟对身体不好，人人都知道。不仅影响健康，而且抽烟也显示出个人的礼貌。例如，在医院抽烟会污染空气，在加油站抽烟非常危险，因此，公共空间都禁止抽烟。", "py": "Chōuyān duì shēntǐ bù hǎo, rén rén dōu zhīdào. Bùjǐn yǐngxiǎng jiànkāng, érqiě chōuyān yě xiǎnshì chū gèrén de lǐmào. Lìrú, zài yīyuàn chōuyān huì wūrǎn kōngqì, zài jiāyóu zhàn chōuyān fēicháng wēixiǎn, yīncǐ, gōnggòng kōngjiān dōu jìnzhǐ chōuyān.", "vi": "Mọi người đều biết rằng hút thuốc có hại cho sức khỏe của bạn. Không chỉ ảnh hưởng đến sức khỏe, hút thuốc lá còn thể hiện phép lịch sự cá nhân. Ví dụ, hút thuốc trong bệnh viện làm ô nhiễm không khí, hút thuốc trong trạm xăng rất nguy hiểm, do đó, việc hút thuốc ở không gian công cộng bị cấm." },
+        { "who": "", "zh": "晚上，我刚刚躺下，就响起了敲门声。一猜就知道是同屋又没带钥匙。他虽然每次都红着脸向我说抱歉，打扰了，可过不了几天他又回到老样子。我实在[2:受不了]了。", "py": "Wǎnshang, wǒ gānggāng tǎng xià, jiù xiǎng qǐle qiāo mén shēng. Yì cāi jiù zhīdào shì tóngwū yòu méi dài yàoshi. Tā suīrán měi cì dōu hóngzhe liǎn xiàng wǒ shuō bàoqiàn, dǎrǎo le, kě guò bùliǎo jǐ tiān tā yòu huí dào lǎo yàngzi. Wǒ shízài [2:shòu bùliǎo] le.", "vi": "Vào buổi tối, ngay khi tôi nằm xuống, có tiếng gõ cửa. Vừa đoán là tôi biết ngay là bạn cùng phòng lại không mang chìa khóa. Dù lần nào anh ấy cũng đỏ mặt nói xin lỗi và làm phiền rồi nhưng vài ngày sau anh ấy lại trở lại như cũ. Tôi [2:không thể chịu đựng được] nữa rồi." }
+      ],
+      "legend": [
+        { "n": 1, "label": "究竟", "np": "NP 18.1" },
+        { "n": 2, "label": "受不了", "np": "NP 18.2" }
+      ]
+    }
+  ]
+}

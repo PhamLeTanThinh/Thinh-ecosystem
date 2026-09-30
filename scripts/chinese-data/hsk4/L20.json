@@ -1,0 +1,150 @@
+{
+  "level": "hsk4",
+  "lesson": 70,
+  "bookLesson": 20,
+  "title": "尽力而为",
+  "titleVi": "Cố gắng hết sức",
+  "pages": [163, 170],
+  "vocab": [
+    { "hanzi": "推迟", "pinyin": "tuīchí", "pos": "đt.", "meaning": "lùi lại, hoãn lại" },
+    { "hanzi": "处理", "pinyin": "chǔlǐ", "pos": "đt.", "meaning": "xử lý", "hanViet": "xử lý" },
+    { "hanzi": "赶紧", "pinyin": "gǎnjǐn", "pos": "phó.", "meaning": "mau chóng" },
+    { "hanzi": "碰", "pinyin": "pèng", "pos": "đt.", "meaning": "va, chạm, đụng" },
+    { "hanzi": "到处", "pinyin": "dàochù", "pos": "phó.", "meaning": "khắp nơi" },
+    { "hanzi": "入口", "pinyin": "rùkǒu", "pos": "dt.", "meaning": "cửa vào" },
+    { "hanzi": "零钱", "pinyin": "língqián", "pos": "dt.", "meaning": "tiền lẻ" },
+    { "hanzi": "撞", "pinyin": "zhuàng", "pos": "đt.", "meaning": "đâm, đập" },
+    { "hanzi": "胳膊", "pinyin": "gēbo", "pos": "dt.", "meaning": "cánh tay" },
+    { "hanzi": "打针", "pinyin": "dǎ zhēn", "pos": "đt.", "meaning": "tiêm" },
+    { "hanzi": "排队", "pinyin": "páiduì", "pos": "đt.", "meaning": "xếp hàng" },
+    { "hanzi": "功夫", "pinyin": "gōngfu", "pos": "dt.", "meaning": "công sức" },
+    { "hanzi": "安检", "pinyin": "ānjiǎn", "pos": "dt.", "meaning": "kiểm tra an ninh" },
+    { "hanzi": "运气", "pinyin": "yùnqi", "pos": "dt.", "meaning": "vận may" },
+    { "hanzi": "幸运", "pinyin": "xìngyùn", "pos": "tt.", "meaning": "may mắn" },
+    { "hanzi": "航班", "pinyin": "hángbān", "pos": "dt.", "meaning": "chuyến bay" },
+    { "hanzi": "正点", "pinyin": "zhèngdiǎn", "pos": "đt.", "meaning": "đúng giờ" },
+    { "hanzi": "晚点", "pinyin": "wǎndiǎn", "pos": "đt.", "meaning": "muộn giờ" },
+    { "hanzi": "登机牌", "pinyin": "dēngjī pái", "pos": "dt.", "meaning": "thẻ lên máy bay" },
+    { "hanzi": "登机", "pinyin": "dēng jī", "pos": "đt.", "meaning": "lên máy bay" },
+    { "hanzi": "无常", "pinyin": "wúcháng", "pos": "tt.", "meaning": "vô thường", "hanViet": "vô thường" },
+    { "hanzi": "尽力而为", "pinyin": "jìnlì ér wéi", "pos": "thành ngữ", "meaning": "cố gắng hết sức" }
+  ],
+  "expand": [
+    { "hanzi": "行李托运", "pinyin": "xínglǐ tuōyùn", "meaning": "Ký gửi hành lý" },
+    { "hanzi": "来回机票", "pinyin": "láihuí jīpiào", "meaning": "Vé máy bay khứ hồi" },
+    { "hanzi": "免税店", "pinyin": "miǎnshuì diàn", "meaning": "Cửa hàng miễn thuế" },
+    { "hanzi": "过境", "pinyin": "guòjìng", "meaning": "Quá cảnh" },
+    { "hanzi": "候机厅", "pinyin": "hòu jī tīng", "meaning": "Phòng chờ bay" },
+    { "hanzi": "货币兑换处", "pinyin": "huòbì duìhuàn chù", "meaning": "Nơi đổi tiền" },
+    { "hanzi": "随身行李", "pinyin": "suíshēn xínglǐ", "meaning": "Hành lý cầm tay" },
+    { "hanzi": "入境", "pinyin": "rùjìng", "meaning": "Nhập cảnh" }
+  ],
+  "tree": {
+    "hanzi": "立",
+    "pinyin": "lì",
+    "meaning": "Lập",
+    "words": [
+      { "hanzi": "创立", "pinyin": "chuànglì", "meaning": "Sáng lập" },
+      { "hanzi": "中立", "pinyin": "zhōnglì", "meaning": "Trung lập" },
+      { "hanzi": "对立", "pinyin": "duìlì", "meaning": "Đối lập" },
+      { "hanzi": "确立", "pinyin": "quèlì", "meaning": "Xác lập" },
+      { "hanzi": "孤立", "pinyin": "gūlì", "meaning": "Cô lập" },
+      { "hanzi": "设立", "pinyin": "shèlì", "meaning": "Thiết lập" },
+      { "hanzi": "立场", "pinyin": "lìchǎng", "meaning": "Lập trường" },
+      { "hanzi": "成立", "pinyin": "chénglì", "meaning": "Thành lập" }
+    ]
+  },
+  "grammar": [
+    {
+      "np": "20.1",
+      "hanzi": "倒",
+      "pinyin": "dào",
+      "meaning": "nhưng, thế mà, lại",
+      "note": "Phó từ biểu thị ý nghĩa ngược lại so với dự đoán · Trong câu phức, 倒 ở vế sau biểu thị ý chuyển biến, thay đổi",
+      "theory": "Phó từ 倒 /dào/ biểu thị ý nghĩa ngược lại so với dự đoán hoặc khi dùng trong câu phức hợp, sự xuất hiện của 倒 ở vế câu sau biểu thị ý nghĩa chuyển biến, thay đổi, thường dịch là \"nhưng, thế mà, lại...\".\n\nNgữ pháp đã học xuất hiện lại trong bài: 突然 (NP 9.4, Tăng tốc), câu chữ 被 (NP 7.1, Tăng tốc), 以为 (NP 16.2, Tăng tốc), 千万 (NP 11.3, Tăng tốc).",
+      "examples": [
+        {
+          "zh": "快要考试了别人都在复习，他倒跑去海边玩了几天才回来。",
+          "pinyin": "Kuàiyào kǎoshì le biérén dōu zài fùxí, tā dào pǎo qù hǎibiān wán le jǐ tiān cái huílái.",
+          "vi": "Sắp thi rồi người ta đều đang ôn tập, nó lại chạy đi biển chơi mấy ngày mới về.",
+          "vocab": "复习: ôn tập · 海边: bờ biển",
+          "breakdown": "别人都…，他 + 倒 + … (ngược với mọi người)"
+        },
+        {
+          "zh": "我最近吃的有点儿多。还以为要胖了，竟然倒瘦了4斤。",
+          "pinyin": "Wǒ zuìjìn chī de yǒudiǎnr duō. Hái yǐwéi yào pàng le, jìngrán dào shòu le sì jīn.",
+          "vi": "Tôi dạo này ăn hơi nhiều, cứ tưởng là sẽ béo lên, thế mà lại gầy mất 2kg.",
+          "vocab": "以为: tưởng là · 竟然: vậy mà · 瘦: gầy",
+          "breakdown": "还以为…，竟然 + 倒 + … (ngược với dự đoán)"
+        },
+        {
+          "zh": "进入时还要排队做安检。过了以后，工作人员倒说我迟到了。",
+          "pinyin": "Jìnrù shí hái yào páiduì zuò ānjiǎn. Guò le yǐhòu, gōngzuò rényuán dào shuō wǒ chídào le.",
+          "vi": "Khi đi vào, tôi phải xếp hàng để kiểm tra an ninh. Sau khi qua, nhân viên lại nói rằng tôi đã đến muộn.",
+          "vocab": "安检: kiểm tra an ninh · 迟到: đến muộn",
+          "breakdown": "…，工作人员 + 倒 + 说…"
+        }
+      ]
+    },
+    {
+      "np": "20.2",
+      "hanzi": "一方面…另一方面…",
+      "pinyin": "yì fāngmiàn… lìng yì fāngmiàn…",
+      "meaning": "một mặt…, mặt khác…",
+      "note": "Biểu thị mối quan hệ song song giữa 2 vế câu mang ý nghĩa các sự kiện hành động có mối quan hệ bình đẳng với nhau",
+      "theory": "Cấu trúc 一方面…另一方面… /yì fāngmiàn… lìng yì fāngmiàn…/ biểu thị mối quan hệ song song giữa 2 vế câu mang ý nghĩa các sự kiện hành động có mối quan hệ bình đẳng với nhau, thường dịch là \"một mặt..., mặt khác...\".\n\nCấu trúc: 一方面 + vế 1，另一方面 + vế 2",
+      "examples": [
+        {
+          "zh": "很多越南人觉得汉语不难，一方面是因为汉语语法比较简单，另一方面是越南语中本来就有较多汉-越音，生词还挺好学的。",
+          "pinyin": "Hěn duō Yuènán rén juéde Hànyǔ bù nán, yì fāngmiàn shì yīnwèi Hànyǔ yǔfǎ bǐjiào jiǎndān, lìng yì fāngmiàn shì Yuènán yǔ zhōng běnlái jiù yǒu jiào duō Hàn-Yuè yīn, shēngcí hái tǐng hǎoxué de.",
+          "vi": "Nhiều người Việt Nam thấy tiếng Trung không khó, một mặt là do ngữ pháp tiếng Trung tương đối đơn giản, mặt khác, trong tiếng Việt vốn đã có tương đối nhiều âm Hán Việt, học từ mới khá dễ.",
+          "vocab": "语法: ngữ pháp · 本来: vốn dĩ · 生词: từ mới",
+          "breakdown": "一方面是因为…，另一方面是…"
+        },
+        {
+          "zh": "一方面这份工作的工资很不错，另一方面我现在也找不到其他工作了。",
+          "pinyin": "Yì fāngmiàn zhè fèn gōngzuò de gōngzī hěn búcuò, lìng yì fāngmiàn wǒ xiànzài yě zhǎo bú dào qítā gōngzuò le.",
+          "vi": "Một mặt công việc này lương rất tốt, mặt khác thì tôi hiện nay cũng không tìm được công việc nào khác nữa.",
+          "vocab": "工资: tiền lương · 其他: khác",
+          "breakdown": "一方面 + vế 1，另一方面 + vế 2"
+        },
+        {
+          "zh": "一方面，做事前必须做好计划，不要太随意。另一方面，生活也无常，一定尽力而为，不到最后一刻，千万别放弃。",
+          "pinyin": "Yì fāngmiàn, zuò shì qián bìxū zuò hǎo jìhuà, búyào tài suíyì. Lìng yì fāngmiàn, shēnghuó yě wúcháng, yídìng jìnlì ér wéi, bú dào zuìhòu yí kè, qiānwàn bié fàngqì.",
+          "vi": "Một mặt, bạn phải lập kế hoạch tốt trước khi thực hiện mọi việc, đừng quá tùy tiện. Mặt khác, cuộc sống cũng vô thường, bạn phải nỗ lực hết mình và đừng bao giờ bỏ cuộc cho đến phút cuối cùng.",
+          "vocab": "计划: kế hoạch · 随意: tùy ý · 放弃: từ bỏ",
+          "breakdown": "一方面，… 另一方面，…"
+        }
+      ]
+    }
+  ],
+  "dialogues": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        { "who": "", "zh": "Tuần trước tôi đi công tác Hà Nội, trước khi đi có chuyện đột xuất, tôi phải [0:推迟] thời gian ra sân bay thêm nửa tiếng." },
+        { "who": "", "zh": "Sau khi [0:处理] xong xuôi mọi việc, tôi [0:赶紧] chạy ra cửa vẫy gọi ngay taxi, nhưng lúc đi không may [0:碰] đúng cảnh tắc đường, nhìn trái nhìn phải [0:到处] đều là người, lãng phí mất bao nhiêu thời gian." },
+        { "who": "", "zh": "Khi đến nơi, tôi xuống xe ở [0:入口] của sân bay chứ chưa đi vào bên trong, đang lục tìm trong ví xem có đồng [0:零钱] nào để trả cho tài xế không, thì không may cánh tay bị cửa xe [0:撞] vào đau điếng, [0:胳膊] của tôi lúc đó đau buốt như bị [0:打针] bằng kim tiêm vậy." },
+        { "who": "", "zh": "Lúc đi vào còn phải [0:排队] ngay ngắn theo thứ tự để người và đồ đi qua máy quét, qua được cửa [0:安检] của Cảnh sát sân bay, nhân viên mới nói rằng tôi đã đến muộn." },
+        { "who": "", "zh": "Những tưởng hôm nay bước chân trái ra đường nên chẳng có chút [0:运气] nào, nhưng [0:幸运] thay, lúc đó nghe được thông báo: Do nguyên nhân thời tiết, [0:航班] mang số hiệu VN123 của tôi không thể cất cánh [0:正点] như dự kiến, bị [0:晚点] hai tiếng đồng hồ, thế là tôi đã được nhân viên cấp [0:登机牌] lên máy bay rồi." },
+        { "who": "", "zh": "Nhờ có trải nghiệm lần này tôi hiểu ra: May rủi đan xen, cuộc sống thật [0:无常] và khó đoán định, nhất định phải [0:尽力而为] hết sức mình, không bao giờ bỏ cuộc cho đến giây phút cuối cùng." }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        { "who": "", "zh": "上个礼拜我去河内出差，出发前突然发生意外，我得推迟去机场的时间。", "py": "Shàng ge lǐbài wǒ qù Hénèi chūchāi, chūfā qián tūrán fāshēng yìwài, wǒ děi tuīchí qù jīchǎng de shíjiān.", "vi": "Tôi đi công tác ở Hà Nội tuần trước, trước khi đi thì xảy ra sự cố khiến tôi phải hoãn thời gian ra sân bay." },
+        { "who": "", "zh": "处理好以后，我赶紧叫辆出租车。但碰上堵车，到处都是人，我的时间就浪费在堵车中了。", "py": "Chǔlǐ hǎo yǐhòu, wǒ gǎnjǐn jiào liàng chūzūchē. Dàn pèng shàng dǔchē, dàochù dōu shì rén, wǒ de shíjiān jiù làngfèi zài dǔchē zhōng le.", "vi": "Xử lý xong, tôi vội gọi taxi. Nhưng gặp tắc đường, người ở khắp nơi, lãng phí nhiều thời gian của tôi." },
+        { "who": "", "zh": "到了机场，在入口给司机找零钱的时候，我不小心被车门撞了，胳膊像打针一样疼。", "py": "Dào le jīchǎng, zài rùkǒu gěi sījī zhǎo língqián de shíhou, wǒ bù xiǎoxīn bèi chēmén zhuàng le, gēbo xiàng dǎzhēn yíyàng téng.", "vi": "Khi đến sân bay, ở cổng vào, tôi không may bị va vào cửa xe khi đang tìm tiền lẻ để trả cho tài xế, cánh tay bị đau như tiêm." },
+        { "who": "", "zh": "进入时还要排队做安检。过了以后，工作人员[1:倒]说我迟到了。", "py": "Jìnrù shí hái yào páiduì zuò ānjiǎn. Guò le yǐhòu, gōngzuò rényuán [1:dào] shuō wǒ chídào le.", "vi": "Khi đi vào, tôi phải xếp hàng để kiểm tra an ninh. Sau khi qua, nhân viên [1:lại] nói rằng tôi đã đến muộn." },
+        { "who": "", "zh": "还以为今天运气很不好了，但幸运的是，那时却听到通知：由于天气原因，我的航班不能正点起飞，晚点了两个小时，我终于拿到登机牌了。", "py": "Hái yǐwéi jīntiān yùnqi hěn bù hǎo le, dàn xìngyùn de shì, nà shí què tīng dào tōngzhī: Yóuyú tiānqì yuányīn, wǒ de hángbān bùnéng zhèngdiǎn qǐfēi, wǎndiǎn le liǎng ge xiǎoshí, wǒ zhōngyú ná dào dēngjī pái le.", "vi": "Tôi cứ nghĩ hôm nay xui xẻo lắm rồi, nhưng may mắn thay, lúc đó tôi nghe được thông báo: Do nguyên nhân thời tiết, chuyến bay của tôi không thể cất cánh đúng giờ, bị hoãn hai tiếng đồng hồ, cuối cùng tôi cũng nhận được thẻ lên máy bay rồi." },
+        { "who": "", "zh": "这次经历让我明白：[2:一方面]，做事前必须做好计划，不要太随意。[2:另一方面]，生活也无常，一定尽力而为，不到最后一刻，千万别放弃。", "py": "Zhè cì jīnglì ràng wǒ míngbai: [2:Yì fāngmiàn], zuò shì qián bìxū zuò hǎo jìhuà, búyào tài suíyì. [2:Lìng yì fāngmiàn], shēnghuó yě wúcháng, yídìng jìnlì ér wéi, bú dào zuìhòu yí kè, qiānwàn bié fàngqì.", "vi": "Trải nghiệm này khiến tôi hiểu rằng: [2:Một mặt], bạn phải lập kế hoạch tốt trước khi thực hiện mọi việc, đừng quá tùy tiện. [2:Mặt khác], cuộc sống cũng vô thường, bạn phải nỗ lực hết mình và đừng bao giờ bỏ cuộc cho đến phút cuối cùng." }
+      ],
+      "legend": [
+        { "n": 1, "label": "倒", "np": "NP 20.1" },
+        { "n": 2, "label": "一方面…另一方面…", "np": "NP 20.2" }
+      ]
+    }
+  ]
+}

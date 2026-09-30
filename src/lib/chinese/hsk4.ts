@@ -87,6 +87,21 @@ export const HSK4_LESSON_META: Record<number, LessonMeta> = {
     "level": "hsk4",
     "title": "艺术欣赏",
     "titleVi": "Thưởng thức nghệ thuật"
+  },
+  "68": {
+    "level": "hsk4",
+    "title": "行为规则",
+    "titleVi": "Quy tắc ứng xử"
+  },
+  "69": {
+    "level": "hsk4",
+    "title": "回忆学生时代",
+    "titleVi": "Kỷ niệm thời học sinh"
+  },
+  "70": {
+    "level": "hsk4",
+    "title": "尽力而为",
+    "titleVi": "Cố gắng hết sức"
   }
 }
 
@@ -896,6 +911,196 @@ export const HSK4_DIALOGUES: Record<number, Dialogue[]> = {
         "title": "Ngữ pháp đã học trong bài",
         "text": "Bài này không có ngữ pháp mới. Ôn lại: 无论 (NP 20.1, Tăng tốc): 无论国籍、民族、性别、肤色… · 不得不 (NP 21.1, Tăng tốc): 表演者不得不中间停下来 · 不但…而且… (NP 2.2, Tăng tốc): 这样不但影响了节目的完整性 · A 对 B 感兴趣 (NP 7.3, Tăng tốc): 我对京剧表演艺术非常感兴趣 · 偶尔 (NP 6.3, Cất cánh): 偶尔也在家里唱一两句 · 由 (NP 24.4, Tăng tốc): 由北京大学举办的京剧研究班"
       }
+    }
+  ],
+  "68": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Nhiều cô gái cảm thấy không có quần áo để mặc mỗi khi đi ra ngoài [0:聚会] cà phê chuyện trò với nhóm bạn, cứ đứng trước [0:镜子] ngắm đi ngắm lại cả buổi, thay xong 1 bộ lại đi [0:照] gương, thay tái thay hồi [0:究竟] cũng chọn ra được một bộ. Cầu toàn về trang phục là điều bình thường, vì quần áo cũng sẽ [0:代表] sự tôn trọng của bạn đối với người nhìn. Vì vậy, khi tham gia các sự kiện [0:重大], phái đẹp thường rất [0:讲究] đến việc mặc gì, [0:戴] lên người phụ kiện vòng nhẫn hoa tai gì, cũng không quên [0:打扮] cho má hồng môi xinh thật rạng rỡ."
+        },
+        {
+          "who": "",
+          "zh": "Mọi người đều biết rằng hút thuốc có hại cho sức khỏe. Nhưng [0:抽烟] không chỉ ảnh hưởng đến sức khỏe, còn [0:显示] cho người ngoài thấy phép lịch sự của bạn. Ví dụ, hút thuốc ở gần [0:加油站] mọi người qua lại đổ xăng cũng rất [0:危险] vì nguy cơ cháy nổ do gần chỗ xăng dầu dễ bắt lửa, do đó, việc hút thuốc ở [0:空间] công cộng bị cấm."
+        },
+        {
+          "who": "",
+          "zh": "Vào buổi tối, ngay khi tôi nằm xuống, có tiếng gõ cửa [0:响] lên \"Cốc, cốc\". Vừa đoán là tôi biết ngay là bạn [0:同屋] ở cùng tôi lại không mang chìa khóa. Dù lần nào anh ấy cũng đỏ mặt nói [0:抱歉] rối rít vì đã [0:打扰] đến giờ nghỉ ngơi của tôi, nhưng vài ngày sau anh ấy lại trở lại như cũ. Tôi thực sự [0:受不了] nữa và bực lắm rồi."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "许多女孩子每次参加聚会的时候，就会觉得自己没有衣服穿，照着镜子换了许多件都觉得不满意。这也很正常，因为衣服[1:究竟]也能代表你对人的尊重。所以，参加重大活动时，女人常讲究穿戴，也不忘打扮。",
+          "py": "Xǔduō nǚ háizi měi cì cānjiā jùhuì de shíhou, jiù huì juéde zìjǐ méiyǒu yīfu chuān, zhàozhe jìngzi huàn le xǔduō jiàn dōu juéde bù mǎnyì. Zhè yě hěn zhèngcháng, yīnwèi yīfu [1:jiūjìng] yě néng dàibiǎo nǐ duì rén de zūnzhòng. Suǒyǐ, cānjiā zhòngdà huódòng shí, nǚrén cháng jiǎngjiū chuāndài, yě bú wàng dǎbàn.",
+          "vi": "Nhiều cô gái cảm thấy không có quần áo để mặc mỗi khi đi dự tiệc, cảm thấy bản thân chẳng có gì để mặc, đứng trước gương thay rất nhiều bộ nhưng không hài lòng. Đây cũng là điều bình thường, vì quần áo [1:xét cho cùng] cũng thể hiện sự tôn trọng của bạn đối với mọi người. Vì vậy, khi tham gia các sự kiện lớn, phái đẹp thường rất chú ý đến việc ăn mặc và không quên trang điểm."
+        },
+        {
+          "who": "",
+          "zh": "抽烟对身体不好，人人都知道。不仅影响健康，而且抽烟也显示出个人的礼貌。例如，在医院抽烟会污染空气，在加油站抽烟非常危险，因此，公共空间都禁止抽烟。",
+          "py": "Chōuyān duì shēntǐ bù hǎo, rén rén dōu zhīdào. Bùjǐn yǐngxiǎng jiànkāng, érqiě chōuyān yě xiǎnshì chū gèrén de lǐmào. Lìrú, zài yīyuàn chōuyān huì wūrǎn kōngqì, zài jiāyóu zhàn chōuyān fēicháng wēixiǎn, yīncǐ, gōnggòng kōngjiān dōu jìnzhǐ chōuyān.",
+          "vi": "Mọi người đều biết rằng hút thuốc có hại cho sức khỏe của bạn. Không chỉ ảnh hưởng đến sức khỏe, hút thuốc lá còn thể hiện phép lịch sự cá nhân. Ví dụ, hút thuốc trong bệnh viện làm ô nhiễm không khí, hút thuốc trong trạm xăng rất nguy hiểm, do đó, việc hút thuốc ở không gian công cộng bị cấm."
+        },
+        {
+          "who": "",
+          "zh": "晚上，我刚刚躺下，就响起了敲门声。一猜就知道是同屋又没带钥匙。他虽然每次都红着脸向我说抱歉，打扰了，可过不了几天他又回到老样子。我实在[2:受不了]了。",
+          "py": "Wǎnshang, wǒ gānggāng tǎng xià, jiù xiǎng qǐle qiāo mén shēng. Yì cāi jiù zhīdào shì tóngwū yòu méi dài yàoshi. Tā suīrán měi cì dōu hóngzhe liǎn xiàng wǒ shuō bàoqiàn, dǎrǎo le, kě guò bùliǎo jǐ tiān tā yòu huí dào lǎo yàngzi. Wǒ shízài [2:shòu bùliǎo] le.",
+          "vi": "Vào buổi tối, ngay khi tôi nằm xuống, có tiếng gõ cửa. Vừa đoán là tôi biết ngay là bạn cùng phòng lại không mang chìa khóa. Dù lần nào anh ấy cũng đỏ mặt nói xin lỗi và làm phiền rồi nhưng vài ngày sau anh ấy lại trở lại như cũ. Tôi [2:không thể chịu đựng được] nữa rồi."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "究竟",
+          "np": "NP 18.1"
+        },
+        {
+          "n": 2,
+          "label": "受不了",
+          "np": "NP 18.2"
+        }
+      ]
+    }
+  ],
+  "69": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Hôm nay là một ngày đẹp trời, [0:阳光] chói chang, tôi và bạn học về thăm trường cũ. [0:母校] cấp 3 của tôi là một trường trọng điểm của Hà Nội - [0:首都] của Việt Nam."
+        },
+        {
+          "who": "",
+          "zh": "Tôi còn nhớ ngày nhập học, cầm tờ giấy thông báo [0:入学] của trường đến làm thủ tục chuẩn bị bước vào [0:学期] đầu tiên của năm lớp 10, tôi ngại ngùng đứng phía [0:对面] với cổng trường mà không dám [0:进入]. Một lúc sau, có một giáo viên đến bên động viên tôi, cô chính là [0:班主任] của chúng tôi suốt 3 năm trung học. Những [0:棵] cây trồng trong [0:校园] xanh ngát phía sau trường kia là nơi lũ học trò tinh nghịch chúng tôi nảy ra [0:主意] viết những dòng [0:留言] cho nhau trước ngày tốt nghiệp và hẹn 10 năm sau về trường tìm đọc lại; bảng đen trong lớp học này là nơi chúng tôi ôn lại cấu trúc [0:语法] của Tiếng Trung và [0:预习] trước kiến thức bài học ngày hôm sau bằng việc học chữ Hán. \"Muốn sang thì bắc [0:桥] kiều\", tại đây tôi và thầy cô cùng nhau lên thuyền vượt qua [0:海洋] tri thức mênh mông, cùng bạn bè [0:建立] nên cây cầu tình bạn vững chãi. Có thể [0:获取] được nhiều thành công như ngày hôm nay, tôi rất biết ơn khoảng thời gian trung học ấy."
+        },
+        {
+          "who": "",
+          "zh": "Dù là trời xanh [0:云] trắng hay [0:浪] to gió lớn, mỗi kỷ niệm đều phải được [0:存] thật tốt trong ngăn ký ức, bởi vì chúng ta của hiện tại đều trưởng thành từ những ký ức ấy."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "我的母校，阳光中学，是首都重点学校。今天是她五十岁的生日，也是新学期的开始，所以我出主意，约好同学们一起回母校。",
+          "py": "Wǒ de mǔxiào, Yángguāng zhōngxué, shì shǒudū zhòngdiǎn xuéxiào. Jīntiān shì tā wǔshí suì de shēngrì, yěshì xīn xuéqī de kāishǐ, suǒyǐ wǒ chū zhǔyi, yuē hǎo tóngxuémen yìqǐ huí mǔxiào.",
+          "vi": "Trường cũ của tôi, Trung học Ánh Dương, là một trường trọng điểm của thủ đô. Hôm nay là sinh nhật lần thứ 50 của trường và ngày đầu của học kỳ mới nên tôi đã hẹn các bạn cũ quay lại trường xưa."
+        },
+        {
+          "who": "",
+          "zh": "我还记得入学的那一天，害羞的我站在学校大门对面，不敢进入。过了一会儿，有一位老师主动过来鼓励我，后来她就成了我们的班主任。校园里的那棵树还留着我们毕业时写的很多留言，这间教室的黑板是我们复习语法，预习汉字的地方。在这里，我跟老师们游过知识的海洋，跟同学们建立了友谊[1:之]桥。我们能获取今天的成就，也感谢中学的那段美好的日子。",
+          "py": "Wǒ hái jìdé rùxué de nà yì tiān, hàixiū de wǒ zhàn zài xuéxiào dàmén duìmiàn, bù gǎn jìnrù. Guò le yíhuìr, yǒu yí wèi lǎoshī zhǔdòng guòlái gǔlì wǒ, hòulái tā jiù chéng le wǒmen de bānzhǔrèn. Xiàoyuán lǐ de nà kē shù hái liúzhe wǒmen bìyè shí xiě de hěn duō liúyán, zhè jiān jiàoshì de hēibǎn shì wǒmen fùxí yǔfǎ, yùxí Hànzì de dìfang. Zài zhèlǐ, wǒ gēn lǎoshīmen yóu guo zhīshi de hǎiyáng, gēn tóngxuémen jiànlì le yǒuyì [1:zhī] qiáo. Wǒmen néng huòqǔ jīntiān de chéngjiù, yě gǎnxiè zhōngxué de nà duàn měihǎo de rìzi.",
+          "vi": "Tôi còn nhớ ngày nhập học, tôi ngại ngùng đứng đối diện cổng trường không dám bước vào. Sau một thời gian, một giáo viên đã chủ động đến động viên tôi, sau này cô ấy trở thành giáo viên chủ nhiệm của chúng tôi. Cái cây trong khuôn viên trường vẫn lưu lại nhiều lời nhắn nhủ chúng tôi đã viết khi tốt nghiệp. Bảng đen trong lớp học này là nơi chúng tôi ôn lại ngữ pháp và chuẩn bị học chữ Hán mới. Tại đây, tôi và thầy cô cùng nhau bơi qua đại dương tri thức, cùng bạn bè dựng nên cây cầu [1:của] tình bạn. Tôi có thể có được thành tựu như ngày hôm nay, tôi cũng rất biết ơn khoảng thời gian cấp hai."
+        },
+        {
+          "who": "",
+          "zh": "无论是蓝天白云还是大风大浪，每个回忆都要好好儿地存起来，因为现在的我们都是从这些回忆中走出来的。",
+          "py": "Wúlùn shì lántiān báiyún háishi dàfēng dàlàng, měi ge huíyì dōu yào hǎohāor de cún qǐlái, yīnwèi xiànzài de wǒmen dōu cóng zhèxiē huíyì zhōng zǒu chūlái de.",
+          "vi": "Dù là trời xanh mây trắng hay mưa to gió lớn, mỗi ký ức đều phải được lưu giữ thật tốt, bởi vì bây giờ chúng ta đều bước ra từ những ký ức này."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "之",
+          "np": "NP 19.1"
+        }
+      ]
+    }
+  ],
+  "70": [
+    {
+      "title": "Chém gió song ngữ",
+      "variant": "bilingual",
+      "lines": [
+        {
+          "who": "",
+          "zh": "Tuần trước tôi đi công tác Hà Nội, trước khi đi có chuyện đột xuất, tôi phải [0:推迟] thời gian ra sân bay thêm nửa tiếng."
+        },
+        {
+          "who": "",
+          "zh": "Sau khi [0:处理] xong xuôi mọi việc, tôi [0:赶紧] chạy ra cửa vẫy gọi ngay taxi, nhưng lúc đi không may [0:碰] đúng cảnh tắc đường, nhìn trái nhìn phải [0:到处] đều là người, lãng phí mất bao nhiêu thời gian."
+        },
+        {
+          "who": "",
+          "zh": "Khi đến nơi, tôi xuống xe ở [0:入口] của sân bay chứ chưa đi vào bên trong, đang lục tìm trong ví xem có đồng [0:零钱] nào để trả cho tài xế không, thì không may cánh tay bị cửa xe [0:撞] vào đau điếng, [0:胳膊] của tôi lúc đó đau buốt như bị [0:打针] bằng kim tiêm vậy."
+        },
+        {
+          "who": "",
+          "zh": "Lúc đi vào còn phải [0:排队] ngay ngắn theo thứ tự để người và đồ đi qua máy quét, qua được cửa [0:安检] của Cảnh sát sân bay, nhân viên mới nói rằng tôi đã đến muộn."
+        },
+        {
+          "who": "",
+          "zh": "Những tưởng hôm nay bước chân trái ra đường nên chẳng có chút [0:运气] nào, nhưng [0:幸运] thay, lúc đó nghe được thông báo: Do nguyên nhân thời tiết, [0:航班] mang số hiệu VN123 của tôi không thể cất cánh [0:正点] như dự kiến, bị [0:晚点] hai tiếng đồng hồ, thế là tôi đã được nhân viên cấp [0:登机牌] lên máy bay rồi."
+        },
+        {
+          "who": "",
+          "zh": "Nhờ có trải nghiệm lần này tôi hiểu ra: May rủi đan xen, cuộc sống thật [0:无常] và khó đoán định, nhất định phải [0:尽力而为] hết sức mình, không bao giờ bỏ cuộc cho đến giây phút cuối cùng."
+        }
+      ]
+    },
+    {
+      "title": "Nói như người bản xứ",
+      "lines": [
+        {
+          "who": "",
+          "zh": "上个礼拜我去河内出差，出发前突然发生意外，我得推迟去机场的时间。",
+          "py": "Shàng ge lǐbài wǒ qù Hénèi chūchāi, chūfā qián tūrán fāshēng yìwài, wǒ děi tuīchí qù jīchǎng de shíjiān.",
+          "vi": "Tôi đi công tác ở Hà Nội tuần trước, trước khi đi thì xảy ra sự cố khiến tôi phải hoãn thời gian ra sân bay."
+        },
+        {
+          "who": "",
+          "zh": "处理好以后，我赶紧叫辆出租车。但碰上堵车，到处都是人，我的时间就浪费在堵车中了。",
+          "py": "Chǔlǐ hǎo yǐhòu, wǒ gǎnjǐn jiào liàng chūzūchē. Dàn pèng shàng dǔchē, dàochù dōu shì rén, wǒ de shíjiān jiù làngfèi zài dǔchē zhōng le.",
+          "vi": "Xử lý xong, tôi vội gọi taxi. Nhưng gặp tắc đường, người ở khắp nơi, lãng phí nhiều thời gian của tôi."
+        },
+        {
+          "who": "",
+          "zh": "到了机场，在入口给司机找零钱的时候，我不小心被车门撞了，胳膊像打针一样疼。",
+          "py": "Dào le jīchǎng, zài rùkǒu gěi sījī zhǎo língqián de shíhou, wǒ bù xiǎoxīn bèi chēmén zhuàng le, gēbo xiàng dǎzhēn yíyàng téng.",
+          "vi": "Khi đến sân bay, ở cổng vào, tôi không may bị va vào cửa xe khi đang tìm tiền lẻ để trả cho tài xế, cánh tay bị đau như tiêm."
+        },
+        {
+          "who": "",
+          "zh": "进入时还要排队做安检。过了以后，工作人员[1:倒]说我迟到了。",
+          "py": "Jìnrù shí hái yào páiduì zuò ānjiǎn. Guò le yǐhòu, gōngzuò rényuán [1:dào] shuō wǒ chídào le.",
+          "vi": "Khi đi vào, tôi phải xếp hàng để kiểm tra an ninh. Sau khi qua, nhân viên [1:lại] nói rằng tôi đã đến muộn."
+        },
+        {
+          "who": "",
+          "zh": "还以为今天运气很不好了，但幸运的是，那时却听到通知：由于天气原因，我的航班不能正点起飞，晚点了两个小时，我终于拿到登机牌了。",
+          "py": "Hái yǐwéi jīntiān yùnqi hěn bù hǎo le, dàn xìngyùn de shì, nà shí què tīng dào tōngzhī: Yóuyú tiānqì yuányīn, wǒ de hángbān bùnéng zhèngdiǎn qǐfēi, wǎndiǎn le liǎng ge xiǎoshí, wǒ zhōngyú ná dào dēngjī pái le.",
+          "vi": "Tôi cứ nghĩ hôm nay xui xẻo lắm rồi, nhưng may mắn thay, lúc đó tôi nghe được thông báo: Do nguyên nhân thời tiết, chuyến bay của tôi không thể cất cánh đúng giờ, bị hoãn hai tiếng đồng hồ, cuối cùng tôi cũng nhận được thẻ lên máy bay rồi."
+        },
+        {
+          "who": "",
+          "zh": "这次经历让我明白：[2:一方面]，做事前必须做好计划，不要太随意。[2:另一方面]，生活也无常，一定尽力而为，不到最后一刻，千万别放弃。",
+          "py": "Zhè cì jīnglì ràng wǒ míngbai: [2:Yì fāngmiàn], zuò shì qián bìxū zuò hǎo jìhuà, búyào tài suíyì. [2:Lìng yì fāngmiàn], shēnghuó yě wúcháng, yídìng jìnlì ér wéi, bú dào zuìhòu yí kè, qiānwàn bié fàngqì.",
+          "vi": "Trải nghiệm này khiến tôi hiểu rằng: [2:Một mặt], bạn phải lập kế hoạch tốt trước khi thực hiện mọi việc, đừng quá tùy tiện. [2:Mặt khác], cuộc sống cũng vô thường, bạn phải nỗ lực hết mình và đừng bao giờ bỏ cuộc cho đến phút cuối cùng."
+        }
+      ],
+      "legend": [
+        {
+          "n": 1,
+          "label": "倒",
+          "np": "NP 20.1"
+        },
+        {
+          "n": 2,
+          "label": "一方面…另一方面…",
+          "np": "NP 20.2"
+        }
+      ]
     }
   ]
 }
