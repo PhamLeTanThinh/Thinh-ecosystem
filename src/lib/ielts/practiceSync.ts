@@ -15,9 +15,13 @@ export const PRACTICE_KEYS = {
   prefs: 'ielts-run-prefs',
   exerciseProgress: 'ielts-exercise-progress',
   dictation: 'ielts-dictation-progress',
+  favs: 'ielts-vocab-favs',
 } as const
 
 const META_KEY = 'ielts-sync-meta' // { [key]: thời điểm sửa cuối (epoch ms) }
+// Tài khoản sở hữu dữ liệu luyện đề đang nằm trong localStorage. Đăng xuất chỉ xoá cookie, nên người khác
+// đăng nhập trên cùng trình duyệt sẽ bị lẫn dữ liệu của người trước nếu không so khoá này (xem doSync).
+const OWNER_KEY = 'ielts-sync-owner'
 const PUSH_DELAY_MS = 1500
 const MAX_HISTORY = 30
 const ALL_KEYS: string[] = Object.values(PRACTICE_KEYS)
@@ -142,6 +146,22 @@ async function doSync() {
   const res = await fetch('/api/ielts/practice-state')
   if (!res.ok) return
   const remote = (await res.json()) as Remote
+
+  // Dữ liệu ở máy thuộc tài khoản khác → xoá sạch, rồi chỉ lấy bản trên DB của tài khoản đang đăng nhập.
+  // Chưa có OWNER_KEY (dữ liệu từ trước khi có khoá này) thì coi là của tài khoản hiện tại, như trước.
+  const owner = res.headers.get('X-Practice-Owner')
+  if (owner) {
+    const prevOwner = localStorage.getItem(OWNER_KEY)
+    if (prevOwner && prevOwner !== owner) {
+      pending.clear()
+      if (timer) clearTimeout(timer)
+      timer = null
+      for (const key of ALL_KEYS) localStorage.removeItem(key)
+      localStorage.removeItem(META_KEY)
+    }
+    localStorage.setItem(OWNER_KEY, owner)
+  }
+
   const meta = readMeta()
   const now = Date.now()
   const pushes: Promise<void>[] = []

@@ -23,7 +23,8 @@ export async function GET() {
   const rows = await db.select().from(ieltsPracticeState).where(eq(ieltsPracticeState.ownerKey, owner))
   const out: Record<string, { value: unknown; updatedAt: number }> = {}
   for (const r of rows) out[r.key] = { value: r.value, updatedAt: r.updatedAt.getTime() }
-  return NextResponse.json(out)
+  // Client so với chủ của dữ liệu đang nằm trong localStorage — khác tài khoản thì xoá bản ở máy trước khi trộn.
+  return NextResponse.json(out, { headers: { 'X-Practice-Owner': owner } })
 }
 
 export async function PUT(req: NextRequest) {

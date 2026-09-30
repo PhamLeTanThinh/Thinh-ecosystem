@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { speak, speakQueue } from '@/lib/shared/speech'
 import { useIeltsStore } from '@/lib/ielts/store'
+import { markDirty, PRACTICE_KEYS } from '@/lib/ielts/practiceSync'
 import { useIeltsAccess } from './AccessContext'
 import type { VocabEntry } from '@/lib/ielts/types'
 
@@ -20,7 +21,7 @@ const EMPTY_DRAFT: DraftEntry = {
   linkedPageId: null,
 }
 
-const FAV_KEY = 'ielts-vocab-favs'
+const FAV_KEY = PRACTICE_KEYS.favs
 
 function loadFavs(): Set<string> {
   try {
@@ -356,6 +357,7 @@ export function VocabView({ onNavigateToPage }: Props) {
       if (persist) {
         try {
           localStorage.setItem(FAV_KEY, JSON.stringify([...next]))
+          markDirty(FAV_KEY) // đồng bộ theo tài khoản, xem lib/ielts/practiceSync.ts
         } catch {}
       }
       return next
