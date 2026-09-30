@@ -1,0 +1,4 @@
+# Âm thanh Listening nằm trên Vercel Blob (scripts/upload-listening-audio.mjs) — không đẩy ~366 MB mp3 lên khi `vercel deploy` từ máy.
+public/ielts/audio
+.env*.local
+.next
