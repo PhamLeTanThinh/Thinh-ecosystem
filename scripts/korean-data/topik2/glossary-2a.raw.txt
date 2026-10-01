@@ -1,0 +1,462 @@
+# 서울대 한국어 2A — 어휘 색인 (Glossary, tr.266-271). Mỗi dòng: hangul | english | trang (trang đầu tiên)
+가격|price|93
+가끔|sometimes|27
+가이드|guide|126
+가입하다|to join|56
+가장|most|82
+가져가다|to bring; to take|160
+가져오다|to bring|143
+가지고 가다|to bring; to take|129
+간판|store sign|152
+감독|director|82
+갑자기|suddenly|215
+갔다 오다|to have gone (somewhere)|74
+개월|month|71
+거리|distance|118
+거제도|an island in Korea|123
+걱정되다|to be worried|181
+건강하다|to be healthy|99
+건너다[건너가다]|to cross|159
+건축물|architecture|126
+걸어오다|to come on foot|171
+게스트하우스|guest house|130
+경복궁|a palace in Seoul|167
+경비실|security office|147
+경험|experience|86
+경희궁|a palace in Seoul|212
+고장이 나다|to break down|185
+고추장|red pepper paste|109
+공사|construction|206
+공연|performance|118
+공연장|performance hall|70
+관심|interest|38
+광장|square|174
+교통사고가 나다|to have a traffic accident|184
+교통편|transportation|114
+교환하다|to exchange|101
+국립국악원|National Gugak Center|207
+국립극장|The National Theater of Korea|207
+국악|Korean classical music|207
+국적|nationality|26
+국제|international|76
+굽이 높다|(shoe) heels are high|100
+궁금하다|to be curious|215
+귀국 날짜|return date|115
+그냥|just|30
+그림을 그리다|to draw a picture|48
+근처|vicinity|163
+글쎄요|Well, I'm not sure|80
+글자|letter|41
+기간|period|114
+기념하다|to commemorate|174
+기분이 나쁘다|to be upset; to be unhappy|180
+기분이 좋다|to feel good|180
+기쁘다|to be happy|180
+기억에 남다|to remain in one's memory|82
+긴장되다|to be nervous|181
+길다|to be long|93
+길이|length|93
+길이 막히다|to have heavy traffic|139
+김치박물관|Kimchi Museum|207
+꼭|surely|79
+꽃집|flower shop|153
+끼다|to wear (gloves, glasses)|92
+나가다|to go out|159
+나오다|to appear; to come out|167
+낙타|camel|84
+낚시|fishing|48
+남다|to be left (over)|210
+내려가다|to go down|173
+내리다|to go down|145
+내용|content|95
+넘어지다|to fall|188
+넣다|to put|109
+넥타이|tie|92
+년|year|71
+노량진|a place in Seoul|108
+노트북|laptop computer|185
+놀이공원|amusement park|70
+놓치다|to miss|188
+느끼다|to feel|118
+다도|tea ceremony|211
+다르다|to be different|142
+다시|again|75
+다양하다|to be various|126
+달|month|71
+닭|chicken|77
+담배를 끊다|to quit smoking|117
+답|answer|188
+답답하다|to be frustrated|180
+당일|that day|122
+당황하다|to be taken aback|195
+대답하다|to answer|195
+대상|target audience|203
+대통령|president|131
+대학원|graduate school|121
+대회에 나가다|to enter a contest|85
+덕수궁|a palace in Seoul|79
+도장|stamp|137
+도착|arrival|115
+독서|reading|48
+돈을 넣다|to deposit money|137
+돈을 모으다|to save money|117
+돈을 바꾸다|to exchange money|137
+돈을 보내다|to send money|137
+돈을 찾다|to withdraw money|137
+동네|town; neighborhood|108
+동상|statue|174
+동서양|East and West|126
+동양|the Orient|126
+동양화|Oriental painting|207
+동호회|club|56
+(학교에) 들어가다|to enter (a school)|30
+들다|to contain|140
+등|etc; and so on|126
+등록금|tuition|131
+등록하다|to register|149
+등산|mountain climbing; hiking|48
+등산화|hiking boots|103
+디자인|design|95
+라틴 댄스|Latin dance|52
+마음에 들다|to like|93
+마음에 안 들다|to not like|93
+마치다|to bring something to an end|121
+말씀하다|to say (honorific expression)|211
+말하기 대회|speech contest|85
+맛|taste|95
+맞다|to be right|142
+맡기다|to leave|147
+매년|every year|26
+매달|every month|26
+매일|everyday|26
+매주|every week|26
+며칠|how many days|119
+면접|job interview|106
+명동성당|Myeongdong cathedral|167
+모르다|to do not know|142
+모이다|to gather|57
+무료|no charge|211
+무엇보다|most of all|192
+문의|inquiry|203
+문자를 받다|to receive a text message|202
+문자를 보내다|to send a text message|202
+문자를 지우다|to delete a text message|202
+문제가 있다|to have a problem|215
+문화|culture|38
+문화 센터|cultural center; community center|60
+물어보다|to ask|108
+뮤지컬|musical|70
+미술관|art museum|70
+미터|meter|171
+민박|private rental room service|130
+바라다|to wish|119
+바로|right away|149
+박|number of nights for a period of stay|119
+박물관|museum|70
+발표하다|to have a presentation|40
+밝다|to be bright|93
+방문하다|to visit|147
+방법|way|120
+방송국|broadcasting station|190
+배낭여행|backpacking|70
+배우|actor|82
+배치 시험|placement test|149
+버스 정류장|bus stop|158
+번지 점프|bungee jumping|70
+벌써|already|143
+벚꽃|cherry blossoms|76
+별로|(not) particularly|49
+보건소|(public) health center|173
+봉투에 넣다|to put something in an envelope|136
+(노래를) 부르다|to sing (a song)|142
+뵙다|to meet (humble expression)|30
+(이름을) 부르다|to call (a name)|28
+부석사|a temple in Korea|123
+부탁하다|to ask someone for a favor|206
+분|minute|71
+분위기|atmosphere|130
+불꽃놀이|fireworks|70
+블라우스|blouse|92
+블로그|blog|60
+비슷하다|to be similar|41
+비싸다|to be expensive|93
+비즈니스석|business class|115
+빈방|vacancy|124
+빌려 주다|to lend|76
+빠르다|to be fast|142
+빨간색|red|152
+빼다|to leave out; to exclude|41
+뽑다|to choose|151
+사 가다|to buy and bring|195
+사 오다|to buy and bring|33
+사거리|4-way intersection|158
+사고가 나다|to have an accident|169
+사막|desert|74
+사물놀이|samullori; Korean traditional percussion quartet|70
+사이|gap; between|126
+사이즈|size|93
+사진을 찍다|to take a photo|48
+사흘|three days|75
+상담원|operator|215
+상영|screening|208
+상을 받다|to win an award|86
+상자|box|141
+새|bird|152
+색깔|color|93
+생각(이) 나다|to come into one's mind|187
+생각하다|to think|121
+생년월일|date of birth|26
+생선회|raw fish|74
+서두르다|to hurry|142
+서비스|service|215
+서양|the West|126
+설명하다|to explain|195
+성|last name|41
+성명|full name|26
+성별|sex; gender|26
+세우다|to stop|159
+소설책|novel|34
+소식|news|152
+소포를 포장하다|to wrap a package|136
+속상하다|to feel awful|180
+송금|wire transfer|137
+수량|quantity|148
+수산 시장|fisheries wholesale market|108
+숙박비|room charge|114
+숙소|accommodation|114
+스웨터|sweater|92
+스카프|scarf|92
+스쿠버 다이빙|scuba diving|70
+스트레스를 받다|to get stress|183
+스트레스를 풀다|to release stress|192
+스페인어|Spanish|38
+슬프다|to be sad|180
+시간|time|71
+시간을 내다|to spare some time|191
+시간이 나다|to have time|35
+시골|rural area|98
+식비|food expenses|114
+신다|to wear (foot wear)|92
+신분증|identification card|137
+신용 카드|credit card|137
+신청하다|to request|148
+신호등|traffic light|158
+싱싱하다|to be fresh|108
+싸다|to be cheap|93
+쓰다|to wear (hat, glasses)|92
+아르바이트|part-time job|70
+아마|maybe|117
+아주|very|49
+아프리카|Africa|208
+악기|musical instrument|212
+알려 주다|to inform|171
+알아보다|to find out; to search|118
+애니메이션|animation|208
+액션 영화|action movie|34
+야구(를) 하다|to play baseball|50
+약도|rough map|172
+양말|socks|92
+양복|suit|92
+어둡다|to be dark|93
+언어|language|38
+에 대해서|about|40
+엔|yen|145
+여러 가지|various kinds|62
+여러 나라|many countries|82
+여행|traveling|48
+여행 상품|tour product|122
+여행자 보험료|traveler's insurance premium|114
+여행지|travel destination|120
+연극|theater play|70
+연락처|contact information|26
+연습실|practice room|58
+엽서를 부치다[보내다]|to send a postcard|136
+영화 감상|watching a movie|48
+영화제|movie festival|76
+예술의전당|Seoul Art Center|207
+오래되다|to be old|126
+오르다|to rise|142
+오른쪽으로 돌아가다|to turn right|159
+온천|hot spring|75
+(사진을) 올리다|to post (a photo)|60
+올라오다|to come up|171
+올리다|to put; to place on top of|140
+옷값|price of clothes|95
+왕|king|77
+왕복|round trip|115
+외국어|foreign language|52
+외국인|foreigner|207
+외국인등록증|alien registration card|143
+외롭다|to be lonely|180
+외우다|to memorize|188
+왼쪽으로 돌아가다|to turn left|159
+요가|yoga|74
+요금|charge; fee|114
+요리|cooking|48
+우편|mail|149
+우표를 붙이다|to put on a stamp|136
+우회전하다|to turn right|159
+운동|exercise|48
+운이 없다|to have no luck|188
+위안|yuan|145
+유럽|Europe|84
+유로|euro|145
+유명하다|to be famous|40
+유행하다|to be in fashion|96
+육교|overpass|158
+을/를 위한|for (someone or something)|207
+음악 감상|listening to music|48
+음악을 듣다|to listen to music|48
+음악회|(classical) music performance|70
+의미|meaning|152
+이름을 붙이다|to name after|174
+이메일|e-mail|26
+이사를 가다|to move out|184
+이용하다|to use|130
+이유|reason|31
+인터넷을 하다|to browse the Internet|48
+인터뷰|interview|190
+인형을 모으다|to collect dolls|48
+일|day|71
+일등석|first class|115
+일반석|economy class|115
+일정|schedule|114
+잃어버리다|to lose|143
+입금|deposit|137
+입다|to wear (clothes)|92
+입장료|entrance fee|114
+잊다|to forget|171
+자리|seat|78
+자세하다|to be detailed|120
+자연|nature|126
+자주|often|27
+잘 맞다|to fit well|93
+잘 안 어울리다|to not match well|93
+잘 어울리다|to match well|93
+잘못|wrongly|186
+잠이 들다|to fall asleep|188
+잡채|mixed dish of glass noodles, vegetables, and meat|171
+장갑|gloves|92
+장군|general|174
+장소|place|203
+재료비|material fee|212
+재즈|jazz|76
+저울|scale|140
+전부|all|145
+전시|exhibit|208
+전시회|exhibition|70
+전통문화|traditional culture|118
+전통적|traditional|130
+전하다|to convey|152
+전혀|(not) at all|49
+전화|telephone|26
+전화가 오다|to have a phone call|202
+전화를 받다|to answer the phone|202
+전화를 걸다|to make a call|202
+전화를 끊다|to hang up the phone|202
+전화를 바꾸다|to give the phone to someone else|202
+절약하다|to conserve|104
+접수|receipt|203
+접수하다|to accept|149
+정도|about; around|38
+정보를 얻다|to get information|218
+제비|swallow (bird)|152
+제일|(the) most|41
+조선 시대|Joseon Dynasty|174
+존경하다|to respect|77
+졸다|to doze|188
+좀 작다|to be a little tight|93
+좀 크다|to be a little big|93
+종교|religion|26
+종류|kind|131
+종점|last stop|188
+좌석|seat|115
+좌회전하다|to turn left|159
+주[주일]|week|71
+주문하다|to order|104
+주소|address|26
+주소를 쓰다|to write an address|136
+중남미|Central and South America|38
+중요하다|to be important|79
+즐겁다|to be joyful; to be enjoyable|180
+지나가다|to pass (by)|188
+지나다|to pass|171
+지하도|underpass|158
+지하철역|subway station|158
+직업|job|26
+직접|directly|104
+직진하다|to go straight|159
+짜증이 나다|to be annoyed|181
+짧다|to be short|93
+쭉 가다|to go straight|159
+차비|(bus/train/taxi) fare|143
+참|really; very|60
+참가비|entry fee|203
+참가하다|to participate; to take part|213
+창구|counter|137
+창피하다|to be embarrassed|180
+청바지|(blue) jeans|92
+체험|(firsthand) experience|212
+초대를 받다|to receive invitation|33
+추천하다|to recommend|123
+축제|festival|70
+출구|exit|163
+출국 날짜|departure date|115
+출금|withdrawal|137
+출발|departure|115
+출장|business trip|79
+춤을 추다|to dance|48
+치료를 받다|to get treatment|215
+친구를 사귀다|to make a friend|165
+친하다|to be close|41
+컴퓨터 게임|computer game|48
+코미디 영화|comedy movie|34
+콘도|condo|130
+콘서트|concert|70
+퀴즈|quiz|213
+큰 소리로|aloud|185
+태권도복|Taekwondo uniform|211
+택배|door-to-door delivery|147
+택배 기사|delivery man|147
+택시 정류장|taxi stop|158
+통역|interpretation|215
+통역하다|to interpret|215
+통장|(bank) account book|137
+통화를 하다|to talk on the phone|202
+퇴근 시간|quitting time|139
+퇴원하다|to be discharged (from a hospital)|184
+특히|especially|82
+티셔츠|T-shirt|92
+패키지여행|tour package|118
+펜션|rental cottage|130
+편도|one way|115
+편지를 부치다[보내다]|to send a letter|136
+평일|weekday|32
+포함되어 있다|to be included|122
+표지판|sign; notice|152
+표현하다|to express|195
+품명|(names of) goods|148
+프로그램|program|213
+필요하다|to be necessary|104
+하다|to wear (tie, necklace)|92
+하루|a day|73
+학생회관|student center|161
+한국학|Korean studies|213
+한라산|a mountain in Jeju|77
+한옥|traditional Korean style house|130
+한옥마을|Hanok Village|165
+한참|for a long time|167
+항공권|flight ticket|115
+항공료|airfare|114
+항상|always|27
+현금 카드|debit card|137
+현금 인출기|automated teller machine (ATM)|137
+형제들|siblings|41
+화(가) 나다|to be angry|181
+환불하다|to refund|101
+환율|exchange rate|145
+환전|currency exchange|137
+회비|(membership) fee|58
+횡단보도|crosswalk|158
+훨씬|much; a lot|98
+힘들다|to be hard|183

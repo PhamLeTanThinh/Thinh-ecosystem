@@ -1,0 +1,408 @@
+# 서울대 한국어 2B — 어휘 색인 (Glossary). Mỗi dòng: hangul | english | trang (trang đầu tiên)
+가스 요금|gas bill|93
+가이드북|guidebook|167
+가지다|to have; to take|184
+갈비찜|short-rib stew|26
+갈색|brown|183
+감기약|cold medicine|49
+감자탕|potato stew with pork|26
+값|price|27
+강강술래|traditional Korean circle dance|172
+갖다 주다|to bring|37
+거실|living room|92
+거의|almost|150
+건조하다|to be dry|205
+걸리다|to be hung|189
+결정하다|to decide|100
+결혼하다|to marry|138
+경찰관|police officer|193
+계속|continuously|50
+계약|contract|98
+고개를 돌리고 마시다|to drink turning one's head|116
+고개를 숙여서 인사하다|to greet while bowing one's head|116
+고민|problem; worry|57
+고생하다|to have a difficult time|146
+고시원|examination preparation housing|103
+고장이 나다|to break down|182
+고향에 가다|to go to one's hometown|160
+곡식|crops|172
+공기|air|98
+관리비|maintenance fee|93
+교통|traffic|27
+교통비|transportation expenses|93
+교통이 편리하다|to have convenient transportation|93
+구하다|to find; to seek|94
+그래도|but still|52
+그러나|however|60
+그렇지 않아도|as a matter of fact|96
+그릇|bowl|124
+그립다|to miss|204
+글씨|handwriting|77
+금연|No Smoking|117
+(성격이) 급하다|to be hasty|71
+기대가 되다|to expect|150
+기숙사|dormitory|92
+기억에 남다|to remain in memory|204
+기온이 영하로 내려가다|to have temperature drop below freezing|205
+기운이 없다|to feel feeble/down|48
+기침이 나다|to have a cough|50
+기타|and so on|101
+김치를 담그다|to make kimchi|215
+김치찌개|Kimchi stew|26
+까만색[검은색]|black|183
+까맣다|to be black|188
+깜빡 졸다|to nod off|187
+꼼꼼하다|to be meticulous|71
+꽃무늬|flowered pattern|183
+꽃이 피다|to have flowers bloom|205
+끈|strap|194
+끓다|to boil|155
+끓이다|to boil|163
+나가다|to go out; to attend|56
+나누다|to share|172
+나뭇잎이 떨어지다|to have leaves fall|205
+나비|butterfly|65
+나이가 들다|to get older|132
+날씬하다|to be slim|72
+남성적이다|to be masculine|71
+낫다|to recover|50
+내과|internal medicine|49
+내내|all the time|212
+내리다|to go down|139
+내성적이다|to be introverted; to be reserved|71
+냉면|cold noodles|26
+넘어지다|to fall over|182
+(안약을) 넣다|to put (eye drops)|49
+노란색|yellow|183
+노랗다|to be yellow|188
+노력하다|to make an effort|60
+녹색[초록색]|green|183
+농사|farming|172
+높임말|honorific language|42
+높임말[존댓말]을 하다|to speak in honorific language|116
+놓이다|to be put on|189
+놓치다|to miss|182
+눈물을 흘리다|to shed tears|216
+눈썹이 진하다[연하다]|to have thick/thin eyebrows|70
+눈이 내리다|to snow|205
+눈이 크다[작다]|to have big/small eyes|70
+눕다|to lie down|189
+늘다|to increase|139
+다리를 꼬고 앉다|to sit with one's leg crossed|116
+다리를 다치다|to hurt one's leg|48
+다행이다|to be fortunate|146
+단풍이 들다|to have leaves change color|205
+달다|to be sweet|27
+달리다|to be hung on|189
+닮다|to resemble|74
+대부분|mostly|104
+대하다|to treat|216
+덜|less|64
+데리다|to take someone some place|184
+돈이 아깝다|to regret about the money that one spends|38
+돌려주다|to return|194
+돌잔치|first birthday party|197
+동갑|the same age|29
+된장찌개|yellow bean paste stew|26
+두 손으로 드리다|to give with both hands|116
+두다|to put on; to leave|190
+두통약|headache pill|49
+(돈이) 들다|to cost (money)|54
+들다|to lift|124
+떠들다|to make noise|98
+떡갈비|marinated ground rib meat on the bone|26
+떡국|rice-cake soup|160
+떨어뜨리다|to drop|182
+뚱뚱하다|to be fat|72
+마르다|to be skinny|76
+마침|in time|100
+만지다|to touch|63
+말없이|without saying anything|220
+말을 놓다|to speak in a casual way|42
+맛|taste|27
+맛집|restaurant renowned for delicious food|38
+맡다|to be put in charge of|170
+매매|buying and selling|102
+매우|very|212
+매운탕|spicy fish stew|26
+맵다|to be spicy|27
+머리 모양|hairstyle|74
+머리를 감다|to wash one's hair|133
+(약을) 먹다|to take (medicine)|49
+멀미를 하다|to have motion sickness|48
+멀미약|motion sickness medicine|49
+명절|traditional holidays|164
+모델|model|73
+모든|all|60
+모시다|to take elders some place|184
+몸살이 나다|to have aches and pains due to the flu or fatigue|48
+무지개|rainbow|197
+물론이다|of course|120
+물방울무늬|polka dots|183
+미리|in advance|30
+민속촌|folk village|108
+(연고를) 바르다|to apply (an ointment)|49
+바뀌다|to be changed|104
+바람이 불다|to have the wind blow|205
+바람이 통하다|to be ventilated|108
+바로|closely; right|98
+반말을 하다|to speak in banmal|116
+발전하다|to develop|139
+방|room|92
+방값이 싸다|to have cheap rent|93
+방을 닦다|to clean the room|161
+방이 넓다|to have a spacious room|93
+배(가) 부르다|to have a full stomach|216
+배달되다|to be delivered|37
+배탈이 나다|to have an upset stomach|48
+베란다|veranda|92
+변호사|lawyer|148
+변화|change|147
+별일 없다|to not have anything special going on|142
+보라색|purple|183
+보름달|full moon|172
+보여 주다|to show|163
+보증금|security deposit|100
+보통이다|to be average|84
+봉사 활동을 하다|to do volunteer work|149
+부동산|real estate|94
+부딪히다|to bump into|182
+부엌|kitchen|92
+(1인)분|(one) serving|34
+분실물|lost article|195
+분실물 센터|Lost and Found|194
+분위기|atmosphere|27
+분홍색|pink|183
+불(이) 나다|a fire breaks out|182
+붓다|to swell|50
+붕어빵|fish-shaped bread|85
+(파스를) 붙이다|to apply (a pain relief patch)|49
+붙다|to be stuck on|189
+비빔국수|noodles mixed with vegetables and red pepper sauce|26
+비어 있다|to be unoccupied|132
+빈대떡|mung-bean pancake|160
+빈대떡을 부치다|to make mung-bean pancake|168
+빌라|villa|92
+빨간색|red|183
+빨갛다|to be red|188
+사고가 나다|to have an accident|182
+사랑에 빠지다|to fall in love|138
+사정이 있다|to have a reason/situation|208
+사진 촬영 금지|No Photographs|117
+삼겹살|pork belly|26
+상|table|38
+상관없다|to not matter|128
+새로 지었다|to be newly built|93
+새롭다|to be new|82
+색동저고리|multicolored Korean top|197
+생기다|to look like|73
+생기다|to be formed|139
+생활비|living expenses|54
+서다|to stand|189
+서비스|service|27
+선배|one's senior|29
+설거지(를) 하다|to wash the dishes|161
+설렁탕|stock soup of bone and stew meat|26
+성묘(를) 하다|to visit and pay one's respects at ancestors' grave|160
+세배(를) 하다|to give a New Year's bow|160
+세탁기를 돌리다|to run the clothes washer|161
+소원을 빌다|to make a wish|172
+소중하다|to be precious|194
+소화가 안되다|to have indigestion|48
+소화제|digestive medicine|49
+속마음|inner thoughts|83
+속이 안 좋다|to not feel well in one's stomach|48
+송편|half-moon-shaped rice cake|160
+수도 요금|water bill|93
+수첩|schedule book|190
+순두부찌개|soft tofu stew|26
+스트레스가 쌓이다|to get stressed|83
+스트레스가 풀리다|stress is relieved|56
+습관|habit|60
+습도가 높다|to have high humidity|205
+승진하다|to get a promotion|138
+시간을 지키다|to keep time|77
+시간이 지나가다|time goes by|208
+시끄럽다|to be noisy|95
+시다|to be sour|27
+시설이 잘되어 있다|to have good facilities|93
+시키다|to order|34
+식비|food expenses|93
+식혜|sweet rice drink|160
+식후|after a meal|52
+신고|report|195
+실내|interior|176
+실력이 늘다|to improve oneself|216
+실수하다|to make a mistake|118
+싱겁다|to be bland|54
+쌀쌀하다|to be chilly|205
+쌍꺼풀이 있다[없다]|to have/not have double eyelids|70
+쓰다|to be bitter|27
+쓰다|to use|122
+쓰다듬다|to pat|128
+씩|(number of) times|51
+아기를 낳다|to give birth to|138
+아쉽다|to feel sorry|204
+아직도|still|146
+아파트|apartment|92
+안과|ophthalmology|49
+안다|to hold; to embrace|133
+안약|eye drops|49
+알|unit noun for pills, etc.|65
+앞머리를 다듬다|to trim bangs|80
+야단(을) 맞다|to get a scolding|124
+야채|vegetable|38
+어깨가 넓다[좁다]|to have broad/narrow shoulders|70
+어디에서나|anywhere|150
+어떤|some; certain|128
+어른|adult|73
+어리다|to be young|72
+어지럽다|to be dizzy|48
+얼굴에 뭐가 나다|to have one's face break out|48
+얼음이 얼다|to freeze|205
+에 대한|about; concerning|124
+여성적이다|to be feminine|71
+연고|ointment|49
+연두색|yellow-green|183
+연휴|long weekend; holidays|164
+열리다|to be opened|189
+염색을 하다|to dye|80
+영양제|nutritional supplements|60
+영혼|soul|128
+예방하다|to prevent|60
+예전에|in the old days|150
+예절|etiquette|124
+오래간만이다|It's been a long time|142
+오랜만에|after a long time|29
+오르다|to go up|139
+오피스텔|office with kitchen and sleeping facilities|92
+완전히|completely|85
+외모|appearance|79
+외출하다|to go out|60
+원고|script|171
+원룸|studio apartment|92
+월세|monthly rent|96
+위치|location|101
+유실물 센터|Lost and Found|190
+유학|studying abroad|104
+윷놀이(를) 하다|to play Yut|160
+은퇴하다|to retire|138
+을/를 위해(서)|for (something)|56
+음식물 반입 금지|No Food or Drinks|117
+음식을 차리다|to set the table with food|164
+이름을 부르다|to call someone's name|116
+이름표|name tag|190
+이마가 넓다[좁다]|to have wide/narrow forehead|70
+이비인후과|ear-nose-and-throat department|49
+이상|more than|35
+이상형|ideal type|78
+이웃|neighbor|172
+이제|now|140
+이하|less than|101
+익숙하다|to be accustomed|140
+인구|population|154
+잃어버리다|to lose|182
+입맛이 없다|to have no appetite|48
+입술이 두껍다[얇다]|to have thick/thin lips|70
+입에 맞다|to be to one's taste|34
+입이 크다[작다]|to have wide/small mouth|70
+입학|entrance into school|109
+입학하다|to enter a school|138
+잎|leaf|65
+자꾸|repeatedly|54
+자르다|to cut|77
+자리를 양보하다|to offer one's seat to others|116
+자매|sisters|74
+자신|oneself|129
+자유 여행|traveling alone|33
+잘되다|to go well|146
+잠을 잘 못 자다|to not sleep well|48
+장마가 시작되다|to have the start of the rainy season|205
+장을 보다|to shop for (groceries)|100
+재료|ingredient|168
+전기 요금|electric bill|93
+전망이 좋다|to have a good view|93
+전세|long term deposit lease|100
+전화 요금|telephone bill|93
+젓다|to stir|50
+정(이) 들다|to become emotionally attached|204
+정리(를) 하다|to organize; to put something in order|83
+정신(이) 없다|to be out of one's senses|186
+정형외과|orthopedics|49
+정확하다|to be accurate|77
+제도|system|132
+제스처|gesture|82
+조건|condition|106
+조상|ancestor|172
+조언|advice|57
+조카|nephew; niece|197
+졸업식|graduation ceremony|74
+졸업하다|to graduate|138
+주변 환경|surroundings; neighborhood|97
+주변이 조용하다|to have quiet surroundings|93
+주차 금지|No Parking|117
+주택|house|92
+주황색|orange|183
+죽다|to die|138
+줄다|to decrease|139
+줄무늬|striped pattern|183
+직원|employee|38
+진료를 받다|to receive medical treatment|54
+집세|rent|93
+집주인이 좋다|to have a nice landlord|93
+(건물을, 이름을) 짓다|to build; to name|50
+짜다|to be salty|27
+차례를 지내다|to perform ancestral rite|160
+참다|to endure|133
+채소|vegetable|60
+첫인상|first impression|65
+청소기를 돌리다|to vacuum|161
+체크무늬|checkered pattern|183
+초등학교|elementary school|152
+추수하다|to harvest|172
+추억|memory|194
+추천|recommendation|35
+취직하다|to get a job|138
+치과|the dentist|49
+친구를 사귀다|to make a friend|138
+칭찬하다|to compliment|128
+칼국수|(handmade) chopped noodles|26
+케밥|kebab|41
+코가 높다[낮다]|to have high/flat nose|70
+크기|size|97
+큰일이 나다|to have a big problem|187
+키가 크다[작다]|to be tall/short|70
+태어나다|to be born|138
+태풍이 오다|to have a typhoon come|205
+토하다|to vomit|48
+특별하다|to be special|59
+특별히|particularly|56
+파란색|blue|183
+파랗다|to be blue|188
+파마를 하다|to perm|80
+파스|pain relief patch|49
+판|unit noun for pizza|37
+평소|usual day|59
+피부과|dermatology|49
+필요 없다|to be needless|41
+하숙집|boarding house|94
+하얀색[흰색]|white|183
+하얗다|to be white|188
+한 손으로 받다|to receive with one hand|116
+한과|Korean traditional sweets and cookies|160
+한복을 입다|to wear Korean traditional dress|160
+한정식|Korean multi course meal|38
+할인|discount|132
+해열제|fever reducer|49
+행복하다|to be happy|74
+현관|front entrance|92
+홈스테이를 하다|to stay with a local family|216
+화장실|bathroom|92
+화해하다|to reconcile|54
+활발하다|to be active; to be outgoing|71
+회사를 옮기다|to move to another company|100
+회색|gray|183
+후배|one's junior|29
+후식|dessert|35
+후회가 되다|to feel regret|204
+휴대 전화 사용 금지|No Cell Phones|117
