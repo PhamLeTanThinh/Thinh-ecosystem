@@ -1,0 +1,505 @@
+/* Cẩm nang ngữ pháp dùng chung (components/shared/GrammarHandbook.tsx) cho Korean + Chinese. Không có màu cứng của
+   app nào: mọi màu lấy từ biến --color-* mà root của app khai báo (.korean-root / .chinese-root), các sắc nhạt pha
+   bằng color-mix. Phần chi tiết khi mở 1 hàng do app tự render (dùng lại class thẻ ngữ pháp trong bài của app). */
+.gh-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 14px 24px;
+  margin-bottom: 22px;
+}
+
+.gh-eyebrow {
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-brand-strong);
+}
+
+.gh-title {
+  margin: 2px 0 0;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: var(--color-text);
+}
+
+.gh-subtitle {
+  margin-top: 6px;
+  max-width: 620px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-muted);
+}
+
+.gh-level {
+  flex: none;
+  width: 360px;
+}
+
+.gh-empty {
+  padding: 40px 16px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--color-card) 60%, transparent);
+  text-align: center;
+  font-size: 14px;
+  color: var(--color-muted);
+}
+
+.gh-layout {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Mục lục nhóm ── */
+.gh-nav {
+  position: sticky;
+  top: 16px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: 6px 4px 12px 0;
+  scrollbar-width: thin;
+}
+
+.gh-nav-group + .gh-nav-group {
+  margin-top: 14px;
+}
+
+.gh-nav-group-title {
+  padding: 0 10px 6px;
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-muted);
+}
+
+.gh-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 10px;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.gh-nav-item:hover {
+  background: color-mix(in srgb, var(--color-card) 70%, transparent);
+}
+
+.gh-nav-item.active {
+  background: var(--color-card);
+  color: var(--color-brand-strong);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), inset 3px 0 0 var(--color-brand);
+}
+
+.gh-nav-icon {
+  flex-shrink: 0;
+  width: 18px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.gh-nav-title {
+  flex: 1;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.gh-nav-count {
+  flex-shrink: 0;
+  min-width: 22px;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: var(--color-card-soft);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-muted);
+}
+
+.gh-nav-item.active .gh-nav-count {
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+}
+
+/* Ô chọn nhóm chỉ dùng trên mobile (thay mục lục bên trái). */
+.gh-select {
+  display: none;
+}
+
+/* ── Bảng so sánh của 1 nhóm ── */
+.gh-main {
+  min-width: 0;
+}
+
+.gh-result-meta {
+  margin-bottom: 12px;
+  font-size: 12.5px;
+  color: var(--color-muted);
+}
+
+.gh-panel {
+  padding: 22px 22px 10px;
+  border-radius: var(--radius-card, 20px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+  box-shadow: 0 8px 30px color-mix(in srgb, var(--color-brand) 8%, transparent);
+  scroll-margin-top: 16px;
+}
+
+.gh-panel + .gh-panel {
+  margin-top: 18px;
+}
+
+.gh-panel-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.gh-panel-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--color-brand-soft);
+  font-size: 22px;
+}
+
+.gh-panel-title {
+  font-size: 21px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-text);
+}
+
+.gh-panel-intro {
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--color-muted);
+}
+
+.gh-thead,
+.gh-row-head {
+  display: grid;
+  grid-template-columns: minmax(160px, 0.85fr) minmax(0, 1.25fr) minmax(0, 1.25fr) 18px;
+  gap: 18px;
+  align-items: start;
+}
+
+.gh-thead {
+  padding: 0 12px 8px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 10.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-muted);
+}
+
+.gh-row {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.gh-row:last-child {
+  border-bottom: none;
+}
+
+.gh-row-head {
+  width: 100%;
+  padding: 14px 12px;
+  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.gh-row-head:hover,
+.gh-row.open .gh-row-head {
+  background: color-mix(in srgb, var(--color-brand) 5%, transparent);
+}
+
+.gh-cell-pattern {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.gh-front {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+  color: var(--color-text);
+}
+
+.gh-sub {
+  font-size: 12.5px;
+  color: var(--color-brand);
+}
+
+.gh-badge {
+  margin-top: 2px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--lv) 13%, transparent);
+  color: color-mix(in srgb, var(--lv) 80%, black);
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.gh-cell-tip {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.gh-cell-example {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 10px;
+  border-left: 2px solid color-mix(in srgb, var(--color-brand) 22%, transparent);
+}
+
+.gh-example-text {
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.gh-example-pinyin {
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--color-brand);
+}
+
+.gh-example-vi {
+  font-size: 12px;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+.gh-chevron {
+  padding-top: 2px;
+  color: var(--color-muted);
+  transition: transform 0.2s;
+}
+
+.gh-row.open .gh-chevron {
+  transform: rotate(180deg);
+}
+
+.gh-row-body {
+  padding: 6px 12px 20px;
+}
+
+.gh-open-lesson {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--color-brand);
+}
+
+.gh-open-lesson:hover {
+  text-decoration: underline;
+}
+
+/* ── Nhóm trước / nhóm tiếp ── */
+.gh-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.gh-pager-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  max-width: 48%;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s;
+}
+
+.gh-pager-btn:hover {
+  border-color: var(--color-brand);
+}
+
+.gh-pager-btn--next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.gh-pager-dir {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.gh-pager-name {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+@media (max-width: 1100px) {
+  .gh-thead,
+  .gh-row-head {
+    grid-template-columns: minmax(140px, 0.8fr) minmax(0, 1.3fr) 18px;
+  }
+
+  .gh-thead span:nth-child(3) {
+    display: none;
+  }
+
+  .gh-row-head {
+    row-gap: 10px;
+  }
+
+  /* Cột mẫu chiếm 2 hàng; "khác ở điểm nào" và ví dụ xếp chồng ở cột 2. */
+  .gh-cell-pattern {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+
+  .gh-cell-tip {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .gh-cell-example {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  .gh-chevron {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 860px) {
+  .gh-layout {
+    display: block;
+  }
+
+  .gh-nav {
+    display: none;
+  }
+
+  .gh-level {
+    width: 100%;
+  }
+
+  .gh-select {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--color-border);
+    background: var(--color-card);
+  }
+
+  .gh-select-label {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .gh-select select {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text);
+    outline: none;
+  }
+
+  .gh-panel {
+    padding: 16px 14px 6px;
+  }
+
+  .gh-panel-title {
+    font-size: 18px;
+  }
+
+  .gh-thead {
+    display: none;
+  }
+
+  /* 1 cột: mẫu, rồi "khác ở điểm nào", rồi ví dụ; mũi tên ở cột 2 hàng đầu. */
+  .gh-row-head {
+    grid-template-columns: minmax(0, 1fr) 18px;
+    gap: 8px;
+    padding: 12px 6px;
+  }
+
+  .gh-cell-pattern {
+    grid-column: 1;
+    grid-row: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+  }
+
+  .gh-cell-tip,
+  .gh-cell-example {
+    grid-column: 1;
+  }
+
+  .gh-cell-tip {
+    grid-row: 2;
+  }
+
+  .gh-cell-example {
+    grid-row: 3;
+  }
+
+  .gh-chevron {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .gh-row-body {
+    padding: 4px 4px 16px;
+  }
+
+  .gh-pager-btn {
+    max-width: 49%;
+  }
+}

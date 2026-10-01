@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useChineseStore } from '@/lib/chinese/store'
@@ -17,6 +17,8 @@ import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speak
 import { DIALOGUES } from '@/lib/chinese/dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
 import { PhoneticsSection } from '@/components/chinese/PhoneticsSection'
+import { Handbook } from '@/components/chinese/Handbook'
+import { HANDBOOK_CATEGORIES } from '@/lib/chinese/handbook'
 import { PHONETICS_LESSONS } from '@/lib/chinese/phonetics'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { CHINESE_LOADING } from '@/lib/loading/apps'
@@ -128,6 +130,10 @@ export function ChineseApp() {
         : { type: 'overview' }
   // Chỉ đúng "/chinese" (không có gì sau) là màn hình chọn cấp độ — mọi route con khác đều đã "vào trong".
   const showLanding = pathname === '/chinese'
+  // Cẩm nang ngữ pháp gộp mọi cấp HSK nên không dùng Sidebar (Sidebar chỉ hiện 1 cấp độ) — full width như màn hình đầu.
+  const showHandbook = pathname === '/chinese/handbook'
+  // ?g=<cardId> — mở bài và cuộn thẳng tới thẻ ngữ pháp đó (link "Mở trong bài" từ Cẩm nang).
+  const focusCardId = searchParams.get('g')
   const kindParam = searchParams.get('kind')
   const contentKind: 'vocab' | 'grammar' | null = kindParam === 'vocab' || kindParam === 'grammar' ? kindParam : null
 
@@ -188,8 +194,10 @@ export function ChineseApp() {
   }
 
   function pickLevel(key: string) {
-    navigate(`/chinese/lessons?open=${key}`)
+    navigate(key === 'handbook' ? '/chinese/handbook' : `/chinese/lessons?open=${key}`)
   }
+
+  const grammarCards = sortedCards.filter((card) => card.kind === 'grammar')
 
   // "Ngữ âm cơ bản" đứng trước mọi cấp độ HSK — cùng vị trí với mục riêng của nó ở đầu Sidebar (xem
   // components/chinese/Sidebar.tsx). Bấm vào chỉ mở sẵn nhóm này trong sidebar (giống hệt cách các
@@ -216,6 +224,15 @@ export function ChineseApp() {
         ...LEVEL_STYLE[key],
       }
     }),
+    {
+      key: 'handbook',
+      icon: '📖',
+      label: 'Cẩm nang',
+      meta: `${HANDBOOK_CATEGORIES.length} nhóm · ${grammarCards.length} mẫu ngữ pháp`,
+      accent: '#7048e8',
+      glyph: '法',
+      desc: 'Ngữ pháp HSK gom theo nghĩa, so sánh các mẫu dễ nhầm',
+    },
   ]
 
   function handleDeleteDeck(deckId: string, deckName: string) {
@@ -226,7 +243,7 @@ export function ChineseApp() {
 
   return (
     <div className="cn-shell">
-      {!showLanding && (
+      {!showLanding && !showHandbook && (
         <Sidebar
           cards={sortedCards}
           decks={decks}
@@ -244,7 +261,7 @@ export function ChineseApp() {
 
       <div className="cn-main">
         <header className="cn-topbar">
-          {!showLanding && (
+          {!showLanding && !showHandbook && (
             <button
               type="button"
               onClick={() => setMobileNavOpen(true)}
@@ -257,6 +274,7 @@ export function ChineseApp() {
           {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
               cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn cấp độ chưa có sidebar. */}
           {showLanding && <AppBreadcrumb app="/chinese" />}
+          {showHandbook && <AppBreadcrumb app="/chinese" trail={[{ label: 'Cẩm nang', glyph: '法' }]} />}
           <input
             type="search"
             value={searchQuery}
@@ -267,7 +285,7 @@ export function ChineseApp() {
               // string vì route đổi (unmount) khiến state cục bộ mất, không animation (ô nhập đang focus).
               if (showLanding && value.trim()) navigate(`/chinese/vocab?q=${encodeURIComponent(value.trim())}`)
             }}
-            placeholder="🔍 Tìm theo Hán tự, pinyin hoặc nghĩa…"
+            placeholder={showHandbook ? '🔍 Tìm mẫu ngữ pháp, pinyin, nghĩa hoặc nhóm…' : '🔍 Tìm theo Hán tự, pinyin hoặc nghĩa…'}
             className="cn-search"
           />
           <button type="button" onClick={() => openAddCard()} className="cn-btn-outline">
@@ -287,6 +305,8 @@ export function ChineseApp() {
               onPick={pickLevel}
             />
           </div>
+        ) : showHandbook ? (
+          <Handbook grammarCards={grammarCards} searchQuery={searchQuery} renderDetail={(card) => <GrammarBody card={card} />} />
         ) : selection.type === 'knowledge' ? (
           <KnowledgeIndex
             icon={initialGroup === 'phonetics' ? '音' : '学'}
@@ -333,6 +353,7 @@ export function ChineseApp() {
             cards={sortedCards}
             progressByCard={progressByCard}
             isLearned={isLearned}
+            focusCardId={focusCardId}
           />
         ) : selection.type === 'phonetics' ? (
           <PhoneticsSection lesson={selection.lesson} />
@@ -596,11 +617,13 @@ function LessonContent({
   cards,
   progressByCard,
   isLearned,
+  focusCardId,
 }: {
   lesson: number
   cards: ChineseCard[]
   progressByCard: Map<string, ChineseProgress>
   isLearned: (id: string) => boolean
+  focusCardId: string | null
 }) {
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
@@ -622,8 +645,18 @@ function LessonContent({
 
   const activeTocId = useSectionScrollspy(tocItems)
 
-  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>('vocab')
+  // Vào từ Cẩm nang (?g=<cardId>) thì mở sẵn tab Ngữ pháp trên mobile để thẻ đích hiện ra.
+  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>(focusCardId ? 'grammar' : 'vocab')
   const effectiveMobileTab = mobileTab === 'speaking' && !hasSpeaking ? 'vocab' : mobileTab
+
+  // Cuộn tới thẻ ?g= sau khi thẻ đã render (thẻ lấy từ store nên có thể chưa có ở lần render đầu) — chỉ 1 lần.
+  const focusedOnce = useRef(false)
+  const focusTargetReady = !!focusCardId && grammarCards.some((c) => c.id === focusCardId)
+  useEffect(() => {
+    if (!focusTargetReady || focusedOnce.current) return
+    focusedOnce.current = true
+    requestAnimationFrame(() => document.getElementById(`cn-grammar-${focusCardId}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+  }, [focusTargetReady, focusCardId])
 
   return (
     <div className="cn-content">
@@ -893,25 +926,26 @@ interface StructureSegment {
   result: string
 }
 
-// Ghi chú cấu trúc "chuẩn" là chuỗi các cặp điều kiện:kết quả ngắn, ngăn bởi " · " — cùng
-// convention với app/(apps)/korean/page.tsx (parseStructureSegments/classifyCondition).
-function parseStructureSegments(note: string): StructureSegment[] | null {
-  const parts = note
-    .split('·')
-    .map((s) => s.trim())
-    .filter(Boolean)
-  if (parts.length < 2) return null
+interface ParsedStructure {
+  branches: StructureSegment[] // các cặp "nhãn: mẫu câu", vẽ thành nhánh cây
+  notes: string[] // phần còn lại (nghĩa mở rộng ①②③, lưu ý cách dùng…), hiện dạng gạch đầu dòng
+}
 
-  const segments: StructureSegment[] = []
-  for (const part of parts) {
-    const colonIndex = part.indexOf(':')
-    if (colonIndex === -1) return null
-    const condition = part.slice(0, colonIndex).trim()
-    const result = part.slice(colonIndex + 1).trim()
-    if (!condition || !result || condition.length > 25) return null
-    segments.push({ condition, result })
+// Ghi chú cấu trúc là các đoạn ngăn bởi " · ", phần lớn dạng "Khẳng định: S + 不但 + V…" nhưng một số thẻ (nhất là HSK 4)
+// trộn thêm câu giải thích không có nhãn. Mỗi đoạn được xét riêng: có nhãn ngắn trước ":" thì thành nhánh, không thì thành
+// 1 dòng lưu ý — trước đây chỉ cần 1 đoạn lệch kiểu là cả khối rơi về chữ phẳng (cùng cách làm với Korean). Không tách theo
+// "+" / "→" như Korean vì công thức tiếng Trung chứa sẵn các ký hiệu đó (Động + 着).
+function parseStructure(note: string): ParsedStructure {
+  const branches: StructureSegment[] = []
+  const notes: string[] = []
+  for (const part of note.split('·').map((s) => s.trim()).filter(Boolean)) {
+    const colon = part.indexOf(':')
+    const condition = colon === -1 ? '' : part.slice(0, colon).trim()
+    const result = colon === -1 ? '' : part.slice(colon + 1).trim()
+    if (condition && result && condition.length <= 25) branches.push({ condition, result })
+    else notes.push(part)
   }
-  return segments
+  return { branches, notes }
 }
 
 type ConditionKind = 'base' | 'positive' | 'question' | 'negative' | 'note'
@@ -927,36 +961,46 @@ function classifyCondition(condition: string): ConditionKind {
   return 'base'
 }
 
+// Kết quả là công thức / chữ Hán thì hiện to, đậm; kết quả là câu giải thích tiếng Việt (không có chữ Hán, hoặc rất dài)
+// thì chữ thường, xuống dòng — vd "Nghĩa: hành động được làm một cách không tình nguyện…".
+function isTextResult(result: string): boolean {
+  if (/[一-鿿]/.test(result)) return result.length > 60
+  return /[A-Za-zÀ-ỹĐđ]{3,}/.test(result)
+}
+
 // `root` là điểm ngữ pháp của thẻ (card.hanzi) — làm node gốc mà các nhánh mẫu câu toả ra. Khác Korean
 // (gốc là phần chung của điều kiện đầu), ở đây các nhánh là nhãn tiếng Việt (Khẳng định/Nghi vấn...) nên
 // không có phần chung để cắt ra.
 function GrammarStructure({ note, root }: { note: string; root: string }) {
-  const segments = parseStructureSegments(note)
-
-  if (!segments) {
-    return (
-      <div className="cn-grammar-structure">
-        <span className="cn-grammar-structure-label">Cấu trúc</span>
-        <span className="cn-grammar-structure-text">{note}</span>
-      </div>
-    )
-  }
+  const { branches, notes } = parseStructure(note)
 
   return (
     <div className="cn-structure-diagram">
       <span className="cn-grammar-structure-label">Cấu trúc</span>
-      <div className="cn-structure-tree">
-        <div className="cn-structure-root">{root}</div>
-        <div className="cn-structure-branches">
-          {segments.map((seg, i) => (
-            <div key={i} className="cn-structure-branch">
-              <span className={`cn-structure-condition cn-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
-              <span className="cn-structure-arrow">→</span>
-              <span className="cn-structure-result">{seg.result}</span>
-            </div>
-          ))}
+      {branches.length > 0 && (
+        <div className="cn-structure-tree">
+          <div className="cn-structure-root">{root}</div>
+          <div className="cn-structure-branches">
+            {branches.map((seg, i) => {
+              const text = isTextResult(seg.result)
+              return (
+                <div key={i} className={`cn-structure-branch${text ? ' cn-structure-branch--text' : ''}`}>
+                  <span className={`cn-structure-condition cn-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
+                  <span className="cn-structure-arrow">→</span>
+                  <span className={`cn-structure-result${text ? ' cn-structure-result--text' : ''}`}>{seg.result}</span>
+                </div>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      )}
+      {notes.length > 0 && (
+        <ul className={`cn-structure-notes${branches.length > 0 ? '' : ' cn-structure-notes--only'}`}>
+          {notes.map((n, i) => (
+            <li key={i}>{n}</li>
+          ))}
+        </ul>
+      )}
     </div>
   )
 }
@@ -974,6 +1018,15 @@ function GrammarCard({ card, index }: { card: ChineseCard; index: number }) {
       </div>
       <p className="cn-grammar-meaning">{card.meaning}</p>
 
+      <GrammarBody card={card} />
+    </div>
+  )
+}
+
+// Phần thân thẻ ngữ pháp (cấu trúc + lý thuyết + ví dụ) — dùng chung cho thẻ trong bài và dòng mở rộng ở Cẩm nang.
+function GrammarBody({ card }: { card: ChineseCard }) {
+  return (
+    <>
       {card.note && <GrammarStructure note={card.note} root={card.hanzi} />}
 
       {card.theory && (
@@ -985,7 +1038,7 @@ function GrammarCard({ card, index }: { card: ChineseCard; index: number }) {
       )}
 
       <GrammarExamples card={card} />
-    </div>
+    </>
   )
 }
 

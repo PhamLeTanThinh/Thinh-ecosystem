@@ -230,6 +230,7 @@ function getSectionOptions(app: AppHref): CrumbOption[] {
     return [
       { label: 'Ngữ âm cơ bản', href: '/chinese/lessons?open=phonetics', glyph: '音' },
       ...HSK_LEVELS.map((level) => ({ label: level.label, href: `/chinese/lessons?open=${level.key}`, glyph: level.label.replace('HSK ', 'H') })),
+      { label: 'Cẩm nang', href: '/chinese/handbook', glyph: '法' },
     ]
   }
   if (app === '/korean') {
