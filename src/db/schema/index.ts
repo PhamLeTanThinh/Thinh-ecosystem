@@ -40,6 +40,8 @@ export const chineseCards = pgTable('chinese_cards', {
   example: text('example').default('').notNull(), // câu ví dụ, nhiều câu nối bằng '\n'
   theory: text('theory').default('').notNull(), // lý thuyết mở rộng (chỉ dùng cho grammar)
   exampleDetail: text('example_detail').default('[]').notNull(), // JSON chú thích từng câu ví dụ (chỉ grammar)
+  image: text('image').default('').notNull(), // ảnh minh hoạ (chỉ vocab): đường dẫn tĩnh /<app>/vocab-img/<id>.webp, rỗng nếu không có
+  pos: text('pos').default('').notNull(), // từ loại (chỉ vocab), mã cách nhau dấu phẩy: n,v,adj… — xem components/shared/vocab/pos.ts
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
@@ -108,6 +110,8 @@ export const koreanCards = pgTable('korean_cards', {
   example: text('example').default('').notNull(), // câu ví dụ, nhiều câu nối bằng '\n'
   theory: text('theory').default('').notNull(), // lý thuyết mở rộng (chỉ dùng cho grammar)
   exampleDetail: text('example_detail').default('[]').notNull(), // JSON chú thích từng câu ví dụ (chỉ grammar)
+  image: text('image').default('').notNull(), // ảnh minh hoạ (chỉ vocab): đường dẫn tĩnh /<app>/vocab-img/<id>.webp, rỗng nếu không có
+  pos: text('pos').default('').notNull(), // từ loại (chỉ vocab), mã cách nhau dấu phẩy: n,v,adj… — xem components/shared/vocab/pos.ts
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

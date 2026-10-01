@@ -54,6 +54,10 @@ interface KoreanState {
 
   markResult: (cardId: string, result: ReviewResult) => void
 
+  // Nút "Đánh dấu đã thuộc" ở danh sách từ vựng: chỉ đặt trạng thái thuộc / chưa thuộc, KHÔNG cộng số lần đúng/sai
+  // như markResult (đó là kết quả ôn tập / quiz thật).
+  setLearned: (cardId: string, known: boolean) => void
+
   updateSettings: (patch: Partial<KoreanSettings>) => void
 }
 
@@ -119,6 +123,20 @@ export const useKoreanStore = create<KoreanState>((set, get) => ({
     const progress = existing
       ? get().progress.map((p) => (p.id === cardId ? next : p))
       : [...get().progress, next]
+    set({ progress })
+    scheduleProgressSave(progress)
+  },
+
+  setLearned: (cardId, known) => {
+    const existing = get().progress.find((p) => p.id === cardId)
+    const next: KoreanProgress = {
+      id: cardId,
+      correctCount: existing?.correctCount ?? 0,
+      wrongCount: existing?.wrongCount ?? 0,
+      lastResult: known ? 'correct' : null,
+      lastReviewedAt: new Date().toISOString(),
+    }
+    const progress = existing ? get().progress.map((p) => (p.id === cardId ? next : p)) : [...get().progress, next]
     set({ progress })
     scheduleProgressSave(progress)
   },

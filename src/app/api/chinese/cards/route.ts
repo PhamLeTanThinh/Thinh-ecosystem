@@ -19,6 +19,8 @@ function toCard(r: typeof chineseCards.$inferSelect): ChineseCard {
     example: r.example,
     theory: r.theory,
     exampleDetail: r.exampleDetail,
+    image: r.image,
+    pos: r.pos,
     sortOrder: r.sortOrder,
     createdAt: r.createdAt.toISOString(),
   }

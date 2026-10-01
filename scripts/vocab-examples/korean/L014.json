@@ -1,0 +1,32 @@
+{
+  "lesson": 14,
+  "words": {
+    "음식물 반입 금지": ["도서관은 음식물 반입 금지예요.","Thư viện cấm mang đồ ăn vào.","no food sign"],
+    "만지다": ["전시품을 만지면 안 돼요.","Không được sờ vào hiện vật trưng bày."],
+    "사진 촬영 금지": ["여기는 사진 촬영 금지입니다.","Ở đây cấm chụp ảnh.","no camera sign"],
+    "금연": ["건물 안은 금연이에요.","Trong tòa nhà cấm hút thuốc."],
+    "휴대 전화 사용 금지": ["시험 중에는 휴대 전화 사용 금지예요.","Trong giờ thi cấm dùng điện thoại.","no phone sign"],
+    "예절": ["한국의 식사 예절을 배웠어요.","Tôi đã học phép lịch sự trên bàn ăn của Hàn Quốc."],
+    "반말": ["처음 만난 사람에게 반말을 하면 안 돼요.","Không được nói trống không với người mới gặp."],
+    "높임말[존댓말]을 해요": ["어른에게는 높임말을 해요.","Với người lớn thì nói kính ngữ."],
+    "공중도덕": ["지하철에서는 공중도덕을 지켜야 해요.","Trên tàu điện ngầm phải giữ đạo đức công cộng."],
+    "주차 금지": ["여기는 주차 금지 구역이에요.","Đây là khu vực cấm đỗ xe.","no parking sign"],
+    "높임말[존댓말]을 하다": ["선생님께 존댓말을 해야 해요.","Phải nói kính ngữ với thầy cô."],
+    "다리를 꼬고 앉다": ["어른 앞에서 다리를 꼬고 앉으면 안 돼요.","Không được ngồi vắt chân trước mặt người lớn."],
+    "반말을 하다": ["친한 친구에게는 반말을 해도 돼요.","Với bạn thân thì nói trống không cũng được."],
+    "물론이다": ["물론이에요. 같이 가요.","Tất nhiên rồi. Đi cùng nhé."],
+    "들다": ["손을 들고 질문하세요.","Hãy giơ tay rồi hỏi."],
+    "에 대한": ["한국 예절에 대한 책을 읽었어요.","Tôi đã đọc sách về phép lịch sự Hàn Quốc."],
+    "상관없다": ["저는 아무거나 상관없어요.","Cái gì cũng được, tôi không sao."],
+    "쓰다듬다": ["태국에서는 아이 머리를 쓰다듬으면 안 돼요.","Ở Thái Lan không được xoa đầu trẻ con."],
+    "어떤": ["어떤 나라에서는 이렇게 하면 실례예요.","Ở một số nước làm thế này là bất lịch sự."],
+    "영혼": ["머리에 영혼이 있다고 믿어요.","Người ta tin rằng linh hồn ở trên đầu."],
+    "칭찬하다": ["선생님이 저를 칭찬해 주셨어요.","Thầy đã khen tôi."],
+    "자신": ["자신을 소개해 주세요.","Hãy giới thiệu bản thân."],
+    "제도": ["한국의 교육 제도에 대해 알아봤어요.","Tôi đã tìm hiểu về chế độ giáo dục Hàn Quốc."],
+    "할인": ["학생은 할인을 받을 수 있어요.","Học sinh được giảm giá."],
+    "머리를 감다": ["아침마다 머리를 감아요.","Sáng nào tôi cũng gội đầu."],
+    "안다": ["엄마가 아기를 안고 있어요.","Mẹ đang bế em bé."],
+    "참다": ["화가 났지만 참았어요.","Tôi tức nhưng đã nhịn."]
+  }
+}

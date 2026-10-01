@@ -13,6 +13,8 @@ export interface ChineseCard {
   example: string // câu ví dụ, nhiều câu nối bằng '\n'
   theory: string // lý thuyết mở rộng (chỉ dùng cho grammar) — nhiều đoạn nối bằng '\n\n'
   exampleDetail: string // JSON.stringify(ExampleDetail[]) — chú thích cho từng câu ví dụ (chỉ grammar)
+  image?: string // ảnh minh hoạ (chỉ vocab), đường dẫn tĩnh — không có thì chỉ hiện chữ
+  pos?: string // từ loại (chỉ vocab): mã cách nhau dấu phẩy, vd "v,n"
   sortOrder: number
   createdAt: string
 }

@@ -16,6 +16,8 @@ import type { ExampleDetail } from '@/lib/chinese/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speakingPractice'
 import { DIALOGUES } from '@/lib/chinese/dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
+import { VocabStudy, type StudyWord } from '@/components/shared/vocab/VocabStudy'
+import { parsePos } from '@/components/shared/vocab/pos'
 import { PhoneticsSection } from '@/components/chinese/PhoneticsSection'
 import { Handbook } from '@/components/chinese/Handbook'
 import { HANDBOOK_CATEGORIES } from '@/lib/chinese/handbook'
@@ -351,7 +353,6 @@ export function ChineseApp() {
           <LessonContent
             lesson={selection.lesson}
             cards={sortedCards}
-            progressByCard={progressByCard}
             isLearned={isLearned}
             focusCardId={focusCardId}
           />
@@ -615,16 +616,15 @@ function DeckContent({
 function LessonContent({
   lesson,
   cards,
-  progressByCard,
   isLearned,
   focusCardId,
 }: {
   lesson: number
   cards: ChineseCard[]
-  progressByCard: Map<string, ChineseProgress>
   isLearned: (id: string) => boolean
   focusCardId: string | null
 }) {
+  const setLearned = useChineseStore((s) => s.setLearned)
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
   const grammarCards = lessonCards.filter((c) => c.kind === 'grammar')
@@ -708,15 +708,7 @@ function LessonContent({
             <p className="cn-section-title" id="cn-section-vocab">
               📚 Từ vựng <span className="cn-section-count">({vocabCards.length})</span>
             </p>
-            {vocabCards.length === 0 ? (
-              <p className="cn-glass py-6 text-center text-sm text-muted">Chưa có từ vựng nào trong bài này.</p>
-            ) : (
-              <div className="cn-vocab-tile-grid">
-                {vocabCards.map((card) => (
-                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
-                ))}
-              </div>
-            )}
+            <VocabStudy words={vocabCards.map(toStudyWord)} lang={ZH_LANG} isLearned={isLearned} onToggleLearned={setLearned} />
           </div>
 
           <div className={`cn-mobile-section${effectiveMobileTab === 'grammar' ? ' active' : ''}`}>
@@ -849,6 +841,30 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
       </div>
     </>
   )
+}
+
+// Thẻ từ vựng → dạng của danh sách học dùng chung. note = loại từ · Hán Việt; câu ví dụ ở example, pinyin + dịch ở
+// exampleDetail[0].
+const NOTE_POS_PREFIX = /^(?:(?:dt|đt|tt|phó|liên|lượng|đại|giới|trợ|cụm|đtnn|số|thán|trạng)\.(?:, )?)+(?: · |$)/
+
+function toStudyWord(card: ChineseCard): StudyWord {
+  let detail: ExampleDetail | undefined
+  try {
+    detail = (JSON.parse(card.exampleDetail || '[]') as ExampleDetail[])[0]
+  } catch {}
+  return {
+    id: card.id,
+    word: card.hanzi,
+    reading: card.pinyin || undefined,
+    pos: parsePos(card.pos),
+    // ghi chú cũ mở đầu bằng từ loại viết tắt ("đt. · Hán Việt: …") — từ loại đã có nhãn riêng nên bỏ phần đó
+    tag: card.note.replace(NOTE_POS_PREFIX, '') || undefined,
+    meaning: card.meaning,
+    example: card.example.split('\n')[0] || detail?.zh || undefined,
+    exampleReading: detail?.pinyin || undefined,
+    exampleVi: detail?.vi || undefined,
+    image: card.image || undefined,
+  }
 }
 
 function VocabTile({

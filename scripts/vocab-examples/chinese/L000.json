@@ -1,0 +1,10 @@
+{
+  "lesson": 0,
+  "words": {
+    "姥爷": ["姥爷住在乡下。", "Lǎoyé zhù zài xiāngxia.", "Ông ngoại sống ở quê.", "grandfather"],
+    "外公": ["外公今年八十岁。", "Wàigōng jīnnián bāshí suì.", "Ông ngoại năm nay 80 tuổi.", "grandfather"],
+    "姥姥": ["姥姥给我做饺子。", "Lǎolao gěi wǒ zuò jiǎozi.", "Bà ngoại làm sủi cảo cho tôi.", "grandmother"],
+    "外婆": ["外婆做的菜很好吃。", "Wàipó zuò de cài hěn hǎochī.", "Món bà ngoại nấu rất ngon.", "grandmother"],
+    "汉字": ["这个汉字怎么写？", "Zhège Hànzì zěnme xiě?", "Chữ Hán này viết thế nào?", "chinese calligraphy"]
+  }
+}

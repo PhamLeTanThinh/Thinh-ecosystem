@@ -17,6 +17,8 @@ import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speaki
 import { TOPIK1_DIALOGUES } from '@/lib/korean/topik1'
 import { TOPIK2_DIALOGUES } from '@/lib/korean/topik2-dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
+import { VocabStudy, type StudyWord } from '@/components/shared/vocab/VocabStudy'
+import { parsePos } from '@/components/shared/vocab/pos'
 import { Handbook } from '@/components/korean/Handbook'
 import { HangulSection } from '@/components/korean/HangulSection'
 import { HANGUL_LESSONS } from '@/lib/korean/hangul'
@@ -293,7 +295,7 @@ export function KoreanApp() {
             setVisibleCount={setVisibleCount}
           />
         ) : (
-          <LessonContent lesson={selection.lesson} cards={sortedCards} progressByCard={progressByCard} isLearned={isLearned} focusCardId={focusCardId} />
+          <LessonContent lesson={selection.lesson} cards={sortedCards} isLearned={isLearned} focusCardId={focusCardId} />
         )}
       </div>
     </div>
@@ -452,16 +454,15 @@ function OverviewContent({
 function LessonContent({
   lesson,
   cards,
-  progressByCard,
   isLearned,
   focusCardId,
 }: {
   lesson: number
   cards: KoreanCard[]
-  progressByCard: Map<string, KoreanProgress>
   isLearned: (id: string) => boolean
   focusCardId: string | null
 }) {
+  const setLearned = useKoreanStore((s) => s.setLearned)
   const lessonCards = cards.filter((c) => c.lesson === lesson)
   const vocabCards = lessonCards.filter((c) => c.kind === 'vocab')
   const grammarCards = lessonCards.filter((c) => c.kind === 'grammar')
@@ -550,15 +551,7 @@ function LessonContent({
             <p className="kr-section-title" id="kr-section-vocab">
               📚 Từ vựng <span className="kr-section-count">({vocabCards.length})</span>
             </p>
-            {vocabCards.length === 0 ? (
-              <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có từ vựng nào trong bài này.</p>
-            ) : (
-              <div className="kr-vocab-tile-grid">
-                {vocabCards.map((card) => (
-                  <VocabTile key={card.id} card={card} progress={progressByCard.get(card.id)} learned={isLearned(card.id)} />
-                ))}
-              </div>
-            )}
+            <VocabStudy words={vocabCards.map(toStudyWord)} lang={KO_LANG} isLearned={isLearned} onToggleLearned={setLearned} />
           </div>
 
           <div className={`kr-mobile-section${effectiveMobileTab === 'grammar' ? ' active' : ''}`}>
@@ -691,6 +684,24 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
       </div>
     </>
   )
+}
+
+// Thẻ từ vựng → dạng của danh sách học dùng chung. Câu ví dụ nằm ở example, bản dịch ở exampleDetail[0].vi.
+function toStudyWord(card: KoreanCard): StudyWord {
+  let detail: ExampleDetail | undefined
+  try {
+    detail = (JSON.parse(card.exampleDetail || '[]') as ExampleDetail[])[0]
+  } catch {}
+  return {
+    id: card.id,
+    word: card.front,
+    pos: parsePos(card.pos),
+    meaning: card.meaning,
+    en: card.note || undefined,
+    example: card.example.split('\n')[0] || detail?.ko || undefined,
+    exampleVi: detail?.vi || undefined,
+    image: card.image || undefined,
+  }
 }
 
 function VocabTile({ card, progress, learned }: { card: KoreanCard; progress: KoreanProgress | undefined; learned: boolean }) {

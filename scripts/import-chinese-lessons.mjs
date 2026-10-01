@@ -134,6 +134,10 @@ if (!process.env.DATABASE_URL) {
   process.exit(1)
 }
 
+// Câu ví dụ của từ vựng được thêm riêng (scripts/apply-vocab-examples.mjs) — JSON bài học để trống thì giữ nguyên bản
+
+// đang có trong DB, không ghi đè bằng rỗng.
+
 const client = new pg.Client({ connectionString: process.env.DATABASE_URL })
 await client.connect()
 try {
@@ -142,8 +146,8 @@ try {
     await client.query(
       `INSERT INTO chinese_cards (id, learner_id, kind, lesson, hanzi, pinyin, meaning, note, example, theory, example_detail, sort_order)
        VALUES ($1, NULL, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-       ON CONFLICT (id) DO UPDATE SET kind = $2, lesson = $3, hanzi = $4, pinyin = $5, meaning = $6, note = $7, example = $8,
-         theory = $9, example_detail = $10, sort_order = $11`,
+       ON CONFLICT (id) DO UPDATE SET kind = $2, lesson = $3, hanzi = $4, pinyin = $5, meaning = $6, note = $7, example = CASE WHEN $8 = '' THEN chinese_cards.example ELSE $8 END,
+         theory = $9, example_detail = CASE WHEN $10 = '[]' THEN chinese_cards.example_detail ELSE $10 END, sort_order = $11`,
       [c.id, c.kind, c.lesson, c.hanzi, c.pinyin, c.meaning, c.note, c.example, c.theory, c.exampleDetail, c.sortOrder],
     )
   }
