@@ -9,7 +9,9 @@ async function getJSON<T>(url: string): Promise<T[]> {
 async function putJSON<T>(url: string, body: T[]): Promise<void> {
   const res = await fetch(url, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    // Lưu nền (tiến trình thuộc/chưa thuộc, cài đặt, bộ từ…): X-Background để không bật màn hình loading mỗi lần chấm
+    // điểm một thẻ (xem lib/loading/tracker.ts).
+    headers: { 'Content-Type': 'application/json', 'X-Background': '1' },
     body: JSON.stringify(body),
   })
   if (!res.ok) throw new Error(`PUT ${url} failed: ${res.status}`)
@@ -34,7 +36,9 @@ async function getObject<T>(url: string): Promise<T> {
 async function putObject<T>(url: string, body: T): Promise<void> {
   const res = await fetch(url, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
+    // Lưu nền (tiến trình thuộc/chưa thuộc, cài đặt, bộ từ…): X-Background để không bật màn hình loading mỗi lần chấm
+    // điểm một thẻ (xem lib/loading/tracker.ts).
+    headers: { 'Content-Type': 'application/json', 'X-Background': '1' },
     body: JSON.stringify(body),
   })
   if (!res.ok) throw new Error(`PUT ${url} failed: ${res.status}`)
