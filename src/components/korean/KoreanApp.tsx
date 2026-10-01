@@ -18,6 +18,8 @@ import { TOPIK1_DIALOGUES } from '@/lib/korean/topik1'
 import { TOPIK2_DIALOGUES } from '@/lib/korean/topik2-dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
 import { Handbook } from '@/components/korean/Handbook'
+import { HangulSection } from '@/components/korean/HangulSection'
+import { HANGUL_LESSONS } from '@/lib/korean/hangul'
 import { HANDBOOK_CATEGORIES } from '@/lib/korean/handbook'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
@@ -50,7 +52,9 @@ type StatusFilter = 'all' | 'learned' | 'unlearned'
 // Đường dẫn thật cho từng loại lựa chọn — /korean/vocab (tổng quan), /korean/lessons/<n>. Mỗi bài giờ
 // có URL riêng (chia sẻ được, back/forward hoạt động), cùng pattern với /ielts/<skill>/lessons/<id>.
 function pathForSelection(s: Selection): string {
-  return s.type === 'lesson' ? `/korean/lessons/${s.lesson}` : '/korean/vocab'
+  if (s.type === 'lesson') return `/korean/lessons/${s.lesson}`
+  if (s.type === 'hangul') return `/korean/hangul/${s.lesson}`
+  return '/korean/vocab'
 }
 
 export function KoreanApp() {
@@ -90,6 +94,8 @@ export function KoreanApp() {
   // riêng — mỗi loại có route riêng nên URL luôn phản ánh đúng đang xem gì, F5/chia sẻ link đều đúng.
   const selection: Selection = pathname.startsWith('/korean/lessons/')
     ? { type: 'lesson', lesson: Number(params.lesson) }
+    : pathname.startsWith('/korean/hangul')
+      ? { type: 'hangul', lesson: params.lesson ? Number(params.lesson) : 0 }
     : pathname === '/korean/lessons'
       ? { type: 'knowledge' }
       : { type: 'overview' }
@@ -97,6 +103,10 @@ export function KoreanApp() {
   const showLanding = pathname === '/korean'
   // Cẩm nang ngữ pháp gộp cả TOPIK I + II nên không dùng Sidebar (Sidebar chỉ hiện 1 cấp độ) — full width như màn hình đầu.
   const showHandbook = pathname === '/korean/handbook'
+  // Bảng chữ cái (4 bài vỡ lòng 한글 배우기, /korean/hangul/<n>) — có Sidebar riêng liệt kê 4 bài, giống "Ngữ âm cơ bản" bên Chinese.
+  const showHangul = selection.type === 'hangul'
+  // Trang đứng riêng (không Sidebar, không nút ☰): chỉ còn cẩm nang.
+  const standalone = showHandbook
   // ?g=<cardId> — mở bài và cuộn thẳng tới thẻ ngữ pháp đó (link "Mở trong bài" từ Cẩm nang).
   const focusCardId = searchParams.get('g')
   const kindParam = searchParams.get('kind')
@@ -137,7 +147,7 @@ export function KoreanApp() {
   const learnedPercent = overviewCards.length > 0 ? Math.round((learnedCount / overviewCards.length) * 100) : 0
 
   function pickLevel(key: string) {
-    navigate(key === 'handbook' ? '/korean/handbook' : `/korean/lessons?open=${key}`)
+    navigate(key === 'handbook' ? '/korean/handbook' : key === 'hangul' ? '/korean/hangul/0' : `/korean/lessons?open=${key}`)
   }
 
   const grammarCards = sortedCards.filter((card) => card.kind === 'grammar')
@@ -158,7 +168,17 @@ export function KoreanApp() {
     }
   })
 
+  // "Bảng chữ cái" đứng trước TOPIK I — cùng vị trí với card "Ngữ âm cơ bản" bên Chinese Hub.
   const landingItems: LandingItem[] = [
+    {
+      key: 'hangul',
+      icon: '가',
+      label: 'Bảng chữ cái',
+      meta: `${HANGUL_LESSONS.length} bài · 40 chữ cái`,
+      accent: '#e8590c',
+      glyph: '한',
+      desc: 'Vỡ lòng · Nguyên âm, phụ âm, patchim',
+    },
     ...levelItems,
     {
       key: 'handbook',
@@ -173,7 +193,7 @@ export function KoreanApp() {
 
   return (
     <div className="kr-shell">
-      {!showLanding && !showHandbook && (
+      {!showLanding && !standalone && (
         <Sidebar
           cards={sortedCards}
           isLearned={isLearned}
@@ -189,7 +209,7 @@ export function KoreanApp() {
 
       <div className="kr-main">
         <header className="kr-topbar">
-          {!showLanding && !showHandbook && (
+          {!showLanding && !standalone && (
             <button
               type="button"
               onClick={() => setMobileNavOpen(true)}
@@ -233,6 +253,8 @@ export function KoreanApp() {
               onPick={pickLevel}
             />
           </div>
+        ) : showHangul ? (
+          <HangulSection lesson={selection.lesson} onPick={(n) => navigate(`/korean/hangul/${n}`)} />
         ) : showHandbook ? (
           <Handbook grammarCards={grammarCards} searchQuery={searchQuery} renderDetail={(card) => <GrammarBody card={card} />} />
         ) : selection.type === 'knowledge' ? (

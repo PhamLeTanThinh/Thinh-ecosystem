@@ -235,6 +235,7 @@ function getSectionOptions(app: AppHref): CrumbOption[] {
   }
   if (app === '/korean') {
     return [
+      { label: 'Bảng chữ cái', href: '/korean/hangul', glyph: '가' },
       { label: 'TOPIK I', href: '/korean/lessons?open=topik1', glyph: 'T1' },
       { label: 'TOPIK II', href: '/korean/lessons?open=topik2', glyph: 'T2' },
       { label: 'Cẩm nang', href: '/korean/handbook', glyph: '법' },

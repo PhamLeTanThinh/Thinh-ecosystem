@@ -7,8 +7,9 @@ import type { KoreanCard } from '@/lib/korean/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { GrammarNavIcon, LessonNavIcon, NavChevronIcon, VocabNavIcon } from '@/components/shared/SidebarIcons'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
+import { HANGUL_LESSONS } from '@/lib/korean/hangul'
 
-export type Selection = { type: 'overview' } | { type: 'knowledge' } | { type: 'lesson'; lesson: number }
+export type Selection = { type: 'overview' } | { type: 'knowledge' } | { type: 'lesson'; lesson: number } | { type: 'hangul'; lesson: number }
 
 interface Props {
   cards: KoreanCard[]
@@ -54,13 +55,14 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
     const group = focusedGroupKey
     if (group) {
       appliedInitialGroup.current = true
-      openGroupOnce(group)
+      openGroupOnce(selection.type === 'hangul' ? 'hangul' : group)
     }
-  }, [focusedGroupKey, openGroupOnce])
+  }, [focusedGroupKey, openGroupOnce, selection.type])
 
   // Mục đang xem, hiện thêm làm crumb cuối trong breadcrumb — cùng cách IELTS thêm tên kỹ năng vào
   // sau "IELTS Hub" để biết đang đứng ở đâu trong app, không chỉ biết đang ở app nào.
-  const sectionLabel = TOPIK_LABEL[focusedGroupKey]
+  const inHangul = selection.type === 'hangul'
+  const sectionLabel = inHangul ? 'Bảng chữ cái' : TOPIK_LABEL[focusedGroupKey]
   const levelLessons = lessonNumbersForLevel(focusedGroupKey)
   const levelCards = cards.filter((c) => levelLessons.includes(c.lesson))
 
@@ -78,7 +80,7 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
         {/* Breadcrumb thay cho tiêu đề tĩnh "한국어 공부" cũ — vừa báo vị trí (Study › Korean Hub) vừa
             bấm được để quay lại /study. Chỉ hiện ở đây (sidebar chỉ tồn tại khi đã vào trong); lúc còn
             ở màn hình chọn cấp độ (chưa có sidebar), breadcrumb nằm ở topbar — xem page.tsx. */}
-        <AppBreadcrumb app="/korean" trail={[{ label: sectionLabel }]} className="kr-sidebar-crumb" />
+        <AppBreadcrumb app="/korean" trail={[inHangul ? { label: sectionLabel, glyph: '가' } : { label: sectionLabel }]} className="kr-sidebar-crumb" />
 
         {/* Thẻ giới thiệu app ở đầu sidebar — cùng vị trí/kiểu với .ih-nav-hero bên IELTS (icon + tên viết
             hoa nhỏ + tên app). Trước đây sidebar này nhảy thẳng từ breadcrumb vào danh sách, thiếu điểm
@@ -89,10 +91,54 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
           </span>
           <span className="kr-nav-hero-text">
             <span className="kr-nav-hero-cap">{focusedGroupKey ? '한국어 공부' : 'KOREAN'}</span>
-            <span className="kr-nav-hero-name">{TOPIK_LABEL[focusedGroupKey]}</span>
+            <span className="kr-nav-hero-name">{sectionLabel}</span>
           </span>
         </div>
 
+        {inHangul ? (
+          <div className="kr-topik-group">
+            {/* view-transition-name trùng với card "Bảng chữ cái" ở LevelLanding — để card bay vào đây. */}
+            <div className="kr-topik-header kr-topik-header--split active" style={{ viewTransitionName: 'kr-level-hangul' }}>
+              <button type="button" className="kr-topik-header-main" onClick={() => handleSelect({ type: 'hangul', lesson: 0 })}>
+                <span className="kr-nav-tile" aria-hidden>
+                  <LessonNavIcon />
+                </span>
+                <span className="kr-nav-text">
+                  <span className="kr-nav-label">Kiến thức</span>
+                  <span className="kr-nav-sub">{HANGUL_LESSONS.length} bài</span>
+                </span>
+              </button>
+              <button
+                type="button"
+                className={`kr-nav-chevron${openGroupKey === 'hangul' ? ' open' : ''}`}
+                aria-label={openGroupKey === 'hangul' ? 'Thu gọn danh sách bài học' : 'Mở danh sách bài học'}
+                aria-expanded={openGroupKey === 'hangul'}
+                onClick={() => toggle('hangul')}
+              >
+                <NavChevronIcon />
+              </button>
+            </div>
+
+            {openGroupKey === 'hangul' && (
+              <div className="kr-lesson-list">
+                {HANGUL_LESSONS.map((hl) => {
+                  const active = selection.type === 'hangul' && selection.lesson === hl.number
+                  return (
+                    <div key={hl.number} className={`kr-lesson-row${active ? ' active' : ''}`}>
+                      <button type="button" className="kr-lesson-row-btn" onClick={() => handleSelect({ type: 'hangul', lesson: hl.number })}>
+                        <span className="kr-lesson-badge">{hl.number === 0 ? '·' : hl.number}</span>
+                        <span className="kr-lesson-row-body">
+                          <span className="kr-lesson-row-title">{hl.titleKo}</span>
+                          <span className="kr-lesson-row-vi">{hl.title}</span>
+                        </span>
+                      </button>
+                    </div>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        ) : (
         <div className="kr-topik-group">
           {/* view-transition-name trùng với card cùng cấp độ ở LevelLanding — để card bay vào đây. */}
           <div className={`kr-topik-header kr-topik-header--split${contentKind === null ? ' active' : ''}`} style={{ viewTransitionName: `kr-level-${focusedGroupKey}` }}>
@@ -171,6 +217,7 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
             </span>
           </Link>
         </div>
+        )}
 
       </aside>
     </>
