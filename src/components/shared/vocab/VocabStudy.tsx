@@ -18,6 +18,7 @@ export interface StudyWord {
   exampleReading?: string // phiên âm câu ví dụ (pinyin)
   exampleVi?: string // dịch câu ví dụ
   image?: string
+  topic?: string // nhóm chủ đề trong bài — danh sách gom các từ cùng nhóm lại với nhau
 }
 
 interface Props {
@@ -25,18 +26,23 @@ interface Props {
   lang: string // 'ko-KR' | 'zh-CN'
   isLearned: (id: string) => boolean
   onToggleLearned: (id: string, known: boolean) => void
+  groupIdPrefix?: string // id cho từng nhóm chủ đề (<prefix><thứ tự>) — mục lục "Đang đọc" nhảy tới nhóm
 }
 
 // Danh sách học từ vựng của 1 bài (Korean / Chinese) — cùng bố cục với Vocab set của IELTS
 // (components/ielts/practice/VocabSetStudy.tsx): lưới 2 cột, mỗi thẻ có hàng đầu (từ + phát âm + từ loại + nút
-// "Đã thuộc") và thân (nghĩa + câu ví dụ | ảnh). "Ẩn nghĩa" che nghĩa để tự kiểm tra, bấm vào để lật; "Xem thẻ lớn" mở flashcard toàn màn hình.
-export function VocabStudy({ words, lang, isLearned, onToggleLearned }: Props) {
+// "Đã thuộc") và thân (nghĩa + câu ví dụ | ảnh). Từ có topic được gom theo nhóm chủ đề (thứ tự nhóm = thứ tự xuất hiện
+// đầu tiên trong bài, từ chưa xếp nhóm vào "Khác" ở cuối); không từ nào có topic thì giữ danh sách phẳng như cũ. "Ẩn nghĩa" che nghĩa để tự kiểm tra, bấm vào để lật; "Xem thẻ lớn" mở flashcard toàn màn hình.
+export function VocabStudy({ words, lang, isLearned, onToggleLearned, groupIdPrefix }: Props) {
   const [hideMeaning, setHideMeaning] = useState(false)
   const [revealed, setRevealed] = useState<Set<string>>(new Set())
   const [expanded, setExpanded] = useState<Set<string>>(new Set())
   const [collapsedFirst, setCollapsedFirst] = useState(false)
   const [flashStart, setFlashStart] = useState<number | null>(null)
 
+  // Thứ tự hiển thị = thứ tự trong thẻ lớn (flashcard) — duyệt hết nhóm này rồi sang nhóm kế
+  const groups = useMemo(() => groupByTopic(words), [words])
+  const ordered = useMemo(() => groups.flatMap((g) => g.words), [groups])
   const total = words.length
   const count = words.filter((w) => isLearned(w.id)).length
 
@@ -57,6 +63,78 @@ export function VocabStudy({ words, lang, isLearned, onToggleLearned }: Props) {
       if (!next.delete(id)) next.add(id)
       return next
     })
+  }
+
+  function renderCard(w: StudyWord, idx: number) {
+    const hidden = hideMeaning && !revealed.has(w.id)
+    const known = isLearned(w.id)
+    const open = expanded.has(w.id) || (idx === 0 && !collapsedFirst)
+    return (
+      <div key={w.id} className={`vs-card${known ? ' known' : ''}`}>
+        <div className="vs-left">
+          <span className="vs-top">
+            <span className="vs-word" lang={lang}>
+              {w.word}
+            </span>
+            <button type="button" className="vs-speak" aria-label={`Phát âm ${w.word}`} onClick={() => speak(w.word, lang)}>
+              🔊
+            </button>
+          </span>
+          {w.reading && <span className="vs-reading">{w.reading}</span>}
+          <PosBadges pos={w.pos} />
+          {w.tag && <span className="vs-tag">{w.tag}</span>}
+          <span className="vs-spacer" />
+          <button type="button" className={`vs-known${known ? ' on' : ''}`} onClick={() => onToggleLearned(w.id, !known)} aria-pressed={known}>
+            {known ? '✓ Đã thuộc' : 'Đánh dấu đã thuộc'}
+          </button>
+        </div>
+
+        <div className="vs-main">
+          <div className="vs-def" onClick={() => hideMeaning && toggleReveal(w.id)} style={hideMeaning ? { cursor: 'pointer' } : undefined}>
+            <span className="vs-label">Nghĩa</span>
+            <p className={`vs-meaning${hidden ? ' vs-blur' : ''}`}>
+              <span className="vs-lang">VI</span>
+              {w.meaning}
+            </p>
+            {w.en && (
+              <p className={`vs-meaning vs-meaning-en${hidden ? ' vs-blur' : ''}`}>
+                <span className="vs-lang">EN</span>
+                {w.en}
+              </p>
+            )}
+          </div>
+          {open && w.example && (
+            <div className="vs-ctx">
+              <span className="vs-label">Ví dụ</span>
+              <p className="vs-ctx-line" lang={lang}>
+                <button type="button" className="vs-speak" aria-label="Đọc câu ví dụ" onClick={() => speak(w.example!, lang)}>
+                  🔊
+                </button>
+                {w.example}
+              </p>
+              {w.exampleReading && <p className="vs-ctx-reading">{w.exampleReading}</p>}
+              {w.exampleVi && <p className={`vs-ctx-vi${hidden ? ' vs-blur' : ''}`}>{w.exampleVi}</p>}
+            </div>
+          )}
+          {w.example && (
+            <button type="button" className="vs-expand" onClick={() => toggleExpand(w.id, open, idx)}>
+              {open ? 'Thu gọn ▴' : 'Xem ví dụ ▾'}
+            </button>
+          )}
+        </div>
+
+        <button type="button" className="vs-img" aria-label={`Xem thẻ lớn: ${w.word}`} onClick={() => setFlashStart(idx)}>
+          {w.image ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={w.image} alt={w.word} loading="lazy" />
+          ) : (
+            <span className="vs-img-text" lang={lang}>
+              {[...w.word].slice(0, 2).join('')}
+            </span>
+          )}
+        </button>
+      </div>
+    )
   }
 
   return (
@@ -81,84 +159,37 @@ export function VocabStudy({ words, lang, isLearned, onToggleLearned }: Props) {
         </button>
       </div>
 
-      <div className="vs-grid">
-        {words.map((w, idx) => {
-          const hidden = hideMeaning && !revealed.has(w.id)
-          const known = isLearned(w.id)
-          const open = expanded.has(w.id) || (idx === 0 && !collapsedFirst)
-          return (
-            <div key={w.id} className={`vs-card${known ? ' known' : ''}`}>
-              <div className="vs-left">
-                <span className="vs-top">
-                  <span className="vs-word" lang={lang}>
-                    {w.word}
-                  </span>
-                  <button type="button" className="vs-speak" aria-label={`Phát âm ${w.word}`} onClick={() => speak(w.word, lang)}>
-                    🔊
-                  </button>
-                </span>
-                {w.reading && <span className="vs-reading">{w.reading}</span>}
-                <PosBadges pos={w.pos} />
-                {w.tag && <span className="vs-tag">{w.tag}</span>}
-                <span className="vs-spacer" />
-                <button type="button" className={`vs-known${known ? ' on' : ''}`} onClick={() => onToggleLearned(w.id, !known)} aria-pressed={known}>
-                  {known ? '✓ Đã thuộc' : 'Đánh dấu đã thuộc'}
-                </button>
-              </div>
+      {groups.map((g, gi) => (
+        <section key={g.title ?? '_'} className="vs-group" id={groupIdPrefix && g.title ? `${groupIdPrefix}${gi}` : undefined}>
+          {g.title && (
+            <h4 className="vs-group-title">
+              {g.title}
+              <span className="vs-group-count">{g.words.length}</span>
+            </h4>
+          )}
+          <div className="vs-grid">{g.words.map((w) => renderCard(w, ordered.indexOf(w)))}</div>
+        </section>
+      ))}
+      {total === 0 && <p className="vs-empty">Chưa có từ vựng nào trong bài này.</p>}
 
-              <div className="vs-main">
-                <div className="vs-def" onClick={() => hideMeaning && toggleReveal(w.id)} style={hideMeaning ? { cursor: 'pointer' } : undefined}>
-                  <span className="vs-label">Nghĩa</span>
-                  <p className={`vs-meaning${hidden ? ' vs-blur' : ''}`}>
-                    <span className="vs-lang">VI</span>
-                    {w.meaning}
-                  </p>
-                  {w.en && (
-                    <p className={`vs-meaning vs-meaning-en${hidden ? ' vs-blur' : ''}`}>
-                      <span className="vs-lang">EN</span>
-                      {w.en}
-                    </p>
-                  )}
-                </div>
-                {open && w.example && (
-                  <div className="vs-ctx">
-                    <span className="vs-label">Ví dụ</span>
-                    <p className="vs-ctx-line" lang={lang}>
-                      <button type="button" className="vs-speak" aria-label="Đọc câu ví dụ" onClick={() => speak(w.example!, lang)}>
-                        🔊
-                      </button>
-                      {w.example}
-                    </p>
-                    {w.exampleReading && <p className="vs-ctx-reading">{w.exampleReading}</p>}
-                    {w.exampleVi && <p className={`vs-ctx-vi${hidden ? ' vs-blur' : ''}`}>{w.exampleVi}</p>}
-                  </div>
-                )}
-                {w.example && (
-                  <button type="button" className="vs-expand" onClick={() => toggleExpand(w.id, open, idx)}>
-                    {open ? 'Thu gọn ▴' : 'Xem ví dụ ▾'}
-                  </button>
-                )}
-              </div>
-
-              <button type="button" className="vs-img" aria-label={`Xem thẻ lớn: ${w.word}`} onClick={() => setFlashStart(idx)}>
-                {w.image ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={w.image} alt={w.word} loading="lazy" />
-                ) : (
-                  <span className="vs-img-text" lang={lang}>
-                    {[...w.word].slice(0, 2).join('')}
-                  </span>
-                )}
-              </button>
-            </div>
-          )
-        })}
-        {total === 0 && <p className="vs-empty">Chưa có từ vựng nào trong bài này.</p>}
-      </div>
-
-      {flashStart !== null && <VocabFlashModal words={words} start={flashStart} lang={lang} onClose={() => setFlashStart(null)} />}
+      {flashStart !== null && <VocabFlashModal words={ordered} start={flashStart} lang={lang} onClose={() => setFlashStart(null)} />}
     </div>
   )
+}
+
+const OTHER_TOPIC = 'Khác'
+
+export function groupByTopic(words: StudyWord[]): { title: string | null; words: StudyWord[] }[] {
+  if (!words.some((w) => w.topic)) return [{ title: null, words }]
+  const map = new Map<string, StudyWord[]>()
+  for (const w of words) {
+    const key = w.topic || OTHER_TOPIC
+    map.set(key, [...(map.get(key) ?? []), w])
+  }
+  const other = map.get(OTHER_TOPIC)
+  map.delete(OTHER_TOPIC)
+  const groups = [...map].map(([title, ws]) => ({ title, words: ws }))
+  return other ? [...groups, { title: OTHER_TOPIC, words: other }] : groups
 }
 
 interface FlashSettings {
@@ -183,7 +214,10 @@ const AUTO_ADVANCE_MS = 5000
 
 function loadFlashSettings(): FlashSettings {
   try {
-    return { ...DEFAULT_FLASH_SETTINGS, ...JSON.parse(localStorage.getItem(FLASH_SETTINGS_KEY) ?? '{}') }
+    return {
+      ...DEFAULT_FLASH_SETTINGS,
+      ...JSON.parse(localStorage.getItem(FLASH_SETTINGS_KEY) ?? '{}'),
+    }
   } catch {
     return DEFAULT_FLASH_SETTINGS
   }
@@ -348,13 +382,38 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
   )
 }
 
-const SETTING_ROWS: { key: keyof FlashSettings; icon: string; label: string; group: 'view' | 'audio' }[] = [
-  { key: 'autoAdvance', icon: '▶', label: 'Tự động đổi thẻ (5 giây)', group: 'view' },
+const SETTING_ROWS: {
+  key: keyof FlashSettings
+  icon: string
+  label: string
+  group: 'view' | 'audio'
+}[] = [
+  {
+    key: 'autoAdvance',
+    icon: '▶',
+    label: 'Tự động đổi thẻ (5 giây)',
+    group: 'view',
+  },
   { key: 'shuffle', icon: '🔀', label: 'Trộn thẻ ngẫu nhiên', group: 'view' },
-  { key: 'skipNoImage', icon: '🙈', label: 'Bỏ qua từ không có hình', group: 'view' },
+  {
+    key: 'skipNoImage',
+    icon: '🙈',
+    label: 'Bỏ qua từ không có hình',
+    group: 'view',
+  },
   { key: 'autoReadTerm', icon: '🎵', label: 'Tự động đọc từ', group: 'audio' },
-  { key: 'autoReadExample', icon: '🎵', label: 'Tự động đọc câu ví dụ', group: 'audio' },
-  { key: 'autoReadDefVi', icon: '🎵', label: 'Tự động đọc nghĩa tiếng Việt', group: 'audio' },
+  {
+    key: 'autoReadExample',
+    icon: '🎵',
+    label: 'Tự động đọc câu ví dụ',
+    group: 'audio',
+  },
+  {
+    key: 'autoReadDefVi',
+    icon: '🎵',
+    label: 'Tự động đọc nghĩa tiếng Việt',
+    group: 'audio',
+  },
 ]
 
 function FlashSettingsDialog({ initial, onClose, onSave }: { initial: FlashSettings; onClose: () => void; onSave: (s: FlashSettings) => void }) {
@@ -363,7 +422,12 @@ function FlashSettingsDialog({ initial, onClose, onSave }: { initial: FlashSetti
     <label key={r.key} className="vs-settings-row">
       <span aria-hidden>{r.icon}</span>
       <span className="vs-settings-row-label">{r.label}</span>
-      <span className={`vs-switch${draft[r.key] ? ' on' : ''}`} onClick={() => setDraft((p) => ({ ...p, [r.key]: !p[r.key] }))} role="switch" aria-checked={draft[r.key]} />
+      <span
+        className={`vs-switch${draft[r.key] ? ' on' : ''}`}
+        onClick={() => setDraft((p) => ({ ...p, [r.key]: !p[r.key] }))}
+        role="switch"
+        aria-checked={draft[r.key]}
+      />
     </label>
   )
   return (

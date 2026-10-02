@@ -6,3 +6,69 @@
 @layer base {
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 }
+
+/* Ẩn/hiện menu trái trên desktop (components/shared/SidebarToggle.tsx) — áp dụng cho mọi <aside data-app-sidebar>.
+   Dưới 1024px các app dùng drawer ☰ riêng nên không đụng tới. Ngoài @layer để thắng display của từng app/Tailwind. */
+.app-sidebar-toggle {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  html[data-sidebar-hidden]:not([data-sidebar-anim]) [data-app-sidebar] {
+    display: none !important;
+  }
+
+  /* Đang chạy hiệu ứng ẩn/hiện (SidebarToggle bật data-sidebar-anim ~320ms): trượt bằng margin âm + mờ dần */
+  html[data-sidebar-anim] [data-app-sidebar] {
+    transition: margin-left 0.32s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.24s ease;
+  }
+
+  html[data-sidebar-hidden][data-sidebar-anim] [data-app-sidebar] {
+    margin-left: calc(-1 * var(--app-sidebar-w, 280px));
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Nút tròn nằm trên đường viền giữa sidebar và nội dung (--app-sidebar-w = bề rộng sidebar, SidebarToggle đo; sidebar
+     luôn bám mép trái); sidebar ẩn → sát mép trái. left có transition nên nút trượt cùng sidebar. */
+  .app-sidebar-toggle {
+    position: fixed;
+    top: 50%;
+    left: calc(var(--app-sidebar-w, 280px) - 14px);
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid rgba(20, 20, 30, 0.14);
+    border-radius: 999px;
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(20, 20, 30, 0.14);
+    color: #374151;
+    transform: translateY(-50%);
+    cursor: pointer;
+    transition: left 0.32s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+  }
+
+  html[data-sidebar-hidden] .app-sidebar-toggle {
+    left: 10px;
+  }
+
+  /* Mũi tên ‹ xoay thành › khi sidebar ẩn */
+  .app-sidebar-toggle svg {
+    transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  html[data-sidebar-hidden] .app-sidebar-toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .app-sidebar-toggle:hover,
+  .app-sidebar-toggle:focus-visible {
+    color: #111827;
+    box-shadow: 0 4px 16px rgba(20, 20, 30, 0.22);
+    transform: translateY(-50%) scale(1.1);
+  }
+}

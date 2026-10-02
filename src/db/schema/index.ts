@@ -42,6 +42,7 @@ export const chineseCards = pgTable('chinese_cards', {
   exampleDetail: text('example_detail').default('[]').notNull(), // JSON chú thích từng câu ví dụ (chỉ grammar)
   image: text('image').default('').notNull(), // ảnh minh hoạ (chỉ vocab): đường dẫn tĩnh /<app>/vocab-img/<id>.webp, rỗng nếu không có
   pos: text('pos').default('').notNull(), // từ loại (chỉ vocab), mã cách nhau dấu phẩy: n,v,adj… — xem components/shared/vocab/pos.ts
+  topic: text('topic').default('').notNull(), // nhóm chủ đề trong bài (chỉ vocab) — danh sách học gom từ theo nhóm này
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
@@ -112,6 +113,7 @@ export const koreanCards = pgTable('korean_cards', {
   exampleDetail: text('example_detail').default('[]').notNull(), // JSON chú thích từng câu ví dụ (chỉ grammar)
   image: text('image').default('').notNull(), // ảnh minh hoạ (chỉ vocab): đường dẫn tĩnh /<app>/vocab-img/<id>.webp, rỗng nếu không có
   pos: text('pos').default('').notNull(), // từ loại (chỉ vocab), mã cách nhau dấu phẩy: n,v,adj… — xem components/shared/vocab/pos.ts
+  topic: text('topic').default('').notNull(), // nhóm chủ đề trong bài (chỉ vocab) — danh sách học gom từ theo nhóm này
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

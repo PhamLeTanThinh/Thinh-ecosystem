@@ -1,0 +1,85 @@
+/* Mục lớn thu gọn được của bài học Korean/Chinese (LessonSection.tsx) — tiêu đề giữ style …-section-title của app,
+   chỉ thêm con trỏ + mũi tên. Thu gọn chỉ áp dụng trên desktop; ≤860px các mục là tab nên luôn hiện. */
+.lsec + .lsec {
+  margin-top: 8px;
+}
+
+.lsec-head {
+  cursor: pointer;
+  user-select: none;
+}
+
+.lsec-head:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-brand) 55%, transparent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.lsec-chevron {
+  display: inline-block;
+  margin-left: 6px;
+  vertical-align: -1px;
+  color: var(--color-muted);
+  transition: transform 0.2s ease;
+}
+
+.lsec-head:hover .lsec-chevron {
+  color: var(--color-brand);
+}
+
+@media (min-width: 861px) {
+  .lsec-collapsed > .lsec-body {
+    display: none;
+  }
+
+  .lsec-collapsed .lsec-chevron {
+    transform: rotate(-90deg);
+  }
+}
+
+@media (max-width: 860px) {
+  .lsec-head {
+    cursor: default;
+  }
+
+  .lsec-chevron {
+    display: none;
+  }
+}
+
+/* Mục con của mục lục "Đang đọc" (LessonToc.tsx) — thụt vào dưới mục lớn đang đọc */
+.ltoc-children {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 2px 0 6px 14px;
+  padding-left: 8px;
+  border-left: 1px dashed color-mix(in srgb, var(--color-brand) 30%, transparent);
+}
+
+.ltoc-child {
+  display: block;
+  width: 100%;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 11.5px;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: left;
+  color: var(--color-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.ltoc-child:hover {
+  color: var(--color-text);
+  background: color-mix(in srgb, var(--color-brand) 6%, transparent);
+}
+
+.ltoc-child.active {
+  color: var(--color-brand);
+  font-weight: 700;
+  background: color-mix(in srgb, var(--color-brand) 9%, transparent);
+}

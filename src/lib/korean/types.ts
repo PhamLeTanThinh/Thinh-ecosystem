@@ -12,6 +12,7 @@ export interface KoreanCard {
   exampleDetail: string // JSON.stringify({ko,vi,vocab,breakdown}[]) — chú thích cho từng câu ví dụ (chỉ grammar)
   image?: string // ảnh minh hoạ (chỉ vocab), đường dẫn tĩnh — không có thì chỉ hiện chữ
   pos?: string // từ loại (chỉ vocab): mã cách nhau dấu phẩy, vd "v,n"
+  topic?: string // nhóm chủ đề trong bài (chỉ vocab), vd "Gia đình" — rỗng = chưa xếp nhóm
   sortOrder: number
   createdAt: string
 }

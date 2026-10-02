@@ -36,5 +36,10 @@
     "工人": ["工人们正在修路。","Gōngrénmen zhèngzài xiū lù.","Công nhân đang sửa đường.","construction workers"],
     "罢工": ["司机们罢工了。","Sījīmen bàgōng le.","Các tài xế đã đình công."],
     "工业": ["这个城市工业很发达。","Zhège chéngshì gōngyè hěn fādá.","Thành phố này công nghiệp rất phát triển."]
+  },
+  "topics": {
+    "Phương tiện & đường cao tốc": ["交通","汽车","拉","之间","并且","大概","高速公路","速度","出现","优点","安全","乘坐","然而","收费","收","共同","金钱"],
+    "Lái xe & giao thông": ["堵车","车位","迷路","导航","停车场","交警","人行横道线","超速","交通事故"],
+    "Chuỗi Hán Việt 工 (công)": ["工","工程","加工","手工","工厂","施工","工人","罢工","工业"]
   }
 }

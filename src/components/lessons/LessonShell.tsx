@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { AppBreadcrumb, type AppHref, type Crumb } from '@/components/study/Breadcrumb'
 import { withViewTransition } from '@/lib/viewTransition'
 import './lessons.css'
+import { SidebarToggle } from '@/components/shared/SidebarToggle'
 
 interface Props {
   app: AppHref
@@ -68,7 +69,8 @@ export function LessonShell({ app, trail, accent, topicLabel, topicIcon, count, 
 
   return (
     <div className="lg-shell" style={{ '--lg-accent': accent } as CSSProperties}>
-      <aside className="lg-sidebar" style={{ viewTransitionName: 'lg-sidebar' } as CSSProperties}>
+      <aside data-app-sidebar className="lg-sidebar" style={{ viewTransitionName: 'lg-sidebar' } as CSSProperties}>
+        <SidebarToggle />
         <AppBreadcrumb app={app} trail={trail} className="lg-sidebar-crumb" />
 
         <div className="lg-sidebar-list">

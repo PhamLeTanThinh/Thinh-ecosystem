@@ -17,8 +17,10 @@ import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/korean/speaki
 import { TOPIK1_DIALOGUES } from '@/lib/korean/topik1'
 import { TOPIK2_DIALOGUES } from '@/lib/korean/topik2-dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
-import { VocabStudy, type StudyWord } from '@/components/shared/vocab/VocabStudy'
+import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vocab/VocabStudy'
 import { parsePos } from '@/components/shared/vocab/pos'
+import { LessonSection } from '@/components/shared/LessonSection'
+import { LessonToc, type TocNode } from '@/components/shared/LessonToc'
 import { Handbook } from '@/components/korean/Handbook'
 import { HangulSection } from '@/components/korean/HangulSection'
 import { HANGUL_LESSONS } from '@/lib/korean/hangul'
@@ -471,18 +473,42 @@ function LessonContent({
   const dialogues = TOPIK1_DIALOGUES[lesson] ?? TOPIK2_DIALOGUES[lesson]
   const hasSpeaking = !!speaking || !!dialogues
 
-  // Mục lục "Đang đọc" bên phải — mỗi mục là 1 điểm ngữ pháp cụ thể (không chỉ tiêu đề mục lớn)
-  // để nhảy thẳng tới đúng thẻ đang cần xem, giống cách .ih-side-toc sinh từ H2 bên app IELTS.
-  const tocItems = useMemo(() => {
-    const items: { id: string; label: string }[] = []
-    if (vocabCards.length > 0) items.push({ id: 'kr-section-vocab', label: '📚 Từ vựng' })
-    grammarCards.forEach((c) => items.push({ id: `kr-grammar-${c.id}`, label: c.front }))
-    if (dialogues) items.push({ id: 'kr-section-dialogue', label: '💬 Hội thoại' })
-    if (speaking) items.push({ id: 'kr-section-speaking', label: '🗣️ Luyện nói' })
-    return items
-  }, [vocabCards.length, grammarCards, speaking, dialogues])
+  const studyWords = useMemo(() => vocabCards.map(toStudyWord), [vocabCards])
 
-  const activeTocId = useSectionScrollspy(tocItems)
+  // Mục lục "Đang đọc" bên phải — dạng cây theo dữ liệu thật của bài: Từ vựng → các nhóm chủ đề, Ngữ pháp → từng điểm
+  // ngữ pháp, Hội thoại → từng hội thoại, Luyện nói → từng câu (xem components/shared/LessonToc.tsx).
+  const tocNodes = useMemo(() => {
+    const nodes: TocNode[] = []
+    if (vocabCards.length > 0) {
+      const groups = groupByTopic(studyWords)
+      nodes.push({
+        id: 'kr-section-vocab',
+        label: '📚 Từ vựng',
+        section: 'vocab',
+        children: groups.flatMap((g, i) => (g.title ? [{ id: `kr-vocab-topic-${i}`, label: g.title }] : [])),
+      })
+    }
+    if (grammarCards.length > 0) {
+      nodes.push({ id: 'kr-section-grammar', label: '✏️ Ngữ pháp', section: 'grammar', children: grammarCards.map((c) => ({ id: `kr-grammar-${c.id}`, label: c.front })) })
+    }
+    if (dialogues) {
+      nodes.push({
+        id: 'kr-section-dialogue',
+        label: '💬 Hội thoại',
+        section: 'dialogue',
+        children: dialogues.map((d, i) => ({ id: `kr-dialogue-${i}`, label: d.title || `Hội thoại ${i + 1}` })),
+      })
+    }
+    if (speaking) {
+      nodes.push({
+        id: 'kr-section-speaking',
+        label: '🗣️ Luyện nói',
+        section: 'speaking',
+        children: speaking.items.map((it, i) => ({ id: `kr-speaking-${i}`, label: `${i + 1}. ${it.question}` })),
+      })
+    }
+    return nodes
+  }, [vocabCards.length, studyWords, grammarCards, dialogues, speaking])
 
   // Trên mobile không đủ chỗ để cuộn + mục lục bên phải như desktop, nên thay bằng tab bấm-để-xem
   // (CSS chỉ hiện .kr-mobile-tabs và áp dụng .kr-mobile-section ở @media ≤860px — desktop vẫn giữ
@@ -548,21 +574,22 @@ function LessonContent({
       <div className="kr-doc-body">
         <div className="kr-doc-content">
           <div className={`kr-mobile-section${effectiveMobileTab === 'vocab' ? ' active' : ''}`}>
-            <p className="kr-section-title" id="kr-section-vocab">
-              📚 Từ vựng <span className="kr-section-count">({vocabCards.length})</span>
-            </p>
-            <VocabStudy words={vocabCards.map(toStudyWord)} lang={KO_LANG} isLearned={isLearned} onToggleLearned={setLearned} />
+            <LessonSection sectionKey="vocab" prefix="kr" title="📚 Từ vựng" count={vocabCards.length}>
+              <VocabStudy words={studyWords} lang={KO_LANG} isLearned={isLearned} onToggleLearned={setLearned} groupIdPrefix="kr-vocab-topic-" />
+            </LessonSection>
           </div>
 
           <div className={`kr-mobile-section${effectiveMobileTab === 'grammar' ? ' active' : ''}`}>
             {grammarCards.length === 0 ? (
               <p className="kr-glass py-6 text-center text-sm text-muted">Chưa có ngữ pháp nào trong bài này.</p>
             ) : (
-              <div className="kr-grammar-list">
-                {grammarCards.map((card, i) => (
-                  <GrammarCard key={card.id} card={card} index={i + 1} />
-                ))}
-              </div>
+              <LessonSection sectionKey="grammar" prefix="kr" title="✏️ Ngữ pháp" count={grammarCards.length}>
+                <div className="kr-grammar-list">
+                  {grammarCards.map((card, i) => (
+                    <GrammarCard key={card.id} card={card} index={i + 1} />
+                  ))}
+                </div>
+              </LessonSection>
             )}
           </div>
 
@@ -574,74 +601,20 @@ function LessonContent({
           )}
         </div>
 
-        {tocItems.length > 1 && (
-          <aside className="kr-side-toc" aria-label="Mục lục">
-            <span className="kr-side-toc-label">Đang đọc</span>
-            {tocItems.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                title={item.label}
-                className={`kr-side-toc-item${item.id === activeTocId ? ' active' : ''}`}
-                onClick={() => document.getElementById(item.id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-              >
-                {item.label}
-              </button>
-            ))}
-          </aside>
-        )}
+        <LessonToc nodes={tocNodes} prefix="kr" />
       </div>
     </div>
   )
 }
 
-// Scrollspy: menu bên phải bám theo vị trí cuộn thực tế của window (trang không có scroll
-// container riêng — xem ghi chú .kr-doc-body trong korean.css) để biết đang đọc tới thẻ nào.
-function useSectionScrollspy(items: { id: string; label: string }[]): string {
-  const [activeId, setActiveId] = useState('')
-
-  useEffect(() => {
-    if (items.length === 0) return
-    const els = items.map((it) => document.getElementById(it.id)).filter((el): el is HTMLElement => el !== null)
-    if (els.length === 0) return
-
-    const topOffset = 110
-    let ticking = false
-
-    function updateActive() {
-      ticking = false
-      let current = els[0].id
-      for (const el of els) {
-        if (el.getBoundingClientRect().top - topOffset <= 0) current = el.id
-      }
-      setActiveId(current)
-    }
-
-    function onScroll() {
-      if (ticking) return
-      ticking = true
-      requestAnimationFrame(updateActive)
-    }
-
-    updateActive()
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [items])
-
-  return activeId
-}
-
 function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
   return (
-    <>
-      <p className="kr-section-title" id="kr-section-speaking">
-        🗣️ Luyện nói <span className="kr-section-count">({data.items.length})</span>
-      </p>
+    <LessonSection sectionKey="speaking" prefix="kr" title="🗣️ Luyện nói" count={data.items.length}>
       <p className="kr-speaking-intro">{data.intro}</p>
 
       <div className="kr-speaking-list">
         {data.items.map((item, i) => (
-          <div key={i} className="kr-glass kr-speaking-card">
+          <div key={i} id={`kr-speaking-${i}`} className="kr-glass kr-speaking-card">
             <div className="kr-speaking-card-head">
               <span className="kr-speaking-index">Câu {i + 1}</span>
               <span className="kr-speaking-level">{item.level}</span>
@@ -682,7 +655,7 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
           <strong>Từ vựng đã dùng:</strong> {data.vocabSummary}
         </p>
       </div>
-    </>
+    </LessonSection>
   )
 }
 
@@ -696,6 +669,7 @@ function toStudyWord(card: KoreanCard): StudyWord {
     id: card.id,
     word: card.front,
     pos: parsePos(card.pos),
+    topic: card.topic || undefined,
     meaning: card.meaning,
     en: card.note || undefined,
     example: card.example.split('\n')[0] || detail?.ko || undefined,

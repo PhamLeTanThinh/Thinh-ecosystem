@@ -10,6 +10,7 @@ import { parseLessonTitle } from '@/lib/ielts/lessonTitle'
 import type { Skill } from '@/lib/ielts/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { beginIeltsNavigation } from '@/lib/ielts/navigationLoading'
+import { SidebarToggle } from '@/components/shared/SidebarToggle'
 
 export interface SkillCounts {
   tests: number
@@ -124,9 +125,11 @@ export function SkillSidebar({ skill, counts, navOpen = false, onNavigate }: Pro
 
   return (
     <aside
+      data-app-sidebar
       className={`ih-sidebar ih-sidebar-skill${navOpen ? ' ih-sidebar-open' : ''}`}
       style={{ '--nav-accent': meta?.accent ?? '#c9667a' } as CSSProperties}
     >
+      <SidebarToggle />
       {/* Study › IELTS Hub › <Kỹ năng>: bấm "IELTS Hub" để về màn chọn kỹ năng, "Study" để về /study. */}
       <AppBreadcrumb app="/ielts" trail={[{ label: meta?.label ?? skill, glyph: meta?.icon }]} className="ih-sidebar-crumb" />
 

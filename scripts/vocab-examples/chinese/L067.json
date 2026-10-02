@@ -37,5 +37,10 @@
     "性质": ["这两个问题性质不同。","Zhè liǎng ge wèntí xìngzhì bùtóng.","Hai vấn đề này tính chất khác nhau."],
     "中性": ["她喜欢穿中性的衣服。","Tā xǐhuan chuān zhōngxìng de yīfu.","Cô ấy thích mặc quần áo phong cách trung tính."],
     "特性": ["每种动物都有自己的特性。","Měi zhǒng dòngwù dōu yǒu zìjǐ de tèxìng.","Mỗi loài động vật đều có đặc tính riêng."]
+  },
+  "topics": {
+    "Biểu diễn văn nghệ": ["国籍","性别","肤色","底","鼓掌","台","表演者","掌声","完整","严重","当时","演出","合格","接着","京剧","举办","来自","讨论","得意"],
+    "Các loại hình nghệ thuật": ["文艺","欣赏","绘画","雕塑","戏剧","建筑","舞蹈","摄影"],
+    "Chuỗi Hán Việt 性 (tính)": ["性","性情","个性","毒性","性能","磁性","性质","中性","特性"]
   }
 }

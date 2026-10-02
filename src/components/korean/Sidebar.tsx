@@ -8,6 +8,7 @@ import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { GrammarNavIcon, LessonNavIcon, NavChevronIcon, VocabNavIcon } from '@/components/shared/SidebarIcons'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
 import { HANGUL_LESSONS } from '@/lib/korean/hangul'
+import { SidebarToggle } from '@/components/shared/SidebarToggle'
 
 export type Selection = { type: 'overview' } | { type: 'knowledge' } | { type: 'lesson'; lesson: number } | { type: 'hangul'; lesson: number }
 
@@ -76,7 +77,8 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
   return (
     <>
       {mobileOpen && <div className="kr-sidebar-backdrop" onClick={onMobileClose} />}
-      <aside className={`kr-sidebar${mobileOpen ? ' kr-sidebar-open' : ''}`} style={{ viewTransitionName: 'lv-sidebar' }}>
+      <aside data-app-sidebar className={`kr-sidebar${mobileOpen ? ' kr-sidebar-open' : ''}`} style={{ viewTransitionName: 'lv-sidebar' }}>
+        <SidebarToggle />
         {/* Breadcrumb thay cho tiêu đề tĩnh "한국어 공부" cũ — vừa báo vị trí (Study › Korean Hub) vừa
             bấm được để quay lại /study. Chỉ hiện ở đây (sidebar chỉ tồn tại khi đã vào trong); lúc còn
             ở màn hình chọn cấp độ (chưa có sidebar), breadcrumb nằm ở topbar — xem page.tsx. */}

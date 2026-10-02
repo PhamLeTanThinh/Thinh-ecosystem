@@ -36,5 +36,10 @@
     "相反": ["他的看法跟我相反。","Tā de kànfǎ gēn wǒ xiāngfǎn.","Quan điểm của anh ấy trái ngược với tôi."],
     "相传": ["相传这里住过一位皇帝。","Xiāngchuán zhèlǐ zhù guo yí wèi huángdì.","Tương truyền nơi đây từng có một vị hoàng đế ở."],
     "相当": ["他的汉语相当好。","Tā de Hànyǔ xiāngdāng hǎo.","Tiếng Hán của anh ấy khá tốt."]
+  },
+  "topics": {
+    "Phép lịch sự khi làm khách": ["否则","稍","引起","误会","亲戚","友好","即使","饺子","包子","往往","邀请","表示","礼貌","小名","出生","起","相同","例如"],
+    "Phong tục & lễ hội": ["传统","风俗习惯","宗教","信仰","粽子","月饼","挂灯笼","划船"],
+    "Chuỗi Hán Việt 相 (tương)": ["相","相应","相关","相通","相对","相逢","相反","相传","相当"]
   }
 }

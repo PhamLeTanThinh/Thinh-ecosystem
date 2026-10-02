@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useHabitsUIStore } from '@/lib/habits/uiStore'
+import { SidebarToggle } from '@/components/shared/SidebarToggle'
 
 const NAV_ITEMS = [
   { href: '/habits', label: 'Hôm nay', icon: '✅' },
@@ -18,7 +19,8 @@ export function Sidebar() {
   const isActive = (href: string) => (href === '/habits' ? pathname === '/habits' : pathname.startsWith(href))
 
   return (
-    <aside className="hidden w-64 shrink-0 flex-col border-r border-border bg-card px-4 py-6 md:flex">
+    <aside data-app-sidebar className="hidden w-64 shrink-0 flex-col border-r border-border bg-card px-4 py-6 md:flex">
+      <SidebarToggle />
       <p className="px-2 text-lg font-bold">🔥 Thói Quen</p>
 
       <button

@@ -37,5 +37,10 @@
     "景观": ["这里的景观很有特色。","Zhèlǐ de jǐngguān hěn yǒu tèsè.","Cảnh quan ở đây rất đặc sắc."],
     "全景": ["我拍了一张全景照片。","Wǒ pāi le yì zhāng quánjǐng zhàopiàn.","Tôi đã chụp một bức ảnh toàn cảnh.","panorama"],
     "景色": ["山上的景色美极了。","Shān shang de jǐngsè měi jí le.","Cảnh sắc trên núi đẹp cực kỳ.","mountain view"]
+  },
+  "topics": {
+    "Du lịch Trung Quốc": ["遍","长城","长江","烤鸭","功夫","美味","省","美景","普通话","大使馆","签证","放暑假","做梦","激动","旅程","老虎","猜","取","座"],
+    "Điểm tham quan": ["名胜古迹","文化遗产","游乐园","人文景观","自然景观","建筑物","自然保护区","度假区"],
+    "Chuỗi Hán Việt 景 (cảnh)": ["景","景物","背景","情景","景象","远景","景观","全景","景色"]
   }
 }

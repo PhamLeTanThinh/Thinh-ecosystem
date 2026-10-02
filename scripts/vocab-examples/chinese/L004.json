@@ -30,5 +30,11 @@
     "说教": ["我不喜欢听说教。","Wǒ bù xǐhuan tīng shuōjiào.","Tôi không thích nghe thuyết giáo."],
     "演说": ["他的演说很精彩。","Tā de yǎnshuō hěn jīngcǎi.","Bài diễn thuyết của ông ấy rất hay.","public speech"],
     "说客": ["他是一个有名的说客。","Tā shì yí ge yǒumíng de shuōkè.","Ông ấy là một thuyết khách nổi tiếng."]
+  },
+  "topics": {
+    "Học tiếng Hán": ["会","说","一点儿","(汉)字","读","写","怎么","也","还","只","这儿"],
+    "Xin lỗi & đáp lời": ["对不起","没关系","吧"],
+    "Món ăn & mùi vị": ["菜","好吃","喜欢","酸","甜","苦","辣","咸"],
+    "Chuỗi Hán Việt 说 (thuyết)": ["说服","小说","传说","说明","说教","演说","说客"]
   }
 }

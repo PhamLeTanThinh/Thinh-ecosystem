@@ -4,6 +4,7 @@ import { useState } from 'react'
 import type { ReactNode } from 'react'
 import type { Dialogue } from '@/lib/chinese/dialogues'
 import { SpeakButton } from '@/components/shared/SpeakButton'
+import { LessonSection } from '@/components/shared/LessonSection'
 import './dialogue.css'
 
 const MARK = /\[(\d):([^\]]+)\]/g
@@ -46,21 +47,18 @@ export function DialogueSection({
 }: {
   dialogues: Dialogue[]
   lang?: string
-  prefix?: string
+  prefix?: 'cn' | 'kr'
   title?: string
   showVi?: boolean // true = nghĩa tiếng Việt hiện sẵn dưới mỗi câu (vẫn bấm "Ẩn nghĩa" được)
 }) {
   return (
-    <>
-      <p className={`${prefix}-section-title`} id={`${prefix}-section-dialogue`}>
-        {title} <span className={`${prefix}-section-count`}>({dialogues.length})</span>
-      </p>
+    <LessonSection sectionKey="dialogue" prefix={prefix} title={title} count={dialogues.length}>
       <div className="cn-dlg-list">
         {dialogues.map((d, i) => (
-          <DialogueCard key={i} dialogue={d} lang={lang} glass={`${prefix}-glass`} showVi={showVi} />
+          <DialogueCard key={i} id={`${prefix}-dialogue-${i}`} dialogue={d} lang={lang} glass={`${prefix}-glass`} showVi={showVi} />
         ))}
       </div>
-    </>
+    </LessonSection>
   )
 }
 
@@ -68,7 +66,7 @@ type Kind = 'py' | 'vi'
 
 const KIND_LABEL: Record<Kind, string> = { py: 'pinyin', vi: 'nghĩa' }
 
-function DialogueCard({ dialogue, lang, glass, showVi }: { dialogue: Dialogue; lang: string; glass: string; showVi: boolean }) {
+function DialogueCard({ id, dialogue, lang, glass, showVi }: { id: string; dialogue: Dialogue; lang: string; glass: string; showVi: boolean }) {
   // Pinyin và nghĩa tiếng Việt đều ẩn mặc định để tự đọc chữ Hán / tự đoán nghĩa trước; mỗi loại có trạng thái riêng:
   // bật cho cả hội thoại (nút ở đầu thẻ) hoặc từng câu (bấm vào nút nhỏ / bấm lại vào chữ đang hiện để ẩn).
   const [all, setAll] = useState<Record<Kind, boolean>>({ py: false, vi: showVi })
@@ -100,7 +98,7 @@ function DialogueCard({ dialogue, lang, glass, showVi }: { dialogue: Dialogue; l
   }
 
   return (
-    <div className={`${glass} cn-dlg-card`}>
+    <div id={id} className={`${glass} cn-dlg-card`}>
       {(dialogue.title || kinds.length > 0) && (
         <div className="cn-dlg-head">
           {dialogue.title && <span className="cn-dlg-title">{dialogue.title}</span>}

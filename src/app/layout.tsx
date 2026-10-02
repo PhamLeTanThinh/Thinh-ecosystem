@@ -60,7 +60,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable} ${tiktok.variable} ${caveat.variable}`}>
+    // suppressHydrationWarning: script bên dưới có thể đặt data-sidebar-hidden lên <html> trước khi React hydrate
+    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable} ${tiktok.variable} ${caveat.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Menu trái đã ẩn (components/shared/SidebarToggle.tsx) → đặt lại thuộc tính trước khi vẽ, tránh nháy menu lúc tải trang */}
+        <script dangerouslySetInnerHTML={{ __html: "try{if(localStorage.getItem('app-sidebar-hidden')==='1')document.documentElement.setAttribute('data-sidebar-hidden','')}catch(e){}" }} />
+      </head>
       <body>{children}</body>
     </html>
   )

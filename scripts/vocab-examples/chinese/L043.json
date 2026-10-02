@@ -39,5 +39,10 @@
     "讨论": ["我们开会讨论一下。","Wǒmen kāihuì tǎolùn yíxià.","Chúng ta họp thảo luận một chút.","team discussion"],
     "舆论": ["舆论的影响很大。","Yúlùn de yǐngxiǎng hěn dà.","Ảnh hưởng của dư luận rất lớn."],
     "辩论": ["我参加了辩论比赛。","Wǒ cānjiā le biànlùn bǐsài.","Tôi đã tham gia cuộc thi tranh biện.","debate"]
+  },
+  "topics": {
+    "Thích nghi công việc": ["低","完全","适应","收入","丰富","与","交流","方法","可是","交","责任心","责任","苦","各","味道","反正","讨厌","发脾气","脾气","改变","性格"],
+    "Biến động công việc": ["年终奖","炒鱿鱼","跳槽","辞职信","转行","升职","续约","调职"],
+    "Chuỗi Hán Việt 论 (luận)": ["论","理论","论文","议论","结论","争论","讨论","舆论","辩论"]
   }
 }
