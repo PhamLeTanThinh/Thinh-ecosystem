@@ -1,6 +1,7 @@
 // Tải các ảnh của LMS (chúng tôi) còn hot-link trong dữ liệu IELTS về public/ielts/images/remote/ rồi đổi đường dẫn trong file dữ liệu.
 //   node scripts/localize-images.mjs
 // Chạy lại được nhiều lần (ảnh đã có thì bỏ qua, link tải lỗi giữ nguyên để lần sau thử lại). Nên chạy lại sau mỗi lần import-lms-*.mjs,
+//   Thư mục ảnh không commit vào git — xong nhớ chạy: node --env-file=.env.local scripts/sync-public-to-r2.mjs ielts/images/remote
 // vì importer sinh lại file dữ liệu với link gốc. Ảnh của bên thứ ba (Freepik, iStock…) cố ý không tải. File .mp3 (audioUrl) không đụng tới: đó là đường lùi khi thiếu file cục bộ.
 import fs from 'node:fs'
 import crypto from 'node:crypto'

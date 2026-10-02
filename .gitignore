@@ -74,3 +74,13 @@ next-env.d.ts
 
 # PDF giáo trình tiếng Hàn + ảnh trang render — nguồn để trích nội dung, không commit
 /scripts/korean-src/
+
+# Ảnh/âm thanh lớn — không commit để bản deploy Vercel nhẹ (Deployment Storage gói free chỉ 10 GB):
+# ảnh nằm trên Cloudflare R2 (scripts/sync-public-to-r2.mjs, next.config.ts chuyển hướng sang R2),
+# audio Listening nằm trên Vercel Blob (scripts/upload-listening-audio.mjs). File vẫn giữ ở máy để dev.
+/public/ielts/audio/
+/public/ielts/images/vocab/
+/public/ielts/images/writing-task1/
+/public/ielts/images/remote/
+/public/korean/vocab-img/
+/public/chinese/vocab-img/

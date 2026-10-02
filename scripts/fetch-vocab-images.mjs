@@ -1,5 +1,6 @@
 // Tìm ảnh minh hoạ cho thẻ từ vựng Korean/Chinese trên Pixabay (giấy phép Pixabay: dùng tự do, không cần ghi nguồn,
 // nhưng KHÔNG được hotlink — nên tải về, thu nhỏ và tự phục vụ ở public/<app>/vocab-img/<cardId>.webp).
+//   Xong sẽ tự đồng bộ ảnh lên Cloudflare R2 (scripts/sync-public-to-r2.mjs) — ảnh không commit vào git.
 //   node --env-file=.env.local scripts/fetch-vocab-images.mjs <korean|chinese> <lesson…> [--force] [--dry-run]
 // Chỉ tìm cho từ có từ khoá ảnh trong scripts/vocab-examples (danh từ cụ thể). Ghi đường dẫn vào cột image.
 import fs from 'node:fs'
@@ -156,3 +157,11 @@ await client.end()
 await browser.close()
 for (const r of report) console.log(r.join(' | '))
 console.log(stats)
+
+// Ảnh không commit vào git (.gitignore) mà phục vụ từ Cloudflare R2 — đồng bộ thư mục ảnh của app (kể cả xoá ảnh đã gỡ).
+if (!dryRun && process.env.R2_ACCESS_KEY_ID) {
+  const { execFileSync } = await import('node:child_process')
+  execFileSync(process.execPath, ['scripts/sync-public-to-r2.mjs', `${app}/vocab-img`, '--delete'], { stdio: 'inherit' })
+} else if (!dryRun) {
+  console.log(`⚠ Chưa có R2_* trong .env.local — nhớ chạy: node --env-file=.env.local scripts/sync-public-to-r2.mjs ${app}/vocab-img --delete`)
+}

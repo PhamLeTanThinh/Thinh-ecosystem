@@ -96,8 +96,13 @@ Filename convention: lowercase, spaces → hyphens (`economic potential` → `ec
 1. `npx tsc --noEmit -p .` from the repo root — must be clean.
 2. If you copied image files, sanity-check sizes aren't 0 bytes (a failed/empty copy still creates
    the file): e.g. `ls -la public/ielts/images/vocab/<test-id>/` and eyeball the sizes.
-3. Smoke-test: `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/ielts/<skill>/vocab`
+3. Upload the new images to Cloudflare R2 — `public/ielts/images/vocab/` is **gitignored** (kept off
+   Vercel deployments to save Deployment Storage) and the site redirects `/ielts/images/vocab/…` to the
+   R2 bucket (see `next.config.ts`). Run
+   `node --env-file=.env.local scripts/sync-public-to-r2.mjs ielts/images/vocab` — without it the images
+   show locally but 404 on the live site. (Same for `ielts/images/writing-task1` / `ielts/images/remote`.)
+4. Smoke-test: `curl -s -o /dev/null -w "%{http_code}\n" http://localhost:3000/ielts/<skill>/vocab`
    should return `200` (only start `npm run dev` if no dev server is already running for this
    session — check first rather than assuming).
-4. Mention the new word count so the user can cross-check against what they expected (e.g. "22/22
+5. Mention the new word count so the user can cross-check against what they expected (e.g. "22/22
    từ đã có ảnh").
