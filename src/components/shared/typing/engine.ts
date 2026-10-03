@@ -24,6 +24,7 @@ export interface TypingItem {
   meaning: string
   display?: string // chữ hiện to làm đề (Chinese: chữ Hán); không có → hiện chính target, tô màu theo từng ký tự
   reading?: string // cách đọc có dấu (pinyin) — ẩn/hiện theo thiết lập
+  image?: string // ảnh minh hoạ (từ vựng có ảnh)
   label?: string // vd "Câu 1 · Hỏi", tên người nói
 }
 

@@ -25,7 +25,7 @@ export function TypingPractice({
   onClose: () => void
 }) {
   const pools = useMemo(() => {
-    const vocabAll: TypingItem[] = vocabCards.map((c) => ({ id: c.id, raw: c.front, target: typingTarget(c.front), meaning: c.meaning }))
+    const vocabAll: TypingItem[] = vocabCards.map((c) => ({ id: c.id, raw: c.front, target: typingTarget(c.front), meaning: c.meaning, image: c.image || undefined }))
     const speakingItems: TypingItem[] = (speaking?.items ?? []).flatMap((it, i) => [
       { id: `q${i}`, raw: it.question, target: typingTarget(it.question), meaning: it.questionVi, label: `Câu ${i + 1} · Hỏi` },
       { id: `a${i}`, raw: it.answer, target: typingTarget(it.answer), meaning: it.answerVi, label: `Câu ${i + 1} · Đáp` },

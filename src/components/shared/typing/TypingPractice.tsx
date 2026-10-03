@@ -229,6 +229,12 @@ export function TypingPractice({
 
         {phase === 'typing' && item && (
           <div className="kt-stage">
+            {item.image && (
+              <div className="kt-image">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img key={item.id} src={item.image} alt="" />
+              </div>
+            )}
             <p className={`kt-meaning${showMeaning ? '' : ' kt-meaning-hidden'}`}>{showMeaning ? item.meaning || '—' : 'Nghĩa sẽ hiện sau khi gõ xong'}</p>
 
             {item.display ? (

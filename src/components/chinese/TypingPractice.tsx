@@ -31,7 +31,7 @@ export function TypingPractice({
       // "姥爷 / 外公" + "lǎoyé / wàigōng" → chỉ luyện phương án đầu
       const hanzi = firstAlt(c.hanzi)
       const reading = firstAlt(c.pinyin)
-      return { id: c.id, raw: hanzi.replace(/[()（）]/g, ''), display: hanzi, reading, target: pinyinTarget(reading), meaning: c.meaning }
+      return { id: c.id, raw: hanzi.replace(/[()（）]/g, ''), display: hanzi, reading, target: pinyinTarget(reading), meaning: c.meaning, image: c.image || undefined }
     })
     const dialogueItems: TypingItem[] = (dialogues ?? [])
       .filter((d) => d.variant !== 'bilingual')
