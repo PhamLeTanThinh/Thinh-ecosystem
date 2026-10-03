@@ -19,11 +19,12 @@ interface Settings {
   scope: 'all' | 'unlearned'
   keyboard: boolean
   keyHint: boolean // bàn phím ảo tô sáng phím cần nhấn tiếp theo
+  showImage: boolean // hiện ảnh minh hoạ của từ (nếu có)
   autoSpeak: boolean
   shuffle: boolean
 }
 
-const DEFAULT_SETTINGS: Settings = { source: 'vocab', meaning: 'before', reading: 'before', scope: 'all', keyboard: true, keyHint: true, autoSpeak: true, shuffle: false }
+const DEFAULT_SETTINGS: Settings = { source: 'vocab', meaning: 'before', reading: 'before', scope: 'all', keyboard: true, keyHint: true, showImage: true, autoSpeak: true, shuffle: false }
 
 interface Result {
   item: Item
@@ -229,7 +230,7 @@ export function TypingPractice({
 
         {phase === 'typing' && item && (
           <div className="kt-stage">
-            {item.image && (
+            {settings.showImage && item.image && (
               <div className="kt-image">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img key={item.id} src={item.image} alt="" />
@@ -425,6 +426,7 @@ function Setup({
             desc="Tô sáng phím cần nhấn trên bàn phím ảo"
             sub
           />
+          <Toggle checked={settings.showImage} onChange={(v) => update({ showImage: v })} title="Hiện hình minh hoạ" desc="Ảnh của từ vựng (nếu có) phía trên chữ cần gõ" />
           <Toggle checked={settings.autoSpeak} onChange={(v) => update({ autoSpeak: v })} title="Tự phát âm" desc="Đọc từ/câu ngay sau khi gõ xong" />
           <Toggle checked={settings.shuffle} onChange={(v) => update({ shuffle: v })} title="Trộn thứ tự" desc="Xáo các mục mỗi lần bắt đầu" />
         </div>
