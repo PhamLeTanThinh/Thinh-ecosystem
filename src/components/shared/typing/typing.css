@@ -347,6 +347,14 @@
   color: var(--kt-text);
 }
 
+.kt-meaning-en {
+  margin-top: -6px;
+  font-size: 14px;
+  font-style: italic;
+  text-align: center;
+  color: var(--kt-muted);
+}
+
 .kt-meaning-hidden {
   font-size: 13px;
   font-style: italic;
@@ -569,6 +577,13 @@
   font-size: 17px;
   font-weight: 700;
   color: var(--kt-text);
+}
+
+.kt-result-meaning p.kt-result-meaning-en {
+  font-size: 14px;
+  font-weight: 500;
+  font-style: italic;
+  color: var(--kt-muted);
 }
 
 .kt-result-stat {

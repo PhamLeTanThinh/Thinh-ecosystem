@@ -35,6 +35,7 @@ export function TypingPractice({
         raw: c.front,
         target: typingTarget(c.front),
         meaning: c.meaning,
+        meaningEn: c.note || undefined, // note của thẻ vocab = nghĩa tiếng Anh
         image: c.image || undefined,
         parts: parseParts(c.parts),
         example: c.example.split('\n')[0] || detail?.ko || undefined,

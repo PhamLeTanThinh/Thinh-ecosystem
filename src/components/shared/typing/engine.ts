@@ -24,6 +24,7 @@ export interface TypingItem {
   raw: string // câu/từ gốc (để đọc và hiện ở kết quả)
   target: string // chuỗi cần gõ (đã chuẩn hoá)
   meaning: string
+  meaningEn?: string // nghĩa tiếng Anh — hiện ngay dưới nghĩa tiếng Việt
   display?: string // chữ hiện to làm đề (Chinese: chữ Hán); không có → hiện chính target, tô màu theo từng ký tự
   reading?: string // cách đọc có dấu (pinyin) — ẩn/hiện theo thiết lập
   image?: string // ảnh minh hoạ (từ vựng có ảnh)

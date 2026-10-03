@@ -240,6 +240,11 @@ export function TypingPractice({
             {!result && (
               <p className={`kt-meaning${showMeaning ? '' : ' kt-meaning-hidden'}`}>{showMeaning ? item.meaning || '—' : 'Nghĩa sẽ hiện sau khi gõ xong'}</p>
             )}
+            {!result && showMeaning && item.meaningEn && (
+              <p className="kt-meaning-en" lang="en">
+                {item.meaningEn}
+              </p>
+            )}
 
             {item.display ? (
               // Đề là chữ Hán (Chinese): người học gõ pinyin, ô nhập tô màu từng chữ cái so với đáp án
@@ -311,6 +316,11 @@ export function TypingPractice({
                       <div className="kt-result-meaning">
                         <span className="kt-result-label">Nghĩa</span>
                         <p>{item.meaning}</p>
+                        {item.meaningEn && (
+                          <p className="kt-result-meaning-en" lang="en">
+                            {item.meaningEn}
+                          </p>
+                        )}
                       </div>
                     )}
                     {item.parts && <WordParts parts={item.parts} lang={engine.speechLang} className="kt-parts" />}
