@@ -528,6 +528,29 @@
   margin-top: 10px;
 }
 
+/* Câu ví dụ — hàng riêng, kéo hết chiều ngang dưới nghĩa | cấu tạo từ */
+.kt-result-example {
+  flex: 1 1 100%;
+}
+
+.kt-example-line {
+  margin-top: 2px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--kt-text);
+}
+
+.kt-example-reading {
+  font-size: 13px;
+  color: var(--kt-brand);
+}
+
+.kt-example-vi {
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--kt-muted);
+}
+
 .kt-result-meaning {
   flex: 0 1 200px;
   min-width: 140px;
@@ -747,7 +770,7 @@
    1 khung nhìn không cần cuộn. Màn gõ: khối đề + kết quả căn giữa phần trên, bàn phím ảo nằm sát đáy.
    Màn thiết lập: 2 cột (lựa chọn | tuỳ chọn), nút Bắt đầu ở đáy. */
 .kt-modal {
-  --kt-key: clamp(40px, 5.4vh, 66px);
+  --kt-key: clamp(38px, 5.2vh, 66px);
 }
 
 .kt-stage > :first-child {

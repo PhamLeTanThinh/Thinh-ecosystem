@@ -28,6 +28,9 @@ export interface TypingItem {
   reading?: string // cách đọc có dấu (pinyin) — ẩn/hiện theo thiết lập
   image?: string // ảnh minh hoạ (từ vựng có ảnh)
   parts?: WordPart[] // cấu tạo từ — hiện ở màn kết quả
+  example?: string // câu ví dụ của từ (hiện ở màn kết quả)
+  exampleReading?: string // pinyin của câu ví dụ (Chinese)
+  exampleVi?: string // dịch câu ví dụ
   label?: string // vd "Câu 1 · Hỏi", tên người nói
 }
 
@@ -36,6 +39,15 @@ export interface TypingPools {
   vocabUnlearned: TypingItem[]
   speaking: TypingItem[]
   dialogue: TypingItem[]
+}
+
+// Phần tử đầu của cột exampleDetail (JSON) — chứa dịch / pinyin của câu ví dụ
+export function firstDetail<T>(json: string | undefined): T | undefined {
+  try {
+    return (JSON.parse(json || '[]') as T[])[0]
+  } catch {
+    return undefined
+  }
 }
 
 // Độ chính xác theo ký tự (khoảng cách Levenshtein)

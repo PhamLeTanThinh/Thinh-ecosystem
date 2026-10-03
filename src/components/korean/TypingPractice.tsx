@@ -6,6 +6,8 @@ import type { TypingItem } from '@/components/shared/typing/engine'
 import { KO_TYPING, typingTarget } from '@/lib/korean/hangulInput'
 import { parseParts } from '@/components/shared/vocab/parts'
 import type { KoreanCard } from '@/lib/korean/types'
+import type { ExampleDetail } from '@/lib/korean/exampleDetail'
+import { firstDetail } from '@/components/shared/typing/engine'
 import type { SpeakingPracticeSet } from '@/lib/korean/speakingPractice'
 import type { Dialogue } from '@/lib/chinese/dialogues'
 
@@ -26,7 +28,19 @@ export function TypingPractice({
   onClose: () => void
 }) {
   const pools = useMemo(() => {
-    const vocabAll: TypingItem[] = vocabCards.map((c) => ({ id: c.id, raw: c.front, target: typingTarget(c.front), meaning: c.meaning, image: c.image || undefined, parts: parseParts(c.parts) }))
+    const vocabAll: TypingItem[] = vocabCards.map((c) => {
+      const detail = firstDetail<ExampleDetail>(c.exampleDetail)
+      return {
+        id: c.id,
+        raw: c.front,
+        target: typingTarget(c.front),
+        meaning: c.meaning,
+        image: c.image || undefined,
+        parts: parseParts(c.parts),
+        example: c.example.split('\n')[0] || detail?.ko || undefined,
+        exampleVi: detail?.vi || undefined,
+      }
+    })
     const speakingItems: TypingItem[] = (speaking?.items ?? []).flatMap((it, i) => [
       { id: `q${i}`, raw: it.question, target: typingTarget(it.question), meaning: it.questionVi, label: `Câu ${i + 1} · Hỏi` },
       { id: `a${i}`, raw: it.answer, target: typingTarget(it.answer), meaning: it.answerVi, label: `Câu ${i + 1} · Đáp` },

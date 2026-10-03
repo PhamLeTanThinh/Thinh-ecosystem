@@ -305,7 +305,7 @@ export function TypingPractice({
                     )}
                   </p>
                 )}
-                {(item.meaning || item.parts) && (
+                {(item.meaning || item.parts || item.example) && (
                   <div className="kt-result-body">
                     {item.meaning && (
                       <div className="kt-result-meaning">
@@ -314,6 +314,19 @@ export function TypingPractice({
                       </div>
                     )}
                     {item.parts && <WordParts parts={item.parts} lang={engine.speechLang} className="kt-parts" />}
+                    {item.example && (
+                      <div className="kt-result-example">
+                        <span className="kt-result-label">Ví dụ</span>
+                        <p className="kt-example-line" lang={engine.speechLang}>
+                          <button type="button" className="kt-speak" aria-label="Đọc câu ví dụ" onClick={() => speak(item.example!, engine.speechLang)}>
+                            🔊
+                          </button>
+                          {item.example}
+                        </p>
+                        {item.exampleReading && <p className="kt-example-reading">{item.exampleReading}</p>}
+                        {item.exampleVi && <p className="kt-example-vi">{item.exampleVi}</p>}
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
