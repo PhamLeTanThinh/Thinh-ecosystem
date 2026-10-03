@@ -1,0 +1,673 @@
+/* Nội dung 1 bài học dạng đọc (LessonArticle) — màu nhấn lấy từ --lg-accent của LessonShell.
+   Bố cục: nội dung chiếm hết bề ngang còn lại + menu đọc dính bên phải (màn hình rộng). */
+.la-layout {
+  --la-accent: var(--lg-accent, #0f3d2e);
+  --la-soft: color-mix(in srgb, var(--la-accent) 9%, #ffffff);
+  --la-line: rgba(20, 20, 30, 0.1);
+  --la-muted: #5f5f6b;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+
+.la-root {
+  min-width: 0;
+  color: #1d1d24;
+  font-size: 15.5px;
+  line-height: 1.75;
+}
+
+/* ── Menu đọc bên phải ── */
+.la-aside {
+  display: none;
+}
+
+@media (min-width: 1200px) {
+  .la-layout {
+    grid-template-columns: minmax(0, 1fr) 250px;
+  }
+
+  .la-aside {
+    display: block;
+    position: sticky;
+    top: 24px;
+  }
+
+  /* Đã có menu phải thì bỏ mục lục dạng chip ở đầu bài */
+  .la-toc {
+    display: none !important;
+  }
+}
+
+.la-aside-inner {
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  padding: 4px 0 4px 18px;
+  border-left: 1px solid var(--la-line);
+}
+
+.la-aside-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 8px 8px 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--la-muted);
+}
+
+.la-aside-title span {
+  color: var(--la-accent);
+}
+
+.la-aside-bar {
+  height: 4px;
+  margin: 0 8px 14px 0;
+  border-radius: 999px;
+  background: var(--la-line);
+  overflow: hidden;
+}
+
+.la-aside-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--la-accent);
+  transition: width 0.15s linear;
+}
+
+.la-aside nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.la-aside nav a {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--la-muted);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.la-aside nav a:hover {
+  background: rgba(20, 20, 30, 0.04);
+  color: #1d1d24;
+}
+
+.la-aside nav a.active {
+  background: var(--la-soft);
+  color: var(--la-accent);
+  font-weight: 700;
+}
+
+.la-aside-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 0.5px;
+  border-radius: 50%;
+  background: rgba(20, 20, 30, 0.06);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.la-aside nav a.active .la-aside-num {
+  background: var(--la-accent);
+  color: #ffffff;
+}
+
+.la-head {
+  margin-bottom: 22px;
+}
+
+.la-eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--la-accent);
+}
+
+.la-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0 0;
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.la-title-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--la-soft);
+  font-size: 24px;
+}
+
+.la-summary {
+  margin: 12px 0 0;
+  font-size: 16.5px;
+  color: var(--la-muted);
+}
+
+.la-goals,
+.la-takeaways {
+  margin: 18px 0;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  border: 1px solid var(--la-line);
+}
+
+.la-takeaways {
+  margin-top: 36px;
+  background: var(--la-soft);
+  border-color: color-mix(in srgb, var(--la-accent) 25%, transparent);
+}
+
+.la-goals ul,
+.la-takeaways ul {
+  margin: 6px 0 0;
+  padding-left: 20px;
+}
+
+.la-box-label {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--la-accent);
+}
+
+.la-box-label span {
+  font-weight: 600;
+  color: #1d1d24;
+}
+
+/* Mục lục đầu bài — bấm để cuộn tới phần tương ứng */
+.la-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 8px;
+}
+
+.la-toc a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px 5px 6px;
+  border-radius: 999px;
+  border: 1px solid var(--la-line);
+  background: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  color: #33333d;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.la-toc a:hover {
+  border-color: var(--la-accent);
+  color: var(--la-accent);
+}
+
+.la-toc a span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--la-soft);
+  color: var(--la-accent);
+  font-size: 11px;
+}
+
+.la-section {
+  margin-top: 34px;
+  scroll-margin-top: 20px;
+}
+
+.la-section h2 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 12px;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.la-section-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--la-accent);
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.la-root h3 {
+  margin: 22px 0 6px;
+  font-size: 16.5px;
+  font-weight: 700;
+}
+
+.la-root p {
+  margin: 0 0 12px;
+}
+
+.la-root ul,
+.la-root ol {
+  margin: 0 0 12px;
+  padding-left: 22px;
+}
+
+.la-root li {
+  margin: 3px 0;
+}
+
+.la-root ul {
+  list-style: disc;
+}
+
+.la-root ol {
+  list-style: decimal;
+}
+
+.la-root li > ul {
+  margin: 4px 0 0;
+  list-style: circle;
+}
+
+.la-root li::marker {
+  color: var(--la-accent);
+}
+
+.la-root strong {
+  font-weight: 700;
+  color: #111118;
+}
+
+.la-root code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: rgba(20, 20, 30, 0.06);
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.86em;
+}
+
+.la-code {
+  margin: 0 0 14px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: #16181d;
+  color: #e6e6e6;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.la-code code {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.la-table-wrap {
+  margin: 0 0 14px;
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid var(--la-line);
+  background: #ffffff;
+}
+
+.la-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.la-table th,
+.la-table td {
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--la-line);
+}
+
+.la-table th {
+  background: var(--la-soft);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.la-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hình minh hoạ — bấm để phóng to */
+.la-figure {
+  margin: 6px 0 18px;
+  text-align: center;
+}
+
+.la-figure button {
+  display: inline-block;
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid var(--la-line);
+  border-radius: 14px;
+  background: #ffffff;
+  cursor: zoom-in;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.la-figure button:hover {
+  border-color: var(--la-accent);
+  box-shadow: 0 10px 26px -18px rgba(0, 0, 0, 0.35);
+}
+
+.la-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.la-figure figcaption {
+  max-width: 680px;
+  margin: 8px auto 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--la-muted);
+}
+
+/* Đồ thị động — khung giữ chỗ theo tỉ lệ đồ thị, nút tạm dừng/chạy lại hiện khi rê chuột */
+.la-figure-viz .la-viz-slot {
+  max-width: 792px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--la-line);
+  border-radius: 14px;
+  background: #ffffff;
+}
+
+@media (max-width: 860px) {
+  .la-figure-viz .la-viz-slot {
+    padding: 8px;
+  }
+}
+
+.la-viz {
+  position: relative;
+}
+
+.la-viz-controls {
+  position: absolute;
+  right: -6px;
+  bottom: -8px;
+  display: flex;
+  gap: 4px;
+  opacity: 0.35;
+  transition: opacity 0.15s ease;
+}
+
+.la-viz:hover .la-viz-controls,
+.la-viz-controls:focus-within {
+  opacity: 1;
+}
+
+.la-viz-controls button {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--la-line);
+  background: #ffffff;
+  color: #33333d;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.la-viz-controls button:hover {
+  border-color: var(--la-accent);
+  color: var(--la-accent);
+}
+
+.la-viz-missing {
+  margin: 0;
+  padding: 20px;
+  color: var(--la-muted);
+}
+
+.la-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px 20px;
+  background: rgba(10, 12, 16, 0.86);
+  cursor: zoom-out;
+}
+
+.la-lightbox img {
+  max-width: 100%;
+  max-height: calc(100dvh - 120px);
+  border-radius: 10px;
+  background: #ffffff;
+  object-fit: contain;
+}
+
+.la-lightbox p {
+  max-width: 820px;
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  color: #e9e9ef;
+}
+
+.la-lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Hộp nổi bật — mỗi loại 1 màu viền trái */
+.la-box {
+  margin: 4px 0 16px;
+  padding: 14px 18px 4px;
+  border-radius: 14px;
+  border: 1px solid var(--la-line);
+  border-left: 4px solid var(--la-box-color, var(--la-accent));
+  background: #ffffff;
+}
+
+.la-box .la-box-label {
+  color: var(--la-box-color, var(--la-accent));
+}
+
+.la-box-example {
+  --la-box-color: #1d6fd1;
+}
+
+.la-box-analogy {
+  --la-box-color: #8a4fd6;
+}
+
+.la-box-tip {
+  --la-box-color: #2b8a3e;
+}
+
+.la-box-warn {
+  --la-box-color: #d9480f;
+  background: #fffaf5;
+}
+
+.la-box-formula {
+  --la-box-color: #b7791f;
+  background: #fffdf6;
+}
+
+.la-box-formula p:not(.la-box-label) {
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 14.5px;
+}
+
+/* Thuật ngữ trong câu — gạch chân chấm, rê chuột/chạm để hiện giải thích */
+.la-term {
+  position: relative;
+  border-bottom: 1.5px dotted var(--la-accent);
+  cursor: help;
+  outline: none;
+}
+
+/* Tooltip thuật ngữ — render qua portal ra <body>, vị trí (left/top) do JS tính và kẹp trong màn hình (TermRef) */
+.la-term-pop {
+  position: fixed;
+  z-index: 200;
+  top: 0;
+  left: 0;
+  width: max-content;
+  max-width: min(400px, calc(100vw - 16px));
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #1d1d24;
+  color: #f2f2f5;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  text-align: left;
+  box-shadow: 0 12px 30px -12px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+  visibility: hidden; /* hiện khi JS đã đặt xong vị trí, tránh nháy ở góc màn hình */
+  animation: la-term-in 0.15s ease both;
+}
+
+@keyframes la-term-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.la-term-pop code {
+  padding: 1px 5px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.14);
+  color: inherit;
+  font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.la-term-pop strong {
+  color: #ffffff;
+}
+
+/* Câu ví dụ trong giải thích thuật ngữ — dòng riêng, nhạt hơn */
+.la-term-eg {
+  display: block;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  color: #c9c9d4;
+}
+
+.la-term-pop b {
+  display: block;
+  margin-bottom: 2px;
+  color: #ffffff;
+}
+
+.la-term-pop .la-term-full {
+  font-weight: 400;
+  color: #b9b9c6;
+}
+
+.la-term-full {
+  font-weight: 500;
+  color: var(--la-muted);
+}
+
+.la-pager {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid var(--la-line);
+}
+
+.la-pager a {
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 48%;
+  padding: 10px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--la-line);
+  background: #ffffff;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.la-pager a:hover {
+  border-color: var(--la-accent);
+}
+
+.la-pager small {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--la-accent);
+}
+
+.la-pager-next {
+  margin-left: auto;
+  text-align: right !important;
+  align-items: flex-end;
+}

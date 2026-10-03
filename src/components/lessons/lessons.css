@@ -95,6 +95,39 @@
   color: #444;
 }
 
+/* Lưới bài có tên thật (LessonShell nhận lessons) — card rộng hơn, không ép vuông, tên bài xuống dòng được */
+.lg-grid:has(.lg-card--titled) {
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+}
+
+.lg-card--titled {
+  position: relative;
+  aspect-ratio: auto;
+  min-height: 150px;
+  padding: 20px 14px 16px;
+  text-align: center;
+}
+
+.lg-card--titled .lg-card-num {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+}
+
+.lg-card-icon {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.lg-card--titled .lg-card-label {
+  font-size: 14px;
+  line-height: 1.35;
+  color: #2a2a33;
+}
+
 /* ── Màn chọn chủ đề (TopicChoice) — giống LevelLanding của Korean/Chinese nhưng tự chứa (--lg-accent) ── */
 .lg-landing {
   min-height: calc(100dvh - 120px);
@@ -232,9 +265,15 @@
 
 /* ── Khung sidebar + nội dung bài học (LessonShell) — sau khi đã chọn 1 bài ──────────────────── */
 .lg-shell {
+  --lg-accent-soft: color-mix(in srgb, var(--lg-accent) 12%, #ffffff);
   display: flex;
   min-height: 100dvh;
   align-items: stretch;
+}
+
+/* Trang đọc bài (có nội dung thật): nền trắng thay cho nền texture của app, đọc dài đỡ mỏi mắt */
+.lg-shell--doc {
+  background: #ffffff;
 }
 
 .lg-sidebar {
@@ -267,6 +306,7 @@
 }
 
 .lg-sidebar-row {
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -313,6 +353,16 @@
   padding: 28px clamp(20px, 4vw, 56px) 60px;
 }
 
+/* Desktop: sidebar dính theo màn hình khi đọc bài dài (nội dung bài cuộn, danh sách bài đứng yên) */
+@media (min-width: 861px) {
+  .lg-sidebar {
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100dvh;
+  }
+}
+
 @media (max-width: 860px) {
   .lg-shell {
     flex-direction: column;
@@ -322,6 +372,11 @@
     width: 100%;
     border-right: none;
     border-bottom: 1px solid rgba(20, 20, 30, 0.08);
+  }
+
+  /* Danh sách bài dài (vd 16 bài) không đẩy nội dung xuống quá xa — cuộn riêng */
+  .lg-sidebar-list {
+    max-height: 38dvh;
   }
 }
 
