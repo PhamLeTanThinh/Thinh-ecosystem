@@ -21,6 +21,7 @@ import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vo
 import { parsePos } from '@/components/shared/vocab/pos'
 import { LessonSection } from '@/components/shared/LessonSection'
 import { LessonToc, type TocNode } from '@/components/shared/LessonToc'
+import { TypingPractice } from '@/components/korean/TypingPractice'
 import { Handbook } from '@/components/korean/Handbook'
 import { HangulSection } from '@/components/korean/HangulSection'
 import { HANGUL_LESSONS } from '@/lib/korean/hangul'
@@ -474,6 +475,7 @@ function LessonContent({
   const hasSpeaking = !!speaking || !!dialogues
 
   const studyWords = useMemo(() => vocabCards.map(toStudyWord), [vocabCards])
+  const [typingOpen, setTypingOpen] = useState(false)
 
   // Mục lục "Đang đọc" bên phải — dạng cây theo dữ liệu thật của bài: Từ vựng → các nhóm chủ đề, Ngữ pháp → từng điểm
   // ngữ pháp, Hội thoại → từng hội thoại, Luyện nói → từng câu (xem components/shared/LessonToc.tsx).
@@ -536,6 +538,10 @@ function LessonContent({
           {LESSON_TITLES_VI[lesson] && <p className="kr-page-title-vi">{LESSON_TITLES_VI[lesson]}</p>}
         </div>
         <div className="kr-content-header-actions">
+          {/* Luyện gõ — chỉ hiện trên desktop (≥1024px, xem typing.css) */}
+          <button type="button" className="kr-btn-outline kr-typing-btn" onClick={() => setTypingOpen(true)}>
+            ⌨️ Luyện gõ
+          </button>
           <Link href={`/korean/study?lesson=${lesson}`} className="kr-btn-outline">
             🎴 Ôn tập
           </Link>
@@ -603,6 +609,17 @@ function LessonContent({
 
         <LessonToc nodes={tocNodes} prefix="kr" />
       </div>
+
+      {typingOpen && (
+        <TypingPractice
+          lessonLabel={`${TOPIK_LABEL[lessonLevel(lesson) ?? 'topik2']} · Bài ${lessonDisplayNumber(lesson)}`}
+          vocabCards={vocabCards}
+          speaking={speaking}
+          dialogues={dialogues}
+          isLearned={isLearned}
+          onClose={() => setTypingOpen(false)}
+        />
+      )}
     </div>
   )
 }

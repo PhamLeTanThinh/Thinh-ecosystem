@@ -20,6 +20,7 @@ import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vo
 import { parsePos } from '@/components/shared/vocab/pos'
 import { LessonSection } from '@/components/shared/LessonSection'
 import { LessonToc, type TocNode } from '@/components/shared/LessonToc'
+import { TypingPractice } from '@/components/chinese/TypingPractice'
 import { PhoneticsSection } from '@/components/chinese/PhoneticsSection'
 import { Handbook } from '@/components/chinese/Handbook'
 import { HANDBOOK_CATEGORIES } from '@/lib/chinese/handbook'
@@ -635,6 +636,7 @@ function LessonContent({
   const hasSpeaking = !!speaking || !!dialogues
 
   const studyWords = useMemo(() => vocabCards.map(toStudyWord), [vocabCards])
+  const [typingOpen, setTypingOpen] = useState(false)
 
   // Mục lục "Đang đọc" bên phải — dạng cây theo dữ liệu thật của bài: Từ vựng → các nhóm chủ đề, Ngữ pháp → từng điểm
   // ngữ pháp, Hội thoại → từng hội thoại, Luyện nói → từng câu (xem components/shared/LessonToc.tsx).
@@ -693,6 +695,11 @@ function LessonContent({
           {lessonTitleVi(lesson) && <p className="cn-page-title-vi">{lessonTitleVi(lesson)}</p>}
         </div>
         <div className="cn-content-header-actions">
+          {vocabCards.length > 0 && (
+            <button type="button" className="cn-btn-outline cn-typing-btn" onClick={() => setTypingOpen(true)}>
+              ⌨️ Luyện gõ
+            </button>
+          )}
           <Link href={`/chinese/study?lesson=${lesson}`} className="cn-btn-outline">
             🎴 Ôn tập
           </Link>
@@ -760,6 +767,16 @@ function LessonContent({
 
         <LessonToc nodes={tocNodes} prefix="cn" />
       </div>
+
+      {typingOpen && (
+        <TypingPractice
+          lessonLabel={lesson === 0 ? (LESSON_TITLES[0] ?? 'Bài mở đầu') : `${levelLabel(lesson)} · Bài ${lessonDisplayNumber(lesson)}`}
+          vocabCards={vocabCards}
+          dialogues={dialogues}
+          isLearned={isLearned}
+          onClose={() => setTypingOpen(false)}
+        />
+      )}
     </div>
   )
 }
