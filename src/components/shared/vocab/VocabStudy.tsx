@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { speak, speakQueue } from '@/lib/shared/speech'
 import { POS_LABELS } from './pos'
 import type { WordPart } from './parts'
@@ -199,6 +199,7 @@ interface FlashSettings {
   autoAdvance: boolean
   shuffle: boolean
   skipNoImage: boolean
+  hideMeaning: boolean // che nghĩa (+ dịch ví dụ, cấu tạo từ) cho tới khi bấm/Space để lật
   autoReadTerm: boolean
   autoReadExample: boolean
   autoReadDefVi: boolean
@@ -209,6 +210,7 @@ const DEFAULT_FLASH_SETTINGS: FlashSettings = {
   autoAdvance: false,
   shuffle: false,
   skipNoImage: false,
+  hideMeaning: false,
   autoReadTerm: false,
   autoReadExample: false,
   autoReadDefVi: false,
@@ -261,11 +263,32 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
   const [pos, setPos] = useState(startPos)
   const w = pool[order[pos]]
 
+  // Ẩn nghĩa: lật theo từng thẻ — sang thẻ khác thì che lại
+  const [revealedId, setRevealedId] = useState<string | null>(null)
+  const hidden = settings.hideMeaning && revealedId !== w?.id
+  const reveal = () => w && setRevealedId((id) => (id === w.id ? null : w.id))
+
+  function updateSettings(next: FlashSettings) {
+    setSettings(next)
+    try {
+      localStorage.setItem(FLASH_SETTINGS_KEY, JSON.stringify(next))
+    } catch {}
+  }
+
+  const hiddenRef = useRef({ on: false, reveal: () => {} })
+  useEffect(() => {
+    hiddenRef.current = { on: settings.hideMeaning, reveal }
+  })
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
       else if (e.key === 'ArrowRight') setPos((n) => Math.min(order.length - 1, n + 1))
       else if (e.key === 'ArrowLeft') setPos((n) => Math.max(0, n - 1))
+      else if ((e.key === ' ' || e.key === 'Enter') && hiddenRef.current.on) {
+        e.preventDefault()
+        hiddenRef.current.reveal()
+      }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
@@ -293,6 +316,14 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
     <div className="vs-modal-backdrop" onClick={onClose}>
       <div className="vs-modal" onClick={(e) => e.stopPropagation()}>
         <div className="vs-modal-toolbar">
+          <button
+            type="button"
+            className={`vs-hide-btn${settings.hideMeaning ? ' on' : ''}`}
+            aria-pressed={settings.hideMeaning}
+            onClick={() => updateSettings({ ...settings, hideMeaning: !settings.hideMeaning })}
+          >
+            {settings.hideMeaning ? '🙈 Đang ẩn nghĩa' : '👁 Ẩn nghĩa'}
+          </button>
           <button type="button" className="vs-icon-btn" aria-label="Cài đặt" onClick={() => setSettingsOpen(true)}>
             ⋯
           </button>
@@ -317,21 +348,27 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
               </p>
             )}
             {w.tag && <span className="vs-tag">{w.tag}</span>}
-            <div className="vs-modal-section">
-              <span className="vs-label">Nghĩa</span>
-              <p className="vs-meaning">
+            <div
+              className={`vs-modal-section${settings.hideMeaning ? ' vs-flip' : ''}`}
+              onClick={settings.hideMeaning ? reveal : undefined}
+              title={settings.hideMeaning ? (hidden ? 'Bấm (hoặc Space) để xem nghĩa' : 'Bấm để che lại') : undefined}
+            >
+              <span className="vs-label">
+                Nghĩa{hidden && <span className="vs-flip-hint"> · bấm hoặc Space để xem</span>}
+              </span>
+              <p className={`vs-meaning${hidden ? ' vs-blur' : ''}`}>
                 <span className="vs-lang">VI</span>
                 {w.meaning}
               </p>
               {w.en && (
-                <p className="vs-meaning vs-meaning-en">
+                <p className={`vs-meaning vs-meaning-en${hidden ? ' vs-blur' : ''}`}>
                   <span className="vs-lang">EN</span>
                   {w.en}
                 </p>
               )}
             </div>
             {w.parts && (
-              <div className="vs-modal-section">
+              <div className={`vs-modal-section${hidden ? ' vs-blur' : ''}`}>
                 <WordParts parts={w.parts} lang={lang} />
               </div>
             )}
@@ -345,7 +382,7 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
                   {w.example}
                 </p>
                 {w.exampleReading && <p className="vs-ctx-reading">{w.exampleReading}</p>}
-                {w.exampleVi && <p className="vs-ctx-vi">{w.exampleVi}</p>}
+                {w.exampleVi && <p className={`vs-ctx-vi${hidden ? ' vs-blur' : ''}`}>{w.exampleVi}</p>}
               </div>
             )}
           </div>
@@ -378,10 +415,7 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
           initial={settings}
           onClose={() => setSettingsOpen(false)}
           onSave={(next) => {
-            setSettings(next)
-            try {
-              localStorage.setItem(FLASH_SETTINGS_KEY, JSON.stringify(next))
-            } catch {}
+            updateSettings(next)
             setSettingsOpen(false)
           }}
         />
@@ -405,10 +439,11 @@ const SETTING_ROWS: {
   { key: 'shuffle', icon: '🔀', label: 'Trộn thẻ ngẫu nhiên', group: 'view' },
   {
     key: 'skipNoImage',
-    icon: '🙈',
+    icon: '🖼',
     label: 'Bỏ qua từ không có hình',
     group: 'view',
   },
+  { key: 'hideMeaning', icon: '🙈', label: 'Ẩn nghĩa (bấm hoặc Space để lật)', group: 'view' },
   { key: 'autoReadTerm', icon: '🎵', label: 'Tự động đọc từ', group: 'audio' },
   {
     key: 'autoReadExample',

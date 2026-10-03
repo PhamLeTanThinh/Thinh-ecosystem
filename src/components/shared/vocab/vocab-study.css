@@ -321,6 +321,36 @@
   user-select: none;
 }
 
+/* Thẻ lớn — nút ẩn nghĩa + vùng bấm để lật */
+.vs-hide-btn {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-card);
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.vs-hide-btn.on {
+  border-color: var(--color-brand);
+  background: var(--color-brand-soft);
+  color: var(--color-brand-strong);
+}
+
+.vs-flip {
+  cursor: pointer;
+}
+
+.vs-flip-hint {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--color-muted);
+}
+
 .vs-img {
   width: 84px;
   height: 84px;
