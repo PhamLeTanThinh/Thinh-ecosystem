@@ -7,7 +7,7 @@ import { useKoreanStore } from '@/lib/korean/store'
 import { KOREAN_LESSON_GROUPS, koreanLessonLabel, toReviewCard } from '@/lib/korean/reviewCard'
 import { ReviewApp } from '@/components/shared/review/ReviewApp'
 import type { ReviewCard } from '@/components/shared/review/types'
-import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { AppBreadcrumb, AppCrumbBar } from '@/components/study/Breadcrumb'
 
 function StudyMessage({ text }: { text: string }) {
   return (
@@ -24,11 +24,17 @@ function StudyMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function KoreanStudyPage() {
   return (
-    <div className="mx-auto w-full max-w-xl px-4 py-6">
-      <AppBreadcrumb app="/korean" trail={[{ label: 'Ôn tập', icon: 'cards' }]} className="mb-4" />
-      <Suspense fallback={<StudyMessage text="Đang tải..." />}>
-        <StudySession />
-      </Suspense>
+    // Breadcrumb ở hàng riêng, sát góc trên trái — cùng toạ độ với breadcrumb đầu sidebar ở trang bài học (AppCrumbBar),
+    // không nằm trong khung nội dung nên không xê dịch theo độ rộng của từng trang.
+    <div className="w-full">
+      <AppCrumbBar>
+        <AppBreadcrumb app="/korean" trail={[{ label: 'Ôn tập', icon: 'cards' }]} />
+      </AppCrumbBar>
+      <div className="mx-auto w-full max-w-xl px-4 pb-6">
+        <Suspense fallback={<StudyMessage text="Đang tải..." />}>
+          <StudySession />
+        </Suspense>
+      </div>
     </div>
   )
 }
@@ -47,10 +53,7 @@ function StudySession() {
   const cards = useMemo(() => allCards.map(toReviewCard), [allCards])
   const progressMap = useMemo(() => new Map(progress.map((p) => [p.id, p])), [progress])
   const progressOf = useCallback((id: string) => progressMap.get(id), [progressMap])
-  const preset = useMemo(
-    () => (lesson !== null ? { label: koreanLessonLabel(lesson), filter: (c: ReviewCard) => c.lesson === lesson } : null),
-    [lesson],
-  )
+  const preset = useMemo(() => (lesson !== null ? { label: koreanLessonLabel(lesson), filter: (c: ReviewCard) => c.lesson === lesson } : null), [lesson])
 
   if (!hydrated) return <StudyMessage text="Đang tải..." />
   if (lesson !== null && !cards.some((c) => c.lesson === lesson)) return <StudyMessage text={`Bài ${lesson} chưa có thẻ nào.`} />

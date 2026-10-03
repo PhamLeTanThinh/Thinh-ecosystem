@@ -246,3 +246,10 @@ function getSectionOptions(app: AppHref): CrumbOption[] {
   }
   return []
 }
+
+// Hàng breadcrumb cho các trang không có sidebar (Ôn tập, Kiểm tra…): đặt breadcrumb đúng toạ độ của breadcrumb
+// đầu sidebar ở trang bài học (cách trái 19px, cách trên 22px) để khi chuyển trang nó đứng yên một chỗ, không trôi
+// theo độ rộng khung nội dung của từng trang.
+export function AppCrumbBar({ children }: { children: React.ReactNode }) {
+  return <div className="px-[19px] pt-[22px] pb-4">{children}</div>
+}

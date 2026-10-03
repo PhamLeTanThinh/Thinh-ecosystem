@@ -72,3 +72,12 @@
     transform: translateY(-50%) scale(1.1);
   }
 }
+
+/* Breadcrumb nằm trong thanh trên cùng (trang tổng quan / Cẩm nang của Korean, Chinese — padding 16px 24px): dịch về
+   đúng toạ độ breadcrumb ở trang bài học / Ôn tập / Kiểm tra (trái 19px, trên 22px — xem AppCrumbBar) để khi chuyển
+   trang nó luôn đứng yên một chỗ. Dịch bằng position nên không làm thay đổi chiều cao thanh trên cùng. */
+.app-crumb-align {
+  position: relative;
+  left: -5px;
+  top: 6px;
+}

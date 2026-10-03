@@ -7,7 +7,7 @@ import { useChineseStore } from '@/lib/chinese/store'
 import { CHINESE_LESSON_GROUPS, chineseLessonLabel, toReviewCard } from '@/lib/chinese/reviewCard'
 import { LangQuiz, type QuizType } from '@/components/shared/quiz/LangQuiz'
 import type { ReviewCard } from '@/components/shared/review/types'
-import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { AppBreadcrumb, AppCrumbBar } from '@/components/study/Breadcrumb'
 
 const QUIZ_TYPES: { id: QuizType; label: string }[] = [
   { id: 'word-meaning', label: 'Chữ Hán → nghĩa' },
@@ -31,11 +31,17 @@ function QuizMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function ChineseQuizPage() {
   return (
-    <div className="mx-auto w-full max-w-6xl px-4 py-6">
-      <AppBreadcrumb app="/chinese" trail={[{ label: 'Kiểm tra', icon: 'quiz' }]} className="mb-4" />
-      <Suspense fallback={<QuizMessage text="Đang tải..." />}>
-        <QuizSession />
-      </Suspense>
+    // Breadcrumb ở hàng riêng, sát góc trên trái — cùng toạ độ với breadcrumb đầu sidebar ở trang bài học (AppCrumbBar),
+    // không nằm trong khung nội dung nên không xê dịch theo độ rộng của từng trang.
+    <div className="w-full">
+      <AppCrumbBar>
+        <AppBreadcrumb app="/chinese" trail={[{ label: 'Kiểm tra', icon: 'quiz' }]} />
+      </AppCrumbBar>
+      <div className="mx-auto w-full max-w-6xl px-4 pb-6">
+        <Suspense fallback={<QuizMessage text="Đang tải..." />}>
+          <QuizSession />
+        </Suspense>
+      </div>
     </div>
   )
 }

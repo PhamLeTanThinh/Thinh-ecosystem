@@ -7,7 +7,7 @@ import { useChineseStore } from '@/lib/chinese/store'
 import { CHINESE_LESSON_GROUPS, chineseLessonLabel, toReviewCard } from '@/lib/chinese/reviewCard'
 import { ReviewApp } from '@/components/shared/review/ReviewApp'
 import type { ReviewCard } from '@/components/shared/review/types'
-import { AppBreadcrumb } from '@/components/study/Breadcrumb'
+import { AppBreadcrumb, AppCrumbBar } from '@/components/study/Breadcrumb'
 
 function StudyMessage({ text }: { text: string }) {
   return (
@@ -24,11 +24,17 @@ function StudyMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function ChineseStudyPage() {
   return (
-    <div className="mx-auto w-full max-w-xl px-4 py-6">
-      <AppBreadcrumb app="/chinese" trail={[{ label: 'Ôn tập', icon: 'cards' }]} className="mb-4" />
-      <Suspense fallback={<StudyMessage text="Đang tải..." />}>
-        <StudySession />
-      </Suspense>
+    // Breadcrumb ở hàng riêng, sát góc trên trái — cùng toạ độ với breadcrumb đầu sidebar ở trang bài học (AppCrumbBar),
+    // không nằm trong khung nội dung nên không xê dịch theo độ rộng của từng trang.
+    <div className="w-full">
+      <AppCrumbBar>
+        <AppBreadcrumb app="/chinese" trail={[{ label: 'Ôn tập', icon: 'cards' }]} />
+      </AppCrumbBar>
+      <div className="mx-auto w-full max-w-xl px-4 pb-6">
+        <Suspense fallback={<StudyMessage text="Đang tải..." />}>
+          <StudySession />
+        </Suspense>
+      </div>
     </div>
   )
 }

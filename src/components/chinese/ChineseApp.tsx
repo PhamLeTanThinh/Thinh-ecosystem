@@ -262,8 +262,8 @@ export function ChineseApp() {
           )}
           {/* Khi đã vào trong (sidebar hiện), breadcrumb chuyển sang nằm ở đầu sidebar (Sidebar.tsx) thay
               cho tiêu đề tĩnh cũ — ở đây chỉ còn cần lúc màn hình chọn cấp độ chưa có sidebar. */}
-          {showLanding && <AppBreadcrumb app="/chinese" />}
-          {showHandbook && <AppBreadcrumb app="/chinese" trail={[{ label: 'Cẩm nang', glyph: '法' }]} />}
+          {showLanding && <AppBreadcrumb app="/chinese" className="app-crumb-align" />}
+          {showHandbook && <AppBreadcrumb app="/chinese" trail={[{ label: 'Cẩm nang', glyph: '法' }]} className="app-crumb-align" />}
           <input
             type="search"
             value={searchQuery}
