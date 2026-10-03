@@ -54,6 +54,9 @@ interface KoreanState {
 
   markResult: (cardId: string, result: ReviewResult) => void
 
+  // Hoàn tác 1 lần chấm ở màn ôn tập: đưa tiến độ của thẻ về đúng bản trước đó (undefined = thẻ chưa từng có tiến độ)
+  restoreProgress: (cardId: string, prev: KoreanProgress | undefined) => void
+
   // Nút "Đánh dấu đã thuộc" ở danh sách từ vựng: chỉ đặt trạng thái thuộc / chưa thuộc, KHÔNG cộng số lần đúng/sai
   // như markResult (đó là kết quả ôn tập / quiz thật).
   setLearned: (cardId: string, known: boolean) => void
@@ -125,6 +128,13 @@ export const useKoreanStore = create<KoreanState>((set, get) => ({
       : [...get().progress, next]
     set({ progress })
     scheduleProgressSave(progress)
+  },
+
+  restoreProgress: (cardId, prev) => {
+    const others = get().progress.filter((p) => p.id !== cardId)
+    const progress = prev ? [...others, prev] : others
+    set({ progress })
+    scheduleProgressSave(progress) // PUT thay cả danh sách → thẻ không còn trong list là xoá tiến độ của nó
   },
 
   setLearned: (cardId, known) => {

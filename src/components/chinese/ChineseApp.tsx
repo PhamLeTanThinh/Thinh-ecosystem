@@ -19,6 +19,7 @@ import { DialogueSection } from '@/components/shared/DialogueSection'
 import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vocab/VocabStudy'
 import { parsePos } from '@/components/shared/vocab/pos'
 import { parseParts } from '@/components/shared/vocab/parts'
+import { stripNotePos } from '@/lib/chinese/notePos'
 import { LessonSection } from '@/components/shared/LessonSection'
 import { LessonToc, type TocNode } from '@/components/shared/LessonToc'
 import { TypingPractice } from '@/components/chinese/TypingPractice'
@@ -35,16 +36,6 @@ const ZH_LANG = 'zh-CN'
 
 const PAGE_SIZE = 30
 const loadingTracker = createLoadingTracker(CHINESE_LOADING.apiPrefix)
-
-const PINYIN_POSITION_OPTIONS: { value: PinyinPosition; label: string }[] = [
-  { value: 'hanzi', label: 'Cùng mặt Hán tự' },
-  { value: 'vietnamese', label: 'Cùng mặt tiếng Việt' },
-]
-
-const SHUFFLE_OPTIONS: { value: 'on' | 'off'; label: string }[] = [
-  { value: 'on', label: '🔀 Ngẫu nhiên' },
-  { value: 'off', label: 'Theo danh sách' },
-]
 
 const QUIZ_MODE_OPTIONS: { value: QuizMode; label: string }[] = [
   { value: 'hanzi-to-pinyin', label: 'Hán tự → Phát âm' },
@@ -473,18 +464,6 @@ function OverviewContent({
 
       <div className="cn-glass cn-filter-panel">
         <div>
-          <p className="cn-filter-label">HIỆN PINYIN</p>
-          <SegmentedControl
-            options={PINYIN_POSITION_OPTIONS}
-            value={settings.pinyinPosition}
-            onChange={(value) => updateSettings({ pinyinPosition: value })}
-          />
-        </div>
-        <div>
-          <p className="cn-filter-label">THỨ TỰ ÔN TẬP</p>
-          <SegmentedControl options={SHUFFLE_OPTIONS} value={settings.shuffle ? 'on' : 'off'} onChange={(value) => updateSettings({ shuffle: value === 'on' })} />
-        </div>
-        <div>
           <p className="cn-filter-label">CHẾ ĐỘ TRẮC NGHIỆM</p>
           <SegmentedControl dense options={QUIZ_MODE_OPTIONS} value={settings.quizMode} onChange={(value) => updateSettings({ quizMode: value })} />
         </div>
@@ -836,7 +815,6 @@ function SpeakingPracticeSection({ data }: { data: SpeakingPracticeSet }) {
 
 // Thẻ từ vựng → dạng của danh sách học dùng chung. note = loại từ · Hán Việt; câu ví dụ ở example, pinyin + dịch ở
 // exampleDetail[0].
-const NOTE_POS_PREFIX = /^(?:(?:dt|đt|tt|phó|liên|lượng|đại|giới|trợ|cụm|đtnn|số|thán|trạng)\.(?:, )?)+(?: · |$)/
 
 function toStudyWord(card: ChineseCard): StudyWord {
   let detail: ExampleDetail | undefined
@@ -851,7 +829,7 @@ function toStudyWord(card: ChineseCard): StudyWord {
     parts: parseParts(card.parts),
     topic: card.topic || undefined,
     // ghi chú cũ mở đầu bằng từ loại viết tắt ("đt. · Hán Việt: …") — từ loại đã có nhãn riêng nên bỏ phần đó
-    tag: card.note.replace(NOTE_POS_PREFIX, '') || undefined,
+    tag: stripNotePos(card.note) || undefined,
     meaning: card.meaning,
     example: card.example.split('\n')[0] || detail?.zh || undefined,
     exampleReading: detail?.pinyin || undefined,

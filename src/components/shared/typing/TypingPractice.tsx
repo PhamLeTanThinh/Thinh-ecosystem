@@ -237,7 +237,9 @@ export function TypingPractice({
                 <img key={item.id} src={item.image} alt="" />
               </div>
             )}
-            <p className={`kt-meaning${showMeaning ? '' : ' kt-meaning-hidden'}`}>{showMeaning ? item.meaning || '—' : 'Nghĩa sẽ hiện sau khi gõ xong'}</p>
+            {!result && (
+              <p className={`kt-meaning${showMeaning ? '' : ' kt-meaning-hidden'}`}>{showMeaning ? item.meaning || '—' : 'Nghĩa sẽ hiện sau khi gõ xong'}</p>
+            )}
 
             {item.display ? (
               // Đề là chữ Hán (Chinese): người học gõ pinyin, ô nhập tô màu từng chữ cái so với đáp án
@@ -273,13 +275,26 @@ export function TypingPractice({
 
             {result ? (
               <div className={`kt-result ${result.correct ? 'correct' : 'wrong'}`}>
-                <p className="kt-result-head">
-                  {result.correct ? '✓ Chính xác' : '✗ Chưa chính xác'}
-                  <span className="kt-result-stat">{Math.round(result.acc * 100)}% · {fmt(result.ms)}</span>
-                  <button type="button" className="kt-speak" aria-label="Nghe lại" onClick={() => speak(item.raw, engine.speechLang)}>
-                    🔊
-                  </button>
-                </p>
+                {/* Gọn để cả màn vừa 1 khung nhìn (không cuộn): nút ở cùng hàng kết quả, nghĩa + cấu tạo từ xếp ngang */}
+                <div className="kt-result-top">
+                  <p className="kt-result-head">
+                    {result.correct ? '✓ Chính xác' : '✗ Chưa chính xác'}
+                    <span className="kt-result-stat">
+                      {Math.round(result.acc * 100)}% · {fmt(result.ms)}
+                    </span>
+                    <button type="button" className="kt-speak" aria-label="Nghe lại" onClick={() => speak(item.raw, engine.speechLang)}>
+                      🔊
+                    </button>
+                  </p>
+                  <div className="kt-result-actions">
+                    <button type="button" className="kt-btn" onClick={retry}>
+                      ↺ Gõ lại
+                    </button>
+                    <button type="button" className="kt-btn kt-btn-solid" onClick={next}>
+                      {index + 1 >= queue.length ? 'Xem kết quả' : 'Tiếp theo'} ↵
+                    </button>
+                  </div>
+                </div>
                 {!result.correct && (
                   <p className="kt-result-diff">
                     Đáp án: <b lang={engine.inputLang}>{item.target}</b>
@@ -290,15 +305,17 @@ export function TypingPractice({
                     )}
                   </p>
                 )}
-                {item.parts && <WordParts parts={item.parts} lang={engine.speechLang} className="kt-parts" />}
-                <div className="kt-result-actions">
-                  <button type="button" className="kt-btn" onClick={retry}>
-                    ↺ Gõ lại
-                  </button>
-                  <button type="button" className="kt-btn kt-btn-solid" onClick={next}>
-                    {index + 1 >= queue.length ? 'Xem kết quả' : 'Tiếp theo'} ↵
-                  </button>
-                </div>
+                {(item.meaning || item.parts) && (
+                  <div className="kt-result-body">
+                    {item.meaning && (
+                      <div className="kt-result-meaning">
+                        <span className="kt-result-label">Nghĩa</span>
+                        <p>{item.meaning}</p>
+                      </div>
+                    )}
+                    {item.parts && <WordParts parts={item.parts} lang={engine.speechLang} className="kt-parts" />}
+                  </div>
+                )}
               </div>
             ) : (
               <p className="kt-hint">
@@ -416,7 +433,7 @@ function Setup({
         </div>
       )}
 
-      <div className="kt-field">
+      <div className="kt-field kt-field-options">
         <span className="kt-field-label">Tuỳ chọn</span>
         <div className="kt-toggles">
           <Toggle checked={settings.keyboard} onChange={(v) => update({ keyboard: v })} title="Hiện bàn phím ảo" desc={`${engine.keyboardName} bên dưới ô gõ`} />

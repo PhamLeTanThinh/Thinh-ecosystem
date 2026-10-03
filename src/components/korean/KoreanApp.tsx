@@ -37,11 +37,6 @@ const KO_LANG = 'ko-KR'
 const PAGE_SIZE = 30
 const loadingTracker = createLoadingTracker(KOREAN_LOADING.apiPrefix)
 
-const SHUFFLE_OPTIONS: { value: 'on' | 'off'; label: string }[] = [
-  { value: 'on', label: '🔀 Ngẫu nhiên' },
-  { value: 'off', label: 'Theo danh sách' },
-]
-
 const QUIZ_MODE_OPTIONS: { value: QuizMode; label: string }[] = [
   { value: 'front-to-meaning', label: 'Từ/mẫu câu → Nghĩa' },
   { value: 'meaning-to-front', label: 'Nghĩa → Từ/mẫu câu' },
@@ -389,10 +384,6 @@ function OverviewContent({
       </div>
 
       <div className="kr-glass kr-filter-panel">
-        <div>
-          <p className="kr-filter-label">THỨ TỰ ÔN TẬP</p>
-          <SegmentedControl options={SHUFFLE_OPTIONS} value={settings.shuffle ? 'on' : 'off'} onChange={(value) => updateSettings({ shuffle: value === 'on' })} />
-        </div>
         <div>
           <p className="kr-filter-label">CHẾ ĐỘ TRẮC NGHIỆM</p>
           <SegmentedControl dense options={QUIZ_MODE_OPTIONS} value={settings.quizMode} onChange={(value) => updateSettings({ quizMode: value })} />

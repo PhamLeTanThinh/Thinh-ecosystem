@@ -26,13 +26,18 @@
   flex-direction: column;
   gap: 18px;
   width: min(980px, 100%);
-  max-height: calc(100dvh - 48px);
+  height: calc(100dvh - 48px); /* popup luôn cao hết khung nhìn */
   overflow-y: auto;
+  scrollbar-width: none; /* bố cục được làm gọn để vừa khung nhìn — không hiện thanh cuộn */
   padding: 22px 28px 26px;
   border-radius: 22px;
   background: #ffffff;
   box-shadow: 0 30px 80px rgba(20, 28, 45, 0.3);
   outline: none;
+}
+
+.kt-modal::-webkit-scrollbar {
+  display: none;
 }
 
 .kt-top {
@@ -311,9 +316,11 @@
 
 /* ── Màn gõ ── */
 .kt-stage {
+  flex: 1; /* chiếm phần còn lại của popup, nội dung căn giữa theo chiều dọc */
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
 }
 
@@ -498,6 +505,47 @@
 
 .kt-result.wrong .kt-result-head {
   color: var(--kt-bad);
+}
+
+/* Ô kết quả: hàng trên = đúng/sai + nút; hàng dưới = nghĩa | cấu tạo từ (xếp ngang, hẹp thì xuống dòng) */
+.kt-result-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+}
+
+.kt-result-top .kt-result-actions {
+  margin-top: 0;
+}
+
+.kt-result-body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px 24px;
+  margin-top: 10px;
+}
+
+.kt-result-meaning {
+  flex: 0 1 200px;
+  min-width: 140px;
+}
+
+.kt-result-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kt-muted);
+}
+
+.kt-result-meaning p {
+  margin-top: 2px;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--kt-text);
 }
 
 .kt-result-stat {
@@ -694,6 +742,142 @@
   color: var(--kt-muted);
 }
 
+/* ── Bố cục lấp đầy popup (popup cao hết khung nhìn) ──
+   Cỡ phím ảo, chữ đề, ô nhập co giãn theo chiều cao màn hình (--kt-key) nên màn cao thì to, màn thấp (laptop) vẫn vừa
+   1 khung nhìn không cần cuộn. Màn gõ: khối đề + kết quả căn giữa phần trên, bàn phím ảo nằm sát đáy.
+   Màn thiết lập: 2 cột (lựa chọn | tuỳ chọn), nút Bắt đầu ở đáy. */
+.kt-modal {
+  --kt-key: clamp(40px, 5.4vh, 66px);
+}
+
+.kt-stage > :first-child {
+  margin-top: auto;
+}
+
+.kt-stage > .kt-kb {
+  margin-top: auto;
+}
+
+.kt-stage > :last-child:not(.kt-kb) {
+  margin-bottom: auto;
+}
+
+.kt-key {
+  width: calc(var(--kt-key) * 1.04);
+  height: var(--kt-key);
+}
+
+.kt-key-jamo {
+  font-size: calc(var(--kt-key) * 0.4);
+}
+
+.kt-key-wide {
+  width: calc(var(--kt-key) * 1.55);
+}
+
+.kt-key-space {
+  width: calc(var(--kt-key) * 6.6);
+}
+
+.kt-kb {
+  padding: calc(var(--kt-key) * 0.24);
+  gap: calc(var(--kt-key) * 0.12);
+}
+
+.kt-kb-row {
+  gap: calc(var(--kt-key) * 0.12);
+}
+
+.kt-target {
+  font-size: clamp(30px, 5vh, 56px);
+}
+
+.kt-display {
+  font-size: clamp(38px, 6vh, 68px);
+}
+
+.kt-input {
+  width: min(820px, 100%);
+  min-height: clamp(50px, 7vh, 72px);
+  font-size: clamp(24px, 3.6vh, 34px);
+}
+
+.kt-result {
+  width: min(820px, 100%);
+}
+
+.kt-image img {
+  height: clamp(96px, 16vh, 200px);
+  max-width: 320px;
+}
+
+.kt-meaning {
+  font-size: clamp(16px, 2.2vh, 20px);
+}
+
+.kt-setup {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(6, min-content) 1fr; /* hàng cuối giãn hết phần còn lại → nút Bắt đầu nằm sát đáy */
+  align-content: stretch;
+  column-gap: 40px;
+}
+
+.kt-field-options {
+  grid-column: 2;
+  grid-row: 1 / span 6;
+}
+
+.kt-field-options .kt-toggles {
+  max-width: none;
+}
+
+.kt-setup > .kt-start {
+  grid-column: 1 / -1;
+  align-self: end;
+  margin-top: auto;
+}
+
+@media (max-width: 760px) {
+  .kt-setup {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .kt-field-options {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* Màn hình thấp (laptop ~ 768-900px): bớt khoảng trống */
+@media (max-height: 920px) {
+  .kt-modal {
+    gap: 12px;
+    padding: 16px 24px 18px;
+  }
+
+  .kt-stage {
+    gap: 10px;
+  }
+
+  .kt-setup {
+    row-gap: 12px;
+  }
+
+  .kt-seg button {
+    padding: 8px 14px;
+  }
+
+  .kt-toggle {
+    padding: 9px 16px;
+  }
+
+  .kt-result {
+    padding: 10px 16px;
+  }
+}
+
 /* Nút mở trên đầu trang bài học — chỉ desktop */
 .kr-typing-btn,
 .cn-typing-btn {
@@ -710,7 +894,7 @@
 
 /* Khối "Cấu tạo từ" trong ô kết quả */
 .kt-parts {
-  margin: 10px 0 2px;
+  flex: 1 1 280px;
 }
 
 .kt-parts .wp-part {
