@@ -30,18 +30,12 @@ import { PHONETICS_LESSONS } from '@/lib/chinese/phonetics'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { CHINESE_LOADING } from '@/lib/loading/apps'
 import { createLoadingTracker } from '@/lib/loading/tracker'
-import type { ChineseCard, ChineseCardKind, ChineseDeck, ChineseProgress, PinyinPosition, QuizMode } from '@/lib/chinese/types'
+import type { ChineseCard, ChineseCardKind, ChineseDeck, ChineseProgress } from '@/lib/chinese/types'
 
 const ZH_LANG = 'zh-CN'
 
 const PAGE_SIZE = 30
 const loadingTracker = createLoadingTracker(CHINESE_LOADING.apiPrefix)
-
-const QUIZ_MODE_OPTIONS: { value: QuizMode; label: string }[] = [
-  { value: 'hanzi-to-pinyin', label: 'Hán tự → Phát âm' },
-  { value: 'hanzi-to-meaning', label: 'Hán tự → Nghĩa' },
-  { value: 'meaning-to-hanzi', label: 'Nghĩa → Hán tự' },
-]
 
 const KIND_OPTIONS: { value: 'all' | ChineseCardKind; label: string }[] = [
   { value: 'all', label: 'Tất cả' },
@@ -81,9 +75,7 @@ function pathForSelection(s: Selection): string {
 export function ChineseApp() {
   const cards = useChineseStore((s) => s.cards)
   const progress = useChineseStore((s) => s.progress)
-  const settings = useChineseStore((s) => s.settings)
   const decks = useChineseStore((s) => s.decks)
-  const updateSettings = useChineseStore((s) => s.updateSettings)
   const addDeck = useChineseStore((s) => s.addDeck)
   const deleteDeck = useChineseStore((s) => s.deleteDeck)
   const openAddCard = useChineseUIStore((s) => s.openAddCard)
@@ -328,8 +320,6 @@ export function ChineseApp() {
             isLearned={isLearned}
             learnedCount={overviewLearnedCount}
             learnedPercent={overviewLearnedPercent}
-            settings={settings}
-            updateSettings={updateSettings}
             contentKind={contentKind}
             kindFilter={kindFilter}
             setKindFilter={setKindFilter}
@@ -373,8 +363,6 @@ function OverviewContent({
   isLearned,
   learnedCount,
   learnedPercent,
-  settings,
-  updateSettings,
   contentKind,
   kindFilter,
   setKindFilter,
@@ -394,8 +382,6 @@ function OverviewContent({
   isLearned: (id: string) => boolean
   learnedCount: number
   learnedPercent: number
-  settings: { pinyinPosition: PinyinPosition; shuffle: boolean; quizMode: QuizMode }
-  updateSettings: (patch: Partial<{ pinyinPosition: PinyinPosition; shuffle: boolean; quizMode: QuizMode }>) => void
   contentKind: 'vocab' | 'grammar' | null
   kindFilter: 'all' | ChineseCardKind
   setKindFilter: (v: 'all' | ChineseCardKind) => void
@@ -463,10 +449,6 @@ function OverviewContent({
       </div>
 
       <div className="cn-glass cn-filter-panel">
-        <div>
-          <p className="cn-filter-label">CHẾ ĐỘ TRẮC NGHIỆM</p>
-          <SegmentedControl dense options={QUIZ_MODE_OPTIONS} value={settings.quizMode} onChange={(value) => updateSettings({ quizMode: value })} />
-        </div>
         <div>
           <p className="cn-filter-label">LOẠI THẺ</p>
           <SegmentedControl dense options={KIND_OPTIONS} value={kindFilter} onChange={setKindFilter} />

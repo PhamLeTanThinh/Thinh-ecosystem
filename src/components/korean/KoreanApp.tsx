@@ -30,17 +30,12 @@ import { HANDBOOK_CATEGORIES } from '@/lib/korean/handbook'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
 import { createLoadingTracker } from '@/lib/loading/tracker'
-import type { KoreanCard, KoreanCardKind, KoreanProgress, QuizMode } from '@/lib/korean/types'
+import type { KoreanCard, KoreanCardKind, KoreanProgress } from '@/lib/korean/types'
 
 const KO_LANG = 'ko-KR'
 
 const PAGE_SIZE = 30
 const loadingTracker = createLoadingTracker(KOREAN_LOADING.apiPrefix)
-
-const QUIZ_MODE_OPTIONS: { value: QuizMode; label: string }[] = [
-  { value: 'front-to-meaning', label: 'Từ/mẫu câu → Nghĩa' },
-  { value: 'meaning-to-front', label: 'Nghĩa → Từ/mẫu câu' },
-]
 
 const KIND_OPTIONS: { value: 'all' | KoreanCardKind; label: string }[] = [
   { value: 'all', label: 'Tất cả' },
@@ -61,8 +56,6 @@ function pathForSelection(s: Selection): string {
 export function KoreanApp() {
   const cards = useKoreanStore((s) => s.cards)
   const progress = useKoreanStore((s) => s.progress)
-  const settings = useKoreanStore((s) => s.settings)
-  const updateSettings = useKoreanStore((s) => s.updateSettings)
   const openAddCard = useKoreanUIStore((s) => s.openAddCard)
   const navigatingTo = useKoreanUIStore((s) => s.navigatingTo)
   const beginNavigating = useKoreanUIStore((s) => s.beginNavigating)
@@ -282,8 +275,6 @@ export function KoreanApp() {
             isLearned={isLearned}
             learnedCount={learnedCount}
             learnedPercent={learnedPercent}
-            settings={settings}
-            updateSettings={updateSettings}
             contentKind={contentKind}
             kindFilter={kindFilter}
             setKindFilter={setKindFilter}
@@ -307,8 +298,6 @@ function OverviewContent({
   isLearned,
   learnedCount,
   learnedPercent,
-  settings,
-  updateSettings,
   contentKind,
   kindFilter,
   setKindFilter,
@@ -323,8 +312,6 @@ function OverviewContent({
   isLearned: (id: string) => boolean
   learnedCount: number
   learnedPercent: number
-  settings: { shuffle: boolean; quizMode: QuizMode }
-  updateSettings: (patch: Partial<{ shuffle: boolean; quizMode: QuizMode }>) => void
   contentKind: 'vocab' | 'grammar' | null
   kindFilter: 'all' | KoreanCardKind
   setKindFilter: (v: 'all' | KoreanCardKind) => void
@@ -384,10 +371,6 @@ function OverviewContent({
       </div>
 
       <div className="kr-glass kr-filter-panel">
-        <div>
-          <p className="kr-filter-label">CHẾ ĐỘ TRẮC NGHIỆM</p>
-          <SegmentedControl dense options={QUIZ_MODE_OPTIONS} value={settings.quizMode} onChange={(value) => updateSettings({ quizMode: value })} />
-        </div>
         <div>
           <p className="kr-filter-label">LOẠI THẺ</p>
           <SegmentedControl dense options={KIND_OPTIONS} value={kindFilter} onChange={setKindFilter} />

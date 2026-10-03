@@ -13,7 +13,7 @@ import { WRITING_SAMPLES } from '@/data/ielts/samples/writing'
 import { WRITING_TASK1_SAMPLES } from '@/data/ielts/samples/writing-task1'
 import { flatQuestions, type ExerciseSet, type QuestionType, type ExerciseSummary, type PracticeTest, type SampleSummary, type TestSummary, type VocabGroup, type VocabSet, type WritingSample } from './practice'
 import { itemCount, totalQuestions, type ListeningTest } from './listening'
-import { dictationSummary, type Dictation, type DictationSummary } from './dictation'
+import { dictationSummary, partLabel, type Dictation, type DictationSummary } from './dictation'
 import type { Skill } from './types'
 
 // CHỈ chạy ở server ('server-only' làm build lỗi nếu client component lỡ import): dữ liệu đề gồm cả
@@ -126,4 +126,34 @@ export function sampleSummariesForSkill(skill: Skill): SampleSummary[] {
     // "Writing Task 1" / "Writing Task 2 Academic" / "Speaking Part 3" → số task/part cho bộ lọc ở trang Đề mẫu
     task: ((m) => (m ? (Number(m[1]) as 1 | 2 | 3) : undefined))(/(?:task|part)\s*([123])\b/i.exec(s.resourceLabel)),
   }))
+}
+
+// Tra tên + loại của 1 id nội dung bất kỳ (đề, bài tập, dictation, vocab set, đề mẫu) — dùng ở trang /admin để
+// hiện tiến độ luyện đề của từng người bằng tên đề thay vì id. total = số đơn vị chấm của nội dung đó nếu có.
+export interface PracticeItemInfo {
+  title: string
+  skill: Skill
+  kind: 'test' | 'exercise' | 'dictation' | 'vocab' | 'sample'
+  total?: number
+}
+
+export function practiceItemInfo(id: string): PracticeItemInfo | undefined {
+  const listening = findListeningTest(id)
+  if (listening) return { title: listening.title, skill: listening.skill, kind: 'test', total: totalQuestions(listening) }
+  const test = findTest(id)
+  if (test) return { title: test.title, skill: test.skill, kind: 'test', total: flatQuestions(test).length }
+  const dictation = findDictation(id)
+  if (dictation) return { title: `${dictation.title} · ${partLabel(dictation)}`, skill: dictation.skill, kind: 'dictation', total: dictation.sentences.length }
+  const ex = findExerciseSet(id)
+  if (ex) return { title: ex.title, skill: ex.skill, kind: 'exercise', total: exerciseQuestionCount(ex) }
+  const vocab = ALL_VOCAB_SETS.find((s) => s.id === id)
+  if (vocab) return { title: vocab.title, skill: vocab.skill, kind: 'vocab', total: vocab.vocab.length }
+  const sample = findSample(id)
+  if (sample) return { title: sample.title, skill: sample.skill, kind: 'sample' }
+  return undefined
+}
+
+// Số từ của Vocab gắn với 1 đề hoặc 1 vocab set độc lập (key của tiến độ "Đã thuộc")
+export function vocabCount(id: string): number | undefined {
+  return findTest(id)?.vocab.length ?? ALL_VOCAB_SETS.find((s) => s.id === id)?.vocab.length
 }

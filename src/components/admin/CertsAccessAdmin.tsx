@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useAdminAction, type ActionResult } from '@/components/admin/AdminDialog'
 import { formatAdminDate } from '@/components/admin/format'
+import { Pager, usePagination } from '@/components/admin/Pagination'
 import { MascotEm } from '@/components/mascot/MascotDialog'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -143,6 +144,7 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invites, stats])
+  const invitePage = usePagination(sortedInvites, 10)
 
   function inviteEmail() {
     const trimmed = email.trim().toLowerCase()
@@ -325,7 +327,7 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
                     <td colSpan={7}>Chưa mời ai.</td>
                   </tr>
                 )}
-                {sortedInvites.map((v) => {
+                {invitePage.items.map((v) => {
                   const stat = statFor(v.email)
                   return (
                     <tr key={v.email} className={stat ? undefined : 'adm-row-warning'}>
@@ -344,8 +346,8 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
                           <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
                             {v.revokedAt ? 'Cấp lại' : 'Thu hồi'}
                           </button>
-                          <button type="button" className="adm-btn-ghost" aria-label="Xoá" onClick={() => removeInvite(v.email)}>
-                            ×
+                          <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => removeInvite(v.email)}>
+                            Xoá
                           </button>
                         </div>
                       </td>
@@ -354,6 +356,7 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
                 })}
               </tbody>
             </table>
+            <Pager p={invitePage} unit="người" />
           </div>
         )}
 

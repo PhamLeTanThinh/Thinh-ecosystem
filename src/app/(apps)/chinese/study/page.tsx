@@ -4,14 +4,9 @@ import { Suspense, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useChineseStore } from '@/lib/chinese/store'
-import { HSK_LEVELS, LESSON_TITLES, lessonDisplayNumber, lessonNumbersForLevel, levelLabel } from '@/lib/chinese/lessons'
-import type { ExampleDetail } from '@/lib/chinese/exampleDetail'
-import type { ChineseCard } from '@/lib/chinese/types'
-import { stripNotePos } from '@/lib/chinese/notePos'
-import { parsePos } from '@/components/shared/vocab/pos'
-import { parseParts } from '@/components/shared/vocab/parts'
+import { CHINESE_LESSON_GROUPS, chineseLessonLabel, toReviewCard } from '@/lib/chinese/reviewCard'
 import { ReviewApp } from '@/components/shared/review/ReviewApp'
-import type { ReviewCard, ReviewLessonGroup } from '@/components/shared/review/types'
+import type { ReviewCard } from '@/components/shared/review/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 function StudyMessage({ text }: { text: string }) {
@@ -24,36 +19,6 @@ function StudyMessage({ text }: { text: string }) {
     </div>
   )
 }
-
-// Thẻ Chinese → thẻ ôn tập dùng chung (cùng cách lấy dữ liệu với danh sách học trong ChineseApp).
-function toReviewCard(c: ChineseCard): ReviewCard {
-  let detail: ExampleDetail | undefined
-  try {
-    detail = (JSON.parse(c.exampleDetail || '[]') as ExampleDetail[])[0]
-  } catch {}
-  return {
-    id: c.id,
-    kind: c.kind,
-    lesson: c.lesson,
-    sortOrder: c.sortOrder,
-    word: c.hanzi,
-    reading: c.pinyin || undefined,
-    meaning: c.meaning,
-    sub: stripNotePos(c.note) || undefined,
-    pos: parsePos(c.pos),
-    parts: parseParts(c.parts),
-    example: c.example.split('\n')[0] || detail?.zh || undefined,
-    exampleReading: detail?.pinyin || undefined,
-    exampleVi: detail?.vi || undefined,
-    image: c.image || undefined,
-  }
-}
-
-// Bài 0 ("Chưa phân loại") là thẻ cũ trùng với các bài thật — không đưa vào danh sách chọn bài.
-const LESSON_GROUPS: ReviewLessonGroup[] = HSK_LEVELS.map((lv) => ({
-  label: lv.label,
-  lessons: lessonNumbersForLevel(lv.key).map((n) => ({ lesson: n, badge: `Bài ${lessonDisplayNumber(n)}`, title: LESSON_TITLES[n] ?? '' })),
-})).filter((g) => g.lessons.length > 0)
 
 // useSearchParams() bắt buộc bọc Suspense — nếu không, build production sẽ lỗi
 // "Missing Suspense boundary with useSearchParams".
@@ -91,7 +56,7 @@ function StudySession() {
       const ids = new Set(deck.cardIds)
       return { label: `Bộ: ${deck.name}`, filter: (c: ReviewCard) => ids.has(c.id) }
     }
-    if (lesson !== null) return { label: `${levelLabel(lesson)} · Bài ${lessonDisplayNumber(lesson)} · ${LESSON_TITLES[lesson] ?? ''}`, filter: (c: ReviewCard) => c.lesson === lesson }
+    if (lesson !== null) return { label: chineseLessonLabel(lesson), filter: (c: ReviewCard) => c.lesson === lesson }
     return null
   }, [deck, lesson])
 
@@ -106,7 +71,7 @@ function StudySession() {
       lang="zh-CN"
       eyebrow="学中文 · 🎴 Ôn tập"
       cards={cards}
-      lessonGroups={LESSON_GROUPS}
+      lessonGroups={CHINESE_LESSON_GROUPS}
       preset={preset}
       readingLabel="pinyin"
       progressOf={progressOf}

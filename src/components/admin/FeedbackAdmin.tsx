@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useAdminAction } from '@/components/admin/AdminDialog'
 import { formatAdminDate } from '@/components/admin/format'
+import { Pager, usePagination } from '@/components/admin/Pagination'
 import { MascotEm } from '@/components/mascot/MascotDialog'
 import type { FeedbackItem } from '@/lib/feedback/admin'
 
@@ -13,6 +14,7 @@ export function FeedbackAdmin() {
   const runAction = useAdminAction()
   const [items, setItems] = useState<FeedbackItem[] | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
+  const feedbackPage = usePagination(items ?? [], 10)
 
   const load = useCallback(async () => {
     setLoadError(null)
@@ -83,7 +85,7 @@ export function FeedbackAdmin() {
                   <td colSpan={4}>Chưa có góp ý nào.</td>
                 </tr>
               )}
-              {items?.map((item) => (
+              {feedbackPage.items.map((item) => (
                 <tr key={item.id}>
                   <td>
                     <p className="adm-message">{item.message}</p>
@@ -99,6 +101,7 @@ export function FeedbackAdmin() {
               ))}
             </tbody>
           </table>
+          <Pager p={feedbackPage} unit="góp ý" />
         </div>
       )}
     </div>

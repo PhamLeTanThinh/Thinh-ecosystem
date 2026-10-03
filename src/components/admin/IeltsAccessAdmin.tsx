@@ -2,7 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useAdminAction, type ActionResult } from '@/components/admin/AdminDialog'
-import { formatAdminDate } from '@/components/admin/format'
+import { ago, avatarColor, formatAdminDate } from '@/components/admin/format'
+import { Pager, usePagination } from '@/components/admin/Pagination'
+import type { PracticeProgressItem, PracticeSummary } from '@/lib/ielts/adminPractice'
 import { MascotEm } from '@/components/mascot/MascotDialog'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -37,6 +39,10 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
+  const [practice, setPractice] = useState<Record<string, PracticeSummary>>({}) // email → dữ liệu luyện đề
+  const [query, setQuery] = useState('')
+  const [filter, setFilter] = useState<'all' | 'active' | 'pending' | 'revoked'>('all')
+  const [detail, setDetail] = useState<string | null>(null) // email đang xem chi tiết (popup)
 
   // Mọi fetch đều kiểm tra r.ok trước khi đọc JSON, và luôn rơi về mảng rỗng khi lỗi — trước đây fetch invites/
   // access-logs không kiểm tra, nên 1 API lỗi (vd DB tạm thời không kết nối được) trả về {message: "..."} thay vì
@@ -54,6 +60,10 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     fetch('/api/ielts/access-requests')
       .then((r) => (r.ok ? r.json() : []))
       .then((data) => setRequests(Array.isArray(data) ? data : []))
+      .catch(() => {})
+    fetch('/api/admin/ielts-practice')
+      .then((r) => (r.ok ? r.json() : {}))
+      .then((data) => setPractice(data && typeof data === 'object' ? (data as Record<string, PracticeSummary>) : {}))
       .catch(() => {})
     fetch('/api/ielts/access-logs')
       .then((r) => (r.ok ? r.json() : []))
@@ -149,6 +159,30 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invites, stats])
+
+  // Dữ liệu luyện đề lưu theo email (chữ thường); chủ trang chưa bật chia sẻ thì nằm ở khoá 'owner'
+  const practiceOf = (e: string) => practice[e.toLowerCase()] ?? (e === ownerEmail ? practice.owner : undefined)
+
+  const counts = useMemo(() => {
+    const live = invites.filter((v) => !v.revokedAt)
+    return {
+      active: live.filter((v) => statFor(v.email)).length,
+      pending: live.filter((v) => !statFor(v.email)).length,
+      revoked: invites.length - live.length,
+      submissions: Object.values(practice).reduce((n, p) => n + p.submissions, 0),
+      practicing: Object.values(practice).filter((p) => p.submissions > 0).length,
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invites, stats, practice])
+
+  const shownInvites = sortedInvites.filter((v) => {
+    if (query && !v.email.includes(query.trim().toLowerCase())) return false
+    if (filter === 'revoked') return !!v.revokedAt
+    if (filter === 'active') return !v.revokedAt && !!statFor(v.email)
+    if (filter === 'pending') return !v.revokedAt && !statFor(v.email)
+    return true
+  })
+  const invitePage = usePagination(shownInvites, 10, `${filter}|${query}`)
 
   function inviteEmail() {
     const trimmed = email.trim().toLowerCase()
@@ -306,69 +340,415 @@ export function IeltsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
           <h2 className="adm-panel-title">
             Người được mời <span className="adm-count">{invites.length}</span>
           </h2>
+          <input className="adm-input adm-search" type="search" placeholder="Tìm theo email…" value={query} onChange={(e) => setQuery(e.target.value)} />
         </div>
 
         {loading && <p className="adm-note">Đang tải…</p>}
         {loadError && <p className="adm-note adm-error">{loadError}</p>}
 
         {!loading && !loadError && (
-          <div className="adm-table-wrap">
-            <table className="adm-table">
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Trạng thái</th>
-                  <th>Mời lúc</th>
-                  <th>Lượt vào</th>
-                  <th>Lần cuối</th>
-                  <th>Trình duyệt</th>
-                  <th className="adm-col-actions">Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invites.length === 0 && (
-                  <tr className="adm-empty-row">
-                    <td colSpan={7}>Chưa mời ai.</td>
-                  </tr>
-                )}
-                {sortedInvites.map((v) => {
-                  const stat = statFor(v.email)
-                  return (
-                    <tr key={v.email} className={stat ? undefined : 'adm-row-warning'}>
-                      <td className="adm-cell-main">{v.email}</td>
-                      <td>
-                        <span className={`adm-pill ${v.revokedAt ? 'adm-pill-neutral' : stat ? 'adm-pill-success' : 'adm-pill-warning'}`}>
-                          {v.revokedAt ? 'Đã thu hồi' : stat ? 'Đang hoạt động' : 'Chưa đăng nhập'}
-                        </span>
-                      </td>
-                      <td>{formatAdminDate(v.invitedAt)}</td>
-                      <td>{stat ? stat.count : '–'}</td>
-                      <td>{stat ? formatAdminDate(stat.lastSeenAt) : '–'}</td>
-                      <td>{stat ? stat.lastBrowser : '–'}</td>
-                      <td className="adm-col-actions">
-                        <div className="adm-actions">
-                          <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
-                            {v.revokedAt ? 'Cấp lại' : 'Thu hồi'}
-                          </button>
-                          <button type="button" className="adm-btn-ghost" aria-label="Xoá" onClick={() => removeInvite(v.email)}>
-                            ×
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
+          <>
+            <div className="lad-stats">
+              <StatTile label="Người được mời" value={invites.length} sub={`${counts.revoked} đã thu hồi`} />
+              <StatTile label="Đã đăng nhập" value={counts.active} sub={`${invites.length ? Math.round((counts.active / invites.length) * 100) : 0}% người được mời`} tone="success" />
+              <StatTile label="Chưa đăng nhập" value={counts.pending} sub="đã mời nhưng chưa vào" tone={counts.pending ? 'warning' : undefined} />
+              <StatTile label="Lượt nộp bài" value={counts.submissions} sub={`${counts.practicing} người có luyện đề`} />
+            </div>
 
-        {ownerEmail && statFor(ownerEmail) && (
-          <p className="adm-note">
-            Bạn (chủ trang) đã vào {statFor(ownerEmail)!.count} lần · gần nhất {formatAdminDate(statFor(ownerEmail)!.lastSeenAt)} · {statFor(ownerEmail)!.lastBrowser}
-          </p>
+            <div className="lad-filters">
+              <div className="lad-chips">
+                {(
+                  [
+                    ['all', 'Tất cả', invites.length],
+                    ['active', 'Đã đăng nhập', counts.active],
+                    ['pending', 'Chưa đăng nhập', counts.pending],
+                    ['revoked', 'Đã thu hồi', counts.revoked],
+                  ] as const
+                ).map(([k, label, n]) => (
+                  <button key={k} type="button" className={`lad-chip${filter === k ? ' on' : ''}`} onClick={() => setFilter(k)}>
+                    {label} <span>{n}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="adm-table-wrap">
+              <table className="adm-table lad-table">
+                <thead>
+                  <tr>
+                    <th>Email</th>
+                    <th>Trạng thái</th>
+                    <th>Lượt vào</th>
+                    <th>Lần cuối</th>
+                    <th>Luyện đề</th>
+                    <th className="adm-col-actions">Hành động</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {shownInvites.length === 0 && (
+                    <tr className="adm-empty-row">
+                      <td colSpan={6}>{invites.length === 0 ? 'Chưa mời ai.' : 'Không có ai khớp.'}</td>
+                    </tr>
+                  )}
+                  {ownerEmail && filter === 'all' && !query && invitePage.page === 1 && (
+                    <ViewerRow
+                      email={ownerEmail}
+                      sub="Chủ trang"
+                      status={<span className="adm-pill adm-pill-accent">Chủ trang</span>}
+                      stat={statFor(ownerEmail)}
+                      practice={practiceOf(ownerEmail)}
+                      onDetail={() => setDetail(ownerEmail)}
+                    />
+                  )}
+                  {invitePage.items.map((v) => {
+                    const stat = statFor(v.email)
+                    return (
+                      <ViewerRow
+                        key={v.email}
+                        email={v.email}
+                        sub={`Mời ${formatAdminDate(v.invitedAt).slice(0, 11)}`}
+                        warning={!stat && !v.revokedAt}
+                        status={<InviteStatus invite={v} stat={stat} />}
+                        stat={stat}
+                        practice={practiceOf(v.email)}
+                        onDetail={() => setDetail(v.email)}
+                        actions={
+                          <>
+                            <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
+                              {v.revokedAt ? 'Cấp lại' : 'Thu hồi'}
+                            </button>
+                            <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => removeInvite(v.email)}>
+                              Xoá
+                            </button>
+                          </>
+                        }
+                      />
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <Pager p={invitePage} unit="người" />
+          </>
         )}
       </div>
+
+      {detail && (
+        <ViewerDetail
+          email={detail}
+          invite={invites.find((x) => x.email === detail)}
+          isOwner={detail === ownerEmail}
+          stat={statFor(detail)}
+          practice={practiceOf(detail)}
+          onClose={() => setDetail(null)}
+          // Đóng popup chi tiết để hiện popup xác nhận; bấm "Thôi" thì mở lại chi tiết như cũ
+          onToggleRevoke={(revoked) => {
+            const email = detail
+            setDetail(null)
+            void toggleRevoke(email, revoked).then((ok) => !ok && setDetail(email))
+          }}
+          onRemove={() => {
+            const email = detail
+            setDetail(null)
+            void removeInvite(email).then((ok) => !ok && setDetail(email))
+          }}
+        />
+      )}
     </>
+  )
+}
+
+function InviteStatus({ invite, stat }: { invite: Invite; stat?: AccessStat }) {
+  return (
+    <span className={`adm-pill ${invite.revokedAt ? 'adm-pill-neutral' : stat ? 'adm-pill-success' : 'adm-pill-warning'}`}>
+      {invite.revokedAt ? 'Đã thu hồi' : stat ? 'Đang hoạt động' : 'Chưa đăng nhập'}
+    </span>
+  )
+}
+
+function StatTile({ label, value, sub, tone }: { label: string; value: number | string; sub: string; tone?: 'success' | 'warning' }) {
+  return (
+    <div className={`lad-stat${tone ? ` ${tone}` : ''}`}>
+      <span className="lad-stat-label">{label}</span>
+      <b>{typeof value === 'number' ? value.toLocaleString('vi-VN') : value}</b>
+      <small>{sub}</small>
+    </div>
+  )
+}
+
+// 1 dòng bảng: email + dòng phụ, trạng thái, lượt vào, lần cuối (kèm trình duyệt), tóm tắt luyện đề. Bấm dòng = xem chi tiết.
+function ViewerRow({
+  email,
+  sub,
+  status,
+  stat,
+  practice,
+  warning,
+  onDetail,
+  actions,
+}: {
+  email: string
+  sub: string
+  status: React.ReactNode
+  stat?: AccessStat
+  practice?: PracticeSummary
+  warning?: boolean
+  onDetail: () => void
+  actions?: React.ReactNode
+}) {
+  return (
+    <tr className={`lad-row${warning ? ' adm-row-warning' : ''}`} onClick={onDetail}>
+      <td>
+        <div className="lad-who">
+          <div className="lad-avatar lad-avatar-sm" style={{ background: avatarColor(email) }} aria-hidden="true">
+            {email.charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <div className="adm-cell-main">{email}</div>
+            <div className="adm-cell-sub">{sub}</div>
+          </div>
+        </div>
+      </td>
+      <td data-label="Trạng thái">{status}</td>
+      <td data-label="Lượt vào">{stat ? stat.count : '–'}</td>
+      <td data-label="Lần cuối" className="adm-cell-sub" title={stat ? formatAdminDate(stat.lastSeenAt) : undefined}>
+        {stat ? (
+          <>
+            {ago(stat.lastSeenAt)} · {stat.lastBrowser}
+          </>
+        ) : (
+          '–'
+        )}
+      </td>
+      <td data-label="Luyện đề">
+        {practice && practice.submissions + practice.drafts.length + practice.vocab.length > 0 ? (
+          <div className="lad-cell">
+            <b>{practice.submissions}</b> <span className="adm-cell-sub">lượt nộp · {practice.tests.length} đề</span>
+          </div>
+        ) : (
+          <span className="adm-cell-sub">—</span>
+        )}
+      </td>
+      <td className="adm-col-actions" onClick={(e) => e.stopPropagation()}>
+        <div className="adm-actions">
+          <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={onDetail}>
+            Chi tiết
+          </button>
+          {actions}
+        </div>
+      </td>
+    </tr>
+  )
+}
+
+const SKILL_LABEL: Record<string, string> = { listening: 'Listening', reading: 'Reading', writing: 'Writing', speaking: 'Speaking' }
+const MODE_LABEL: Record<string, string> = { real: 'Thi thật', practice: 'Luyện tập' }
+const pctOf = (a: number, b: number | null) => (b ? Math.round((a / b) * 100) : 0)
+
+// Popup chi tiết 1 người xem: thông tin truy cập + toàn bộ dữ liệu luyện đề (kết quả từng đề kèm lịch sử nộp, bài làm
+// dở, từ vựng đã thuộc, bài tập, dictation, highlight).
+function ViewerDetail({
+  email,
+  invite,
+  isOwner,
+  stat,
+  practice,
+  onClose,
+  onToggleRevoke,
+  onRemove,
+}: {
+  email: string
+  invite?: Invite
+  isOwner: boolean
+  stat?: AccessStat
+  practice?: PracticeSummary
+  onClose: () => void
+  onToggleRevoke: (revoked: boolean) => void
+  onRemove: () => void
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose()
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [onClose])
+  const p = practice
+  const testPage = usePagination(p?.tests ?? [], 5)
+  const draftPage = usePagination(p?.drafts ?? [], 5)
+  const highlightPage = usePagination(p?.highlights ?? [], 5)
+  const avgBest = p && p.tests.length ? Math.round(p.tests.reduce((n, t) => n + (t.total ? t.best / t.total : 0), 0) / p.tests.length * 100) : null
+  const learnedWords = p ? p.vocab.reduce((n, v) => n + v.done, 0) : 0
+  return (
+    <div className="lad-backdrop" onClick={onClose}>
+      <div className="lad-modal" role="dialog" aria-modal="true" aria-label={`Chi tiết ${email}`} onClick={(e) => e.stopPropagation()}>
+        <header className="lad-head">
+          <div className="lad-avatar" style={{ background: avatarColor(email) }} aria-hidden="true">
+            {email.charAt(0).toUpperCase()}
+          </div>
+          <div className="lad-id">
+            <div className="lad-name">
+              {email}
+              {isOwner ? <span className="adm-pill adm-pill-accent">Chủ trang</span> : invite && <InviteStatus invite={invite} stat={stat} />}
+            </div>
+            <div className="lad-dates">
+              {invite && <span>Mời {formatAdminDate(invite.invitedAt)}</span>}
+              {invite?.revokedAt && <span>Thu hồi {formatAdminDate(invite.revokedAt)}</span>}
+              <span>
+                Lượt vào: <b>{stat ? stat.count : 0}</b>
+              </span>
+              <span>
+                Lần cuối: <b>{stat ? `${ago(stat.lastSeenAt)} · ${formatAdminDate(stat.lastSeenAt)} · ${stat.lastBrowser}` : 'chưa đăng nhập'}</b>
+              </span>
+            </div>
+          </div>
+          <button type="button" className="lad-close" aria-label="Đóng" onClick={onClose}>
+            ✕
+          </button>
+        </header>
+
+        <div className="iad-body">
+          {!p ? (
+            <p className="lad-none">Chưa có dữ liệu luyện đề — tiến độ được đồng bộ lên máy chủ từ khi người này luyện đề trên bản mới.</p>
+          ) : (
+            <>
+              <div className="lad-stats iad-stats">
+                <StatTile label="Lượt nộp bài" value={p.submissions} sub={`${p.tests.length} đề đã làm`} />
+                <StatTile label="Điểm cao nhất TB" value={avgBest === null ? '—' : `${avgBest}%`} sub="trung bình trên các đề đã làm" />
+                <StatTile label="Đang làm dở" value={p.drafts.length} sub="đề chưa nộp" />
+                <StatTile label="Từ đã thuộc" value={learnedWords} sub={`${p.vocab.length} bộ · ${p.favs} từ yêu thích`} />
+                <StatTile label="Highlight" value={p.highlights.reduce((n, h) => n + h.count, 0)} sub={`trên ${p.highlights.length} bài đọc`} />
+              </div>
+              <p className="adm-cell-sub iad-sync">Dữ liệu cập nhật lần cuối: {p.updatedAt ? `${ago(p.updatedAt)} · ${formatAdminDate(p.updatedAt)}` : '—'}</p>
+
+              <section className="iad-section">
+                <h4>Kết quả luyện đề</h4>
+                {p.tests.length === 0 ? (
+                  <p className="lad-none">Chưa nộp đề nào.</p>
+                ) : (
+                  <ul className="iad-tests">
+                    {testPage.items.map((t) => (
+                      <li key={t.id}>
+                        <div className="iad-test-top">
+                          <div className="iad-test-title">
+                            {t.skill && <span className={`iad-skill ${t.skill}`}>{SKILL_LABEL[t.skill]}</span>}
+                            <b>{t.title}</b>
+                          </div>
+                          <div className="iad-test-score">
+                            <span>
+                              Cao nhất <b>{t.best}/{t.total}</b> <small>({pctOf(t.best, t.total)}%)</small>
+                            </span>
+                            <span className="adm-cell-sub">
+                              {t.attempts} lần · {ago(t.lastAt)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="lad-bar lad-bar-sm">
+                          <span className="ok" style={{ width: `${pctOf(t.best, t.total)}%` }} />
+                        </div>
+                        {t.history.length > 0 && (
+                          <div className="iad-history">
+                            {t.history.slice(0, 8).map((h, i) => (
+                              <span key={i} className="iad-chip" title={formatAdminDate(h.at)}>
+                                {h.score}/{h.total} · {MODE_LABEL[h.mode] ?? h.mode} · {formatAdminDate(h.at).slice(0, 11)}
+                              </span>
+                            ))}
+                            {t.history.length > 8 && <span className="adm-cell-sub">+{t.history.length - 8} lần nữa</span>}
+                          </div>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <Pager p={testPage} sizes={[5, 10, 20]} unit="đề" compact />
+              </section>
+
+              {p.drafts.length > 0 && (
+                <section className="iad-section">
+                  <h4>Đang làm dở</h4>
+                  <ul className="iad-list">
+                    {draftPage.items.map((d) => (
+                      <li key={d.id}>
+                        {d.skill && <span className={`iad-skill ${d.skill}`}>{SKILL_LABEL[d.skill]}</span>}
+                        <span className="iad-list-title">{d.title}</span>
+                        <span className="adm-cell-sub">
+                          {MODE_LABEL[d.mode] ?? d.mode} · đã trả lời {d.answered}
+                          {d.total ? `/${d.total}` : ''} câu
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Pager p={draftPage} sizes={[]} unit="đề" compact />
+                </section>
+              )}
+
+              <div className="iad-grid">
+                <ProgressSection title="Từ vựng đã thuộc" items={p.vocab} unit="từ" empty="Chưa đánh dấu từ nào" />
+                <ProgressSection title="Bài tập" items={p.exercises} unit="câu" empty="Chưa làm bài tập nào" />
+                <ProgressSection title="Dictation" items={p.dictation} unit="câu" empty="Chưa làm dictation" />
+                {p.highlights.length > 0 && (
+                  <section className="iad-section">
+                    <h4>Highlight bài đọc</h4>
+                    <ul className="iad-list">
+                      {highlightPage.items.map((h) => (
+                        <li key={h.id}>
+                          <span className="iad-list-title">{h.title}</span>
+                          <span className="adm-cell-sub">{h.count} đoạn</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <Pager p={highlightPage} sizes={[]} unit="bài" compact />
+                  </section>
+                )}
+              </div>
+            </>
+          )}
+        </div>
+
+        <footer className="lad-foot">
+          {invite && (
+            <>
+              <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => onToggleRevoke(!invite.revokedAt)}>
+                {invite.revokedAt ? 'Cấp lại quyền' : 'Thu hồi quyền'}
+              </button>
+              <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={onRemove}>
+                Xoá
+              </button>
+            </>
+          )}
+          <button type="button" className="adm-btn adm-btn-primary adm-btn-sm" onClick={onClose}>
+            Đóng
+          </button>
+        </footer>
+      </div>
+    </div>
+  )
+}
+
+function ProgressSection({ title, items, unit, empty }: { title: string; items: PracticeProgressItem[]; unit: string; empty: string }) {
+  const page = usePagination(items, 5)
+  return (
+    <section className="iad-section">
+      <h4>{title}</h4>
+      {items.length === 0 ? (
+        <p className="lad-none">{empty}</p>
+      ) : (
+        <ul className="iad-list">
+          {page.items.map((it) => (
+            <li key={it.id}>
+              <span className="iad-list-title">{it.title}</span>
+              <span className="adm-cell-sub">
+                {it.done}
+                {it.total ? `/${it.total}` : ''} {unit}
+              </span>
+              {it.total ? (
+                <div className="lad-bar lad-bar-sm iad-list-bar">
+                  <span className="ok" style={{ width: `${pctOf(it.done, it.total)}%` }} />
+                </div>
+              ) : null}
+            </li>
+          ))}
+        </ul>
+      )}
+      <Pager p={page} sizes={[]} unit="mục" compact />
+    </section>
   )
 }

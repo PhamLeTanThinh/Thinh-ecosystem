@@ -32,7 +32,7 @@
 }
 
 .adm-root {
-  max-width: 1080px;
+  max-width: 1440px; /* rộng gần hết màn hình — bảng nhiều cột không phải cuộn ngang */
   margin: 0 auto;
   padding: 20px 20px 72px;
 }
@@ -427,4 +427,671 @@
   .adm-panel {
     padding: 14px;
   }
+}
+
+/* ── Tab Hồ sơ học (LearnerAdmin.tsx): số liệu tổng, lọc, thẻ từng hồ sơ ─────────────── */
+.lad-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.lad-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-adm-border);
+  border-radius: 12px;
+  background: var(--color-adm-surface-soft);
+}
+
+.lad-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-stat b {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.lad-stat small {
+  font-size: 12px;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-stat.success {
+  border-color: color-mix(in srgb, var(--color-adm-success) 30%, transparent);
+  background: var(--color-adm-success-soft);
+}
+
+.lad-stat.success b {
+  color: var(--color-adm-success);
+}
+
+.lad-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.lad-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.lad-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border: 1px solid var(--color-adm-border);
+  border-radius: 999px;
+  background: var(--color-adm-surface);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-adm-ink);
+  cursor: pointer;
+}
+
+.lad-chip span {
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--color-adm-surface-soft);
+  font-size: 11px;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-chip.on {
+  border-color: var(--color-adm-accent);
+  background: var(--color-adm-accent);
+  color: #fff;
+}
+
+.lad-chip.on span {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.lad-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-sort select {
+  width: auto;
+  padding: 6px 10px;
+}
+
+
+
+
+.lad-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--color-adm-border);
+}
+
+.lad-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.lad-id {
+  flex: 1;
+  min-width: 0;
+}
+
+.lad-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.lad-dates {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-dates b {
+  font-weight: 600;
+  color: var(--color-adm-ink);
+}
+
+
+.lad-apps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lad-app {
+  padding: 12px 16px 14px;
+  border-right: 1px solid var(--color-adm-border);
+}
+
+.lad-app:last-child {
+  border-right: 0;
+}
+
+.lad-app.none {
+  background: var(--color-adm-surface-soft);
+}
+
+.lad-app h4 {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-none {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-adm-border);
+  overflow: hidden;
+}
+
+.lad-bar .ok {
+  background: var(--color-adm-success);
+}
+
+.lad-bar .bad {
+  background: var(--color-adm-danger);
+}
+
+.lad-big {
+  margin: 8px 0 6px;
+  font-size: 13px;
+}
+
+.lad-big b {
+  font-size: 16px;
+}
+
+.lad-muted {
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-kv {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 12.5px;
+}
+
+.lad-kv li {
+  display: flex;
+  flex-direction: column;
+}
+
+.lad-kv span {
+  font-size: 11px;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-kv b {
+  font-weight: 600;
+}
+
+.lad-kv b.bad {
+  color: var(--color-adm-danger);
+}
+
+.lad-kv small {
+  font-weight: 400;
+  color: var(--color-adm-ink-soft);
+}
+
+.lad-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0 0;
+}
+
+@media (max-width: 760px) {
+  .lad-head {
+    flex-wrap: wrap;
+  }
+
+
+  .lad-apps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .lad-app {
+    border-right: 0;
+    border-bottom: 1px solid var(--color-adm-border);
+  }
+
+  .lad-app:last-child {
+    border-bottom: 0;
+  }
+}
+
+/* Bảng danh sách hồ sơ + popup chi tiết */
+.lad-row {
+  cursor: pointer;
+}
+
+.lad-who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lad-avatar-sm {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  font-size: 12.5px;
+}
+
+.lad-cell {
+  min-width: 110px;
+  font-size: 13px;
+}
+
+.lad-bar-sm {
+  height: 4px;
+  margin-top: 5px;
+}
+
+.lad-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(16, 24, 40, 0.45);
+}
+
+.lad-modal {
+  width: min(960px, 100%);
+  max-height: calc(100dvh - 40px);
+  overflow-y: auto;
+  border-radius: 16px;
+  background: var(--color-adm-surface);
+  box-shadow: 0 24px 60px rgba(16, 24, 40, 0.25);
+}
+
+.lad-modal .lad-apps {
+  border-bottom: 1px solid var(--color-adm-border);
+}
+
+.lad-close {
+  flex: none;
+  align-self: flex-start;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  font-size: 16px;
+  color: var(--color-adm-ink-soft);
+  cursor: pointer;
+}
+
+.lad-close:hover {
+  background: var(--color-adm-surface-soft);
+  color: var(--color-adm-ink);
+}
+
+.lad-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+}
+
+/* Bảng hồ sơ: không bẻ chữ tên / ngày / nút */
+.lad-table td,
+.lad-table th {
+  white-space: nowrap;
+}
+
+.lad-table .adm-cell-main {
+  overflow-wrap: normal;
+}
+
+.lad-table .adm-btn-sm {
+  padding: 5px 9px;
+}
+
+.lad-table td,
+.lad-table th {
+  padding-left: 9px;
+  padding-right: 9px;
+}
+
+.lad-table .lad-cell {
+  min-width: 96px;
+}
+
+/* Màn hẹp: bảng hồ sơ chuyển thành từng khối xếp dọc (nhãn lấy từ data-label) — không có thanh cuộn ngang */
+@media (max-width: 900px) {
+  .lad-table thead {
+    display: none;
+  }
+
+  .lad-table,
+  .lad-table tbody,
+  .lad-table tr,
+  .lad-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .lad-table tr {
+    padding: 10px 4px;
+    border-bottom: 1px solid var(--color-adm-border);
+  }
+
+  .lad-table tbody tr:last-child {
+    border-bottom: 0;
+  }
+
+  .lad-table td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 4px 6px;
+    border-bottom: 0;
+    white-space: normal;
+  }
+
+  .lad-table td[data-label]::before {
+    content: attr(data-label);
+    flex: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-adm-ink-soft);
+  }
+
+  .lad-table td.adm-col-actions {
+    justify-content: flex-start;
+    padding-top: 8px;
+  }
+
+  .lad-table .lad-cell {
+    min-width: 0;
+    text-align: right;
+  }
+
+  .lad-table .lad-bar-sm {
+    width: 120px;
+    margin-left: auto;
+  }
+}
+
+/* ── Popup chi tiết người xem IELTS (IeltsAccessAdmin.tsx) ─────────── */
+.lad-stat.warning {
+  border-color: color-mix(in srgb, var(--color-adm-warning) 30%, transparent);
+  background: var(--color-adm-warning-soft);
+}
+
+.lad-stat.warning b {
+  color: var(--color-adm-warning);
+}
+
+.iad-body {
+  padding: 4px 16px 16px;
+  border-bottom: 1px solid var(--color-adm-border);
+}
+
+.iad-body > .lad-none {
+  padding: 16px 0;
+}
+
+.iad-stats {
+  margin-top: 12px;
+}
+
+.iad-sync {
+  margin: 8px 0 0;
+}
+
+.iad-section {
+  margin-top: 16px;
+}
+
+.iad-section h4 {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-adm-ink-soft);
+}
+
+.iad-tests {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.iad-tests li {
+  padding: 10px 12px;
+  border: 1px solid var(--color-adm-border);
+  border-radius: 10px;
+}
+
+.iad-test-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.iad-test-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-size: 13.5px;
+}
+
+.iad-test-score {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 13px;
+}
+
+.iad-test-score small {
+  color: var(--color-adm-ink-soft);
+}
+
+.iad-tests .lad-bar-sm {
+  margin-top: 6px;
+}
+
+.iad-skill {
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 10.5px;
+  font-weight: 700;
+  background: var(--color-adm-accent-soft);
+  color: var(--color-adm-accent);
+}
+
+.iad-skill.listening { background: #e0f2fe; color: #0369a1; }
+.iad-skill.reading { background: #ede9fe; color: #6d28d9; }
+.iad-skill.writing { background: #fef3c7; color: #b45309; }
+.iad-skill.speaking { background: #dcfce7; color: #15803d; }
+
+.iad-history {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.iad-chip {
+  padding: 2px 8px;
+  border: 1px solid var(--color-adm-border);
+  border-radius: 999px;
+  background: var(--color-adm-surface-soft);
+  font-size: 11px;
+  color: var(--color-adm-ink-soft);
+}
+
+.iad-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0 20px;
+}
+
+.iad-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.iad-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  font-size: 13px;
+}
+
+.iad-list-title {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.iad-list-bar {
+  flex: 1 1 100%;
+  margin-top: 2px;
+}
+
+/* ── Phân trang (Pagination.tsx) ─────────────────────────────────── */
+.adm-pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-adm-border);
+  font-size: 12.5px;
+}
+
+.adm-pager.compact {
+  margin-top: 8px;
+  padding-top: 8px;
+}
+
+.adm-pager-info {
+  color: var(--color-adm-ink-soft);
+}
+
+.adm-pager-pages {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.adm-pager-btn {
+  min-width: 30px;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--color-adm-border);
+  border-radius: 8px;
+  background: var(--color-adm-surface);
+  font: inherit;
+  font-weight: 600;
+  color: var(--color-adm-ink);
+  cursor: pointer;
+}
+
+.adm-pager-btn:hover:not(:disabled) {
+  background: var(--color-adm-surface-soft);
+}
+
+.adm-pager-btn.on {
+  border-color: var(--color-adm-accent);
+  background: var(--color-adm-accent);
+  color: #fff;
+}
+
+.adm-pager-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.adm-pager-gap {
+  padding: 0 2px;
+  color: var(--color-adm-ink-soft);
+}
+
+.adm-pager-size select {
+  width: auto;
+  padding: 5px 8px;
+  font-size: 12.5px;
+}
+
+.adm-pager.compact .adm-pager-btn {
+  min-width: 26px;
+  height: 26px;
 }

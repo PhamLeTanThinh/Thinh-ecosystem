@@ -4,13 +4,9 @@ import { Suspense, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
-import { LESSON_TITLES, TOPIK_LABEL, lessonDisplayNumber, lessonNumbersForLevel } from '@/lib/korean/lessons'
-import type { ExampleDetail } from '@/lib/korean/exampleDetail'
-import type { KoreanCard } from '@/lib/korean/types'
-import { parsePos } from '@/components/shared/vocab/pos'
-import { parseParts } from '@/components/shared/vocab/parts'
+import { KOREAN_LESSON_GROUPS, koreanLessonLabel, toReviewCard } from '@/lib/korean/reviewCard'
 import { ReviewApp } from '@/components/shared/review/ReviewApp'
-import type { ReviewCard, ReviewLessonGroup } from '@/components/shared/review/types'
+import type { ReviewCard } from '@/components/shared/review/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
 function StudyMessage({ text }: { text: string }) {
@@ -23,33 +19,6 @@ function StudyMessage({ text }: { text: string }) {
     </div>
   )
 }
-
-// Thẻ Korean → thẻ ôn tập dùng chung. Ví dụ: dòng đầu của example + bản dịch ở exampleDetail[0].vi.
-function toReviewCard(c: KoreanCard): ReviewCard {
-  let detail: ExampleDetail | undefined
-  try {
-    detail = (JSON.parse(c.exampleDetail || '[]') as ExampleDetail[])[0]
-  } catch {}
-  return {
-    id: c.id,
-    kind: c.kind,
-    lesson: c.lesson,
-    sortOrder: c.sortOrder,
-    word: c.front,
-    meaning: c.meaning,
-    sub: c.note || undefined,
-    pos: parsePos(c.pos),
-    parts: parseParts(c.parts),
-    example: c.example.split('\n')[0] || detail?.ko || undefined,
-    exampleVi: detail?.vi || undefined,
-    image: c.image || undefined,
-  }
-}
-
-const LESSON_GROUPS: ReviewLessonGroup[] = (['topik1', 'topik2'] as const).map((level) => ({
-  label: TOPIK_LABEL[level],
-  lessons: lessonNumbersForLevel(level).map((n) => ({ lesson: n, badge: `${lessonDisplayNumber(n)}과`, title: LESSON_TITLES[n] ?? '' })),
-}))
 
 // useSearchParams() bắt buộc bọc Suspense — nếu không, build production sẽ lỗi
 // "Missing Suspense boundary with useSearchParams".
@@ -79,7 +48,7 @@ function StudySession() {
   const progressMap = useMemo(() => new Map(progress.map((p) => [p.id, p])), [progress])
   const progressOf = useCallback((id: string) => progressMap.get(id), [progressMap])
   const preset = useMemo(
-    () => (lesson !== null ? { label: `제${lessonDisplayNumber(lesson)}과 · ${LESSON_TITLES[lesson] ?? ''}`, filter: (c: ReviewCard) => c.lesson === lesson } : null),
+    () => (lesson !== null ? { label: koreanLessonLabel(lesson), filter: (c: ReviewCard) => c.lesson === lesson } : null),
     [lesson],
   )
 
@@ -93,7 +62,7 @@ function StudySession() {
       lang="ko-KR"
       eyebrow="한국어 공부 · 🎴 Ôn tập"
       cards={cards}
-      lessonGroups={LESSON_GROUPS}
+      lessonGroups={KOREAN_LESSON_GROUPS}
       preset={preset}
       progressOf={progressOf}
       onResult={markResult}

@@ -1,72 +1,23 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
 import { useKoreanStore } from '@/lib/korean/store'
-import { shuffle } from '@/lib/korean/shuffle'
-import { LESSON_NUMBERS, LESSON_TITLES, lessonDisplayNumber } from '@/lib/korean/lessons'
-import { LessonPicker } from '@/components/korean/LessonPicker'
-import { SegmentedControl } from '@/components/korean/SegmentedControl'
-import type { KoreanCard, KoreanCardKind, QuizMode } from '@/lib/korean/types'
+import { KOREAN_LESSON_GROUPS, koreanLessonLabel, toReviewCard } from '@/lib/korean/reviewCard'
+import { LangQuiz, type QuizType } from '@/components/shared/quiz/LangQuiz'
+import type { ReviewCard } from '@/components/shared/review/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 
-const MIN_CARDS = 4
-const OPTION_COUNT = 4
-const REQUEUE_MIN_GAP = 2
-const REQUEUE_MAX_GAP = 3
-
-const KIND_OPTIONS: { value: 'all' | KoreanCardKind; label: string }[] = [
-  { value: 'all', label: 'Tất cả' },
-  { value: 'vocab', label: '📚 Từ vựng' },
-  { value: 'grammar', label: '✏️ Ngữ pháp' },
+const QUIZ_TYPES: { id: QuizType; label: string }[] = [
+  { id: 'word-meaning', label: 'Từ → nghĩa' },
+  { id: 'meaning-word', label: 'Nghĩa → từ' },
+  { id: 'mixed', label: '🔀 Trộn' },
 ]
-
-type QuizField = 'front' | 'meaning'
-
-function promptField(mode: QuizMode): QuizField {
-  return mode === 'meaning-to-front' ? 'meaning' : 'front'
-}
-
-function answerField(mode: QuizMode): QuizField {
-  return mode === 'meaning-to-front' ? 'front' : 'meaning'
-}
-
-const PROMPT_LABEL: Record<QuizField, string> = {
-  front: 'Từ/mẫu câu này nghĩa là gì?',
-  meaning: 'Từ/mẫu câu nào có nghĩa này?',
-}
-
-// Chọn 1 đáp án đúng + 3 đáp án nhiễu, ưu tiên cùng loại (từ vựng/ngữ pháp) với đáp án đúng để
-// tránh lẫn 1 mẫu ngữ pháp dài vào giữa các lựa chọn từ vựng ngắn, rồi xáo vị trí.
-function buildOptions(pool: KoreanCard[], correctCard: KoreanCard, field: QuizField): string[] {
-  const correctValue = correctCard[field]
-  const seenValues = new Set([correctValue])
-  const sameKind = pool.filter((c) => c.id !== correctCard.id && c.kind === correctCard.kind)
-  const fallback = pool.filter((c) => c.id !== correctCard.id && c.kind !== correctCard.kind)
-  const candidates = [...shuffle(sameKind), ...shuffle(fallback)]
-  const distractors: string[] = []
-  for (const c of candidates) {
-    if (distractors.length >= OPTION_COUNT - 1) break
-    if (seenValues.has(c[field])) continue
-    seenValues.add(c[field])
-    distractors.push(c[field])
-  }
-  return shuffle([correctValue, ...distractors])
-}
-
-// Trả lời sai: nhét thẻ trở lại hàng đợi sau 2-3 câu nữa thay vì hỏi lại ngay, giống chế độ Học của Quizlet.
-function requeue(remaining: string[], cardId: string): string[] {
-  const gap = REQUEUE_MIN_GAP + Math.floor(Math.random() * (REQUEUE_MAX_GAP - REQUEUE_MIN_GAP + 1))
-  const insertAt = Math.min(gap, remaining.length)
-  const next = [...remaining]
-  next.splice(insertAt, 0, cardId)
-  return next
-}
 
 function QuizMessage({ text }: { text: string }) {
   return (
-    <div className="mx-auto w-full max-w-xl px-4 py-16 text-center text-sm text-muted">
+    <div className="py-16 text-center text-sm text-muted">
       <Link href="/korean" className="text-accent">
         ‹ Quay lại
       </Link>
@@ -79,291 +30,45 @@ function QuizMessage({ text }: { text: string }) {
 // "Missing Suspense boundary with useSearchParams".
 export default function KoreanQuizPage() {
   return (
-    <>
-      <div className="mx-auto w-full max-w-xl px-4 pt-6">
-        <AppBreadcrumb app="/korean" trail={[{ label: 'Kiểm tra', icon: 'quiz' }]} className="mb-4" />
-      </div>
+    <div className="mx-auto w-full max-w-6xl px-4 py-6">
+      <AppBreadcrumb app="/korean" trail={[{ label: 'Kiểm tra', icon: 'quiz' }]} className="mb-4" />
       <Suspense fallback={<QuizMessage text="Đang tải..." />}>
         <QuizSession />
       </Suspense>
-    </>
+    </div>
   )
 }
 
+// ?lesson=<n> (nút 📝 ở từng bài) → chỉ kiểm tra thẻ của bài đó; không có → chọn bài ở màn thiết lập.
 function QuizSession() {
   const lessonParam = useSearchParams().get('lesson')
   const lesson = lessonParam ? Number(lessonParam) : null
 
   const hydrated = useKoreanStore((s) => s.hydrated)
   const allCards = useKoreanStore((s) => s.cards)
-  const settings = useKoreanStore((s) => s.settings)
+  const progress = useKoreanStore((s) => s.progress)
   const markResult = useKoreanStore((s) => s.markResult)
 
-  const [queue, setQueue] = useState<string[] | null>(null)
-  const [totalCards, setTotalCards] = useState(0)
-  const [masteredIds, setMasteredIds] = useState<Set<string>>(new Set())
-  const [tally, setTally] = useState({ correct: 0, wrong: 0 })
-  const [optionsFor, setOptionsFor] = useState<{ cardId: string; options: string[] } | null>(null)
-  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
-
-  // Setup quiz nhiều bài: chỉ áp dụng khi vào thẳng /korean/quiz không kèm ?lesson= (từ nút
-  // "📝 Tạo quiz" ở trang tổng quan) — bấm 📝 ở từng bài trong sidebar/trang bài học vẫn vào
-  // thẳng quiz của riêng bài đó như cũ, không qua bước tạo quiz này.
-  const [kindFilter, setKindFilter] = useState<'all' | KoreanCardKind>('all')
-  const [selectedLessons, setSelectedLessons] = useState<Set<number> | null>(null)
-  const [started, setStarted] = useState(lesson !== null)
+  const cards = useMemo(() => allCards.map(toReviewCard), [allCards])
+  const progressMap = useMemo(() => new Map(progress.map((p) => [p.id, p])), [progress])
+  const progressOf = useCallback((id: string) => progressMap.get(id), [progressMap])
+  const preset = useMemo(() => (lesson !== null ? { label: koreanLessonLabel(lesson), filter: (c: ReviewCard) => c.lesson === lesson } : null), [lesson])
 
   if (!hydrated) return <QuizMessage text="Đang tải..." />
-
-  if (lesson === null && !started) {
-    const cardCountByLesson = new Map<number, number>()
-    for (const c of allCards) cardCountByLesson.set(c.lesson, (cardCountByLesson.get(c.lesson) ?? 0) + 1)
-    const selectableLessons = LESSON_NUMBERS.filter((n) => (cardCountByLesson.get(n) ?? 0) > 0)
-
-    if (selectedLessons === null) {
-      setSelectedLessons(new Set(selectableLessons))
-      return <QuizMessage text="Đang tải..." />
-    }
-
-    const matchCount = allCards.filter(
-      (c) => selectedLessons.has(c.lesson) && (kindFilter === 'all' || c.kind === kindFilter)
-    ).length
-
-    return (
-      <div className="mx-auto w-full max-w-xl px-4 py-6">
-        <div className="kr-setup">
-          <Link href="/korean" className="text-sm font-medium text-accent">
-            ‹ Quay lại
-          </Link>
-          <p className="kr-eyebrow mt-4">한국어 공부 · 📝 Tạo quiz</p>
-          <h1 className="kr-page-title">Chọn nội dung làm quiz</h1>
-
-          <div className="kr-glass kr-setup-panel">
-            <p className="kr-filter-label">LOẠI THẺ</p>
-            <SegmentedControl dense options={KIND_OPTIONS} value={kindFilter} onChange={setKindFilter} />
-
-            <LessonPicker
-              cardCountByLesson={cardCountByLesson}
-              selected={selectedLessons}
-              onToggle={(n) =>
-                setSelectedLessons((prev) => {
-                  const next = new Set(prev)
-                  if (next.has(n)) next.delete(n)
-                  else next.add(n)
-                  return next
-                })
-              }
-              onSelectAll={() => setSelectedLessons(new Set(selectableLessons))}
-              onClearAll={() => setSelectedLessons(new Set())}
-            />
-          </div>
-
-          {matchCount > 0 && matchCount < MIN_CARDS && (
-            <p className="kr-setup-warning">Cần ít nhất {MIN_CARDS} thẻ để làm trắc nghiệm — hãy chọn thêm bài.</p>
-          )}
-
-          <button
-            type="button"
-            disabled={matchCount < MIN_CARDS}
-            onClick={() => setStarted(true)}
-            className="kr-btn-solid kr-setup-start"
-          >
-            📝 Tạo quiz ({matchCount} thẻ)
-          </button>
-        </div>
-      </div>
-    )
-  }
-
-  const cards =
-    lesson !== null
-      ? allCards.filter((c) => c.lesson === lesson)
-      : allCards.filter((c) => (selectedLessons?.has(c.lesson) ?? true) && (kindFilter === 'all' || c.kind === kindFilter))
-  const label = lesson !== null ? `제${lessonDisplayNumber(lesson)}과 · ${LESSON_TITLES[lesson] ?? ''}` : `${selectedLessons?.size ?? 0} bài đã chọn`
-
-  if (cards.length < MIN_CARDS) {
-    return <QuizMessage text={`Cần ít nhất ${MIN_CARDS} thẻ để làm trắc nghiệm (hiện có ${cards.length}).`} />
-  }
-
-  // Khởi tạo hàng đợi câu hỏi ngay khi cards sẵn sàng — cập nhật state trong lúc render (không
-  // phải effect) để tránh 1 nhịp render thừa, cùng convention với components/korean/BottomSheet.tsx.
-  if (queue === null) {
-    const ids = shuffle(cards.map((c) => c.id))
-    setQueue(ids)
-    setTotalCards(ids.length)
-    return <QuizMessage text="Đang tải..." />
-  }
-
-  const field = answerField(settings.quizMode)
-  const prompt = promptField(settings.quizMode)
-
-  const finished = queue.length === 0
-
-  if (finished) {
-    const totalAttempts = tally.correct + tally.wrong
-    const percent = totalAttempts > 0 ? Math.round((tally.correct / totalAttempts) * 100) : 0
-    return (
-      <div className="mx-auto flex w-full max-w-xl flex-col items-center gap-5 px-4 py-16 text-center">
-        <span className="flex h-20 w-20 items-center justify-center rounded-full bg-linear-to-br from-brand to-brand-strong text-4xl shadow-lg">
-          📝
-        </span>
-        <div>
-          <p className="text-xl font-bold">Hoàn thành trắc nghiệm!</p>
-          <p className="mt-1 text-sm text-muted">
-            {label} · {totalCards} thẻ · {percent}% đúng ngay lần đầu
-          </p>
-        </div>
-
-        <div className="flex w-full max-w-xs gap-3">
-          <div className="kr-glass flex-1 p-4">
-            <p className="text-2xl font-bold text-accent-strong">{tally.correct}</p>
-            <p className="text-xs text-muted">✓ Lượt đúng</p>
-          </div>
-          <div className="kr-glass flex-1 p-4">
-            <p className="text-2xl font-bold text-danger">{tally.wrong}</p>
-            <p className="text-xs text-muted">✕ Lượt sai</p>
-          </div>
-        </div>
-
-        <div className="mt-2 flex gap-3">
-          <button type="button" onClick={() => {
-            setQueue(shuffle(cards.map((c) => c.id)))
-            setMasteredIds(new Set())
-            setTally({ correct: 0, wrong: 0 })
-            setOptionsFor(null)
-            setSelectedAnswer(null)
-          }} className="kr-btn-solid">
-            🔁 Làm lại
-          </button>
-          <Link href="/korean" className="kr-glass kr-btn-outline">
-            Quay lại
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  const currentCardId = queue[0]
-  const currentCard = cards.find((c) => c.id === currentCardId)
-  if (!currentCard) return null
-
-  // Sinh 4 lựa chọn cho câu hỏi hiện tại, chỉ 1 lần cho tới khi chuyển câu tiếp theo.
-  if (optionsFor === null || optionsFor.cardId !== currentCardId) {
-    setOptionsFor({ cardId: currentCardId, options: buildOptions(cards, currentCard, field) })
-    setSelectedAnswer(null)
-    return <QuizMessage text="Đang tải..." />
-  }
-
-  const isAnswered = selectedAnswer !== null
-  const isCorrectAnswer = (option: string) => option === currentCard[field]
-
-  function handleSelect(option: string) {
-    if (isAnswered) return
-    setSelectedAnswer(option)
-    const correct = isCorrectAnswer(option)
-    markResult(currentCardId, correct ? 'correct' : 'wrong')
-    setTally((t) => (correct ? { ...t, correct: t.correct + 1 } : { ...t, wrong: t.wrong + 1 }))
-    if (correct) setMasteredIds((prev) => new Set(prev).add(currentCardId))
-  }
-
-  const handleContinue = () => {
-    const rest = queue.slice(1)
-    const wasCorrect = selectedAnswer !== null && isCorrectAnswer(selectedAnswer)
-    setQueue(wasCorrect ? rest : requeue(rest, currentCardId))
-  }
-
-  const progressPercent = Math.round((masteredIds.size / totalCards) * 100)
+  if (lesson !== null && !cards.some((c) => c.lesson === lesson)) return <QuizMessage text={`Bài ${lesson} chưa có thẻ nào.`} />
 
   return (
-    <div className="mx-auto flex w-full max-w-xl flex-col items-center px-4 py-6">
-      <div className="flex w-full max-w-sm items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Link href="/korean" className="text-sm font-medium text-accent">
-            ‹ Quay lại
-          </Link>
-          {lesson === null && (
-            <button
-              type="button"
-              onClick={() => {
-                setStarted(false)
-                setQueue(null)
-                setMasteredIds(new Set())
-                setTally({ correct: 0, wrong: 0 })
-                setOptionsFor(null)
-                setSelectedAnswer(null)
-              }}
-              className="text-sm font-medium text-accent"
-            >
-              ⚙️ Đổi bộ lọc
-            </button>
-          )}
-        </div>
-        <p className="text-sm font-medium text-muted">
-          {lesson ? `제${lessonDisplayNumber(lesson)}과 · ` : ''}
-          {masteredIds.size} / {totalCards} thuộc
-        </p>
-      </div>
-
-      <div className="mt-3 h-1.5 w-full max-w-sm overflow-hidden rounded-pill bg-card-soft">
-        <div
-          className="h-full rounded-pill bg-linear-to-r from-brand to-brand-strong transition-all duration-300 ease-out"
-          style={{ width: `${progressPercent}%` }}
-        />
-      </div>
-
-      <div className="kr-glass-strong mt-6 w-full max-w-sm p-6 text-center">
-        <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-          {currentCard.kind === 'grammar' ? '✏️ Ngữ pháp' : '📚 Từ vựng'} · {PROMPT_LABEL[prompt]}
-        </p>
-        <p className={`mt-3 font-bold text-brand-strong ${prompt === 'front' ? 'text-3xl' : 'text-xl'}`}>{currentCard[prompt]}</p>
-      </div>
-
-      <div className="mt-4 flex w-full max-w-sm flex-col gap-2">
-        {optionsFor.options.map((option) => {
-          const selected = selectedAnswer === option
-          const showAsCorrect = isAnswered && isCorrectAnswer(option)
-          const showAsWrong = isAnswered && selected && !isCorrectAnswer(option)
-          return (
-            <button
-              key={option}
-              type="button"
-              onClick={() => handleSelect(option)}
-              disabled={isAnswered}
-              className={`kr-glass rounded-card border-2 p-3.5 text-left text-sm font-medium transition-colors ${
-                showAsCorrect
-                  ? 'border-gold bg-gold-soft text-gold'
-                  : showAsWrong
-                    ? 'border-danger bg-danger-soft text-danger'
-                    : 'border-transparent text-text'
-              }`}
-            >
-              {option}
-              {showAsCorrect && ' ✓'}
-              {showAsWrong && ' ✕'}
-            </button>
-          )
-        })}
-      </div>
-
-      {isAnswered && currentCard.note && (
-        <div className="kr-glass mt-3 w-full max-w-sm px-4 py-3 text-center">
-          <p className="text-xs font-semibold text-muted">{currentCard.kind === 'grammar' ? 'Cách dùng' : 'English'}</p>
-          <p className="mt-0.5 text-sm font-semibold text-text">{currentCard.note}</p>
-        </div>
-      )}
-
-      {isAnswered && currentCard.example && (
-        <div className="kr-glass mt-2 w-full max-w-sm px-4 py-3 text-center">
-          <p className="text-xs font-semibold text-muted">Ví dụ</p>
-          <p className="mt-0.5 whitespace-pre-line text-sm text-text">{currentCard.example}</p>
-        </div>
-      )}
-
-      {isAnswered && (
-        <button type="button" onClick={handleContinue} className="kr-btn-solid mt-3 w-full max-w-sm">
-          Tiếp tục →
-        </button>
-      )}
-    </div>
+    <LangQuiz
+      appHref="/korean"
+      storageKey="kr-quiz"
+      lang="ko-KR"
+      eyebrow="한국어 공부 · 📝 Kiểm tra"
+      cards={cards}
+      lessonGroups={KOREAN_LESSON_GROUPS}
+      preset={preset}
+      types={QUIZ_TYPES}
+      progressOf={progressOf}
+      onResult={markResult}
+    />
   )
 }

@@ -1,4 +1,4 @@
-import { count, eq, isNotNull, max, sum } from 'drizzle-orm'
+import { and, count, eq, isNotNull, isNull, max, ne, sql, sum } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles } from '@/db/schema'
 import { hasLearnerData, isLearnerIdTaken, isRegistered } from '@/lib/learner/registry'
@@ -23,34 +23,70 @@ export async function moveLearnerData(tx: Tx, oldId: string, newId: string) {
   await tx.update(certAttempts).set({ learnerId: newId }).where(eq(certAttempts.learnerId, oldId))
 }
 
+// Thống kê học 1 app (Chinese / Korean): reviewed = số thẻ đã có tiến độ; learned / wrongNow = số thẻ lần gần nhất
+// đúng / sai; correct / wrong = tổng lượt trả lời đúng / sai; lastAt = lần ôn gần nhất trong app đó.
+export interface AppStats {
+  reviewed: number
+  learned: number
+  wrongNow: number
+  correct: number
+  wrong: number
+  lastAt: string | null
+  addedCards: number
+  decks: number
+}
+
+// Luyện đề chứng chỉ: questions = số câu đã làm, attempts = số lượt đã lưu, avgScore = % đúng trung bình các lượt.
+export interface CertStats {
+  questions: number
+  correct: number
+  wrong: number
+  attempts: number
+  avgScore: number | null
+  certs: string[]
+  lastAt: string | null
+}
+
 export interface LearnerSummary {
   id: string
   // false = hồ sơ CŨ có dữ liệu nhưng chưa có tên trong sổ đăng ký (mã tự sinh từ bản trước, hoặc 'legacy').
   registered: boolean
   createdAt: string | null
   lastActiveAt: string | null
-  chinese: { reviewed: number; correct: number; wrong: number; decks: number; addedCards: number }
-  korean: { reviewed: number; correct: number; wrong: number; addedCards: number }
+  chinese: AppStats
+  korean: AppStats
+  certs: CertStats
 }
+
+// Tổng số thẻ gốc (dùng chung) của mỗi app — để tính % đã thuộc của từng hồ sơ.
+export interface LearnerTotals {
+  chineseCards: number
+  koreanCards: number
+}
+
+const emptyApp = (): AppStats => ({ reviewed: 0, learned: 0, wrongNow: 0, correct: 0, wrong: 0, lastAt: null, addedCards: 0, decks: 0 })
 
 const emptySummary = (id: string): LearnerSummary => ({
   id,
   registered: false,
   createdAt: null,
   lastActiveAt: null,
-  chinese: { reviewed: 0, correct: 0, wrong: 0, decks: 0, addedCards: 0 },
-  korean: { reviewed: 0, correct: 0, wrong: 0, addedCards: 0 },
+  chinese: emptyApp(),
+  korean: emptyApp(),
+  certs: { questions: 0, correct: 0, wrong: 0, attempts: 0, avgScore: null, certs: [], lastAt: null },
 })
 
 // Gộp mọi hồ sơ: những tên đã đăng ký (kể cả chưa học gì) + những mã chỉ xuất hiện trong bảng dữ liệu. Mới
 // hoạt động gần nhất lên đầu; hồ sơ chưa học gì xếp theo ngày tạo.
-export async function listLearners(): Promise<LearnerSummary[]> {
-  const [profiles, cProg, kProg, cDecks, cSettings, kSettings, cCards, kCards] = await Promise.all([
+export async function listLearners(): Promise<{ learners: LearnerSummary[]; totals: LearnerTotals }> {
+  const [profiles, cProg, kProg, cDecks, cSettings, kSettings, cCards, kCards, certProg, certAtt, cTotal, kTotal] = await Promise.all([
     db.select().from(learnerProfiles),
     db
       .select({
         id: chineseProgress.learnerId,
         reviewed: count(),
+        learned: sql<number>`count(*) filter (where ${chineseProgress.lastResult} = 'correct')`.mapWith(Number),
+        wrongNow: sql<number>`count(*) filter (where ${chineseProgress.lastResult} = 'wrong')`.mapWith(Number),
         correct: sum(chineseProgress.correctCount),
         wrong: sum(chineseProgress.wrongCount),
         last: max(chineseProgress.lastReviewedAt),
@@ -61,6 +97,8 @@ export async function listLearners(): Promise<LearnerSummary[]> {
       .select({
         id: koreanProgress.learnerId,
         reviewed: count(),
+        learned: sql<number>`count(*) filter (where ${koreanProgress.lastResult} = 'correct')`.mapWith(Number),
+        wrongNow: sql<number>`count(*) filter (where ${koreanProgress.lastResult} = 'wrong')`.mapWith(Number),
         correct: sum(koreanProgress.correctCount),
         wrong: sum(koreanProgress.wrongCount),
         last: max(koreanProgress.lastReviewedAt),
@@ -73,6 +111,29 @@ export async function listLearners(): Promise<LearnerSummary[]> {
     // learnerId NULL = thẻ gốc dùng chung, không tính vào của riêng ai — isNotNull() lọc trước khi group.
     db.select({ id: chineseCards.learnerId, n: count() }).from(chineseCards).where(isNotNull(chineseCards.learnerId)).groupBy(chineseCards.learnerId),
     db.select({ id: koreanCards.learnerId, n: count() }).from(koreanCards).where(isNotNull(koreanCards.learnerId)).groupBy(koreanCards.learnerId),
+    db
+      .select({
+        id: certProgress.learnerId,
+        questions: count(),
+        correct: sum(certProgress.correctCount),
+        wrong: sum(certProgress.wrongCount),
+        last: max(certProgress.lastReviewedAt),
+        certs: sql<string[]>`array_agg(distinct ${certProgress.certId})`,
+      })
+      .from(certProgress)
+      .groupBy(certProgress.learnerId),
+    db
+      .select({
+        id: certAttempts.learnerId,
+        n: count(),
+        avg: sql<number>`avg(${certAttempts.correct}::float / nullif(${certAttempts.total}, 0))`.mapWith(Number),
+        last: max(certAttempts.createdAt),
+      })
+      .from(certAttempts)
+      .groupBy(certAttempts.learnerId),
+    // bài 0 ("Chưa phân loại") là thẻ cũ trùng với các bài thật — không tính vào tổng
+    db.select({ n: count() }).from(chineseCards).where(and(isNull(chineseCards.learnerId), ne(chineseCards.lesson, 0))),
+    db.select({ n: count() }).from(koreanCards).where(isNull(koreanCards.learnerId)),
   ])
 
   const byId = new Map<string, LearnerSummary>()
@@ -90,18 +151,33 @@ export async function listLearners(): Promise<LearnerSummary[]> {
     s.registered = true
     s.createdAt = p.createdAt.toISOString()
   }
-  for (const r of cProg) {
+  for (const [rows, key] of [
+    [cProg, 'chinese'],
+    [kProg, 'korean'],
+  ] as const) {
+    for (const r of rows) {
+      const s = get(r.id)
+      Object.assign(s[key], {
+        reviewed: r.reviewed,
+        learned: r.learned,
+        wrongNow: r.wrongNow,
+        correct: Number(r.correct ?? 0),
+        wrong: Number(r.wrong ?? 0),
+        lastAt: r.last?.toISOString() ?? null,
+      })
+      touch(s, r.last)
+    }
+  }
+  for (const r of certProg) {
     const s = get(r.id)
-    s.chinese.reviewed = r.reviewed
-    s.chinese.correct = Number(r.correct ?? 0)
-    s.chinese.wrong = Number(r.wrong ?? 0)
+    Object.assign(s.certs, { questions: r.questions, correct: Number(r.correct ?? 0), wrong: Number(r.wrong ?? 0), certs: r.certs ?? [], lastAt: r.last?.toISOString() ?? null })
     touch(s, r.last)
   }
-  for (const r of kProg) {
+  for (const r of certAtt) {
     const s = get(r.id)
-    s.korean.reviewed = r.reviewed
-    s.korean.correct = Number(r.correct ?? 0)
-    s.korean.wrong = Number(r.wrong ?? 0)
+    s.certs.attempts = r.n
+    s.certs.avgScore = r.avg == null || Number.isNaN(r.avg) ? null : Math.round(r.avg * 100)
+    if (r.last && (!s.certs.lastAt || r.last.toISOString() > s.certs.lastAt)) s.certs.lastAt = r.last.toISOString()
     touch(s, r.last)
   }
   for (const r of cDecks) get(r.id).chinese.decks = r.n
@@ -110,11 +186,12 @@ export async function listLearners(): Promise<LearnerSummary[]> {
   for (const r of cCards) if (r.id) get(r.id).chinese.addedCards = r.n
   for (const r of kCards) if (r.id) get(r.id).korean.addedCards = r.n
 
-  return [...byId.values()].sort((a, b) => {
+  const learners = [...byId.values()].sort((a, b) => {
     const ka = a.lastActiveAt ?? a.createdAt ?? ''
     const kb = b.lastActiveAt ?? b.createdAt ?? ''
     return kb.localeCompare(ka) || a.id.localeCompare(b.id)
   })
+  return { learners, totals: { chineseCards: cTotal[0]?.n ?? 0, koreanCards: kTotal[0]?.n ?? 0 } }
 }
 
 // Xoá hẳn 1 hồ sơ: toàn bộ tiến độ, cài đặt, bộ từ, THẺ TỰ THÊM (Trung + Hàn) và cả tên trong sổ đăng ký —
