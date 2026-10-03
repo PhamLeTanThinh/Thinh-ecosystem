@@ -4,6 +4,11 @@
   margin-top: 8px;
 }
 
+/* Mục phía trước đang mở → tiêu đề mục sau cách xa nội dung (thẻ cuối) của mục trước, không dính sát */
+.lsec:not(.lsec-collapsed) + .lsec {
+  margin-top: 32px;
+}
+
 .lsec-head {
   cursor: pointer;
   user-select: none;
