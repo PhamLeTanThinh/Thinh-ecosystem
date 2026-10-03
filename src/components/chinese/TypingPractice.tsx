@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { TypingPractice as SharedTypingPractice } from '@/components/shared/typing/TypingPractice'
 import type { TypingItem } from '@/components/shared/typing/engine'
 import { ZH_TYPING, pinyinTarget } from '@/lib/chinese/pinyinInput'
+import { parseParts } from '@/components/shared/vocab/parts'
 import type { ChineseCard } from '@/lib/chinese/types'
 import type { Dialogue } from '@/lib/chinese/dialogues'
 
@@ -31,7 +32,7 @@ export function TypingPractice({
       // "姥爷 / 外公" + "lǎoyé / wàigōng" → chỉ luyện phương án đầu
       const hanzi = firstAlt(c.hanzi)
       const reading = firstAlt(c.pinyin)
-      return { id: c.id, raw: hanzi.replace(/[()（）]/g, ''), display: hanzi, reading, target: pinyinTarget(reading), meaning: c.meaning, image: c.image || undefined }
+      return { id: c.id, raw: hanzi.replace(/[()（）]/g, ''), display: hanzi, reading, target: pinyinTarget(reading), meaning: c.meaning, image: c.image || undefined, parts: parseParts(c.parts) }
     })
     const dialogueItems: TypingItem[] = (dialogues ?? [])
       .filter((d) => d.variant !== 'bilingual')

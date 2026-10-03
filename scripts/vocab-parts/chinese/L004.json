@@ -1,0 +1,20 @@
+{
+  "lesson": 4,
+  "words": {
+    "一点儿": [["一", "yì", "nhất", "một"], ["点", "diǎn", "điểm", "chút"], ["儿", "r", "nhi", "hậu tố"]],
+    "(汉)字": [["汉", "Hàn", "hán", "người Hán"], ["字", "zì", "tự", "chữ"]],
+    "没关系": [["没", "méi", "một", "không có"], ["关系", "guānxi", "quan hệ", "liên quan"]],
+    "好吃": [["好", "hǎo", "hảo", "tốt, dễ"], ["吃", "chī", "ngật", "ăn → ngon"]],
+    "怎么": [["怎", "zěn", "chẩm", "sao, thế nào"], ["么", "me", "ma", "hậu tố"]],
+    "这儿": [["这", "zhè", "giá", "này"], ["儿", "r", "nhi", "hậu tố → chỗ này"]],
+    "对不起": [["对", "duì", "đối", "đối mặt"], ["不起", "buqǐ", "bất khởi", "không nổi → không dám nhìn"]],
+    "喜欢": [["喜", "xǐ", "hỉ", "vui mừng"], ["欢", "huan", "hoan", "vui vẻ"]],
+    "说服": [["说", "shuō", "thuyết", "nói"], ["服", "fú", "phục", "chịu phục"]],
+    "小说": [["小", "xiǎo", "tiểu", "nhỏ"], ["说", "shuō", "thuyết", "câu chuyện kể"]],
+    "传说": [["传", "chuán", "truyền", "truyền lại"], ["说", "shuō", "thuyết", "lời kể"]],
+    "说明": [["说", "shuō", "thuyết", "nói"], ["明", "míng", "minh", "rõ ràng"]],
+    "说教": [["说", "shuō", "thuyết", "nói"], ["教", "jiào", "giáo", "dạy"]],
+    "演说": [["演", "yǎn", "diễn", "trình bày"], ["说", "shuō", "thuyết", "nói"]],
+    "说客": [["说", "shuō", "thuyết", "thuyết phục"], ["客", "kè", "khách", "người, khách"]]
+  }
+}

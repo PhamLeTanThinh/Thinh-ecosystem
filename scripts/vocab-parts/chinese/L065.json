@@ -1,0 +1,33 @@
+{
+  "lesson": 65,
+  "words": {
+    "长城": [["长", "Cháng", "trường", "dài"], ["城", "chéng", "thành", "tường thành"]],
+    "长江": [["长", "Cháng", "trường", "dài"], ["江", "jiāng", "giang", "sông"]],
+    "烤鸭": [["烤", "kǎo", "khảo", "nướng"], ["鸭", "yā", "áp", "vịt"]],
+    "功夫": [["功", "gōng", "công", "công sức"], ["夫", "fu", "phu", "người → công phu"]],
+    "美味": [["美", "měi", "mỹ", "ngon, đẹp"], ["味", "wèi", "vị", "vị"]],
+    "美景": [["美", "měi", "mỹ", "đẹp"], ["景", "jǐng", "cảnh", "cảnh"]],
+    "普通话": [["普通", "pǔtōng", "phổ thông", "phổ thông"], ["话", "huà", "thoại", "tiếng"]],
+    "大使馆": [["大使", "dàshǐ", "đại sứ", "đại sứ"], ["馆", "guǎn", "quán", "toà nhà"]],
+    "签证": [["签", "qiān", "thiêm", "ký"], ["证", "zhèng", "chứng", "giấy chứng"]],
+    "放暑假": [["放", "fàng", "phóng", "thả, nghỉ"], ["暑假", "shǔjià", "thử giả", "kỳ nghỉ hè"]],
+    "做梦": [["做", "zuò", "tố", "làm"], ["梦", "mèng", "mộng", "giấc mơ"]],
+    "激动": [["激", "jī", "kích", "kích"], ["动", "dòng", "động", "động"]],
+    "旅程": [["旅", "lǚ", "lữ", "đi xa"], ["程", "chéng", "trình", "chặng đường"]],
+    "老虎": [["老", "lǎo", "lão", "tiền tố"], ["虎", "hǔ", "hổ", "hổ"]],
+    "名胜古迹": [["名胜", "míngshèng", "danh thắng", "cảnh đẹp nổi tiếng"], ["古迹", "gǔjì", "cổ tích", "di tích cổ"]],
+    "文化遗产": [["文化", "wénhuà", "văn hoá", "văn hoá"], ["遗产", "yíchǎn", "di sản", "di sản"]],
+    "游乐园": [["游乐", "yóulè", "du lạc", "vui chơi"], ["园", "yuán", "viên", "vườn"]],
+    "人文景观": [["人文", "rénwén", "nhân văn", "nhân văn"], ["景观", "jǐngguān", "cảnh quan", "cảnh quan"]],
+    "自然景观": [["自然", "zìrán", "tự nhiên", "tự nhiên"], ["景观", "jǐngguān", "cảnh quan", "cảnh quan"]],
+    "建筑物": [["建筑", "jiànzhù", "kiến trúc", "xây dựng"], ["物", "wù", "vật", "vật"]],
+    "自然保护区": [["自然", "zìrán", "tự nhiên", "tự nhiên"], ["保护", "bǎohù", "bảo hộ", "bảo vệ"], ["区", "qū", "khu", "khu"]],
+    "度假区": [["度假", "dùjià", "độ giả", "nghỉ dưỡng"], ["区", "qū", "khu", "khu"]],
+    "景物": [["景", "jǐng", "cảnh", "cảnh"], ["物", "wù", "vật", "vật"]],
+    "背景": [["背", "bèi", "bối", "lưng, phía sau"], ["景", "jǐng", "cảnh", "cảnh"]],
+    "景象": [["景", "jǐng", "cảnh", "cảnh"], ["象", "xiàng", "tượng", "hình tượng"]],
+    "远景": [["远", "yuǎn", "viễn", "xa"], ["景", "jǐng", "cảnh", "cảnh"]],
+    "景观": [["景", "jǐng", "cảnh", "cảnh"], ["观", "guān", "quan", "quang cảnh"]],
+    "全景": [["全", "quán", "toàn", "toàn"], ["景", "jǐng", "cảnh", "cảnh"]]
+  }
+}

@@ -19,6 +19,7 @@ import { TOPIK2_DIALOGUES } from '@/lib/korean/topik2-dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
 import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vocab/VocabStudy'
 import { parsePos } from '@/components/shared/vocab/pos'
+import { parseParts } from '@/components/shared/vocab/parts'
 import { LessonSection } from '@/components/shared/LessonSection'
 import { LessonToc, type TocNode } from '@/components/shared/LessonToc'
 import { TypingPractice } from '@/components/korean/TypingPractice'
@@ -686,6 +687,7 @@ function toStudyWord(card: KoreanCard): StudyWord {
     id: card.id,
     word: card.front,
     pos: parsePos(card.pos),
+    parts: parseParts(card.parts),
     topic: card.topic || undefined,
     meaning: card.meaning,
     en: card.note || undefined,

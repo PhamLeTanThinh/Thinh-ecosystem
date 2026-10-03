@@ -26,6 +26,7 @@ function toCard(r: typeof koreanCards.$inferSelect): KoreanCard {
     image: r.image,
     pos: r.pos,
     topic: r.topic,
+    parts: r.parts,
     sortOrder: r.sortOrder,
     createdAt: r.createdAt.toISOString(),
   }

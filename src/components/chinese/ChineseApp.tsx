@@ -18,6 +18,7 @@ import { DIALOGUES } from '@/lib/chinese/dialogues'
 import { DialogueSection } from '@/components/shared/DialogueSection'
 import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vocab/VocabStudy'
 import { parsePos } from '@/components/shared/vocab/pos'
+import { parseParts } from '@/components/shared/vocab/parts'
 import { LessonSection } from '@/components/shared/LessonSection'
 import { LessonToc, type TocNode } from '@/components/shared/LessonToc'
 import { TypingPractice } from '@/components/chinese/TypingPractice'
@@ -847,6 +848,7 @@ function toStudyWord(card: ChineseCard): StudyWord {
     word: card.hanzi,
     reading: card.pinyin || undefined,
     pos: parsePos(card.pos),
+    parts: parseParts(card.parts),
     topic: card.topic || undefined,
     // ghi chú cũ mở đầu bằng từ loại viết tắt ("đt. · Hán Việt: …") — từ loại đã có nhãn riêng nên bỏ phần đó
     tag: card.note.replace(NOTE_POS_PREFIX, '') || undefined,

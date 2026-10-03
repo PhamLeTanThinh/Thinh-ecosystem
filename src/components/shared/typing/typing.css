@@ -707,3 +707,12 @@
   }
 }
 
+
+/* Khối "Cấu tạo từ" trong ô kết quả */
+.kt-parts {
+  margin: 10px 0 2px;
+}
+
+.kt-parts .wp-part {
+  background: #fff;
+}

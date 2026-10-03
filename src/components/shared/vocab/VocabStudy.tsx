@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { speak, speakQueue } from '@/lib/shared/speech'
 import { POS_LABELS } from './pos'
+import type { WordPart } from './parts'
+import { WordParts } from './WordParts'
 import './vocab-study.css'
 
 // 1 từ trong danh sách học — Korean và Chinese chuẩn hoá thẻ của mình về dạng này (xem lib/<app>/vocabStudy.ts).
@@ -18,6 +20,7 @@ export interface StudyWord {
   exampleReading?: string // phiên âm câu ví dụ (pinyin)
   exampleVi?: string // dịch câu ví dụ
   image?: string
+  parts?: WordPart[] // cấu tạo từ (thẻ lớn hiện khối "Cấu tạo từ")
   topic?: string // nhóm chủ đề trong bài — danh sách gom các từ cùng nhóm lại với nhau
 }
 
@@ -327,6 +330,11 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
                 </p>
               )}
             </div>
+            {w.parts && (
+              <div className="vs-modal-section">
+                <WordParts parts={w.parts} lang={lang} />
+              </div>
+            )}
             {w.example && (
               <div className="vs-modal-section">
                 <span className="vs-label">Ví dụ</span>

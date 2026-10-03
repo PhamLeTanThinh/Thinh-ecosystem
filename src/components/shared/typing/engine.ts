@@ -1,3 +1,5 @@
+import type { WordPart } from '@/components/shared/vocab/parts'
+
 // Bộ gõ của màn luyện gõ dùng chung (TypingPractice.tsx) — mỗi ngôn ngữ 1 cài đặt:
 // Korean: Hangul 2-beolsik (lib/korean/hangulInput.ts), Chinese: pinyin không dấu (lib/chinese/pinyinInput.ts).
 // "Token" = 1 lần nhấn phím; compose ghép chuỗi token thành văn bản hiển thị, toTokens tách đáp án thành chuỗi phím
@@ -25,6 +27,7 @@ export interface TypingItem {
   display?: string // chữ hiện to làm đề (Chinese: chữ Hán); không có → hiện chính target, tô màu theo từng ký tự
   reading?: string // cách đọc có dấu (pinyin) — ẩn/hiện theo thiết lập
   image?: string // ảnh minh hoạ (từ vựng có ảnh)
+  parts?: WordPart[] // cấu tạo từ — hiện ở màn kết quả
   label?: string // vd "Câu 1 · Hỏi", tên người nói
 }
 

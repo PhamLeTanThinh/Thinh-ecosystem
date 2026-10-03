@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { speak } from '@/lib/shared/speech'
 import { accuracy, type TypingEngine, type TypingItem as Item, type TypingPools } from './engine'
+import { WordParts } from '@/components/shared/vocab/WordParts'
 import './typing.css'
 
 // Luyện gõ cho 1 bài (chỉ desktop — nút mở bị ẩn dưới 1024px), dùng chung cho Korean và Chinese; phần riêng của từng
@@ -289,6 +290,7 @@ export function TypingPractice({
                     )}
                   </p>
                 )}
+                {item.parts && <WordParts parts={item.parts} lang={engine.speechLang} className="kt-parts" />}
                 <div className="kt-result-actions">
                   <button type="button" className="kt-btn" onClick={retry}>
                     ↺ Gõ lại

@@ -1,0 +1,33 @@
+{
+  "lesson": 60,
+  "words": {
+    "顾客": [["顾", "gù", "cố", "ghé thăm"], ["客", "kè", "khách", "khách"]],
+    "购买": [["购", "gòu", "cấu", "mua"], ["买", "mǎi", "mãi", "mua"]],
+    "商品": [["商", "shāng", "thương", "buôn bán"], ["品", "pǐn", "phẩm", "hàng"]],
+    "饼干": [["饼", "bǐng", "bính", "bánh"], ["干", "gān", "can", "khô"]],
+    "广播": [["广", "guǎng", "quảng", "rộng"], ["播", "bō", "bá", "truyền"]],
+    "矿泉水": [["矿泉", "kuàngquán", "khoáng tuyền", "suối khoáng"], ["水", "shuǐ", "thuỷ", "nước"]],
+    "午餐": [["午", "wǔ", "ngọ", "trưa"], ["餐", "cān", "xan", "bữa ăn"]],
+    "精彩": [["精", "jīng", "tinh", "tinh túy"], ["彩", "cǎi", "thái", "màu sắc"]],
+    "进行": [["进", "jìn", "tiến", "tiến"], ["行", "xíng", "hành", "làm"]],
+    "产品": [["产", "chǎn", "sản", "sản xuất"], ["品", "pǐn", "phẩm", "phẩm"]],
+    "降低": [["降", "jiàng", "giáng", "hạ"], ["低", "dī", "đê", "thấp"]],
+    "提供": [["提", "tí", "đề", "đưa"], ["供", "gōng", "cung", "cung cấp"]],
+    "售后服务": [["售后", "shòuhòu", "thụ hậu", "sau bán hàng"], ["服务", "fúwù", "phục vụ", "dịch vụ"]],
+    "付款": [["付", "fù", "phó", "trả"], ["款", "kuǎn", "khoản", "khoản tiền"]],
+    "消费": [["消", "xiāo", "tiêu", "tiêu"], ["费", "fèi", "phí", "phí"]],
+    "广告策略": [["广告", "guǎnggào", "quảng cáo", "quảng cáo"], ["策略", "cèlüè", "sách lược", "chiến lược"]],
+    "折扣": [["折", "zhé", "chiết", "giảm"], ["扣", "kòu", "khấu", "trừ"]],
+    "倾销": [["倾", "qīng", "khuynh", "dốc ra"], ["销", "xiāo", "tiêu", "bán"]],
+    "促销活动": [["促销", "cùxiāo", "xúc tiêu", "khuyến mãi"], ["活动", "huódòng", "hoạt động", "hoạt động"]],
+    "批发": [["批", "pī", "phê", "lô, mẻ"], ["发", "fā", "phát", "phát ra"]],
+    "零售": [["零", "líng", "linh", "lẻ"], ["售", "shòu", "thụ", "bán"]],
+    "优惠券": [["优惠", "yōuhuì", "ưu huệ", "ưu đãi"], ["券", "juàn", "khoán", "phiếu"]],
+    "商场": [["商", "shāng", "thương", "buôn bán"], ["场", "chǎng", "trường", "nơi"]],
+    "商讨": [["商", "shāng", "thương", "bàn"], ["讨", "tǎo", "thảo", "thảo luận"]],
+    "外商": [["外", "wài", "ngoại", "nước ngoài"], ["商", "shāng", "thương", "thương nhân"]],
+    "工商": [["工", "gōng", "công", "công nghiệp"], ["商", "shāng", "thương", "thương mại"]],
+    "奸商": [["奸", "jiān", "gian", "gian xảo"], ["商", "shāng", "thương", "thương nhân"]],
+    "商业": [["商", "shāng", "thương", "buôn bán"], ["业", "yè", "nghiệp", "ngành"]]
+  }
+}
