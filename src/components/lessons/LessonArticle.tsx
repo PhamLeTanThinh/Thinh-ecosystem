@@ -6,6 +6,7 @@ import Link from 'next/link'
 import type { Lesson, LessonBlock, LessonBoxKind, LessonTerm } from '@/lib/lessons/types'
 import { VIZ } from './viz/registry'
 import { VizBoundary } from './viz/VizBoundary'
+import 'katex/dist/katex.min.css'
 import './lesson-article.css'
 
 type Glossary = Record<string, LessonTerm>
@@ -86,10 +87,12 @@ function inline(text: string, glossary: Glossary): ReactNode[] {
   const out: ReactNode[] = []
   let last = 0
   let i = 0
-  for (const m of text.matchAll(/(\*\*[^*]+\*\*|`[^`]+`|\[\[[^\]]+\]\])/g)) {
+  // … = công thức đã render sẵn bằng KaTeX ở server (lib/lessons/math.ts) — chèn nguyên HTML
+  for (const m of text.matchAll(/([^]*|\*\*[^*]+\*\*|`[^`]+`|\[\[[^\]]+\]\])/g)) {
     if (m.index > last) out.push(text.slice(last, m.index))
     const tok = m[0]
-    if (tok.startsWith('**')) out.push(<strong key={i++}>{inline(tok.slice(2, -2), glossary)}</strong>)
+    if (tok.startsWith('')) out.push(<span key={i++} className="la-math" dangerouslySetInnerHTML={{ __html: tok.slice(1, -1) }} />)
+    else if (tok.startsWith('**')) out.push(<strong key={i++}>{inline(tok.slice(2, -2), glossary)}</strong>)
     else if (tok.startsWith('`')) out.push(<code key={i++}>{tok.slice(1, -1)}</code>)
     else {
       const [label, key] = tok.slice(2, -2).split('|')
@@ -177,6 +180,8 @@ function Blocks({ blocks, glossary, onZoom }: { blocks: LessonBlock[]; glossary:
                 </table>
               </div>
             )
+          case 'math':
+            return <div key={i} className="la-math-block" dangerouslySetInnerHTML={{ __html: b.html }} />
           case 'img':
             // Hiện nhỏ hơn kích thước gốc (ảnh được cắt ở độ phân giải cao) — bấm để xem to
             return (
@@ -407,7 +412,10 @@ function ReadingMenu({ marks }: { marks: TocMark[] }) {
 
 // Bỏ cú pháp inline (**đậm**, `code`, [[chữ|thuật ngữ]]) — chú thích trong lightbox chỉ cần chữ thường
 function plainText(text: string) {
-  return text.replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1').replace(/\*\*|`/g, '')
+  return text
+    .replace(/[^]*/g, '') // công thức (HTML KaTeX) không hiển thị được dưới dạng chữ thường
+    .replace(/\[\[([^\]|]+)(?:\|[^\]]+)?\]\]/g, '$1')
+    .replace(/\*\*|`/g, '')
 }
 
 // Xem hình phóng to: bấm nền hoặc nhấn Esc để đóng. Render qua portal ra <body> — khối nội dung bài có

@@ -1,4 +1,5 @@
 import type { Lesson, LessonBlock, LessonBoxKind, LessonSection, LessonTerm } from './types'
+import { mathify, renderMath } from './math'
 
 // Định dạng 1 file bài học:
 //
@@ -15,7 +16,8 @@ import type { Lesson, LessonBlock, LessonBoxKind, LessonSection, LessonTerm } fr
 //
 // Trong 1 phần: đoạn văn, "### " tiêu đề nhỏ, "- " / "1. " danh sách, bảng "| a | b |", khối ```code```,
 // hộp "::: example|analogy|tip|warn|formula Tiêu đề" ... ":::", hình "![chú thích](/it/ml/x.webp =1200x600)", đồ thị động "!viz[chú thích](tên)". Inline: **đậm**, `code`, [[thuật ngữ]]
-// hoặc [[chữ hiển thị|thuật ngữ]] (hiện giải thích khi rê chuột/chạm).
+// hoặc [[chữ hiển thị|thuật ngữ]] (hiện giải thích khi rê chuột/chạm). Công thức: LaTeX `$...$` trong câu,
+// `$$...$$` thành khối riêng (có thể nhiều dòng) — xem lib/lessons/math.ts.
 
 const BOX_KINDS: LessonBoxKind[] = ['example', 'analogy', 'tip', 'warn', 'formula']
 const SPECIAL = { goals: 'mục tiêu', takeaways: 'ghi nhớ nhanh', terms: 'thuật ngữ' }
@@ -42,7 +44,7 @@ export function parseBlocks(lines: string[]): LessonBlock[] {
   const blocks: LessonBlock[] = []
   let para: string[] = []
   const flush = () => {
-    if (para.length) blocks.push({ t: 'p', text: para.join(' ') })
+    if (para.length) blocks.push({ t: 'p', text: mathify(para.join(' ')) })
     para = []
   }
 
@@ -63,7 +65,7 @@ export function parseBlocks(lines: string[]): LessonBlock[] {
       flush()
       const inner: string[] = []
       while (++i < lines.length && lines[i].trim() !== ':::') inner.push(lines[i])
-      blocks.push({ t: 'box', kind: box[1] as LessonBoxKind, title: box[2] || undefined, blocks: parseBlocks(inner) })
+      blocks.push({ t: 'box', kind: box[1] as LessonBoxKind, title: box[2] ? mathify(box[2]) : undefined, blocks: parseBlocks(inner) })
       continue
     }
 
@@ -72,23 +74,32 @@ export function parseBlocks(lines: string[]): LessonBlock[] {
       continue
     }
 
+    // Khối công thức $$ ... $$ (một hoặc nhiều dòng)
+    if (line.trim().startsWith('$$')) {
+      flush()
+      let tex = line.trim().slice(2)
+      while (!tex.trimEnd().endsWith('$$') && i + 1 < lines.length) tex += '\n' + lines[++i]
+      blocks.push({ t: 'math', html: renderMath(tex.trimEnd().replace(/\$\$$/, ''), true) })
+      continue
+    }
+
     const viz = line.trim().match(/^!viz\[([^\]]*)\]\(([\w-]+)\)$/)
     if (viz) {
       flush()
-      blocks.push({ t: 'viz', caption: viz[1], name: viz[2] })
+      blocks.push({ t: 'viz', caption: mathify(viz[1]), name: viz[2] })
       continue
     }
 
     const img = line.trim().match(/^!\[([^\]]*)\]\((\S+?)(?:\s+=(\d+)x(\d+))?\)$/)
     if (img) {
       flush()
-      blocks.push({ t: 'img', caption: img[1], src: img[2], width: img[3] ? Number(img[3]) : undefined, height: img[4] ? Number(img[4]) : undefined })
+      blocks.push({ t: 'img', caption: mathify(img[1]), src: img[2], width: img[3] ? Number(img[3]) : undefined, height: img[4] ? Number(img[4]) : undefined })
       continue
     }
 
     if (line.startsWith('### ')) {
       flush()
-      blocks.push({ t: 'h3', text: line.slice(4).trim() })
+      blocks.push({ t: 'h3', text: mathify(line.slice(4).trim()) })
       continue
     }
 
@@ -97,7 +108,7 @@ export function parseBlocks(lines: string[]): LessonBlock[] {
       const rows: string[][] = []
       for (; i < lines.length && lines[i].trim().startsWith('|'); i++) {
         if (/^\s*\|[\s:|-]+\|\s*$/.test(lines[i])) continue // dòng phân cách |---|---|
-        rows.push(splitRow(lines[i]))
+        rows.push(splitRow(lines[i]).map(mathify))
       }
       i--
       blocks.push({ t: 'table', head: rows[0] ?? [], rows: rows.slice(1) })
@@ -113,16 +124,16 @@ export function parseBlocks(lines: string[]): LessonBlock[] {
       const last = blocks[blocks.length - 1]
       // Mục lồng (thụt lề) luôn nối vào danh sách đang mở, kể cả khác kiểu "-" / "1."
       if (last && (last.t === 'ul' || last.t === 'ol') && lines[i - 1]?.trim() && (level > 0 || last.t === (ul ? 'ul' : 'ol'))) {
-        last.items.push(text)
+        last.items.push(mathify(text))
         last.levels.push(level)
-      } else blocks.push({ t: ul ? 'ul' : 'ol', items: [text], levels: [level] })
+      } else blocks.push({ t: ul ? 'ul' : 'ol', items: [mathify(text)], levels: [level] })
       continue
     }
 
     // Dòng tiếp nối của 1 mục danh sách (thụt lề, không có dấu "- ")
     const last = blocks[blocks.length - 1]
     if (!para.length && /^\s{2,}\S/.test(line) && last && (last.t === 'ul' || last.t === 'ol') && lines[i - 1]?.trim()) {
-      last.items[last.items.length - 1] += ' ' + line.trim()
+      last.items[last.items.length - 1] += ' ' + mathify(line.trim())
       continue
     }
 
@@ -136,6 +147,7 @@ const listItems = (lines: string[]) =>
   lines
     .map((l) => l.match(/^\s*[-*] (.*)$/)?.[1]?.trim())
     .filter((s): s is string => !!s)
+    .map(mathify)
 
 function parseTerms(lines: string[]): LessonTerm[] {
   const out: LessonTerm[] = []
@@ -182,7 +194,7 @@ export function parseLessonMd(slug: string, raw: string): Lesson {
     title: meta.title ?? slug,
     short: meta.short ?? meta.title ?? slug,
     icon: meta.icon ?? '📘',
-    summary: meta.summary ?? '',
+    summary: mathify(meta.summary ?? ''),
     goals,
     sections,
     takeaways,

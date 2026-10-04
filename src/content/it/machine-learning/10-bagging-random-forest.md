@@ -59,7 +59,7 @@ Dữ liệu gốc: **A B C D E**
 Xác suất một mẫu **không được chọn** lần nào sau n lần rút:
 
 ::: formula
-P(không được chọn) = (1 − 1/n)ⁿ ≈ 1/e ≈ 0.368
+$$P(\text{không được chọn}) = \left(1 - \frac{1}{n}\right)^{n} \approx \frac{1}{e} \approx 0{,}368$$
 :::
 
 Nghĩa là:
@@ -77,7 +77,7 @@ Thuật toán gồm 3 bước:
 2. **Train**: với mỗi bộ, train một Decision Tree **mọc tối đa, không cắt tỉa** (không pruning) — các cây train **độc lập, song song**.
 3. **Aggregate** (tổng hợp):
    - **Classification**: **bỏ phiếu đa số** ([[Majority Voting]]) — lớp nào được nhiều cây chọn nhất thì thắng.
-   - **Regression**: **lấy trung bình** dự đoán của B cây: ŷ = (1/B) Σ Tᵦ(x).
+   - **Regression**: **lấy trung bình** dự đoán của $B$ cây: $\hat{y} = \dfrac{1}{B}\sum_{b=1}^{B} T_b(x)$.
 
 !viz[Bagging: dữ liệu train tạo ra nhiều bootstrap sample, mỗi sample train một cây độc lập, rồi các cây bỏ phiếu để ra kết quả cuối.](bagging-flow)
 
@@ -88,20 +88,20 @@ Cây 1: Spam · Cây 2: Không spam · Cây 3: Spam · Cây 4: Spam · Cây 5: K
 
 ### Vì sao Bagging giảm variance?
 
-Nếu B cây **hoàn toàn độc lập**, mỗi cây có variance σ², thì trung bình của chúng có variance σ²/B — càng nhiều cây càng nhỏ. Nhưng thực tế các cây có **tương quan** với nhau (vì cùng học từ một dữ liệu gốc), với hệ số tương quan ρ (đọc là "rho"):
+Nếu B cây **hoàn toàn độc lập**, mỗi cây có variance $\sigma^2$, thì trung bình của chúng có variance $\sigma^2 / B$ — càng nhiều cây càng nhỏ. Nhưng thực tế các cây có **tương quan** với nhau (vì cùng học từ một dữ liệu gốc), với hệ số tương quan $\rho$ (đọc là "rho"):
 
 ::: formula
-Var = ρ·σ² + (1 − ρ)·σ²/B
+$$\operatorname{Var} = \rho\,\sigma^2 + \frac{1 - \rho}{B}\,\sigma^2$$
 :::
 
-- Tăng B → phần (1 − ρ)σ²/B giảm dần về 0.
-- Nhưng phần **ρσ² không giảm** dù có thêm bao nhiêu cây!
+- Tăng $B$ → phần $\dfrac{1 - \rho}{B}\,\sigma^2$ giảm dần về 0.
+- Nhưng phần **$\rho\,\sigma^2$ không giảm** dù có thêm bao nhiêu cây!
 
-→ Muốn giảm variance mạnh hơn phải **giảm tương quan ρ giữa các cây**. Đó chính là ý tưởng của Random Forest.
+→ Muốn giảm variance mạnh hơn phải **giảm tương quan $\rho$ giữa các cây**. Đó chính là ý tưởng của Random Forest.
 
 ### Điểm yếu: feature áp đảo
 
-Nếu có một feature cực mạnh (gọi là X₁), **cây nào cũng chọn X₁ để chia ở gốc** → các cây na ná nhau → ρ cao → variance giảm ít. Giải pháp: thêm ngẫu nhiên ở cấp feature → **Random Forest**.
+Nếu có một feature cực mạnh (gọi là $X_1$), **cây nào cũng chọn $X_1$ để chia ở gốc** → các cây na ná nhau → $\rho$ cao → variance giảm ít. Giải pháp: thêm ngẫu nhiên ở cấp feature → **Random Forest**.
 
 # Out-of-Bag Evaluation — Cross-Validation miễn phí
 
@@ -131,7 +131,7 @@ Hai lớp ngẫu nhiên:
 1. **Ngẫu nhiên về dữ liệu** — bootstrap sampling (giống Bagging).
 2. **Ngẫu nhiên về feature** — tập con feature ngẫu nhiên ở mỗi lần chia (cái mới).
 
-Nhờ đó feature áp đảo không phải lúc nào cũng có mặt → các cây đa dạng hơn → ρ giảm → variance giảm mạnh hơn.
+Nhờ đó feature áp đảo không phải lúc nào cũng có mặt → các cây đa dạng hơn → $\rho$ giảm → variance giảm mạnh hơn.
 
 !viz[Random Forest: giống Bagging nhưng mỗi cây chỉ được xét một tập feature ngẫu nhiên (chữ cam) — nhờ vậy các cây khác nhau hơn.](random-forest-flow)
 
@@ -156,10 +156,10 @@ Dự đoán:
 
 | Giá trị | Ý nghĩa |
 |---|---|
-| m = √p | Gợi ý kinh điển cho **classification** — mặc định của `RandomForestClassifier` (`'sqrt'`) |
-| m = p/3 | Gợi ý kinh điển cho **regression** (lưu ý: `RandomForestRegressor` của scikit-learn hiện mặc định dùng **toàn bộ** feature, `max_features=1.0`) |
-| m = 1 | Ngẫu nhiên cực đoan |
-| m = p | Xét tất cả feature → chính là **Bagging** |
+| $m = \sqrt{p}$ | Gợi ý kinh điển cho **classification** — mặc định của `RandomForestClassifier` (`'sqrt'`) |
+| $m = p/3$ | Gợi ý kinh điển cho **regression** (lưu ý: `RandomForestRegressor` của scikit-learn hiện mặc định dùng **toàn bộ** feature, `max_features=1.0`) |
+| $m = 1$ | Ngẫu nhiên cực đoan |
+| $m = p$ | Xét tất cả feature → chính là **Bagging** |
 
 Đánh đổi: m nhỏ → cây đa dạng, tương quan thấp, nhưng mỗi cây yếu hơn (bias tăng). m lớn → mỗi cây mạnh hơn nhưng các cây giống nhau hơn. → m là hyperparameter quan trọng, nên tune.
 
@@ -298,8 +298,8 @@ plot_tree(rf.estimators_[0], max_depth=3, filled=True, rounded=True)
 # Ghi nhớ nhanh
 - Bagging = Bootstrap + Aggregation → giảm variance bằng cách lấy trung bình nhiều cây sâu.
 - Mỗi bootstrap chứa ~63.2% mẫu khác nhau; ~36.8% còn lại là OOB → đánh giá miễn phí.
-- Var = ρσ² + (1 − ρ)σ²/B → phải giảm tương quan ρ giữa các cây.
-- Random Forest = Bagging + chọn ngẫu nhiên m feature ở mỗi lần chia (√p cho classification).
+- $\operatorname{Var} = \rho\,\sigma^2 + \dfrac{1 - \rho}{B}\,\sigma^2$ → phải giảm tương quan $\rho$ giữa các cây.
+- Random Forest = Bagging + chọn ngẫu nhiên m feature ở mỗi lần chia ($\sqrt{p}$ cho classification).
 - MDI nhanh nhưng thiên vị feature nhiều giá trị; Permutation Importance đáng tin hơn.
 - Thêm cây không gây overfit, chỉ tốn thời gian.
 

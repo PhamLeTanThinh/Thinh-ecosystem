@@ -8,7 +8,7 @@ summary: Vì sao model phức tạp lại hay "học vẹt"? Bài này giải th
 # Mục tiêu
 - Giải thích được Bias, Variance và sự đánh đổi giữa chúng
 - Biết hai hướng xử lý Overfitting: giảm feature và Regularization
-- Hiểu cost function có thêm "khoản phạt" và vai trò của λ
+- Hiểu cost function có thêm "khoản phạt" và vai trò của $\lambda$
 - Hiểu "weight decay" trong Gradient Descent có regularization
 - Phân biệt L1 (Lasso), L2 (Ridge) và Elastic Net, biết khi nào dùng cái nào
 
@@ -18,15 +18,15 @@ Dự đoán giá nhà từ diện tích, thử 3 model:
 
 | Model | Công thức | Kết quả |
 |---|---|---|
-| Bậc 1 | θ₀ + θ₁x | Đường thẳng, không bắt được độ cong → **Underfitting** (High Bias) |
-| Bậc 2 | θ₀ + θ₁x + θ₂x² | Đường cong nhẹ, vừa khít → **Just right** |
-| Bậc 4 | θ₀ + θ₁x + θ₂x² + θ₃x³ + θ₄x⁴ | Uốn lượn qua từng điểm → **Overfitting** (High Variance) |
+| Bậc 1 | $\theta_0 + \theta_1 x$ | Đường thẳng, không bắt được độ cong → **Underfitting** (High Bias) |
+| Bậc 2 | $\theta_0 + \theta_1 x + \theta_2 x^2$ | Đường cong nhẹ, vừa khít → **Just right** |
+| Bậc 4 | $\theta_0 + \theta_1 x + \theta_2 x^2 + \theta_3 x^3 + \theta_4 x^4$ | Uốn lượn qua từng điểm → **Overfitting** (High Variance) |
 
 !viz[Dự đoán giá nhà theo diện tích với đa thức bậc 1 → 2 → 4 → 8: bậc 1 underfitting (high bias), bậc 2 vừa khít, bậc càng cao càng uốn éo qua từng điểm — overfitting (high variance).](poly-fit-house)
 
-(Ở bài này hệ số được ký hiệu θ — đọc là "theta" — thay cho β ở bài trước; cùng một ý nghĩa.)
+(Ở bài này hệ số được ký hiệu $\theta$ — đọc là "theta" — thay cho $\beta$ ở bài trước; cùng một ý nghĩa.)
 
-Khi có **quá nhiều feature** (model quá phức tạp), model có thể khớp tập train gần như hoàn hảo (lỗi train ≈ 0) nhưng **không tổng quát hóa** được cho căn nhà mới. Chuyện tương tự xảy ra với phân loại: Logistic Regression với rất nhiều số hạng bậc cao (x₁², x₁x₂, x₁²x₂…) sẽ vẽ ra đường ranh giới ngoằn ngoèo để "ôm" từng điểm dữ liệu.
+Khi có **quá nhiều feature** (model quá phức tạp), model có thể khớp tập train gần như hoàn hảo (lỗi train $\approx 0$) nhưng **không tổng quát hóa** được cho căn nhà mới. Chuyện tương tự xảy ra với phân loại: Logistic Regression với rất nhiều số hạng bậc cao ($x_1^2,\ x_1 x_2,\ x_1^2 x_2, \dots$) sẽ vẽ ra đường ranh giới ngoằn ngoèo để "ôm" từng điểm dữ liệu.
 
 !viz[Tương tự với phân loại (minh hoạ bằng kNN): k lớn → ranh giới quá đơn giản (underfit); k vừa → ranh giới hợp lý; k = 1 → ranh giới ngoằn ngoèo ôm từng điểm, kể cả điểm nhiễu (overfit).](knn-boundary)
 
@@ -47,7 +47,7 @@ Lý tưởng là bias thấp + variance thấp: chụm và trúng tâm.
 ### Phân rã lỗi
 
 ::: formula
-Lỗi dự đoán kỳ vọng = Bias² + Variance + Nhiễu không thể giảm
+$$\text{Lỗi dự đoán kỳ vọng} = \text{Bias}^2 + \text{Variance} + \text{Nhiễu không thể giảm}$$
 :::
 
 Phần nhiễu ([[Irreducible Error]]) nằm sẵn trong dữ liệu, model nào cũng chịu. Hai phần còn lại **kéo co** với nhau: giảm cái này thường làm tăng cái kia → gọi là **[[Bias-Variance Tradeoff]]**. Mục tiêu là tìm điểm cân bằng.
@@ -67,7 +67,7 @@ Giả sử có 100 feature: diện tích, số phòng, số tầng, tuổi nhà,
    - Dùng thuật toán chọn feature (xem bài Feature Selection).
    - Nhược điểm: bỏ feature là bỏ luôn thông tin.
 2. **[[Regularization]]**
-   - **Giữ tất cả feature**, nhưng **ép các hệ số θ nhỏ lại**.
+   - **Giữ tất cả feature**, nhưng **ép các hệ số $\theta$ nhỏ lại**.
    - Hiệu quả khi có nhiều feature, mỗi cái đóng góp một chút vào dự đoán.
 
 # Regularization hoạt động thế nào?
@@ -77,32 +77,32 @@ Giả sử có 100 feature: diện tích, số phòng, số tầng, tuổi nhà,
 Với model bậc 4 bị overfitting, giả sử ta sửa cost function thành:
 
 ::: formula
-min  (1/2m) Σ (hθ(x) − y)²  +  1000·θ₃²  +  1000·θ₄²
+$$\min_{\theta}\; \frac{1}{2m}\sum_{i=1}^{m}\bigl(h_\theta(x_i) - y_i\bigr)^2 + 1000\,\theta_3^2 + 1000\,\theta_4^2$$
 :::
 
-Để cost nhỏ, model buộc phải cho θ₃ và θ₄ **gần bằng 0** → hai số hạng x³, x⁴ gần như biến mất → model quay về gần dạng bậc 2, mượt mà.
+Để cost nhỏ, model buộc phải cho $\theta_3$ và $\theta_4$ **gần bằng 0** → hai số hạng $x^3, x^4$ gần như biến mất → model quay về gần dạng bậc 2, mượt mà.
 
 **Hệ số nhỏ → model "đơn giản" hơn → ít overfitting hơn.**
 
 ### Cost function có regularization
 
-Thực tế ta không biết nên phạt hệ số nào, nên **phạt tất cả** (trừ θ₀):
+Thực tế ta không biết nên phạt hệ số nào, nên **phạt tất cả** (trừ $\theta_0$):
 
 ::: formula
-J(θ) = (1/2m) [ Σᵢ (hθ(xᵢ) − yᵢ)²  +  λ Σⱼ θⱼ² ]
+$$J(\theta) = \frac{1}{2m}\left[\sum_{i=1}^{m}\bigl(h_\theta(x_i) - y_i\bigr)^2 + \lambda\sum_{j=1}^{n}\theta_j^2\right]$$
 :::
 
 - Phần đầu: model khớp dữ liệu tới đâu.
 - Phần sau: **khoản phạt** cho hệ số lớn.
-- **λ** (lambda) — [[Regularization Parameter]]: quyết định phạt nặng hay nhẹ. Trong scikit-learn tham số này tên là `alpha`.
-- θ₀ (hệ số chặn) **không bị phạt** vì nó chỉ dịch đường lên xuống, không làm model phức tạp thêm.
+- **$\lambda$** (lambda) — [[Regularization Parameter]]: quyết định phạt nặng hay nhẹ. Trong scikit-learn tham số này tên là `alpha`.
+- $\theta_0$ (hệ số chặn) **không bị phạt** vì nó chỉ dịch đường lên xuống, không làm model phức tạp thêm.
 
-::: warn Nếu λ quá lớn (ví dụ 10¹⁰) thì sao?
-Mọi θ₁, θ₂, … bị ép về gần 0 → model chỉ còn hθ(x) ≈ θ₀ — **một đường nằm ngang**. Model **underfitting**: khớp dữ liệu train cũng không nổi.
+::: warn Nếu $\lambda$ quá lớn (ví dụ $10^{10}$) thì sao?
+Mọi $\theta_1, \theta_2, \dots$ bị ép về gần 0 → model chỉ còn $h_\theta(x) \approx \theta_0$ — **một đường nằm ngang**. Model **underfitting**: khớp dữ liệu train cũng không nổi.
 
-- λ = 0: không regularization → dễ overfitting.
-- λ quá lớn: underfitting.
-- λ vừa phải: cân bằng — thường chọn bằng [[K-Fold Cross-Validation]].
+- $\lambda = 0$: không regularization → dễ overfitting.
+- $\lambda$ quá lớn: underfitting.
+- $\lambda$ vừa phải: cân bằng — thường chọn bằng [[K-Fold Cross-Validation]].
 :::
 
 # Regularized Linear Regression
@@ -110,26 +110,26 @@ Mọi θ₁, θ₂, … bị ép về gần 0 → model chỉ còn hθ(x) ≈ θ
 Gradient Descent bình thường cập nhật:
 
 ::: formula
-θⱼ := θⱼ − α · (1/m) Σ (hθ(xᵢ) − yᵢ)·xᵢⱼ
+$$\theta_j := \theta_j - \alpha\,\frac{1}{m}\sum_{i=1}^{m}\bigl(h_\theta(x_i) - y_i\bigr)\,x_{ij}$$
 :::
 
-Có regularization (với j = 1, 2, …, n; riêng θ₀ giữ như cũ):
+Có regularization (với $j = 1, 2, \dots, n$; riêng $\theta_0$ giữ như cũ):
 
 ::: formula
-θⱼ := θⱼ · (1 − α·λ/m)  −  α · (1/m) Σ (hθ(xᵢ) − yᵢ)·xᵢⱼ
+$$\theta_j := \theta_j\left(1 - \alpha\frac{\lambda}{m}\right) - \alpha\,\frac{1}{m}\sum_{i=1}^{m}\bigl(h_\theta(x_i) - y_i\bigr)\,x_{ij}$$
 :::
 
-Vì (1 − αλ/m) **nhỏ hơn 1 một chút** (ví dụ 0.99), mỗi bước cập nhật đều **co hệ số lại một chút** trước khi trừ gradient như thường. Hiện tượng này gọi là **[[Weight Decay]]** — "trọng số phân rã dần".
+Vì $\left(1 - \alpha\frac{\lambda}{m}\right)$ **nhỏ hơn 1 một chút** (ví dụ 0.99), mỗi bước cập nhật đều **co hệ số lại một chút** trước khi trừ gradient như thường. Hiện tượng này gọi là **[[Weight Decay]]** — "trọng số phân rã dần".
 
 # Regularized Logistic Regression
 
 Ý tưởng y hệt: lấy [[Log Loss]] rồi cộng thêm khoản phạt:
 
 ::: formula
-J(θ) = −(1/m) Σ [ y·log hθ(x) + (1−y)·log(1 − hθ(x)) ]  +  (λ/2m) Σⱼ θⱼ²
+$$\begin{aligned} J(\theta) = &-\frac{1}{m}\sum_{i=1}^{m}\Bigl[y_i \log h_\theta(x_i) + (1 - y_i)\log\bigl(1 - h_\theta(x_i)\bigr)\Bigr] \\ &+ \frac{\lambda}{2m}\sum_{j=1}^{n}\theta_j^2 \end{aligned}$$
 :::
 
-Kết quả: đường ranh giới quyết định mượt hơn, bớt ngoằn ngoèo. Công thức cập nhật Gradient Descent giống hệt bản Linear Regression, chỉ khác hθ(x) là sigmoid.
+Kết quả: đường ranh giới quyết định mượt hơn, bớt ngoằn ngoèo. Công thức cập nhật Gradient Descent giống hệt bản Linear Regression, chỉ khác $h_\theta(x)$ là sigmoid.
 
 # L1, L2 và Elastic Net
 
@@ -137,7 +137,7 @@ Khoản phạt ở trên dùng **bình phương** hệ số — gọi là L2. C�
 
 | | **L2 — [[Ridge Regression]]** | **L1 — [[Lasso Regression]]** | **[[Elastic Net]]** |
 |---|---|---|---|
-| Khoản phạt | λ · Σ θⱼ² | λ · Σ \|θⱼ\| | Kết hợp: α·Σ\|θⱼ\| + (1−α)·Σθⱼ² |
+| Khoản phạt | $\lambda \sum_j \theta_j^2$ | $\lambda \sum_j \lvert \theta_j \rvert$ | Kết hợp: $\alpha \sum_j \lvert \theta_j \rvert + (1 - \alpha) \sum_j \theta_j^2$ |
 | Tác dụng | Co **đều** mọi hệ số, nhỏ nhưng **khác 0** | Đẩy nhiều hệ số về **đúng bằng 0** | Vừa chọn feature vừa co hệ số |
 | Hợp khi | Mọi feature đều đóng góp một ít | Nhiều feature vô dụng — muốn **tự động chọn feature** | Nhiều feature tương quan với nhau |
 | Tên gọi khác | Tikhonov regularization | LASSO = Least Absolute Shrinkage and Selection Operator | — |
@@ -170,10 +170,10 @@ Khoản phạt tính trên độ lớn hệ số, mà độ lớn hệ số ph�
 :::
 
 # Ghi nhớ nhanh
-- Tổng lỗi = Bias² + Variance + Nhiễu. Model phức tạp: bias ↓, variance ↑.
+- Tổng lỗi $= \text{Bias}^2 + \text{Variance} + \text{Nhiễu}$. Model phức tạp: bias ↓, variance ↑.
 - Train tốt mà validation kém → High Variance (overfitting). Cả hai đều kém → High Bias (underfitting).
-- Regularization: cộng thêm khoản phạt λ·(độ lớn hệ số) vào cost function; không phạt θ₀.
-- λ = 0 → dễ overfit; λ quá lớn → underfit; chọn λ bằng cross-validation.
+- Regularization: cộng thêm khoản phạt $\lambda \cdot (\text{độ lớn hệ số})$ vào cost function; không phạt $\theta_0$.
+- $\lambda = 0$ → dễ overfit; $\lambda$ quá lớn → underfit; chọn $\lambda$ bằng cross-validation.
 - L2 (Ridge) co đều mọi hệ số; L1 (Lasso) đưa nhiều hệ số về 0 → tự chọn feature; Elastic Net kết hợp cả hai.
 
 # Thuật ngữ

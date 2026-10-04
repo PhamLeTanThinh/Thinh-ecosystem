@@ -87,7 +87,7 @@ Trong lúc học, model cần một con số để biết mình đang sai bao nh
 
 ::: example
 Đáp án thật [3.0, 5.0, 7.0], model đoán [2.8, 5.2, 6.5].
-Bình phương sai số: 0.04, 0.04, 0.25 → MSE = 0.33 / 3 = **0.11** (nhỏ → model tốt).
+Bình phương sai số: 0.04, 0.04, 0.25 → $\text{MSE} = 0.33 / 3 =$ **0.11** (nhỏ → model tốt).
 :::
 
 Bình phương làm sai số lớn bị phạt nặng hơn nhiều so với sai số nhỏ.
@@ -97,9 +97,9 @@ Bình phương làm sai số lớn bị phạt nặng hơn nhiều so với sai 
 **[[Cross-Entropy]]** (hay [[Log Loss]]) đo khoảng cách giữa xác suất model đoán và đáp án thật:
 
 ::: example
-Ảnh là con mèo (y = 1):
-- Model đoán "mèo" với xác suất 0.9 → loss = −log(0.9) = **0.105** (nhỏ)
-- Model đoán "mèo" với xác suất 0.1 → loss = −log(0.1) = **2.303** (lớn!)
+Ảnh là con mèo ($y = 1$):
+- Model đoán "mèo" với xác suất 0.9 → loss $= -\log(0.9) =$ **0.105** (nhỏ)
+- Model đoán "mèo" với xác suất 0.1 → loss $= -\log(0.1) =$ **2.303** (lớn!)
 :::
 
 Cross-Entropy **phạt rất nặng những dự đoán sai mà lại tự tin**. Nhờ vậy model vừa phải đoán đúng, vừa phải có mức tự tin hợp lý.
@@ -122,10 +122,10 @@ Với bài toán phân loại 2 lớp (Positive/Negative), mỗi dự đoán rơ
 | Thật là SPAM | TP = 90 (bắt được) | FN = 10 (lọt vào hộp thư) |
 | Thật KHÔNG SPAM | FP = 5 (chặn nhầm) | TN = 895 (cho qua đúng) |
 
-- **Accuracy** = (90 + 895) / 1000 = **98.5%** — nghe rất đẹp
-- **Precision** = 90 / (90 + 5) = **94.7%** — trong những thư bị chặn, bao nhiêu là spam thật?
-- **Recall** = 90 / (90 + 10) = **90.0%** — trong spam thật, bắt được bao nhiêu?
-- **F1** = 2 × 0.947 × 0.90 / (0.947 + 0.90) ≈ **92.3%**
+- **Accuracy** $= \dfrac{90 + 895}{1000} =$ **98.5%** — nghe rất đẹp
+- **Precision** $= \dfrac{90}{90 + 5} =$ **94.7%** — trong những thư bị chặn, bao nhiêu là spam thật?
+- **Recall** $= \dfrac{90}{90 + 10} =$ **90.0%** — trong spam thật, bắt được bao nhiêu?
+- **F1** $= \dfrac{2 \times 0.947 \times 0.90}{0.947 + 0.90} \approx$ **92.3%**
 
 Accuracy 98.5% nghe hoàn hảo, nhưng vẫn có 10 email spam lọt vào hộp thư.
 :::
@@ -135,7 +135,7 @@ Accuracy 98.5% nghe hoàn hảo, nhưng vẫn có 10 email spam lọt vào hộp
 ### Accuracy
 
 ::: formula
-Accuracy = (TP + TN) / (TP + TN + FP + FN)
+$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$
 :::
 
 Tỉ lệ đoán đúng trên tổng số. Chỉ đáng tin khi dữ liệu **cân bằng** giữa các lớp.
@@ -147,7 +147,7 @@ Bài toán phát hiện gian lận: 99.9% giao dịch bình thường, 0.1% gian
 ### Precision và Recall
 
 ::: formula
-Precision = TP / (TP + FP)        Recall = TP / (TP + FN)
+$$\text{Precision} = \frac{TP}{TP + FP} \qquad\qquad \text{Recall} = \frac{TP}{TP + FN}$$
 :::
 
 - **[[Precision]]** — "Khi model nói CÓ, nó đúng bao nhiêu %?" Ưu tiên khi **báo động nhầm (FP) rất tốn kém**.
@@ -158,7 +158,7 @@ Hai chỉ số này thường **giằng co nhau**: cố tăng cái này thì cá
 ### F1-Score
 
 ::: formula
-F1 = 2 × Precision × Recall / (Precision + Recall)
+$$F_1 = \frac{2 \times \text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
 :::
 
 **[[F1-Score]]** là trung bình điều hòa của Precision và Recall — chỉ cao khi **cả hai cùng cao**, và bị kéo xuống mạnh nếu một trong hai thấp.

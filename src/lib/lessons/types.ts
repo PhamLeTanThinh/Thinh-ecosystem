@@ -19,6 +19,8 @@ export type LessonBlock =
   | { t: 'img'; src: string; caption: string; width?: number; height?: number }
   // Đồ thị động: !viz[chú thích](tên) — tên tra trong components/lessons/viz/registry.tsx
   | { t: 'viz'; name: string; caption: string }
+  // Khối công thức $$...$$ — HTML KaTeX đã render sẵn ở server
+  | { t: 'math'; html: string }
   // Hộp nổi bật: ví dụ tính tay, hình dung đời thường, mẹo, cảnh báo, công thức
   | { t: 'box'; kind: LessonBoxKind; title?: string; blocks: LessonBlock[] }
 

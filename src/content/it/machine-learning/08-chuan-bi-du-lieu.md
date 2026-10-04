@@ -109,7 +109,7 @@ Phiên bản pandas cũ viết `df.fillna(method='ffill')`; cách viết này đ
 
 ### Nhìn bằng mắt — Boxplot
 
-**[[Boxplot]]** vẽ hộp từ phân vị 25% (Q1) đến 75% (Q3). Khoảng **IQR** = Q3 − Q1. Điểm nằm ngoài [Q1 − 1.5·IQR, Q3 + 1.5·IQR] được vẽ riêng như các chấm — đó là ứng viên outlier.
+**[[Boxplot]]** vẽ hộp từ phân vị 25% (Q1) đến 75% (Q3). Khoảng **IQR** $= Q_3 - Q_1$. Điểm nằm ngoài $[\,Q_1 - 1.5 \cdot \text{IQR},\ Q_3 + 1.5 \cdot \text{IQR}\,]$ được vẽ riêng như các chấm — đó là ứng viên outlier.
 
 !viz[Dựng boxplot từng bước: xếp dữ liệu lên một trục → median → hộp từ Q1 tới Q3 → râu kéo tới giá trị bình thường xa nhất → điểm nằm ngoài khoảng 1,5·IQR được đánh dấu outlier.](boxplot)
 
@@ -118,7 +118,7 @@ Phiên bản pandas cũ viết `df.fillna(method='ffill')`; cách viết này đ
 **[[Z-Score]]** cho biết một điểm cách trung bình bao nhiêu lần độ lệch chuẩn:
 
 ::: formula
-z = (x − mean) / std
+$$z = \frac{x - \text{mean}}{\text{std}}$$
 :::
 
 Thường coi |z| > 3 là outlier (với dữ liệu gần dạng hình chuông).

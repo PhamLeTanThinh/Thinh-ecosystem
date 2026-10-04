@@ -132,18 +132,18 @@ for epoch in range(20):
 
 ### Thuật toán
 
-1. Tính trung bình của mini-batch: μ_B = (1/m) Σ xᵢ
-2. Tính phương sai: σ²_B = (1/m) Σ (xᵢ − μ_B)²
-3. Chuẩn hóa: x̂ᵢ = (xᵢ − μ_B) / √(σ²_B + ε)
-4. Co giãn và dịch: yᵢ = γ·x̂ᵢ + β
+1. Tính trung bình của mini-batch: $\mu_B = \dfrac{1}{m}\sum_{i=1}^{m} x_i$
+2. Tính phương sai: $\sigma_B^2 = \dfrac{1}{m}\sum_{i=1}^{m} (x_i - \mu_B)^2$
+3. Chuẩn hóa: $\hat{x}_i = \dfrac{x_i - \mu_B}{\sqrt{\sigma_B^2 + \varepsilon}}$
+4. Co giãn và dịch: $y_i = \gamma\,\hat{x}_i + \beta$
 
-- **γ** (gamma) và **β** (beta) là tham số **học được**, cho phép mạng "hoàn tác" việc chuẩn hóa nếu cần.
-- **ε** là hằng số rất nhỏ (ví dụ 1e-5) để tránh chia cho 0.
+- **$\gamma$** (gamma) và **$\beta$** (beta) là tham số **học được**, cho phép mạng "hoàn tác" việc chuẩn hóa nếu cần.
+- **$\varepsilon$** là hằng số rất nhỏ (ví dụ 1e-5) để tránh chia cho 0.
 - **Vị trí**: thường đặt **trước** activation (Dense/Conv → BN → ReLU). Một số người đặt sau activation — cả hai đều chạy được.
 
 ### Train khác Inference
 
-- **Khi train**: dùng trung bình/phương sai của **mini-batch hiện tại**, đồng thời cập nhật **trung bình trượt** ([[Moving Average]]): running = momentum × running + (1 − momentum) × batch.
+- **Khi train**: dùng trung bình/phương sai của **mini-batch hiện tại**, đồng thời cập nhật **trung bình trượt** ([[Moving Average]]): $\text{running} = \text{momentum} \times \text{running} + (1 - \text{momentum}) \times \text{batch}$.
 - **Khi inference**: dùng **trung bình trượt đã lưu**, không dùng thống kê của batch → kết quả ổn định kể cả khi dự đoán một mẫu đơn lẻ. Lúc này BN chỉ còn là một phép biến đổi tuyến tính cố định.
 
 ```python
@@ -206,7 +206,7 @@ model.fit(X, y, validation_split=0.2, epochs=200, callbacks=[callback])
 | **[[AdamW]]** | Adam với weight decay tách riêng; tổng quát hóa tốt hơn "Adam + L2" |
 
 **[[Learning Rate Schedule]]** — giảm learning rate dần trong lúc train:
-- **ExponentialDecay**: lr = lr_ban_đầu × decay_rate^(step / decay_steps).
+- **ExponentialDecay**: $\text{lr} = \text{lr}_0 \times \text{decay\_rate}^{\,\text{step} / \text{decay\_steps}}$.
 - **CosineDecay**: giảm mượt theo đường cosin về 0.
 - **ReduceLROnPlateau**: giảm learning rate khi chỉ số validation ngừng cải thiện.
 
@@ -295,7 +295,7 @@ tuner.search(X_train, y_train, validation_split=0.2, epochs=10)
 # Ghi nhớ nhanh
 - TensorFlow = tensor + tự tính đạo hàm + GPU; Keras là API cấp cao.
 - Sequential (thẳng hàng) · Functional (phân nhánh) · Subclassing (tự do nhất).
-- BatchNorm: chuẩn hóa theo mini-batch, γ/β học được; inference dùng trung bình trượt.
+- BatchNorm: chuẩn hóa theo mini-batch, $\gamma$, $\beta$ học được; inference dùng trung bình trượt.
 - Dropout 0.2–0.5 ở lớp ẩn, không dùng ở lớp ra, tự tắt khi inference.
 - Early Stopping: monitor val_loss, patience, restore_best_weights=True.
 - Mặc định: Adam lr = 1e-3; ghép đúng loss với activation lớp ra.

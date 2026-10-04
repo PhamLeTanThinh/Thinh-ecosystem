@@ -34,19 +34,19 @@ Logistic **Regression** dùng để **phân loại** (Classification), không ph
 
 Nếu dùng thẳng Linear Regression để phân loại, đầu ra có thể là −3 hay 7.5 — không thể hiểu là xác suất. Logistic Regression giải quyết bằng 2 bước:
 
-1. Tính tổ hợp tuyến tính như Linear Regression: **z = b₀ + b₁x₁ + … + bₚxₚ** (viết gọn z = bᵀx).
+1. Tính tổ hợp tuyến tính như Linear Regression: $z = b_0 + b_1 x_1 + \dots + b_p x_p$ (viết gọn $z = b^{\top} x$).
 2. Đưa z qua hàm **[[Sigmoid]]** để "ép" về khoảng (0, 1):
 
 ::: formula
-σ(z) = 1 / (1 + e⁻ᶻ)
+$$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 :::
 
 Hàm sigmoid có hình chữ S:
-- z rất lớn → σ(z) gần 1
-- z = 0 → σ(z) = 0.5
-- z rất âm → σ(z) gần 0
+- $z$ rất lớn → $\sigma(z)$ gần 1
+- $z = 0$ → $\sigma(z) = 0.5$
+- $z$ rất âm → $\sigma(z)$ gần 0
 
-Kết quả σ(z) được hiểu là **xác suất mẫu thuộc lớp 1**. Cuối cùng so với một [[Threshold]] (thường 0.5): lớn hơn ngưỡng → lớp 1, nhỏ hơn → lớp 0. Tập hợp những điểm có xác suất đúng bằng ngưỡng chính là [[Decision Boundary]].
+Kết quả $\sigma(z)$ được hiểu là **xác suất mẫu thuộc lớp 1**. Cuối cùng so với một [[Threshold]] (thường 0.5): lớn hơn ngưỡng → lớp 1, nhỏ hơn → lớp 0. Tập hợp những điểm có xác suất đúng bằng ngưỡng chính là [[Decision Boundary]].
 
 !viz[Con trỏ chạy dọc trục "giờ học": z = −7 + 2·x đi qua sigmoid thành xác suất đậu; vượt 0,5 thì dự đoán ĐẬU. Đường nét đứt xanh là Linear Regression trên cùng dữ liệu — cho ra số nhỏ hơn 0 hoặc lớn hơn 1, không đọc được như xác suất.](logistic-sigmoid)
 
@@ -60,13 +60,13 @@ Nếu dùng [[MSE]] kết hợp với sigmoid:
 Vì vậy Logistic Regression dùng **Binary Cross-Entropy** — còn gọi là [[Log Loss]]:
 
 ::: formula
-L = − y·log(h(x)) − (1 − y)·log(1 − h(x))
+$$L = -\,y \log h(x) \;-\; (1 - y) \log\bigl(1 - h(x)\bigr)$$
 :::
 
-với h(x) = σ(bᵀx) là xác suất model đoán, y là đáp án thật (0 hoặc 1). Đọc công thức theo từng trường hợp:
+với $h(x) = \sigma(b^{\top} x)$ là xác suất model đoán, $y$ là đáp án thật (0 hoặc 1). Đọc công thức theo từng trường hợp:
 
-- **y = 1**: L = −log(h(x)). Đoán h(x) gần 1 → loss gần 0; đoán gần 0 → loss rất lớn.
-- **y = 0**: L = −log(1 − h(x)). Đoán h(x) gần 0 → loss gần 0; đoán gần 1 → loss rất lớn.
+- **$y = 1$**: $L = -\log h(x)$. Đoán $h(x)$ gần 1 → loss gần 0; đoán gần 0 → loss rất lớn.
+- **$y = 0$**: $L = -\log\bigl(1 - h(x)\bigr)$. Đoán $h(x)$ gần 0 → loss gần 0; đoán gần 1 → loss rất lớn.
 
 Ưu điểm:
 - Hàm lỗi **lồi** ([[Convex]]) → Gradient Descent hội tụ về điểm tốt nhất (khi dữ liệu tách bạch hoàn toàn, nên thêm [[Regularization]] để các hệ số không tăng vô hạn).
@@ -77,22 +77,22 @@ với h(x) = σ(bᵀx) là xác suất model đoán, y là đáp án thật (0 h
 Nhờ [[Chain Rule]], gradient của Log Loss theo từng hệ số có dạng rất gọn:
 
 ::: formula
-∂L/∂bⱼ = (σ(bᵀx) − y) · xⱼ
+$$\frac{\partial L}{\partial b_j} = \bigl(\sigma(b^{\top} x) - y\bigr)\,x_j$$
 :::
 
-Tức là: **(xác suất dự đoán − đáp án thật) × giá trị feature**. Cập nhật: bⱼ := bⱼ − α · (σ − y) · xⱼ, với α là [[Learning Rate]].
+Tức là: **(xác suất dự đoán − đáp án thật) × giá trị feature**. Cập nhật: $b_j := b_j - \alpha\,(\sigma - y)\,x_j$, với $\alpha$ là [[Learning Rate]].
 
 ::: example Đậu hay rớt?
 Dữ liệu: số giờ học x và kết quả y (0 = rớt, 1 = đậu):
-x = 1, 2, 3 → rớt; x = 4, 5, 6 → đậu.
+$x = 1, 2, 3$ → rớt; $x = 4, 5, 6$ → đậu.
 
-1. Khởi tạo b₀ = 0, b₁ = 0, learning rate = 0.1.
-2. Với mẫu x = 1: z = 0 + 0 × 1 = 0 → σ(0) = **0.5**.
-3. Sai số = dự đoán − thật = 0.5 − 0 = **0.5**.
-4. Cập nhật: b₁ = 0 − 0.1 × 0.5 × 1 = **−0.05** (b₀ cũng giảm: 0 − 0.1 × 0.5 = −0.05).
+1. Khởi tạo $b_0 = 0$, $b_1 = 0$, learning rate $\alpha = 0.1$.
+2. Với mẫu $x = 1$: $z = 0 + 0 \times 1 = 0$ → $\sigma(0) =$ **0.5**.
+3. Sai số $=$ dự đoán $-$ thật $= 0.5 - 0 =$ **0.5**.
+4. Cập nhật: $b_1 = 0 - 0.1 \times 0.5 \times 1 =$ **−0.05** ($b_0$ cũng giảm: $0 - 0.1 \times 0.5 = -0.05$).
 5. Lặp lại cho mọi mẫu qua nhiều [[Epoch]].
 
-Sau khi học xong, model tìm ra ranh giới quyết định quanh **x ≈ 3.5 giờ**: học trên 3.5 giờ thì dự đoán đậu.
+Sau khi học xong, model tìm ra ranh giới quyết định quanh **$x \approx 3.5$ giờ**: học trên 3.5 giờ thì dự đoán đậu.
 :::
 
 # Nhiều hơn 2 lớp — Softmax
@@ -100,7 +100,7 @@ Sau khi học xong, model tìm ra ranh giới quyết định quanh **x ≈ 3.5 
 Với K lớp (K > 2), model tính K điểm số z₁…z_K (mỗi lớp một điểm), rồi dùng hàm **[[Softmax]]** biến chúng thành K xác suất **cộng lại bằng 1**:
 
 ::: formula
-P(lớp k) = e^(zₖ) / Σⱼ e^(zⱼ)
+$$P(\text{lớp } k) = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}$$
 :::
 
 ::: example
@@ -150,9 +150,9 @@ proba = clf.predict_proba(X_test)               # xác suất từng lớp
 [[Iris Dataset]] có 3 loài hoa, nên đây cũng là ví dụ Multinomial Logistic Regression.
 
 # Ghi nhớ nhanh
-- Logistic Regression là thuật toán **phân loại**: z = bᵀx → sigmoid → xác suất → so ngưỡng.
+- Logistic Regression là thuật toán **phân loại**: $z = b^{\top} x$ → sigmoid → xác suất → so ngưỡng.
 - Dùng Log Loss (Binary Cross-Entropy) vì nó lồi và phạt nặng dự đoán sai mà tự tin; MSE + sigmoid thì không lồi.
-- Gradient gọn: (σ − y) · x.
+- Gradient gọn: $(\sigma - y)\,x$.
 - Nhiều lớp → Softmax, K xác suất cộng lại bằng 1.
 
 # Thuật ngữ

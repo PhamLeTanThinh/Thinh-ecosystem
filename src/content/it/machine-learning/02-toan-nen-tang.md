@@ -53,11 +53,11 @@ Một chữ số viết tay 28×28 điểm ảnh (bộ dữ liệu [[MNIST]]) = 
 Với một ma trận A, nếu có vector v sao cho nhân A với v chỉ làm v **dài ra hoặc ngắn lại** (không đổi hướng), thì:
 
 ::: formula
-A · v = λ · v
+$$A\,\mathbf{v} = \lambda\,\mathbf{v}$$
 :::
 
-- v gọi là **[[Eigenvector]]** (vector riêng) — một **hướng** đặc biệt.
-- λ (đọc là "lambda") gọi là **[[Eigenvalue]]** (trị riêng) — cho biết theo hướng đó dữ liệu bị kéo giãn bao nhiêu.
+- $\mathbf{v}$ gọi là **[[Eigenvector]]** (vector riêng) — một **hướng** đặc biệt.
+- $\lambda$ (đọc là "lambda") gọi là **[[Eigenvalue]]** (trị riêng) — cho biết theo hướng đó dữ liệu bị kéo giãn bao nhiêu.
 
 Ý nghĩa trong ML: với ma trận mô tả độ phân tán của dữ liệu, eigenvector chỉ ra **những hướng mà dữ liệu trải rộng nhất**, còn eigenvalue cho biết **hướng đó quan trọng tới đâu** (chứa bao nhiêu phần biến động — [[Variance]]).
 
@@ -80,10 +80,10 @@ Hai cột ban đầu tăng giảm gần như cùng nhau, nên chỉ một "hư�
 **[[SVD]]** tách một ma trận A bất kỳ thành tích của 3 ma trận:
 
 ::: formula
-A = U · Σ · Vᵀ
+$$A = U\,\Sigma\,V^{\top}$$
 :::
 
-Ma trận Σ (sigma) ở giữa chứa các **singular value** xếp từ lớn đến nhỏ — mỗi giá trị cho biết một "thành phần" quan trọng cỡ nào. Giữ lại vài thành phần lớn nhất là đã tái tạo được gần đúng ma trận gốc với ít số hơn rất nhiều.
+Ma trận $\Sigma$ (sigma) ở giữa chứa các **singular value** xếp từ lớn đến nhỏ — mỗi giá trị cho biết một "thành phần" quan trọng cỡ nào. Giữ lại vài thành phần lớn nhất là đã tái tạo được gần đúng ma trận gốc với ít số hơn rất nhiều.
 
 Ứng dụng:
 - **Nén dữ liệu**, nén ảnh.
@@ -109,16 +109,16 @@ Lưu bản nén chỉ cần 10 × (100 + 1 + 100) = **2.010 số** thay vì 10.0
 Vì sao ML quan tâm? Model có một [[Loss Function]] đo xem nó đang sai bao nhiêu. Muốn bớt sai thì phải biết **chỉnh weight theo hướng nào** — gradient trả lời câu hỏi đó. Trong mạng nơ-ron, thuật toán [[Backpropagation]] dùng [[Chain Rule]] để tính gradient cho hàng triệu weight cùng lúc.
 
 ::: example Đạo hàm riêng trong một bài hồi quy nhỏ
-Model có 2 feature, hàm lỗi f(w1, w2) = (w1·x1 + w2·x2 − y)². Đạo hàm riêng:
+Model có 2 feature, hàm lỗi $f(w_1, w_2) = (w_1 x_1 + w_2 x_2 - y)^2$. Đạo hàm riêng:
 
-- ∂f/∂w1 = 2·(w1·x1 + w2·x2 − y)·x1
-- ∂f/∂w2 = 2·(w1·x1 + w2·x2 − y)·x2
+- $\dfrac{\partial f}{\partial w_1} = 2\,(w_1 x_1 + w_2 x_2 - y)\,x_1$
+- $\dfrac{\partial f}{\partial w_2} = 2\,(w_1 x_1 + w_2 x_2 - y)\,x_2$
 
-Cho x1 = 2, x2 = 3, y = 10, đang có w1 = 1, w2 = 1:
+Cho $x_1 = 2$, $x_2 = 3$, $y = 10$, đang có $w_1 = 1$, $w_2 = 1$:
 
-- Dự đoán = 1·2 + 1·3 = 5 → sai số = 5 − 10 = −5
-- ∂f/∂w1 = 2·(−5)·2 = **−20**
-- ∂f/∂w2 = 2·(−5)·3 = **−30**
+- Dự đoán $= 1 \cdot 2 + 1 \cdot 3 = 5$ → sai số $= 5 - 10 = -5$
+- $\dfrac{\partial f}{\partial w_1} = 2 \cdot (-5) \cdot 2 =$ **−20**
+- $\dfrac{\partial f}{\partial w_2} = 2 \cdot (-5) \cdot 3 =$ **−30**
 
 Đọc kết quả: đạo hàm âm nghĩa là **tăng** weight thì lỗi **giảm**. Lỗi giảm nhanh hơn khi tăng w2 (−30) vì x2 lớn hơn, tức feature thứ hai ảnh hưởng mạnh hơn.
 :::
@@ -128,7 +128,7 @@ Cho x1 = 2, x2 = 3, y = 10, đang có w1 = 1, w2 = 1:
 **[[Gradient Descent]]** là cách phổ biến nhất để model học: lặp đi lặp lại việc **bước một bước nhỏ ngược hướng gradient** (vì gradient chỉ hướng đi lên, ta muốn đi xuống chỗ lỗi thấp nhất).
 
 ::: formula Quy tắc cập nhật
-w_mới = w_cũ − learning_rate × gradient
+$$w_{\text{mới}} = w_{\text{cũ}} - \underbrace{\eta}_{\text{learning rate}} \cdot \underbrace{\frac{\partial L}{\partial w}}_{\text{gradient}}$$
 :::
 
 **[[Learning Rate]]** (tốc độ học) là độ dài mỗi bước. Quá nhỏ thì học rất chậm, quá lớn thì "nhảy qua" luôn điểm thấp nhất và có thể không bao giờ hội tụ.
@@ -140,11 +140,11 @@ Bạn đứng trên sườn núi, sương dày không thấy gì. Cách xuống 
 :::
 
 ::: example Tính tay một bước Gradient Descent
-Hàm lỗi L(w) = (2w − 4)², nhỏ nhất tại w = 2. Đạo hàm: dL/dw = 4·(2w − 4).
+Hàm lỗi $L(w) = (2w - 4)^2$, nhỏ nhất tại $w = 2$. Đạo hàm: $\dfrac{dL}{dw} = 4\,(2w - 4)$.
 
-- Bắt đầu w = 0, learning rate = 0.1
-- Gradient tại w = 0: 4·(0 − 4) = **−16**
-- w mới = 0 − 0.1 × (−16) = **1.6**
+- Bắt đầu $w = 0$, learning rate $\eta = 0.1$
+- Gradient tại $w = 0$: $4 \cdot (0 - 4) =$ **−16**
+- $w_{\text{mới}} = 0 - 0.1 \times (-16) =$ **1.6**
 
 Chỉ sau một bước, w đã đi từ 0 tới 1.6, tiến sát đáp án 2.
 :::
@@ -186,9 +186,9 @@ Nhiều model cổ điển (Linear Regression, Logistic Regression, SVM) có hà
 # Ghi nhớ nhanh
 - Dữ liệu = ma trận (hàng là mẫu, cột là feature); một mẫu = một vector.
 - Eigenvector = hướng dữ liệu trải rộng; eigenvalue = mức quan trọng của hướng đó → nền tảng của PCA.
-- SVD tách ma trận thành U·Σ·Vᵀ; giữ vài thành phần lớn nhất để nén dữ liệu.
+- SVD tách ma trận thành $U \Sigma V^{\top}$; giữ vài thành phần lớn nhất để nén dữ liệu.
 - Gradient chỉ hướng hàm tăng nhanh nhất → đi **ngược** gradient để giảm lỗi.
-- w_mới = w_cũ − learning_rate × gradient.
+- $w_{\text{mới}} = w_{\text{cũ}} - \eta \times \text{gradient}$.
 - Mini-batch (32–256 mẫu) là lựa chọn mặc định trong thực tế.
 
 # Thuật ngữ

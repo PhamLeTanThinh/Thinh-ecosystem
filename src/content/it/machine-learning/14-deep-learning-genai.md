@@ -70,7 +70,7 @@ Nhiều loại dữ liệu là **chuỗi phụ thuộc nhau** với độ dài t
 
 **[[RNN]]** đọc chuỗi **từng bước một** và mang theo một "bộ nhớ" (hidden state) từ bước trước sang bước sau.
 
-- **3 loại nút**: nút vào xₜ, nút ẩn hồi quy sₜ (giữ trạng thái — "bộ nhớ" theo thứ tự), nút ra ŷₜ.
+- **3 loại nút**: nút vào $x_t$, nút ẩn hồi quy $s_t$ (giữ trạng thái — "bộ nhớ" theo thứ tự), nút ra $\hat{y}_t$.
 - **Weight dùng chung qua mọi bước thời gian**: weight đầu vào W_in, weight hồi quy W_rec, weight đầu ra U.
 
 ![RNN "trải" theo thời gian: cùng một khối (cùng weight) lặp lại ở mỗi bước, trạng thái ẩn truyền từ bước trước sang bước sau.](/it/ml/rnn-unfold.webp =1367x385)
@@ -120,7 +120,7 @@ Khi xử lý từ "it", self-attention chấm điểm mọi từ khác:
 | Phân loại / dự đoán | **Tạo nội dung mới** |
 | "Email này có phải spam?" → Có/Không | "Viết giúp một email trả lời lịch sự" → nội dung email |
 | "Con chó này giống gì?" → Labrador | "Vẽ chú golden retriever kiểu hoạt hình" → bức tranh |
-| Học P(nhãn \| dữ liệu) | Học P(dữ liệu) → **lấy mẫu** ra dữ liệu mới |
+| Học $P(\text{nhãn} \mid \text{dữ liệu})$ | Học $P(\text{dữ liệu})$ → **lấy mẫu** ra dữ liệu mới |
 
 Cách hoạt động: đưa dữ liệu train (ảnh, văn bản…) → model học quy luật, cấu trúc → sinh nội dung mới tương tự → tinh chỉnh dựa trên phản hồi người dùng.
 

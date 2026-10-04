@@ -7,7 +7,7 @@ summary: Khi một đường thẳng không đủ để mô tả dữ liệu, ta
 
 # Mục tiêu
 - Hiểu vì sao cần Neural Network khi Linear/Logistic Regression không đủ
-- Tính được đầu ra của một nơ-ron: y = f(W·x + b)
+- Tính được đầu ra của một nơ-ron: $y = f(W x + b)$
 - Phân biệt các Activation Function: ReLU, Sigmoid, Tanh, Softmax
 - Hiểu kiến trúc Deep Neural Network và quy trình học 5 bước
 - Chọn đúng Loss Function cho regression và classification
@@ -30,7 +30,7 @@ Não hoạt động nhờ hàng tỉ nơ-ron "bật" (firing) khi nhận đủ t
 # Toán học của một nơ-ron
 
 ::: formula
-y = f(W · xᵀ + b)
+$$y = f\bigl(W x^{\top} + b\bigr)$$
 :::
 
 - **x** = (x₀, x₁, x₂, …): vector dữ liệu đầu vào.
@@ -42,16 +42,16 @@ y = f(W · xᵀ + b)
 !viz[Một nơ-ron đang tính: mỗi đầu vào x nhân với weight w (xanh = dương, đỏ = âm, càng đậm càng lớn), cộng lại cùng bias b rồi qua ReLU. Khi tổng âm, ReLU cho ra 0 — nơ-ron "tắt".](neuron)
 
 ::: example Tính tay một nơ-ron
-Đầu vào x = (2, 3), weight W = (0.5, −1), bias b = 1, activation là ReLU:
-- Tổng có trọng số: 0.5 × 2 + (−1) × 3 + 1 = 1 − 3 + 1 = **−1**
-- ReLU(−1) = max(0, −1) = **0** → nơ-ron "không bật".
+Đầu vào $x = (2, 3)$, weight $W = (0.5, -1)$, bias $b = 1$, activation là ReLU:
+- Tổng có trọng số: $0.5 \times 2 + (-1) \times 3 + 1 = 1 - 3 + 1 =$ **−1**
+- $\text{ReLU}(-1) = \max(0, -1) =$ **0** → nơ-ron "không bật".
 
-Nếu x = (6, 1): 0.5 × 6 − 1 + 1 = **3** → ReLU(3) = **3** → nơ-ron "bật".
+Nếu $x = (6, 1)$: $0.5 \times 6 - 1 + 1 =$ **3** → $\text{ReLU}(3) =$ **3** → nơ-ron "bật".
 :::
 
 ### Vì sao cần bias?
 
-Không có bias, đường thẳng W·x luôn phải **đi qua gốc tọa độ**. Bias cho phép dịch đường lên xuống/sang ngang để **khớp dữ liệu tốt hơn** — giống hệ số chặn β₀ trong Linear Regression.
+Không có bias, đường thẳng $W x$ luôn phải **đi qua gốc tọa độ**. Bias cho phép dịch đường lên xuống/sang ngang để **khớp dữ liệu tốt hơn** — giống hệ số chặn $\beta_0$ trong Linear Regression.
 
 !viz[Không có bias, đường quyết định chỉ xoay được quanh gốc toạ độ nên luôn phân loại sai một số điểm; có bias, đường được "nhấc" lên đúng khoảng giữa hai nhóm.](bias-shift)
 
@@ -64,9 +64,9 @@ Activation function có hai vai trò:
 | Hàm | Công thức | Đầu ra | Thường dùng ở |
 |---|---|---|---|
 | [[ReLU]] | max(0, z) | [0, +∞) | **Lớp ẩn** — mặc định phổ biến nhất, tính nhanh |
-| [[Sigmoid]] | 1/(1 + e⁻ᶻ) | (0, 1) | Lớp ra của bài toán **2 lớp** |
-| [[Tanh]] | (eᶻ − e⁻ᶻ)/(eᶻ + e⁻ᶻ) | (−1, 1) | Lớp ẩn (nhất là RNN) — đối xứng quanh 0 |
-| [[Softmax]] | e^(zₖ)/Σe^(zⱼ) | K xác suất, tổng = 1 | Lớp ra của bài toán **nhiều lớp** |
+| [[Sigmoid]] | $\dfrac{1}{1 + e^{-z}}$ | (0, 1) | Lớp ra của bài toán **2 lớp** |
+| [[Tanh]] | $\dfrac{e^{z} - e^{-z}}{e^{z} + e^{-z}}$ | (−1, 1) | Lớp ẩn (nhất là RNN) — đối xứng quanh 0 |
+| [[Softmax]] | $\dfrac{e^{z_k}}{\sum_j e^{z_j}}$ | K xác suất, tổng = 1 | Lớp ra của bài toán **nhiều lớp** |
 
 !viz[Cùng một giá trị z chạy qua 4 activation function: Sigmoid ép về (0, 1), Tanh ép về (−1, 1), ReLU cắt phần âm về 0, Leaky ReLU giữ lại một chút phần âm.](activation-functions)
 
@@ -76,17 +76,17 @@ Lớp ẩn: bắt đầu với ReLU. Lớp ra: regression → không dùng activ
 
 # Từ một nơ-ron tới Deep Neural Network
 
-- **Mạng đơn giản**: các đầu vào nối thẳng vào một lớp nơ-ron ra. Với nhiều mẫu cùng lúc, ta xếp chúng thành ma trận X và tính một lần: Y = f(W·Xᵀ + B).
+- **Mạng đơn giản**: các đầu vào nối thẳng vào một lớp nơ-ron ra. Với nhiều mẫu cùng lúc, ta xếp chúng thành ma trận X và tính một lần: $Y = f(W X^{\top} + B)$.
 - **[[Deep Neural Network]] (DNN)**: thêm **nhiều lớp ẩn** ([[Hidden Layer]]) giữa lớp vào ([[Input Layer]]) và lớp ra ([[Output Layer]]).
 
 !viz[Forward pass: dữ liệu đi lần lượt qua lớp vào → các lớp ẩn → lớp ra.](forward-pass)
 
 ::: formula
-Y = fₙ( Wₙ · fₙ₋₁( … f₂( W₂ · f₁( W₁·Xᵀ + B₁ ) + B₂ ) … ) + Bₙ )
+$$Y = f_n\Bigl(W_n\, f_{n-1}\bigl(\cdots f_2\bigl(W_2\, f_1(W_1 X^{\top} + B_1) + B_2\bigr) \cdots\bigr) + B_n\Bigr)$$
 :::
 
-- f₁ … fₙ là activation function của từng lớp — **mỗi lớp có thể dùng hàm khác nhau** và có bias riêng.
-- Kích thước của Wᵢ và Bᵢ phụ thuộc số nơ-ron ở mỗi lớp.
+- $f_1, \dots, f_n$ là activation function của từng lớp — **mỗi lớp có thể dùng hàm khác nhau** và có bias riêng.
+- Kích thước của $W_i$ và $B_i$ phụ thuộc số nơ-ron ở mỗi lớp.
 - Quyết định **có bao nhiêu lớp, mỗi lớp bao nhiêu nơ-ron** gọi là **thiết kế kiến trúc** (architecture) của DNN.
 
 ::: analogy Mỗi lớp học một mức trừu tượng
@@ -107,22 +107,22 @@ Với ảnh khuôn mặt: lớp đầu học **cạnh, nét**; lớp giữa ghé
 
 Chọn loss phụ thuộc vào activation ở lớp ra. Hai loại điển hình:
 
-- **[[MSE]]** — ½·Σ(y − ŷ)² — cho **regression**.
+- **[[MSE]]** — $\tfrac{1}{2}\sum (y - \hat{y})^2$ — cho **regression**.
 - **[[Cross-Entropy]]** — đo khoảng cách giữa hai phân phối xác suất — cho **classification** (đi với sigmoid hoặc softmax):
 
 ::: formula
-loss = − Σᵢ tᵢ · log(pᵢ)
+$$\text{loss} = -\sum_{i=1}^{C} t_i \log p_i$$
 :::
 
-với C lớp, tᵢ là đáp án dạng **[[One-hot Vector]]** (chỉ lớp đúng bằng 1, còn lại 0), pᵢ là xác suất model đoán.
+với $C$ lớp, $t_i$ là đáp án dạng **[[One-hot Vector]]** (chỉ lớp đúng bằng 1, còn lại 0), $p_i$ là xác suất model đoán.
 
 ### Cập nhật tham số
 
 ::: formula
-Wᵢ(t+1) = Wᵢ(t) − α · ∂L/∂Wᵢ
+$$W_i^{(t+1)} = W_i^{(t)} - \alpha\,\frac{\partial L}{\partial W_i}$$
 :::
 
-với i là lớp thứ i, t là lần lặp thứ t, α là [[Learning Rate]]. Đạo hàm ở lớp i được tính từ đạo hàm của lớp sau nó nhân với đạo hàm activation gᵢ của lớp đó — chính là chain rule được áp dụng lần lượt từ cuối về đầu.
+với $i$ là lớp thứ $i$, $t$ là lần lặp thứ $t$, $\alpha$ là [[Learning Rate]]. Đạo hàm ở lớp i được tính từ đạo hàm của lớp sau nó nhân với đạo hàm activation $g_i$ của lớp đó — chính là chain rule được áp dụng lần lượt từ cuối về đầu.
 
 # Batch, Epoch và Iteration
 
@@ -167,7 +167,7 @@ Vì vậy có nhiều thuật toán tối ưu ([[Optimizer]]) cải tiến:
 Chi tiết cách dùng và tham số mặc định ở bài tiếp theo.
 
 # Ghi nhớ nhanh
-- Một nơ-ron: y = f(W·x + b) — tổng có trọng số + bias + activation.
+- Một nơ-ron: $y = f(W x + b)$ — tổng có trọng số + bias + activation.
 - Không có activation phi tuyến thì xếp bao nhiêu lớp vẫn chỉ là một hàm tuyến tính.
 - ReLU cho lớp ẩn; lớp ra: linear (regression), sigmoid (2 lớp), softmax (nhiều lớp).
 - Học = Forward → tính Loss → Backpropagation → cập nhật weight → lặp lại.

@@ -44,22 +44,22 @@ Trung bình kỳ vọng 50 lượt bấm, dao động khoảng ±6.89 — dùng 
 # Định lý Bayes — cập nhật niềm tin khi có bằng chứng
 
 ::: formula
-P(h | d) = P(d | h) × P(h) / P(d)
+$$P(h \mid d) = \frac{P(d \mid h)\,P(h)}{P(d)}$$
 :::
 
 Với **h** là giả thuyết (hypothesis), **d** là dữ liệu quan sát được (data):
 
-- **P(h)** — [[Prior]]: niềm tin ban đầu về giả thuyết, **trước khi** thấy dữ liệu.
-- **P(d | h)** — [[Likelihood]]: nếu giả thuyết đúng thì khả năng thấy được dữ liệu này là bao nhiêu.
-- **P(d)** — Evidence: xác suất thấy dữ liệu này nói chung.
-- **P(h | d)** — [[Posterior]]: niềm tin **sau khi** đã thấy dữ liệu.
+- **$P(h)$** — [[Prior]]: niềm tin ban đầu về giả thuyết, **trước khi** thấy dữ liệu.
+- **$P(d \mid h)$** — [[Likelihood]]: nếu giả thuyết đúng thì khả năng thấy được dữ liệu này là bao nhiêu.
+- **$P(d)$** — Evidence: xác suất thấy dữ liệu này nói chung.
+- **$P(h \mid d)$** — [[Posterior]]: niềm tin **sau khi** đã thấy dữ liệu.
 
 ::: example Một email chứa chữ "free" có phải spam?
-- 30% email là spam → P(Spam) = 0.30
-- 80% email spam có chữ "free" → P(free | Spam) = 0.80
-- 40% tất cả email có chữ "free" → P(free) = 0.40
+- 30% email là spam → $P(\text{Spam}) = 0.30$
+- 80% email spam có chữ "free" → $P(\text{free} \mid \text{Spam}) = 0.80$
+- 40% tất cả email có chữ "free" → $P(\text{free}) = 0.40$
 
-P(Spam | free) = 0.80 × 0.30 / 0.40 = **0.60**
+$P(\text{Spam} \mid \text{free}) = \dfrac{0.80 \times 0.30}{0.40} =$ **0.60**
 
 Thấy chữ "free", khả năng là spam tăng từ 30% lên **60%**.
 :::
@@ -134,17 +134,17 @@ Mean bị kéo lệch mạnh bởi giá trị cực đoan. Lương của 9 nhân
 ### Covariance
 
 **[[Covariance]]** đo xu hướng hai biến **cùng tăng cùng giảm**:
-- Cov > 0: X tăng thì Y thường tăng (học nhiều → điểm cao).
-- Cov < 0: X tăng thì Y thường giảm (học nhiều → thời gian chơi game ít).
-- Cov ≈ 0: không có quan hệ tuyến tính.
+- $\operatorname{Cov} > 0$: X tăng thì Y thường tăng (học nhiều → điểm cao).
+- $\operatorname{Cov} < 0$: X tăng thì Y thường giảm (học nhiều → thời gian chơi game ít).
+- $\operatorname{Cov} \approx 0$: không có quan hệ tuyến tính.
 
 ::: example Tính Covariance
 Giờ học X = [2, 4, 6, 8], điểm thi Y = [50, 65, 75, 90].
 
-- Trung bình: X̄ = 5, Ȳ = 70
+- Trung bình: $\bar{X} = 5$, $\bar{Y} = 70$
 - Độ lệch so với trung bình: X → [−3, −1, 1, 3]; Y → [−20, −5, 5, 20]
 - Nhân từng cặp rồi cộng: 60 + 5 + 5 + 60 = 130
-- Chia cho (n − 1) = 3: **Cov(X, Y) ≈ 43.33** → dương, học nhiều thì điểm cao.
+- Chia cho $(n - 1) = 3$: **$\operatorname{Cov}(X, Y) \approx 43.33$** → dương, học nhiều thì điểm cao.
 
 ```python
 np.cov(X, Y)[0, 1]    # 43.33
@@ -160,10 +160,10 @@ Nhược điểm: độ lớn của covariance phụ thuộc đơn vị đo (đ�
 **[[Correlation]]** là covariance đã được "chuẩn hóa" về khoảng **−1 đến 1**, không phụ thuộc đơn vị:
 
 ::: formula
-r = Cov(X, Y) / (σX × σY)
+$$r = \frac{\operatorname{Cov}(X, Y)}{\sigma_X\,\sigma_Y}$$
 :::
 
-- r = 1: tương quan thuận hoàn hảo; r = −1: tương quan nghịch hoàn hảo; r = 0: không tương quan tuyến tính.
+- $r = 1$: tương quan thuận hoàn hảo; $r = -1$: tương quan nghịch hoàn hảo; $r = 0$: không tương quan tuyến tính.
 - Cách đọc độ mạnh (giá trị tuyệt đối): 0.9–1.0 rất mạnh · 0.7–0.9 mạnh · 0.5–0.7 vừa · dưới 0.5 yếu (ví dụ 0.25 là tương quan thuận khá yếu).
 
 !viz[Cùng một đám điểm, hệ số tương quan r chạy từ +1 về −1 rồi quay lại: r gần ±1 thì các điểm xếp gần thành một đường thẳng, r gần 0 thì tản mát không theo hướng nào.](correlation)
@@ -189,10 +189,10 @@ Doanh số kem và số vụ đuối nước tương quan thuận — nhưng ăn
 **[[Entropy]]** đo **mức độ không chắc chắn** (hay độ "lộn xộn") của dữ liệu:
 
 ::: formula
-H = − Σ pᵢ × log₂(pᵢ)
+$$H = -\sum_{i=1}^{n} p_i \log_2 p_i$$
 :::
 
-với pᵢ là xác suất của từng khả năng. Đơn vị là **bit**.
+với $p_i$ là xác suất của từng khả năng. Đơn vị là **bit**.
 
 ::: example Câu trắc nghiệm 4 đáp án — học sinh chắc chắn tới đâu?
 | Tình huống | Xác suất chọn A, B, C, D | Entropy |
@@ -202,7 +202,7 @@ với pᵢ là xác suất của từng khả năng. Đơn vị là **bit**.
 | Đoán bừa | 0.25 / 0.25 / 0.25 / 0.25 | 2.0 bit (cao nhất) |
 
 - Entropy = 0 → hoàn toàn chắc chắn (chỉ một khả năng).
-- Entropy lớn nhất = log₂(n) khi mọi khả năng bằng nhau — 4 lựa chọn thì tối đa là log₂(4) = 2 bit.
+- Entropy lớn nhất $= \log_2 n$ khi mọi khả năng bằng nhau — 4 lựa chọn thì tối đa là $\log_2 4 = 2$ bit.
 - Entropy cao = cần thêm thông tin mới quyết định được; entropy thấp = đã đủ thông tin.
 :::
 
@@ -211,12 +211,12 @@ với pᵢ là xác suất của từng khả năng. Đơn vị là **bit**.
 **[[Information Gain]]** = entropy trước khi chia − entropy (trung bình có trọng số) sau khi chia. Câu hỏi nào làm dữ liệu "bớt lộn xộn" nhiều nhất thì được chọn.
 
 ::: example Chia email theo từ "discount"
-- Nút gốc: 10 spam, 10 không spam → H = 1.0 bit (50/50, lộn xộn nhất).
+- Nút gốc: 10 spam, 10 không spam → $H = 1.0$ bit (50/50, lộn xộn nhất).
 - Chia theo "có chữ discount không?":
-  - Có: 8 spam, 2 không → H ≈ 0.722 bit
-  - Không: 2 spam, 8 không → H ≈ 0.722 bit
+  - Có: 8 spam, 2 không → $H \approx 0.722$ bit
+  - Không: 2 spam, 8 không → $H \approx 0.722$ bit
 - Entropy trung bình sau khi chia = 0.722
-- **Information Gain = 1.0 − 0.722 = 0.278 bit**
+- **Information Gain $= 1.0 - 0.722 = 0.278$ bit**
 
 [[Decision Tree]] thử mọi câu hỏi có thể, ở mỗi nút chọn câu hỏi có Information Gain cao nhất.
 :::
@@ -228,9 +228,9 @@ Ta muốn chứng minh một điều gì đó — ví dụ "model A tốt hơn m
 - **[[Null Hypothesis]] (H0)** — giả thuyết "không có gì xảy ra": đồng xu cân bằng, hai nhóm giống nhau, hai model ngang nhau.
 - **[[Alternative Hypothesis]] (H1)** — điều ta muốn chứng minh: đồng xu bị lệch, hai nhóm khác nhau.
 - **[[p-value]]**: nếu H0 đúng thì xác suất thấy được kết quả "lệch" như dữ liệu này (hoặc lệch hơn) là bao nhiêu.
-- **[[Significance Level]] α**: ngưỡng chọn trước, thường là 0.05 (cũng hay dùng 0.01, 0.001…).
+- **[[Significance Level]] $\alpha$**: ngưỡng chọn trước, thường là 0.05 (cũng hay dùng 0.01, 0.001…).
 
-**Quy tắc**: p-value < α → **bác bỏ H0**, chấp nhận H1. p-value ≥ α → **chưa đủ bằng chứng** bác bỏ H0 (không có nghĩa là H0 chắc chắn đúng). α chính là tỉ lệ "báo động nhầm" mà ta chấp nhận.
+**Quy tắc**: p-value $< \alpha$ → **bác bỏ H0**, chấp nhận H1. p-value $\ge \alpha$ → **chưa đủ bằng chứng** bác bỏ H0 (không có nghĩa là H0 chắc chắn đúng). $\alpha$ chính là tỉ lệ "báo động nhầm" mà ta chấp nhận.
 
 !viz[Thống kê kiểm định z chạy qua lại: phần tô màu ở hai đuôi (ngoài |z|) chính là p-value. Khi z lọt vào vùng bác bỏ (ngoài ±1,96) thì p < 0,05 và ta bác bỏ H0.](two-tailed-test)
 
@@ -272,7 +272,7 @@ Thống kê suy luận còn dùng sample để **ước lượng** những con s
 - Dữ liệu có outlier thì median đáng tin hơn mean.
 - Covariance cho biết chiều quan hệ; Correlation (−1 đến 1) cho biết cả chiều lẫn độ mạnh. Tương quan ≠ nhân quả.
 - Entropy đo độ lộn xộn; Decision Tree chọn câu hỏi có Information Gain cao nhất.
-- p-value < α (thường 0.05) → bác bỏ H0. p-value lớn không chứng minh H0 đúng.
+- p-value $< \alpha$ (thường 0.05) → bác bỏ H0. p-value lớn không chứng minh H0 đúng.
 
 # Thuật ngữ
 - **Random Variable**: Biến ngẫu nhiên — đại lượng mà giá trị phụ thuộc vào kết quả của một hiện tượng may rủi. Có loại rời rạc (đếm được) và liên tục (đo được). Ví dụ: số chấm khi tung xúc xắc (1–6); chiều cao của một người được chọn ngẫu nhiên.

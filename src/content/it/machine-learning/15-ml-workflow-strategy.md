@@ -63,7 +63,7 @@ So sánh với một model rất đơn giản (Logistic Regression, hoặc model
 ### Parameter khác Hyperparameter thế nào?
 
 - **Parameter** (tham số) — model **tự học** từ dữ liệu: hệ số của Linear Regression, vị trí tâm cụm của K-Means, weight của mạng nơ-ron.
-- **[[Hyperparameter]]** (siêu tham số) — **con người đặt trước** khi train: mức regularization λ (Lasso/Ridge), số hàng xóm k (kNN), số chiều giữ lại (PCA), learning rate, số cây…
+- **[[Hyperparameter]]** (siêu tham số) — **con người đặt trước** khi train: mức regularization $\lambda$ (Lasso/Ridge), số hàng xóm $k$ (kNN), số chiều giữ lại (PCA), learning rate, số cây…
 
 ### Grid Search — thử hết mọi tổ hợp
 
@@ -119,7 +119,7 @@ Luôn dùng **Pipeline** để tiền xử lý được fit lại riêng trong t
 # Chẩn đoán Bias – Variance
 
 ::: formula
-Tổng lỗi dự đoán = Bias² + Variance + Nhiễu không thể giảm
+$$\text{Tổng lỗi dự đoán} = \text{Bias}^2 + \text{Variance} + \text{Nhiễu không thể giảm}$$
 :::
 
 | | High Bias — Underfitting | High Variance — Overfitting |

@@ -53,31 +53,31 @@ Quy trình:
 
 ### Thuật toán
 
-**Khởi tạo**: mọi mẫu có trọng số bằng nhau wᵢ = 1/n.
+**Khởi tạo**: mọi mẫu có trọng số bằng nhau $w_i = 1/n$.
 
-**Lặp t = 1, 2, …, T:**
+**Lặp $t = 1, 2, \dots, T$:**
 
-1. Train một weak learner hₜ trên dữ liệu có trọng số wᵢ (mẫu trọng số cao được chú ý nhiều hơn).
-2. Tính **lỗi có trọng số**: εₜ = Σ wᵢ·[hₜ đoán sai mẫu i] / Σ wᵢ
-3. Tính **trọng số của model**: αₜ = ½ · ln((1 − εₜ) / εₜ)
+1. Train một weak learner $h_t$ trên dữ liệu có trọng số $w_i$ (mẫu trọng số cao được chú ý nhiều hơn).
+2. Tính **lỗi có trọng số**: $\varepsilon_t = \dfrac{\sum_i w_i \cdot \mathbb{1}[h_t \text{ đoán sai mẫu } i]}{\sum_i w_i}$
+3. Tính **trọng số của model**: $\alpha_t = \dfrac{1}{2}\ln\dfrac{1 - \varepsilon_t}{\varepsilon_t}$
 4. Cập nhật trọng số mẫu:
-   - Mẫu đoán **sai**: wᵢ ← wᵢ · e^(+αₜ) → **tăng**
-   - Mẫu đoán **đúng**: wᵢ ← wᵢ · e^(−αₜ) → **giảm**
+   - Mẫu đoán **sai**: $w_i \leftarrow w_i \cdot e^{+\alpha_t}$ → **tăng**
+   - Mẫu đoán **đúng**: $w_i \leftarrow w_i \cdot e^{-\alpha_t}$ → **giảm**
    - Chuẩn hóa để tổng trọng số bằng 1.
 
 **Dự đoán cuối:**
 
 ::: formula
-H(x) = sign( Σₜ αₜ · hₜ(x) )
+$$H(x) = \operatorname{sign}\!\left(\sum_{t=1}^{T} \alpha_t\, h_t(x)\right)$$
 :::
 
-Các weak learner cùng bỏ phiếu, model tốt (α lớn) có tiếng nói mạnh hơn; hàm sign (lấy dấu) quyết định lớp cuối cùng.
+Các weak learner cùng bỏ phiếu, model tốt ($\alpha$ lớn) có tiếng nói mạnh hơn; hàm sign (lấy dấu) quyết định lớp cuối cùng.
 
-### Đọc ý nghĩa của α
+### Đọc ý nghĩa của $\alpha$
 
-- ε gần 0 (model rất tốt) → α rất lớn → đóng góp nhiều.
-- ε = 0.5 (như đoán bừa) → α = 0 → không đóng góp gì.
-- ε > 0.5 (tệ hơn đoán bừa) → α < 0 → **đảo ngược** dự đoán của nó.
+- $\varepsilon$ gần 0 (model rất tốt) → $\alpha$ rất lớn → đóng góp nhiều.
+- $\varepsilon = 0.5$ (như đoán bừa) → $\alpha = 0$ → không đóng góp gì.
+- $\varepsilon > 0.5$ (tệ hơn đoán bừa) → $\alpha < 0$ → **đảo ngược** dự đoán của nó.
 
 AdaBoost tự đánh giá chất lượng từng weak learner và gán trọng số phù hợp.
 
@@ -85,7 +85,7 @@ AdaBoost tự đánh giá chất lượng từng weak learner và gán trọng s
 
 ::: example Minh họa 3 vòng với 10 mẫu
 **Vòng 1**: 10 mẫu cùng trọng số 1/10. Stump chọn cách chia tốt nhất (ví dụ X > 3) → đúng 7, sai 3.
-ε = 3/10 = 0.3 → α = ½·ln(0.7/0.3) ≈ **0.42**. 3 mẫu sai được tăng trọng số, 7 mẫu đúng giảm.
+$\varepsilon = 3/10 = 0.3$ → $\alpha = \tfrac{1}{2}\ln\dfrac{0.7}{0.3} \approx$ **0.42**. 3 mẫu sai được tăng trọng số, 7 mẫu đúng giảm.
 
 **Vòng 2**: 3 mẫu sai giờ "to" hơn → stump mới chia ở chỗ **khác**, ưu tiên làm đúng chúng. Sửa được phần lớn nhưng lại sai 2 mẫu khác → 2 mẫu này tăng trọng số.
 
@@ -99,7 +99,7 @@ Mỗi stump chỉ là một đường thẳng đơn giản, nhưng tổng có tr
 AdaBoost thực chất đang tối thiểu hóa **[[Exponential Loss]]**:
 
 ::: formula
-L = exp( −y · F(x) ),   với F(x) = Σ αₜ·hₜ(x)
+$$L = \exp\bigl(-y\,F(x)\bigr), \qquad F(x) = \sum_{t} \alpha_t\, h_t(x)$$
 :::
 
 Mỗi vòng lặp là một bước của **Forward Stagewise Additive Modeling** (xây model cộng dồn từng bước). Exponential loss phạt **cực nặng** mẫu bị sai — đây vừa là sức mạnh vừa là điểm yếu. AdaBoost là **trường hợp đặc biệt của Gradient Boosting** với exponential loss.
@@ -141,18 +141,18 @@ Mỗi model mới chỉ cần sửa phần còn sai ([[Residual]]); cộng dồn
 
 ### Thuật toán (Regression)
 
-1. **Khởi tạo**: F₀(x) = một hằng số tốt nhất (với MSE chính là **trung bình của y**).
-2. **Lặp m = 1, 2, …, M:**
-   1. Tính **[[Pseudo-residual]]**: rᵢ = −∂L(yᵢ, F(xᵢ)) / ∂F(xᵢ) — gradient âm của loss.
-   2. Fit một cây hồi quy hₘ lên dữ liệu {(xᵢ, rᵢ)}.
-   3. Cập nhật: **Fₘ(x) = Fₘ₋₁(x) + η·hₘ(x)**, với η là learning rate.
+1. **Khởi tạo**: $F_0(x)$ = một hằng số tốt nhất (với MSE chính là **trung bình của y**).
+2. **Lặp $m = 1, 2, \dots, M$:**
+   1. Tính **[[Pseudo-residual]]**: $r_i = -\dfrac{\partial L\bigl(y_i, F(x_i)\bigr)}{\partial F(x_i)}$ — gradient âm của loss.
+   2. Fit một cây hồi quy $h_m$ lên dữ liệu $\{(x_i, r_i)\}$.
+   3. Cập nhật: $F_m(x) = F_{m-1}(x) + \eta\, h_m(x)$, với $\eta$ là learning rate.
 
 | Loss | Công thức | Pseudo-residual |
 |---|---|---|
-| MSE (L2) | ½(y − F)² | **y − F** — chính là residual thông thường |
-| MAE (L1) | \|y − F\| | sign(y − F) — chỉ lấy dấu |
-| Huber | Lai giữa L2 (sai số nhỏ) và L1 (sai số lớn) | y − F nếu \|y − F\| ≤ δ, ngược lại δ·sign(y − F) |
-| Log Loss | −[y·log(p) + (1 − y)·log(1 − p)] | y − p (residual theo xác suất) |
+| MSE (L2) | $\tfrac{1}{2}(y - F)^2$ | **$y - F$** — chính là residual thông thường |
+| MAE (L1) | $\lvert y - F \rvert$ | $\operatorname{sign}(y - F)$ — chỉ lấy dấu |
+| Huber | Lai giữa L2 (sai số nhỏ) và L1 (sai số lớn) | $y - F$ nếu $\lvert y - F \rvert \le \delta$, ngược lại $\delta \cdot \operatorname{sign}(y - F)$ |
+| Log Loss | $-\bigl[y \log p + (1 - y)\log(1 - p)\bigr]$ | $y - p$ (residual theo xác suất) |
 
 → Với MSE, "fit residual" đúng theo nghĩa đen. Với loss khác, pseudo-residual là khái niệm tổng quát hơn.
 
@@ -160,12 +160,12 @@ Mỗi model mới chỉ cần sửa phần còn sai ([[Residual]]); cộng dồn
 
 | Gradient Descent (không gian tham số) | Gradient Boosting (không gian hàm số) |
 |---|---|
-| θ ← θ − η·∂L/∂θ | F ← F + η·h, với h ≈ −∂L/∂F |
+| $\theta \leftarrow \theta - \eta \dfrac{\partial L}{\partial \theta}$ | $F \leftarrow F + \eta\, h$, với $h \approx -\dfrac{\partial L}{\partial F}$ |
 | Cập nhật **tham số** ngược hướng gradient | Cập nhật **cả hàm dự đoán** ngược hướng gradient |
 | Dùng trong Neural Network, Linear Regression | Mỗi cây mới = một bước gradient descent |
 
 ::: example Tính tay một vòng
-y = [3, 5, 7, 9], learning rate η = 0.5, cây có 1 lần chia.
+$y = [3, 5, 7, 9]$, learning rate $\eta = 0.5$, cây có 1 lần chia.
 
 - **Vòng 0**: F₀ = trung bình = **6** cho tất cả → residual = [−3, −1, 1, 3].
 - **Vòng 1**: cây chia thành nhóm {3, 5} và {7, 9}; giá trị lá = trung bình residual mỗi nhóm = **−2** và **+2**.
@@ -173,21 +173,21 @@ y = [3, 5, 7, 9], learning rate η = 0.5, cây có 1 lần chia.
   → dự đoán [5, 5, 7, 7], residual mới = [−2, 0, 0, 2]. Lỗi lớn nhất giảm từ 3 xuống 2.
 - Các vòng sau tiếp tục fit residual còn lại → residual giảm dần qua mỗi vòng.
 
-Với η = 0.5, mỗi cây chỉ đóng góp 50% — gọi là "học chậm" (slow learning).
+Với $\eta = 0.5$, mỗi cây chỉ đóng góp 50% — gọi là "học chậm" (slow learning).
 :::
 
 !viz[Gradient Boosting chạy thật trên 40 điểm: vòng 0 đoán bằng trung bình; mỗi vòng thêm một stump học phần còn sai (residual, vạch đỏ bên dưới) và cộng vào với learning rate 0,35. Đường dự đoán (cam) khớp dần, residual nhỏ dần.](gradient-boosting)
 
 ### Regularization cho Gradient Boosting
 
-**[[Shrinkage]] — learning rate η:**
+**[[Shrinkage]] — learning rate $\eta$:**
 
-| η nhỏ (0.01–0.1) | η lớn (0.3–1.0) |
+| $\eta$ nhỏ (0.01–0.1) | $\eta$ lớn (0.3–1.0) |
 |---|---|
 | Tổng quát hóa tốt hơn ("học chậm") | Cần ít cây, train nhanh |
 | Cần nhiều cây hơn, train lâu hơn | Dễ overfit, kém ổn định |
 
-**Quy tắc vàng: η nhỏ + nhiều cây tốt hơn η lớn + ít cây.**
+**Quy tắc vàng: $\eta$ nhỏ + nhiều cây tốt hơn $\eta$ lớn + ít cây.**
 
 **[[Stochastic Gradient Boosting]]** (Friedman): mỗi vòng chỉ dùng một phần dữ liệu (ví dụ 80%) → đưa ý tưởng của Bagging vào Boosting → giảm variance thêm, train nhanh hơn.
 
@@ -204,23 +204,23 @@ AdaBoost: depth = 1 (stump) · Gradient Boosting: depth = 3–8 · Random Forest
 ### Hàm mục tiêu có regularization sẵn
 
 ::: formula
-Obj = Σ L(yᵢ, ŷᵢ) + Σ Ω(fₖ),   với Ω(f) = γ·T + ½·λ·‖w‖²
+$$\text{Obj} = \sum_{i} L(y_i, \hat{y}_i) + \sum_{k} \Omega(f_k), \qquad \Omega(f) = \gamma\,T + \frac{1}{2}\lambda \lVert w \rVert^2$$
 :::
 
 - Phần đầu: model khớp dữ liệu tới đâu (MSE, Log Loss…).
 - **Ω(f)** — phạt độ phức tạp của mỗi cây:
-  - **T** = số lá; **γ** (gamma) = phạt cho mỗi lá thêm vào → cắt tỉa sẵn.
-  - **w** = giá trị ở các lá; **λ** = L2 regularization cho giá trị lá → chống overfit.
+  - **$T$** = số lá; **$\gamma$** (gamma) = phạt cho mỗi lá thêm vào → cắt tỉa sẵn.
+  - **$w$** = giá trị ở các lá; **$\lambda$** = L2 regularization cho giá trị lá → chống overfit.
 
 Gradient Boosting truyền thống **không** có phần regularization này trong hàm mục tiêu.
 
 ### Dùng cả đạo hàm bậc 2
 
 XGBoost xấp xỉ loss bằng **khai triển Taylor bậc 2**, dùng cả:
-- **gᵢ** = đạo hàm bậc 1 (gradient) — "dốc" tới đâu.
-- **hᵢ** = đạo hàm bậc 2 ([[Hessian]]) — "cong" tới đâu.
+- **$g_i$** = đạo hàm bậc 1 (gradient) — "dốc" tới đâu.
+- **$h_i$** = đạo hàm bậc 2 ([[Hessian]]) — "cong" tới đâu.
 
-Lợi ích: tìm được **giá trị lá tối ưu bằng công thức trực tiếp** w* = −G / (H + λ), tính được độ lợi khi chia bằng công thức chính xác, và hội tụ nhanh hơn.
+Lợi ích: tìm được **giá trị lá tối ưu bằng công thức trực tiếp** $w^* = -\dfrac{G}{H + \lambda}$, tính được độ lợi khi chia bằng công thức chính xác, và hội tụ nhanh hơn.
 
 ::: analogy
 Gradient Boosting thường giống người xuống núi chỉ biết **độ dốc**. XGBoost biết thêm **độ cong của địa hình** nên chọn bước đi thông minh hơn.
@@ -229,17 +229,17 @@ Gradient Boosting thường giống người xuống núi chỉ biết **độ d
 ### Công thức độ lợi khi chia nút
 
 ::: formula
-Gain = ½·[ G_L²/(H_L + λ) + G_R²/(H_R + λ) − (G_L + G_R)²/(H_L + H_R + λ) ] − γ
+$$\text{Gain} = \frac{1}{2}\left[\frac{G_L^2}{H_L + \lambda} + \frac{G_R^2}{H_R + \lambda} - \frac{(G_L + G_R)^2}{H_L + H_R + \lambda}\right] - \gamma$$
 :::
 
 - G_L, G_R: tổng gradient bên trái/phải; H_L, H_R: tổng hessian bên trái/phải.
 - Hai số hạng đầu: "chất lượng" hai nhánh nếu chia; số hạng thứ ba: chất lượng nếu **không** chia.
-- **γ** là ngưỡng độ lợi tối thiểu: Gain ≤ 0 thì **không chia** → cắt tỉa sẵn ngay khi mọc cây. γ càng lớn cây càng đơn giản.
+- **$\gamma$** là ngưỡng độ lợi tối thiểu: Gain $\le 0$ thì **không chia** → cắt tỉa sẵn ngay khi mọc cây. $\gamma$ càng lớn cây càng đơn giản.
 
 ### 8 cải tiến kỹ thuật
 
-1. **Regularized objective** — L1 (α) + L2 (λ) trên giá trị lá.
-2. **Shrinkage** — learning rate η.
+1. **Regularized objective** — L1 ($\alpha$) + L2 ($\lambda$) trên giá trị lá.
+2. **Shrinkage** — learning rate $\eta$.
 3. **Column subsampling** — chọn ngẫu nhiên tập con feature theo cây / theo tầng / theo nút (giống ý tưởng Random Forest).
 4. **Sparsity-aware** — **tự xử lý missing values**: học "hướng mặc định" tốt nhất cho giá trị thiếu ở mỗi nút, không cần điền trước.
 5. **Weighted Quantile Sketch** — tìm điểm chia hiệu quả với dữ liệu lớn và train phân tán.
@@ -250,10 +250,10 @@ Gain = ½·[ G_L²/(H_L + λ) + G_R²/(H_R + λ) − (G_L + G_R)²/(H_L + H_R + 
 | Tiêu chí | GBM của scikit-learn | XGBoost |
 |---|---|---|
 | Tối ưu | Đạo hàm bậc 1 | Bậc 1 + bậc 2 (Hessian) |
-| Regularization | Shrinkage, độ sâu | L1, L2, γ, shrinkage, subsample |
+| Regularization | Shrinkage, độ sâu | L1, L2, $\gamma$, shrinkage, subsample |
 | Missing values | Cần điền trước | Tự xử lý |
 | Column subsampling | Không | Có (cây/tầng/nút) |
-| Cắt tỉa | Hậu kỳ (giới hạn `max_depth`) | Ngay khi mọc (theo Gain và γ) |
+| Cắt tỉa | Hậu kỳ (giới hạn `max_depth`) | Ngay khi mọc (theo Gain và $\gamma$) |
 | Song song | Không | Có (ở mức feature) |
 | Early stopping | Phải tự làm | Có sẵn |
 
@@ -312,7 +312,7 @@ Gain = ½·[ G_L²/(H_L + λ) + G_R²/(H_R + λ) − (G_L + G_R)²/(H_L + H_R + 
 | Mục tiêu | Giảm variance | Giảm bias | Giảm bias | Giảm bias + regularization |
 | Model nền | Cây sâu | Stump | Cây nông (3–8) | Cây nông (3–10) |
 | Học từ | Bootstrap | Trọng số mẫu | Pseudo-residual | Pseudo-residual (bậc 2) |
-| Regularization | Lấy trung bình | Ít | Shrinkage, subsample | L1, L2, γ, shrinkage, subsample |
+| Regularization | Lấy trung bình | Ít | Shrinkage, subsample | L1, L2, $\gamma$, shrinkage, subsample |
 | Overfitting | Ít | Nhạy với nhiễu | Cần tune | Kiểm soát tốt |
 | Tốc độ | Nhanh (song song) | Chậm | Chậm | Tối ưu |
 
@@ -371,9 +371,9 @@ Viết `GradientBoostingClassifier(100)` sẽ báo lỗi, vì nhiều estimator 
 
 # Ghi nhớ nhanh
 - Boosting = nối tiếp, giảm bias; mỗi model sửa lỗi của model trước.
-- AdaBoost: tăng trọng số mẫu sai, α = ½·ln((1 − ε)/ε), dự đoán H(x) = sign(Σ αₜhₜ(x)); nhạy với nhiễu.
-- Gradient Boosting: fit pseudo-residual = −∂L/∂F; Fₘ = Fₘ₋₁ + η·hₘ; η nhỏ + nhiều cây là tốt hơn.
-- XGBoost: Gradient Boosting + đạo hàm bậc 2 + regularization (γ, λ, α) + tự xử lý missing + early stopping.
+- AdaBoost: tăng trọng số mẫu sai, $\alpha = \tfrac{1}{2}\ln\frac{1 - \varepsilon}{\varepsilon}$, dự đoán $H(x) = \operatorname{sign}\bigl(\sum_t \alpha_t h_t(x)\bigr)$; nhạy với nhiễu.
+- Gradient Boosting: fit pseudo-residual $= -\partial L / \partial F$; $F_m = F_{m-1} + \eta\, h_m$; $\eta$ nhỏ + nhiều cây là tốt hơn.
+- XGBoost: Gradient Boosting + đạo hàm bậc 2 + regularization ($\gamma, \lambda, \alpha$) + tự xử lý missing + early stopping.
 - LightGBM nhanh nhất (GOSS, EFB, leaf-wise); CatBoost mạnh với feature phân loại, ít phải tune.
 - Early stopping phải dùng validation set, không dùng test set.
 
