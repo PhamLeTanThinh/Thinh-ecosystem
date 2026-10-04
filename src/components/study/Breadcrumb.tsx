@@ -84,7 +84,22 @@ interface BreadcrumbProps {
 // CSS của từng app nên đặt được ở bất kỳ đâu.
 export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null)
+  // Chip đang bung chữ (chuột/focus) đẩy các chip CÙNG DÒNG phía sau sang phải bằng transform — không đổi layout
+  // nên chip không bị xuống dòng (xem breadcrumb.css). push.px = phần chữ nhô ra ngoài ô 34px của chip.
+  const [push, setPush] = useState<{ index: number; px: number; targets: number[] } | null>(null)
   const navRef = useRef<HTMLElement>(null)
+
+  function expand(i: number, li: HTMLLIElement) {
+    const label = li.querySelector<HTMLElement>('.sb-crumb-label')
+    const items = [...(li.parentElement?.children ?? [])] as HTMLElement[]
+    if (!label) return
+    const targets = items.flatMap((el, j) => (j > i && el.offsetTop === li.offsetTop ? [j] : []))
+    setPush({ index: i, px: label.offsetWidth - li.offsetWidth, targets })
+  }
+
+  function collapse(i: number) {
+    setPush((current) => (current?.index === i ? null : current))
+  }
 
   useEffect(() => {
     if (openIndex === null) return
@@ -118,7 +133,12 @@ export function Breadcrumb({ items, accent, className }: BreadcrumbProps) {
           return (
             <li
               key={`${item.label}-${i}`}
-              className={`sb-crumb-item${item.options?.length ? ' sb-crumb-item--switcher' : ''}${openIndex === i ? ' is-open' : ''}`}
+              className={`sb-crumb-item${last ? '' : ' sb-crumb-item--collapsible'}${item.options?.length ? ' sb-crumb-item--switcher' : ''}${openIndex === i ? ' is-open' : ''}`}
+              style={push?.targets.includes(i) ? { transform: `translateX(${push.px}px)` } : undefined}
+              onPointerEnter={last ? undefined : (e) => e.pointerType === 'mouse' && expand(i, e.currentTarget)}
+              onPointerLeave={last ? undefined : () => collapse(i)}
+              onFocus={last ? undefined : (e) => expand(i, e.currentTarget)}
+              onBlur={last ? undefined : () => collapse(i)}
             >
               {item.options?.length ? (
                 <button
