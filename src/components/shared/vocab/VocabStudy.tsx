@@ -312,6 +312,9 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
   }, [w, settings.autoReadTerm, settings.autoReadExample, settings.autoReadDefVi])
 
   if (!w) return null
+  // Chế độ ẩn nghĩa: bấm vào BẤT KỲ chỗ nào bị làm mờ (nghĩa, cấu tạo từ, câu dịch ví dụ) đều lật xem/che lại
+  const flip = settings.hideMeaning ? reveal : undefined
+  const flipTitle = settings.hideMeaning ? (hidden ? 'Bấm (hoặc Space) để xem nghĩa' : 'Bấm để che lại') : undefined
   return (
     <div className="vs-modal-backdrop" onClick={onClose}>
       <div className="vs-modal" onClick={(e) => e.stopPropagation()}>
@@ -350,8 +353,8 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
             {w.tag && <span className="vs-tag">{w.tag}</span>}
             <div
               className={`vs-modal-section${settings.hideMeaning ? ' vs-flip' : ''}`}
-              onClick={settings.hideMeaning ? reveal : undefined}
-              title={settings.hideMeaning ? (hidden ? 'Bấm (hoặc Space) để xem nghĩa' : 'Bấm để che lại') : undefined}
+              onClick={flip}
+              title={flipTitle}
             >
               <span className="vs-label">
                 Nghĩa{hidden && <span className="vs-flip-hint"> · bấm hoặc Space để xem</span>}
@@ -368,7 +371,7 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
               )}
             </div>
             {w.parts && (
-              <div className={`vs-modal-section${hidden ? ' vs-blur' : ''}`}>
+              <div className={`vs-modal-section${hidden ? ' vs-blur' : ''}${flip ? ' vs-flip' : ''}`} onClick={flip} title={flipTitle}>
                 <WordParts parts={w.parts} lang={lang} />
               </div>
             )}
@@ -382,7 +385,11 @@ function VocabFlashModal({ words, start, lang, onClose }: { words: StudyWord[]; 
                   {w.example}
                 </p>
                 {w.exampleReading && <p className="vs-ctx-reading">{w.exampleReading}</p>}
-                {w.exampleVi && <p className={`vs-ctx-vi${hidden ? ' vs-blur' : ''}`}>{w.exampleVi}</p>}
+                {w.exampleVi && (
+                  <p className={`vs-ctx-vi${hidden ? ' vs-blur' : ''}${flip ? ' vs-flip' : ''}`} onClick={flip} title={flipTitle}>
+                    {w.exampleVi}
+                  </p>
+                )}
               </div>
             )}
           </div>
