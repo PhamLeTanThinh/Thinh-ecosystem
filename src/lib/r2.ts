@@ -31,6 +31,11 @@ function getPublicUrl(): string {
   return process.env.R2_PUBLIC_URL
 }
 
+/** URL công khai của 1 object trên R2 */
+export function r2PublicUrl(key: string) {
+  return `${getPublicUrl()}/${key}`
+}
+
 /** Upload buffer trực tiếp lên R2 */
 export async function uploadToR2(
   key: string,

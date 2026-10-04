@@ -1,0 +1,804 @@
+/* Bucket list (/bucketlist) — tờ poster vẽ tay nhiều màu: tiêu đề tô sáp, danh sách chữ viết tay 3 cột, điều đã
+   làm được gạch bút đỏ, hình vẽ nguệch ngoạc ở lề. Nét sáp = filter SVG #bl-crayon (components/bucketlist/Doodles).
+   Tự chứa, không dùng token của app khác. */
+.bl-root {
+  --bl-paper: #fffefa;
+  --bl-bg: #efe9e1;
+  --bl-ink: #262626;
+  --bl-muted: #a39b91;
+  --bl-red: #e5383b;
+  --bl-highlight: rgba(255, 224, 102, 0.6);
+  min-height: 100dvh;
+  background: var(--bl-bg);
+  color: var(--bl-ink);
+  font-family: var(--font-bl-hand), 'Comic Sans MS', cursive;
+}
+
+.bl-page {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding: 56px 16px 80px;
+}
+
+.bl-back {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  font-size: 17px;
+  color: var(--bl-muted);
+  text-decoration: none;
+}
+
+.bl-back:hover {
+  color: var(--bl-ink);
+}
+
+/* ── Tờ giấy ── */
+.bl-sheet {
+  position: relative;
+  width: min(1180px, 100%);
+  padding: clamp(28px, 4vw, 48px) clamp(18px, 4vw, 52px) clamp(36px, 5vw, 60px);
+  background: var(--bl-paper);
+  box-shadow:
+    0 1px 2px rgba(60, 40, 20, 0.08),
+    0 26px 50px -28px rgba(60, 40, 20, 0.4);
+  overflow: hidden;
+}
+
+.bl-head {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.bl-name {
+  margin: 0 0 -0.5em;
+  font-family: var(--font-bl-script), cursive;
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  color: var(--bl-ink);
+  transform: rotate(-4deg);
+}
+
+/* Mỗi chữ cái tô 1 màu sáp, viền đen đậm, nghiêng nhẹ; filter làm mép nhoè như bút sáp */
+.bl-title {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  font-family: var(--font-bl-title), sans-serif;
+  font-size: clamp(64px, 14vw, 190px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: 0.01em;
+}
+
+.bl-title span {
+  display: inline-block;
+  color: var(--c);
+  -webkit-text-stroke: clamp(2px, 0.35vw, 4px) #1d1d1d;
+  paint-order: stroke fill;
+  transform: rotate(var(--r));
+  filter: url(#bl-crayon);
+}
+
+.bl-sub {
+  margin: 10px 0 0;
+  font-size: clamp(17px, 2vw, 21px);
+  color: #5a544d;
+}
+
+.bl-sub b {
+  font-weight: 400;
+  color: var(--bl-red);
+}
+
+/* ── Danh sách 100 dòng, chảy dọc theo 3 cột như viết tay trên giấy ── */
+.bl-list {
+  position: relative;
+  z-index: 1;
+  columns: 3;
+  column-gap: clamp(20px, 3vw, 44px);
+  margin: clamp(22px, 3vw, 34px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.bl-list > li {
+  break-inside: avoid;
+}
+
+.bl-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  width: 100%;
+  padding: 2px 0;
+  border: 0;
+  background: none;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: clamp(16px, 1.45vw, 19px);
+  line-height: 1.35;
+  text-align: left;
+}
+
+button.bl-row {
+  cursor: pointer;
+}
+
+button.bl-row:hover .bl-ink,
+button.bl-row:focus-visible .bl-ink {
+  background: linear-gradient(transparent 55%, var(--bl-highlight) 55%);
+}
+
+button.bl-row:focus-visible {
+  outline: 2px dashed #3a86ff;
+  outline-offset: 2px;
+}
+
+.bl-n {
+  flex: none;
+  min-width: 2.1em;
+  color: var(--bl-ink);
+}
+
+.bl-t {
+  min-width: 0;
+}
+
+/* Chữ của 1 điều — inline + box-decoration-break: clone để dải tô dạ quang / gạch đỏ chạy theo TỪNG dòng khi
+   tên dài xuống 2 dòng (nền đặt trên khối .bl-t thì chỉ phủ 1 dải ở đáy khối) */
+.bl-ink {
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Dòng chưa viết — gạch chân bút chì nhạt chờ điền */
+.bl-t--blank {
+  flex: 1;
+  height: 1.05em;
+  border-bottom: 1.5px dashed rgba(38, 38, 38, 0.18);
+}
+
+.bl-row--blank .bl-n {
+  color: var(--bl-muted);
+}
+
+button.bl-row--blank:hover .bl-t--blank {
+  background: none;
+  border-bottom-color: #3a86ff;
+}
+
+/* Đã làm được — gạch bút đỏ */
+.bl-row--done .bl-ink {
+  text-decoration: line-through;
+  text-decoration-color: var(--bl-red);
+  text-decoration-thickness: 2.5px;
+}
+
+/* Đang làm — tô dạ quang vàng */
+.bl-row--doing .bl-ink {
+  background: linear-gradient(transparent 58%, var(--bl-highlight) 58%);
+}
+
+.bl-msg {
+  margin: 40px 0;
+  text-align: center;
+  font-size: 20px;
+  color: var(--bl-muted);
+}
+
+/* ── Hình vẽ ở lề ── */
+.bl-doodles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bl-doodle {
+  position: absolute;
+  filter: url(#bl-crayon);
+  opacity: 0.95;
+}
+
+.bl-doodle--sun {
+  top: 14px;
+  left: 18px;
+  width: clamp(48px, 6vw, 80px);
+}
+
+.bl-doodle--balloons {
+  top: 22px;
+  right: 18px;
+  width: clamp(48px, 6vw, 84px);
+}
+
+.bl-doodle--flower {
+  top: 40%;
+  right: 6px;
+  width: clamp(34px, 3.4vw, 54px);
+  opacity: 0.85;
+}
+
+.bl-doodle--star {
+  top: 52%;
+  left: 6px;
+  width: clamp(30px, 3vw, 46px);
+  transform: rotate(-12deg);
+  opacity: 0.85;
+}
+
+/* Laptop + máy bay hai bên tiêu đề — chỉ khi đủ rộng; hẹp hơn thì hiện trong dải cuối trang thay vào */
+.bl-doodle--laptop {
+  top: 160px;
+  left: 22px;
+  width: clamp(60px, 7vw, 110px);
+  transform: rotate(-6deg);
+}
+
+.bl-doodle--airplane {
+  top: 168px;
+  right: 14px;
+  width: clamp(80px, 8.5vw, 136px);
+  transform: rotate(-8deg);
+}
+
+/* Dải hình vẽ cuối tờ giấy — nằm trong luồng, tự xuống dòng */
+.bl-doodle-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 14px 18px;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
+.bl-doodle-strip svg {
+  height: clamp(44px, 5.4vw, 72px);
+  width: auto;
+  filter: url(#bl-crayon);
+}
+
+.bl-doodle-strip svg:nth-child(odd) {
+  transform: rotate(-5deg);
+}
+
+.bl-doodle-strip svg:nth-child(even) {
+  transform: rotate(4deg);
+}
+
+.bl-strip-narrow {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .bl-doodle--laptop,
+  .bl-doodle--airplane {
+    display: none;
+  }
+
+  .bl-strip-narrow {
+    display: block;
+  }
+}
+
+@media (max-width: 900px) {
+  .bl-list {
+    columns: 2;
+  }
+
+  .bl-doodle--flower,
+  .bl-doodle--star {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .bl-page {
+    padding-top: 48px;
+  }
+
+  .bl-list {
+    columns: 1;
+  }
+
+  .bl-row {
+    font-size: 18px;
+  }
+}
+
+/* ── Hộp thoại xem/sửa — cùng chất giấy + chữ viết tay ── */
+.bl-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(30, 25, 20, 0.3);
+}
+
+.bl-modal {
+  position: relative;
+  width: min(480px, 100%);
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 30px 28px 24px;
+  border: 2px solid #1d1d1d;
+  border-radius: 6px 14px 8px 12px;
+  background: var(--bl-paper);
+  box-shadow: 6px 6px 0 #ffd23f;
+  font-size: 18px;
+  text-align: center;
+}
+
+.bl-modal-x {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  border: 0;
+  background: none;
+  color: var(--bl-muted);
+  font: inherit;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.bl-modal-x:hover {
+  color: var(--bl-ink);
+}
+
+.bl-modal-kicker {
+  margin: 0;
+  color: var(--bl-muted);
+}
+
+.bl-modal-title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.bl-modal-title.bl-item--done {
+  text-decoration: line-through;
+  text-decoration-color: var(--bl-red);
+  text-decoration-thickness: 2.5px;
+}
+
+.bl-modal-status {
+  margin: 10px 0 0;
+  color: #5a544d;
+}
+
+.bl-modal-note {
+  margin: 14px 0 0;
+  white-space: pre-wrap;
+  text-align: left;
+  line-height: 1.55;
+}
+
+.bl-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bl-input {
+  width: 100%;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 2px dashed #c9c1b6;
+  background: transparent;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 19px;
+  resize: vertical;
+}
+
+.bl-input:focus {
+  outline: none;
+  border-bottom-color: #3a86ff;
+}
+
+.bl-input--title {
+  font-size: 23px;
+  text-align: center;
+}
+
+.bl-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+}
+
+.bl-field > span {
+  font-size: 16px;
+  color: var(--bl-muted);
+}
+
+.bl-seg {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.bl-seg button {
+  flex: 1;
+  padding: 7px 4px;
+  border: 2px solid #1d1d1d;
+  border-radius: 10px 6px 12px 8px;
+  background: #fff;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.bl-seg button:nth-child(1).on {
+  background: #cfe8ff;
+}
+
+.bl-seg button:nth-child(2).on {
+  background: #ffe066;
+}
+
+.bl-seg button:nth-child(3).on {
+  background: #ff8fa3;
+}
+
+.bl-error {
+  margin: 0;
+  color: var(--bl-red);
+}
+
+.bl-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bl-actions-gap {
+  flex: 1;
+}
+
+.bl-btn {
+  padding: 6px 16px;
+  border: 2px solid transparent;
+  border-radius: 10px 6px 12px 8px;
+  background: none;
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.bl-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.bl-btn--text {
+  color: var(--bl-muted);
+}
+
+.bl-btn--text:hover {
+  color: var(--bl-ink);
+}
+
+.bl-btn--solid {
+  border-color: #1d1d1d;
+  background: #7ac74f;
+  color: #1d1d1d;
+}
+
+.bl-btn--danger {
+  border-color: #1d1d1d;
+  background: var(--bl-red);
+  color: #fff;
+}
+
+/* ── Chọn ngày vẽ tay (HandDatePicker) ── */
+.bl-date-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 2px dashed #c9c1b6;
+  background: transparent;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.bl-date-btn:hover,
+.bl-date-btn[aria-expanded='true'] {
+  border-bottom-color: #3a86ff;
+}
+
+.bl-date-btn svg {
+  width: 22px;
+  height: 22px;
+  fill: #ffe066;
+  stroke: #1d1d1d;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+.bl-cal {
+  margin-top: 10px;
+  padding: 12px 12px 10px;
+  border: 2px solid #1d1d1d;
+  border-radius: 12px 8px 14px 10px;
+  background: #fff;
+  box-shadow: 4px 4px 0 #9b5de5;
+}
+
+.bl-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.bl-cal-title {
+  padding: 2px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.bl-cal-title:hover {
+  background: linear-gradient(transparent 55%, var(--bl-highlight) 55%);
+}
+
+.bl-cal-arrow {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid #1d1d1d;
+  border-radius: 50% 45% 50% 48%;
+  background: #cfe8ff;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bl-cal-arrow:hover {
+  background: #a9d4ff;
+}
+
+.bl-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.bl-cal-wd {
+  padding: 2px 0 4px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--bl-muted);
+}
+
+.bl-cal-day,
+.bl-cal-month {
+  position: relative;
+  height: 36px;
+  border: 2px solid transparent;
+  border-radius: 50% 45% 52% 48%;
+  background: none;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.bl-cal-day:hover,
+.bl-cal-month:hover {
+  background: #fff3c4;
+}
+
+/* Hôm nay — gạch chân sáp xanh */
+.bl-cal-day.is-today::after {
+  content: '';
+  position: absolute;
+  left: 28%;
+  right: 28%;
+  bottom: 4px;
+  height: 3px;
+  border-radius: 2px;
+  background: #3a86ff;
+}
+
+/* Ngày đang chọn — khoanh tròn tô hồng như đánh dấu bằng bút */
+.bl-cal-day.is-picked,
+.bl-cal-month.is-picked {
+  border-color: #1d1d1d;
+  background: #ff8fa3;
+  transform: rotate(-4deg);
+}
+
+.bl-cal-months {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.bl-cal-month {
+  border-radius: 12px 8px 14px 10px;
+  height: 42px;
+}
+
+.bl-cal-foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.bl-cal-today {
+  padding: 3px 12px;
+  border: 2px solid #1d1d1d;
+  border-radius: 10px 6px 12px 8px;
+  background: #ffe066;
+  color: var(--bl-ink);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* ── Kỷ niệm (chỉ khi đã làm được) + ảnh polaroid ── */
+.bl-memory {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 14px 14px 16px;
+  border: 2px dashed #f0b84b;
+  border-radius: 14px 10px 16px 12px;
+  background: #fffaf0;
+}
+
+.bl-read {
+  margin-top: 18px;
+  text-align: left;
+}
+
+.bl-read h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--bl-muted);
+}
+
+.bl-read .bl-modal-note {
+  margin-top: 4px;
+}
+
+.bl-photos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+  gap: 14px 12px;
+  margin-top: 8px;
+}
+
+.bl-photo {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 5px 5px 16px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(30, 25, 20, 0.22);
+}
+
+.bl-photo-open {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: #eee;
+  cursor: zoom-in;
+}
+
+.bl-photo-open img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.bl-photo-x {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #1d1d1d;
+  border-radius: 50%;
+  background: #ff8fa3;
+  color: #1d1d1d;
+  font: inherit;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.bl-photo--loading,
+.bl-photo--add {
+  display: grid;
+  place-items: center;
+  padding: 5px;
+  font: inherit;
+  font-size: 15px;
+  color: var(--bl-muted);
+  text-align: center;
+}
+
+.bl-photo--loading {
+  animation: bl-pulse 1.2s ease-in-out infinite;
+}
+
+.bl-photo--add {
+  border: 2px dashed #c9c1b6;
+  background: transparent;
+  box-shadow: none;
+  cursor: pointer;
+}
+
+.bl-photo--add:hover {
+  border-color: #3a86ff;
+  color: #3a86ff;
+}
+
+@keyframes bl-pulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.bl-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(20, 16, 12, 0.85);
+  cursor: zoom-out;
+}
+
+.bl-lightbox img {
+  max-width: 100%;
+  max-height: calc(100dvh - 110px);
+  border: 8px solid #fff;
+  border-bottom-width: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  cursor: default;
+}
+
+.bl-lightbox-count {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 18px;
+}
+
+/* Dấu nhỏ cạnh điều có ảnh kỷ niệm */
+.bl-has-photo {
+  margin-left: 6px;
+  font-size: 0.8em;
+}

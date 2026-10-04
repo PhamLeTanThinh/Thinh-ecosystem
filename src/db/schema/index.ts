@@ -432,3 +432,20 @@ export const siteFeedback = pgTable('site_feedback', {
   page: text('page').default('').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
+
+// ── BUCKET LIST (/bucketlist — 100 điều muốn đạt được trước khi chết) ──────────────────────────
+// Ai cũng xem được, chỉ chủ trang (getAdminAccess) mới thêm/sửa/xoá. `slot` = số thứ tự 1..100 trên lưới, mỗi ô
+// tối đa 1 điều — ô chưa có dòng nào là ô trống chờ viết.
+export const bucketItems = pgTable('bucket_items', {
+  id: text('id').primaryKey(),
+  slot: integer('slot').notNull().unique(),
+  title: text('title').notNull(),
+  note: text('note').default('').notNull(), // vì sao muốn làm — viết lúc đặt mục tiêu
+  memory: text('memory').default('').notNull(), // kỷ niệm — viết khi đã làm được
+  photos: jsonb('photos').default([]).notNull(), // BucketPhoto[] — ảnh kỷ niệm trên R2 (lib/bucketlist/types.ts)
+  category: varchar('category', { length: 20 }).default('other').notNull(), // xem BUCKET_CATEGORIES (lib/bucketlist/types.ts)
+  status: varchar('status', { length: 10 }).default('todo').notNull(), // 'todo' | 'doing' | 'done'
+  achievedAt: varchar('achieved_at', { length: 10 }), // 'YYYY-MM-DD' — ngày đạt được, chỉ có khi status = 'done'
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})

@@ -40,4 +40,5 @@ export const DAILY_TOOLS: Tool[] = [
   { href: '/money', icon: '¥', title: 'Thu Chi', description: 'Theo dõi thu chi cá nhân theo ví, theo tháng.', accent: '#4ade80' },
   { href: '/habits', icon: '✓', title: 'Thói Quen', description: 'Theo dõi thói quen, streak và sức khoẻ mỗi ngày.', accent: '#60a5fa' },
   { href: '/notes', icon: '✎', title: 'Ghi Chú', description: 'Bảng ghi chú tự do, tự động nhóm theo tuần / tháng / năm.', accent: '#fb923c' },
+  { href: '/bucketlist', icon: '★', title: 'Bucket List', description: '100 điều muốn đạt được trước khi chết.', accent: '#d2643c' },
 ]
