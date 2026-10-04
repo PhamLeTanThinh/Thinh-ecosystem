@@ -1,6 +1,6 @@
 import { LessonShell } from '@/components/lessons/LessonShell'
 import { APP_BRAND } from '@/lib/apps/brand'
-import { getMlLessonList, ML_BASE_PATH } from '@/lib/it/machineLearning'
+import { getMlLessonList, ML_BASE_PATH, ML_GROUPS } from '@/lib/it/machineLearning'
 
 // Lưới các bài — mỗi bài có URL riêng ở ./[lesson]
 export default function MachineLearningPage() {
@@ -15,6 +15,7 @@ export default function MachineLearningPage() {
       count={lessonList.length}
       basePath={ML_BASE_PATH}
       lessonList={lessonList}
+      groups={ML_GROUPS}
       transitionPrefix="it-ml"
       levelTransitionName="it-ma-level-machinelearning"
     />

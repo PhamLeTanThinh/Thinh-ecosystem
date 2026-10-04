@@ -33,7 +33,14 @@ export interface LessonSection {
 }
 
 // Thông tin gọn của 1 bài cho lưới + sidebar (không kèm nội dung — trang bài chỉ nạp nội dung bài đang xem)
-export type LessonMeta = Pick<Lesson, 'slug' | 'title' | 'short' | 'icon'>
+export type LessonMeta = Pick<Lesson, 'slug' | 'title' | 'short' | 'icon' | 'summary' | 'minutes'>
+
+// 1 phần của khoá học trên lưới bài — gồm các bài từ `from` tới trước `from` của phần kế tiếp
+export interface LessonGroup {
+  title: string
+  note?: string
+  from: number
+}
 
 export interface Lesson {
   slug: string // phần cuối URL của bài, vd "linear-regression"

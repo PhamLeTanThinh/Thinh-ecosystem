@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { LessonArticle } from '@/components/lessons/LessonArticle'
-import type { Lesson, LessonMeta, LessonTerm } from '@/lib/lessons/types'
+import type { Lesson, LessonGroup, LessonMeta, LessonTerm } from '@/lib/lessons/types'
 import { AppBreadcrumb, type AppHref, type Crumb } from '@/components/study/Breadcrumb'
 import { withViewTransition } from '@/lib/viewTransition'
 import './lessons.css'
@@ -30,6 +30,8 @@ interface Props {
   lessonList?: LessonMeta[]
   current?: Lesson
   glossary?: Record<string, LessonTerm>
+  // Chia lưới bài thành các phần (chỉ dùng khi có lessonList) — bỏ trống thì 1 lưới liền
+  groups?: LessonGroup[]
 }
 
 // 2 chế độ, cùng 1 cơ chế card→sidebar của Korean/Chinese (lib/viewTransition.ts):
@@ -37,7 +39,7 @@ interface Props {
 //   TopicChoice) — card bay sang dòng cùng tên trong sidebar của trang bài. Sidebar là link thường.
 // - Không có: chọn bài KHÔNG đổi URL (vd /pm/pmfsoft), chỉ đổi state trong cùng 1 trang.
 export function LessonShell(props: Props) {
-  const { app, trail, accent, topicLabel, topicIcon, count: countProp, levelTransitionName, transitionPrefix, basePath, lessonList, current, glossary } = props
+  const { app, trail, accent, topicLabel, topicIcon, count: countProp, levelTransitionName, transitionPrefix, basePath, lessonList, current, glossary, groups } = props
   const router = useRouter()
   const routed = !!(basePath && lessonList)
   const [picked, setPicked] = useState<number | null>(null)
@@ -54,6 +56,80 @@ export function LessonShell(props: Props) {
 
   function pickFromGrid(n: number) {
     withViewTransition(() => (routed ? router.push(href(n)) : setPicked(n)))
+  }
+
+  // Lưới khoá học có nội dung thật: header tổng quan + các phần, mỗi card có icon, tóm tắt và thời gian đọc
+  if (selected === null && lessonList) {
+    const totalMinutes = lessonList.reduce((sum, l) => sum + l.minutes, 0)
+    const parts = (groups?.length ? groups : [{ title: '', from: 1 }]).map((g, gi, all) => ({
+      ...g,
+      lessons: lessonList.map((l, i) => ({ ...l, n: i + 1 })).filter(({ n }) => n >= g.from && n < (all[gi + 1]?.from ?? Infinity)),
+    }))
+    return (
+      <div className="lg-root lg-root--course" style={{ '--lg-accent': accent } as CSSProperties}>
+        <AppBreadcrumb app={app} trail={trail} />
+
+        <header className="lg-hero">
+          <span className="lg-hero-icon" style={levelTransitionName ? ({ viewTransitionName: levelTransitionName } as CSSProperties) : undefined}>
+            {topicIcon}
+          </span>
+          <div className="lg-hero-text">
+            <h1 className="lg-hero-title">{topicLabel}</h1>
+            <div className="lg-hero-stats">
+              <span>
+                <b>{count}</b> bài
+              </span>
+              {groups?.length ? (
+                <span>
+                  <b>{groups.length}</b> phần
+                </span>
+              ) : null}
+              <span>
+                ~<b>{Math.round(totalMinutes / 6) / 10}</b> giờ đọc
+              </span>
+            </div>
+          </div>
+        </header>
+
+        {parts.map((part, pi) => (
+          <section key={pi} className="lg-part">
+            {part.title && (
+              <div className="lg-part-head">
+                <span className="lg-part-index">Phần {pi + 1}</span>
+                <h2 className="lg-part-title">{part.title}</h2>
+                {part.note && <p className="lg-part-note">{part.note}</p>}
+              </div>
+            )}
+            <div className="lg-course-grid">
+              {part.lessons.map((l) => (
+                <button
+                  key={l.slug}
+                  type="button"
+                  className="lg-course-card"
+                  style={{ viewTransitionName: `${transitionPrefix}-lesson-${l.n}`, '--i': l.n } as CSSProperties}
+                  onClick={() => pickFromGrid(l.n)}
+                >
+                  <span className="lg-course-card-top">
+                    <span className="lg-course-card-icon" aria-hidden="true">
+                      {l.icon}
+                    </span>
+                    <span className="lg-course-card-num">{String(l.n).padStart(2, '0')}</span>
+                  </span>
+                  <span className="lg-course-card-title">{l.short}</span>
+                  <span className="lg-course-card-summary">{l.summary}</span>
+                  <span className="lg-course-card-foot">
+                    <span>~{l.minutes} phút đọc</span>
+                    <span className="lg-course-card-go" aria-hidden="true">
+                      →
+                    </span>
+                  </span>
+                </button>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    )
   }
 
   if (selected === null) {
@@ -78,12 +154,11 @@ export function LessonShell(props: Props) {
             <button
               key={n}
               type="button"
-              className={`lg-card${lessonList ? ' lg-card--titled' : ''}`}
+              className="lg-card"
               style={{ viewTransitionName: `${transitionPrefix}-lesson-${n}` } as CSSProperties}
               onClick={() => pickFromGrid(n)}
             >
               <span className="lg-card-num">{n}</span>
-              {lessonList?.[n - 1] && <span className="lg-card-icon">{lessonList[n - 1].icon}</span>}
               <span className="lg-card-label">{label(n)}</span>
             </button>
           ))}

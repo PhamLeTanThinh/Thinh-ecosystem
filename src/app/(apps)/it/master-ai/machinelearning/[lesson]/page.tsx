@@ -15,7 +15,7 @@ async function load(params: Promise<{ lesson: string }>) {
   const { lesson: slug } = await params
   const { lessons, glossary } = getMlLessons()
   const current = lessons.find((l) => l.slug === slug)
-  return current ? { current, glossary, lessonList: lessons.map(({ slug, title, short, icon }) => ({ slug, title, short, icon })) } : null
+  return current ? { current, glossary, lessonList: lessons.map(({ slug, title, short, icon, summary, minutes }) => ({ slug, title, short, icon, summary, minutes })) } : null
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ lesson: string }> }) {
