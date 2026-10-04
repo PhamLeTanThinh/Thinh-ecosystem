@@ -1,6 +1,7 @@
 /* Loading nhỏ ở giữa màn hình trên nền trắng mờ, dùng chung các app (xem AppLoading.tsx) — hiện lúc tải
-   trang và mỗi lần gọi API của app đó. pointer-events: none để không chặn thao tác. Opacity chuyển
-   mượt cả nền lẫn video vì áp lên chính container này.
+   trang và mỗi lần gọi API của app đó. Lúc đang hiện thì chặn mọi click/chạm xuống nội dung phía sau
+   (tránh bấm nhầm khi trang chưa sẵn sàng); lúc ẩn thì pointer-events: none để không cản gì. Opacity
+   chuyển mượt cả nền lẫn video vì áp lên chính container này.
 
    Tuỳ biến theo app qua biến CSS (AppLoading gán từ props, bỏ trống thì dùng giá trị mặc định):
      --loader-accent  màu vòng xoay
@@ -27,6 +28,8 @@
 .app-loader--on {
   opacity: 1;
   visibility: visible;
+  pointer-events: auto;
+  cursor: progress;
   transition: opacity 0.18s ease;
 }
 
