@@ -9,6 +9,18 @@
   margin-top: 32px;
 }
 
+/* Mỗi mục thường nằm trong 1 khung riêng (kr-/cn-mobile-section) nên 2 quy tắc trên không bắt được mục đầu
+   của khung sau — áp lại khoảng cách đó qua ranh giới khung. Chỉ desktop: ≤860px các khung là tab, chỉ hiện 1. */
+@media (min-width: 861px) {
+  :has(> .lsec:last-child) + * > .lsec:first-child {
+    margin-top: 8px;
+  }
+
+  :has(> .lsec:last-child:not(.lsec-collapsed)) + * > .lsec:first-child {
+    margin-top: 32px;
+  }
+}
+
 .lsec-head {
   cursor: pointer;
   user-select: none;

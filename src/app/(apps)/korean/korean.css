@@ -666,12 +666,6 @@
   text-overflow: ellipsis;
 }
 
-.kr-lesson-row-meta {
-  min-height: 14px;
-  font-size: 11.5px;
-  color: var(--color-muted);
-}
-
 .kr-lesson-list .kr-lesson-row-btn {
   align-items: flex-start;
   gap: 9px;
@@ -717,6 +711,21 @@
 
 .kr-lesson-row:hover .kr-lesson-row-actions {
   opacity: 1;
+}
+
+/* Vòng tiến độ (số thẻ đã thuộc) nằm đúng chỗ của 2 nút Ôn tập/Kiểm tra; rê chuột vào hàng thì vòng mờ đi
+   nhường chỗ cho 2 nút. */
+.kr-lesson-row .kr-lesson-row-ring {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.kr-lesson-row:hover .kr-lesson-row-ring {
+  opacity: 0;
 }
 
 .kr-lesson-row-action {

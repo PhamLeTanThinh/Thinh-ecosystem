@@ -1,0 +1,56 @@
+/* Vòng tiến độ nhỏ (ProgressRing.tsx) — màu nhấn lấy từ --color-brand của app, không có thì currentColor */
+.pring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  color: var(--color-brand, currentColor);
+}
+
+.pring svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.pring circle {
+  fill: none;
+  stroke-width: 3.5;
+}
+
+.pring-track {
+  stroke: color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.pring-bar {
+  stroke: currentColor;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.pring-text {
+  position: relative;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+  color: color-mix(in srgb, currentColor 85%, #1c2333);
+}
+
+.pring--done {
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 12%, transparent);
+}
+
+.pring--done .pring-text {
+  font-size: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pring-bar {
+    transition: none;
+  }
+}

@@ -704,6 +704,21 @@
   opacity: 1;
 }
 
+/* Vòng tiến độ (số thẻ đã thuộc) nằm đúng chỗ của 2 nút Ôn tập/Kiểm tra; rê chuột vào hàng thì vòng mờ đi
+   nhường chỗ cho 2 nút. */
+.cn-lesson-row .cn-lesson-row-ring {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.cn-lesson-row:hover .cn-lesson-row-ring {
+  opacity: 0;
+}
+
 .cn-lesson-row-action {
   width: 22px;
   height: 22px;

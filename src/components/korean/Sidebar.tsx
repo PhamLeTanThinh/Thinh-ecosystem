@@ -8,6 +8,7 @@ import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { GrammarNavIcon, LessonNavIcon, NavChevronIcon, VocabNavIcon } from '@/components/shared/SidebarIcons'
 import { useKoreanUIStore } from '@/lib/korean/uiStore'
 import { HANGUL_LESSONS } from '@/lib/korean/hangul'
+import { ProgressRing } from '@/components/shared/ProgressRing'
 import { SidebarToggle } from '@/components/shared/SidebarToggle'
 
 export type Selection = { type: 'overview' } | { type: 'knowledge' } | { type: 'lesson'; lesson: number } | { type: 'hangul'; lesson: number }
@@ -180,11 +181,9 @@ export function Sidebar({ cards, isLearned, selection, onSelect, onOpenKnowledge
                         <span className="kr-lesson-row-body">
                           <span className="kr-lesson-row-title">{LESSON_TITLES[n]}</span>
                           {LESSON_TITLES_VI[n] && <span className="kr-lesson-row-vi">{LESSON_TITLES_VI[n]}</span>}
-                          <span className="kr-lesson-row-meta">
-                            {learnedCount}/{lessonCards.length} thuộc
-                          </span>
                         </span>
                       </button>
+                      <ProgressRing className="kr-lesson-row-ring" done={learnedCount} total={lessonCards.length} label={`${learnedCount}/${lessonCards.length} thẻ đã thuộc`} />
                       <span className="kr-lesson-row-actions">
                         <Link href={`/korean/study?lesson=${n}`} aria-label="Ôn tập" title="Ôn tập" className="kr-lesson-row-action">
                           🎴

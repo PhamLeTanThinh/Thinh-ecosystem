@@ -8,6 +8,7 @@ import type { ChineseCard, ChineseDeck } from '@/lib/chinese/types'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { GrammarNavIcon, LessonNavIcon, NavChevronIcon, VocabNavIcon } from '@/components/shared/SidebarIcons'
 import { useChineseUIStore } from '@/lib/chinese/uiStore'
+import { ProgressRing } from '@/components/shared/ProgressRing'
 import { SidebarToggle } from '@/components/shared/SidebarToggle'
 
 export type Selection =
@@ -241,11 +242,9 @@ export function Sidebar({ cards, decks, isLearned, selection, onSelect, onOpenKn
                             <span className="cn-lesson-row-body">
                               <span className="cn-lesson-row-title">{LESSON_TITLES[n]}</span>
                               {lessonTitleVi(n) && <span className="cn-lesson-row-vi">{lessonTitleVi(n)}</span>}
-                              <span className="cn-lesson-row-meta">
-                                {learnedCount}/{lessonCards.length} thuộc
-                              </span>
                             </span>
                           </button>
+                          <ProgressRing className="cn-lesson-row-ring" done={learnedCount} total={lessonCards.length} label={`${learnedCount}/${lessonCards.length} thẻ đã thuộc`} />
                           <span className="cn-lesson-row-actions">
                             <Link href={`/chinese/study?lesson=${n}`} aria-label="Ôn tập" title="Ôn tập" className="cn-lesson-row-action">
                               🎴
