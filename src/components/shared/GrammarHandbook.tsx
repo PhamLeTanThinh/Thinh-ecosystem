@@ -199,9 +199,11 @@ export function GrammarHandbook({ eyebrow, entries, groups, categories, searchQu
                           {open && (
                             <div className="gh-row-body">
                               {renderDetail(entry.id)}
-                              <Link href={entry.lessonHref} className="gh-open-lesson">
-                                Mở trong {entry.lessonLabel} →
-                              </Link>
+                              {entry.lessonHref && (
+                                <Link href={entry.lessonHref} className="gh-open-lesson">
+                                  Mở trong {entry.lessonLabel} →
+                                </Link>
+                              )}
                             </div>
                           )}
                         </div>

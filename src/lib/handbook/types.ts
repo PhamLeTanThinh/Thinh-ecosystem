@@ -28,8 +28,8 @@ export interface HandbookEntry {
   tip: string
   level: string // khoá cấp độ, dùng để lọc
   badge: string // nhãn cấp độ + bài, vd "TOPIK I · 12과", "HSK 3 · Bài 5"
-  lessonHref: string // link mở đúng thẻ trong bài
-  lessonLabel: string // vd "bài 12과"
+  lessonHref?: string // link mở đúng thẻ trong bài — bỏ trống với mẫu mở rộng không thuộc bài nào
+  lessonLabel?: string // vd "bài 12과"
   example: { text: string; pinyin?: string; vi?: string } | null
   searchText: string // gộp các trường để tìm kiếm (chữ thường)
 }

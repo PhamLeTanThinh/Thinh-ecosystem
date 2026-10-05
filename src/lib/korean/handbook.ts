@@ -16,6 +16,8 @@ export const HANDBOOK_GROUPS: HandbookGroup[] = [
   { key: 'state', title: 'Trạng thái' },
   { key: 'noun', title: 'Danh từ – Trợ từ' },
   { key: 'other', title: 'Khác' },
+  // Mẫu ngoài giáo trình (lib/korean/extraGrammar.ts) — không thuộc bài nào
+  { key: 'extended', title: 'Ngữ pháp mở rộng' },
 ]
 
 export const HANDBOOK_CATEGORIES: HandbookCategory[] = [
@@ -55,6 +57,8 @@ export const HANDBOOK_CATEGORIES: HandbookCategory[] = [
 
   { key: 'irregular', group: 'other', icon: '🔧', title: 'Bất quy tắc – Biến âm', intro: 'Gốc từ biến đổi khi gặp đuôi bắt đầu bằng nguyên âm. Mỗi loại có từ ngoại lệ, xem trong thẻ.' },
   { key: 'misc', group: 'other', icon: '🔹', title: 'Mẫu câu riêng lẻ', intro: 'Không có mẫu cùng nghĩa để so sánh.' },
+
+  { key: 'reported', group: 'extended', icon: '🗣️', title: 'Lời nói gián tiếp (nghe nói…)', intro: 'Ngoài giáo trình: thuật lại lời người khác hoặc điều mình nghe / đọc được.' },
 ]
 
 // `${lesson}|${front}` → nhóm + điểm phân biệt. Một mẫu chỉ thuộc đúng 1 nhóm.

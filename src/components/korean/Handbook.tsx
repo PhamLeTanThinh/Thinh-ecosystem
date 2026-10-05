@@ -8,17 +8,20 @@ import { TOPIK_LABEL, lessonDisplayNumber, lessonLevel, type TopikLevel } from '
 import type { HandbookEntry } from '@/lib/handbook/types'
 import type { ExampleDetail } from '@/lib/korean/exampleDetail'
 import type { KoreanCard } from '@/lib/korean/types'
+import { EXTRA_GRAMMAR } from '@/lib/korean/extraGrammar'
 
-type LevelFilter = 'all' | TopikLevel
+// 'extra' = ngữ pháp mở rộng ngoài giáo trình (lib/korean/extraGrammar.ts)
+type LevelFilter = 'all' | TopikLevel | 'extra'
 
 const LEVEL_OPTIONS: { value: LevelFilter; label: string }[] = [
   { value: 'all', label: 'Tất cả' },
   { value: 'topik1', label: 'TOPIK I' },
   { value: 'topik2', label: 'TOPIK II' },
+  { value: 'extra', label: 'Mở rộng' },
 ]
 
 // Cùng màu với card cấp độ ở màn hình đầu (KoreanApp landingItems).
-const LEVEL_COLORS: Record<string, string> = { topik1: '#0c8599', topik2: '#1f4fd6' }
+const LEVEL_COLORS: Record<string, string> = { topik1: '#0c8599', topik2: '#1f4fd6', extra: '#9c36b5' }
 
 interface Props {
   grammarCards: KoreanCard[]
@@ -31,10 +34,10 @@ interface Props {
 export function Handbook({ grammarCards, searchQuery, renderDetail }: Props) {
   const [level, setLevel] = useState<LevelFilter>('all')
 
-  const cardsById = useMemo(() => new Map(grammarCards.map((c) => [c.id, c])), [grammarCards])
+  const cardsById = useMemo(() => new Map([...grammarCards, ...EXTRA_GRAMMAR].map((c) => [c.id, c])), [grammarCards])
 
   const entries = useMemo<HandbookEntry[]>(() => {
-    return grammarCards
+    const fromLessons = grammarCards
       .filter((card) => level === 'all' || lessonLevel(card.lesson) === level)
       .sort(compareCards)
       .map((card) => {
@@ -55,6 +58,20 @@ export function Handbook({ grammarCards, searchQuery, renderDetail }: Props) {
           searchText: [card.front, card.meaning, tip, card.theory].join(' ').toLowerCase(),
         }
       })
+    const extras: HandbookEntry[] =
+      level === 'all' || level === 'extra'
+        ? EXTRA_GRAMMAR.map((card) => ({
+            id: card.id,
+            front: card.front,
+            cat: card.cat,
+            tip: card.tip,
+            level: 'extra',
+            badge: 'Mở rộng',
+            example: firstExample(card),
+            searchText: [card.front, card.meaning, card.tip, card.theory].join(' ').toLowerCase(),
+          }))
+        : []
+    return [...fromLessons, ...extras]
   }, [grammarCards, level])
 
   return (
