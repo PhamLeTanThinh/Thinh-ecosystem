@@ -14,7 +14,7 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '저는 트엡이라고 합니다.', vi: 'Tôi tên là Tiếp.', vocab: '트엡: tên riêng', breakdown: '트엡 (danh từ, có patchim ㅂ) + 이라고 합니다 → 트엡이라고 합니다' },
     { ko: '여기는 호안끼엠 호수라고 하고 하노이의 유명한 명소입니다.', vi: 'Đây được gọi là hồ Hoàn Kiếm, một địa danh nổi tiếng của Hà Nội.', vocab: '호수: hồ · 명소: địa danh nổi tiếng', breakdown: '호수 (danh từ, không patchim) + 라고 하다 → 호수라고 하고' },
   ],
-  '1|V(으)랜고': [
+  '1|V-(으)려고': [
     { ko: '한국 친구들과 이야기하려고 한국어를 공부해요.', vi: 'Tôi học tiếng Hàn để nói chuyện với bạn bè người Hàn.', vocab: '이야기하다: nói chuyện', breakdown: '이야기하다 (동사, không patchim) + 려고 → 이야기하려고' },
     { ko: '내일 아이에게 줄 선물을 사려고 백화점에 가요.', vi: 'Ngày mai tôi đi trung tâm thương mại để mua quà tặng cho con.', vocab: '선물: quà tặng · 백화점: trung tâm thương mại', breakdown: '사다 (동사, không patchim) + 려고 → 사려고' },
   ],
@@ -129,7 +129,7 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '공부하다가 너무 졸려서 잠깐 잤어요.', vi: 'Đang học bài thì buồn ngủ quá nên tôi ngủ một chút.', vocab: '졸리다: buồn ngủ', breakdown: '공부하다 + 다가 → 공부하다가' },
   ],
 
-  '8|V/A-걨-': [
+  '8|V/A-겠-': [
     { ko: '월급을 받아서 기분이 좋겠어요.', vi: 'Chắc là (bạn) vui vì vừa nhận lương.', vocab: '월급: lương', breakdown: '좋다 + 겠어요 → 좋겠어요' },
     { ko: '오후에 비가 오겠어요.', vi: 'Chiều nay chắc trời sẽ mưa.', vocab: '', breakdown: '오다 + 겠어요 → 오겠어요' },
   ],
@@ -175,11 +175,11 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '밥 먹었어? 오늘 뭐 해?', vi: 'Ăn cơm chưa? Hôm nay làm gì thế?', vocab: '', breakdown: '먹었어요 (해요체) → bỏ 요 → 먹었어 (반말)' },
     { ko: '나는 학교 가야 돼. 이따가 전화할게.', vi: 'Tớ phải đi học đây. Lát nữa tớ sẽ gọi điện.', vocab: '', breakdown: '저는 → 나는; 전화할게요 → 전화할게 (bỏ 요)' },
   ],
-  '10|V-(으)ㄹ램요': [
+  '10|V-(으)ㄹ래요': [
     { ko: '제가 문을 닫을게요.', vi: 'Để tôi đóng cửa cho.', vocab: '', breakdown: '닫다 (patchim) + 을게요 → 닫을게요' },
     { ko: '이따가 다시 전화할게요.', vi: 'Lát nữa tôi sẽ gọi lại.', vocab: '이따가: lát nữa', breakdown: '전화하다 (không patchim) + ㄹ게요 → 전화할게요' },
   ],
-  '10|A-(으)닀, V-는닀, N 인닀 (2)': [
+  '10|A-(으)ㄴ데, V-는데, N 인데 (2)': [
     { ko: '이 꽃이 예쁜데 향이 안 좋아요.', vi: 'Bông hoa này đẹp nhưng mùi không thơm.', vocab: '향: hương thơm', breakdown: '예쁘다 (không patchim) + ㄴ데 → 예쁜데' },
     { ko: '열심히 일을 했는데 월급이 오르지 않았어요.', vi: 'Tôi đã làm việc chăm chỉ nhưng lương không tăng.', vocab: '월급이 오르다: lương tăng', breakdown: '하다 + 았는데 (quá khứ) → 했는데' },
   ],
@@ -192,7 +192,7 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '사람마다 성격이 달라요.', vi: 'Mỗi người mỗi tính cách khác nhau.', vocab: '', breakdown: '사람 (danh từ) + 마다 → 사람마다' },
     { ko: '40분마다 버스가 와요.', vi: 'Cứ mỗi 40 phút xe buýt lại đến.', vocab: '', breakdown: '40분 (danh từ chỉ thời lượng) + 마다 → 40분마다' },
   ],
-  '11|V-는 게 어녕요?': [
+  '11|V-는 게 어때요?': [
     { ko: '여행 가고 싶으면 제주도로 가는 게 어때요?', vi: 'Nếu muốn đi du lịch thì đi đảo Jeju thì thế nào?', vocab: '제주도: đảo Jeju', breakdown: '가다 (동사) + 는 게 어때요 → 가는 게 어때요' },
     { ko: '길이 막히는데 지하철을 타는 게 어때요?', vi: 'Đường đang tắc, hay là đi tàu điện ngầm thì sao?', vocab: '길이 막히다: tắc đường', breakdown: '타다 + 는 게 어때요 → 타는 게 어때요' },
   ],
@@ -205,7 +205,7 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '그 가방 비싸 보이는데요.', vi: 'Cái túi đó trông có vẻ đắt đấy.', vocab: '가방: túi xách', breakdown: '비싸다 (ㅏ) + 아 보이다 → 비싸 보이다' },
     { ko: '요즘은 건강해 보이네요. 운동 열심히 했어요?', vi: 'Dạo này trông bạn có vẻ khoẻ mạnh nhỉ. Bạn tập thể dục chăm chỉ à?', vocab: '건강하다: khoẻ mạnh', breakdown: '건강하다 (하다) + 해 보이다 → 건강해 보이다' },
   ],
-  '12|N 철럼[같이]': [
+  '12|N 처럼[같이]': [
     { ko: '민수 씨는 가수처럼 노래를 잘해요.', vi: 'Anh Minsu hát hay như ca sĩ vậy.', vocab: '가수: ca sĩ', breakdown: '가수 (danh từ) + 처럼 → 가수처럼' },
     { ko: '하루 종일 밥을 못 먹은 것처럼 배가 고파요.', vi: 'Tôi đói bụng như thể cả ngày chưa được ăn cơm vậy.', vocab: '하루 종일: cả ngày', breakdown: '먹은 것 (mệnh đề) + 처럼 → 먹은 것처럼' },
   ],
@@ -239,15 +239,15 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '저는 전에 한국에 가 본 적이 있어요.', vi: 'Trước đây tôi đã từng đi Hàn Quốc.', vocab: '', breakdown: '가 보다 (동사) + ㄴ 적이 있다 → 가 본 적이 있다' },
     { ko: '예전에 이 책을 읽은 적이 있어요.', vi: 'Trước đây tôi đã từng đọc cuốn sách này.', vocab: '예전에: trước đây', breakdown: '읽다 (patchim) + 은 적이 있다 → 읽은 적이 있다' },
   ],
-  '14|V/A-았을/었을 땄': [
+  '14|V/A-았을/었을 때': [
     { ko: '어렸을 때는 고개를 숙여서 인사해야 돼요.', vi: 'Khi còn nhỏ (ở Hàn) phải cúi đầu chào.', vocab: '고개를 숙이다: cúi đầu', breakdown: '어리다 (ㅣ) + 었을 때 → 어렸을 때' },
     { ko: '학생이었을 때 한국에 와 본 적이 있어요.', vi: 'Khi (tôi) còn là học sinh, tôi đã từng đến Hàn Quốc.', vocab: '', breakdown: '학생이다 + 었을 때 → 학생이었을 때' },
   ],
-  '14|V-아도/어도 돼다': [
+  '14|V-아도/어도 되다': [
     { ko: '5시니까 이제 가도 돼요.', vi: 'Vì đã 5 giờ rồi nên bây giờ (bạn) về cũng được.', vocab: '', breakdown: '가다 (ㅏ) + 아도 되다 → 가도 돼요' },
     { ko: '숙제를 내일 내도 돼요?', vi: 'Bài tập nộp vào ngày mai có được không?', vocab: '', breakdown: '내다 (ㅐ) + 아도 되다 → 내도 돼요' },
   ],
-  '14|V-(으)면 안 돼다': [
+  '14|V-(으)면 안 되다': [
     { ko: '여기에서는 담배를 피우면 안 됩니다.', vi: 'Ở đây không được hút thuốc.', vocab: '담배를 피우다: hút thuốc', breakdown: '피우다 (không patchim) + 면 안 되다 → 피우면 안 됩니다' },
     { ko: '교실에서 음식을 먹으면 안 됩니다.', vi: 'Trong lớp học không được ăn uống.', vocab: '', breakdown: '먹다 (patchim) + 으면 안 되다 → 먹으면 안 됩니다' },
   ],
@@ -256,7 +256,7 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '과일 값이 많이 비싸졌어요.', vi: 'Giá trái cây đã trở nên đắt hơn nhiều.', vocab: '과일 값: giá trái cây', breakdown: '비싸다 (ㅏ) + 아지다 → 비싸지다 → 비싸졌어요' },
     { ko: '날씨가 점점 더워지고 있어요.', vi: 'Thời tiết đang ngày càng trở nên nóng hơn.', vocab: '점점: dần dần', breakdown: '덥다 (bất quy tắc ㅂ) + 어지다 → 더워지다' },
   ],
-  '15|V-게 돼다': [
+  '15|V-게 되다': [
     { ko: '한국 노래를 좋아해서 한국어를 배우게 되었어요.', vi: 'Vì thích nhạc Hàn nên tôi đã (dần) học tiếng Hàn.', vocab: '', breakdown: '배우다 (동사) + 게 되다 → 배우게 되었어요' },
     { ko: '다음 달부터 회사 일로 출장 가게 됐어요.', vi: 'Từ tháng sau tôi sẽ phải đi công tác vì việc công ty.', vocab: '출장: công tác', breakdown: '가다 + 게 되다 → 가게 됐어요' },
   ],
@@ -281,7 +281,7 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '이번 휴가 때 부모님과 여행 갈까 해요.', vi: 'Kỳ nghỉ này tôi đang định đi du lịch cùng bố mẹ.', vocab: '', breakdown: '가다 (không patchim) + ㄹ까 하다 → 갈까 해요' },
     { ko: '오늘 저녁에 한식을 먹을까 하는데 같이 먹을래요?', vi: 'Tối nay tôi đang định ăn món Hàn, bạn ăn cùng không?', vocab: '한식: món ăn Hàn Quốc', breakdown: '먹다 (patchim) + 을까 하다 → 먹을까 하다' },
   ],
-  '16|V/A-(으)ㄹ 타니까': [
+  '16|V/A-(으)ㄹ 테니까': [
     { ko: '제가 곧 도착할 테니까 조금만 기다리세요.', vi: 'Tôi sẽ đến ngay bây giờ nên (bạn) đợi một chút nhé.', vocab: '', breakdown: '도착하다 (không patchim) + ㄹ 테니까 → 도착할 테니까' },
     { ko: '제가 밥을 할 테니까 이따가 식사 후에 설거지하세요.', vi: 'Tôi sẽ nấu cơm, vậy nên lát ăn xong hãy rửa bát nhé.', vocab: '설거지하다: rửa bát', breakdown: '하다 (không patchim) + ㄹ 테니까 → 할 테니까' },
   ],

@@ -4,7 +4,7 @@
 // ngữ pháp trong DB, mở ra ngay tại chỗ hoặc nhảy về đúng bài.
 //
 // Key của HANDBOOK_ITEMS = `${lesson}|${front}` khớp CHÍNH XÁC với thẻ trong DB (cùng quy ước với grammarTheory.ts),
-// kể cả các `front` bị lỗi encoding từ dữ liệu gốc (vd 'V(으)랜고' = -(으)려고). `tip` dùng chính tả chuẩn. Thẻ ngữ pháp
+// (đổi `front` của thẻ thì phải đổi key ở đây, grammarTheory.ts và exampleDetail.ts theo). Thẻ ngữ pháp
 // mới chưa có ở đây sẽ rơi vào nhóm "Chưa phân loại" ở cuối trang (không bị ẩn mất).
 
 import type { HandbookCategory, HandbookGroup, HandbookItem } from '@/lib/handbook/types'
@@ -73,7 +73,7 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
 
   // Tương phản
   '107|A/V-지만': { cat: 'contrast', tip: '"Nhưng" trung tính, phổ biến nhất, nói và viết đều được.' },
-  '10|A-(으)닀, V-는닀, N 인닀 (2)': { cat: 'contrast', tip: '-는데: "nhưng" mềm, tự nhiên trong hội thoại.' },
+  '10|A-(으)ㄴ데, V-는데, N 인데 (2)': { cat: 'contrast', tip: '-는데: "nhưng" mềm, tự nhiên trong hội thoại.' },
   '13|V/A-기는 하지만': { cat: 'contrast', tip: 'Công nhận vế trước rồi mới nói ý ngược: "ngon thì có ngon, nhưng…".' },
 
   // Bối cảnh – Dẫn nhập
@@ -95,7 +95,7 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
 
   // Thời điểm
   '8|V/A–(으)ㄹ 때': { cat: 'time', tip: '"Khi V": lúc đang hoặc sắp diễn ra.' },
-  '14|V/A-았을/었을 땄': { cat: 'time', tip: '"Khi đã V": việc đã xong, thuộc về quá khứ.' },
+  '14|V/A-았을/었을 때': { cat: 'time', tip: '"Khi đã V": việc đã xong, thuộc về quá khứ.' },
   '18|V-(으)ㄴ 지': { cat: 'time', tip: '"Từ khi V đến nay đã…" (한국에 온 지 1년이 됐어요).' },
   '105|N에 (thời gian)': { cat: 'time', tip: '"Vào lúc N". ✗ với 오늘, 어제, 내일, 지금.' },
   '105|날짜와 요일 (N월 N일, 무슨 요일)': { cat: 'time', tip: 'Ngày tháng (số Hán Hàn) và thứ trong tuần.' },
@@ -106,12 +106,12 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
   '6|V-(으)ㄴ 것 같다 (quá khứ)': { cat: 'guess', tip: 'Đoán việc ĐÃ xảy ra (với động từ).' },
   '7|V/A-(으)ㄹ 것 같다 (tương lai)': { cat: 'guess', tip: 'Đoán việc SẼ xảy ra. Cũng dùng để nêu ý kiến một cách khiêm tốn.' },
   '5|A/V (으)ㄹ 거예요 (suy đoán)': { cat: 'guess', tip: 'Chủ ngữ ngôi 3: suy luận từ thông tin đã biết, chắc chắn hơn 것 같다.' },
-  '8|V/A-걨-': { cat: 'guess', tip: '-겠-: đoán ngay tại chỗ dựa trên điều đang thấy (보니까 맛있겠어요).' },
+  '8|V/A-겠-': { cat: 'guess', tip: '-겠-: đoán ngay tại chỗ dựa trên điều đang thấy (보니까 맛있겠어요).' },
   '12|A-아/어 보이다': { cat: 'guess', tip: 'Chỉ dựa trên vẻ ngoài: "trông có vẻ". Chỉ đi với tính từ.' },
   '13|V/A-(으)ㄹ지 모르겠다': { cat: 'guess', tip: 'Phân vân, không chắc: "không biết có… không".' },
 
   // Mục đích – Ý định
-  '1|V(으)랜고': { cat: 'purpose', tip: '-(으)려고: mục đích trong câu ("để V"). Cùng chủ ngữ, ✗ vế sau là mệnh lệnh / rủ rê.' },
+  '1|V-(으)려고': { cat: 'purpose', tip: '-(으)려고: mục đích trong câu ("để V"). Cùng chủ ngữ, ✗ vế sau là mệnh lệnh / rủ rê.' },
   '116|V-(으)러 가다[오다]': { cat: 'purpose', tip: '"Đi / đến để V": CHỈ đi với 가다, 오다, 다니다. Vế sau dùng được mệnh lệnh.' },
   '113|V-(으)려고 하다': { cat: 'purpose', tip: 'Cuối câu: "định V". Dùng được ở quá khứ (-(으)려고 했어요).' },
   '16|V-(으)ㄹ까 하다': { cat: 'purpose', tip: '"Đang tính V": ý định còn mơ hồ, chỉ dùng cho ngôi thứ nhất.' },
@@ -119,8 +119,8 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
 
   // Hứa hẹn – Ý muốn
   '116|V-(으)ㄹ게요': { cat: 'commit', tip: 'Hứa / báo quyết định tức thời với người nghe. Chỉ ngôi thứ nhất.' },
-  '10|V-(으)ㄹ램요': { cat: 'commit', tip: '-(으)ㄹ래요: ý muốn, lựa chọn của mình. Ở câu hỏi = hỏi ý người nghe (뭐 먹을래요?).' },
-  '16|V/A-(으)ㄹ 타니까': { cat: 'commit', tip: '-(으)ㄹ 테니까: "tôi sẽ V1, vậy bạn V2". Ý chí của mình làm lý do cho lời đề nghị.' },
+  '10|V-(으)ㄹ래요': { cat: 'commit', tip: '-(으)ㄹ래요: ý muốn, lựa chọn của mình. Ở câu hỏi = hỏi ý người nghe (뭐 먹을래요?).' },
+  '16|V/A-(으)ㄹ 테니까': { cat: 'commit', tip: '-(으)ㄹ 테니까: "tôi sẽ V1, vậy bạn V2". Ý chí của mình làm lý do cho lời đề nghị.' },
 
   // Mong muốn
   '115|V-고 싶다': { cat: 'wish', tip: 'Mong muốn của tôi (hoặc hỏi bạn).' },
@@ -133,8 +133,8 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
   '112|못 V': { cat: 'ability', tip: '"Không thể V" (phủ định ngắn). Khác 안 V = không làm vì không muốn.' },
 
   // Cho phép – Cấm – Bắt buộc
-  '14|V-아도/어도 돼다': { cat: 'permission', tip: 'Xin phép / cho phép: "V có được không?", "V cũng được".' },
-  '14|V-(으)면 안 돼다': { cat: 'permission', tip: 'Cấm: "không được V". Hay gặp ở quy định, nội quy.' },
+  '14|V-아도/어도 되다': { cat: 'permission', tip: 'Xin phép / cho phép: "V có được không?", "V cũng được".' },
+  '14|V-(으)면 안 되다': { cat: 'permission', tip: 'Cấm: "không được V". Hay gặp ở quy định, nội quy.' },
   '111|V-지 마세요': { cat: 'permission', tip: 'Bảo thẳng người nghe "đừng V".' },
   '111|V-아야/어야 되다': { cat: 'permission', tip: 'Bắt buộc: "phải V" (= -아야/어야 하다).' },
 
@@ -146,7 +146,7 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
   // Đề nghị – Rủ rê – Yêu cầu
   '108|V-(으)ㄹ까요?': { cat: 'request', tip: 'Rủ / hỏi ý kiến: "…nhé?", để ngỏ cho người nghe từ chối.' },
   '5|V/A–(으)ㄹ까요?': { cat: 'request', tip: 'Thêm nghĩa tự hỏi, phỏng đoán khi chủ ngữ là ngôi 3: "không biết… nhỉ?".' },
-  '11|V-는 게 어녕요?': { cat: 'request', tip: '-는 게 어때요?: gợi ý một giải pháp cụ thể ("thử… thì sao?").' },
+  '11|V-는 게 어때요?': { cat: 'request', tip: '-는 게 어때요?: gợi ý một giải pháp cụ thể ("thử… thì sao?").' },
   '106|V-(으)세요': { cat: 'request', tip: 'Yêu cầu / mời lịch sự: "hãy V".' },
   '102|N 주세요': { cat: 'request', tip: 'Xin vật gì: "cho tôi N".' },
 
@@ -186,11 +186,11 @@ export const HANDBOOK_ITEMS: Record<string, HandbookItem> = {
 
   // Thay đổi trạng thái
   '15|A-아지다/어지다': { cat: 'change', tip: 'Sau tính từ: trạng thái dần thay đổi (더워졌어요).' },
-  '15|V-게 돼다': { cat: 'change', tip: 'Sau động từ: thành ra như vậy do hoàn cảnh, không do mình chủ động.' },
+  '15|V-게 되다': { cat: 'change', tip: 'Sau động từ: thành ra như vậy do hoàn cảnh, không do mình chủ động.' },
 
   // So sánh
   '4|N 보다': { cat: 'comparison', tip: '"So với N": mốc so sánh hơn / kém.' },
-  '12|N 철럼[같이]': { cat: 'comparison', tip: 'N처럼 / N같이: "giống như N".' },
+  '12|N 처럼[같이]': { cat: 'comparison', tip: 'N처럼 / N같이: "giống như N".' },
   '10|N 중에(서)': { cat: 'comparison', tip: '"Trong số N", thường đi với 제일 / 가장.' },
 
   // Chỉ – Cũng – Tận

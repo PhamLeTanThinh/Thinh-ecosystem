@@ -28,6 +28,8 @@ import { HangulSection } from '@/components/korean/HangulSection'
 import { HANGUL_LESSONS } from '@/lib/korean/hangul'
 import { HANDBOOK_CATEGORIES } from '@/lib/korean/handbook'
 import { SpeakButton } from '@/components/shared/SpeakButton'
+import { ReadingSection } from '@/components/shared/ReadingSection'
+import { KOREAN_READINGS } from '@/lib/korean/readings'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
 import { createLoadingTracker } from '@/lib/loading/tracker'
 import type { KoreanCard, KoreanCardKind, KoreanProgress } from '@/lib/korean/types'
@@ -448,6 +450,8 @@ function LessonContent({
   // Hội thoại 말하기 của giáo trình (TOPIK I: 서울대 1A/1B, TOPIK II: 2A/2B) — cùng tab "Luyện nói" trên mobile với SPEAKING_PRACTICE.
   const dialogues = TOPIK1_DIALOGUES[lesson] ?? TOPIK2_DIALOGUES[lesson]
   const hasSpeaking = !!speaking || !!dialogues
+  // Bài đọc cuối bài — dùng lại toàn bộ từ vựng của bài (lib/korean/readings.ts)
+  const reading = KOREAN_READINGS[lesson]
 
   const studyWords = useMemo(() => vocabCards.map(toStudyWord), [vocabCards])
   const [typingOpen, setTypingOpen] = useState(false)
@@ -484,16 +488,19 @@ function LessonContent({
         children: speaking.items.map((it, i) => ({ id: `kr-speaking-${i}`, label: `${i + 1}. ${it.question}` })),
       })
     }
+    if (reading) {
+      nodes.push({ id: 'kr-section-reading', label: '📖 Bài đọc', section: 'reading', children: [{ id: 'kr-reading', label: reading.title }] })
+    }
     return nodes
-  }, [vocabCards.length, studyWords, grammarCards, dialogues, speaking])
+  }, [vocabCards.length, studyWords, grammarCards, dialogues, speaking, reading])
 
   // Trên mobile không đủ chỗ để cuộn + mục lục bên phải như desktop, nên thay bằng tab bấm-để-xem
   // (CSS chỉ hiện .kr-mobile-tabs và áp dụng .kr-mobile-section ở @media ≤860px — desktop vẫn giữ
   // nguyên bố cục cuộn dọc như cũ, xem korean.css). Nếu bài không có Luyện nói mà tab đang chọn lại
   // là 'speaking' (dư từ bài trước đó), coi như đang ở 'vocab' thay vì crash hoặc màn hình trắng.
   // Vào từ Cẩm nang (?g=<cardId>) thì mở sẵn tab Ngữ pháp trên mobile để thẻ đích hiện ra.
-  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>(focusCardId ? 'grammar' : 'vocab')
-  const effectiveMobileTab = mobileTab === 'speaking' && !hasSpeaking ? 'vocab' : mobileTab
+  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking' | 'reading'>(focusCardId ? 'grammar' : 'vocab')
+  const effectiveMobileTab = (mobileTab === 'speaking' && !hasSpeaking) || (mobileTab === 'reading' && !reading) ? 'vocab' : mobileTab
 
   // Cuộn tới thẻ ?g= sau khi thẻ đã render (thẻ lấy từ store nên có thể chưa có ở lần render đầu) — chỉ 1 lần.
   const focusedOnce = useRef(false)
@@ -550,6 +557,15 @@ function LessonContent({
             🗣️ Luyện nói
           </button>
         )}
+        {reading && (
+          <button
+            type="button"
+            className={`kr-mobile-tab${effectiveMobileTab === 'reading' ? ' active' : ''}`}
+            onClick={() => setMobileTab('reading')}
+          >
+            📖 Bài đọc
+          </button>
+        )}
       </div>
 
       <div className="kr-doc-body">
@@ -578,6 +594,12 @@ function LessonContent({
             <div className={`kr-mobile-section${effectiveMobileTab === 'speaking' ? ' active' : ''}`}>
               {dialogues && <DialogueSection dialogues={dialogues} lang="ko-KR" prefix="kr" title="💬 Hội thoại" showVi />}
               {speaking && <SpeakingPracticeSection data={speaking} />}
+            </div>
+          )}
+
+          {reading && (
+            <div className={`kr-mobile-section${effectiveMobileTab === 'reading' ? ' active' : ''}`}>
+              <ReadingSection reading={reading} lang={KO_LANG} prefix="kr" />
             </div>
           )}
         </div>
@@ -794,8 +816,17 @@ function classifyCondition(condition: string): ConditionKind {
 // Kết quả là chữ Hàn (으니까, 해서…) thì hiện to, đậm; kết quả là câu giải thích tiếng Việt thì chữ thường, cho xuống dòng.
 const isTextResult = (result: string) => /[A-Za-zÀ-ỹĐđ]{3,}/.test(result)
 
-// Nút gốc của cây: phần trước "받침" ở điều kiện đầu (V/A받침O → V/A), hoặc loại từ ở đầu mẫu ngữ pháp (A/V-아서 → A/V).
+// Loại từ mà 1 nhánh áp dụng: phần trước "받침" (V/A받침O → V/A), hoặc chính điều kiện nếu là loại từ (V, N…).
+function branchWordClass(condition: string): string | null {
+  if (condition.includes('받침')) return condition.split('받침')[0].trim() || null
+  return condition.match(/^(A\/V|V\/A|V|A|N)\b/)?.[1] ?? null
+}
+
+// Nút gốc của cây: loại từ chung của các nhánh, hoặc loại từ ở đầu mẫu ngữ pháp (A/V-아서 → A/V). Các nhánh thuộc
+// NHIỀU loại từ khác nhau (vd A받침O… / V… / N… của -(으)ㄴ데, -는데, 인데) thì không vẽ gốc — mỗi nhánh tự ghi loại từ.
 function structureRoot(branches: StructureSegment[], front: string): string | null {
+  const classes = new Set(branches.map((b) => branchWordClass(b.condition)).filter(Boolean))
+  if (classes.size > 1) return null
   const first = branches[0]?.condition ?? ''
   if (first.includes('받침')) return first.split('받침')[0].trim() || null
   if (/^(A\/V|V\/A|V|A|N)$/.test(first)) return first

@@ -5,7 +5,7 @@
 export const GRAMMAR_THEORY: Record<string, string> = {
   '1|N(이)라고 하다':
     "Dùng để giới thiệu tên gọi của người, vật, địa danh — dịch là 'được gọi là N' hoặc khi tự giới thiệu thì dịch tự nhiên là 'tôi tên là N'.\n\nGắn trực tiếp N + (이)라고 하다: nếu N có patchim thì thêm '이라고 하다', không patchim thì '라고 하다'. Đây cũng là dạng gián tiếp hoá của câu trích dẫn trực tiếp 'N이다' → 'N(이)라고 하다', nên còn dùng để thuật lại tên gọi mà người khác đã nói.\n\nLưu ý: khi tự giới thiệu tên mình, người Hàn thường dùng câu này thay vì '저는 N이에요' để nghe trang trọng, khách sáo hơn một chút, phù hợp khi giới thiệu bản thân lần đầu hoặc giới thiệu địa danh/sự vật cho người khác.",
-  '1|V(으)랜고':
+  '1|V-(으)려고':
     "Đây là mẫu ngữ pháp -(으)려고, diễn tả mục đích hoặc ý định của hành động ở vế sau — dịch là 'để V' hoặc 'với ý định V'.\n\nCấu trúc: động từ có patchim + 으려고, không patchim + 려고. Vế sau thường là một hành động cụ thể được thực hiện nhằm đạt mục đích đó.\n\nLưu ý: -(으)려고 không dùng ở câu mệnh lệnh/rủ rê ngay sau nó, và chủ ngữ hai vế phải giống nhau. Đừng nhầm với -(으)러 (dùng sau động từ di chuyển 가다/오다) hay -기 위해서 (trang trọng hơn, có thể dùng với danh từ).",
 
   '2|V-는 것':
@@ -66,7 +66,7 @@ export const GRAMMAR_THEORY: Record<string, string> = {
   '7|V-다가':
     "Diễn tả một hành động ĐANG diễn ra thì bị GIÁN ĐOẠN giữa chừng bởi một hành động/sự việc khác — 'đang V thì (bỗng)...'. Hai hành động thường loại trừ nhau hoặc đối lập, và chủ ngữ hai vế phải giống nhau.\n\nCấu trúc không đổi theo patchim: động từ + 다가 (chia ở gốc động từ, không chia thì trực tiếp trên 다가).\n\nVí dụ '일을 하다가 밖으로 나갔어요' = đang làm việc thì (dừng lại) đi ra ngoài. Phân biệt với -고 (chỉ nối tiếp, không có ý gián đoạn) và -는 동안 (diễn ra song song, không có ý dừng lại).",
 
-  '8|V/A-걨-':
+  '8|V/A-겠-':
     "Vĩ tố '-겠-' chèn vào giữa gốc từ và đuôi câu, mang nghĩa PHỎNG ĐOÁN dựa trên tình huống/bằng chứng ngay trước mắt tại thời điểm nói — 'chắc là sẽ...' — khác với '(으)ㄹ 것 같다' (phỏng đoán chung, ít gắn với tình huống cụ thể tức thời).\n\nCấu trúc không đổi theo patchim: gốc từ + 겠 + đuôi câu (겠어요, 겠습니다...).\n\nNgoài nghĩa phỏng đoán, -겠- còn dùng diễn tả Ý CHÍ mạnh mẽ của người nói ngôi thứ nhất ('제가 하겠습니다' = tôi sẽ làm) — cần phân biệt hai chức năng theo ngữ cảnh và ngôi chủ ngữ.",
   '8|N 때문에':
     "Nêu NGUYÊN NHÂN/LÝ DO trực tiếp dẫn đến kết quả ở vế sau, thường mang sắc thái KHÁCH QUAN hoặc hơi tiêu cực (nguyên nhân gây ra vấn đề, trở ngại) — 'vì/tại N mà...'.\n\nCấu trúc không đổi theo patchim: danh từ + 때문에; với động từ/tính từ, phải danh từ hoá bằng '-기 때문에' (bài 13).\n\nSo với -아서/어서 và -(으)니까 (cũng chỉ lý do): 때문에 thường nhấn mạnh nguyên nhân RÕ RÀNG, cụ thể hơn, hay dùng khi đổ lỗi/giải thích trở ngại; không dùng ở vế sau là câu mệnh lệnh/đề nghị.",
@@ -90,23 +90,23 @@ export const GRAMMAR_THEORY: Record<string, string> = {
     "Diễn tả việc chọn/so sánh MỘT ĐỐI TƯỢNG trong SỐ NHIỀU đối tượng thuộc một tập hợp/danh mục — 'trong (số) N'. Thường đi cùng cấu trúc so sánh nhất (가장/제일) hoặc câu hỏi chọn lựa.\n\nCấu trúc không đổi theo patchim: danh từ (số nhiều/tập hợp) + 중에(서), '서' có thể lược bỏ mà nghĩa không đổi.\n\nVí dụ '저는 운동 중에서 야구를 가장 좋아해요' = trong các môn thể thao, tôi thích bóng chày nhất. Phân biệt với '중이다' (bài 9, nghĩa 'đang trong quá trình') — '중에(서)' luôn đi với danh từ SỐ NHIỀU/tập hợp, không liên quan nghĩa 'đang diễn ra'.",
   '10|반말':
     "반말 (lời nói suồng sã/thân mật) là cách nói lược bỏ đuôi lịch sự '요' và các đuôi trang trọng khác, dùng khi nói chuyện với người THÂN THIẾT, ngang vai vế (bạn bè cùng tuổi, người nhỏ tuổi hơn nhiều, người thân trong gia đình) — không hạ thấp cũng không nâng đối phương, chỉ đơn thuần là cách nói KHÔNG TRANG TRỌNG.\n\nCách chuyển: bỏ '요' ở cuối câu 해요체, đồng thời đổi đại từ xưng hô '저→나', '당신/씨→너' và một số đuôi câu đặc trưng (뭐 해? 밥 먹었어? 가자!).\n\nLưu ý: 반말 chỉ nên dùng khi ĐÃ được đối phương cho phép hoặc quan hệ đã đủ thân — dùng sai đối tượng bị coi là bất lịch sự, mất lễ phép.",
-  '10|V-(으)ㄹ램요':
+  '10|V-(으)ㄹ래요':
     "Diễn tả Ý ĐỊNH, sự CAM KẾT/SẴN SÀNG của người nói đối với hành động sắp làm, thường có tính hứa hẹn với người nghe — 'tôi sẽ V (nhé)'. Chỉ dùng cho chủ ngữ ngôi thứ nhất ở câu trần thuật; ở câu hỏi thì dùng để hỏi Ý ĐỊNH/mong muốn của người nghe.\n\nCấu trúc chuẩn là -(으)ㄹ게요: động từ có patchim + 을게요, không patchim + ㄹ게요, patchim 'ㄹ' lược bỏ + ㄹ게요.\n\nSo với -(으)ㄹ 거예요 (dự định nói chung, có thể đã lên kế hoạch từ trước): -(으)ㄹ게요 mang tính QUYẾT ĐỊNH TỨC THỜI ngay tại thời điểm nói và ngầm có ý hứa/thông báo cho người nghe biết, nên hay dùng trong hội thoại trực tiếp hơn văn viết.",
-  '10|A-(으)닀, V-는닀, N 인닀 (2)':
+  '10|A-(으)ㄴ데, V-는데, N 인데 (2)':
     "Đây là nghĩa thứ hai của hệ thống -는데/(으)ㄴ데/인데 (nghĩa thứ nhất 'bối cảnh' đã học ở bài 3): dùng để nối hai vế câu có nội dung TƯƠNG PHẢN, ĐỐI LẬP nhau — 'nhưng, tuy... nhưng'.\n\nCấu trúc giữ nguyên như đã học: tính từ có patchim + 은데, không patchim + ㄴ데; động từ + 는데; danh từ + 인데; quá khứ dùng chung 았/었는데.\n\nVí dụ '이 꽃이 예쁜데 향이 안 좋아요' = hoa này đẹp NHƯNG mùi không thơm. Cần dựa vào nội dung hai vế (bổ sung thông tin hay đối lập nhau) để phân biệt đây là nghĩa 'bối cảnh' hay 'nhưng' — đây là điểm hay gây nhầm lẫn nhất của -는데.",
 
   "11|'ㅅ' bất quy tắc":
     "Bất quy tắc 'ㅅ' xảy ra ở một số động từ/tính từ có patchim 'ㅅ' (짓다, 낫다, 붓다, 젓다...) khi kết hợp với ngữ pháp bắt đầu bằng nguyên âm (아/어, (으)): patchim 'ㅅ' bị LƯỢC BỎ hoàn toàn, sau đó kết hợp bình thường như từ không có patchim.\n\nVí dụ: 낫다 + 아/어서 → 나아서; 짓다 + (으)니까 → 지으니까; 붓다 + 아/어서 → 부어서.\n\nLưu ý QUAN TRỌNG: một số từ có patchim ㅅ nhưng KHÔNG thuộc bất quy tắc (chia đều đặn, giữ nguyên ㅅ) như 웃다 (cười), 씻다 (rửa), 벗다 (cởi), 빗다 (chải) — cần học thuộc riêng nhóm ngoại lệ này để tránh chia sai.",
   '11|N 마다':
     "Gắn sau danh từ chỉ thời gian hoặc đơn vị đếm để diễn tả sự LẶP LẠI đều đặn theo chu kỳ đó — 'mỗi, cứ mỗi...'; cũng dùng được với danh từ chỉ đối tượng cá thể để nói 'mọi N, N nào cũng vậy'.\n\nCấu trúc không đổi theo patchim: danh từ/số từ + 마다.\n\nVí dụ '사람마다 성격이 달라요' = mỗi người mỗi tính; '40분마다 버스가 와요' = cứ mỗi 40 phút xe buýt lại đến. Phân biệt với '매' (mỗi, VD 매일, 매주 — ghép cố định trước danh từ) — 마다 linh hoạt hơn, gắn được sau hầu hết danh từ chỉ đơn vị/chu kỳ.",
-  '11|V-는 게 어녕요?':
+  '11|V-는 게 어때요?':
     "Đưa ra LỜI ĐỀ NGHỊ hoặc hỏi ý kiến đối phương một cách nhẹ nhàng, gián tiếp — 'Hay là (làm gì đó) nhỉ?, ...thì thế nào?'. Cấu trúc gồm '-는 것' (danh từ hoá động từ, bài 2, rút gọn thành '게' trong văn nói) + '어때요?' (thế nào?).\n\nCấu trúc chuẩn: động từ + 는 게 어때요? (không phân biệt patchim).\n\nSo với -(으)ㄹ까요? (cũng là đề nghị/rủ rê): -는 게 어때요? thiên về ĐƯA RA GIẢI PHÁP/gợi ý cụ thể cho một vấn đề đã nêu trước đó, còn -(으)ㄹ까요? thiên về hỏi ý kiến chung chung hơn.",
   '11|V-기로 하다':
     "Diễn tả một QUYẾT ĐỊNH, LỜI HỨA, hoặc KẾ HOẠCH đã được chốt (một mình hoặc thoả thuận với người khác) — 'quyết định V, đã hẹn sẽ V'. Vế trước là hành động được quyết định, động từ '하다' chia thì để chỉ thời điểm quyết định đó.\n\nCấu trúc không đổi theo patchim: động từ + 기로 하다 (chỉ dùng với động từ).\n\nVí dụ '주말에 친구를 만나기로 했어요' = đã hẹn/quyết định gặp bạn vào cuối tuần. Thường chia ở quá khứ '-기로 했어요' để nói về quyết định đã đưa ra trước đó, dù hành động có thể còn chưa xảy ra.",
 
   '12|A-아/어 보이다':
     "Diễn tả NHẬN XÉT/CẢM NHẬN của người nói dựa trên VẺ NGOÀI, hình thức bên ngoài của người/vật/sự việc — 'trông có vẻ...'. Chỉ dùng với TÍNH TỪ (không dùng với động từ) và chỉ là cảm nhận chủ quan qua quan sát.\n\nCấu trúc theo nguyên âm cuối gốc từ: ㅏ/ㅗ + 아 보이다, các nguyên âm khác + 어 보이다, 하다 → 해 보이다.\n\nVí dụ '그 가방 비싸 보이는데요' = cái túi đó trông có vẻ đắt (chưa chắc thực sự đắt). Phân biệt với '것 같다' (suy đoán nói chung, dựa nhiều căn cứ) — '아/어 보이다' CHỈ dựa trên vẻ ngoài nhìn thấy được.",
-  '12|N 철럼[같이]':
+  '12|N 처럼[같이]':
     "Diễn tả sự SO SÁNH TƯƠNG ĐỒNG, giống hệt hoặc gần giống với danh từ đứng trước — 'giống như N'. Dạng chuẩn là '처럼' và '같이', có thể dùng thay thế nhau trong hầu hết trường hợp mang nghĩa này.\n\nCấu trúc không đổi theo patchim: danh từ + 처럼 hoặc danh từ + 같이.\n\nVí dụ '민수 씨는 가수처럼 노래를 잘해요' = anh Minsu hát hay như ca sĩ vậy. Lưu ý '같이' còn có nghĩa khác là 'cùng nhau' (저랑 같이 가요 = đi cùng tôi) — cần dựa vào ngữ cảnh để phân biệt hai nghĩa của '같이'.",
   '12|A-(으)ㄴ 편이다, V-는 편이다':
     "Diễn tả một nhận xét mang tính TƯƠNG ĐỐI, không tuyệt đối — 'thuộc dạng, thuộc loại, khá là...'. Dùng khi muốn nói giảm nhẹ mức độ khẳng định, thay vì nói thẳng 'A/V' thì nói 'thuộc diện A/V' để câu nói mềm mỏng, khiêm tốn hơn.\n\nCấu trúc: động từ + 는 편이다 (không phân biệt patchim); tính từ có patchim + 은 편이다, không patchim + ㄴ 편이다, patchim 'ㄹ' lược bỏ + ㄴ 편이다.\n\nVí dụ '저는 매운 음식을 잘 먹는 편이에요' = tôi thuộc dạng ăn cay khá tốt (nhận xét tương đối, không khẳng định tuyệt đối là ăn cay giỏi nhất).",
@@ -124,16 +124,16 @@ export const GRAMMAR_THEORY: Record<string, string> = {
 
   '14|V-(으)ㄴ 적(이) 있다[없다]':
     "Diễn tả việc CÓ hay KHÔNG CÓ kinh nghiệm đã từng làm một việc gì đó trong quá khứ — 'đã từng/chưa từng V'. Nhấn vào TRẢI NGHIỆM đáng nhớ, đặc biệt (thường là lần đầu hoặc việc hiếm gặp), khác với thì quá khứ thông thường chỉ đơn thuần thuật lại sự việc đã xảy ra.\n\nCấu trúc: động từ có patchim + 은 적이 있다[없다], không patchim + ㄴ 적이 있다[없다], patchim 'ㄹ' lược bỏ + ㄴ 적이 있다[없다].\n\nVí dụ '한국에 가 본 적이 있어요' = đã từng đi Hàn Quốc (một trải nghiệm đáng nhớ), khác với '한국에 갔어요' (chỉ đơn thuần: đã đi Hàn Quốc, có thể là việc thường xuyên).",
-  '14|V/A-았을/었을 땄':
+  '14|V/A-았을/었을 때':
     "Biến thể QUÁ KHỨ của '-(으)ㄹ 때' (bài 8) — chỉ thời điểm mà một trạng thái/hành động ĐÃ hoàn toàn xảy ra/kết thúc trong quá khứ, không còn tiếp diễn ở hiện tại — 'khi đã..., lúc đã...'.\n\nCấu trúc theo nguyên âm cuối gốc từ: ㅏ/ㅗ + 았을 때, các nguyên âm khác + 었을 때, 하다 → 했을 때.\n\nSo sánh '학교에 다닐 때' (khi còn đi học, diễn ra trong một khoảng thời gian) với '학교에 다녔을 때' (khi đã (từng) đi học, nhấn mạnh việc đó đã hoàn toàn thuộc về quá khứ) — sắc thái thời gian khác nhau rõ rệt.",
-  '14|V-아도/어도 돼다':
+  '14|V-아도/어도 되다':
     "Dùng để HỎI XIN PHÉP hoặc CHO PHÉP thực hiện một hành động — 'V có được không?, được phép V'. Cấu trúc gồm '-아도/어도' (dù, cho dù) + 되다 (được), nghĩa đen là 'dù có V thì cũng được (không sao)'.\n\nCấu trúc theo nguyên âm cuối gốc từ: ㅏ/ㅗ + 아도 되다, các nguyên âm khác + 어도 되다, 하다 → 해도 되다.\n\nVí dụ '내일 내도 돼요?' = mai nộp có được không?; có thể thay '되다' bằng '괜찮다' với nghĩa tương đương. Đối lập trực tiếp với '-(으)면 안 되다' (không được phép) học ngay sau đây.",
-  '14|V-(으)면 안 돼다':
+  '14|V-(으)면 안 되다':
     "Diễn tả sự KHÔNG CHO PHÉP, CẤM thực hiện một hành động — 'không được phép V, nếu V thì không được'. Là dạng phủ định của '-아도/어도 되다', dùng để nêu quy định, luật lệ, hoặc lời nhắc nhở nghiêm khắc.\n\nCấu trúc: động từ có patchim + 으면 안 되다, không patchim hoặc patchim ㄹ + 면 안 되다.\n\nVí dụ '교실에서 음식을 먹으면 안 됩니다' = trong lớp học không được ăn uống. Hay xuất hiện ở biển báo, nội quy, hướng dẫn nơi công cộng — mang sắc thái khá trang trọng, nghiêm túc hơn cách nói cấm đoán thông thường.",
 
   '15|A-아지다/어지다':
     "Gắn sau TÍNH TỪ để diễn tả sự BIẾN ĐỔI dần dần của một trạng thái theo thời gian — 'trở nên, dần dần...'. Sau khi gắn '아지다/어지다', tính từ vốn tĩnh sẽ mang tính chất ĐỘNG (một quá trình thay đổi), nên có thể chia như động từ (아져요, 아지고 있어요...).\n\nCấu trúc theo nguyên âm cuối gốc từ: ㅏ/ㅗ + 아지다, các nguyên âm khác + 어지다, 하다 → 해지다.\n\nVí dụ '날씨가 더워졌어요' = trời đã trở nên nóng (có một quá trình thay đổi), khác với '더워요' (chỉ đơn thuần: trời nóng, trạng thái tĩnh).",
-  '15|V-게 돼다':
+  '15|V-게 되다':
     "Diễn tả sự THAY ĐỔI sang một trạng thái/tình huống mới, thường do TÁC ĐỘNG KHÁCH QUAN từ bên ngoài hoặc hoàn cảnh đưa đẩy, KHÔNG PHẢI do ý muốn chủ động của người nói — 'trở nên, thành ra, (bị/được) đưa đến chỗ...'.\n\nCấu trúc không đổi theo patchim: động từ + 게 되다.\n\nVí dụ '한국 노래를 좋아해서 한국어를 배우게 되었어요' = (do) thích nhạc Hàn nên rồi thành ra học tiếng Hàn (một cách tự nhiên, không hẳn chủ đích ban đầu). Phân biệt với '-게 하다' (làm cho ai đó/cái gì đó trở nên..., mang tính chủ động) — dễ nhầm vì hình thức gần giống nhau.",
   '15|V-기 전에':
     "Diễn tả một hành động xảy ra TRƯỚC KHI hành động khác diễn ra — 'trước khi V'. Động từ trong '-기 전에' KHÔNG chia thì (dù cả câu ở thì nào, '-기 전에' vẫn giữ nguyên dạng này).\n\nCấu trúc không đổi theo patchim: động từ + 기 전에 (có thể dùng cả với danh từ: N 전에).\n\nVí dụ '밥을 먹기 전에 손을 씻으세요' = trước khi ăn cơm hãy rửa tay. Đối lập trực tiếp với '-(으)ㄴ 후에' (sau khi V) học ngay sau đây — hai mẫu hay được luyện tập cùng nhau để nắm trình tự trước/sau.",
@@ -146,7 +146,7 @@ export const GRAMMAR_THEORY: Record<string, string> = {
     "Diễn tả sự THAY THẾ — hành động/sự vật ở vế sau THAY CHO danh từ đứng trước '대신' — 'thay vì N, thay cho N'.\n\nCấu trúc không đổi theo patchim: danh từ + 대신 (có thể thêm '에' thành '대신에' mà nghĩa không đổi); cũng dùng được sau mệnh đề định ngữ: 'V-는 대신(에)'.\n\nVí dụ '밥 대신 우유만 한 잔 마셨어요' = thay vì (ăn) cơm, chỉ uống một ly sữa. Với dạng mệnh đề 'V-는 대신에' còn mang thêm sắc thái 'bù lại, đổi lại' (làm việc A nhưng bù lại làm việc B để cân bằng).",
   '16|V-(으)ㄹ까 하다':
     "Diễn tả một Ý ĐỊNH còn MƠ HỒ, CHƯA CHẮC CHẮN, người nói đang cân nhắc chứ chưa quyết định dứt khoát — 'đang định, đang phân vân có nên...'. CHỈ dùng được với chủ ngữ ngôi thứ NHẤT.\n\nCấu trúc: động từ có patchim + 을까 하다, không patchim + ㄹ까 하다, patchim 'ㄹ' lược bỏ + ㄹ까 하다.\n\nSo với '-(으)ㄹ 거예요' (dự định đã khá chắc chắn): '-(으)ㄹ까 하다' thể hiện mức độ chắc chắn THẤP hơn nhiều, có thể thay đổi ý định bất cứ lúc nào, hay dùng khi ướm hỏi ý kiến người khác trước khi quyết định hẳn.",
-  '16|V/A-(으)ㄹ 타니까':
+  '16|V/A-(으)ㄹ 테니까':
     "Kết hợp giữa Ý CHÍ/PHỎNG ĐOÁN mạnh mẽ của người nói (vế trước) và một ĐỀ NGHỊ/YÊU CẦU dành cho người nghe (vế sau) — 'Tôi sẽ (chắc chắn) V1, vậy nên hãy V2 nhé' (khi chủ ngữ vế trước là 'tôi') hoặc 'Vì chắc chắn sẽ A/V nên...' (khi phỏng đoán về việc khách quan). Dạng chuẩn là -(으)ㄹ 테니까.\n\nCấu trúc: động từ/tính từ có patchim + 을 테니까, không patchim + ㄹ 테니까, patchim 'ㄹ' lược bỏ + ㄹ 테니까.\n\nVí dụ '제가 곧 도착할 테니까 조금만 기다리세요' = tôi sẽ đến ngay bây giờ, vậy nên (bạn) đợi một chút nhé.",
 
   '17|V-아다/어다 주다':
