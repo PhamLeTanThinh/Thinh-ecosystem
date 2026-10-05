@@ -176,8 +176,10 @@ export const EXAMPLE_DETAIL: Record<string, ExampleDetail[]> = {
     { ko: '나는 학교 가야 돼. 이따가 전화할게.', vi: 'Tớ phải đi học đây. Lát nữa tớ sẽ gọi điện.', vocab: '', breakdown: '저는 → 나는; 전화할게요 → 전화할게 (bỏ 요)' },
   ],
   '10|V-(으)ㄹ래요': [
-    { ko: '제가 문을 닫을게요.', vi: 'Để tôi đóng cửa cho.', vocab: '', breakdown: '닫다 (patchim) + 을게요 → 닫을게요' },
-    { ko: '이따가 다시 전화할게요.', vi: 'Lát nữa tôi sẽ gọi lại.', vocab: '이따가: lát nữa', breakdown: '전화하다 (không patchim) + ㄹ게요 → 전화할게요' },
+    { ko: '오늘 시간 있으면 같이 영화 보러 갈래요?', vi: 'Hôm nay có thời gian thì đi xem phim cùng không?', vocab: '', breakdown: '가다 (không patchim) + ㄹ래요 → 갈래요' },
+    { ko: '저는 주말에 그냥 혼자 집에 있고 요가를 할래요.', vi: 'Cuối tuần tôi muốn ở nhà một mình và tập yoga.', vocab: '그냥: cứ, chỉ đơn giản là', breakdown: '하다 (không patchim) + ㄹ래요 → 할래요' },
+    { ko: '뭐 먹을래요? – 저는 비빔밥 먹을래요.', vi: 'Bạn muốn ăn gì? – Tôi ăn bibimbap.', vocab: '', breakdown: '먹다 (có patchim) + 을래요 → 먹을래요' },
+    { ko: '주말에 같이 김치찌개 만들래요?', vi: 'Cuối tuần cùng nấu canh kimchi không?', vocab: '', breakdown: '만들다 (patchim ㄹ) + 래요 → 만들래요' },
   ],
   '10|A-(으)ㄴ데, V-는데, N 인데 (2)': [
     { ko: '이 꽃이 예쁜데 향이 안 좋아요.', vi: 'Bông hoa này đẹp nhưng mùi không thơm.', vocab: '향: hương thơm', breakdown: '예쁘다 (không patchim) + ㄴ데 → 예쁜데' },
