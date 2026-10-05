@@ -1250,6 +1250,27 @@
   line-height: 1.5;
 }
 
+/* Cây con theo loại từ (ngữ pháp dùng cho cả A/V/N) — nằm trong cụm nhánh của gốc như 1 nhánh, nút gốc nhạt hơn */
+.kr-structure-subtree {
+  position: relative;
+  margin-top: 0;
+}
+
+.kr-structure-subtree::before {
+  content: '';
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 16px;
+  height: 2px;
+  background: rgba(31, 79, 214, 0.28);
+}
+
+.kr-structure-root--sub {
+  background: color-mix(in srgb, var(--color-brand) 14%, white);
+  color: var(--color-brand);
+}
+
 /* Không suy ra được nút gốc (vd 인사말, 'ㅂ' 불규칙) — bỏ đường nối, các nhánh xếp ngang tự xuống dòng
    (danh sách ví dụ biến âm dài 7 cặp mà xếp dọc thì chiếm quá nhiều chỗ). */
 .kr-structure-branches--rootless {

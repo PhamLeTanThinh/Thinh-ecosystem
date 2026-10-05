@@ -823,7 +823,7 @@ function branchWordClass(condition: string): string | null {
 }
 
 // Nút gốc của cây: loại từ chung của các nhánh, hoặc loại từ ở đầu mẫu ngữ pháp (A/V-아서 → A/V). Các nhánh thuộc
-// NHIỀU loại từ khác nhau (vd A받침O… / V… / N… của -(으)ㄴ데, -는데, 인데) thì không vẽ gốc — mỗi nhánh tự ghi loại từ.
+// NHIỀU loại từ khác nhau thì trả null — GrammarStructure vẽ cây 2 cấp theo loại từ (structureGroups) thay vào.
 function structureRoot(branches: StructureSegment[], front: string): string | null {
   const classes = new Set(branches.map((b) => branchWordClass(b.condition)).filter(Boolean))
   if (classes.size > 1) return null
@@ -833,29 +833,78 @@ function structureRoot(branches: StructureSegment[], front: string): string | nu
   return front.match(/^(A\/V|V\/A|V|A|N)\b/)?.[1] ?? null
 }
 
+// Nhánh thuộc nhiều loại từ (vd A받침O… / A받침X… / V… / N… của -(으)ㄴ데, -는데, 인데) → gom theo loại từ, giữ thứ tự
+// xuất hiện; điều kiện trong nhóm bỏ tiền tố loại từ (A받침O hiện tại → 받침O hiện tại). Chỉ 1 loại từ → null.
+function structureGroups(branches: StructureSegment[]) {
+  const classes = new Set(branches.map((b) => branchWordClass(b.condition)).filter(Boolean))
+  if (classes.size < 2) return null
+  const groups: { cls: string | null; items: StructureSegment[] }[] = []
+  for (const b of branches) {
+    const cls = branchWordClass(b.condition)
+    const condition = cls ? b.condition.slice(cls.length).trim() : b.condition
+    const group = cls ? groups.find((g) => g.cls === cls) : undefined
+    if (group) group.items.push({ ...b, condition })
+    else groups.push({ cls, items: [{ ...b, condition }] })
+  }
+  return { label: [...classes].join('/'), groups }
+}
+
+function StructureBranch({ seg }: { seg: StructureSegment }) {
+  const text = isTextResult(seg.result)
+  return (
+    <div className={`kr-structure-branch${text ? ' kr-structure-branch--text' : ''}`}>
+      {/* Trong cây con, quy tắc chung của loại từ (V/A: (으)니까) không còn điều kiện riêng → chỉ hiện kết quả */}
+      {seg.condition && (
+        <>
+          <span className={`kr-structure-condition kr-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
+          <span className="kr-structure-arrow">→</span>
+        </>
+      )}
+      <span className={`kr-structure-result${text ? ' kr-structure-result--text' : ''}`}>{seg.result}</span>
+    </div>
+  )
+}
+
 function GrammarStructure({ note, front }: { note: string; front: string }) {
   const { branches, notes } = parseStructure(note)
   const root = structureRoot(branches, front)
+  const grouped = structureGroups(branches)
 
   return (
     <div className="kr-structure-diagram">
       <span className="kr-grammar-structure-label">Cấu trúc</span>
-      {branches.length > 0 && (
+      {grouped ? (
         <div className="kr-structure-tree">
-          {root && <div className="kr-structure-root">{root}</div>}
-          <div className={`kr-structure-branches${root ? '' : ' kr-structure-branches--rootless'}`}>
-            {branches.map((seg, i) => {
-              const text = isTextResult(seg.result)
-              return (
-                <div key={i} className={`kr-structure-branch${text ? ' kr-structure-branch--text' : ''}`}>
-                  <span className={`kr-structure-condition kr-structure-condition--${classifyCondition(seg.condition)}`}>{seg.condition}</span>
-                  <span className="kr-structure-arrow">→</span>
-                  <span className={`kr-structure-result${text ? ' kr-structure-result--text' : ''}`}>{seg.result}</span>
+          <div className="kr-structure-root">{grouped.label}</div>
+          <div className="kr-structure-branches">
+            {grouped.groups.map((g, i) =>
+              // Loại từ chỉ có 1 quy tắc không kèm điều kiện (V → 는데) thì là 1 nhánh thường; còn lại là cây con
+              !g.cls || (g.items.length === 1 && !g.items[0].condition) ? (
+                <StructureBranch key={i} seg={g.cls ? { ...g.items[0], condition: g.cls } : g.items[0]} />
+              ) : (
+                <div key={i} className="kr-structure-tree kr-structure-subtree">
+                  <div className="kr-structure-root kr-structure-root--sub">{g.cls}</div>
+                  <div className="kr-structure-branches">
+                    {g.items.map((seg, j) => (
+                      <StructureBranch key={j} seg={seg} />
+                    ))}
+                  </div>
                 </div>
-              )
-            })}
+              ),
+            )}
           </div>
         </div>
+      ) : (
+        branches.length > 0 && (
+          <div className="kr-structure-tree">
+            {root && <div className="kr-structure-root">{root}</div>}
+            <div className={`kr-structure-branches${root ? '' : ' kr-structure-branches--rootless'}`}>
+              {branches.map((seg, i) => (
+                <StructureBranch key={i} seg={seg} />
+              ))}
+            </div>
+          </div>
+        )
       )}
       {notes.length > 0 && (
         <ul className={`kr-structure-notes${branches.length > 0 ? '' : ' kr-structure-notes--only'}`}>
