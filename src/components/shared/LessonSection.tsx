@@ -3,10 +3,10 @@
 import { useSyncExternalStore, type KeyboardEvent, type ReactNode } from 'react'
 import './lesson-section.css'
 
-// Mục lớn của 1 bài học Korean/Chinese (Từ vựng / Ngữ pháp / Hội thoại / Luyện nói) — bấm tiêu đề để thu gọn/mở.
+// Mục lớn của 1 bài học Korean/Chinese (Từ vựng / Ngữ pháp / Hội thoại / Luyện nói / Bài đọc) — bấm tiêu đề để thu gọn/mở.
 // Trạng thái thu gọn nhớ theo LOẠI mục (không theo bài) trong localStorage nên áp dụng cho mọi bài, giữ qua F5.
 // Chỉ có tác dụng trên desktop: ≤860px các mục đã thành tab (…-mobile-section) nên luôn hiện nội dung (CSS).
-export type LessonSectionKey = 'vocab' | 'grammar' | 'dialogue' | 'speaking'
+export type LessonSectionKey = 'vocab' | 'grammar' | 'dialogue' | 'speaking' | 'reading'
 
 const STORAGE_KEY = 'lesson-sections-collapsed'
 const EVENT = 'lesson-sections-change'
