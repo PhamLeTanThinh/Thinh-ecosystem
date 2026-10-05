@@ -830,7 +830,8 @@ function structureRoot(branches: StructureSegment[], front: string): string | nu
   const first = branches[0]?.condition ?? ''
   if (first.includes('받침')) return first.split('받침')[0].trim() || null
   if (/^(A\/V|V\/A|V|A|N)$/.test(first)) return first
-  return front.match(/^(A\/V|V\/A|V|A|N)\b/)?.[1] ?? null
+  // Mẫu là 1 từ tiếng Hàn chứ không phải đuôi gắn sau loại từ (vd 반말) → lấy chính tên mẫu làm gốc
+  return front.match(/^(A\/V|V\/A|V|A|N)\b/)?.[1] ?? (/^[가-힣]+$/.test(front) ? front : null)
 }
 
 // Nhánh thuộc nhiều loại từ (vd A받침O… / A받침X… / V… / N… của -(으)ㄴ데, -는데, 인데) → gom theo loại từ, giữ thứ tự

@@ -347,7 +347,7 @@ const ENTRIES: SeedEntry[] = [
   ["vocab", 9, "문의", "hỏi/thắc mắc, yêu cầu thông tin", "inquiry", ""],
   ["vocab", 9, "궁금하다", "thắc mắc, tò mò", "to be curious", ""],
   ["grammar", 10, "N 중에(서)", "Trong, trong số N", "N: 중에서 · N받침O: 중에서 · N받침X: 중에서", "저는 운동 중에서 야구를 가장 좋아해요.\n지금까지 본 영화 중에(서) 뭐가 제일 재미있었어요?"],
-  ["grammar", 10, "반말", "Tỉnh lược đuôi '요', đổi cách xưng hô (나,너) sử dụng khi đối phương là người có mối quan hệ thân thiết, thân mật với mình. Không hạ thấp cũng không nâng đối phương.", "", "감기 괜찮아? 많이 힘들어?\n난 여자 친구랑 헤어졌어.\n점심 먹으러 가자. 배고파."],
+  ["grammar", 10, "반말", "Tỉnh lược đuôi '요', đổi cách xưng hô (나,너) sử dụng khi đối phương là người có mối quan hệ thân thiết, thân mật với mình. Không hạ thấp cũng không nâng đối phương.", "아/어요: 아/어 (먹어요 → 먹어) · 았/었어요: 았/었어 (갔어요 → 갔어) · N이에요: 이야 (학생이에요 → 학생이야) · N예요: 야 (의사예요 → 의사야) · (으)ㄹ래요: (으)ㄹ래 (먹을래요 → 먹을래) · Rủ rê (으)ㅂ시다: 자 (갑시다 → 가자) · Mệnh lệnh (으)세요: 아/어 (먹으세요 → 먹어) · 저 / 제: 나 / 내 · 당신, OO 씨: 너 / 네, gọi tên + 아/야 · 네 / 아니요: 응 / 아니", "감기 괜찮아? 많이 힘들어?\n난 여자 친구랑 헤어졌어.\n점심 먹으러 가자. 배고파."],
   ["grammar", 10, "V-(으)ㄹ래요", "diễn tả ý định, sự sẵn sàng của người nói trong câu trần thuật. Ở câu hỏi, nó được dùng để hỏi về ý định, ý thích, nguyện vọng của người nghe.", "V: (으)ㄹ래요 · V받침O: 을래요 · V받침X: ㄹ래요 · V받침ㄹ: 래요", "오늘 시간 있으면 같이 영화 보러 갈래요?\n저는 주말에 그냥 혼자 집에 있고 요가를 할래요."],
   ["grammar", 10, "A-(으)ㄴ데, V-는데, N 인데 (2)", "Tuy nhiên, nhưng mà, nhưng...", "A받침O hiện tại: 은데, quá khứ: 았/었는데 · A받침X hiện tại: ㄴ데 · V: 는데 · N: 인데, quá khứ: 이었/였는데", "이 꽃이 예쁜데 향이 안 좋아요.\n열심히 일을 했는데 돈이 다 어디 갔어요?\n학생인데 화장을 진하게 하네요."],
   ["vocab", 10, "시키다", "gọi món", "to order", ""],
