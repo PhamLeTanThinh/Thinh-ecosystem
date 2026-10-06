@@ -11,8 +11,8 @@ interface Props {
   onNavigate?: () => void
 }
 
-// Tìm trong toàn bộ trang + từ vựng, bất kể kỹ năng. Chọn kết quả = chuyển route: trang → bài học của
-// đúng kỹ năng chứa nó, từ vựng → trang từ vựng chung.
+// Tìm trong toàn bộ trang + từ vựng, bất kể kỹ năng. Chọn kết quả = chuyển route tới bài học của đúng kỹ năng chứa
+// trang đó — với từ vựng là trang mà từ được gắn vào (linkedPageId); từ chưa gắn trang nào thì không hiện trong kết quả.
 export function GlobalSearch({ onNavigate }: Props) {
   const router = useRouter()
   const pages = useIeltsStore((s) => s.pages)
@@ -21,7 +21,13 @@ export function GlobalSearch({ onNavigate }: Props) {
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
 
-  const results = useMemo(() => searchAll(pages, vocab, query), [pages, vocab, query])
+  // Từ vựng → id trang mà từ được gắn vào (chỉ giữ trang còn tồn tại)
+  const vocabPage = useMemo(() => {
+    const pageIds = new Set(pages.map((p) => p.id))
+    return new Map(vocab.flatMap((v) => (v.linkedPageId && pageIds.has(v.linkedPageId) ? [[v.id, v.linkedPageId] as const] : [])))
+  }, [pages, vocab])
+  const results = useMemo(() => searchAll(pages, vocab, query).filter((r) => r.type === 'page' || vocabPage.has(r.id)), [pages, vocab, query, vocabPage])
+  const pageIdOf = (vocabId: string) => vocabPage.get(vocabId) ?? null
 
   function handleBlur(e: React.FocusEvent<HTMLDivElement>) {
     if (rootRef.current?.contains(e.relatedTarget as Node | null)) return
@@ -29,14 +35,9 @@ export function GlobalSearch({ onNavigate }: Props) {
   }
 
   function handlePick(r: (typeof results)[number]) {
-    let destination: string
-    if (r.type === 'page') {
-      const page = pages.find((p) => p.id === r.id)
-      if (!page) return
-      destination = `/ielts/${page.skill}/lessons/${page.id}`
-    } else {
-      destination = '/ielts/vocab'
-    }
+    const page = pages.find((p) => p.id === (r.type === 'page' ? r.id : pageIdOf(r.id)))
+    if (!page) return
+    const destination = `/ielts/${page.skill}/lessons/${page.id}`
     beginIeltsNavigation(destination)
     router.push(destination)
     setQuery('')
