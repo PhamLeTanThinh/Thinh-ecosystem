@@ -26,7 +26,7 @@ export const EXPLAIN: Record<string, Explanation> = {
       ],
     },
     notes:
-      'Câu [[1]] + [[2]] mở bài: vai trò giám đốc hội đồng quản trị không dễ, cần thay đổi\nCâu [[3]] ý chính: sau khủng hoảng 2008, việc **đổ lỗi bị lan ra rất rộng** (far and wide)\nCâu [[4]] liệt kê cụ thể ai bị đổ lỗi: chính phủ, cơ quan quản lý, ngân hàng trung ương, kiểm toán → đều là **bên ngoài** công ty\nCâu [[5]] bổ sung: giám đốc ngân hàng cũng bị xem xét kỹ\n→ blame spread far and wide = held responsible; governments, regulators, central banks, auditors = many external bodies\n→ The possible need for fundamental change… {no} "radical changes" chỉ là câu mở bài, ý thay đổi toàn diện là của đoạn G\n⇒ Chọn **iv. Many external bodies being held responsible for problems** {ok}',
+      'Câu [[1]] + [[2]] mở bài: vai trò giám đốc hội đồng quản trị không dễ, cần thay đổi\nCâu [[3]] ý chính: sau khủng hoảng 2008, việc **đổ lỗi bị lan ra rất rộng** (far and wide)\nCâu [[4]] liệt kê cụ thể ai bị đổ lỗi: chính phủ, cơ quan quản lý, ngân hàng trung ương, kiểm toán → đều là **bên ngoài** công ty\nCâu [[5]] bổ sung: giám đốc ngân hàng (người **bên trong**, không phải external) cũng bị xem xét kỹ → dẫn sang đoạn B ("this scrutiny")\n→ blame spread far and wide / in the frame = held responsible; governments, regulators, central banks, auditors = many external bodies\n→ The possible need for fundamental change… {no} "radical changes" chỉ là câu mở bài, ý thay đổi toàn diện là của đoạn G\n→ The impact on companies of being subjected to close examination {no} câu [[5]] chỉ nói bị "examined", còn **tác động** của việc bị soi xét là nội dung đoạn B\n⇒ Chọn **iv. Many external bodies being held responsible for problems** {ok}',
   },
 
   q2: {
@@ -41,7 +41,7 @@ export const EXPLAIN: Record<string, Explanation> = {
       ],
     },
     notes:
-      'Câu [[1]] câu chủ đề: **tác động (knock-on effect)** của việc bị soi xét (scrutiny) → áp lực và trách nhiệm của giám đốc tăng\nCâu [[2]] cụ thể hoá: thời gian cần bỏ ra tăng mạnh\nCâu [[3]] + [[4]] + [[5]] ví dụ: nhiều cuộc họp hơn, nhiều tài liệu hơn, chương trình họp quá tải\n→ knock-on effect = impact; scrutiny = close examination\n⇒ Chọn **ii. The impact on companies of being subjected to close examination** {ok}',
+      'Câu [[1]] câu chủ đề: **tác động (knock-on effect)** của việc bị soi xét (scrutiny) → áp lực và trách nhiệm của giám đốc tăng\nCâu [[2]] cụ thể hoá: thời gian cần bỏ ra tăng mạnh\nCâu [[3]] + [[4]] + [[5]] ví dụ: nhiều cuộc họp hơn, nhiều tài liệu hơn, chương trình họp quá tải\n→ knock-on effect = impact; scrutiny = close examination; the governance of companies in general = companies\n→ A proposal to change the way the board operates {no} câu [[2]] chỉ **đặt dấu hỏi** về mô hình giám đốc bán thời gian, chưa đề xuất gì — đề xuất cụ thể nằm ở đoạn D\n⇒ Chọn **ii. The impact on companies of being subjected to close examination** {ok}',
   },
 
   q3: {

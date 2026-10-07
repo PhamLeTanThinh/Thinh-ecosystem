@@ -1884,7 +1884,7 @@ export const READING_TESTS: PracticeTest[] = [
             prompt: 'Paragraph B',
             answer: 'The impact on companies of being subjected to close examination',
             explanation: BOARDS_EXPLAIN.q2,
-            locate: [{ para: 1, text: 'The knock-on effect of this scrutiny has been to make the governance of companies in general an issue of intense public debate' }],
+            locate: [{ para: 1, text: 'The knock-on effect of this scrutiny has been to make the governance of companies in general an issue of intense public debate and has significantly increased the pressures on, and the responsibilities of, directors' }],
           },
           {
             id: 'q3',
@@ -1900,7 +1900,7 @@ export const READING_TESTS: PracticeTest[] = [
             prompt: 'Paragraph D',
             answer: 'A proposal to change the way the board operates',
             explanation: BOARDS_EXPLAIN.q4,
-            locate: [{ para: 3, text: 'A radical solution, which may work for some very large companies whose businesses are extensive and complex, is the professional board' }],
+            locate: [{ para: 3, text: 'A radical solution, which may work for some very large companies whose businesses are extensive and complex, is the professional board, whose members would work up to three or four days a week, supported by their own dedicated staff and advisers' }],
           },
           {
             id: 'q5',
