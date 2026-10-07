@@ -20,6 +20,7 @@ import { MarginNote } from './extensions/MarginNote'
 import { TreeOutline } from './extensions/TreeOutline'
 import { DataChart } from './extensions/DataChart'
 import { QuestionBank } from './extensions/QuestionBank'
+import { SentenceAnalysis } from './extensions/SentenceAnalysis'
 import { QuestionBankModal } from './QuestionBankModal'
 import { DocToolbar } from './DocToolbar'
 import { useIeltsAccess } from './AccessContext'
@@ -52,6 +53,7 @@ const docExtensions = [
   TreeOutline,
   DataChart,
   QuestionBank,
+  SentenceAnalysis,
 ]
 
 const docEditorProps: EditorOptions['editorProps'] = {
