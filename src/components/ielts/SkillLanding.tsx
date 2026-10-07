@@ -5,7 +5,9 @@ import Link from 'next/link'
 import { SKILLS } from '@/lib/ielts/skills'
 import { useIeltsStore } from '@/lib/ielts/store'
 import { TV_SHOWS, showLineCount } from '@/lib/ielts/tv'
+import { GRAMMAR_LESSONS } from '@/lib/ielts/grammar'
 import { useIeltsAccess } from './AccessContext'
+import './grammar/grammar.css'
 
 // Mục có trong khu riêng của từng kỹ năng (khớp menu trái ở Sidebar.tsx) — hiện dưới tên kỹ năng để biết bên trong có gì.
 const SKILL_DESC: Record<string, string> = {
@@ -16,7 +18,8 @@ const SKILL_DESC: Record<string, string> = {
 }
 
 // Màn hình đầu /ielts: 4 kỹ năng dạng card. Mỗi card dẫn vào khu riêng của kỹ năng đó (/ielts/<skill>,
-// có menu Kiến thức / Làm đề / Vocab). Bên dưới là thẻ lớn "Học qua phim" (/ielts/tv, kèm poster các phim) và Admin nếu là chủ.
+// có menu Kiến thức / Làm đề / Vocab). Bên dưới là thẻ lớn "Học qua phim" (/ielts/tv, kèm poster các phim), "Ngữ pháp cơ bản"
+// (/ielts/grammar) và Admin nếu là chủ.
 export function SkillLanding() {
   const { isOwner } = useIeltsAccess()
   const pages = useIeltsStore((s) => s.pages)
@@ -71,6 +74,24 @@ export function SkillLanding() {
               // eslint-disable-next-line @next/next/no-img-element
               <img key={show.id} src={show.poster} alt="" style={{ '--p': i } as CSSProperties} />
             ))}
+        </span>
+      </Link>
+
+      <Link href="/ielts/grammar" className="ih-glass ih-landing-movie ih-landing-grammar">
+        <span className="ih-landing-movie-text">
+          <span className="ih-landing-movie-kicker">📘 Ngữ pháp cơ bản</span>
+          <span className="ih-font-hand ih-landing-movie-title">Ngữ pháp tiếng Anh từ nền tảng</span>
+          <span className="ih-landing-movie-desc">
+            Từ cấu trúc câu, các thì, modal tới mệnh đề quan hệ và giới từ — giải thích dễ hiểu, ví dụ có phát âm, lỗi hay gặp, kèm cẩm nang chung
+            và 50 câu ôn tập.
+          </span>
+          <span className="ih-landing-movie-count">{GRAMMAR_LESSONS.length} bài · Cẩm nang chung →</span>
+        </span>
+        <span className="ih-landing-grammar-art" aria-hidden>
+          <span>S + V + O</span>
+          <span>have + V3</span>
+          <span>If + had V3</span>
+          <span>be + V3</span>
         </span>
       </Link>
 

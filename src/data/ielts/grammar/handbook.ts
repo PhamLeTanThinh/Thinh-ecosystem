@@ -1,0 +1,225 @@
+// Cẩm nang chung cho phần Ngữ pháp cơ bản (/ielts/grammar/handbook): cách học, thuật ngữ, bảng các thì, quy tắc
+// "sau X dùng gì", cặp dễ nhầm, động từ bất quy tắc hay gặp và 50 câu ôn tập tổng hợp (có chấm điểm + giải thích).
+// `lesson` trỏ về id bài trong lessons-*.ts để bấm sang ôn lại.
+
+export const STUDY_STEPS: string[] = [
+  'Học theo thứ tự, mỗi ngày **1–2 bài**. Đừng nhảy cóc — các bài sau dùng lại kiến thức bài trước.',
+  'Mỗi bài đọc phần **Hiểu nhanh** trước, rồi mới nhìn công thức. Hiểu "dùng khi nào" quan trọng hơn thuộc công thức.',
+  'Đọc to các **ví dụ** (bấm 🔊 để nghe). Tự đặt thêm 2–3 câu về chính bạn với cấu trúc vừa học.',
+  'Đọc kỹ **Lỗi thường gặp** — đó là những lỗi người Việt hay mắc nhất, và cũng là lỗi giám khảo IELTS hay trừ điểm.',
+  'Học xong cả 45 bài thì làm **50 câu ôn tập** ở cuối trang này. Câu nào sai → bấm vào tên bài để ôn lại đúng chủ điểm đó.',
+  'Mục tiêu cuối cùng là **dùng được** khi nói và viết, không phải thuộc thật nhiều công thức.',
+]
+
+export const GLOSSARY: { term: string; meaning: string; example?: string }[] = [
+  { term: 'S (Subject)', meaning: 'Chủ ngữ — ai / cái gì làm hành động', example: '**She** likes music.' },
+  { term: 'V (Verb)', meaning: 'Động từ — hành động hoặc trạng thái', example: 'She **likes** music.' },
+  { term: 'O (Object)', meaning: 'Tân ngữ — người / vật nhận hành động', example: 'She likes **music**.' },
+  { term: 'N (Noun)', meaning: 'Danh từ — tên người, vật, khái niệm', example: 'book, teacher, information' },
+  { term: 'Adj (Adjective)', meaning: 'Tính từ — mô tả danh từ', example: 'a **useful** app' },
+  { term: 'Adv (Adverb)', meaning: 'Trạng từ — mô tả động từ, tính từ, cả câu', example: 'speak **fluently**' },
+  { term: 'V (nguyên mẫu)', meaning: 'Động từ ở dạng gốc, không chia', example: 'go, study, be' },
+  { term: 'to V', meaning: 'Động từ nguyên mẫu có to', example: 'I decided **to study**.' },
+  { term: 'V-ing', meaning: 'Động từ thêm -ing (dạng tiếp diễn hoặc danh động từ)', example: 'I enjoy **reading**.' },
+  { term: 'V2 / V-ed', meaning: 'Dạng quá khứ của động từ (cột 2 bảng bất quy tắc)', example: 'go → **went**, work → **worked**' },
+  { term: 'V3', meaning: 'Quá khứ phân từ (cột 3) — dùng cho thì hoàn thành và bị động', example: 'go → **gone**, see → **seen**' },
+  { term: 'Auxiliary', meaning: 'Trợ động từ — giúp tạo câu hỏi, phủ định, thì', example: 'do / does / did, be, have' },
+  { term: 'Modal', meaning: 'Động từ khuyết thiếu — theo sau luôn là V nguyên mẫu', example: 'can, must, should, might' },
+  { term: 'Clause (mệnh đề)', meaning: 'Cụm có đủ chủ ngữ + động từ', example: '**it was raining**' },
+  { term: 'Countable / Uncountable', meaning: 'Danh từ đếm được / không đếm được', example: 'a book (C) — information (U)' },
+  { term: 'Stative verb', meaning: 'Động từ chỉ trạng thái, thường không chia tiếp diễn', example: 'know, want, need, believe' },
+  { term: 'Active / Passive', meaning: 'Câu chủ động / bị động', example: 'They built it. → It **was built**.' },
+  { term: 'Collocation', meaning: 'Cụm từ hay đi cùng nhau tự nhiên', example: 'interested **in**, make **a decision**' },
+]
+
+// Bảng các thì — cột "Dùng khi" viết ngắn để ôn nhanh, chi tiết xem từng bài.
+export const TENSE_TABLE: { name: string; vi: string; form: string; use: string; example: string; lesson: string }[] = [
+  { name: 'Present Simple', vi: 'Hiện tại đơn', form: 'S + V(s/es)', use: 'thói quen, sự thật, lịch cố định', example: 'She goes to school by bus.', lesson: 'present-simple' },
+  { name: 'Present Continuous', vi: 'Hiện tại tiếp diễn', form: 'S + am/is/are + V-ing', use: 'đang xảy ra, tạm thời, đang thay đổi', example: 'I am doing my homework now.', lesson: 'present-continuous' },
+  { name: 'Past Simple', vi: 'Quá khứ đơn', form: 'S + V2/ed', use: 'đã xong ở quá khứ', example: 'I finished it last night.', lesson: 'past-simple-continuous' },
+  { name: 'Past Continuous', vi: 'Quá khứ tiếp diễn', form: 'S + was/were + V-ing', use: 'đang diễn ra tại một lúc trong quá khứ', example: 'At 9 p.m., I was studying.', lesson: 'past-simple-continuous' },
+  { name: 'Present Perfect', vi: 'Hiện tại hoàn thành', form: 'S + have/has + V3', use: 'quá khứ còn liên quan tới hiện tại', example: 'I have lost my key.', lesson: 'present-perfect' },
+  { name: 'Present Perfect Continuous', vi: 'Hiện tại hoàn thành tiếp diễn', form: 'S + have/has been + V-ing', use: 'quá trình kéo dài tới bây giờ', example: 'I have been studying for two hours.', lesson: 'present-perfect-continuous' },
+  { name: 'Past Perfect', vi: 'Quá khứ hoàn thành', form: 'S + had + V3', use: 'xảy ra trước một mốc quá khứ khác', example: 'When I arrived, the film had started.', lesson: 'past-perfect' },
+  { name: 'will', vi: 'Tương lai với will', form: 'S + will + V', use: 'quyết định tức thì, lời hứa, dự đoán theo ý kiến', example: 'I’ll help you.', lesson: 'future-basics' },
+  { name: 'be going to', vi: 'Dự định', form: 'S + am/is/are going to + V', use: 'ý định có sẵn, dự đoán có dấu hiệu', example: 'It’s going to rain.', lesson: 'future-basics' },
+  { name: 'Future Continuous', vi: 'Tương lai tiếp diễn', form: 'S + will be + V-ing', use: 'sẽ đang diễn ra ở một lúc tương lai', example: 'This time tomorrow, I’ll be taking my exam.', lesson: 'future-continuous-perfect' },
+  { name: 'Future Perfect', vi: 'Tương lai hoàn thành', form: 'S + will have + V3', use: 'sẽ xong trước một mốc tương lai', example: 'By June, I’ll have finished the course.', lesson: 'future-continuous-perfect' },
+]
+
+export const OTHER_FORMS: { name: string; form: string; use: string; lesson: string }[] = [
+  { name: 'Bị động', form: 'be + V3', use: 'nhấn việc được làm / kết quả', lesson: 'passive-voice' },
+  { name: 'Điều kiện loại 1', form: 'If + Present, will + V', use: 'có thể xảy ra thật', lesson: 'conditionals-0-1-2' },
+  { name: 'Điều kiện loại 2', form: 'If + Past, would + V', use: 'giả định trái hiện tại', lesson: 'conditionals-0-1-2' },
+  { name: 'Điều kiện loại 3', form: 'If + had V3, would have V3', use: 'giả định trái quá khứ', lesson: 'third-conditional' },
+  { name: 'Câu tường thuật', form: 'said / told + mệnh đề (lùi thì)', use: 'kể lại lời người khác', lesson: 'reported-speech' },
+  { name: 'So sánh hơn', form: 'adj-er / more adj + than', use: 'so sánh hai đối tượng', lesson: 'comparison' },
+  { name: 'So sánh nhất', form: 'the adj-est / the most adj', use: 'cao nhất trong nhóm', lesson: 'comparison' },
+]
+
+export const TENSE_STEPS: { q: string; a: string }[] = [
+  { q: '1. Chuyện ở **lúc nào**?', a: 'Khoanh từ chỉ thời gian: yesterday / ago / last… → quá khứ; now / at the moment → hiện tại tiếp diễn; tomorrow / next… → tương lai; every day / usually → hiện tại đơn.' },
+  { q: '2. **Xong rồi** hay **đang diễn ra**?', a: 'Đang ở giữa chừng → dạng tiếp diễn (be + V-ing). Đã xong / chỉ là sự kiện → dạng đơn. Nhớ: động từ trạng thái (know, want…) không chia tiếp diễn.' },
+  { q: '3. Có **nối với một mốc khác** không?', a: 'Từ quá khứ kéo tới bây giờ (for / since / so far / ever) → hiện tại hoàn thành. Xảy ra trước một việc quá khứ khác → quá khứ hoàn thành. Xong trước "by + mốc tương lai" → tương lai hoàn thành.' },
+]
+
+// Quy tắc "sau từ này thì động từ ở dạng gì" — gom từ nhiều bài lại để ôn một lượt.
+export const AFTER_RULES: { after: string; use: string; example: string; lesson: string }[] = [
+  { after: 'Modal (can, must, should, will, might…)', use: 'V nguyên mẫu', example: 'You should **study**.', lesson: 'can-could-able' },
+  { after: 'had better / would rather', use: 'V nguyên mẫu', example: 'You’d better **go**.', lesson: 'advice-should' },
+  { after: 'do / does / did (hỏi, phủ định)', use: 'V nguyên mẫu', example: 'He doesn’t **like** it.', lesson: 'present-simple' },
+  { after: 'enjoy, avoid, finish, mind, suggest, consider', use: 'V-ing', example: 'I enjoy **reading**.', lesson: 'verb-ing' },
+  { after: 'decide, hope, plan, want, agree, refuse', use: 'to V', example: 'I decided **to study** abroad.', lesson: 'verb-to-infinitive' },
+  { after: 'want / ask / tell / advise + người', use: 'to V', example: 'She told us **to wait**.', lesson: 'verb-to-infinitive' },
+  { after: 'Giới từ (in, on, about, of…)', use: 'V-ing', example: 'good at **explaining**', lesson: 'preposition-ing' },
+  { after: 'be used to / look forward to', use: 'V-ing', example: 'I’m used to **getting** up early.', lesson: 'preposition-ing' },
+  { after: 'used to (thói quen xưa)', use: 'V nguyên mẫu', example: 'I used to **be** shy.', lesson: 'have-got-used-to' },
+  { after: 'see / hear / watch + người', use: 'V (cả quá trình) / V-ing (giữa chừng)', example: 'I saw him **cross** the road.', lesson: 'purpose-perception' },
+  { after: 'would like', use: 'to V', example: 'Would you like **to join** us?', lesson: 'requests-offers' },
+  { after: 'Would you mind', use: 'V-ing', example: 'Would you mind **waiting**?', lesson: 'requests-offers' },
+  { after: 'It’s time + S', use: 'V2 (quá khứ)', example: 'It’s time we **went** home.', lesson: 'advice-should' },
+  { after: 'have / get + vật', use: 'V3', example: 'I had my laptop **repaired**.', lesson: 'reporting-passive-causative' },
+  { after: 'be (bị động)', use: 'V3', example: 'The email was **sent**.', lesson: 'passive-voice' },
+  { after: 'when / if / as soon as (nói tương lai)', use: 'thì hiện tại (không will)', example: 'I’ll call you when I **arrive**.', lesson: 'future-continuous-perfect' },
+]
+
+export const CONFUSING_PAIRS: { a: string; b: string; explain: string; lesson: string }[] = [
+  { a: 'Present Simple', b: 'Present Continuous', explain: 'thói quen / sự thật ↔ đang xảy ra / tạm thời', lesson: 'present-continuous' },
+  { a: 'Present Perfect', b: 'Past Simple', explain: 'còn nối với hiện tại / thời gian chưa hết ↔ mốc quá khứ đã kết thúc', lesson: 'present-perfect-vs-past-simple' },
+  { a: 'Past Simple', b: 'Past Continuous', explain: 'sự kiện đã xong ↔ việc đang diễn ra làm bối cảnh', lesson: 'past-simple-continuous' },
+  { a: 'will', b: 'be going to', explain: 'quyết định ngay / dự đoán theo ý kiến ↔ kế hoạch có sẵn / có dấu hiệu', lesson: 'future-basics' },
+  { a: 'mustn’t', b: 'don’t have to', explain: 'KHÔNG ĐƯỢC ↔ KHÔNG CẦN', lesson: 'obligation' },
+  { a: 'used to do', b: 'be used to doing', explain: 'ngày xưa từng làm ↔ đã quen với việc gì', lesson: 'preposition-ing' },
+  { a: 'although + mệnh đề', b: 'despite + danh từ / V-ing', explain: 'although it was raining ↔ despite the rain', lesson: 'connectors' },
+  { a: 'by', b: 'until', explain: 'hạn chót (xong trước mốc) ↔ kéo dài liên tục tới mốc', lesson: 'during-while-by-until' },
+  { a: 'boring', b: 'bored', explain: 'gây chán ↔ cảm thấy chán', lesson: 'adjectives-adverbs' },
+  { a: 'hard', b: 'hardly', explain: 'chăm chỉ / vất vả ↔ hầu như không', lesson: 'adjectives-adverbs' },
+  { a: 'so + tính từ', b: 'such + (a/an) + tính từ + danh từ', explain: 'so difficult ↔ such a difficult test', lesson: 'so-such-enough-too' },
+  { a: 'few / little', b: 'a few / a little', explain: 'gần như không có ↔ có một ít', lesson: 'quantifiers' },
+  { a: 'remember doing', b: 'remember to do', explain: 'nhớ đã làm ↔ nhớ phải làm', lesson: 'verb-ing' },
+  { a: 'try doing', b: 'try to do', explain: 'thử xem ↔ cố gắng', lesson: 'gerund-vs-infinitive' },
+]
+
+// Động từ bất quy tắc hay gặp nhất (V1 – V2 – V3) — cần cho quá khứ đơn, thì hoàn thành và bị động.
+export const IRREGULAR_VERBS: [string, string, string, string][] = [
+  ['be', 'was / were', 'been', 'là, thì, ở'],
+  ['become', 'became', 'become', 'trở thành'],
+  ['begin', 'began', 'begun', 'bắt đầu'],
+  ['break', 'broke', 'broken', 'làm vỡ'],
+  ['bring', 'brought', 'brought', 'mang tới'],
+  ['build', 'built', 'built', 'xây'],
+  ['buy', 'bought', 'bought', 'mua'],
+  ['catch', 'caught', 'caught', 'bắt'],
+  ['choose', 'chose', 'chosen', 'chọn'],
+  ['come', 'came', 'come', 'đến'],
+  ['cut', 'cut', 'cut', 'cắt'],
+  ['do', 'did', 'done', 'làm'],
+  ['drink', 'drank', 'drunk', 'uống'],
+  ['drive', 'drove', 'driven', 'lái xe'],
+  ['eat', 'ate', 'eaten', 'ăn'],
+  ['fall', 'fell', 'fallen', 'ngã, rơi'],
+  ['feel', 'felt', 'felt', 'cảm thấy'],
+  ['find', 'found', 'found', 'tìm thấy'],
+  ['fly', 'flew', 'flown', 'bay'],
+  ['forget', 'forgot', 'forgotten', 'quên'],
+  ['get', 'got', 'got / gotten', 'nhận, trở nên'],
+  ['give', 'gave', 'given', 'cho'],
+  ['go', 'went', 'gone', 'đi'],
+  ['grow', 'grew', 'grown', 'lớn lên, trồng'],
+  ['have', 'had', 'had', 'có'],
+  ['hear', 'heard', 'heard', 'nghe'],
+  ['keep', 'kept', 'kept', 'giữ'],
+  ['know', 'knew', 'known', 'biết'],
+  ['leave', 'left', 'left', 'rời đi'],
+  ['lose', 'lost', 'lost', 'làm mất, thua'],
+  ['make', 'made', 'made', 'làm, tạo ra'],
+  ['meet', 'met', 'met', 'gặp'],
+  ['pay', 'paid', 'paid', 'trả tiền'],
+  ['put', 'put', 'put', 'đặt'],
+  ['read', 'read', 'read', 'đọc (V2/V3 đọc là /red/)'],
+  ['rise', 'rose', 'risen', 'tăng lên (hay dùng trong Writing Task 1)'],
+  ['run', 'ran', 'run', 'chạy'],
+  ['say', 'said', 'said', 'nói'],
+  ['see', 'saw', 'seen', 'thấy'],
+  ['sell', 'sold', 'sold', 'bán'],
+  ['send', 'sent', 'sent', 'gửi'],
+  ['sit', 'sat', 'sat', 'ngồi'],
+  ['sleep', 'slept', 'slept', 'ngủ'],
+  ['speak', 'spoke', 'spoken', 'nói (ngôn ngữ)'],
+  ['spend', 'spent', 'spent', 'tiêu, dành (thời gian)'],
+  ['take', 'took', 'taken', 'lấy, mang đi'],
+  ['teach', 'taught', 'taught', 'dạy'],
+  ['tell', 'told', 'told', 'kể, bảo'],
+  ['think', 'thought', 'thought', 'nghĩ'],
+  ['understand', 'understood', 'understood', 'hiểu'],
+  ['win', 'won', 'won', 'thắng'],
+  ['write', 'wrote', 'written', 'viết'],
+]
+
+export interface ReviewQuestion {
+  q: string // có ___ là chỗ trống; phần (…) cuối là gợi ý
+  answers: string[] // các đáp án chấp nhận (so khớp sau khi chuẩn hoá)
+  display: string // đáp án hiển thị
+  why: string
+  lesson: string
+}
+
+export const REVIEW_QUESTIONS: ReviewQuestion[] = [
+  { q: 'She ___ to school by bus every day. (go)', answers: ['goes'], display: 'goes', why: 'Thói quen (every day) + chủ ngữ She → hiện tại đơn thêm -es.', lesson: 'present-simple' },
+  { q: 'Listen! Someone ___ at the door. (knock)', answers: ['is knocking'], display: 'is knocking', why: '"Listen!" → đang xảy ra ngay lúc nói.', lesson: 'present-continuous' },
+  { q: 'I ___ him yesterday. (see)', answers: ['saw'], display: 'saw', why: 'yesterday = mốc quá khứ đã kết thúc → quá khứ đơn.', lesson: 'past-simple-continuous' },
+  { q: 'At 9 last night, we ___ for the test. (study)', answers: ['were studying'], display: 'were studying', why: 'Đang diễn ra tại một thời điểm cụ thể trong quá khứ.', lesson: 'past-simple-continuous' },
+  { q: 'I ___ just ___ my homework. (finish)', answers: ['have finished', 'have just finished'], display: 'have … finished', why: '"just" = vừa mới → hiện tại hoàn thành.', lesson: 'present-perfect' },
+  { q: 'How long ___ you ___ English? (learn)', answers: ['have been learning'], display: 'have … been learning', why: 'How long + quá trình kéo dài tới giờ → HTHT tiếp diễn.', lesson: 'present-perfect-continuous' },
+  { q: 'I haven’t seen her ___ Monday. (for / since)', answers: ['since'], display: 'since', why: 'Monday là mốc bắt đầu → since.', lesson: 'present-perfect-continuous' },
+  { q: 'She ___ to Paris twice. (be)', answers: ['has been'], display: 'has been', why: 'Kinh nghiệm (twice), đã đi và đã về → has been.', lesson: 'present-perfect' },
+  { q: 'When I arrived, the film ___. (start)', answers: ['had started', 'had already started'], display: 'had started', why: 'Phim bắt đầu TRƯỚC lúc tôi đến (cũng ở quá khứ) → quá khứ hoàn thành.', lesson: 'past-perfect' },
+  { q: 'I used to ___ very shy. (be)', answers: ['be'], display: 'be', why: 'used to + V nguyên mẫu.', lesson: 'have-got-used-to' },
+  { q: 'Look at those clouds. It ___ rain. (will / is going to)', answers: ['is going to', "'s going to"], display: 'is going to', why: 'Dự đoán có dấu hiệu trước mắt (mây đen) → be going to.', lesson: 'future-basics' },
+  { q: 'I think AI ___ change many jobs. (will / is going to)', answers: ['will'], display: 'will', why: '"I think" → dự đoán theo ý kiến cá nhân → will.', lesson: 'future-basics' },
+  { q: 'By next month, I ___ the course. (finish)', answers: ['will have finished', "'ll have finished"], display: 'will have finished', why: 'by + mốc tương lai → tương lai hoàn thành.', lesson: 'future-continuous-perfect' },
+  { q: 'I’ll call you when I ___ home. (get)', answers: ['get'], display: 'get', why: 'Sau when (nói tương lai) dùng hiện tại đơn, không dùng will.', lesson: 'future-continuous-perfect' },
+  { q: 'She ___ speak Japanese when she was six. (can / could)', answers: ['could'], display: 'could', why: 'Khả năng chung trong quá khứ → could.', lesson: 'can-could-able' },
+  { q: 'You ___ park here. It’s forbidden. (mustn’t / don’t have to)', answers: ["mustn't", 'must not'], display: 'mustn’t', why: '"forbidden" = bị cấm → mustn’t.', lesson: 'obligation' },
+  { q: 'You ___ bring a laptop; we have spare ones. (mustn’t / don’t have to)', answers: ["don't have to", 'do not have to'], display: 'don’t have to', why: 'Có sẵn máy rồi → không CẦN mang.', lesson: 'obligation' },
+  { q: 'You ___ get more sleep. (should)', answers: ['should'], display: 'should', why: 'Lời khuyên → should + V.', lesson: 'advice-should' },
+  { q: 'I ___ have told you earlier. (should)', answers: ['should'], display: 'should', why: 'should have + V3 = lẽ ra nên làm (nhưng đã không làm).', lesson: 'advice-should' },
+  { q: 'Would you mind ___ the window? (close)', answers: ['closing'], display: 'closing', why: 'Would you mind + V-ing.', lesson: 'requests-offers' },
+  { q: 'If I have time, I ___ you. (call)', answers: ['will call', "'ll call"], display: 'will call', why: 'If + hiện tại → điều kiện loại 1 → will + V.', lesson: 'conditionals-0-1-2' },
+  { q: 'If I were you, I ___ that offer. (accept)', answers: ['would accept', "'d accept"], display: 'would accept', why: 'If I were you = giả định (loại 2) → would + V.', lesson: 'conditionals-0-1-2' },
+  { q: 'If she had left earlier, she ___ the bus. (not / miss)', answers: ["wouldn't have missed", 'would not have missed'], display: 'wouldn’t have missed', why: 'If + had V3 → loại 3 → would (not) have + V3.', lesson: 'third-conditional' },
+  { q: 'I wish I ___ more free time. (have)', answers: ['had'], display: 'had', why: 'Ước ở hiện tại → wish + quá khứ.', lesson: 'conditionals-0-1-2' },
+  { q: 'English ___ in many countries. (speak)', answers: ['is spoken'], display: 'is spoken', why: 'Tiếng Anh "được nói" → bị động hiện tại đơn: is + V3.', lesson: 'passive-voice' },
+  { q: 'I had my phone ___. (repair)', answers: ['repaired'], display: 'repaired', why: 'have + vật + V3 = nhờ người khác sửa.', lesson: 'reporting-passive-causative' },
+  { q: 'She said that she ___ tired. (be)', answers: ['was'], display: 'was', why: 'Tường thuật với said → lùi thì: is → was.', lesson: 'reported-speech' },
+  { q: 'Do you know where he ___? (live)', answers: ['lives'], display: 'lives', why: 'Câu hỏi gián tiếp → trật tự câu kể (he lives), không đảo.', lesson: 'questions' },
+  { q: 'You’re ready, ___ you?', answers: ["aren't"], display: 'aren’t', why: 'Câu khẳng định với are → đuôi phủ định aren’t.', lesson: 'auxiliaries-tags' },
+  { q: 'I enjoy ___ podcasts. (listen to)', answers: ['listening to'], display: 'listening to', why: 'enjoy + V-ing.', lesson: 'verb-ing' },
+  { q: 'My teacher encouraged me ___ more. (speak)', answers: ['to speak'], display: 'to speak', why: 'encourage + người + to V.', lesson: 'verb-to-infinitive' },
+  { q: 'I’m used to ___ up early. (get)', answers: ['getting'], display: 'getting', why: 'be used to + V-ing (to là giới từ).', lesson: 'preposition-ing' },
+  { q: 'This app is easy ___. (use)', answers: ['to use'], display: 'to use', why: 'Tính từ + to V.', lesson: 'purpose-perception' },
+  { q: 'I need ___ information. (a / some)', answers: ['some'], display: 'some', why: 'information không đếm được → không dùng a.', lesson: 'countable-uncountable' },
+  { q: 'I saw ___ interesting book. ___ book was about space.', answers: ['an the', 'an, the'], display: 'an … The', why: 'Lần đầu nhắc → an (trước âm nguyên âm /ɪ/); lần sau → the.', lesson: 'articles' },
+  { q: 'She is ___ engineer. (a / an)', answers: ['an'], display: 'an', why: 'engineer bắt đầu bằng âm nguyên âm → an.', lesson: 'articles' },
+  { q: 'This is my ___ car. (parents / parents’)', answers: ["parents'"], display: 'parents’', why: 'Sở hữu của danh từ số nhiều tận cùng -s → thêm dấu ’ sau s.', lesson: 'names-plurals-possessives' },
+  { q: 'There ___ two students outside. (is / are)', answers: ['are'], display: 'are', why: 'two students là số nhiều → there are.', lesson: 'reflexives-there-it' },
+  { q: 'I don’t have ___ questions. (some / any)', answers: ['any'], display: 'any', why: 'Câu phủ định → any.', lesson: 'quantifiers' },
+  { q: 'Every student ___ an account. (have)', answers: ['has'], display: 'has', why: 'every + danh từ số ít → động từ số ít.', lesson: 'all-both-each' },
+  { q: 'The woman ___ called you is my teacher. (who / which)', answers: ['who', 'that'], display: 'who', why: 'Người → who (hoặc that).', lesson: 'defining-relative' },
+  { q: 'My brother, ___ lives in Hue, is a doctor. (who / that)', answers: ['who'], display: 'who', why: 'Có dấu phẩy (không xác định) → không dùng that.', lesson: 'non-defining-reduced' },
+  { q: 'The lesson was ___. I felt ___. (bored / boring)', answers: ['boring bored', 'boring, bored'], display: 'boring … bored', why: 'Bài học GÂY chán → boring; tôi CẢM THẤY chán → bored.', lesson: 'adjectives-adverbs' },
+  { q: 'She speaks English ___. (fluent / fluently)', answers: ['fluently'], display: 'fluently', why: 'Mô tả động từ speak → trạng từ.', lesson: 'adjectives-adverbs' },
+  { q: 'This task is ___ difficult for beginners. (too / enough)', answers: ['too'], display: 'too', why: 'too + tính từ = quá mức. (enough phải đứng SAU tính từ.)', lesson: 'so-such-enough-too' },
+  { q: 'This book is ___ than that one. (cheap)', answers: ['cheaper'], display: 'cheaper', why: 'Tính từ ngắn + than → thêm -er.', lesson: 'comparison' },
+  { q: 'She is the ___ student in the class. (careful)', answers: ['most careful'], display: 'most careful', why: 'careful là tính từ dài → the most + adj.', lesson: 'comparison' },
+  { q: '___ it was raining, we went out. (Although / Despite)', answers: ['although'], display: 'Although', why: 'Phía sau là mệnh đề (it was raining) → although.', lesson: 'connectors' },
+  { q: 'Please submit the form ___ Friday. (by / until)', answers: ['by'], display: 'by', why: 'Hạn chót → by.', lesson: 'during-while-by-until' },
+  { q: 'I’m interested ___ technology. (in / on)', answers: ['in'], display: 'in', why: 'Cụm cố định: interested in.', lesson: 'word-preposition' },
+]
+
+export const SELF_CHECK: { min: number; label: string; advice: string }[] = [
+  { min: 45, label: 'Nền tảng rất chắc', advice: 'Bắt đầu đưa ngữ pháp vào Speaking và Writing — thử dùng câu điều kiện, bị động, mệnh đề quan hệ trong bài nói/viết.' },
+  { min: 38, label: 'Khá ổn', advice: 'Ôn lại các câu sai theo từng nhóm chủ điểm (bấm vào tên bài bên cạnh câu sai).' },
+  { min: 30, label: 'Cần củng cố', advice: 'Ôn lại các thì, động từ khuyết thiếu, mạo từ và mẫu động từ (V-ing / to V).' },
+  { min: 0, label: 'Nên học lại từ đầu', advice: 'Học lại theo đúng thứ tự, mỗi ngày 1–2 bài, đọc kỹ ví dụ và phần Lỗi thường gặp.' },
+]

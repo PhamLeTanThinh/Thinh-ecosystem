@@ -1,0 +1,825 @@
+/* Ngữ pháp cơ bản (/ielts/grammar) — dùng bảng màu chung của IELTS (--color-ih-*), kính mờ .ih-glass và font chữ tay
+   .ih-font-hand như Học qua phim. Màu nhấn riêng: xanh lá (--gr-accent). */
+.ih-gr {
+  --gr-accent: #2f9e6f;
+  --gr-accent-soft: rgba(47, 158, 111, 0.1);
+  --gr-bad: #c2414b;
+  --gr-good: #217a54;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.ih-gr-narrow {
+  max-width: 900px;
+}
+
+.ih-gr-hero {
+  margin-bottom: 22px;
+}
+
+.ih-gr-kicker {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gr-accent);
+}
+
+.ih-gr-title {
+  margin: 6px 0 0;
+  font-size: clamp(26px, 3.4vw, 36px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ih-gr-vi-title {
+  margin: 4px 0 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-summary {
+  max-width: 760px;
+  margin: 8px 0 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-muted {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-strong {
+  font-weight: 700;
+  color: var(--color-ih-ink);
+}
+
+.ih-gr-en {
+  font-weight: 600;
+}
+
+.ih-gr code,
+.ih-gr-forms code {
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--gr-accent-soft);
+  color: #1d6b4b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.9em;
+  white-space: normal;
+}
+
+/* ── Danh sách bài ── */
+.ih-gr-handbook-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+  padding: 20px 24px;
+  border: 1px solid color-mix(in srgb, var(--gr-accent) 30%, transparent);
+  background: linear-gradient(110deg, color-mix(in srgb, var(--gr-accent) 10%, #fff) 0%, rgba(255, 255, 255, 0.8) 70%);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.ih-gr-handbook-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 36px -14px color-mix(in srgb, var(--gr-accent) 50%, transparent);
+}
+
+.ih-gr-handbook-icon {
+  font-size: 34px;
+}
+
+.ih-gr-handbook-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ih-gr-handbook-title {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.ih-gr-handbook-desc {
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-go {
+  font-size: 22px;
+  color: var(--gr-accent);
+}
+
+.ih-gr-group + .ih-gr-group {
+  margin-top: 26px;
+}
+
+.ih-gr-group-title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--color-ih-ink);
+}
+
+.ih-gr-group-desc {
+  margin: 2px 0 12px;
+  font-size: 13.5px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-lessons {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.ih-gr-lesson {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.ih-gr-lesson:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(60, 50, 90, 0.12);
+}
+
+.ih-gr-no {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--gr-accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.ih-gr-lesson-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ih-gr-lesson-title {
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.ih-gr-lesson-vi {
+  font-size: 13px;
+  color: var(--color-ih-ink-soft);
+}
+
+/* ── Trang 1 bài ── */
+.ih-gr-h {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-h--big {
+  font-size: 18px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--color-ih-ink);
+}
+
+.ih-gr-h3 {
+  margin: 18px 0 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.ih-gr-quick {
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  border-left: 4px solid var(--gr-accent);
+  border-radius: 0 14px 14px 0;
+  background: var(--gr-accent-soft);
+}
+
+.ih-gr-quick p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-ih-ink);
+}
+
+.ih-gr-card {
+  margin-bottom: 16px;
+  padding: 18px 22px;
+}
+
+.ih-gr-two {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 0 16px;
+}
+
+.ih-gr-terms {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+}
+
+.ih-gr-terms div {
+  display: grid;
+  grid-template-columns: minmax(120px, 190px) 1fr;
+  gap: 12px;
+}
+
+.ih-gr-terms dt {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.ih-gr-terms dd {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.ih-gr-forms {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ih-gr-forms th,
+.ih-gr-forms td {
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--color-ih-border);
+  text-align: left;
+  vertical-align: top;
+  font-size: 14px;
+}
+
+.ih-gr-forms tr:last-child th,
+.ih-gr-forms tr:last-child td {
+  border-bottom: 0;
+}
+
+.ih-gr-forms th {
+  width: 34%;
+  padding-right: 14px;
+  font-weight: 600;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-list,
+.ih-gr-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+
+.ih-gr-list {
+  list-style: disc;
+}
+
+.ih-gr-steps {
+  list-style: decimal;
+}
+
+.ih-gr-list li::marker,
+.ih-gr-steps li::marker {
+  color: var(--gr-accent);
+  font-weight: 700;
+}
+
+.ih-gr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ih-gr-chips li {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: var(--gr-accent-soft);
+  font-size: 13px;
+  font-weight: 600;
+  color: #1d6b4b;
+}
+
+.ih-gr-examples,
+.ih-gr-mistakes {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ih-gr-examples li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ih-gr-ex-en {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 15.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.ih-gr-ex-vi {
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-speak {
+  flex: none;
+  padding: 2px 4px;
+  border-radius: 999px;
+  color: var(--color-ih-ink-soft);
+  font-size: 14px;
+}
+
+.ih-gr-speak:hover {
+  color: var(--gr-accent);
+}
+
+.ih-gr-mistakes li {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.ih-gr-wrong {
+  font-size: 14.5px;
+  color: var(--gr-bad);
+  text-decoration: line-through;
+  text-decoration-color: rgba(194, 65, 75, 0.45);
+}
+
+.ih-gr-right {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--gr-good);
+}
+
+.ih-gr-why {
+  font-size: 13.5px;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-note {
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  border-radius: 16px;
+}
+
+.ih-gr-note p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+}
+
+.ih-gr-note--compare {
+  background: rgba(124, 92, 255, 0.08);
+}
+
+.ih-gr-note--tip {
+  background: rgba(255, 214, 102, 0.22);
+}
+
+.ih-gr-pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.ih-gr-pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.ih-gr-pager-link--next {
+  text-align: right;
+}
+
+.ih-gr-pager-dir {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gr-accent);
+}
+
+.ih-gr-pager-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ── Cẩm nang ── */
+.ih-gr-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.ih-gr-toc a {
+  padding: 5px 12px;
+  border: 1px solid var(--color-ih-border);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--color-ih-ink);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ih-gr-toc a:hover {
+  border-color: var(--gr-accent);
+  color: var(--gr-accent);
+}
+
+.ih-gr-anchor {
+  scroll-margin-top: 80px;
+}
+
+.ih-gr-table-wrap {
+  margin-top: 10px;
+  overflow-x: auto;
+}
+
+.ih-gr-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.ih-gr-table th,
+.ih-gr-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--color-ih-border);
+  text-align: left;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+.ih-gr-table th {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-table tbody tr:hover {
+  background: rgba(47, 158, 111, 0.05);
+}
+
+.ih-gr-irr {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.ih-gr-irr thead th {
+  position: sticky;
+  top: 0;
+  background: #fff;
+}
+
+.ih-gr-lesson-link {
+  display: inline-block;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--gr-accent-soft);
+  color: #1d6b4b;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.ih-gr-lesson-link:hover {
+  background: var(--gr-accent);
+  color: #fff;
+}
+
+.ih-gr-flow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.ih-gr-flow-step {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--gr-accent-soft);
+}
+
+.ih-gr-flow-q {
+  margin: 0 0 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.ih-gr-flow-a {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--color-ih-ink);
+}
+
+.ih-gr-pairs {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ih-gr-pairs li {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.4fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.ih-gr-pair {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ih-gr-vs {
+  padding: 0 6px;
+  border-radius: 999px;
+  background: rgba(124, 92, 255, 0.12);
+  color: #6741d9;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.ih-gr-pair-explain {
+  color: var(--color-ih-ink-soft);
+}
+
+/* ── 50 câu ôn tập ── */
+.ih-gr-quiz {
+  margin-top: 14px;
+}
+
+.ih-gr-quiz-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ih-gr-q {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid transparent;
+}
+
+.ih-gr-q.is-ok {
+  border-color: rgba(47, 158, 111, 0.45);
+}
+
+.ih-gr-q.is-bad {
+  border-color: rgba(194, 65, 75, 0.45);
+}
+
+.ih-gr-q-no {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  background: rgba(43, 58, 85, 0.08);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.ih-gr-q.is-ok .ih-gr-q-no {
+  background: var(--gr-good);
+  color: #fff;
+}
+
+.ih-gr-q.is-bad .ih-gr-q-no {
+  background: var(--gr-bad);
+  color: #fff;
+}
+
+.ih-gr-q-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ih-gr-q-text {
+  margin: 0;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.ih-gr-q-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--color-ih-border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--color-ih-ink);
+  font-size: 14px;
+}
+
+.ih-gr-q-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--gr-accent) 45%, transparent);
+  border-color: var(--gr-accent);
+}
+
+.ih-gr-q-result {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.ih-gr-q-mark {
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.ih-gr-q.is-ok .ih-gr-q-mark {
+  color: var(--gr-good);
+}
+
+.ih-gr-q.is-bad .ih-gr-q-mark {
+  color: var(--gr-bad);
+}
+
+.ih-gr-q-why {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-ih-ink-soft);
+}
+
+.ih-gr-quiz-bar {
+  position: sticky;
+  bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 18px;
+}
+
+.ih-gr-score {
+  font-size: 15px;
+}
+
+.ih-gr-score b {
+  font-size: 20px;
+  color: var(--gr-accent);
+}
+
+.ih-gr-btn {
+  padding: 9px 22px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--gr-accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ih-gr-btn:hover {
+  filter: brightness(1.08);
+}
+
+/* ── Thẻ trên trang chủ IELTS (SkillLanding) ── */
+.ih-landing-grammar {
+  --mv: #2f9e6f;
+}
+
+.ih-landing-grammar-art {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 8px;
+  padding-right: 6px;
+}
+
+.ih-landing-grammar-art span {
+  padding: 8px 12px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--mv) 25%, #fff);
+  background: #fff;
+  box-shadow: 0 8px 18px -10px rgba(30, 60, 40, 0.35);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: #1d6b4b;
+  white-space: nowrap;
+}
+
+.ih-landing-grammar-art span:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+
+.ih-landing-grammar-art span:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+@media (max-width: 640px) {
+  .ih-gr-handbook-card {
+    padding: 16px;
+  }
+
+  .ih-gr-card {
+    padding: 14px 16px;
+  }
+
+  .ih-gr-terms div {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .ih-gr-forms th {
+    width: 40%;
+  }
+
+  .ih-gr-pairs li {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .ih-gr-quiz-list {
+    grid-template-columns: 1fr;
+  }
+
+  .ih-gr-pager {
+    grid-template-columns: 1fr;
+  }
+
+  .ih-landing-grammar-art {
+    order: -1;
+    justify-content: center;
+  }
+}
