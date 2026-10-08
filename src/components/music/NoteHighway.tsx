@@ -5,9 +5,9 @@ import type { ScheduleStep, Hand } from '@/lib/music/scorePlayback'
 import { wholeNoteSeconds, midiToSolfege } from '@/lib/music/scorePlayback'
 import { KEYBOARD_LAYOUT, keyForMidi } from '@/lib/music/keyboardLayout'
 
-const HIGHWAY_HEIGHT = 170
+const DEFAULT_HEIGHT = 170
 const PIXELS_PER_SECOND = 130 // tốc độ rơi cố định theo giây thật — đổi tempo chỉ đổi khoảng cách giữa các nốt, không đổi tốc độ rơi
-const LOOKAHEAD_SECONDS = HIGHWAY_HEIGHT / PIXELS_PER_SECOND + 0.3 // +0.3 để nốt không "hiện đột ngột" ngay sát mép trên
+const LOOKAHEAD_EXTRA_SECONDS = 0.3 // nhìn trước thêm 0.3s để nốt không "hiện đột ngột" ngay sát mép trên
 const MIN_NOTE_HEIGHT = 12
 
 interface FlatNote {
@@ -21,13 +21,15 @@ interface Props {
   schedule: ScheduleStep[]
   elapsedWhole: number // vị trí đang phát, tính theo nốt tròn — cùng đơn vị/đồng hồ với ScorePlayer
   bpm: number
+  height?: number // chiều cao vùng nốt rơi (px) — thu thấp lại ở chế độ toàn màn hình để nhường chỗ cho bản nhạc
 }
 
 // "Đường nốt rơi" kiểu Synthesia: khối nốt trôi từ trên xuống, chạm đúng cột phím của nó (vẽ trong
 // PianoKeyboard, ngay bên dưới, cùng 1 container cuộn ngang — xem PianoKeyboard.tsx) đúng lúc cần chơi,
 // để biết trước sắp tới nốt nào mà không phải đọc khuông nhạc. Tốc độ rơi tính bằng giây thật (không
 // theo BPM) nên đổi tempo không làm nốt rơi nhanh/chậm bất thường, chỉ đổi khoảng cách giữa các nốt.
-export function NoteHighway({ schedule, elapsedWhole, bpm }: Props) {
+export function NoteHighway({ schedule, elapsedWhole, bpm, height: highwayHeight = DEFAULT_HEIGHT }: Props) {
+  const lookaheadSeconds = highwayHeight / PIXELS_PER_SECOND + LOOKAHEAD_EXTRA_SECONDS
   // Chỉ làm phẳng lại khi đổi bài (schedule đổi tham chiếu) — không phải mỗi lần elapsedWhole nhích tới.
   const flatNotes = useMemo<FlatNote[]>(() => {
     const out: FlatNote[] = []
@@ -45,15 +47,15 @@ export function NoteHighway({ schedule, elapsedWhole, bpm }: Props) {
       const n = flatNotes[i]
       const secStart = (n.atWhole - elapsedWhole) * wns
       const secEnd = (n.atWhole + n.durWhole - elapsedWhole) * wns
-      if (secEnd <= 0 || secStart >= LOOKAHEAD_SECONDS) continue // đã chơi xong hẳn, hoặc còn quá xa chưa cần vẽ
+      if (secEnd <= 0 || secStart >= lookaheadSeconds) continue // đã chơi xong hẳn, hoặc còn quá xa chưa cần vẽ
 
       const key = keyForMidi(n.midi)
       if (!key) continue
 
       // Đáy khối = lúc nốt BẮT ĐẦU (kẹp ở đúng mép dưới khi đang kêu, secStart<=0). Đỉnh = lúc nốt KẾT
       // THÚC, nới lên đủ MIN_NOTE_HEIGHT cho nốt ngắn vẫn thấy được, rồi kẹp trong khung nhìn.
-      const bottomY = HIGHWAY_HEIGHT - Math.max(secStart, 0) * PIXELS_PER_SECOND
-      const rawTopY = Math.min(HIGHWAY_HEIGHT - secEnd * PIXELS_PER_SECOND, bottomY - MIN_NOTE_HEIGHT)
+      const bottomY = highwayHeight - Math.max(secStart, 0) * PIXELS_PER_SECOND
+      const rawTopY = Math.min(highwayHeight - secEnd * PIXELS_PER_SECOND, bottomY - MIN_NOTE_HEIGHT)
       const topY = Math.max(rawTopY, 0)
       const height = bottomY - topY
       if (height <= 0) continue
@@ -72,14 +74,14 @@ export function NoteHighway({ schedule, elapsedWhole, bpm }: Props) {
       })
     }
     return result
-  }, [flatNotes, elapsedWhole, wns])
+  }, [flatNotes, elapsedWhole, wns, highwayHeight, lookaheadSeconds])
 
   return (
     <svg
       className="ms-highway-svg"
       width="100%"
-      height={HIGHWAY_HEIGHT}
-      viewBox={`0 0 ${KEYBOARD_LAYOUT.width} ${HIGHWAY_HEIGHT}`}
+      height={highwayHeight}
+      viewBox={`0 0 ${KEYBOARD_LAYOUT.width} ${highwayHeight}`}
       preserveAspectRatio="none"
       role="img"
       aria-label="Xem trước các nốt sắp tới"

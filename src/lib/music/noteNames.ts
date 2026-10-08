@@ -30,6 +30,8 @@ export function injectSolfegeLyrics(xmlText: string): Document {
   for (const note of notes) {
     if (note.getElementsByTagName('rest').length > 0) continue
     if (note.getElementsByTagName('chord').length > 0) continue
+    // Nốt hoa mỹ (grace note) không chiếm phách riêng — ghi tên sẽ đè lên chữ của nốt chính ngay sau nó.
+    if (note.getElementsByTagName('grace').length > 0) continue
 
     const pitchEl = note.getElementsByTagName('pitch')[0]
     if (!pitchEl) continue

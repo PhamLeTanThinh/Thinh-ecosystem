@@ -33,17 +33,20 @@ export default async function MusicSongPage({ params }: PageProps<'/music/favori
         <div>
           <h1 className="ms-title">{song.title}</h1>
           <p className="ms-subtitle">
-            {song.artist} · Arr. {song.arranger}
+            {song.artist}
+            {song.arranger && ` · Arr. ${song.arranger}`}
           </p>
         </div>
-        <div className="ms-song-actions">
-          <a href={song.pdf} target="_blank" rel="noreferrer" className="ms-btn">
-            Mở tab mới
-          </a>
-          <a href={song.pdf} download className="ms-btn ms-btn-primary">
-            Tải PDF
-          </a>
-        </div>
+        {song.pdf && (
+          <div className="ms-song-actions">
+            <a href={song.pdf} target="_blank" rel="noreferrer" className="ms-btn">
+              Mở tab mới
+            </a>
+            <a href={song.pdf} download className="ms-btn ms-btn-primary">
+              Tải PDF
+            </a>
+          </div>
+        )}
       </div>
 
       <SongView song={song} pageImages={songPageImages(song)} />

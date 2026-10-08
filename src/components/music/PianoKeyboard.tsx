@@ -13,22 +13,29 @@ interface Props {
   schedule: ScheduleStep[]
   elapsedWhole: number
   bpm: number
+  // Tổng chiều cao (px) cả vùng nốt rơi + phím đàn. Không truyền thì dùng cỡ mặc định (170 + 110). Ở chế độ
+  // toàn màn hình, người dùng kéo thanh chia giữa bản nhạc và phần đàn để đổi số này (xem ScorePlayer).
+  height?: number
 }
 
 // Phím đàn piano 88 phím mô phỏng, sáng lên đúng những nốt đang vang khi phát bản nhạc. SVG vẽ theo
 // toạ độ cố định (KEYBOARD_LAYOUT, đơn vị "px thật" ở cỡ 26px/phím trắng) nhưng luôn stretch full
 // width khung chứa qua width="100%" + preserveAspectRatio="none" — coi toạ độ layout như tỉ lệ tương
 // đối giữa các phím chứ không phải kích thước hiển thị thật, nên không cần cuộn ngang.
-export function PianoKeyboard({ activeMidi, schedule, elapsedWhole, bpm }: Props) {
+export function PianoKeyboard({ activeMidi, schedule, elapsedWhole, bpm, height }: Props) {
+  // Phím trắng chiếm ~40% tổng chiều cao (trong khoảng 60–150px), phần còn lại cho nốt rơi; phím đen = 62% phím trắng.
+  const whiteH = height ? Math.round(Math.min(150, Math.max(60, height * 0.4))) : 110
+  const blackH = Math.round(whiteH * 0.62)
+  const highwayH = height ? Math.max(40, height - whiteH) : undefined
   return (
     <div className="ms-piano-scroll">
-      <NoteHighway schedule={schedule} elapsedWhole={elapsedWhole} bpm={bpm} />
+      <NoteHighway schedule={schedule} elapsedWhole={elapsedWhole} bpm={bpm} height={highwayH} />
 
       <svg
         className="ms-piano-svg"
         width="100%"
-        height={110}
-        viewBox={`0 0 ${KEYBOARD_LAYOUT.width} 110`}
+        height={whiteH}
+        viewBox={`0 0 ${KEYBOARD_LAYOUT.width} ${whiteH}`}
         preserveAspectRatio="none"
         role="img"
         aria-label="Phím đàn piano mô phỏng"
@@ -41,7 +48,7 @@ export function PianoKeyboard({ activeMidi, schedule, elapsedWhole, bpm }: Props
               x={k.x}
               y={0}
               width={k.width}
-              height={110}
+              height={whiteH}
               rx={2}
               className={`ms-key ms-key-white${activeMidi.has(k.midi) ? ` ms-key-active-${activeMidi.get(k.midi)}` : ''}`}
             />
@@ -54,7 +61,7 @@ export function PianoKeyboard({ activeMidi, schedule, elapsedWhole, bpm }: Props
               x={k.x}
               y={0}
               width={k.width}
-              height={68}
+              height={blackH}
               rx={1.5}
               className={`ms-key ms-key-black${activeMidi.has(k.midi) ? ` ms-key-active-${activeMidi.get(k.midi)}` : ''}`}
             />

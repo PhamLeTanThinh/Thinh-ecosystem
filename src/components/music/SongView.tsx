@@ -22,7 +22,7 @@ export function SongView({ song, pageImages }: Props) {
 
   return (
     <>
-      {song.musicxml && (
+      {song.musicxml && song.pdf && (
         <div className="ms-view-toggle" role="tablist" aria-label="Cách xem bản nhạc">
           <button type="button" role="tab" aria-selected={view === 'score'} className="ms-view-tab" onClick={() => setView('score')}>
             ♪ Bản nhạc tương tác
@@ -34,7 +34,7 @@ export function SongView({ song, pageImages }: Props) {
       )}
 
       {view === 'score' && song.musicxml ? (
-        <ScorePlayer slug={song.slug} title={song.title} musicxml={song.musicxml} />
+        <ScorePlayer slug={song.slug} title={song.title} musicxml={song.musicxml} defaultBpm={song.bpm} />
       ) : (
         <div className="ms-song-frame">
           <div className="ms-pdf-pages">

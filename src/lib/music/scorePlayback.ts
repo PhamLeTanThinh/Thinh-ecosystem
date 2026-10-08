@@ -14,6 +14,9 @@ export interface ScheduleNote {
 // độc lập với tempo, để đổi BPM khi đang phát không cần build lại lịch phát.
 export interface ScheduleStep {
   atWhole: number
+  // Mốc của chính vị trí này trên bản nhạc (chưa trải dấu lặp) — khác atWhole khi bài có đoạn lặp. Dùng để
+  // tìm đúng bước khi bấm vào 1 nốt trên khuông (OSMD trả về mốc trên bản nhạc, không biết đang ở lần lặp nào).
+  atSheet: number
   notes: ScheduleNote[]
 }
 
@@ -33,7 +36,11 @@ export function buildPlaybackSchedule(osmd: OpenSheetMusicDisplay): ScheduleStep
 
   while (!cursor.iterator.EndReached && guard < MAX_STEPS_GUARD) {
     guard++
-    const atWhole = cursor.iterator.currentTimeStamp.RealValue
+    // CurrentEnrolledTimestamp = mốc thời gian đã "trải" các dấu lặp (repeat, khung 1/khung 2): con trỏ OSMD
+    // tự quay lại đầu đoạn lặp, currentTimeStamp (mốc trên bản nhạc) khi đó lùi về — lịch phát cần mốc
+    // luôn tăng dần theo thời gian chơi thật.
+    const atWhole = cursor.iterator.CurrentEnrolledTimestamp.RealValue
+    const atSheet = cursor.iterator.currentTimeStamp.RealValue
     const notes: ScheduleStep['notes'] = []
 
     for (const note of cursor.NotesUnderCursor()) {
@@ -54,13 +61,16 @@ export function buildPlaybackSchedule(osmd: OpenSheetMusicDisplay): ScheduleStep
       notes.push({ midi, durWhole, hand })
     }
 
-    steps.push({ atWhole, notes })
+    steps.push({ atWhole, atSheet, notes })
     cursor.next()
   }
 
   cursor.reset()
   return steps
 }
+
+// Tempo mặc định (nốt đen/phút) khi bài hát không khai báo bpm riêng (xem songs.ts).
+export const DEFAULT_BPM = 100
 
 // 1 nốt tròn kéo dài bao nhiêu giây ở một tempo (bpm) cho trước — quy ước bpm tính theo nốt đen
 // (chuẩn phổ biến của MusicXML/metronome), nên 1 nốt tròn = 4 phách = 240/bpm giây.
