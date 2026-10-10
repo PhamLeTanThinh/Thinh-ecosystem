@@ -332,6 +332,301 @@ export const RESEARCH_PAPERS: ResearchPaper[] = [
       },
     ],
   },
+  {
+    slug: 'blister-package-identification-induced-deep-learning',
+    title: 'Pharmaceutical Blister Package Identification Based on Induced Deep Learning',
+    authors: 'Han Y, Chung SL, Xiao Q, Wang JS, Su SF',
+    year: 2021,
+    venue: 'IEEE Access, vol. 9, pp. 101344–101356',
+    fields: ['Computer Vision', 'Healthcare AI', 'Deep Learning'],
+    doi: '10.1109/ACCESS.2021.3097181',
+    sourceUrl: 'https://doi.org/10.1109/ACCESS.2021.3097181',
+    // Open access (CC BY 4.0), host local giống các paper khác.
+    pdfUrl: '/api/papers/blister-package-identification-induced-deep-learning',
+    summary:
+      'Đề xuất Induced Deep Learning (IDL): thay vì đưa ảnh thô cho mạng tự học, dùng xử lý ảnh truyền thống (xoá nền → tìm 4 góc vỉ bằng Hough transform → nắn phối cảnh) để tạo ảnh chuẩn RTI 448×448 ghép mặt trước + mặt sau của vỉ thuốc, rồi mới đưa vào CNN. Trên cùng bộ 250 loại thuốc của bệnh viện MacKay (như paper DLDI), RTI đẩy F1 của YOLO v2 / ResNet-101 / SE-ResNet-101 từ 65–96% (ảnh 1 mặt) lên 99.78% / 99.79% / 99.97%. Hệ thống thật gồm hộp gỗ 2 camera chụp 2 mặt qua tấm kính + Jetson TX2 chạy Tiny YOLO tối ưu, đạt 6.23 FPS, nhận diện đúng 100% và chạy ổn định gần 2 năm tại bệnh viện.',
+    highlights: [
+      {
+        heading: 'Bối cảnh — Lỗi phát thuốc & 4 khó khăn của bài toán',
+        page: 1,
+        explanation:
+          'Lỗi phát thuốc gây thiệt hại rất lớn: riêng ở Mỹ khoảng 8.000 người chết mỗi năm, thiệt hại ~20 tỉ USD; nguyên nhân chính là khối lượng công việc — giờ cao điểm ở bệnh viện MacKay (Đài Bắc), dược sĩ phải phát trung bình 2 thuốc/phút, gần như không còn thời gian kiểm tra lại. Cách nhận diện thông thường là OCR chữ in mặt sau vỉ, nhưng chữ thường rất nhỏ, méo, loá sáng hoặc in màu nhạt nên OCR hay thất bại. Nhóm tác giả nêu 4 khó khăn đặc thù: (1) ít mẫu — chỉ chụp được 72 ảnh mỗi mặt cho mỗi loại thuốc; (2) vỉ trông rất giống nhau — đa số bọc nhôm bạc, thuốc cùng hãng/cùng công dụng chỉ khác chút chữ và logo; (3) số lượng lớp lớn — hàng trăm loại thuốc vỉ; (4) yêu cầu độ chính xác gần 100%, cao hơn hẳn bài toán nhận diện vật thể thông thường.',
+        terms: [
+          { term: 'Dispensing error (lỗi phát thuốc)', explain: 'Dược sĩ đưa sai thuốc, sai liều hoặc sai người so với toa — loại lỗi y khoa có thể gây hậu quả nghiêm trọng, thường do mệt mỏi, áp lực và thiếu bước kiểm tra lại.' },
+          { term: 'OCR (Optical Character Recognition)', explain: 'Nhận dạng chữ trong ảnh. Cách hiển nhiên để đọc tên thuốc ở mặt sau vỉ, nhưng kém bền với chữ nhỏ, bị loá, bị cong theo bề mặt vỉ.' },
+          { term: 'Fine-grained classification', explain: 'Phân loại các lớp rất giống nhau, chỉ khác ở chi tiết nhỏ (như các vỉ nhôm bạc chỉ khác dòng chữ) — khó hơn nhiều so với phân biệt chó/mèo.' },
+        ],
+      },
+      {
+        heading: 'Ý tưởng cốt lõi — Induced Deep Learning (IDL)',
+        page: 2,
+        explanation:
+          '"Induction" (dẫn dắt) nghĩa là đưa kinh nghiệm của con người vào để hướng deep learning học đúng đặc trưng quan trọng, thay vì để mạng tự mò từ thật nhiều dữ liệu. Tác giả ví như giáo viên khoanh vùng trước kì thi: học sinh đỡ tốn công mà vẫn đạt điểm tốt. Cụ thể với vỉ thuốc: con người biết thông tin phân biệt nằm ở CHÍNH tấm vỉ (không phải nền), ở CẢ 2 mặt, và không phụ thuộc vỉ nằm ở đâu, xoay góc nào, to hay nhỏ. Vì vậy trước khi vào CNN, ảnh được cắt đúng vỉ, nắn thẳng về kích thước cố định 448×224, rồi ghép mặt trước + mặt sau thành 1 ảnh duy nhất gọi là RTI. Mạng không phải tốn "sức học" để bỏ qua nền, xoay, co giãn nữa — chỉ còn tập trung phân biệt chữ, logo, hình viên thuốc. Đây thực chất là một kĩ thuật feature engineering ở tầng đầu vào; cái tên "induced deep learning" là cách nhóm tác giả đặt, không phải thuật ngữ chuẩn trong ngành.',
+        terms: [
+          { term: 'Induction (dẫn dắt)', explain: 'Mượn từ sinh học: dùng hiểu biết của con người (chọn nguồn thông tin, tiền xử lý, trích đặc trưng) để định hướng mạng học — một chiến lược tối ưu theo ứng dụng, không phải kiến trúc mạng mới.' },
+          { term: 'RTI (Re-oriented Two-sided Image)', explain: 'Ảnh 448×448 gồm ảnh mặt trước và mặt sau của cùng 1 vỉ, mỗi mặt đã được nắn thẳng về 448×224 rồi ghép cạnh nhau theo cạnh dài. Đây là đầu vào duy nhất mà mạng nhìn thấy.' },
+          { term: 'Inductive bias', explain: 'Thuật ngữ chuẩn trong ML cho "giả định có sẵn" mà ta cài vào mô hình (vd CNN giả định đặc trưng cục bộ, bất biến vị trí). IDL là cách đưa thêm inductive bias ở tầng dữ liệu đầu vào.' },
+        ],
+      },
+      {
+        heading: 'Related work — 3 dòng nhận diện thuốc',
+        page: 3,
+        explanation:
+          'Giải pháp phần cứng hiện có: mã vạch (phải quét và đối chiếu thủ công từng túi thuốc, chậm), tủ thuốc RFID (phải sửa lại tủ thuốc cũ), tủ phát thuốc tự động (đắt, chỉ bệnh viện lớn mua nổi) — nên bệnh viện vừa và nhỏ cần một giải pháp rẻ, tự động. Về nhận diện bằng ảnh có 3 dòng: (1) viên thuốc rời (tablet) — dựa vào màu, hình, chữ khắc (CoforDes, MobileDeepPill, MedGlasses...); (2) hộp thuốc (drug package) — cho máy bán thuốc hoặc người khiếm thị; (3) vỉ thuốc (blister package) — dựa vào hoa văn mặt trước và chữ mặt sau, trước dùng template matching, gần đây dùng deep learning, chủ yếu từ chính nhóm của Chung: RIN (vỉ bị che khuất), Fast ROR (vỉ cầm trên tay, chỉ 1 mặt). Phần tổng quan về CNN điểm qua VGG → ResNet (shortcut chống mất gradient) → SENet (đánh trọng số kênh đặc trưng), và các detector R-CNN → YOLO → SSD → YOLO v2/v3/v4.',
+        terms: [
+          { term: 'ResNet (Residual Network)', explain: 'CNN có "shortcut connection" cộng thẳng đầu vào vào đầu ra của mỗi khối, giúp gradient truyền ngược tốt nên train được mạng rất sâu (101 layer ở bài này).' },
+          { term: 'SENet (Squeeze-and-Excitation)', explain: 'Khối gắn thêm vào CNN: "nén" mỗi kênh đặc trưng thành 1 số, rồi học trọng số để khuếch đại kênh quan trọng và làm yếu kênh vô ích — một dạng channel attention. SE-ResNet-101 là ResNet-101 gắn khối SE.' },
+          { term: 'Object detection vs classification', explain: 'Detection (YOLO) vừa tìm vị trí vừa gán nhãn vật thể trong ảnh; classification (ResNet, SENet) chỉ gán 1 nhãn cho cả ảnh. Bài này thử cả 2 loại.' },
+          { term: 'Template matching', explain: 'Kĩ thuật cổ điển: trượt một ảnh mẫu trên ảnh cần tìm và đo độ khớp — đơn giản nhưng nhạy với xoay, co giãn, ánh sáng.' },
+        ],
+      },
+      {
+        heading: 'Khung hệ thống phát thuốc & vai trò của nhận diện',
+        page: 4,
+        explanation:
+          'Hệ thống phát thuốc của bệnh viện có 6 đầu: bác sĩ (kê toa), thu ngân (đăng kí, thanh toán), bệnh nhân (nhận thông báo, hướng dẫn uống), cloud server (trung tâm trao đổi dữ liệu), quản lý (giám sát, phân tích) và quầy phát thuốc — phần cốt lõi, nơi đối chiếu toa và xác nhận thuốc. BPIS được đặt ở quầy phát thuốc: dược sĩ đặt vỉ vừa lấy vào máy, máy nhận ra tên thuốc để so với toa. Điểm thực tế: hệ thống chỉ kiểm tra, không thay đổi quy trình hay tủ thuốc hiện có — khác với RFID hay tủ tự động.',
+        terms: [
+          { term: 'Drug verification (xác minh thuốc)', explain: 'Bước kiểm tra thuốc dược sĩ đã lấy có khớp đúng với toa không, trước khi giao cho bệnh nhân — đây là chỗ BPIS can thiệp.' },
+          { term: 'Human-in-the-loop', explain: 'Máy hỗ trợ nhưng con người vẫn ra quyết định cuối cùng — BPIS đóng vai "người kiểm tra thứ hai" chứ không thay dược sĩ.' },
+        ],
+      },
+      {
+        heading: 'Bước 1 — Xoá nền & tìm đúng tấm vỉ',
+        page: 5,
+        explanation:
+          'Bốn yếu tố gây nhiễu được nhắm tới: nền và ánh sáng, kích thước vỉ khác nhau, góc nhìn camera thay đổi, và thông tin trên mỗi mặt vỉ có hạn. Bước xoá nền: chuyển ảnh BGR sang ảnh xám → lọc trung vị (median blur) để khử nhiễu → dò cạnh và đường viền (contour) → lấy bao lồi (convex hull) của các đường viền → chọn bao lồi LỚN NHẤT làm tấm vỉ. Toàn bộ là xử lý ảnh cổ điển kiểu OpenCV, không dùng deep learning — chạy nhanh, dễ hiểu, và hoạt động tốt vì nền trong hộp chụp được làm tối hẳn (dán vải nhung đen).',
+        terms: [
+          { term: 'Median blur (lọc trung vị)', explain: 'Thay mỗi điểm ảnh bằng giá trị trung vị của vùng lân cận — khử nhiễu hạt tốt mà vẫn giữ được cạnh sắc.' },
+          { term: 'Contour (đường viền)', explain: 'Đường cong nối các điểm biên của một vùng ảnh — dùng để tách hình dạng tấm vỉ khỏi nền.' },
+          { term: 'Convex hull (bao lồi)', explain: 'Đa giác lồi nhỏ nhất bao trọn một tập điểm, như căng sợi dây thun quanh vật. Giúp lấp các chỗ lõm/khuyết trên đường viền vỉ để có hình bao gọn gàng.' },
+        ],
+      },
+      {
+        heading: 'Bước 2 & 3 — Tìm 4 góc bằng Hough transform & nắn thẳng',
+        page: 6,
+        explanation:
+          'Vỉ thường hình chữ nhật hoặc tứ giác có 1 cạnh cong, nên chỉ cần tìm 3 cạnh thẳng. Algorithm 1: Hough transform cho ra mọi đường thẳng ứng viên, mỗi đường mô tả bằng (ρ, θ), xếp theo số phiếu bầu; lấy đường mạnh nhất làm mốc, rồi nhận thêm đường mới chỉ khi nó cách các đường đã chọn hơn 50 px (theo ρ) hoặc lệch hơn 0.5 rad (theo θ) — tránh lấy trùng 1 cạnh nhiều lần — tới khi đủ 3 đường. Algorithm 2: giao điểm của 3 đường cho 2 góc P1, P4; lấy trung điểm M của P1P4 và trọng tâm B của đường viền vỉ, vector v = B − M; 2 góc còn lại là P2 = P1 + 2v, P3 = P4 + 2v (đối xứng qua tâm — mẹo hình học rất gọn, nhưng ngầm giả định vỉ gần như hình bình hành). Bước 3: sắp thứ tự góc sao cho bắt đầu từ cạnh NGẮN (nếu P1P2 dài hơn P2P3 thì xoay vòng thứ tự), tính ma trận phối cảnh từ 4 góc tới khuôn 448×224, nắn từng mặt, rồi ghép 2 mặt theo cạnh dài thành RTI 448×448.',
+        terms: [
+          { term: 'Hough transform', explain: 'Kĩ thuật tìm đường thẳng: mỗi điểm cạnh "bỏ phiếu" cho mọi đường có thể đi qua nó trong không gian tham số (ρ, θ); đường nào nhiều phiếu nhất là đường thật trong ảnh.' },
+          { term: 'ρ (rho) và θ (theta)', explain: 'Hai tham số mô tả 1 đường thẳng: ρ là khoảng cách ngắn nhất từ gốc toạ độ tới đường, θ là góc giữa đường và trục x.' },
+          { term: 'Barycenter (trọng tâm)', explain: 'Tâm khối lượng của vùng đường viền — với hình đối xứng, đây chính là tâm hình, nên đối xứng 2 góc đã biết qua tâm sẽ ra 2 góc còn lại.' },
+          { term: 'Perspective transform (biến đổi phối cảnh)', explain: 'Ma trận 3×3 (homography) ánh xạ 4 góc của tứ giác méo sang 4 góc hình chữ nhật chuẩn — "trải phẳng" vỉ chụp nghiêng về dạng nhìn thẳng.' },
+        ],
+      },
+      {
+        heading: 'Phần cứng — Hộp chụp 2 mặt & Jetson TX2',
+        page: 7,
+        explanation:
+          'Hộp gỗ khoảng 40×40×40 cm, giữa có tấm kính trong; 2 camera Logitech BRIO đặt đối diện nhau (1 trên nóc, 1 dưới đáy) cùng nhìn vào tấm kính, nên đặt vỉ lên là chụp được cả 2 mặt CÙNG LÚC. Dải đèn LED quanh thành hộp, cách kính 2 cm phía trên và dưới, cho ánh sáng ổn định; bên trong dán vải nhung đen chống loá, chỉ chừa vùng kính 30×25 cm đúng bằng vùng chụp. Huấn luyện trên PC có GPU GTX 1080 (Ti), sau đó chép file trọng số sang Jetson TX2 (256 CUDA core, RAM 8GB) đặt ở từng quầy phát thuốc. Nhận xét: phần cứng "kiểm soát môi trường" này là nửa còn lại của thành công — nền đen, đèn cố định khiến bước xoá nền gần như luôn đúng. Đây cũng là "induction" nhưng ở tầng phần cứng.',
+        terms: [
+          { term: 'NVIDIA Jetson TX2', explain: 'Máy tính nhúng có GPU 256 nhân Pascal, RAM 8GB — mạnh hơn Jetson Nano, đủ chạy nhận diện thời gian thực, nhỏ gọn và rẻ hơn PC để đặt ở quầy.' },
+          { term: 'Train on PC, deploy on edge', explain: 'Mô hình train trên máy mạnh (GPU desktop), rồi chỉ chép trọng số xuống thiết bị nhúng để suy luận — cách triển khai phổ biến cho AI tại hiện trường.' },
+          { term: 'Controlled acquisition (chụp có kiểm soát)', explain: 'Cố định nền, ánh sáng, khoảng cách chụp để ảnh ít biến động — làm bài toán dễ hơn hẳn, đổi lại hệ thống chỉ đúng trong chiếc hộp đó.' },
+        ],
+      },
+      {
+        heading: 'Tối ưu Tiny YOLO cho thiết bị nhúng (Table 1)',
+        page: 8,
+        explanation:
+          'Trên Jetson dùng Tiny YOLO (bản rút gọn YOLO v2, chỉ 9 lớp tích chập, viết bằng C nên nhanh, nhận diện > 200 FPS). Các chỉnh sửa: ảnh vào giảm từ 416×416 xuống 224×224 (RTI đã đủ thông tin); tăng biến đổi ngẫu nhiên độ bão hoà (saturation) và phơi sáng (exposure) từ 50% lên 100% để chịu được thay đổi ánh sáng; lưới dự đoán đổi từ 13×13 xuống 7×7 (224/32); số anchor từ 5 xuống 1, với kích thước anchor 7×7 — tức là phủ TOÀN BỘ ảnh; tắt jitter (cắt ngẫu nhiên khung 20%) và multi-scale training (320–608) vì RTI luôn cố định kích thước và vỉ luôn chiếm trọn ảnh. Hiểu đúng bản chất: sau IDL thì không còn gì để "phát hiện vị trí" nữa — YOLO được biến thành một bộ PHÂN LOẠI cả ảnh, mọi phần định vị bị vô hiệu hoá có chủ đích.',
+        terms: [
+          { term: 'Tiny YOLO', explain: 'Phiên bản thu nhỏ của YOLO v2 với ít lớp và ít tham số, đánh đổi độ chính xác lấy tốc độ — hợp với thiết bị nhúng.' },
+          { term: 'Anchor box', explain: 'Các khung mẫu với kích thước định sẵn mà YOLO dùng làm điểm xuất phát để dự đoán bounding box. Chỉ còn 1 anchor phủ cả ảnh = chỉ dự đoán "cả ảnh là loại thuốc gì".' },
+          { term: 'Grid cell (ô lưới)', explain: 'YOLO chia ảnh thành lưới S×S, mỗi ô chịu trách nhiệm dự đoán vật thể có tâm nằm trong ô đó. Lưới 7×7 với ảnh 224 vì mạng giảm kích thước 32 lần.' },
+          { term: 'Jitter', explain: 'Augmentation cắt/dịch khung ảnh ngẫu nhiên khi train để mô hình chịu được vật lệch vị trí — vô ích khi vỉ đã được nắn chuẩn nên bị tắt.' },
+        ],
+      },
+      {
+        heading: 'Dataset & thiết kế thí nghiệm',
+        page: 9,
+        explanation:
+          'Dữ liệu từ khu thuốc viên người lớn của bệnh viện MacKay Đài Bắc: 250 loại thuốc × 72 ảnh mỗi mặt = 36.000 ảnh gốc — trùng khớp với bộ dữ liệu của paper DLDI (cùng nhóm tác giả Chung SL). Sau xử lý có tổng 90.000 ảnh gồm 3 loại: ảnh gốc (36.000, cho YOLO), ảnh đã cắt vỉ (36.000, cho ResNet/SENet) và RTI (18.000). Thuật toán chưa phân biệt được vỉ xuôi hay lộn ngược, nên mỗi vỉ được tạo 4 RTI cho đủ 4 tổ hợp xuôi/ngược của 2 mặt. Thiết kế 3 thí nghiệm trên 3 mạng (YOLO v2, ResNet-101, SE-ResNet-101): (1) chỉ ảnh mặt trước; (2) chỉ ảnh mặt sau — 2 thí nghiệm này là deep learning thông thường; (3) RTI — tức IDL. Luật train thống nhất: ảnh 224×224, KHÔNG augmentation, KHÔNG pre-train, batch size 8, tối đa 100 epoch, lưu trọng số mỗi epoch.',
+        terms: [
+          { term: 'Ablation / controlled comparison', explain: 'So sánh mà chỉ thay đúng 1 yếu tố (ở đây là loại ảnh đầu vào: trước / sau / RTI), giữ nguyên mọi thứ khác — để chứng minh cải thiện đến từ đúng yếu tố đó.' },
+          { term: 'Benchmark algorithm', explain: 'Các mạng phổ biến được dùng làm chuẩn đối chứng. Việc IDL cải thiện cả 3 mạng khác nhau cho thấy hiệu quả không phụ thuộc kiến trúc cụ thể.' },
+          { term: 'Training from scratch', explain: 'Train từ trọng số ngẫu nhiên, không dùng pre-trained model — làm việc so sánh công bằng giữa các mạng nhưng tốn thời gian hơn (SE-ResNet mất tới ~40 giờ).' },
+        ],
+      },
+      {
+        heading: 'Kết quả — RTI đẩy mọi mạng lên ~99.8%',
+        page: 10,
+        explanation:
+          'Chia 54 ảnh train / 18 ảnh test mỗi loại (13.500 / 4.500), lặp 4 lần lấy trung bình, đo bằng Precision, Recall, F1. F1 theo từng thí nghiệm (trước → sau → RTI): YOLO v2 65.39% → 86.48% → 99.78%; ResNet-101 85.25% → 86.68% → 99.79%; SE-ResNet-101 90.90% → 96.23% → 99.97%. Ba quan sát: (1) mặt sau luôn tốt hơn mặt trước vì có chữ, liều lượng, logo — khớp kết luận của DLDI; (2) với ảnh 1 mặt, mạng mạnh hơn giúp rõ rệt (YOLO < ResNet < SENet), nhưng với RTI thì cả 3 mạng gần như ngang nhau ở ~99.8% — tức là CHẤT LƯỢNG ĐẦU VÀO quan trọng hơn kiến trúc mạng; (3) RTI còn train nhanh hơn và ít epoch hơn: YOLO 7h42 → 4h33, ResNet 29h35 → 16h15, SE-ResNet 40h12 → 28h48.',
+        terms: [
+          { term: 'Precision / Recall / F1-score', explain: 'Precision: trong các lần đoán là thuốc X, bao nhiêu % đúng. Recall: trong các thuốc X thật, nhận ra bao nhiêu %. F1: trung bình điều hoà của hai chỉ số, dùng làm thước đo chính.' },
+          { term: 'Data-centric AI', explain: 'Hướng tiếp cận cải thiện mô hình bằng cách làm dữ liệu tốt hơn (sạch, chuẩn hoá, đúng thông tin) thay vì đổi kiến trúc — kết quả "mọi mạng đều lên 99.8% với RTI" là ví dụ điển hình.' },
+        ],
+      },
+      {
+        heading: 'So sánh SOTA & hệ thống thời gian thực',
+        page: 11,
+        explanation:
+          'Table 7 so sánh: YOLO v2 89.39%, ResNet-101 92.68%, SE-ResNet-101 97.32%, RIN 95.30%, Fast ROR 95.6%, IDL 99.98%. Lưu ý: 3 con số đầu chính là Precision của thí nghiệm ảnh mặt sau ở Table 4–6, cột trong bảng ghi "Precision" dù phần text gọi là "recognition rate"; RIN và Fast ROR là số từ paper gốc, giải bài khác (vỉ bị che khuất, vỉ cầm tay 1 mặt) nên đặt cạnh nhau không hẳn công bằng. Hệ thống nhúng: Tiny YOLO tối ưu đạt F1 100% trên 4.500 RTI test sau 2h34 phút (epoch 40). Trên Jetson TX2, khâu tạo RTI mất ~0.12 giây (~8.33 FPS) — đây là nút thắt cổ chai, vì riêng mạng nhận diện chạy được ~200 FPS; cả chuỗi đạt ~6.23 FPS với độ chính xác 100% (Table 8). Gần 2 năm chạy thực tế tại bệnh viện, tác giả báo chưa phát hiện lỗi nhận diện nào do hệ thống.',
+        terms: [
+          { term: 'Bottleneck (nút thắt cổ chai)', explain: 'Khâu chậm nhất quyết định tốc độ cả hệ thống. Ở đây là bước xử lý ảnh cổ điển tạo RTI (0.12s), không phải mạng nơ-ron (~0.005s).' },
+          { term: 'FPS (frames per second)', explain: 'Số khung hình xử lý được mỗi giây. 6.23 FPS là đủ cho tình huống dược sĩ đặt vỉ vào và chờ kết quả trong chưa tới 1 giây.' },
+          { term: 'SOTA (State of the art)', explain: 'Phương pháp tốt nhất hiện có được công bố. So với SOTA chỉ có ý nghĩa khi cùng dữ liệu và cùng cách đo.' },
+        ],
+      },
+      {
+        heading: 'Đọc phản biện — Vì sao 99.98% cần đọc cẩn thận',
+        page: 11,
+        explanation:
+          'Điểm mạnh: ý tưởng đơn giản mà hiệu quả (chuẩn hoá đầu vào bằng kiến thức miền), được chứng minh trên 3 kiến trúc khác nhau, có hệ thống phần cứng hoàn chỉnh, rẻ, triển khai thật 2 năm — hiếm thấy ở paper ứng dụng. Điểm cần cảnh giác: (1) KHÔNG có tập validation — tác giả thừa nhận và chọn model tốt nhất theo F1 ngay trên tập test, nên con số test bị lạc quan (optimistic bias); (2) chia ngẫu nhiên 54/18 ảnh của CÙNG 1 vỉ vật lý chụp nhiều góc — ảnh test rất giống ảnh train, và sau khi nắn thẳng thì RTI gần như trùng nhau; 99.98% đo khả năng "nhận lại đúng vỉ đã thấy", chưa phải vỉ mới cùng loại (khác lô, khác hạn dùng, vỉ nhàu); (3) mâu thuẫn với paper DLDI cùng nhóm: cùng dữ liệu, cùng YOLO v2, cùng cách chia, nhưng DLDI báo F1 mặt trước 93.72% / mặt sau 95.99%, còn bài này chỉ 65.39% / 86.48% — baseline thấp làm mức cải thiện của IDL trông lớn hơn; (4) chưa giải được vỉ xuôi/ngược, phải nhân 4 RTI; con số 18.000 RTI cũng không khớp rõ với việc tạo 4 RTI mỗi vỉ; (5) "100% thời gian thực" và "2 năm không lỗi" không kèm số lượt kiểm tra hay quy trình ghi nhận lỗi; (6) hệ thống phụ thuộc hộp chụp kiểm soát và vỉ còn đủ 3 cạnh thẳng — vỉ bị cắt rời, cầm tay hoặc chồng nhau nằm ngoài phạm vi; (7) chi tiết nhỏ: phần cứng train khi ghi GTX 1080, khi ghi GTX 1080 Ti.',
+        terms: [
+          { term: 'Optimistic bias', explain: 'Kết quả bị đánh giá cao hơn thực tế vì tập test đã được dùng để chọn model — test không còn "chưa từng thấy" theo đúng nghĩa.' },
+          { term: 'Near-duplicate leakage', explain: 'Ảnh test gần như trùng ảnh train (cùng vật thể, chỉ khác góc chụp nhẹ) — mô hình có thể "nhớ" thay vì tổng quát hoá. Cách chia đúng hơn là theo vỉ/lô thuốc (group split).' },
+          { term: 'Generalization (khả năng tổng quát hoá)', explain: 'Mô hình còn đúng với dữ liệu thật sự mới (vỉ mới, lô mới, điều kiện mới) hay không — điều mà con số trên tập test ngẫu nhiên chưa chứng minh được.' },
+        ],
+      },
+      {
+        heading: 'Kết luận & liên hệ với 2 paper trước',
+        page: 12,
+        explanation:
+          'Tác giả kết luận: IDL (xoá nền, nắn thẳng, ghép 2 mặt) giải quyết các khó khăn chính của bài toán vỉ thuốc — nhiều loại, rất giống nhau, ít mẫu — và hệ thống BPIS chạy nhanh, chính xác, ổn định, không cần sửa đổi gì ở nhà thuốc, phù hợp cơ sở y tế vừa và nhỏ. Đặt cạnh 2 paper đã đọc: (1) DLDI (2020, cùng nhóm, cùng dữ liệu) — train 2 model riêng cho mặt trước và mặt sau, kết luận mặt sau tốt hơn; bài này tiến 1 bước: dùng CẢ 2 mặt trong 1 ảnh và chuẩn hoá trước, chính là hướng "kết hợp 2 mặt vào 1 model" mà DLDI đề xuất cho tương lai; (2) Assistive Robot (2025, Philippines) — dùng YOLOv5 trên ảnh thô mặt sau của vỉ cắt rời, chỉ 20 lớp, đạt ~90%: cho thấy khi không chuẩn hoá đầu vào và không có môi trường chụp kiểm soát, độ chính xác giảm rõ dù mạng mới hơn. Bài học chung: với bài toán hẹp, yêu cầu gần 100%, kiến thức miền + kiểm soát dữ liệu đầu vào thường đáng giá hơn đổi sang mạng mạnh hơn.',
+        terms: [
+          { term: 'Domain knowledge (kiến thức miền)', explain: 'Hiểu biết đặc thù của lĩnh vực (ở đây: thông tin nằm trên tấm vỉ, ở cả 2 mặt, hình dạng vỉ gần chữ nhật) — được mã hoá thành bước tiền xử lý.' },
+          { term: 'Hybrid pipeline', explain: 'Kết hợp xử lý ảnh cổ điển (Hough, convex hull, phối cảnh) với deep learning — mỗi bên làm phần mình mạnh nhất.' },
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'visionlan-scene-text-recognition',
+    title: 'From Two to One: A New Scene Text Recognizer with Visual Language Modeling Network',
+    authors: 'Wang Y, Xie H, Fang S, Wang J, Zhu S, Zhang Y',
+    year: 2021,
+    venue: 'ICCV 2021 (arXiv:2108.09661)',
+    fields: ['Computer Vision', 'NLP', 'Deep Learning'],
+    sourceUrl: 'https://arxiv.org/abs/2108.09661',
+    pdfUrl: '/api/papers/visionlan-scene-text-recognition',
+    summary:
+      'VisionLAN bỏ hẳn language model riêng trong bài toán đọc chữ trong ảnh (Scene Text Recognition): khi train, module MLM tự tìm và che (mask) đặc trưng của 1 kí tự ngẫu nhiên, buộc mô hình thị giác phải đoán kí tự bị che từ các kí tự xung quanh — tức là tự học "ngữ pháp" của từ ngay trong không gian ảnh. Khi test bỏ MLM, chỉ còn 1 mô hình vision duy nhất ("from two to one"): không tốn thêm tham số nào cho phần ngôn ngữ, nhanh hơn SRN 39% (11.5ms vs 19ms), đạt SOTA trên 6 benchmark (IIIT5K 95.8%, IC15 83.7%...), dataset chữ Trung dài TRW15 (88.7%) và dataset chữ bị che OST mới đề xuất (60.3%).',
+    highlights: [
+      {
+        heading: 'Bài toán — Đọc chữ trong ảnh & 2 vấn đề của kiến trúc 2 bước',
+        page: 1,
+        explanation:
+          'Scene Text Recognition (STR) là đọc chuỗi chữ từ ảnh tự nhiên đã được cắt sẵn vùng chữ (biển hiệu, nhãn hàng, bao bì...). Chỉ nhìn hình dạng kí tự thì sẽ bó tay khi chữ bị che, mờ, nhiễu — nên các phương pháp gần đây dùng kiến trúc 2 BƯỚC: mô hình thị giác (vision model) đọc từng kí tự, rồi mô hình ngôn ngữ (language model — RNN, CNN hoặc Transformer) sửa lại dựa trên quan hệ giữa các kí tự, giống như ta đoán "h_use" là "house". Tác giả chỉ ra 2 vấn đề: (1) chi phí tính toán thêm rất lớn và tăng theo độ dài từ — tuyến tính với RNN/CNN, bậc 2 với Transformer, và còn gấp đôi nếu suy luận 2 chiều; (2) khó kết hợp hai nguồn thông tin đến từ 2 cấu trúc tách rời. Gốc rễ theo tác giả: bản thân vision model không có năng lực ngôn ngữ.',
+        terms: [
+          { term: 'Scene Text Recognition (STR)', explain: 'Nhận dạng chữ trong ảnh chụp tự nhiên (khác OCR tài liệu scan): chữ có thể cong, nghiêng, mờ, bị che, nền phức tạp. Đầu vào là ảnh đã cắt vùng chữ, đầu ra là chuỗi kí tự.' },
+          { term: 'Vision model vs Language model', explain: 'Vision model đoán kí tự dựa trên hình ảnh (nét chữ). Language model đoán dựa trên ngữ cảnh chuỗi (kí tự nào hay đi cùng kí tự nào) — bù lại khi hình ảnh không rõ.' },
+          { term: 'Linguistic information', explain: 'Thông tin "ngôn ngữ" trong 1 từ: quy luật chính tả, các tổ hợp chữ thường gặp. Ví dụ thấy "bette_" thì kí tự cuối nhiều khả năng là "r".' },
+        ],
+      },
+      {
+        heading: 'Ý tưởng — Cho vision model tự có năng lực ngôn ngữ',
+        page: 2,
+        explanation:
+          'Lấy cảm hứng từ cách con người học ngôn ngữ, tác giả không gắn thêm language model mà HUẤN LUYỆN vision model đoán kí tự bị che. VisionLAN có 3 phần: backbone (trích đặc trưng ảnh V), Masked Language-aware Module — MLM (chỉ dùng lúc train, tạo mặt nạ che đúng 1 kí tự trên bản đồ đặc trưng) và Visual Reasoning Module — VRM (đọc từ trên đặc trưng đã bị che). Vì kí tự bị che không còn tín hiệu hình ảnh, VRM buộc phải học cách suy ra nó từ các kí tự xung quanh — tức là tự học thông tin ngôn ngữ ngay trong không gian thị giác. Khi test bỏ MLM đi, VRM vẫn giữ được năng lực đó và tự động dùng ngữ cảnh khi chữ khó nhìn. Kết quả: phần ngôn ngữ có chi phí bằng 0 khi suy luận, nhanh hơn 39%. Ba đóng góp: kiến trúc mới 1 bước; Weakly-supervised Complementary Learning (WCL) để tạo mặt nạ từng kí tự chỉ từ nhãn cấp từ; dataset Occlusion Scene Text (OST).',
+        terms: [
+          { term: 'VisionLAN (Visual Language Modeling Network)', explain: 'Mạng đọc chữ coi thông tin hình ảnh và ngôn ngữ là một khối thống nhất trong 1 mô hình duy nhất, thay vì 2 mô hình nối tiếp.' },
+          { term: 'Training-only module', explain: 'Module chỉ tồn tại lúc train để định hướng việc học (như MLM ở đây), bị bỏ đi khi suy luận nên không làm chậm mô hình triển khai.' },
+          { term: 'Zero extra inference cost', explain: 'Năng lực ngôn ngữ được "nhúng" vào trọng số của vision model, nên lúc chạy thật không cần thêm tham số hay phép tính nào cho phần ngôn ngữ.' },
+        ],
+      },
+      {
+        heading: 'Related work — Language-free vs Language-aware & ý tưởng masking',
+        page: 2,
+        explanation:
+          'Language-free coi STR là bài toán phân loại thị giác thuần: CRNN (CNN + RNN + CTC), coi là bài toán so khớp với bảng chữ cái, phân loại từng pixel (TextScanner)... — hay sai khi chữ mờ, bị che. Language-aware dùng quy luật ngôn ngữ: ASTER nắn thẳng chữ rồi dùng RNN giải mã từng bước (chậm vì tuần tự); SRN dùng Transformer làm language model toàn cục nhận đầu ra của vision model để sửa; ABINet-kiểu (Fang et al.) làm cả vision lẫn language bằng CNN. Ý tưởng che-rồi-đoán bắt nguồn từ BERT (masked language modeling — che token trong câu) và các mô hình vision-language như ViLBERT. Khác biệt: dữ liệu STR chỉ có nhãn cấp TỪ (không biết từng kí tự nằm ở đâu), nên không thể che theo token hay pixel như BERT; VisionLAN tự học vị trí cần che ở mức đặc trưng.',
+        terms: [
+          { term: 'CTC (Connectionist Temporal Classification)', explain: 'Hàm loss/giải mã cho phép học chuỗi kí tự từ chuỗi đặc trưng mà không cần biết trước kí tự nào ứng với vị trí nào — nền tảng của CRNN.' },
+          { term: 'BERT & Masked Language Modeling', explain: 'BERT che ngẫu nhiên một số từ trong câu và bắt mô hình đoán lại từ ngữ cảnh 2 phía — cách học biểu diễn ngôn ngữ rất mạnh. VisionLAN mượn ý tưởng này nhưng che trên bản đồ đặc trưng ảnh.' },
+          { term: 'Rectification (nắn chữ)', explain: 'Bước biến đổi ảnh chữ cong/nghiêng thành chữ thẳng trước khi đọc (như ASTER dùng TPS) — VisionLAN không cần bước này mà vẫn tốt hơn trên chữ méo.' },
+          { term: 'Weak supervision (giám sát yếu)', explain: 'Huấn luyện chỉ với nhãn thô hơn cái cần học — ở đây chỉ biết cả từ là "house" mà phải tự học vị trí từng kí tự.' },
+        ],
+      },
+      {
+        heading: 'MLM — Tự che đúng 1 kí tự chỉ với nhãn cấp từ (WCL)',
+        page: 4,
+        explanation:
+          'MLM nhận đặc trưng V và chỉ số kí tự P (chọn ngẫu nhiên từ 1 tới độ dài từ), qua 1 transformer unit, kết hợp thông tin vị trí P, rồi qua sigmoid để ra mặt nạ Mask_c. Làm sao để mặt nạ che ĐÚNG kí tự thứ P khi không có nhãn vị trí? Weakly-supervised Complementary Learning dùng 2 nhánh song song chia sẻ trọng số: nhánh 1 lấy V × Mask_c (phần bị che) và phải đọc ra đúng kí tự bị che; nhánh 2 lấy V × (1 − Mask_c) (phần còn lại) và phải đọc ra chuỗi còn lại. Ví dụ từ "burns", P = 1: nhánh 1 phải ra "b", nhánh 2 phải ra "urns". Hai ràng buộc bù trừ nhau ép mặt nạ phủ trọn kí tự "b" mà không lấn sang kí tự khác. Nhãn cho 2 nhánh được sinh tự động từ nhãn từ gốc (vd "house", P = 4 → "s" và "houe"), nên không cần gán nhãn thêm. Lớp dự đoán dùng attention theo vị trí: Att = Softmax(W1·tanh(W2·O_c + W3·V)), rồi kí tự thứ t là tổng có trọng số của V theo Att_t; N = 25 bước tối đa, c = 512 kênh.',
+        terms: [
+          { term: 'Mask_c (character mask map)', explain: 'Bản đồ giá trị 0–1 cùng kích thước đặc trưng, cao ở vùng của kí tự cần che. Nhân V với (1 − Mask_c) sẽ xoá thông tin hình ảnh của kí tự đó.' },
+          { term: 'Complementary learning (học bù trừ)', explain: 'Hai nhánh với 2 mục tiêu đối nghịch (phần bị che vs phần còn lại) cùng ràng buộc một mặt nạ, khiến nó phải tách bạch chính xác — không che thiếu, không che lấn.' },
+          { term: 'Attention-based parallel decoding', explain: 'Mỗi vị trí kí tự t có một bản đồ attention riêng chọn vùng ảnh tương ứng, và cả N kí tự được dự đoán cùng lúc (song song) chứ không tuần tự như RNN.' },
+          { term: 'Positional encoding', explain: 'Vector mã hoá vị trí (thứ tự kí tự, toạ độ pixel) cộng vào đặc trưng để Transformer — vốn không phân biệt thứ tự — biết "kí tự thứ mấy" và "ở đâu".' },
+        ],
+      },
+      {
+        heading: 'VRM — Suy luận từ trên đặc trưng bị che',
+        page: 5,
+        explanation:
+          'VRM gồm Visual Semantic Reasoning (VSR) layer — một chồng transformer unit có positional encoding để nắm quan hệ xa (long-range dependency) giữa các vùng ảnh — và Parallel Prediction layer dự đoán mọi kí tự song song (cùng công thức attention như MLM). Khi kí tự thứ i bị MLM che, VSR chỉ còn cách dựa vào đặc trưng của các kí tự khác để đoán nó — đúng dạng language modeling y_i = f(các kí tự còn lại), nhưng diễn ra trong không gian ảnh. Khác với SRN dùng Transformer cho mô hình ngôn ngữ thuần (đầu vào là chuỗi kí tự đã đoán), Transformer ở đây làm việc trên đặc trưng ảnh nên chi phí không phụ thuộc độ dài từ. Hình 5 minh hoạ: không có MLM thì mô hình đọc "bettep" và "rrans"; có MLM thì đọc đúng "better" và "trans" — VSR đã bù đặc trưng cho kí tự "r" bị che và làm nổi nét phân biệt của "t". Loss tổng: L = L_rec + 0.5·L_mas + 0.5·L_rem, đều là cross-entropy.',
+        terms: [
+          { term: 'Transformer unit', explain: 'Khối self-attention + feed-forward: mỗi vị trí "nhìn" mọi vị trí khác để tổng hợp thông tin, nên nắm được quan hệ xa tốt hơn CNN/RNN.' },
+          { term: 'Long-range dependency', explain: 'Quan hệ giữa các phần xa nhau trong chuỗi/ảnh — ví dụ kí tự đầu và cuối của từ — cần thiết để suy ra kí tự bị che từ ngữ cảnh.' },
+          { term: 'Cross-entropy loss', explain: 'Hàm mất mát chuẩn cho phân loại: phạt nặng khi mô hình gán xác suất thấp cho nhãn đúng. Ở đây tính trung bình trên N vị trí kí tự.' },
+        ],
+      },
+      {
+        heading: 'Thiết lập thí nghiệm & dataset OST',
+        page: 5,
+        explanation:
+          'Train trên 2 bộ dữ liệu TỔNG HỢP (synthetic): SynthText và Synth90K; đánh giá trên 6 benchmark thật — 3 bộ "regular" (chữ thẳng: IIIT5K, IC13, SVT) và 3 bộ "irregular" (chữ cong, nghiêng, mờ: IC15, SVTP, CUTE80). Dataset mới OST gồm 4.832 ảnh lấy từ 6 benchmark, mỗi ảnh bị che thủ công ĐÚNG 1 kí tự bằng 1 nét (weak) hoặc 2 nét (heavy). Cấu hình: backbone ResNet45, ảnh 256×64, augmentation xoay/đổi màu/biến dạng phối cảnh, 4 GPU V100, batch 384, Adam lr 1e-4, 37 lớp (a–z, 0–9, kí hiệu kết thúc). Train 2 giai đoạn: Language-Free (ngắt MLM khỏi VRM, VRM học thuần thị giác cho ổn định) rồi Language-Aware (dùng Mask_c che đặc trưng, chỉ che một tỉ lệ mẫu trong batch).',
+        terms: [
+          { term: 'Synthetic data (dữ liệu tổng hợp)', explain: 'Ảnh chữ do máy sinh ra (render font lên nền thật) — rẻ, có nhãn tự động, hàng triệu mẫu. Chuẩn chung của STR: train trên synthetic, test trên ảnh thật.' },
+          { term: 'Regular vs Irregular text', explain: 'Regular: chữ ngang, rõ. Irregular: chữ cong, nghiêng, phối cảnh, mờ — khó hơn và là nơi language info giúp nhiều nhất.' },
+          { term: 'Two-stage training (LF → LA)', explain: 'Học thị giác ổn định trước, rồi mới bật cơ chế che để học ngôn ngữ — tránh việc 2 module chưa học được gì đã ràng buộc lẫn nhau.' },
+        ],
+      },
+      {
+        heading: 'Ablation — Che bao nhiêu, nhánh nào, so với Dropout/Cutout',
+        page: 6,
+        explanation:
+          'Baseline ở các bảng ablation là VRM với 2 transformer unit, không có MLM. (1) Tỉ lệ mẫu bị che trong batch (Table 1): tỉ lệ 1:1 tốt nhất — IIIT5K 94.5 → 95.4, IC15 79.8 → 81.8, SVTP 81.1 → 83.7, CUTE 85.8 → 88.2; tăng lên 2:1 thì giảm nhẹ vì mất cân bằng giữa mẫu đủ và thiếu thông tin hình ảnh. Bộ irregular lợi ít nhất ~2%, đúng như kì vọng. (2) WCL (Table 2): dùng cả 2 nhánh tốt hơn chỉ dùng 1 nhánh (Mas only hoặc Rem only) trên mọi bộ. (3) So với che ngẫu nhiên (Table 3, accuracy trung bình): Dropout 89.0, Cutout 89.0 (chỉ +0.2) so với MLM 90.2 (+1.4 so với baseline 88.8) — chứng tỏ cái lợi không đến từ "che ngẫu nhiên để regularize" mà từ việc che ĐÚNG một kí tự để buộc suy luận ngôn ngữ. (4) VRM 3 unit tốt hơn 2 unit (Table 4) — năng lực ngôn ngữ mạnh hơn; bản cuối dùng 3 unit.',
+        terms: [
+          { term: 'Ablation study', explain: 'Bỏ/đổi từng thành phần để đo đóng góp riêng của nó — ở đây chứng minh lần lượt MLM, WCL, cách che và số transformer unit đều có ích.' },
+          { term: 'Dropout', explain: 'Ngẫu nhiên tắt một phần neuron khi train để chống overfitting — che ngẫu nhiên, không có chủ đích theo kí tự.' },
+          { term: 'Cutout', explain: 'Augmentation xoá một ô vuông ngẫu nhiên trên ảnh/đặc trưng — cũng là che, nhưng không đảm bảo che đúng trọn 1 kí tự.' },
+        ],
+      },
+      {
+        heading: 'Kết quả — SOTA trên 6 benchmark, nhanh hơn 39%',
+        page: 7,
+        explanation:
+          'Table 5 (không dùng từ điển — none lexicon): VisionLAN đạt IIIT5K 95.8, IC13 95.7, SVT 91.7, IC15 83.7, SVTP 86.0, CUTE 88.5 — vượt SRN (phương pháp mạnh nhất trước đó) lần lượt 1.0 / 0.2 / 0.2 / 1.0 / 0.9 / 0.7 điểm (mình đã tự trừ lại, khớp với text). So với ASTER và ESIR — 2 phương pháp phải nắn chữ trước — VisionLAN hơn 5–9 điểm trên các bộ irregular dù không nắn, vì xử lý trực tiếp trên không gian 2D. Tốc độ (Table 6, IC15): baseline 11.5ms; gắn RNN của ASTER 43.2ms (+3M tham số); gắn Transformer của SRN 19ms (+12.6M tham số); VisionLAN 11.5ms, 0 tham số thêm → nhanh hơn ít nhất 39% (11.5 so với 19). Nói cách khác: VisionLAN có cùng tốc độ và kích thước với mô hình thị giác thuần, nhưng chính xác hơn cả mô hình 2 bước.',
+        terms: [
+          { term: 'Lexicon-free (none lexicon)', explain: 'Đánh giá không cho mô hình dùng danh sách từ có sẵn để sửa kết quả — đo đúng năng lực đọc thật, khó hơn so với có lexicon.' },
+          { term: 'EIPs (Extra Introduced Parameters)', explain: 'Số tham số thêm vào chỉ để mô hình hoá ngôn ngữ. VisionLAN = 0M vì phần ngôn ngữ nằm sẵn trong vision model.' },
+          { term: 'Latency (độ trễ)', explain: 'Thời gian xử lý 1 ảnh (ms). Quan trọng khi triển khai thời gian thực hoặc trên thiết bị yếu.' },
+        ],
+      },
+      {
+        heading: 'OST, chữ Trung dài & phân tích định tính',
+        page: 7,
+        explanation:
+          'Trên OST (chữ bị che 1 kí tự, Table 7): baseline 53.0%, +RNN của ASTER 53.9%, +Transformer của SRN 58.2%, VisionLAN 60.3% (weak 70.3%, heavy 50.3%) — hơn baseline 7.3 điểm, cho thấy năng lực "đoán chữ bị mất" mạnh hơn language model gắn rời. Trên TRW15 (2.997 ảnh chữ Trung dài, N = 50, Table 8): VisionLAN 88.7% so với SRN 85.5%, CTC 73.8%, 2D-Attention 72.2% — chứng tỏ cách làm không chỉ đúng với chữ Latin. Định tính (Fig. 7–8): mặt nạ MLM định vị đúng kí tự kể cả với chữ cong ("nothing") hay kí tự lặp ("confabbing", P = 6 che đúng chữ "b" thứ hai); VisionLAN sửa được các lỗi kí tự dễ lẫn ("before": e/f), bị nền nhiễu che và chữ mờ.',
+        terms: [
+          { term: 'OST (Occlusion Scene Text)', explain: 'Dataset mới của bài: ảnh benchmark bị vẽ đè 1–2 nét lên đúng 1 kí tự, để đo khả năng đọc khi thiếu tín hiệu hình ảnh của kí tự đó.' },
+          { term: 'Generalization to non-Latin', explain: 'Kiểm tra trên chữ Trung — bảng chữ lớn hơn rất nhiều, từ dài hơn — để chứng minh phương pháp không chỉ "học thuộc" quy luật tiếng Anh.' },
+          { term: 'Qualitative analysis', explain: 'Phân tích bằng hình ảnh minh hoạ (mặt nạ, kết quả đọc) để hiểu mô hình làm gì, bổ sung cho các con số.' },
+        ],
+      },
+      {
+        heading: 'Đọc phản biện',
+        page: 8,
+        explanation:
+          'Điểm mạnh: ý tưởng gọn và đẹp — dùng module chỉ-khi-train để "nhúng" năng lực ngôn ngữ vào vision model, có lợi cả về độ chính xác lẫn tốc độ; ablation đầy đủ, đặc biệt phép so với Dropout/Cutout loại trừ được giả thuyết "chỉ là regularization"; có code và dataset công khai. Điểm cần lưu ý: (1) mức vượt SRN trên các bộ regular chỉ 0.2 điểm — nằm trong khoảng dao động giữa các lần train, paper không báo độ lệch chuẩn; (2) OST được tạo bằng cách che ĐÚNG 1 kí tự — rất giống cơ chế che lúc train của MLM, nên benchmark này có lợi thế tự nhiên cho VisionLAN; (3) khi so tốc độ và trên OST, SRN chỉ được cài 1 transformer unit trong GSRM, nên language model đối chứng yếu hơn bản gốc; (4) baseline lệch giữa các bảng — Table 1 dùng VRM 2 unit (IIIT5K 94.5), Table 5 dùng 3 unit (94.6) — và accuracy trung bình ở Table 3 (88.8 / 90.2) không bằng trung bình cộng 6 cột của Table 1 (~87.5 / ~89.2), có thể là trung bình theo số ảnh nhưng paper không nói rõ; (5) text ví dụ tỉ lệ 1:3 nhưng bảng không có dòng 1:3. Hạn chế tự nhiên: chỉ đọc được từ đã cắt sẵn, tối đa 25 kí tự, 37 lớp (không phân biệt hoa/thường, không có dấu câu).',
+        terms: [
+          { term: 'Statistical significance', explain: 'Chênh lệch có thật hay chỉ do may rủi giữa các lần train. Cần báo trung bình ± độ lệch chuẩn qua nhiều lần chạy — thứ mà nhiều paper CV bỏ qua.' },
+          { term: 'Benchmark bias', explain: 'Benchmark được thiết kế giống cách huấn luyện của chính phương pháp đề xuất, nên dễ làm phương pháp đó trông vượt trội hơn thực tế.' },
+        ],
+      },
+      {
+        heading: 'Liên hệ với bài toán nhận diện vỉ thuốc',
+        page: 8,
+        explanation:
+          'Paper vỉ thuốc của Han et al. (IDL) nói rằng OCR thường thất bại với chữ in mặt sau vỉ — chữ nhỏ, méo, loá sáng, in màu nhạt — đúng những trường hợp "visual cue bị nhiễu" mà VisionLAN nhắm tới, nên đây là một hướng khả thi để đọc thẳng tên thuốc thay vì phân loại theo ảnh. Ưu điểm so với cách phân loại 250 lớp như DLDI/IDL: OCR không cần train lại khi thêm thuốc mới (đúng hạn chế "phải train lại toàn bộ" mà DLDI nêu). Nhưng có rủi ro riêng: năng lực ngôn ngữ học từ từ tiếng Anh thông thường có thể "tự sửa" tên thuốc lạ hoặc hàm lượng (vd "300/12.5 mg") thành chuỗi quen thuộc hơn — trong y tế, đoán sai một chữ số còn nguy hiểm hơn không đọc được. Muốn áp dụng cần fine-tune trên tên thuốc, mở rộng bộ kí tự (chữ hoa, "/", ".", "-") và so khớp kết quả với danh mục thuốc của bệnh viện (lexicon) để chặn lỗi.',
+        terms: [
+          { term: 'Closed-set classification vs open-vocabulary OCR', explain: 'Phân loại chỉ nhận ra các lớp đã train (250 thuốc); OCR đọc được chuỗi bất kì nên mở rộng sang thuốc mới mà không cần train lại, nhưng phải tự xử lý lỗi đọc.' },
+          { term: 'Lexicon matching', explain: 'Đối chiếu chuỗi OCR đọc được với danh sách từ hợp lệ (vd danh mục thuốc), chọn mục gần nhất — cách đơn giản để tăng độ an toàn khi áp dụng OCR vào y tế.' },
+          { term: 'Fine-tuning', explain: 'Train tiếp mô hình đã học trên dữ liệu lớn bằng dữ liệu của miền mới (ảnh vỉ thuốc) để thích nghi với font, kiểu chữ và từ vựng đặc thù.' },
+        ],
+      },
+    ],
+  },
 ]
 
 export function getResearchPaper(slug: string): ResearchPaper | undefined {
