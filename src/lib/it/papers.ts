@@ -174,6 +174,164 @@ export const RESEARCH_PAPERS: ResearchPaper[] = [
       },
     ],
   },
+  {
+    slug: 'assistive-robot-drug-identification-machine-vision',
+    title: 'Assistive Robot Capable of Drug Identification Based on Machine Vision',
+    authors: 'Atienza DJ, Cacanindin MEC, Yumang AN',
+    year: 2025,
+    venue: 'Imaging, Signal Processing and Communications — Advances in Transdisciplinary Engineering vol. 78 (IOS Press), pp. 75–86',
+    fields: ['Computer Vision', 'Healthcare AI', 'Robotics', 'Deep Learning'],
+    doi: '10.3233/ATDE251132',
+    sourceUrl: 'https://doi.org/10.3233/ATDE251132',
+    // Open access (CC BY-NC 4.0), host local giống paper DLDI.
+    pdfUrl: '/api/papers/assistive-robot-drug-identification-machine-vision',
+    summary:
+      'Robot hỗ trợ (assistive robot) gồm cánh tay JetMax + NVIDIA Jetson Nano + camera HD góc rộng, chạy YOLOv5s (TensorRT) để nhận diện 20 loại thuốc trong vỉ đã cắt rời (trimmed blister pack) qua ảnh mặt sau, rồi dùng giác hút gắp thuốc bỏ vào 1 trong 4 hộp theo nhóm công dụng. Machine vision đạt accuracy 90.67% (630 lượt test thời gian thực, gồm cả lớp "No Object"); cả hệ thống nhận diện + gắp-thả thành công 83.17% (499/600) — lỗi chủ yếu do cơ khí (vỉ nhỏ, hình dạng khác nhau khiến giác hút gắp trượt) chứ không phải do nhận diện.',
+    highlights: [
+      {
+        heading: 'Bối cảnh — Vì sao cần robot phân loại thuốc',
+        page: 1,
+        explanation:
+          'Động lực xuất phát từ dân số Philippines: tỉ lệ người từ 60 tuổi trở lên tăng từ 6.7% (2010) lên 11.4% (2030), trong khi nhóm 0–14 tuổi chiếm 26.8% — tức cả 2 nhóm cần chăm sóc nhiều đều lớn, gây áp lực lên nguồn lực y tế vốn hạn chế. Machine vision là "mắt" của robot: chụp ảnh rồi trích thông tin (màu, hình học, độ sâu, vật thể 3D) để robot hành động. Nhóm tác giả đặt bài toán trong mảng Assistive Robot — robot hỗ trợ con người (đặc biệt người già) trong sinh hoạt và chăm sóc y tế. Hiện người chăm sóc và bệnh nhân vẫn chủ yếu chia thuốc bằng tay; máy chia thuốc tự động (Automatic Tablet Dispensing Machine) có giảm lỗi nhưng vẫn còn lỗi khi nạp thuốc và lỗi do con người.',
+        terms: [
+          { term: 'Machine Vision', explain: 'Hệ thống thị giác cho máy: camera chụp ảnh + thuật toán xử lý để trích thông tin (màu, hình dạng, vị trí, độ sâu) phục vụ một tác vụ cụ thể — ở đây là cho robot biết thuốc gì và nằm ở đâu.' },
+          { term: 'Assistive Robot (robot hỗ trợ)', explain: 'Robot được thiết kế để giúp con người làm các việc hằng ngày hoặc chăm sóc sức khoẻ — ví dụ chia thuốc, nhắc uống thuốc, hỗ trợ người già/người khuyết tật.' },
+          { term: 'Socially Assistive Robot', explain: 'Nhánh của assistive robot tập trung vào tương tác xã hội (trò chuyện, nhắc nhở, đồng hành) — được nhắc đến như hướng đang nghiên cứu nhiều trong chăm sóc người già.' },
+        ],
+      },
+      {
+        heading: 'Related work & khoảng trống nghiên cứu',
+        page: 2,
+        explanation:
+          'Phần tổng quan điểm qua rất nhiều ứng dụng machine vision (phân loại hạt cà phê lỗi, độ chín cà chua, ấu trùng muỗi, nhận diện cá, OCR nhãn ổ cứng...) và kết luận rằng các detector deep learning như YOLO và RetinaNet nhận diện thuốc tốt, nhanh và chính xác hơn SSD. Từ đó, bài báo chỉ ra 3 khoảng trống mà nghiên cứu này muốn lấp: (1) hệ thống robot + vision hiện có kém linh hoạt, chỉ lọc theo ít tiêu chí; (2) đa số dùng góc khớp cố định (preset joint angles) cho cánh tay — vật phải nằm ĐÚNG vị trí định sẵn thì mới gắp được; (3) các model YOLO nhận diện thuốc trước đây chỉ dựa vào chữ khắc trên viên, hình dạng, màu, hoặc nguyên cả vỉ — chưa ai xử lý vỉ đã bị CẮT RỜI (trimmed), vốn là dạng rất phổ biến khi chia thuốc lẻ cho người bệnh. Lưu ý khi đọc: phần này khá dàn trải (nhiều ví dụ không liên quan trực tiếp tới thuốc) và có chỗ số trích dẫn không khớp danh mục tài liệu — ví dụ so sánh RetinaNet/SSD/YOLOv3 thực ra là tài liệu [10] (Tan et al.) chứ không phải [27][28].',
+        terms: [
+          { term: 'Preset joint angles', explain: 'Cách điều khiển cánh tay robot bằng các góc khớp đã lập trình sẵn — đơn giản nhưng cứng nhắc, vật phải đặt đúng chỗ. Bài này thay bằng cách tính toạ độ từ ảnh để gắp được vật ở vị trí bất kỳ trong vùng làm việc.' },
+          { term: 'RetinaNet / SSD', explain: 'Hai kiến trúc object detection một giai đoạn (one-stage) giống YOLO. RetinaNet nổi tiếng với Focal Loss xử lý mất cân bằng lớp; SSD (Single Shot Detector) nhanh nhưng thường kém chính xác hơn với vật nhỏ.' },
+          { term: 'Trimmed blister pack (vỉ cắt rời)', explain: 'Vỉ thuốc đã bị cắt nhỏ thành từng ô/viên — mất phần lớn thông tin in trên vỉ nguyên (tên đầy đủ, logo), nên khó nhận diện hơn vỉ nguyên. Đây chính là hạn chế mà paper DLDI (Taiwan) thừa nhận chưa xử lý được.' },
+        ],
+      },
+      {
+        heading: 'Mục tiêu & phạm vi nghiên cứu',
+        page: 3,
+        explanation:
+          'Ba mục tiêu cụ thể: (1) dùng cánh tay JetMax + camera HD góc rộng tích hợp sẵn + Jetson Nano để đưa viên thuốc đã nhận diện tới đúng vị trí; (2) dùng YOLO để phát hiện và nhận diện thuốc trong vỉ cắt rời; (3) đánh giá hệ thống vision bằng confusion matrix. Phạm vi: 20 loại thuốc phổ biến ở Philippines (Biogesic, Neozep, Advil, Buscopan, Bioflu...), mỗi lần chỉ gắp và giao 1 viên, chỉ dùng đúng bộ phần cứng nói trên, không xử lý các dạng đóng gói khác (chai, gói bột...). Điểm cần để ý khi đọc kĩ: danh sách 20 thuốc ở phần phạm vi có Rosuvastatin và Cetirizine, nhưng ở phần thí nghiệm/kết quả lại là Rosucol (một biệt dược của rosuvastatin) và Askey thay cho Cetirizine — paper không giải thích sự thay đổi này.',
+        terms: [
+          { term: 'Scope & limitation', explain: 'Phần khoanh vùng những gì nghiên cứu làm và KHÔNG làm — đọc kĩ phần này để biết kết quả áp dụng được tới đâu (ở đây: chỉ vỉ cắt rời, 20 loại, 1 viên/lần).' },
+        ],
+      },
+      {
+        heading: 'Conceptual framework & phần cứng',
+        page: 4,
+        explanation:
+          'Khung khái niệm theo mô hình Input → Process → Output. Input là ảnh thời gian thực của vỉ thuốc cắt rời. Process gồm 3 bước nối tiếp: (1) Drug identification — object detection nhận ra loại thuốc; (2) Image-to-arm position mapping — đổi vị trí thuốc trong ảnh (pixel) sang toạ độ thật mà cánh tay hiểu được; (3) Robotic arm control — ra lệnh gắp và thả. Output là thuốc được nhận diện, gắp và đưa vào đúng khu phân loại. Phần cứng: Jetson Nano (CPU ARMv8, RAM 4GB, GPU NVIDIA Tegra X1, CUDA 10.2, Ubuntu 18.04), camera HD tích hợp trên cánh tay, nguồn, màn hình LCD hiển thị kết quả. Phần mềm: Python 3.8 + PyTorch 1.8 để chạy YOLOv5. Điểm đáng chú ý là toàn bộ suy luận chạy ngay trên thiết bị (edge) chứ không gửi ảnh lên server — rẻ, không cần mạng, phù hợp đặt ở nhà hoặc nhà thuốc nhỏ.',
+        terms: [
+          { term: 'NVIDIA Jetson Nano', explain: 'Máy tính nhúng nhỏ, giá rẻ có GPU (128 nhân Maxwell, Tegra X1) chuyên chạy model AI tại chỗ — đủ mạnh cho YOLO cỡ nhỏ nhưng bộ nhớ chỉ 4GB dùng chung CPU/GPU.' },
+          { term: 'Edge AI / edge inference', explain: 'Chạy model ngay trên thiết bị ở hiện trường thay vì trên cloud — giảm độ trễ, không phụ thuộc mạng, bảo mật dữ liệu hơn, nhưng bị giới hạn tài nguyên tính toán.' },
+          { term: 'JetMax', explain: 'Cánh tay robot dạng đồ chơi/giáo dục (của Hiwonder) thiết kế sẵn cho Jetson Nano, có camera gắn trên đầu và đầu hút chân không (suction cup).' },
+          { term: 'Image-to-world mapping', explain: 'Chuyển toạ độ pixel trong ảnh sang toạ độ thực (mm) trong không gian làm việc của robot — thường cần hiệu chỉnh camera (camera calibration). Paper không mô tả chi tiết cách làm bước này.' },
+        ],
+      },
+      {
+        heading: 'System flowchart — Vòng lặp nhận diện → gắp → thả',
+        page: 5,
+        explanation:
+          'Mỗi chu kì gồm các bước: chạy YOLOv5 trên khung hình → lọc bỏ các phát hiện có confidence thấp → tính tâm (x, y) của bounding box → multiple-frame confirmation: chỉ chấp nhận khi cùng 1 loại thuốc xuất hiện ổn định qua nhiều khung hình liên tiếp (tránh hành động theo 1 khung nhận nhầm thoáng qua) → đổi (x, y) sang toạ độ thật → cánh tay di chuyển tới, bật bơm hút để nhấc vỉ → mang tới hộp tương ứng, tắt hút để thả → quay về vị trí mặc định, chờ viên tiếp theo. Đây là phần "kĩ thuật hệ thống" đáng học nhất của bài: 2 lớp lọc (confidence threshold + xác nhận nhiều khung) là cách rẻ mà hiệu quả để biến một detector không hoàn hảo thành hành động vật lý an toàn hơn — vì với robot, 1 lần gắp sai tốn kém hơn nhiều so với 1 khung hình đoán sai.',
+        terms: [
+          { term: 'Confidence threshold', explain: 'Ngưỡng độ tin cậy: YOLO trả về kèm mỗi box một điểm 0–1; box dưới ngưỡng bị bỏ. Ngưỡng cao → ít nhầm nhưng dễ bỏ sót; ngưỡng thấp → ngược lại.' },
+          { term: 'Bounding box', explain: 'Hình chữ nhật bao quanh vật thể mà detector dự đoán, mô tả bằng toạ độ + kích thước. Tâm của box được dùng làm điểm gắp.' },
+          { term: 'Multiple-frame confirmation (temporal voting)', explain: 'Chỉ tin kết quả khi nó lặp lại qua N khung hình liên tiếp — một dạng làm mượt theo thời gian để loại nhiễu, rất hay dùng khi detector điều khiển hành động thật.' },
+          { term: 'Suction gripper (đầu hút chân không)', explain: 'Bộ gắp dùng lực hút — hợp với vật phẳng nhẹ như vỉ thuốc, nhưng cần bề mặt đủ phẳng và đủ rộng để bám; vỉ cắt quá nhỏ hoặc gồ ghề sẽ dễ trượt (nguyên nhân chính của lỗi cơ khí ở phần kết quả).' },
+        ],
+      },
+      {
+        heading: 'Experimental set-up — 4 hộp phân loại theo nhóm công dụng',
+        page: 6,
+        explanation:
+          'Vỉ thuốc đặt trên mặt phẳng nền trắng, camera trên cánh tay quan sát, màn hình cảm ứng hiển thị kết quả nhận diện và trạng thái. Robot không chỉ "nhận ra tên thuốc" mà còn phân loại vào 4 hộp theo nhóm dược lý: Hộp 1 — tim mạch & chuyển hoá (Amlothix, Rosucol, Avator, Glycemet); Hộp 2 — giảm đau, hạ sốt (Biogesic, Mefenamic Acid, Advil, Buscopan, Bioflu); Hộp 3 — ho, cảm, dị ứng (Ascof Forte, Loviscol, Mucosolvan, Neozep, Decolgen Forte, Askey); Hộp 4 — vitamin & thực phẩm bổ sung (Poten-Cee, Fern-C, Xtracee, Vit-Eye, C-Lium Fibre). Nghĩa là model phân 20 lớp, rồi một bảng tra cứu (lookup) map 20 lớp → 4 hộp. Hệ quả thú vị: nhầm 2 thuốc CÙNG hộp (vd Rosucol ↔ Glycemet) không làm sai kết quả phân loại cuối, còn nhầm KHÁC hộp (vd Amlothix ở hộp 1 ↔ Xtracee ở hộp 4) mới thật sự nguy hiểm — paper không phân tích theo góc này.',
+        terms: [
+          { term: 'Nền trắng cố định (controlled background)', explain: 'Điều kiện chụp được kiểm soát: nền đồng màu, ánh sáng ổn định — giúp model dễ học nhưng làm kết quả lạc quan hơn so với môi trường thật (bàn lộn xộn, ánh sáng thay đổi).' },
+        ],
+      },
+      {
+        heading: 'Cấu hình huấn luyện (Table 1)',
+        page: 7,
+        explanation:
+          'Siêu tham số: 100 epoch, batch size 4 (chọn để vừa 4GB RAM của Jetson Nano), ảnh 160×160 px (cân bằng giữa độ chính xác và tốc độ). Model xuất phát từ trọng số pre-trained yolov5s.pt (transfer learning), sau đó được chuyển sang TensorRT engine (last.trt) để chạy thời gian thực trên Jetson. So sánh nhanh: 160×160 là rất nhỏ (YOLOv5 mặc định 640×640) — giúp chạy nhanh trên phần cứng yếu nhưng chi tiết chữ in nhỏ trên mặt sau vỉ dễ bị mất, có thể là một lý do khiến vài thuốc có chữ/màu gần nhau bị nhầm. Paper nói "real-time" nhưng không báo cáo FPS hay độ trễ suy luận — một số liệu quan trọng còn thiếu.',
+        terms: [
+          { term: 'YOLOv5s', explain: 'Bản "small" của YOLOv5 (Ultralytics, PyTorch) — ít tham số (~7M), nhanh, phù hợp thiết bị nhúng; đánh đổi một chút độ chính xác so với bản m/l/x.' },
+          { term: 'Pre-trained model / Transfer learning', explain: 'Bắt đầu từ trọng số đã học trên tập lớn (COCO) rồi fine-tune trên dữ liệu thuốc — cần ít dữ liệu và ít thời gian train hơn train từ đầu. Khác với paper DLDI (Taiwan) vốn KHÔNG pre-train.' },
+          { term: 'TensorRT', explain: 'Bộ tối ưu suy luận của NVIDIA: gộp layer, giảm độ chính xác số (FP16/INT8), chọn kernel tối ưu cho đúng GPU — giúp model chạy nhanh hơn nhiều lần trên Jetson so với PyTorch thuần.' },
+          { term: 'Batch size', explain: 'Số ảnh xử lý trong 1 lần cập nhật trọng số. Batch nhỏ (4) tốn ít bộ nhớ nhưng gradient nhiễu hơn, train chậm/kém ổn định hơn.' },
+        ],
+      },
+      {
+        heading: 'Dataset — 5.760 ảnh mặt sau vỉ cắt rời',
+        page: 7,
+        explanation:
+          'Bộ dữ liệu tự xây: 20 lớp × 288 ảnh MẶT SAU (back model) = 5.760 ảnh, gán nhãn bằng LabelImg. Vì dữ liệu ít, nhóm dùng offline augmentation (scale, lật, chỉnh contrast) để tăng đa dạng và giảm overfitting, rồi chia train/validation 80/20. Việc chọn mặt sau khớp với kết luận của paper DLDI (Taiwan): mặt sau có chữ in/logo nên phân biệt tốt hơn mặt trước. Hai điểm cần đọc phản biện: (1) paper không nói rõ 5.760 là số ảnh TRƯỚC hay SAU augmentation; (2) nếu augmentation offline được làm TRƯỚC khi chia 80/20, các bản biến đổi của cùng 1 ảnh gốc có thể rơi vào cả train lẫn validation → data leakage, khiến chỉ số validation đẹp hơn thực tế. May là đánh giá chính của bài dùng test thời gian thực riêng (không phải tập validation), nên kết quả cuối ít bị ảnh hưởng hơn.',
+        terms: [
+          { term: 'LabelImg', explain: 'Công cụ mã nguồn mở để vẽ bounding box và gán nhãn ảnh, xuất ra định dạng YOLO/Pascal VOC — công cụ gán nhãn phổ biến cho các dự án detection nhỏ.' },
+          { term: 'Offline vs online augmentation', explain: 'Offline: tạo sẵn ảnh biến đổi, lưu thành file và thêm vào dataset. Online: biến đổi ngẫu nhiên mỗi lần nạp ảnh khi train (YOLOv5 mặc định đã có mosaic, HSV, flip...). Offline dễ gây leakage nếu chia tập sau khi augment.' },
+          { term: 'Overfitting', explain: 'Model học thuộc dữ liệu train (kể cả nhiễu) nên đạt điểm cao trên train nhưng kém trên dữ liệu mới. Augmentation và pre-training là 2 cách giảm overfitting khi dữ liệu ít.' },
+          { term: 'Data leakage', explain: 'Thông tin của tập đánh giá "lọt" vào tập train (vd ảnh gần như trùng nhau ở cả hai bên), khiến chỉ số đánh giá cao giả tạo.' },
+        ],
+      },
+      {
+        heading: 'Kết quả 1 — Machine vision: 90.67% accuracy',
+        page: 8,
+        explanation:
+          'Test thời gian thực: mỗi lớp 30 lượt, thêm lớp "No Object" (không có thuốc) → 21 × 30 = 630 lượt. 7 lớp đạt 100% (Avator, Bioflu, Ascof Forte, Mucosolvan, Neozep, Decolgen Forte, Fern-C). Yếu nhất: Amlothix 60% (18/30 — nhầm chủ yếu với Xtracee và Mefenamic Acid), Advil 73.33%, Vit-Eye 76.67%, Xtracee 80% (nhầm ngược lại với Amlothix) — cặp Amlothix ↔ Xtracee nhầm 2 chiều, giống hiện tượng "cặp LASA" trong paper DLDI. Rosucol và Glycemet mỗi loại sai 5 lượt (83.33%). "No Object" đúng 28/30 (93.33%) — tức 2 lần model "thấy" thuốc trong khi không có gì, với robot đây là lỗi đáng lo vì sẽ khiến cánh tay gắp vào khoảng trống. Tự kiểm lại: tổng số dự đoán đúng là 571/630 = 90.63% (hoặc 543/600 = 90.5% nếu bỏ lớp No Object), hơi lệch so với con số 90.67% công bố — chênh nhỏ, có thể do làm tròn, nhưng là ví dụ cho thấy nên luôn tự cộng lại bảng số liệu khi đọc paper.',
+        terms: [
+          { term: 'Accuracy (độ chính xác)', explain: 'Số dự đoán đúng / tổng số lượt. Dễ hiểu nhưng che mất kiểu lỗi — paper chỉ báo accuracy, không báo precision/recall/F1 hay mAP như các paper detection thường làm.' },
+          { term: 'Multi-class confusion matrix', explain: 'Ma trận 21×21 (20 thuốc + No Object): hàng là nhãn thật, cột là nhãn dự đoán. Đọc các ô ngoài đường chéo để biết cặp thuốc nào hay bị lẫn.' },
+          { term: 'Negative class ("No Object")', explain: 'Lớp "không có gì" để kiểm tra model có ảo giác thấy vật thể khi khung hình trống không — rất quan trọng với hệ thống điều khiển robot.' },
+          { term: 'mAP (mean Average Precision)', explain: 'Thước đo chuẩn của object detection, xét cả độ đúng nhãn lẫn độ khớp vị trí box (IoU). Paper không báo mAP nên khó so sánh trực tiếp với các nghiên cứu detection khác.' },
+        ],
+      },
+      {
+        heading: 'Kết quả 2 — Robot + vision: 83.17% thành công trọn vẹn',
+        page: 10,
+        explanation:
+          'Đánh giá cả hệ thống trên 600 lượt có thuốc, chia 4 kết quả: gắp thành công + nhận diện đúng 499 (83.17%); gắp được nhưng nhận diện sai 34 (5.67%); nhận diện đúng nhưng gắp trượt 44 (7.33%); cả gắp lẫn nhận diện đều hỏng 23 (3.83%) — cộng lại đúng 600. Thêm 30 lượt "No Operation" (không có thuốc, robot đúng là không làm gì) đều đúng; paper ghi 5% vì chia cho 600, thực chất là 30/30 = 100%. Tách riêng 2 thành phần cho dễ hiểu: độ chính xác nhận diện trong bài test này = (499 + 44)/600 = 90.5% (khớp với kết quả 1); tỉ lệ gắp thành công = (499 + 34)/600 = 88.83%. Nghĩa là gần 1/9 lần gắp thất bại — lỗi cơ khí là nút thắt lớn ngang lỗi vision. Nguyên nhân tác giả nêu: kích thước và hình dạng vỉ cắt rời không đồng đều nên đầu hút không bám chắc. Đáng tiếc là paper không phân tích lỗi gắp theo từng loại thuốc (vỉ nào nhỏ/gồ ghề) để chứng minh nhận định này.',
+        terms: [
+          { term: 'Pick-and-place', explain: 'Tác vụ robot cơ bản: tới vị trí vật → gắp → di chuyển → thả ở vị trí đích. Thành công phụ thuộc cả độ chính xác toạ độ (vision + calibration) lẫn cơ cấu gắp.' },
+          { term: 'End-to-end system accuracy', explain: 'Độ chính xác khi tính cả chuỗi (nhận diện ĐÚNG và gắp-thả ĐÚNG) — luôn thấp hơn hoặc bằng độ chính xác của từng khâu, vì lỗi các khâu cộng dồn.' },
+          { term: 'Failure mode analysis', explain: 'Tách lỗi theo nguyên nhân (vision sai / cơ khí sai / cả hai) để biết nên cải tiến khâu nào trước — Table 3 của bài là một dạng phân tích này.' },
+        ],
+      },
+      {
+        heading: 'Kết luận & hướng phát triển',
+        page: 11,
+        explanation:
+          'Tác giả kết luận đã đạt cả 3 mục tiêu: robot nhận diện (90.67%) và phân loại vỉ thuốc cắt rời (83.17% trọn vẹn), cho thấy tiềm năng tự động hoá việc phân loại/cấp phát thuốc. Hạn chế thừa nhận: lỗi cơ khí do kích thước và đặc điểm vỉ cắt rời khác nhau. Ba hướng tương lai: (1) mở rộng dataset với nhiều điều kiện ánh sáng, che khuất (occlusion), biến thể vật thể để tăng độ bền vững (robustness); (2) thử các model deep learning mạnh hơn hoặc phương pháp lai (hybrid) để tăng độ chính xác; (3) đánh giá trong môi trường lâm sàng thật để tìm vấn đề khi triển khai.',
+        terms: [
+          { term: 'Robustness (độ bền vững)', explain: 'Khả năng model giữ hiệu năng khi điều kiện thay đổi (ánh sáng, góc chụp, nền, vật bị che) — điểm yếu thường gặp của model chỉ train/test trong phòng thí nghiệm.' },
+          { term: 'Occlusion (che khuất)', explain: 'Vật thể bị vật khác che một phần — vd nhiều vỉ chồng lên nhau hoặc tay người che. Bài chỉ test 1 vỉ/lần trên nền trống nên chưa gặp trường hợp này.' },
+        ],
+      },
+      {
+        heading: 'Đọc phản biện — Điểm mạnh, điểm yếu',
+        page: 11,
+        explanation:
+          'Điểm mạnh: (1) một hệ thống HOÀN CHỈNH từ nhận diện tới hành động vật lý, chạy hoàn toàn trên thiết bị nhúng giá rẻ — vượt khỏi mức "chỉ phân loại ảnh" của nhiều paper khác; (2) giải quyết đúng ca khó là vỉ cắt rời; (3) có lớp No Object và bảng tách lỗi vision/cơ khí — cách đánh giá hợp lí cho robot. Điểm yếu: (1) quy mô nhỏ — 20 lớp, so với 250 lớp của paper DLDI; (2) chỉ báo accuracy, thiếu precision/recall/F1/mAP và không có baseline để so sánh (vd YOLOv8, SSD, hay chính YOLOv5 ở 640px); (3) không báo FPS/độ trễ dù nhấn mạnh "real-time"; (4) môi trường test được kiểm soát (nền trắng, 1 vỉ/lần) nên 90% có thể giảm khi ra thực tế; (5) không mô tả cách hiệu chỉnh pixel → toạ độ thật, ngưỡng confidence hay số khung hình xác nhận — khó tái lập (reproducibility); (6) vài chỗ thiếu nhất quán: abstract ghi 600 lượt nhưng phần kết quả là 630, danh sách thuốc ở phạm vi khác danh sách thí nghiệm, số trích dẫn lệch. Bài học khi đọc: một paper hội nghị ứng dụng có giá trị ở ý tưởng tích hợp hệ thống, nhưng con số cần được đọc kèm điều kiện thí nghiệm.',
+        terms: [
+          { term: 'Baseline', explain: 'Phương pháp đối chứng để so sánh — không có baseline thì khó biết 90.67% là tốt hay chỉ bình thường với bài toán này.' },
+          { term: 'Reproducibility (khả năng tái lập)', explain: 'Người khác đọc paper có làm lại được và ra kết quả tương tự không — cần đủ chi tiết về dữ liệu, siêu tham số, quy trình hiệu chỉnh.' },
+          { term: 'Controlled vs in-the-wild evaluation', explain: 'Test trong điều kiện được kiểm soát (phòng lab) vs test ở môi trường thực tế đa dạng — kết quả lab thường cao hơn thực tế.' },
+        ],
+      },
+      {
+        heading: 'So sánh với paper DLDI (Taiwan, 2020)',
+        page: 11,
+        explanation:
+          'Hai paper bổ sung cho nhau trong cùng bài toán nhận diện thuốc vỉ. DLDI: YOLOv2, 250 lớp, 36.000 ảnh (cả mặt trước lẫn mặt sau, vỉ NGUYÊN), không pre-train, không augmentation, train trên GPU desktop GTX 1080, chỉ nhận diện; F1 mặt sau 95.99%. Paper này: YOLOv5s pre-trained, 20 lớp, 5.760 ảnh mặt sau vỉ CẮT RỜI, có augmentation, chạy TensorRT trên Jetson Nano, và gắn thêm cánh tay robot để hành động; accuracy 90.67% (thước đo khác F1 nên không so trực tiếp được). Điểm nối: (1) cả hai đều cho thấy mặt sau (chữ in, logo) là nguồn thông tin tốt để phân biệt thuốc; (2) DLDI nêu hạn chế "không nhận diện được vỉ đã cắt rời" và đề xuất tích hợp vào ADC/robot — paper này đi đúng hướng đó, đổi lại phải thu hẹp còn 20 loại thuốc và chấp nhận phần cứng yếu hơn; (3) cả hai đều quan sát thấy có những cặp thuốc bị nhầm 2 chiều — hiện tượng giống lỗi LASA của con người.',
+        terms: [
+          { term: 'YOLOv2 vs YOLOv5', explain: 'YOLOv2 (2016, Darknet) là thế hệ đầu với anchor box; YOLOv5 (2020, Ultralytics, PyTorch) có backbone CSP, augmentation mosaic, nhiều kích cỡ model và công cụ xuất sang TensorRT/ONNX tiện cho triển khai thiết bị nhúng.' },
+          { term: 'Accuracy vs F1', explain: 'Accuracy tính trên toàn bộ lượt test; F1 cân bằng precision và recall cho từng lớp. Hai paper dùng thước đo khác nhau nên con số 90.67% và 95.99% không so sánh trực tiếp được.' },
+        ],
+      },
+    ],
+  },
 ]
 
 export function getResearchPaper(slug: string): ResearchPaper | undefined {

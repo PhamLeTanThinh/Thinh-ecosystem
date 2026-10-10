@@ -30,6 +30,19 @@ async function fetchPdfBytes(url: string, attempts = 3): Promise<ArrayBuffer> {
   throw lastErr
 }
 
+// Cache bytes theo URL ở cấp module — effect load PDF có thể bị cleanup rồi chạy lại (Strict Mode ở
+// dev, hoặc Next ẩn/hiện lại trang khi điều hướng client-side) mà không phải tải lại cả file.
+const pdfBytesCache = new Map<string, Promise<ArrayBuffer>>()
+function loadPdfBytes(url: string): Promise<ArrayBuffer> {
+  let cached = pdfBytesCache.get(url)
+  if (!cached) {
+    cached = fetchPdfBytes(url)
+    cached.catch(() => pdfBytesCache.delete(url))
+    pdfBytesCache.set(url, cached)
+  }
+  return cached
+}
+
 export function PaperReader({ paper }: { paper: ResearchPaper }) {
   const sections = paper.highlights ?? []
   const hasHighlights = sections.length > 0
@@ -45,8 +58,6 @@ export function PaperReader({ paper }: { paper: ResearchPaper }) {
   // "trang hiện tại" thì sẽ luôn active nhầm sang mục đứng sau trong danh sách.
   const [activeIdx, setActiveIdx] = useState(-1)
   const [pdfError, setPdfError] = useState<string | null>(null)
-  // Chặn fetch trùng file PDF (4.7MB) khi React Strict Mode chạy effect 2 lần ở dev.
-  const loadedUrl = useRef<string | null>(null)
   // scrollTo({behavior:'smooth'}) bắn nhiều sự kiện 'scroll' suốt lúc đang cuộn — nếu để listener
   // cuộn-tự-nhiên suy ra lại activeIdx theo trang NGAY trong lúc đó, nó sẽ ghi đè mất lựa chọn vừa
   // bấm khi cuộn ngang qua 1 trang có 2 mục highlight trùng nhau. 2 ref này dùng để chặn việc suy
@@ -54,26 +65,30 @@ export function PaperReader({ paper }: { paper: ResearchPaper }) {
   const suppressScrollSync = useRef(false)
   const suppressTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
-  // 1) Load file PDF — chỉ fetch đúng 1 lần, dùng chung cho cả việc lấy numPages lẫn render.
+  // 1) Load file PDF. Effect này sở hữu trọn vòng đời của doc: tạo khi chạy, destroy khi cleanup —
+  // KHÔNG dùng cờ "đã load rồi thì bỏ qua", vì khi effect bị cleanup rồi chạy lại (Strict Mode, Next
+  // ẩn/hiện trang lúc điều hướng client-side) lượt đầu đã bị huỷ, bỏ qua lượt sau là PDF trống mãi.
   useEffect(() => {
-    if (!hasPdf || loadedUrl.current === paper.pdfUrl) return
-    loadedUrl.current = paper.pdfUrl!
+    if (!hasPdf) return
     let cancelled = false
+    let loadedDoc: PDFDocumentProxy | null = null
 
     ;(async () => {
       try {
         // Tự fetch nguyên file (có retry) rồi đưa data cho pdf.js, thay vì để pdf.js tự fetch
         // theo URL — pdf.js tự làm range-request trong Worker riêng, khó retry khi mạng chập chờn.
-        const data = await fetchPdfBytes(paper.pdfUrl!)
+        const bytes = await loadPdfBytes(paper.pdfUrl!)
         if (cancelled) return
 
         const pdfjsLib = await import('pdfjs-dist')
         pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
-        const doc = await pdfjsLib.getDocument({ data }).promise
+        // pdf.js chuyển (transfer) buffer sang Worker khiến nó bị detach — đưa bản sao để giữ cache dùng lại được.
+        const doc = await pdfjsLib.getDocument({ data: bytes.slice(0) }).promise
         if (cancelled) {
           doc.destroy()
           return
         }
+        loadedDoc = doc
         setPdfDoc(doc)
         setNumPages(doc.numPages)
       } catch (err) {
@@ -84,6 +99,9 @@ export function PaperReader({ paper }: { paper: ResearchPaper }) {
 
     return () => {
       cancelled = true
+      loadedDoc?.destroy()
+      setPdfDoc(null)
+      setNumPages(0)
     }
   }, [hasPdf, paper.pdfUrl])
 
@@ -179,17 +197,8 @@ export function PaperReader({ paper }: { paper: ResearchPaper }) {
     }
   }, [pdfDoc, numPages])
 
-  // Luôn trỏ tới doc mới nhất, để cleanup lúc unmount thật sự giải phóng đúng document.
-  const pdfDocRef = useRef<PDFDocumentProxy | null>(null)
   useEffect(() => {
-    pdfDocRef.current = pdfDoc
-  }, [pdfDoc])
-
-  useEffect(() => {
-    return () => {
-      pdfDocRef.current?.destroy()
-      clearTimeout(suppressTimer.current)
-    }
+    return () => clearTimeout(suppressTimer.current)
   }, [])
 
   // 3) Cuộn PDF tự nhiên => cập nhật activePage + suy ra mục highlight tương ứng (bám theo trang,
