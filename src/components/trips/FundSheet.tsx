@@ -5,7 +5,7 @@ import { nanoid } from 'nanoid'
 import { BottomSheet } from '@/components/money/BottomSheet'
 import { SheetHeader } from '@/components/money/SheetHeader'
 import { confirmDeleteFund, useTrips, type FundInput } from '@/lib/trips/store'
-import { FUND_KINDS, isLeft, kindOf, type Fund } from '@/lib/trips/types'
+import { FUND_KINDS, isLeft, kindOf, todayISO, type Fund } from '@/lib/trips/types'
 import { DatePicker } from './DatePicker'
 import { DEFAULT_THEME, fundTheme, TRIP_THEMES, themeOf, type TripThemeKey } from '@/lib/trips/themes'
 import { BusyLabel } from './ui'
@@ -56,7 +56,7 @@ export function FundSheet(props: FundSheetProps) {
 
 const VND = new Intl.NumberFormat('vi-VN')
 
-function MoneyField({ label, value, onChange, hint }: { label: string; value: number; onChange: (v: number) => void; hint?: string }) {
+export function MoneyField({ label, value, onChange, hint }: { label: string; value: number; onChange: (v: number) => void; hint?: string }) {
   return (
     <label className="block text-sm text-muted">
       {label}
@@ -77,12 +77,15 @@ function MoneyField({ label, value, onChange, hint }: { label: string; value: nu
 
 function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps & { fund: FundInput }) {
   const createFund = useTrips((s) => s.createFund)
+  const setRoundOpening = useTrips((s) => s.setRoundOpening)
   const updateFund = useTrips((s) => s.updateFund)
   const allMembers = useTrips((s) => s.members)
   const members = allMembers.filter((m) => m.fundId === fund.id && !isLeft(m))
   const [draft, setDraft] = useState<FundInput>(fund)
   const [names, setNames] = useState<{ id: string; name: string }[]>([]) // chỉ dùng khi tạo mới
   const [newName, setNewName] = useState('')
+  const [roundName, setRoundName] = useState('') // tên đợt đầu khi tạo quỹ góp
+  const [initial, setInitial] = useState(0) // số dư ban đầu (tiền quỹ có sẵn) — ghi vào đợt đầu
   const [busy, setBusy] = useState<'save' | 'delete' | null>(null) // thao tác đang chạy → spinner trên đúng nút đó
   const [error, setError] = useState('')
 
@@ -109,7 +112,9 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
     setError('')
     try {
       // Tên đang gõ dở mà chưa bấm "Thêm" thì vẫn lưu luôn
-      const saved = isNew ? await createFund(draft, [...names, ...pendingNames()]) : await updateFund(draft)
+      const saved = isNew ? await createFund(draft, [...names, ...pendingNames()], roundName.trim() || 'Đợt 1') : await updateFund(draft)
+      // Quỹ góp: server tạo sẵn đợt đầu id = <quỹ>-r1 → ghi số dư ban đầu vào đợt đó
+      if (isNew && !isTrip && initial > 0) await setRoundOpening({ id: saved.id + '-r1', fundId: saved.id }, initial, draft.startDate ?? todayISO())
       onSaved?.(saved)
       onClose()
     } catch (e) {
@@ -133,7 +138,7 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
     // Bọc theo giao diện đang chọn → cả form đổi màu / font ngay khi chọn theme (xem trước); quỹ góp dùng giao diện mặc định
     <div className={`tp-theme-${fundTheme(draft).key}`}>
       <SheetHeader
-        title={isNew ? 'Tạo mới' : 'Sửa thông tin'}
+        title={isNew ? 'Tạo mới' : isTrip ? 'Sửa chuyến đi' : 'Sửa quỹ'}
         onCancel={onClose}
         right={
           <button type="button" onClick={submit} disabled={!!busy} className="disabled:opacity-60">
@@ -145,26 +150,29 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
       />
 
       <div className="space-y-5 px-4 py-5">
-        <div className="flex gap-2">
-          {FUND_KINDS.map((k) => (
-            <button
-              key={k.key}
-              type="button"
-              onClick={() =>
-                patch({
-                  kind: k.key,
-                  // Icon đang là icon mặc định → đổi theo loại mới; icon tự chọn thì giữ
-                  icon: draft.icon === defaultIcon(draft) ? defaultIcon({ ...draft, kind: k.key }) : draft.icon,
-                })
-              }
-              className={`flex-1 rounded-pill border px-2 py-2 text-xs font-semibold ${
-                draft.kind === k.key ? 'border-accent bg-accent-soft text-accent' : 'border-border text-muted'
-              }`}
-            >
-              {k.icon} {k.label}
-            </button>
-          ))}
-        </div>
+        {/* Loại quỹ chỉ chọn lúc tạo — sau đó cố định (quỹ góp đã chia đợt, chuyến đi có theme... đổi qua lại dễ rối) */}
+        {isNew && (
+          <div className="flex gap-2">
+            {FUND_KINDS.map((k) => (
+              <button
+                key={k.key}
+                type="button"
+                onClick={() =>
+                  patch({
+                    kind: k.key,
+                    // Icon đang là icon mặc định → đổi theo loại mới; icon tự chọn thì giữ
+                    icon: draft.icon === defaultIcon(draft) ? defaultIcon({ ...draft, kind: k.key }) : draft.icon,
+                  })
+                }
+                className={`flex-1 rounded-pill border px-2 py-2 text-xs font-semibold ${
+                  draft.kind === k.key ? 'border-accent bg-accent-soft text-accent' : 'border-border text-muted'
+                }`}
+              >
+                {k.icon} {k.label}
+              </button>
+            ))}
+          </div>
+        )}
 
         {/* Theme chỉ dành cho chuyến đi — quỹ góp mua đồ / khác luôn dùng 1 giao diện mặc định */}
         {isTrip && (
@@ -231,42 +239,73 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
           </label>
         )}
 
-        <div className="grid grid-cols-2 gap-3">
-          <DatePicker
-            label={isTrip ? 'Ngày đi' : 'Bắt đầu gom'}
-            value={draft.startDate}
-            clearable
-            // Ngày về trước ngày đi mới chọn thì bỏ ngày về
-            onChange={(startDate) =>
-              patch({
-                startDate,
-                endDate: startDate && draft.endDate && draft.endDate < startDate ? null : draft.endDate,
-              })
-            }
-          />
-          <DatePicker
-            label={isTrip ? 'Ngày về' : 'Hạn chót'}
-            value={draft.endDate}
-            min={draft.startDate}
-            clearable
-            align="right"
-            onChange={(endDate) => patch({ endDate })}
-          />
-        </div>
+        {/* Quỹ góp / khác dùng nhiều đợt: lúc tạo nhập luôn đợt đầu; sau đó ngày, mức góp, người tham gia chỉnh theo từng đợt */}
+        {!isTrip && isNew && (
+          <label className="block text-sm text-muted">
+            Đợt đầu tiên
+            <input
+              value={roundName}
+              onChange={(e) => setRoundName(e.target.value)}
+              placeholder="VD: 20/10 — để trống = Đợt 1"
+              className="mt-1 w-full rounded-xl bg-card-soft px-3 py-2 text-text outline-none"
+            />
+            <span className="mt-1 block text-xs">
+              Ngày, mức góp và thành viên bên dưới áp dụng cho đợt này. Lần sau chỉ cần &ldquo;+ Đợt mới&rdquo; — tiền dư tự chuyển sang.
+            </span>
+          </label>
+        )}
+        {!isTrip && isNew && (
+          <div>
+            <MoneyField label="💰 Số dư ban đầu" value={initial} onChange={setInitial} />
+            <p className="mt-1 text-xs text-muted">Tiền quỹ đang có sẵn (để 0 nếu bắt đầu từ con số 0). Sửa lại được ở đợt đầu.</p>
+          </div>
+        )}
+        {!isTrip && !isNew && (
+          <p className="rounded-2xl bg-accent-soft px-4 py-3 text-xs text-accent">
+            🔁 Quỹ này chia theo đợt — ngày, mức góp và ai tham gia chỉnh ở từng đợt (nút &ldquo;Sửa đợt&rdquo; trong trang quỹ).
+          </p>
+        )}
 
-        <div className="grid grid-cols-2 gap-3">
-          <MoneyField label="Mỗi người góp" value={draft.perMemberTarget} onChange={(perMemberTarget) => patch({ perMemberTarget })} />
-          <MoneyField
-            label="Tổng cần gom"
-            value={draft.target}
-            onChange={(target) => patch({ target })}
-            hint={
-              !draft.target && draft.perMemberTarget && headcount
-                ? `Để trống = ${VND.format(draft.perMemberTarget * headcount)} đ (${headcount} người)`
-                : undefined
-            }
-          />
-        </div>
+        {(isTrip || isNew) && (
+          <div className="grid grid-cols-2 gap-3">
+            <DatePicker
+              label={isTrip ? 'Ngày đi' : 'Bắt đầu gom'}
+              value={draft.startDate}
+              clearable
+              // Ngày về trước ngày đi mới chọn thì bỏ ngày về
+              onChange={(startDate) =>
+                patch({
+                  startDate,
+                  endDate: startDate && draft.endDate && draft.endDate < startDate ? null : draft.endDate,
+                })
+              }
+            />
+            <DatePicker
+              label={isTrip ? 'Ngày về' : 'Hạn chót'}
+              value={draft.endDate}
+              min={draft.startDate}
+              clearable
+              align="right"
+              onChange={(endDate) => patch({ endDate })}
+            />
+          </div>
+        )}
+
+        {(isTrip || isNew) && (
+          <div className="grid grid-cols-2 gap-3">
+            <MoneyField label="Mỗi người góp" value={draft.perMemberTarget} onChange={(perMemberTarget) => patch({ perMemberTarget })} />
+            <MoneyField
+              label="Tổng cần gom"
+              value={draft.target}
+              onChange={(target) => patch({ target })}
+              hint={
+                !draft.target && draft.perMemberTarget && headcount
+                  ? `Để trống = ${VND.format(draft.perMemberTarget * headcount)} đ (${headcount} người)`
+                  : undefined
+              }
+            />
+          </div>
+        )}
 
         {isNew ? (
           <div>
@@ -361,7 +400,7 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
             className="w-full rounded-xl bg-danger-soft py-3 text-sm font-semibold text-danger disabled:opacity-60"
           >
             <BusyLabel busy={busy === 'delete'} label="Đang xoá…">
-              🗑 Xoá chuyến đi / quỹ này
+              🗑 {isTrip ? 'Xoá chuyến đi này' : 'Xoá quỹ này'}
             </BusyLabel>
           </button>
         )}

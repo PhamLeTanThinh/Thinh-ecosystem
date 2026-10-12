@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { tripEntries, tripFunds, tripMembers } from '@/db/schema'
+import { tripEntries, tripFunds, tripMembers, tripRounds } from '@/db/schema'
 import { isISODate, type FundMember } from '@/lib/trips/types'
 import { toMember } from '@/lib/trips/rows'
 
@@ -83,6 +83,12 @@ export async function DELETE(req: NextRequest) {
   await db.transaction(async (tx) => {
     await tx.delete(tripMembers).where(eq(tripMembers.id, id))
     await tx.update(tripFunds).set({ treasurerId: null }).where(eq(tripFunds.treasurerId, id))
+    // Bỏ khỏi danh sách tham gia các đợt của quỹ
+    const rounds = await tx.select().from(tripRounds).where(eq(tripRounds.fundId, member.fundId))
+    for (const r of rounds) {
+      const ids = (r.memberIds as string[]) ?? []
+      if (ids.includes(id)) await tx.update(tripRounds).set({ memberIds: ids.filter((x) => x !== id) }).where(eq(tripRounds.id, r.id))
+    }
   })
   return NextResponse.json({ ok: true })
 }

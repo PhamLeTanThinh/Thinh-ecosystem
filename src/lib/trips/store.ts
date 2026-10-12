@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 import { BACKGROUND_HEADER } from '@/lib/loading/tracker'
 import { askConfirm, showError } from './dialog'
-import type { Fund, FundEntry, FundMember } from './types'
+import { openingEntryId, type Fund, type FundEntry, type FundMember, type FundRound } from './types'
 
 async function api<T>(url: string, init?: RequestInit): Promise<T> {
   // Thao tác ghi đánh dấu X-Background: không bật overlay toàn trang (TripsLoading), nút bấm tự hiện spinner
@@ -17,22 +17,31 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
 
 export type FundInput = Omit<Fund, 'createdAt' | 'closedAt' | 'coverImage' | 'shareSlug'>
 export type EntryInput = Omit<FundEntry, 'createdAt' | 'attachments' | 'originalAmount' | 'originalCurrency'>
-export type MemberInput = Pick<FundMember, 'id' | 'fundId' | 'name'> & Partial<Pick<FundMember, 'joinedAt' | 'leftAt' | 'note' | 'contact' | 'sortOrder'>>
+export type RoundInput = Omit<FundRound, 'createdAt' | 'sortOrder'>
+export type MemberInput = Pick<FundMember, 'id' | 'fundId' | 'name'> &
+  Partial<Pick<FundMember, 'joinedAt' | 'leftAt' | 'note' | 'contact' | 'sortOrder'>>
 
 interface TripsState {
   funds: Fund[] | null
   members: FundMember[]
+  rounds: FundRound[]
   entries: FundEntry[]
   loadError: string
   load: () => Promise<void>
-  createFund: (fund: FundInput, members: { id: string; name: string }[]) => Promise<Fund>
+  // roundName: tên đợt đầu (quỹ góp / khác tự tạo sẵn đợt đầu)
+  createFund: (fund: FundInput, members: { id: string; name: string }[], roundName?: string) => Promise<Fund>
   updateFund: (fund: Partial<FundInput> & { id: string }) => Promise<Fund>
   deleteFund: (id: string) => Promise<void>
   addMember: (member: MemberInput) => Promise<void>
   updateMember: (member: Partial<FundMember> & { id: string }) => Promise<void>
   deleteMember: (id: string) => Promise<void>
+  createRound: (round: RoundInput, opts?: { newMembers?: { id: string; name: string }[]; adoptOrphans?: boolean }) => Promise<FundRound>
+  updateRound: (round: Partial<FundRound> & { id: string }) => Promise<void>
+  deleteRound: (id: string) => Promise<void>
   saveEntries: (entries: EntryInput[], isNew: boolean) => Promise<void>
   deleteEntry: (id: string) => Promise<void>
+  // Đặt số dư ban đầu (nhập tay) của 1 đợt — 0 thì xoá; date: ngày ghi nhận
+  setRoundOpening: (round: Pick<FundRound, 'id' | 'fundId'>, amount: number, date: string) => Promise<void>
 }
 
 const replace = <T extends { id: string }>(list: T[], item: T) => list.map((x) => (x.id === item.id ? item : x))
@@ -41,22 +50,26 @@ const replace = <T extends { id: string }>(list: T[], item: T) => list.map((x) =
 export const useTrips = create<TripsState>((set, get) => ({
   funds: null,
   members: [],
+  rounds: [],
   entries: [],
   loadError: '',
 
   load: async () => {
     if (get().funds) return
     try {
-      const data = await api<{ funds: Fund[]; members: FundMember[]; entries: FundEntry[] }>('/api/trips')
-      set({ funds: data.funds, members: data.members, entries: data.entries, loadError: '' })
+      const data = await api<{ funds: Fund[]; members: FundMember[]; rounds: FundRound[]; entries: FundEntry[] }>('/api/trips')
+      set({ funds: data.funds, members: data.members, rounds: data.rounds, entries: data.entries, loadError: '' })
     } catch (e) {
       set({ loadError: (e as Error).message })
     }
   },
 
-  createFund: async (fund, members) => {
-    const res = await api<{ fund: Fund; members: FundMember[] }>('/api/trips', { method: 'POST', body: JSON.stringify({ ...fund, members }) })
-    set((s) => ({ funds: [res.fund, ...(s.funds ?? [])], members: [...s.members, ...res.members] }))
+  createFund: async (fund, members, roundName) => {
+    const res = await api<{ fund: Fund; members: FundMember[]; rounds: FundRound[] }>('/api/trips', {
+      method: 'POST',
+      body: JSON.stringify({ ...fund, members, roundName }),
+    })
+    set((s) => ({ funds: [res.fund, ...(s.funds ?? [])], members: [...s.members, ...res.members], rounds: [...s.rounds, ...res.rounds] }))
     return res.fund
   },
 
@@ -71,6 +84,7 @@ export const useTrips = create<TripsState>((set, get) => ({
     set((s) => ({
       funds: (s.funds ?? []).filter((f) => f.id !== id),
       members: s.members.filter((m) => m.fundId !== id),
+      rounds: s.rounds.filter((r) => r.fundId !== id),
       entries: s.entries.filter((e) => e.fundId !== id),
     }))
   },
@@ -89,8 +103,33 @@ export const useTrips = create<TripsState>((set, get) => ({
     await api('/api/trips/members?id=' + encodeURIComponent(id), { method: 'DELETE' })
     set((s) => ({
       members: s.members.filter((m) => m.id !== id),
+      rounds: s.rounds.map((r) => (r.memberIds.includes(id) ? { ...r, memberIds: r.memberIds.filter((x) => x !== id) } : r)),
       funds: (s.funds ?? []).map((f) => (f.treasurerId === id ? { ...f, treasurerId: null } : f)),
     }))
+  },
+
+  createRound: async (round, opts = {}) => {
+    const res = await api<{ round: FundRound; members: FundMember[] }>('/api/trips/rounds', {
+      method: 'POST',
+      body: JSON.stringify({ ...round, newMembers: opts.newMembers ?? [], adoptOrphans: opts.adoptOrphans ?? false }),
+    })
+    set((s) => ({
+      rounds: [...s.rounds, res.round],
+      members: [...s.members, ...res.members],
+      // Khoản chưa thuộc đợt nào đã được server gom vào đợt này
+      entries: opts.adoptOrphans ? s.entries.map((e) => (e.fundId === round.fundId && !e.roundId ? { ...e, roundId: res.round.id } : e)) : s.entries,
+    }))
+    return res.round
+  },
+
+  updateRound: async (round) => {
+    const saved = await api<FundRound>('/api/trips/rounds', { method: 'PATCH', body: JSON.stringify(round) })
+    set((s) => ({ rounds: replace(s.rounds, saved) }))
+  },
+
+  deleteRound: async (id) => {
+    await api('/api/trips/rounds?id=' + encodeURIComponent(id), { method: 'DELETE' })
+    set((s) => ({ rounds: s.rounds.filter((r) => r.id !== id) }))
   },
 
   saveEntries: async (entries, isNew) => {
@@ -99,6 +138,33 @@ export const useTrips = create<TripsState>((set, get) => ({
     )
     const ids = new Set(saved.map((e) => e.id))
     set((s) => ({ entries: [...s.entries.filter((e) => !ids.has(e.id)), ...saved] }))
+  },
+
+  setRoundOpening: async (round, amount, date) => {
+    const id = openingEntryId(round.id)
+    const existing = get().entries.find((e) => e.id === id)
+    if (amount <= 0) {
+      if (existing) await get().deleteEntry(id)
+      return
+    }
+    if (existing && existing.amount === amount) return
+    const entry = {
+      id,
+      fundId: round.fundId,
+      roundId: round.id,
+      type: 'in' as const,
+      amount,
+      date: existing?.date ?? date,
+      dueDate: null,
+      done: true,
+      memberId: null,
+      toMemberId: null,
+      splitMode: 'equal' as const,
+      splits: [],
+      category: 'carryover',
+      note: 'Số dư ban đầu',
+    }
+    await get().saveEntries([entry], !existing)
   },
 
   deleteEntry: async (id) => {

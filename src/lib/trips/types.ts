@@ -65,9 +65,31 @@ export interface EntryPhoto {
   url: string
 }
 
+// Đợt của 1 quỹ dùng lại nhiều lần (20/10, 8/3...). Người tham gia riêng từng đợt; tiền dư cuối đợt tự thành số
+// dư đầu đợt sau (tính từ các khoản), phần dư / thiếu của từng người cũng mang sang (xem roundMemberView).
+export interface FundRound {
+  id: string
+  fundId: string
+  name: string
+  note: string
+  startDate: string | null
+  endDate: string | null
+  target: number
+  perMemberTarget: number
+  memberIds: string[]
+  sortOrder: number
+  closed: boolean
+  createdAt: string
+}
+
+export function sortRounds(rounds: FundRound[]) {
+  return [...rounds].sort((a, b) => a.sortOrder - b.sortOrder || a.createdAt.localeCompare(b.createdAt))
+}
+
 export interface FundEntry {
   id: string
   fundId: string
+  roundId: string | null // đợt chứa khoản này (quỹ dùng nhiều đợt); null = quỹ không chia đợt
   type: EntryType
   amount: number // theo tiền tệ của quỹ
   originalAmount: number | null // số tiền gốc nếu chi bằng ngoại tệ — chưa dùng ở UI
@@ -99,6 +121,8 @@ export const OUT_CATEGORIES = [
 
 export const IN_CATEGORIES = [
   { key: 'contribution', icon: '🤝', label: 'Góp quỹ' },
+  // Tiền còn dư từ đợt / chuyến trước chuyển sang làm vốn đầu — người dùng tự nhập số tiền. Không gắn ai = tiền chung
+  { key: 'carryover', icon: '♻️', label: 'Còn lại từ đợt trước' },
   { key: 'refund', icon: '↩️', label: 'Hoàn tiền' },
   { key: 'other', icon: '💰', label: 'Khác' },
 ] as const
@@ -174,10 +198,20 @@ export function summarize(entries: FundEntry[]): FundSummary {
 }
 
 // Chia 1 khoản cho từng người theo splitMode. Không có ai hợp lệ → chia cho mọi người đang trong quỹ ngày đó.
-export function shareOf(e: FundEntry, members: FundMember[]): Map<string, number> {
+// Ai mặc định chịu 1 khoản khi không ghi rõ: người tham gia đợt của khoản đó; quỹ không chia đợt → ai đang trong quỹ ngày đó
+function defaultSharers(e: FundEntry, members: FundMember[], rounds: FundRound[]): string[] {
+  const round = e.roundId ? rounds.find((r) => r.id === e.roundId) : undefined
+  if (round) {
+    const ids = new Set(members.map((m) => m.id))
+    return round.memberIds.filter((id) => ids.has(id))
+  }
+  return members.filter((m) => isActiveOn(m, e.date)).map((m) => m.id)
+}
+
+export function shareOf(e: FundEntry, members: FundMember[], rounds: FundRound[] = []): Map<string, number> {
   const ids = new Set(members.map((m) => m.id))
   let splits = e.splits.filter((s) => ids.has(s.memberId))
-  if (!splits.length) splits = members.filter((m) => isActiveOn(m, e.date)).map((m) => ({ memberId: m.id, value: null }))
+  if (!splits.length) splits = defaultSharers(e, members, rounds).map((memberId) => ({ memberId, value: null }))
   const out = new Map<string, number>()
   if (!splits.length) return out
   if (e.splitMode === 'exact') {
@@ -202,7 +236,7 @@ export interface MemberBalance {
   net: number // > 0 được nhận lại, < 0 còn thiếu
 }
 
-export function memberBalances(members: FundMember[], entries: FundEntry[]): MemberBalance[] {
+export function memberBalances(members: FundMember[], entries: FundEntry[], rounds: FundRound[] = []): MemberBalance[] {
   const map = new Map<string, MemberBalance>(
     members.map((m) => [m.id, { member: m, contributed: 0, advanced: 0, share: 0, sent: 0, received: 0, pendingIn: 0, net: 0 }]),
   )
@@ -215,10 +249,10 @@ export function memberBalances(members: FundMember[], entries: FundEntry[]): Mem
     if (e.type === 'in') {
       if (who) who.contributed += e.amount
       // Tiền vào từ nguồn khác (hoàn tiền, tiền thừa) là của chung → trừ vào phần chi phí của mọi người
-      else for (const [id, v] of shareOf(e, members)) map.get(id)!.share -= v
+      else for (const [id, v] of shareOf(e, members, rounds)) map.get(id)!.share -= v
     } else if (e.type === 'out') {
       if (who) who.advanced += e.amount
-      for (const [id, v] of shareOf(e, members)) map.get(id)!.share += v
+      for (const [id, v] of shareOf(e, members, rounds)) map.get(id)!.share += v
     } else {
       if (who) who.sent += e.amount
       const to = e.toMemberId ? map.get(e.toMemberId) : undefined
@@ -227,6 +261,45 @@ export function memberBalances(members: FundMember[], entries: FundEntry[]): Mem
   }
   for (const b of map.values()) b.net = b.contributed + b.advanced - b.share + b.sent - b.received
   return [...map.values()]
+}
+
+// ── Đợt ─────────────────────────────────────────────────────────────────────────
+
+export interface RoundSummary extends FundSummary {
+  round: FundRound
+  opening: number // tiền mặt mang sang từ các đợt trước
+  closing: number // = opening + balance của đợt này → thành opening của đợt sau
+}
+
+// Tổng kết từng đợt theo thứ tự: số dư đầu đợt = số dư cuối đợt trước (cộng dồn tiền mặt của quỹ)
+export function roundSummaries(rounds: FundRound[], entries: FundEntry[]): RoundSummary[] {
+  let carry = 0
+  return sortRounds(rounds).map((round) => {
+    const s = summarize(entries.filter((e) => e.roundId === round.id))
+    const out = { ...s, round, opening: carry, closing: carry + s.balance }
+    carry = out.closing
+    return out
+  })
+}
+
+export interface RoundMemberView extends MemberBalance {
+  carryIn: number // dư (+) / thiếu (−) cá nhân mang sang từ các đợt trước
+  toPay: number // còn cần góp đợt này = mức góp − dư mang sang − đã góp / hẹn góp trong đợt (không âm)
+  inRound: boolean // có tham gia đợt này không
+}
+
+// Số liệu từng người trong 1 đợt: phần dư/thiếu mang sang từ các đợt trước + thu chi trong đợt này
+export function roundMemberView(round: FundRound, rounds: FundRound[], members: FundMember[], entries: FundEntry[]): RoundMemberView[] {
+  const ordered = sortRounds(rounds)
+  const before = new Set(ordered.slice(0, ordered.findIndex((r) => r.id === round.id)).map((r) => r.id))
+  const prev = new Map(memberBalances(members, entries.filter((e) => e.roundId && before.has(e.roundId)), rounds).map((b) => [b.member.id, b.net]))
+  const cur = memberBalances(members, entries.filter((e) => e.roundId === round.id), rounds)
+  const inRound = new Set(round.memberIds)
+  return cur.map((b) => {
+    const carryIn = prev.get(b.member.id) ?? 0
+    const toPay = round.perMemberTarget ? Math.max(0, round.perMemberTarget - carryIn - b.contributed - b.pendingIn) : 0
+    return { ...b, carryIn, net: b.net + carryIn, toPay: inRound.has(b.member.id) ? toPay : 0, inRound: inRound.has(b.member.id) }
+  })
 }
 
 export const FUND_ID = '__fund__' // "người" giả đại diện cho tiền mặt đang nằm trong quỹ
@@ -282,3 +355,9 @@ export function todayISO(): string {
 export function daysBetween(a: string, b: string): number {
   return Math.round((Date.parse(b) - Date.parse(a)) / 86_400_000)
 }
+
+// Số dư ban đầu nhập tay của 1 đợt (tiền đã có sẵn trong quỹ / cộng thêm vào dư đầu đợt): lưu như 1 khoản thu chung
+// (không gắn ai, nhóm 'carryover') với id cố định theo đợt — tính toán như mọi khoản thu, nhưng giao diện gộp vào
+// "Dư đầu đợt" thay vì hiện trong danh sách thu chi.
+export const openingEntryId = (roundId: string) => `${roundId}-opening`
+export const isOpeningEntry = (e: Pick<FundEntry, 'id' | 'roundId'>) => !!e.roundId && e.id === openingEntryId(e.roundId)

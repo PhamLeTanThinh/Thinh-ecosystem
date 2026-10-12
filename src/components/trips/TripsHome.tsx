@@ -5,7 +5,20 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { announceNavigation } from '@/components/loading/NavigationWatcher'
 import { confirmDeleteFund, useTrips, type FundInput } from '@/lib/trips/store'
-import { effectiveTarget, formatDate, formatVND, isLeft, summarize, todayISO, type Fund, type FundEntry, type FundMember } from '@/lib/trips/types'
+import {
+  effectiveTarget,
+  formatDate,
+  formatVND,
+  isLeft,
+  roundSummaries,
+  sortRounds,
+  summarize,
+  todayISO,
+  type Fund,
+  type FundEntry,
+  type FundMember,
+  type FundRound,
+} from '@/lib/trips/types'
 import { emptyFund, FundSheet } from './FundSheet'
 import { FUND_THEME, fundTheme, TRIP_THEMES } from '@/lib/trips/themes'
 import { HeroScene } from './HeroScene'
@@ -27,7 +40,7 @@ export function dateRange(fund: Fund) {
 // /trips — danh sách các chuyến đi / quỹ chung dạng "boarding pass", chia "Đang mở" và "Đã đóng".
 export function TripsHome() {
   const router = useRouter()
-  const { funds, members, entries, loadError, load } = useTrips()
+  const { funds, members, rounds, entries, loadError, load } = useTrips()
   const [creating, setCreating] = useState<FundInput | null>(null)
 
   useEffect(() => {
@@ -62,7 +75,9 @@ export function TripsHome() {
           <h1 className="tp-display mt-2 text-4xl font-black leading-[1.05] md:text-5xl">
             Hành trình <span className="font-medium italic text-[#e0703a]">&</span> Quỹ chung
           </h1>
-          <p className="mt-2 max-w-md text-sm text-[#4b5560]">Bay, phượt, trekking hay ra biển — ai góp bao nhiêu, chi gì, ngày nào, cuối chuyến ai trả ai.</p>
+          <p className="mt-2 max-w-md text-sm text-[#4b5560]">
+            Bay, phượt, trekking hay ra biển — ai góp bao nhiêu, chi gì, ngày nào, cuối chuyến ai trả ai.
+          </p>
 
           <button
             type="button"
@@ -105,7 +120,9 @@ export function TripsHome() {
         <section className="mt-10 text-center">
           <p className="text-5xl">🧳</p>
           <p className="tp-display mt-3 text-2xl font-bold text-(--tp-ink)">Chưa có chuyến nào</p>
-          <p className="mx-auto mt-1 max-w-md text-sm text-muted">Chọn kiểu đi để bắt đầu — mỗi kiểu có giao diện riêng, đổi lại lúc nào cũng được.</p>
+          <p className="mx-auto mt-1 max-w-md text-sm text-muted">
+            Chọn kiểu đi để bắt đầu — mỗi kiểu có giao diện riêng, đổi lại lúc nào cũng được.
+          </p>
           <div className="mx-auto mt-6 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
             {QUICK_STARTS.map(({ theme: t, make }) => (
               <button
@@ -136,13 +153,13 @@ export function TripsHome() {
       {open.length > 0 && (
         <>
           <SectionTitle>Sắp & đang diễn ra</SectionTitle>
-          <FundGrid funds={open} byFund={byFund} members={members} />
+          <FundGrid funds={open} byFund={byFund} members={members} rounds={rounds} />
         </>
       )}
       {closed.length > 0 && (
         <>
           <SectionTitle>Đã hoàn thành</SectionTitle>
-          <FundGrid funds={closed} byFund={byFund} members={members} />
+          <FundGrid funds={closed} byFund={byFund} members={members} rounds={rounds} />
         </>
       )}
 
@@ -178,7 +195,17 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   )
 }
 
-function FundGrid({ funds, byFund, members }: { funds: Fund[]; byFund: Map<string, FundEntry[]>; members: FundMember[] }) {
+function FundGrid({
+  funds,
+  byFund,
+  members,
+  rounds,
+}: {
+  funds: Fund[]
+  byFund: Map<string, FundEntry[]>
+  members: FundMember[]
+  rounds: FundRound[]
+}) {
   const today = todayISO()
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
@@ -194,8 +221,16 @@ function FundGrid({ funds, byFund, members }: { funds: Fund[]; byFund: Map<strin
         const s = summarize(list)
         const overdue = list.filter((e) => !e.done && e.date < today).length
         const fundMembers = members.filter((m) => m.fundId === f.id && !isLeft(m))
-        const target = effectiveTarget(f, fundMembers)
-        const pct = target > 0 ? (s.collected / target) * 100 : 0
+        // Quỹ góp chia đợt → thẻ hiện đợt mới nhất: ngày, ai tham gia, tiến độ gom (tính cả tiền dư mang sang)
+        const fundRounds = sortRounds(rounds.filter((r) => r.fundId === f.id))
+        const latest = f.kind !== 'trip' ? fundRounds.at(-1) : undefined
+        const latestSum = latest ? roundSummaries(fundRounds, list).at(-1) : undefined
+        const people = latest ? fundMembers.filter((m) => latest.memberIds.includes(m.id)) : fundMembers
+        const target = latest ? latest.target || latest.perMemberTarget * people.length : effectiveTarget(f, fundMembers)
+        const gathered = latestSum ? latestSum.opening + latestSum.collected : s.collected
+        const pct = target > 0 ? (gathered / target) * 100 : 0
+        const startDate = latest ? latest.startDate : f.startDate
+        const endDate = latest ? latest.endDate : f.endDate
         const [l1, l2] = dateLabels(f)
         const theme = fundTheme(f)
         const deleting = deletingId === f.id
@@ -241,14 +276,16 @@ function FundGrid({ funds, byFund, members }: { funds: Fund[]; byFund: Map<strin
                   </span>
                   <div className="min-w-0 flex-1">
                     <p className="tp-title truncate text-xl font-bold leading-tight text-(--tp-ink)">{f.name}</p>
-                    <p className="truncate text-xs text-muted">{f.location ? `📍 ${f.location}` : ' '}</p>
+                    <p className="truncate text-xs text-muted">
+                      {latest ? `🔁 ${latest.name} · đợt ${fundRounds.length}` : f.location ? `📍 ${f.location}` : ' '}
+                    </p>
                   </div>
                 </div>
 
                 <div className="mt-4 grid grid-cols-3 gap-2">
-                  <TicketField label={l1} value={f.startDate ? formatDate(f.startDate).slice(0, 5) : '—'} />
-                  <TicketField label={l2} value={f.endDate ? formatDate(f.endDate).slice(0, 5) : '—'} />
-                  <TicketField label={theme.people} value={String(fundMembers.length).padStart(2, '0')} />
+                  <TicketField label={l1} value={startDate ? formatDate(startDate).slice(0, 5) : '—'} />
+                  <TicketField label={l2} value={endDate ? formatDate(endDate).slice(0, 5) : '—'} />
+                  <TicketField label={theme.people} value={String(people.length).padStart(2, '0')} />
                 </div>
 
                 {target > 0 && (
@@ -277,14 +314,14 @@ function FundGrid({ funds, byFund, members }: { funds: Fund[]; byFund: Map<strin
                   </p>
                 </div>
                 <div className="flex shrink-0 flex-col items-end gap-2">
-                  {fundMembers.length > 0 && (
+                  {people.length > 0 && (
                     <span className="flex -space-x-2">
-                      {fundMembers.slice(0, 4).map((m) => (
+                      {people.slice(0, 4).map((m) => (
                         <Avatar key={m.id} id={m.id} name={m.name} size={26} />
                       ))}
-                      {fundMembers.length > 4 && (
+                      {people.length > 4 && (
                         <span className="inline-flex h-6.5 w-6.5 items-center justify-center rounded-full bg-card-soft text-[10px] font-semibold ring-2 ring-card">
-                          +{fundMembers.length - 4}
+                          +{people.length - 4}
                         </span>
                       )}
                     </span>

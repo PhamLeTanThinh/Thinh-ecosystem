@@ -11,10 +11,12 @@ import { categoriesOf, formatVND, isActiveOn, todayISO, type EntryType, type Fun
 import { DatePicker } from './DatePicker'
 import { BusyLabel } from './ui'
 
-export function emptyEntry(fundId: string, type: EntryType): EntryInput {
+// roundId: đợt đang xem (quỹ dùng nhiều đợt) — khoản mới thuộc đợt đó
+export function emptyEntry(fundId: string, type: EntryType, roundId: string | null = null): EntryInput {
   return {
     id: nanoid(),
     fundId,
+    roundId,
     type,
     amount: 0,
     date: todayISO(),
@@ -35,6 +37,8 @@ interface EntrySheetProps {
   entry: EntryInput | null // null khi đóng
   isNew: boolean
   onClose: () => void
+  // Quỹ chia đợt: người tham gia đợt của khoản này — chỉ họ hiện ra để chọn / mặc định chịu chi phí
+  participantIds?: string[] | null
 }
 
 export function EntrySheet(props: EntrySheetProps) {
@@ -68,7 +72,7 @@ const TYPES: {
 
 // Thêm / sửa 1 khoản. Khi THÊM khoản thu có thể chọn nhiều người cùng lúc → tạo mỗi người 1 khoản cùng số tiền
 // (kiểu "mỗi người góp 500k, hạn 20/10"). Danh sách người chỉ gồm ai đang trong quỹ vào ngày của khoản.
-function EntryForm({ fund, members, entry, isNew, onClose }: EntrySheetProps & { entry: EntryInput }) {
+function EntryForm({ fund, members, entry, isNew, onClose, participantIds }: EntrySheetProps & { entry: EntryInput }) {
   const saveEntries = useTrips((s) => s.saveEntries)
   const deleteEntry = useTrips((s) => s.deleteEntry)
   const [draft, setDraft] = useState<EntryInput>(entry)
@@ -79,11 +83,13 @@ function EntryForm({ fund, members, entry, isNew, onClose }: EntrySheetProps & {
   const patch = (p: Partial<EntryInput>) => setDraft((d) => ({ ...d, ...p }))
   const { type } = draft
   const isIn = type === 'in'
+  const carryover = isIn && draft.category === 'carryover'
 
   // Người hiện ra để chọn: đang trong quỹ vào ngày này + người đã được chọn sẵn ở khoản cũ (dù đã rời)
   const picked = new Set([draft.memberId, draft.toMemberId, ...payers, ...draft.splits.map((s) => s.memberId)])
-  const pickable = members.filter((m) => isActiveOn(m, draft.date) || picked.has(m.id))
-  const activeIds = members.filter((m) => isActiveOn(m, draft.date)).map((m) => m.id)
+  const inScope = (m: FundMember) => (participantIds ? participantIds.includes(m.id) : isActiveOn(m, draft.date))
+  const pickable = members.filter((m) => inScope(m) || picked.has(m.id))
+  const activeIds = members.filter(inScope).map((m) => m.id)
   // Chưa chỉnh danh sách chia → mặc định mọi người đang trong quỹ ngày đó
   const splitIds = draft.splits.length ? draft.splits.map((s) => s.memberId) : activeIds
   const multiPayers = isIn && isNew && payers.length > 1
@@ -159,6 +165,28 @@ function EntryForm({ fund, members, entry, isNew, onClose }: EntrySheetProps & {
     }
   }
 
+  // Chọn nhóm khoản — chọn "Còn lại từ đợt trước" thì mặc định là tiền chung (bỏ người đã chọn)
+  const categoryBlock = type !== 'transfer' && (
+    <div>
+      <p className="text-sm text-muted">Nhóm</p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {categoriesOf(type).map((c) => (
+          <button
+            key={c.key}
+            type="button"
+            onClick={() => {
+              patch({ category: c.key })
+              if (c.key === 'carryover') setPayers([])
+            }}
+            className={chip(draft.category === c.key)}
+          >
+            {c.icon} {c.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+
   const titles: Record<EntryType, string> = {
     in: 'Thêm khoản thu',
     out: 'Thêm khoản chi',
@@ -228,9 +256,14 @@ function EntryForm({ fund, members, entry, isNew, onClose }: EntrySheetProps & {
           onChange={(date) => date && patch({ date })}
         />
 
+        {/* Khoản thu: chọn nhóm trước — "Còn lại từ đợt trước" đổi luôn câu hỏi / gợi ý ở phần chọn người bên dưới */}
+        {isIn && categoryBlock}
+
         {pickable.length > 0 && isIn && (
           <div>
-            <p className="text-sm text-muted">{isNew ? 'Ai góp? (chọn nhiều = mỗi người 1 khoản)' : 'Ai góp?'}</p>
+            <p className="text-sm text-muted">
+              {carryover ? 'Tiền dư này của ai? (bỏ trống = của chung cả nhóm)' : isNew ? 'Ai góp? (chọn nhiều = mỗi người 1 khoản)' : 'Ai góp?'}
+            </p>
             <div className="mt-2 flex flex-wrap gap-2">
               {pickable.map((m) => (
                 <button key={m.id} type="button" onClick={() => togglePayer(m.id)} className={chip(payers.includes(m.id), 'income')}>
@@ -248,7 +281,11 @@ function EntryForm({ fund, members, entry, isNew, onClose }: EntrySheetProps & {
               )}
             </div>
             {payers.length === 0 && (
-              <p className="mt-2 text-xs text-muted">Không chọn ai = tiền từ nguồn khác (hoàn tiền, tiền thừa...), chia đều lại cho mọi người.</p>
+              <p className="mt-2 text-xs text-muted">
+                {carryover
+                  ? 'Tiền chung của cả nhóm — chia đều cho mọi người đang trong quỹ, trừ vào phần phải chịu của mỗi người.'
+                  : 'Không chọn ai = tiền từ nguồn khác (hoàn tiền, tiền thừa...), chia đều lại cho mọi người.'}
+              </p>
             )}
             {multiPayers && draft.amount > 0 && (
               <p className="mt-2 text-xs text-muted">
@@ -293,25 +330,14 @@ function EntryForm({ fund, members, entry, isNew, onClose }: EntrySheetProps & {
           </>
         )}
 
-        {type !== 'transfer' && (
-          <div>
-            <p className="text-sm text-muted">Nhóm</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {categoriesOf(type).map((c) => (
-                <button key={c.key} type="button" onClick={() => patch({ category: c.key })} className={chip(draft.category === c.key)}>
-                  {c.icon} {c.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        {!isIn && categoryBlock}
 
         <label className="block text-sm text-muted">
           Ghi chú
           <input
             value={draft.note}
             onChange={(e) => patch({ note: e.target.value })}
-            placeholder={isIn ? 'VD: đợt 1' : type === 'out' ? 'VD: lẩu gà lá é' : 'VD: trả lại tiền thừa'}
+            placeholder={carryover ? 'VD: dư từ chuyến Đà Lạt' : isIn ? 'VD: đợt 1' : type === 'out' ? 'VD: lẩu gà lá é' : 'VD: trả lại tiền thừa'}
             className="mt-1 w-full rounded-xl bg-card-soft px-3 py-2 text-text outline-none"
           />
         </label>

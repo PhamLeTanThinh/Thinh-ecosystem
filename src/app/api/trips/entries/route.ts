@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { tripEntries, tripFunds, tripMembers } from '@/db/schema'
+import { tripEntries, tripFunds, tripMembers, tripRounds } from '@/db/schema'
 import { categoriesOf, isEntryType, isISODate, type EntrySplit, type FundEntry, type SplitMode } from '@/lib/trips/types'
 import { toEntry } from '@/lib/trips/rows'
 
@@ -9,7 +9,7 @@ import { toEntry } from '@/lib/trips/rows'
 
 type EntryFields = Omit<FundEntry, 'id' | 'fundId' | 'createdAt' | 'attachments' | 'originalAmount' | 'originalCurrency'>
 
-function readFields(body: Record<string, unknown>, memberIds: Set<string>): EntryFields | string {
+function readFields(body: Record<string, unknown>, memberIds: Set<string>, roundIds: Set<string>): EntryFields | string {
   if (!isEntryType(body.type)) return 'Loại khoản không hợp lệ'
   const type = body.type
   const amount = Number(body.amount)
@@ -37,7 +37,10 @@ function readFields(body: Record<string, unknown>, memberIds: Set<string>): Entr
   const note = typeof body.note === 'string' ? body.note.trim() : ''
   if (note.length > 500) return 'Ghi chú tối đa 500 ký tự'
   const done = body.done !== false
+  const roundId = typeof body.roundId === 'string' && body.roundId ? body.roundId : null
+  if (roundId && !roundIds.has(roundId)) return 'Đợt không thuộc quỹ này'
   return {
+    roundId,
     type,
     amount,
     date: body.date,
@@ -58,13 +61,18 @@ async function memberIdsOf(fundId: string) {
   return new Set(rows.map((r) => r.id))
 }
 
+async function roundIdsOf(fundId: string) {
+  const rows = await db.select({ id: tripRounds.id }).from(tripRounds).where(eq(tripRounds.fundId, fundId))
+  return new Set(rows.map((r) => r.id))
+}
+
 export async function POST(req: NextRequest) {
   const body = (await req.json()) as Record<string, unknown>
   if (typeof body.id !== 'string' || !body.id) return NextResponse.json({ error: 'Thiếu id' }, { status: 400 })
   if (typeof body.fundId !== 'string') return NextResponse.json({ error: 'Thiếu quỹ' }, { status: 400 })
   const [fund] = await db.select({ id: tripFunds.id }).from(tripFunds).where(eq(tripFunds.id, body.fundId))
   if (!fund) return NextResponse.json({ error: 'Không tìm thấy quỹ' }, { status: 404 })
-  const fields = readFields(body, await memberIdsOf(body.fundId))
+  const fields = readFields(body, await memberIdsOf(body.fundId), await roundIdsOf(body.fundId))
   if (typeof fields === 'string') return NextResponse.json({ error: fields }, { status: 400 })
   const [row] = await db
     .insert(tripEntries)
@@ -78,7 +86,7 @@ export async function PATCH(req: NextRequest) {
   if (typeof body.id !== 'string') return NextResponse.json({ error: 'Thiếu id' }, { status: 400 })
   const [current] = await db.select({ fundId: tripEntries.fundId }).from(tripEntries).where(eq(tripEntries.id, body.id))
   if (!current) return NextResponse.json({ error: 'Không tìm thấy' }, { status: 404 })
-  const fields = readFields(body, await memberIdsOf(current.fundId))
+  const fields = readFields(body, await memberIdsOf(current.fundId), await roundIdsOf(current.fundId))
   if (typeof fields === 'string') return NextResponse.json({ error: fields }, { status: 400 })
   const [row] = await db
     .update(tripEntries)

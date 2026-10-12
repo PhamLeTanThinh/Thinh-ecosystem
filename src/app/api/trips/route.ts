@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { asc, desc, eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { tripEntries, tripFunds, tripMembers } from '@/db/schema'
+import { tripEntries, tripFunds, tripMembers, tripRounds } from '@/db/schema'
 import { isFundKind, isISODate, kindOf, type Fund } from '@/lib/trips/types'
-import { toEntry, toFund, toMember } from '@/lib/trips/rows'
+import { toEntry, toFund, toMember, toRound } from '@/lib/trips/rows'
 import { isTripTheme } from '@/lib/trips/themes'
 
 // Trip & Quỹ chung: GET trả về toàn bộ quỹ + thành viên + mọi khoản (dữ liệu nhỏ, client tự tính tổng). Không khoá
@@ -68,12 +68,13 @@ function readFields(body: Record<string, unknown>, partial: boolean): FundFields
 }
 
 export async function GET() {
-  const [funds, members, entries] = await Promise.all([
+  const [funds, members, rounds, entries] = await Promise.all([
     db.select().from(tripFunds).orderBy(desc(tripFunds.createdAt)),
     db.select().from(tripMembers).orderBy(asc(tripMembers.sortOrder), asc(tripMembers.createdAt)),
+    db.select().from(tripRounds).orderBy(asc(tripRounds.sortOrder), asc(tripRounds.createdAt)),
     db.select().from(tripEntries).orderBy(asc(tripEntries.date), asc(tripEntries.createdAt)),
   ])
-  return NextResponse.json({ funds: funds.map(toFund), members: members.map(toMember), entries: entries.map(toEntry) })
+  return NextResponse.json({ funds: funds.map(toFund), members: members.map(toMember), rounds: rounds.map(toRound), entries: entries.map(toEntry) })
 }
 
 // Tạo quỹ, kèm danh sách thành viên ban đầu (`members: {id, name}[]`, id do client sinh)
@@ -104,7 +105,24 @@ export async function POST(req: NextRequest) {
       })
       .returning()
     const rows = members.length ? await tx.insert(tripMembers).values(members.map((m) => ({ ...m, fundId: fund.id }))).returning() : []
-    return { fund: toFund(fund), members: rows.map(toMember) }
+    // Quỹ góp / khác dùng được nhiều đợt → tạo sẵn đợt đầu với toàn bộ thành viên ban đầu
+    const roundRows =
+      kind === 'trip'
+        ? []
+        : await tx
+            .insert(tripRounds)
+            .values({
+              id: fund.id + '-r1',
+              fundId: fund.id,
+              name: typeof body.roundName === 'string' && body.roundName.trim() ? body.roundName.trim().slice(0, 80) : 'Đợt 1',
+              startDate: fields.startDate ?? null,
+              endDate: fields.endDate ?? null,
+              target: fields.target ?? 0,
+              perMemberTarget: fields.perMemberTarget ?? 0,
+              memberIds: rows.map((m) => m.id),
+            })
+            .returning()
+    return { fund: toFund(fund), members: rows.map(toMember), rounds: roundRows.map(toRound) }
   })
   return NextResponse.json(result)
 }

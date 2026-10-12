@@ -498,6 +498,30 @@ export const tripMembers = pgTable(
   (t) => [index('trip_members_fund_idx').on(t.fundId)],
 )
 
+// Đợt của 1 quỹ dùng lại nhiều lần (20/10, 8/3, Tết...). Mỗi đợt có danh sách người tham gia riêng (member_ids),
+// mức góp riêng; tiền dư cuối đợt tự thành số dư đầu đợt sau (tính từ các khoản, không lưu riêng).
+export const tripRounds = pgTable(
+  'trip_rounds',
+  {
+    id: text('id').primaryKey(),
+    fundId: text('fund_id')
+      .notNull()
+      .references(() => tripFunds.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    note: text('note').default('').notNull(),
+    startDate: varchar('start_date', { length: 10 }), // 'YYYY-MM-DD'
+    endDate: varchar('end_date', { length: 10 }),
+    target: integer('target').default(0).notNull(), // tổng cần gom đợt này, 0 = không đặt
+    perMemberTarget: integer('per_member_target').default(0).notNull(), // mỗi người cần góp đợt này
+    memberIds: jsonb('member_ids').default([]).notNull(), // string[] — tripMembers.id tham gia đợt này
+    sortOrder: integer('sort_order').default(0).notNull(),
+    closed: boolean('closed').default(false).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (t) => [index('trip_rounds_fund_idx').on(t.fundId)],
+)
+
 // Mỗi khoản thu/chi/chuyển tiền của 1 quỹ. done = false → khoản dự kiến (chờ thu / dự chi), `date` là ngày hẹn.
 export const tripEntries = pgTable(
   'trip_entries',
@@ -506,6 +530,8 @@ export const tripEntries = pgTable(
     fundId: text('fund_id')
       .notNull()
       .references(() => tripFunds.id, { onDelete: 'cascade' }),
+    // Đợt chứa khoản này (quỹ dùng nhiều đợt); null = quỹ không chia đợt. Xoá đợt chỉ khi đợt trống (RESTRICT).
+    roundId: text('round_id').references(() => tripRounds.id, { onDelete: 'restrict' }),
     type: varchar('type', { length: 10 }).notNull(), // 'in' | 'out' | 'transfer'
     amount: integer('amount').notNull(), // theo currency của quỹ
     originalAmount: integer('original_amount'), // số tiền gốc khi chi bằng ngoại tệ — chưa dùng ở UI

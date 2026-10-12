@@ -1,6 +1,6 @@
-import { tripEntries, tripFunds, tripMembers } from '@/db/schema'
+import { tripEntries, tripFunds, tripMembers, tripRounds } from '@/db/schema'
 import { DEFAULT_THEME, isTripTheme } from './themes'
-import { isEntryType, isFundKind, type EntryPhoto, type EntrySplit, type Fund, type FundEntry, type FundMember, type SplitMode } from './types'
+import { isEntryType, isFundKind, type EntryPhoto, type EntrySplit, type Fund, type FundEntry, type FundMember, type FundRound, type SplitMode } from './types'
 
 // Map dòng DB → kiểu dùng ở client (dùng chung cho các route /api/trips/*).
 
@@ -42,12 +42,30 @@ export function toMember(r: typeof tripMembers.$inferSelect): FundMember {
   }
 }
 
+export function toRound(r: typeof tripRounds.$inferSelect): FundRound {
+  return {
+    id: r.id,
+    fundId: r.fundId,
+    name: r.name,
+    note: r.note,
+    startDate: r.startDate,
+    endDate: r.endDate,
+    target: r.target,
+    perMemberTarget: r.perMemberTarget,
+    memberIds: Array.isArray(r.memberIds) ? (r.memberIds as string[]) : [],
+    sortOrder: r.sortOrder,
+    closed: r.closed,
+    createdAt: r.createdAt.toISOString(),
+  }
+}
+
 const SPLIT_MODES: SplitMode[] = ['equal', 'weight', 'exact']
 
 export function toEntry(r: typeof tripEntries.$inferSelect): FundEntry {
   return {
     id: r.id,
     fundId: r.fundId,
+    roundId: r.roundId,
     type: isEntryType(r.type) ? r.type : 'out',
     amount: r.amount,
     originalAmount: r.originalAmount,
