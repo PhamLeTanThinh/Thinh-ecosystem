@@ -541,3 +541,17 @@
     animation: none;
   }
 }
+
+/* ── Con trỏ chuột: bấm được → pointer, đang tắt → not-allowed ─────────────
+   Tailwind v4 (preflight) để <button> là cursor: default. Áp cho mọi thứ trong app (kể cả BottomSheet / hộp xác nhận
+   vì chúng render bên trong .trips-root). Nút bận (đang lưu) cũng disabled nên dùng progress thay vì not-allowed;
+   phần tử disabled chỉ để hiển thị thì gắn data-static để giữ con trỏ thường. */
+.trips-root :is(button, a[href], [role='button'], summary, label:has(> input[type='checkbox']), input[type='checkbox']):not(:disabled) {
+  cursor: pointer;
+}
+.trips-root :is(button, input, textarea, select):disabled:not([data-static]) {
+  cursor: not-allowed;
+}
+.trips-root button:disabled:has([role='status']) {
+  cursor: progress;
+}

@@ -11,6 +11,7 @@ import { DatePicker } from './DatePicker'
 import { MoneyField } from './FundSheet'
 import { Avatar, BusyLabel } from './ui'
 import { ErrorBanner } from './ErrorBanner'
+import { useDirty } from './useDirty'
 
 // Đợt mới của 1 quỹ dùng nhiều lần: mặc định copy người tham gia + mức góp của đợt gần nhất, tiền dư tự mang sang.
 export function newRoundDraft(fund: Fund, rounds: FundRound[]): RoundInput {
@@ -65,6 +66,8 @@ function RoundForm({ fund, round, isNew, onClose, onSaved, onDeleted }: RoundShe
   // luôn = số dư cuối đợt trước, tự tính, không cho sửa tay để số liệu không lệch.
   const isFirst = isNew ? rounds.length === 0 : sortRounds(rounds)[0]?.id === round.id
   const [initial, setInitial] = useState(() => entries.find((e) => e.id === openingEntryId(round.id))?.amount ?? 0)
+  // Chưa thay đổi gì so với lúc mở form → tắt nút Lưu
+  const dirty = useDirty({ draft, names, newName: newName.trim(), initial })
   const hasEntries = entries.some((e) => e.roundId === round.id && e.id !== openingEntryId(round.id))
   const headcount = draft.memberIds.length + names.length
 
@@ -134,7 +137,13 @@ function RoundForm({ fund, round, isNew, onClose, onSaved, onDeleted }: RoundShe
         title={isNew ? 'Đợt mới' : 'Sửa đợt'}
         onCancel={onClose}
         right={
-          <button type="button" onClick={submit} disabled={!!busy} className="disabled:opacity-60">
+          <button
+            type="button"
+            onClick={submit}
+            disabled={!!busy || !dirty}
+            title={!dirty && !busy ? 'Chưa có thay đổi nào' : undefined}
+            className={busy ? 'disabled:opacity-60' : 'disabled:cursor-not-allowed disabled:opacity-35'}
+          >
             <BusyLabel busy={busy === 'save'} label="Đang lưu">
               Lưu
             </BusyLabel>
@@ -291,7 +300,6 @@ function RoundForm({ fund, round, isNew, onClose, onSaved, onDeleted }: RoundShe
             />
           </label>
         )}
-
 
         {!isNew && (
           <button

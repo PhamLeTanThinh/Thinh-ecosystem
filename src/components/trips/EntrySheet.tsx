@@ -11,6 +11,7 @@ import { categoriesOf, formatVND, isActiveOn, todayISO, type EntryType, type Fun
 import { DatePicker } from './DatePicker'
 import { BusyLabel } from './ui'
 import { ErrorBanner } from './ErrorBanner'
+import { useDirty } from './useDirty'
 
 // roundId: đợt đang xem (quỹ dùng nhiều đợt) — khoản mới thuộc đợt đó
 export function emptyEntry(fundId: string, type: EntryType, roundId: string | null = null): EntryInput {
@@ -40,6 +41,8 @@ interface EntrySheetProps {
   onClose: () => void
   // Quỹ chia đợt: người tham gia đợt của khoản này — chỉ họ hiện ra để chọn / mặc định chịu chi phí
   participantIds?: string[] | null
+  // Mức "mỗi người góp" — tự điền số tiền khi chuyển sang khoản Thu mà chưa nhập gì
+  defaultInAmount?: number
 }
 
 export function EntrySheet(props: EntrySheetProps) {
@@ -73,13 +76,17 @@ const TYPES: {
 
 // Thêm / sửa 1 khoản. Khi THÊM khoản thu có thể chọn nhiều người cùng lúc → tạo mỗi người 1 khoản cùng số tiền
 // (kiểu "mỗi người góp 500k, hạn 20/10"). Danh sách người chỉ gồm ai đang trong quỹ vào ngày của khoản.
-function EntryForm({ fund, members, entry, isNew, onClose, participantIds }: EntrySheetProps & { entry: EntryInput }) {
+function EntryForm({ fund, members, entry, isNew, onClose, participantIds, defaultInAmount = 0 }: EntrySheetProps & { entry: EntryInput }) {
   const saveEntries = useTrips((s) => s.saveEntries)
   const deleteEntry = useTrips((s) => s.deleteEntry)
   const [draft, setDraft] = useState<EntryInput>(entry)
   const [payers, setPayers] = useState<string[]>(entry.memberId ? [entry.memberId] : []) // chỉ dùng cho khoản thu
   const [busy, setBusy] = useState<'save' | 'delete' | null>(null) // thao tác đang chạy → spinner trên đúng nút đó
   const [error, setError] = useState('')
+  // Chưa thay đổi gì so với lúc mở form → tắt nút Lưu
+  const dirty = useDirty({ draft, payers })
+  // Khoản mới đã điền sẵn số tiền (mức mỗi người góp) thì lưu được ngay dù chưa sửa gì
+  const canSave = dirty || (isNew && draft.amount > 0)
 
   const patch = (p: Partial<EntryInput>) => setDraft((d) => ({ ...d, ...p }))
   const { type } = draft
@@ -99,6 +106,7 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds }: Ent
     if (next === type) return
     patch({
       type: next,
+      ...(next === 'in' && draft.amount === 0 && defaultInAmount > 0 ? { amount: defaultInAmount } : {}),
       category: categoriesOf(next)[0].key,
       memberId: null,
       toMemberId: null,
@@ -218,7 +226,13 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds }: Ent
         title={isNew ? titles[type] : 'Sửa khoản'}
         onCancel={onClose}
         right={
-          <button type="button" onClick={submit} disabled={!!busy} className="disabled:opacity-60">
+          <button
+            type="button"
+            onClick={submit}
+            disabled={!!busy || !canSave}
+            title={!canSave && !busy ? 'Chưa có thay đổi nào' : undefined}
+            className={busy ? 'disabled:opacity-60' : 'disabled:cursor-not-allowed disabled:opacity-35'}
+          >
             <BusyLabel busy={busy === 'save'} label="Đang lưu">
               Lưu
             </BusyLabel>

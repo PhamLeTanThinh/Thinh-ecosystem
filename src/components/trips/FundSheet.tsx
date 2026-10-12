@@ -10,6 +10,7 @@ import { DatePicker } from './DatePicker'
 import { DEFAULT_THEME, fundTheme, TRIP_THEMES, themeOf, type TripThemeKey } from '@/lib/trips/themes'
 import { BusyLabel } from './ui'
 import { ErrorBanner } from './ErrorBanner'
+import { useDirty } from './useDirty'
 
 // theme: mở form với theme chọn sẵn (nút tạo nhanh ở trang danh sách) — icon mặc định lấy theo theme
 // Icon mặc định: chuyến đi theo theme, quỹ góp / khác theo loại quỹ
@@ -89,6 +90,8 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
   const [initial, setInitial] = useState(0) // số dư ban đầu (tiền quỹ có sẵn) — ghi vào đợt đầu
   const [busy, setBusy] = useState<'save' | 'delete' | null>(null) // thao tác đang chạy → spinner trên đúng nút đó
   const [error, setError] = useState('')
+  // Chưa thay đổi gì so với lúc mở form → tắt nút Lưu
+  const dirty = useDirty({ draft, names, newName: newName.trim(), roundName: roundName.trim(), initial })
 
   const patch = (p: Partial<FundInput>) => setDraft((d) => ({ ...d, ...p }))
 
@@ -142,7 +145,13 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
         title={isNew ? 'Tạo mới' : isTrip ? 'Sửa chuyến đi' : 'Sửa quỹ'}
         onCancel={onClose}
         right={
-          <button type="button" onClick={submit} disabled={!!busy} className="disabled:opacity-60">
+          <button
+            type="button"
+            onClick={submit}
+            disabled={!!busy || !dirty}
+            title={!dirty && !busy ? 'Chưa có thay đổi nào' : undefined}
+            className={busy ? 'disabled:opacity-60' : 'disabled:cursor-not-allowed disabled:opacity-35'}
+          >
             <BusyLabel busy={busy === 'save'} label="Đang lưu">
               Lưu
             </BusyLabel>
@@ -391,7 +400,6 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
             />
           </label>
         )}
-
 
         {!isNew && (
           <button

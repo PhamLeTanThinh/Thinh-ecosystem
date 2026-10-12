@@ -9,6 +9,7 @@ import { todayISO, type FundMember } from '@/lib/trips/types'
 import { DatePicker } from './DatePicker'
 import { BusyLabel } from './ui'
 import { ErrorBanner } from './ErrorBanner'
+import { useDirty } from './useDirty'
 
 interface MemberSheetProps {
   member: FundMember | null // null khi đóng
@@ -32,6 +33,8 @@ function MemberForm({ member, used, onClose }: MemberSheetProps & { member: Fund
   const [draft, setDraft] = useState(member)
   const [busy, setBusy] = useState<'save' | 'leave' | 'delete' | null>(null) // thao tác đang chạy → spinner trên đúng nút
   const [error, setError] = useState('')
+  // Chưa thay đổi gì so với lúc mở form → tắt nút Lưu
+  const dirty = useDirty({ draft })
   const patch = (p: Partial<FundMember>) => setDraft((d) => ({ ...d, ...p }))
 
   async function run(action: 'save' | 'leave' | 'delete', fn: () => Promise<void>) {
@@ -59,7 +62,13 @@ function MemberForm({ member, used, onClose }: MemberSheetProps & { member: Fund
         title="Thành viên"
         onCancel={onClose}
         right={
-          <button type="button" onClick={save} disabled={!!busy} className="disabled:opacity-60">
+          <button
+            type="button"
+            onClick={save}
+            disabled={!!busy || !dirty}
+            title={!dirty && !busy ? 'Chưa có thay đổi nào' : undefined}
+            className={busy ? 'disabled:opacity-60' : 'disabled:cursor-not-allowed disabled:opacity-35'}
+          >
             <BusyLabel busy={busy === 'save'} label="Đang lưu">
               Lưu
             </BusyLabel>
@@ -98,7 +107,6 @@ function MemberForm({ member, used, onClose }: MemberSheetProps & { member: Fund
             className="mt-1 w-full rounded-xl bg-card-soft px-3 py-2 text-text outline-none"
           />
         </label>
-
 
         {member.leftAt ? (
           <button

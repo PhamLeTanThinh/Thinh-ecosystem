@@ -105,7 +105,13 @@ export function TripDetail({ id }: { id: string }) {
   const endDate = round ? round.endDate : fund.endDate
 
   const entryRoundId = round?.id ?? latest?.id ?? null
-  const addEntry = (type: EntryType) => setEntryDraft({ entry: emptyEntry(fund.id, type, usesRounds ? entryRoundId : null), isNew: true })
+  // Mức "mỗi người góp" của đợt khoản sẽ thuộc về (quỹ góp) hoặc của chuyến → tự điền vào số tiền khi mở form Thu
+  const perMemberFor = (roundId: string | null) => (roundId ? (rounds.find((r) => r.id === roundId)?.perMemberTarget ?? 0) : fund.perMemberTarget)
+  const addEntry = (type: EntryType) => {
+    const roundId = usesRounds ? entryRoundId : null
+    const entry = emptyEntry(fund.id, type, roundId)
+    setEntryDraft({ entry: type === 'in' ? { ...entry, amount: perMemberFor(roundId) } : entry, isNew: true })
+  }
   const editEntry = (e: FundEntry) => {
     // Khoản số dư ban đầu chỉ sửa qua form đợt đầu (ô "Số dư ban đầu")
     const r = isOpeningEntry(e) ? rounds.find((x) => x.id === e.roundId) : undefined
@@ -299,6 +305,7 @@ export function TripDetail({ id }: { id: string }) {
         isNew={entryDraft?.isNew ?? true}
         onClose={() => setEntryDraft(null)}
         participantIds={draftRound?.memberIds ?? null}
+        defaultInAmount={entryDraft ? perMemberFor(entryDraft.entry.roundId) : 0}
       />
       <RoundSheet
         fund={fund}
@@ -597,6 +604,8 @@ function EntriesTab({
             type="button"
             onClick={onEditOpening}
             disabled={!onEditOpening}
+            // Đợt sau: chỉ hiển thị (không sửa được) → con trỏ thường, không phải not-allowed
+            data-static={!onEditOpening || undefined}
             className="tp-ticket mb-6 flex w-full items-center gap-3 border-2 border-dashed border-accent/40 px-4 py-3 text-left disabled:cursor-default"
           >
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-accent-soft text-lg">{firstRound ? '💰' : '♻️'}</span>
