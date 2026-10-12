@@ -2,12 +2,34 @@ import { NextRequest, NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { tripEntries, tripFunds, tripMembers, tripRounds } from '@/db/schema'
-import { categoriesOf, isEntryType, isISODate, type EntrySplit, type FundEntry, type SplitMode } from '@/lib/trips/types'
+import { deleteFromR2, r2PublicUrl } from '@/lib/r2'
+import {
+  categoriesOf,
+  isEntryType,
+  isISODate,
+  MAX_ENTRY_PHOTOS,
+  TRIP_PHOTO_KEY,
+  type EntryPhoto,
+  type EntrySplit,
+  type FundEntry,
+  type SplitMode,
+} from '@/lib/trips/types'
 import { toEntry } from '@/lib/trips/rows'
 
 // Khoản thu / chi / chuyển tiền của 1 quỹ (/trips/[id]).
 
-type EntryFields = Omit<FundEntry, 'id' | 'fundId' | 'createdAt' | 'attachments' | 'originalAmount' | 'originalCurrency'>
+// attachments không gửi lên = giữ nguyên ảnh cũ (vd đánh dấu "đã thu" chỉ gửi lại các trường khác)
+type EntryFields = Omit<FundEntry, 'id' | 'fundId' | 'createdAt' | 'originalAmount' | 'originalCurrency' | 'attachments'> & {
+  attachments?: EntryPhoto[]
+}
+
+// Ảnh của khoản bị gỡ / khoản bị xoá → xoá luôn trên R2 (lỗi thì bỏ qua: ảnh mồ côi không ảnh hưởng số liệu)
+function photoKeys(attachments: unknown): string[] {
+  return Array.isArray(attachments) ? (attachments as EntryPhoto[]).map((p) => p.key).filter((k) => typeof k === 'string') : []
+}
+async function deletePhotos(keys: string[]) {
+  await Promise.all(keys.map((k) => deleteFromR2(k).catch((e) => console.error('[trips] xoá ảnh lỗi', k, e))))
+}
 
 function readFields(body: Record<string, unknown>, memberIds: Set<string>, roundIds: Set<string>): EntryFields | string {
   if (!isEntryType(body.type)) return 'Loại khoản không hợp lệ'
@@ -39,6 +61,16 @@ function readFields(body: Record<string, unknown>, memberIds: Set<string>, round
   const done = body.done !== false
   const roundId = typeof body.roundId === 'string' && body.roundId ? body.roundId : null
   if (roundId && !roundIds.has(roundId)) return 'Đợt không thuộc quỹ này'
+  // Chỉ nhận ảnh do /api/trips/photo tải lên (thư mục trips/); url dựng lại từ key, không tin client
+  let attachments: EntryPhoto[] | undefined
+  if (Array.isArray(body.attachments)) {
+    attachments = []
+    if (body.attachments.length > MAX_ENTRY_PHOTOS) return `Tối đa ${MAX_ENTRY_PHOTOS} ảnh mỗi khoản`
+    for (const p of body.attachments as { key?: unknown }[]) {
+      if (typeof p?.key !== 'string' || !TRIP_PHOTO_KEY.test(p.key)) return 'Ảnh không hợp lệ'
+      attachments.push({ key: p.key, url: r2PublicUrl(p.key) })
+    }
+  }
   return {
     roundId,
     type,
@@ -53,6 +85,7 @@ function readFields(body: Record<string, unknown>, memberIds: Set<string>, round
     splits,
     category,
     note,
+    attachments,
   }
 }
 
@@ -76,7 +109,7 @@ export async function POST(req: NextRequest) {
   if (typeof fields === 'string') return NextResponse.json({ error: fields }, { status: 400 })
   const [row] = await db
     .insert(tripEntries)
-    .values({ id: body.id, fundId: body.fundId, ...fields })
+    .values({ id: body.id, fundId: body.fundId, ...fields, attachments: fields.attachments ?? [] })
     .returning()
   return NextResponse.json(toEntry(row))
 }
@@ -84,7 +117,10 @@ export async function POST(req: NextRequest) {
 export async function PATCH(req: NextRequest) {
   const body = (await req.json()) as Record<string, unknown>
   if (typeof body.id !== 'string') return NextResponse.json({ error: 'Thiếu id' }, { status: 400 })
-  const [current] = await db.select({ fundId: tripEntries.fundId }).from(tripEntries).where(eq(tripEntries.id, body.id))
+  const [current] = await db
+    .select({ fundId: tripEntries.fundId, attachments: tripEntries.attachments })
+    .from(tripEntries)
+    .where(eq(tripEntries.id, body.id))
   if (!current) return NextResponse.json({ error: 'Không tìm thấy' }, { status: 404 })
   const fields = readFields(body, await memberIdsOf(current.fundId), await roundIdsOf(current.fundId))
   if (typeof fields === 'string') return NextResponse.json({ error: fields }, { status: 400 })
@@ -93,12 +129,18 @@ export async function PATCH(req: NextRequest) {
     .set({ ...fields, updatedAt: new Date() })
     .where(eq(tripEntries.id, body.id))
     .returning()
+  // Ảnh bị gỡ khỏi khoản này → xoá trên R2
+  if (fields.attachments) {
+    const kept = new Set(fields.attachments.map((p) => p.key))
+    await deletePhotos(photoKeys(current.attachments).filter((k) => !kept.has(k)))
+  }
   return NextResponse.json(toEntry(row))
 }
 
 export async function DELETE(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'Thiếu id' }, { status: 400 })
-  await db.delete(tripEntries).where(eq(tripEntries.id, id))
+  const [row] = await db.delete(tripEntries).where(eq(tripEntries.id, id)).returning({ attachments: tripEntries.attachments })
+  if (row) await deletePhotos(photoKeys(row.attachments))
   return NextResponse.json({ ok: true })
 }

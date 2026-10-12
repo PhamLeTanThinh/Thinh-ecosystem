@@ -38,12 +38,19 @@ import { newRoundDraft, RoundSheet } from './RoundSheet'
 import { fundTheme } from '@/lib/trips/themes'
 import { Avatar, BusyLabel, dateLabels, ticketCode, ticketTag, TripRoute } from './ui'
 
-type Tab = 'entries' | 'members' | 'settle'
+type Tab = 'entries' | 'members' | 'settle' | 'dues'
 
 const TABS: { key: Tab; label: string }[] = [
   { key: 'entries', label: 'Khoản thu chi' },
   { key: 'members', label: 'Thành viên' },
   { key: 'settle', label: 'Chia tiền' },
+]
+
+// Quỹ góp mua đồ không chia tiền trả về → tab thứ 3 là kiểm tra ai chưa đóng
+const FUND_TABS: { key: Tab; label: string }[] = [
+  { key: 'entries', label: 'Khoản thu chi' },
+  { key: 'members', label: 'Thành viên' },
+  { key: 'dues', label: 'Ai chưa đóng' },
 ]
 
 export function TripDetail({ id }: { id: string }) {
@@ -190,7 +197,8 @@ export function TripDetail({ id }: { id: string }) {
                 <TripRoute pct={pct} theme={theme} />
                 <p className="mt-1 text-xs text-muted">
                   Đã gom <b className="text-text">{formatVND(gathered)}</b>
-                  {opening !== 0 && ` (gồm ${formatVND(opening)} ${isFirstRound ? 'số dư ban đầu' : 'mang sang'})`} / {formatVND(target)} ({Math.round(pct)}%)
+                  {opening !== 0 && ` (gồm ${formatVND(opening)} ${isFirstRound ? 'số dư ban đầu' : 'mang sang'})`} / {formatVND(target)} (
+                  {Math.round(pct)}%)
                   {gathered + s.pendingIn < target && ` · còn ${formatVND(target - gathered - s.pendingIn)} chưa ai nhận góp`}
                 </p>
               </div>
@@ -249,7 +257,7 @@ export function TripDetail({ id }: { id: string }) {
       )}
 
       <nav className="sticky top-2 z-30 mt-4 flex gap-1 rounded-pill border border-border bg-card/90 p-1 shadow-sm backdrop-blur">
-        {TABS.map((t) => (
+        {(usesRounds ? FUND_TABS : TABS).map((t) => (
           <button
             key={t.key}
             type="button"
@@ -276,7 +284,21 @@ export function TripDetail({ id }: { id: string }) {
         />
       )}
       {tab === 'members' && <MembersTab fund={fund} members={members} entries={entries} rounds={rounds} round={round} />}
-      {tab === 'settle' && <SettleTab fund={fund} members={members} entries={entries} rounds={rounds} balance={summarize(entries).balance} />}
+      {tab === 'settle' && !usesRounds && (
+        <SettleTab fund={fund} members={members} entries={entries} rounds={rounds} balance={summarize(entries).balance} />
+      )}
+      {tab === 'dues' && usesRounds && (
+        <DuesTab
+          members={members}
+          entries={entries}
+          rounds={rounds}
+          round={round ?? latest}
+          onRecord={(memberId) => {
+            const r = round ?? latest
+            setEntryDraft({ entry: { ...emptyEntry(fund.id, 'in', r?.id ?? null), amount: perMemberFor(r?.id ?? null), memberId }, isNew: true })
+          }}
+        />
+      )}
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-card/90 px-4 pb-[calc(env(safe-area-inset-bottom)+12px)] pt-3 backdrop-blur md:inset-x-auto md:bottom-6 md:right-8 md:rounded-pill md:border md:p-2 md:shadow-xl">
         <div className="flex gap-3 md:gap-2">
@@ -458,7 +480,17 @@ function EntryRow({
           )}
         </span>
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm font-medium">{e.note || cat.label}</span>
+          <span className="block truncate text-sm font-medium">
+            {e.note || cat.label}
+            {e.attachments.length > 0 && (
+              <span
+                className="ml-1.5 rounded-pill bg-card-soft px-1.5 py-0.5 text-[11px] font-semibold text-muted"
+                title={`${e.attachments.length} ảnh chứng từ`}
+              >
+                📎 {e.attachments.length}
+              </span>
+            )}
+          </span>
           <span className="block truncate text-xs text-muted">
             {!e.done && (
               <span className={overdue ? 'font-semibold text-danger' : ''}>
@@ -827,6 +859,165 @@ function MembersTab({
       )}
 
       <MemberSheet member={editing} used={!!editing && used.has(editing.id)} onClose={() => setEditing(null)} />
+    </div>
+  )
+}
+
+// Quỹ góp mua đồ: không chia tiền trả về — tab này kiểm tra ai trong đợt đã đóng / còn thiếu bao nhiêu
+function DuesTab({
+  members,
+  entries,
+  rounds,
+  round,
+  onRecord,
+}: {
+  members: FundMember[]
+  entries: FundEntry[]
+  rounds: FundRound[]
+  round: FundRound | null
+  onRecord: (memberId: string) => void // mở form Thu cho người này (đợt chưa đặt mức góp)
+}) {
+  const saveEntries = useTrips((s) => s.saveEntries)
+  const [busy, setBusy] = useState<string | null>(null) // người đang ghi "đã đóng"
+  const today = todayISO()
+
+  if (!round)
+    return (
+      <div className="tp-ticket mx-auto mt-8 max-w-md p-8 text-center">
+        <p className="text-4xl">📋</p>
+        <p className="tp-display mt-2 text-lg font-bold">Chọn 1 đợt để kiểm tra</p>
+        <p className="mt-1 text-sm text-muted">Danh sách ai đã đóng / chưa đóng tính theo từng đợt.</p>
+      </div>
+    )
+
+  const per = round.perMemberTarget
+  const view = roundMemberView(round, rounds, members, entries).filter((b) => b.inRound)
+  const roundEntries = entries.filter((e) => e.roundId === round.id)
+  const rows = view
+    .map((b) => {
+      // Cần đóng đợt này = mức góp − dư (+) / thiếu (−) cá nhân mang sang từ đợt trước
+      const need = per > 0 ? Math.max(0, per - b.carryIn) : 0
+      const paid = b.contributed
+      const remaining = per > 0 ? Math.max(0, need - paid) : 0
+      const pending = roundEntries.filter((e) => !e.done && e.type === 'in' && e.memberId === b.member.id)
+      const status: 'done' | 'partial' | 'unpaid' =
+        per > 0 ? (remaining === 0 ? 'done' : paid > 0 ? 'partial' : 'unpaid') : paid > 0 ? 'done' : 'unpaid'
+      return { b, need, paid, remaining, pending, status }
+    })
+    .sort((x, y) => ['unpaid', 'partial', 'done'].indexOf(x.status) - ['unpaid', 'partial', 'done'].indexOf(y.status) || y.remaining - x.remaining)
+
+  const doneCount = rows.filter((r) => r.status === 'done').length
+  const missing = rows.reduce((n, r) => n + r.remaining, 0)
+  const pct = rows.length ? (doneCount / rows.length) * 100 : 0
+
+  // Ghi đã đóng: có khoản hẹn → đánh dấu đã thu; chưa có → tạo khoản thu đúng số còn thiếu; đợt chưa đặt mức → mở form
+  async function record(r: (typeof rows)[number]) {
+    if (!round) return
+    if (!r.pending.length && r.remaining <= 0) return onRecord(r.b.member.id)
+    setBusy(r.b.member.id)
+    try {
+      if (r.pending.length) {
+        await saveEntries(
+          r.pending.map((e) => ({ ...e, done: true, date: today, dueDate: e.dueDate ?? e.date })),
+          false,
+        )
+      } else {
+        await saveEntries(
+          [{ ...emptyEntry(round.fundId, 'in', round.id), amount: r.remaining, memberId: r.b.member.id, category: 'contribution' }],
+          true,
+        )
+      }
+    } catch (e) {
+      showError(e)
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  if (!rows.length)
+    return (
+      <div className="tp-ticket mx-auto mt-8 max-w-md p-8 text-center">
+        <p className="text-4xl">👥</p>
+        <p className="tp-display mt-2 text-lg font-bold">Đợt này chưa có ai tham gia</p>
+        <p className="mt-1 text-sm text-muted">Thêm người ở &ldquo;Sửa đợt / người tham gia&rdquo;.</p>
+      </div>
+    )
+
+  return (
+    <div className="mt-6">
+      <div className="tp-ticket p-4">
+        <div className="flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <p className="tp-label">{round.name} · đã đóng</p>
+            <p className="tp-display text-2xl font-bold text-(--tp-ink)">
+              {doneCount}/{rows.length} <span className="text-base font-semibold text-muted">người</span>
+            </p>
+          </div>
+          {per > 0 && (
+            <div className="text-right">
+              <p className="tp-label">Còn thiếu</p>
+              <p className={`tp-display text-2xl font-bold ${missing > 0 ? 'text-danger' : 'text-accent'}`}>
+                {missing > 0 ? formatVND(missing) : 'Đủ rồi ✓'}
+              </p>
+            </div>
+          )}
+        </div>
+        <div className="mt-3 h-2 overflow-hidden rounded-full bg-card-soft">
+          <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${pct}%` }} />
+        </div>
+        {per > 0 && <p className="mt-2 text-xs text-muted">Mỗi người góp {formatVND(per)} — đã trừ / cộng phần dư, thiếu mang sang từ đợt trước.</p>}
+      </div>
+
+      <div className="tp-ticket mt-4 overflow-hidden">
+        {rows.map((r) => {
+          const m = r.b.member
+          const overdue = r.pending.some((e) => e.date < today)
+          const badge =
+            r.status === 'done'
+              ? { text: 'Đã đóng ✓', cls: 'bg-accent-soft text-accent' }
+              : r.status === 'partial'
+                ? { text: 'Đóng thiếu', cls: 'bg-[#fdf0d5] text-[#a16207]' }
+                : { text: 'Chưa đóng', cls: 'bg-danger-soft text-danger' }
+          return (
+            <div key={m.id} className="flex items-center gap-3 border-b border-dashed border-border px-4 py-3 last:border-b-0">
+              <Avatar id={m.id} name={m.name} size={40} />
+              <div className="min-w-0 flex-1">
+                <p className="flex flex-wrap items-center gap-2">
+                  <span className="truncate font-semibold">{m.name}</span>
+                  <span className={`rounded-pill px-2 py-0.5 text-[11px] font-semibold ${badge.cls}`}>{badge.text}</span>
+                </p>
+                <p className="truncate text-xs text-muted">
+                  Đã đóng {formatVND(r.paid)}
+                  {per > 0 && r.remaining > 0 && <span className="font-semibold text-danger"> · còn thiếu {formatVND(r.remaining)}</span>}
+                  {per > 0 && r.b.carryIn !== 0 && ` · ${r.b.carryIn > 0 ? 'dư' : 'thiếu'} mang sang ${formatVND(Math.abs(r.b.carryIn))}`}
+                </p>
+                {r.pending.length > 0 && (
+                  <p className={`truncate text-xs ${overdue ? 'font-semibold text-danger' : 'text-muted'}`}>
+                    ⏳ Hẹn đóng {formatVND(r.pending.reduce((n, e) => n + e.amount, 0))} · {overdue ? 'quá hạn ' : 'hạn '}
+                    {formatDate(r.pending[0].date)}
+                  </p>
+                )}
+              </div>
+              {r.status !== 'done' && (
+                <button
+                  type="button"
+                  disabled={busy !== null}
+                  onClick={() => record(r)}
+                  className="shrink-0 rounded-pill bg-accent px-3 py-1.5 text-xs font-semibold text-white transition active:scale-95 disabled:opacity-60"
+                >
+                  <BusyLabel busy={busy === m.id} label="Đang ghi…">
+                    ✓ {r.pending.length ? 'Đã thu' : r.remaining > 0 ? `Đã đóng ${formatVND(r.remaining)}` : 'Ghi đã đóng'}
+                  </BusyLabel>
+                </button>
+              )}
+            </div>
+          )
+        })}
+      </div>
+      <p className="mt-3 px-1 text-xs text-muted">
+        Bấm &ldquo;✓&rdquo; để ghi nhanh 1 khoản thu đúng số còn thiếu (hoặc đánh dấu khoản đã hẹn là đã thu). Muốn ghi số khác thì dùng nút
+        &ldquo;Thu tiền&rdquo; bên dưới.
+      </p>
     </div>
   )
 }

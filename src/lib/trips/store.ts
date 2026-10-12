@@ -3,7 +3,7 @@
 import { create } from 'zustand'
 import { BACKGROUND_HEADER } from '@/lib/loading/tracker'
 import { askConfirm, showError } from './dialog'
-import { openingEntryId, type Fund, type FundEntry, type FundMember, type FundRound } from './types'
+import { openingEntryId, type EntryPhoto, type Fund, type FundEntry, type FundMember, type FundRound } from './types'
 
 async function api<T>(url: string, init?: RequestInit): Promise<T> {
   // Thao tác ghi đánh dấu X-Background: không bật overlay toàn trang (TripsLoading), nút bấm tự hiện spinner
@@ -16,7 +16,8 @@ async function api<T>(url: string, init?: RequestInit): Promise<T> {
 }
 
 export type FundInput = Omit<Fund, 'createdAt' | 'closedAt' | 'coverImage' | 'shareSlug'>
-export type EntryInput = Omit<FundEntry, 'createdAt' | 'attachments' | 'originalAmount' | 'originalCurrency'>
+// attachments không bắt buộc: không gửi = server giữ nguyên ảnh cũ của khoản
+export type EntryInput = Omit<FundEntry, 'createdAt' | 'attachments' | 'originalAmount' | 'originalCurrency'> & { attachments?: EntryPhoto[] }
 export type RoundInput = Omit<FundRound, 'createdAt' | 'sortOrder'>
 export type MemberInput = Pick<FundMember, 'id' | 'fundId' | 'name'> &
   Partial<Pick<FundMember, 'joinedAt' | 'leftAt' | 'note' | 'contact' | 'sortOrder'>>

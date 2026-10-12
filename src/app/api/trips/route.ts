@@ -4,6 +4,7 @@ import { db } from '@/lib/db'
 import { tripEntries, tripFunds, tripMembers, tripRounds } from '@/db/schema'
 import { isFundKind, isISODate, kindOf, type Fund } from '@/lib/trips/types'
 import { toEntry, toFund, toMember, toRound } from '@/lib/trips/rows'
+import { deleteFromR2 } from '@/lib/r2'
 import { isTripTheme } from '@/lib/trips/themes'
 
 // Trip & Quỹ chung: GET trả về toàn bộ quỹ + thành viên + mọi khoản (dữ liệu nhỏ, client tự tính tổng). Không khoá
@@ -104,7 +105,12 @@ export async function POST(req: NextRequest) {
         closedAt: fields.closed ? new Date() : null,
       })
       .returning()
-    const rows = members.length ? await tx.insert(tripMembers).values(members.map((m) => ({ ...m, fundId: fund.id }))).returning() : []
+    const rows = members.length
+      ? await tx
+          .insert(tripMembers)
+          .values(members.map((m) => ({ ...m, fundId: fund.id })))
+          .returning()
+      : []
     // Quỹ góp / khác dùng được nhiều đợt → tạo sẵn đợt đầu với toàn bộ thành viên ban đầu
     const roundRows =
       kind === 'trip'
@@ -148,10 +154,13 @@ export async function PATCH(req: NextRequest) {
 export async function DELETE(req: NextRequest) {
   const id = req.nextUrl.searchParams.get('id')
   if (!id) return NextResponse.json({ error: 'Thiếu id' }, { status: 400 })
+  const photos = await db.select({ attachments: tripEntries.attachments }).from(tripEntries).where(eq(tripEntries.fundId, id))
   await db.transaction(async (tx) => {
     // Khoản phải xoá trước: FK khoản → thành viên là RESTRICT, cascade từ quỹ không đảm bảo thứ tự
     await tx.delete(tripEntries).where(eq(tripEntries.fundId, id))
     await tx.delete(tripFunds).where(eq(tripFunds.id, id))
   })
+  const keys = photos.flatMap((p) => (Array.isArray(p.attachments) ? (p.attachments as { key: string }[]).map((x) => x.key) : []))
+  await Promise.all(keys.map((k) => deleteFromR2(k).catch((e) => console.error('[trips] xoá ảnh lỗi', k, e))))
   return NextResponse.json({ ok: true })
 }

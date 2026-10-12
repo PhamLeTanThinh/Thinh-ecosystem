@@ -361,3 +361,7 @@ export function daysBetween(a: string, b: string): number {
 // "Dư đầu đợt" thay vì hiện trong danh sách thu chi.
 export const openingEntryId = (roundId: string) => `${roundId}-opening`
 export const isOpeningEntry = (e: Pick<FundEntry, 'id' | 'roundId'>) => !!e.roundId && e.id === openingEntryId(e.roundId)
+
+// Ảnh chứng từ của khoản chi (hoá đơn, bill...) — chỉ nhận ảnh do /api/trips/photo tải lên R2 (thư mục trips/)
+export const TRIP_PHOTO_KEY = /^trips\/[\w-]+\.(webp|jpe?g|png)$/
+export const MAX_ENTRY_PHOTOS = 12

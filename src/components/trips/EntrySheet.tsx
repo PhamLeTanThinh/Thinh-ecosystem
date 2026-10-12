@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { nanoid } from 'nanoid'
 import { AmountInput } from '@/components/money/AmountInput'
 import { BottomSheet } from '@/components/money/BottomSheet'
@@ -11,6 +11,7 @@ import { categoriesOf, formatVND, isActiveOn, todayISO, type EntryType, type Fun
 import { DatePicker } from './DatePicker'
 import { BusyLabel } from './ui'
 import { ErrorBanner } from './ErrorBanner'
+import { discardPhoto, EvidencePhotos } from './EvidencePhotos'
 import { useDirty } from './useDirty'
 
 // roundId: đợt đang xem (quỹ dùng nhiều đợt) — khoản mới thuộc đợt đó
@@ -83,6 +84,13 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds, defau
   const [payers, setPayers] = useState<string[]>(entry.memberId ? [entry.memberId] : []) // chỉ dùng cho khoản thu
   const [busy, setBusy] = useState<'save' | 'delete' | null>(null) // thao tác đang chạy → spinner trên đúng nút đó
   const [error, setError] = useState('')
+  // Ảnh chứng từ vừa tải lên trong lần mở form này — Huỷ / không phải khoản chi thì xoá trên R2
+  const freshPhotos = useRef(new Set<string>())
+  const cancel = () => {
+    freshPhotos.current.forEach((k) => discardPhoto(k))
+    freshPhotos.current.clear()
+    onClose()
+  }
   // Chưa thay đổi gì so với lúc mở form → tắt nút Lưu
   const dirty = useDirty({ draft, payers })
   // Khoản mới đã điền sẵn số tiền (mức mỗi người góp) thì lưu được ngay dù chưa sửa gì
@@ -137,6 +145,8 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds, defau
       const base: EntryInput = {
         ...draft,
         splits: type === 'out' ? splitIds.map((memberId) => ({ memberId, value: null })) : [],
+        // Ảnh chứng từ chỉ dành cho khoản chi
+        attachments: type === 'out' ? (draft.attachments ?? []) : [],
       }
       const list: EntryInput[] = isIn
         ? payers.length
@@ -148,6 +158,9 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds, defau
           : [{ ...base, memberId: null }]
         : [base]
       await saveEntries(list, isNew)
+      // Ảnh đã gắn vào khoản thì giữ; ảnh vừa tải mà khoản không còn là khoản chi thì xoá
+      if (type !== 'out') freshPhotos.current.forEach((k) => discardPhoto(k))
+      freshPhotos.current.clear()
       onClose()
     } catch (e) {
       setError((e as Error).message)
@@ -224,7 +237,7 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds, defau
     <>
       <SheetHeader
         title={isNew ? titles[type] : 'Sửa khoản'}
-        onCancel={onClose}
+        onCancel={cancel}
         right={
           <button
             type="button"
@@ -347,6 +360,15 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds, defau
         )}
 
         {!isIn && categoryBlock}
+
+        {type === 'out' && (
+          <EvidencePhotos
+            photos={draft.attachments ?? []}
+            onChange={(attachments) => patch({ attachments })}
+            onError={setError}
+            freshKeys={freshPhotos}
+          />
+        )}
 
         <label className="block text-sm text-muted">
           Ghi chú
