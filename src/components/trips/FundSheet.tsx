@@ -9,6 +9,7 @@ import { FUND_KINDS, isLeft, kindOf, todayISO, type Fund } from '@/lib/trips/typ
 import { DatePicker } from './DatePicker'
 import { DEFAULT_THEME, fundTheme, TRIP_THEMES, themeOf, type TripThemeKey } from '@/lib/trips/themes'
 import { BusyLabel } from './ui'
+import { ErrorBanner } from './ErrorBanner'
 
 // theme: mở form với theme chọn sẵn (nút tạo nhanh ở trang danh sách) — icon mặc định lấy theo theme
 // Icon mặc định: chuyến đi theo theme, quỹ góp / khác theo loại quỹ
@@ -48,7 +49,7 @@ interface FundSheetProps {
 // Thành viên của trang chi tiết (vì cần ghi ngày vào / rời quỹ).
 export function FundSheet(props: FundSheetProps) {
   return (
-    <BottomSheet open={props.open} onClose={props.onClose} responsive>
+    <BottomSheet open={props.open} onClose={props.onClose} responsive closeOnBackdrop={false}>
       {props.fund && <FundForm key={props.fund.id} {...props} fund={props.fund} />}
     </BottomSheet>
   )
@@ -150,6 +151,7 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
       />
 
       <div className="space-y-5 px-4 py-5">
+        <ErrorBanner error={error} />
         {/* Loại quỹ chỉ chọn lúc tạo — sau đó cố định (quỹ góp đã chia đợt, chuyến đi có theme... đổi qua lại dễ rối) */}
         {isNew && (
           <div className="flex gap-2">
@@ -390,7 +392,6 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
           </label>
         )}
 
-        {error && <p className="text-sm text-danger">{error}</p>}
 
         {!isNew && (
           <button

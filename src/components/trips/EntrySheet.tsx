@@ -10,6 +10,7 @@ import { useTrips, type EntryInput } from '@/lib/trips/store'
 import { categoriesOf, formatVND, isActiveOn, todayISO, type EntryType, type Fund, type FundMember } from '@/lib/trips/types'
 import { DatePicker } from './DatePicker'
 import { BusyLabel } from './ui'
+import { ErrorBanner } from './ErrorBanner'
 
 // roundId: đợt đang xem (quỹ dùng nhiều đợt) — khoản mới thuộc đợt đó
 export function emptyEntry(fundId: string, type: EntryType, roundId: string | null = null): EntryInput {
@@ -43,7 +44,7 @@ interface EntrySheetProps {
 
 export function EntrySheet(props: EntrySheetProps) {
   return (
-    <BottomSheet open={!!props.entry} onClose={props.onClose} responsive>
+    <BottomSheet open={!!props.entry} onClose={props.onClose} responsive closeOnBackdrop={false}>
       {props.entry && <EntryForm key={props.entry.id} {...props} entry={props.entry} />}
     </BottomSheet>
   )
@@ -241,6 +242,7 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds }: Ent
       />
 
       <div className="space-y-5 px-4 py-5">
+        <ErrorBanner error={error} />
         <div className="flex gap-2">
           <button type="button" onClick={() => patch({ done: true })} className={`flex-1 ${chip(draft.done)}`}>
             ✓ {doneLabel}
@@ -343,7 +345,6 @@ function EntryForm({ fund, members, entry, isNew, onClose, participantIds }: Ent
         </label>
 
         {fund.closed && <p className="text-xs text-muted">Quỹ này đã đóng — vẫn sửa được nếu cần.</p>}
-        {error && <p className="text-sm text-danger">{error}</p>}
 
         {!isNew && (
           <button

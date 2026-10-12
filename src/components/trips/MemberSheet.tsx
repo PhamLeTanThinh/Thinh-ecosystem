@@ -8,6 +8,7 @@ import { useTrips } from '@/lib/trips/store'
 import { todayISO, type FundMember } from '@/lib/trips/types'
 import { DatePicker } from './DatePicker'
 import { BusyLabel } from './ui'
+import { ErrorBanner } from './ErrorBanner'
 
 interface MemberSheetProps {
   member: FundMember | null // null khi đóng
@@ -19,7 +20,7 @@ interface MemberSheetProps {
 // chỉ xoá hẳn được khi người đó chưa dính khoản nào.
 export function MemberSheet(props: MemberSheetProps) {
   return (
-    <BottomSheet open={!!props.member} onClose={props.onClose} responsive>
+    <BottomSheet open={!!props.member} onClose={props.onClose} responsive closeOnBackdrop={false}>
       {props.member && <MemberForm key={props.member.id} {...props} member={props.member} />}
     </BottomSheet>
   )
@@ -66,6 +67,7 @@ function MemberForm({ member, used, onClose }: MemberSheetProps & { member: Fund
         }
       />
       <div className="space-y-5 px-4 py-5">
+        <ErrorBanner error={error} />
         <input
           value={draft.name}
           onChange={(e) => patch({ name: e.target.value })}
@@ -97,7 +99,6 @@ function MemberForm({ member, used, onClose }: MemberSheetProps & { member: Fund
           />
         </label>
 
-        {error && <p className="text-sm text-danger">{error}</p>}
 
         {member.leftAt ? (
           <button

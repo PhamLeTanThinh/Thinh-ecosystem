@@ -10,6 +10,7 @@ import { formatVND, isLeft, openingEntryId, roundSummaries, sortRounds, todayISO
 import { DatePicker } from './DatePicker'
 import { MoneyField } from './FundSheet'
 import { Avatar, BusyLabel } from './ui'
+import { ErrorBanner } from './ErrorBanner'
 
 // Đợt mới của 1 quỹ dùng nhiều lần: mặc định copy người tham gia + mức góp của đợt gần nhất, tiền dư tự mang sang.
 export function newRoundDraft(fund: Fund, rounds: FundRound[]): RoundInput {
@@ -39,7 +40,7 @@ interface RoundSheetProps {
 
 export function RoundSheet(props: RoundSheetProps) {
   return (
-    <BottomSheet open={!!props.round} onClose={props.onClose} responsive>
+    <BottomSheet open={!!props.round} onClose={props.onClose} responsive closeOnBackdrop={false}>
       {props.round && <RoundForm key={props.round.id} {...props} round={props.round} />}
     </BottomSheet>
   )
@@ -141,6 +142,7 @@ function RoundForm({ fund, round, isNew, onClose, onSaved, onDeleted }: RoundShe
         }
       />
       <div className="space-y-5 px-4 py-5">
+        <ErrorBanner error={error} />
         <input
           value={draft.name}
           onChange={(e) => patch({ name: e.target.value })}
@@ -290,7 +292,6 @@ function RoundForm({ fund, round, isNew, onClose, onSaved, onDeleted }: RoundShe
           </label>
         )}
 
-        {error && <p className="text-sm text-danger">{error}</p>}
 
         {!isNew && (
           <button

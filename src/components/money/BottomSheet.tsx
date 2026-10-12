@@ -9,9 +9,11 @@ interface BottomSheetProps {
   children: ReactNode
   // true: chỉ trượt từ dưới lên trên mobile; từ md trở lên hiện thành popup giữa màn hình
   responsive?: boolean
+  // false: bấm nền tối bên ngoài KHÔNG đóng (form nhập dài, tránh mất dữ liệu đang gõ dở) — chỉ đóng bằng nút Huỷ
+  closeOnBackdrop?: boolean
 }
 
-export function BottomSheet({ open, onClose, children, responsive = false }: BottomSheetProps) {
+export function BottomSheet({ open, onClose, children, responsive = false, closeOnBackdrop = true }: BottomSheetProps) {
   const [mounted, setMounted] = useState(open)
   const [visible, setVisible] = useState(false)
   const [prevOpen, setPrevOpen] = useState(open)
@@ -44,7 +46,11 @@ export function BottomSheet({ open, onClose, children, responsive = false }: Bot
         responsive ? 'md:items-center md:p-6' : ''
       } ${visible ? 'opacity-100' : 'opacity-0'}`}
     >
-      <button type="button" aria-label="Đóng" onClick={onClose} className="absolute inset-0 bg-black/60" />
+      {closeOnBackdrop ? (
+        <button type="button" aria-label="Đóng" onClick={onClose} className="absolute inset-0 bg-black/60" />
+      ) : (
+        <div aria-hidden="true" className="absolute inset-0 bg-black/60" />
+      )}
       <div
         // Ẩn thanh cuộn (vẫn cuộn được bằng chuột / vuốt) — thanh cuộn mặc định phá góc bo của sheet
         role="dialog"
