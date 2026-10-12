@@ -9,7 +9,7 @@ interface SheetHeaderProps {
 
 export function SheetHeader({ title, onCancel, cancelLabel = 'Huỷ', right }: SheetHeaderProps) {
   return (
-    <div className="flex items-center justify-between border-b border-border px-4 py-4">
+    <div className="sticky top-0 z-20 flex items-center justify-between border-b border-border bg-card px-4 py-4">
       <button type="button" onClick={onCancel} className="text-sm text-muted">
         {cancelLabel}
       </button>

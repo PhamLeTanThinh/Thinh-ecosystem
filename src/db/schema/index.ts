@@ -9,6 +9,7 @@ import {
   uuid,
   varchar,
   primaryKey,
+  index,
 } from 'drizzle-orm/pg-core'
 
 // ── URL SHORTENER ─────────────────────────────────────────────────
@@ -449,3 +450,80 @@ export const bucketItems = pgTable('bucket_items', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
+
+// ── TRIP & QUỸ CHUNG (/trips — chuyến đi, góp quỹ mua đồ...) ───────────────────────────────────
+// `id` là text vì client tự sinh nanoid trước khi gửi lên (cùng convention với money). Kiểu dữ liệu + cách tính: lib/trips/types.ts.
+// Nhiều cột khai sẵn cho tính năng sau (ngoại tệ, link chia sẻ, ảnh hoá đơn, chia không đều) để khỏi phải migrate
+// dữ liệu cũ — cột nào "chưa dùng ở UI" có ghi chú.
+export const tripFunds = pgTable('trip_funds', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  kind: varchar('kind', { length: 10 }).default('trip').notNull(), // 'trip' | 'fund' | 'other'
+  icon: text('icon').default('✈️').notNull(),
+  theme: varchar('theme', { length: 16 }).default('flight').notNull(), // TripThemeKey — màu, font, cách gọi tên (lib/trips/themes.ts)
+  note: text('note').default('').notNull(),
+  location: text('location').default('').notNull(),
+  currency: varchar('currency', { length: 3 }).default('VND').notNull(), // mọi amount của quỹ tính theo đơn vị này
+  startDate: varchar('start_date', { length: 10 }), // 'YYYY-MM-DD'
+  endDate: varchar('end_date', { length: 10 }),
+  target: integer('target').default(0).notNull(), // tổng tiền cần gom, 0 = không đặt
+  perMemberTarget: integer('per_member_target').default(0).notNull(), // mỗi người cần góp, 0 = không đặt
+  treasurerId: text('treasurer_id'), // tripMembers.id — người giữ tiền quỹ (không FK để tránh vòng tham chiếu)
+  coverImage: text('cover_image'), // chưa dùng ở UI
+  shareSlug: varchar('share_slug', { length: 16 }).unique(), // link chỉ-xem cho nhóm — chưa dùng ở UI
+  closed: boolean('closed').default(false).notNull(),
+  closedAt: timestamp('closed_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
+// Thành viên của 1 quỹ — vào/rời giữa chừng được. Người đã có khoản thu chi thì không xoá hẳn mà đặt left_at.
+export const tripMembers = pgTable(
+  'trip_members',
+  {
+    id: text('id').primaryKey(),
+    fundId: text('fund_id')
+      .notNull()
+      .references(() => tripFunds.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    note: text('note').default('').notNull(),
+    contact: text('contact').default('').notNull(), // SĐT / STK — chưa dùng ở UI
+    color: varchar('color', { length: 9 }), // chưa dùng ở UI
+    joinedAt: varchar('joined_at', { length: 10 }), // 'YYYY-MM-DD', null = có mặt từ đầu
+    leftAt: varchar('left_at', { length: 10 }), // 'YYYY-MM-DD', null = vẫn trong quỹ
+    sortOrder: integer('sort_order').default(0).notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (t) => [index('trip_members_fund_idx').on(t.fundId)],
+)
+
+// Mỗi khoản thu/chi/chuyển tiền của 1 quỹ. done = false → khoản dự kiến (chờ thu / dự chi), `date` là ngày hẹn.
+export const tripEntries = pgTable(
+  'trip_entries',
+  {
+    id: text('id').primaryKey(),
+    fundId: text('fund_id')
+      .notNull()
+      .references(() => tripFunds.id, { onDelete: 'cascade' }),
+    type: varchar('type', { length: 10 }).notNull(), // 'in' | 'out' | 'transfer'
+    amount: integer('amount').notNull(), // theo currency của quỹ
+    originalAmount: integer('original_amount'), // số tiền gốc khi chi bằng ngoại tệ — chưa dùng ở UI
+    originalCurrency: varchar('original_currency', { length: 3 }),
+    date: varchar('date', { length: 10 }).notNull(), // 'YYYY-MM-DD' — ngày thực thu/chi (hoặc ngày hẹn nếu chưa done)
+    dueDate: varchar('due_date', { length: 10 }), // hạn gốc của khoản dự kiến, giữ lại sau khi đã thu
+    done: boolean('done').default(true).notNull(),
+    // in: ai góp; out: ai ứng tiền (null = chi từ quỹ); transfer: người chuyển (null = quỹ). RESTRICT: người đã có
+    // khoản thì không xoá được, chỉ cho rời quỹ.
+    memberId: text('member_id').references(() => tripMembers.id, { onDelete: 'restrict' }),
+    toMemberId: text('to_member_id').references(() => tripMembers.id, { onDelete: 'restrict' }), // chỉ transfer: người nhận (null = quỹ)
+    splitMode: varchar('split_mode', { length: 10 }).default('equal').notNull(), // 'equal' | 'weight' | 'exact'
+    splits: jsonb('splits').default([]).notNull(), // EntrySplit[] — ai chịu khoản chi này, lưu rõ lúc ghi
+    category: varchar('category', { length: 20 }).default('other').notNull(),
+    note: text('note').default('').notNull(),
+    attachments: jsonb('attachments').default([]).notNull(), // EntryPhoto[] ảnh hoá đơn trên R2 — chưa dùng ở UI
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+    updatedAt: timestamp('updated_at').defaultNow().notNull(),
+  },
+  (t) => [index('trip_entries_fund_idx').on(t.fundId, t.date)],
+)

@@ -38,7 +38,7 @@ export function AmountInput({ value, onChange, accentColor = '#18181b', autoFocu
           onChange={handleChange}
           placeholder="0"
           aria-label="Số tiền"
-          className="flex-1 bg-transparent text-4xl font-bold outline-none placeholder:text-muted"
+          className="w-full min-w-0 flex-1 bg-transparent text-4xl font-bold outline-none placeholder:text-muted"
           style={{ color: accentColor }}
         />
       </div>

@@ -1,0 +1,515 @@
+/* Trip & Quỹ (/trips) — tông du lịch: nền cát, xanh biển, cam hoàng hôn; thẻ quỹ là "boarding pass" có răng cưa,
+   tiến độ gom tiền là đường bay. Đặt lại các biến màu của theme Thu Chi (money.css) ngay trên .trips-root nên mọi
+   component dùng chung (BottomSheet, AmountInput...) tự đổi theo. */
+
+.trips-root {
+  --color-bg: #f6f1e7;
+  --color-card: #fffdf8;
+  --color-card-soft: #efe8da;
+  --color-border: #e3d9c6;
+  --color-accent: #0f6e78; /* xanh biển */
+  --color-accent-soft: #d8eeec;
+  --color-danger: #e0573a; /* cam hoàng hôn */
+  --color-danger-soft: #fbe3d9;
+  --color-income: #1d6fb8; /* xanh trời */
+  --color-muted: #7c7466;
+  --color-text: #1f2a37;
+  --radius-card: 22px;
+
+  --tp-ink: #13314a;
+  --tp-sun: #f2a33a;
+  /* Biến theme — theme mặc định (bay); các khối .tp-theme-<key> cuối file ghi đè */
+  --tp-bg: #f6f1e7;
+  --tp-band: linear-gradient(120deg, var(--tp-ink) 0%, var(--color-accent) 70%, #1b8f8a 100%);
+  --tp-font-display: var(--font-tp-display), Georgia, serif;
+  --tp-font-title: var(--font-tp-display), Georgia, serif;
+  --tp-vehicle-transform: rotate(45deg);
+  --tp-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23d9ccb3' stroke-width='1' opacity='.55'%3E%3Cpath d='M-20 80c60-40 120 30 190-10s110-50 170 0 80 30 100 10'/%3E%3Cpath d='M-20 110c70-35 120 35 200-5s100-40 160 5 80 25 100 5'/%3E%3Cpath d='M-20 230c50 30 110-30 180 10s120 50 170 0 70-20 110 0'/%3E%3Cpath d='M-20 262c60 25 110-25 180 12s110 45 170 0 70-18 110 2'/%3E%3Cpath d='M-20 360c80-30 130 20 210-10s110-30 230 10'/%3E%3Cellipse cx='320' cy='170' rx='46' ry='28'/%3E%3Cellipse cx='320' cy='170' rx='26' ry='14'/%3E%3C/g%3E%3C/svg%3E");
+
+  font-family: var(--font-tp-body), system-ui, sans-serif;
+  background-color: var(--color-bg);
+  /* Hoạ tiết nền theo theme (mặc định: đường đồng mức bản đồ) */
+  background-image: var(--tp-pattern);
+  background-attachment: fixed;
+}
+
+.tp-display {
+  font-family: var(--tp-font-display);
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
+/* Tên chuyến / tiêu đề lớn — mỗi theme 1 kiểu chữ riêng */
+.tp-title {
+  font-family: var(--tp-font-title);
+  letter-spacing: -0.01em;
+}
+
+.tp-mono {
+  font-family: var(--font-dm-mono), ui-monospace, monospace;
+  letter-spacing: 0.08em;
+}
+
+.tp-label {
+  /* Font thân chứ không phải mono: DM Mono không có dấu tiếng Việt */
+  font-family: var(--font-tp-body), system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ── Vé (boarding pass) ───────────────────────────────────────────── */
+.tp-ticket {
+  position: relative;
+  background: var(--color-card);
+  border-radius: var(--radius-card);
+  box-shadow:
+    0 1px 0 rgb(19 49 74 / 0.04),
+    0 10px 30px -18px rgb(19 49 74 / 0.35);
+}
+
+/* Đường xé ngang: nét đứt + 2 vết khuyết tròn 2 bên (tô màu nền để "cắt" vào vé) */
+.tp-perf {
+  position: relative;
+  height: 0;
+  margin: 0 18px;
+  border-top: 2px dashed var(--color-border);
+}
+.tp-perf::before,
+.tp-perf::after {
+  content: '';
+  position: absolute;
+  top: -12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--color-bg);
+}
+.tp-perf::before {
+  left: -30px;
+}
+.tp-perf::after {
+  right: -30px;
+}
+
+/* Màn rộng: vé lớn chia trái/phải bằng đường xé dọc */
+@media (min-width: 768px) {
+  .tp-perf--split {
+    height: auto;
+    margin: 18px 0;
+    border-top: 0;
+    border-left: 2px dashed var(--color-border);
+  }
+  .tp-perf--split::before,
+  .tp-perf--split::after {
+    left: -12px;
+    right: auto;
+  }
+  .tp-perf--split::before {
+    display: none;
+  }
+  .tp-perf--split::after {
+    top: auto;
+    bottom: -30px;
+  }
+}
+
+/* Dải màu đầu vé */
+.tp-ticket-band {
+  background: var(--tp-band);
+  color: #fff;
+}
+
+/* Mã vạch giả ở cuống vé */
+.tp-barcode {
+  height: 34px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--tp-ink) 0 2px,
+    transparent 2px 4px,
+    var(--tp-ink) 4px 5px,
+    transparent 5px 8px,
+    var(--tp-ink) 8px 11px,
+    transparent 11px 13px
+  );
+  opacity: 0.8;
+  border-radius: 2px;
+}
+
+/* Dấu mộc hộ chiếu cho quỹ đã đóng */
+.tp-stamp {
+  position: absolute;
+  border: 3px double var(--color-danger);
+  color: var(--color-danger);
+  border-radius: 10px;
+  padding: 4px 10px;
+  font-family: var(--font-dm-mono), monospace;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  transform: rotate(-12deg);
+  opacity: 0.75;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+/* ── Đường bay (tiến độ) ───────────────────────────────────────────── */
+.tp-route {
+  position: relative;
+  height: 22px;
+}
+.tp-route-track {
+  position: absolute;
+  inset: 50% 6px auto 6px;
+  border-top: 2px dashed var(--color-border);
+}
+.tp-route-fill {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  border-top: 2px solid var(--color-accent);
+  transition: width 0.6s ease;
+}
+.tp-route-plane {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -54%) var(--tp-vehicle-transform);
+  font-size: 16px;
+  line-height: 1;
+  transition: left 0.6s ease;
+  filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.15));
+}
+
+/* ── Lịch trình (timeline khoản thu chi) ───────────────────────────── */
+.tp-timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.tp-timeline::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 8px;
+  bottom: 8px;
+  border-left: 2px dashed var(--color-border);
+}
+.tp-day-dot {
+  position: absolute;
+  left: -28px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--color-card);
+  border: 2px solid var(--color-accent);
+  display: grid;
+  place-items: center;
+}
+.tp-day-dot::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tp-route-fill,
+  .tp-route-plane {
+    transition: none;
+  }
+}
+
+/* ── Loading toàn trang (components/trips/TripsLoading.tsx) ───────────── */
+.tp-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  background: rgb(246 241 231 / 0.82);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s ease,
+    visibility 0s linear 0.25s;
+}
+.tp-loader--on {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.15s ease;
+}
+.tp-loader-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transform: translateY(6px);
+  transition: transform 0.3s ease;
+}
+.tp-loader--on .tp-loader-card {
+  transform: none;
+}
+.tp-loader-globe {
+  position: relative;
+  width: 132px;
+  height: 132px;
+  display: grid;
+  place-items: center;
+}
+.tp-loader-earth {
+  font-size: 58px;
+  line-height: 1;
+  animation: tp-bob 2.4s ease-in-out infinite;
+}
+/* Quỹ đạo nét đứt, máy bay gắn ở đỉnh rồi cả vòng xoay quanh địa cầu */
+.tp-loader-orbit {
+  position: absolute;
+  inset: 0;
+  border: 2px dashed var(--color-border);
+  border-radius: 999px;
+  animation: tp-spin 2.2s linear infinite;
+}
+@keyframes tp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes tp-bob {
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tp-loader-orbit,
+  .tp-loader-earth {
+    animation: none;
+  }
+}
+
+/* ── Hộp xác nhận (components/trips/TripsDialog.tsx) ─────────────────── */
+.tp-dialog {
+  animation: tp-fade 0.18s ease-out;
+}
+.tp-dialog-card {
+  animation: tp-pop 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+@keyframes tp-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes tp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tp-dialog,
+  .tp-dialog-card {
+    animation: none;
+  }
+}
+
+/* ══ Theme riêng từng chuyến (lib/trips/themes.ts) ══════════════════════════════════════════════════════════
+   .tp-theme-<key> đặt trên thẻ vé (trang danh sách) hoặc cả trang chi tiết. Chỉ trang chi tiết thêm .tp-themed để
+   đổi luôn nền trang — ở danh sách nền chung giữ nguyên nên vết khuyết của vé (dùng --color-bg) vẫn khớp nền. */
+.tp-themed {
+  --color-bg: var(--tp-bg);
+  min-height: 100dvh;
+  background-color: var(--tp-bg);
+  background-image: var(--tp-pattern);
+  background-attachment: fixed;
+}
+
+/* Phương tiện chạy kèm (vd mũi tên ở tab chia tiền) — cùng hướng xoay với đường tiến độ */
+.tp-vehicle {
+  display: inline-block;
+  transform: var(--tp-vehicle-transform);
+}
+
+/* ✈️ Bay — trùng giá trị mặc định ở .trips-root nhưng vẫn khai đủ: theme lồng trong theme khác (form xem trước
+   trong trang chi tiết của chuyến "Biển") phải đặt lại hết, không được kế thừa màu của theme ngoài */
+.tp-theme-flight {
+  --tp-ink: #13314a;
+  --tp-sun: #f2a33a;
+  --tp-bg: #f6f1e7;
+  --color-accent: #0f6e78;
+  --color-accent-soft: #d8eeec;
+  --color-border: #e3d9c6;
+  --color-card-soft: #efe8da;
+  --tp-band: linear-gradient(120deg, #13314a 0%, #0f6e78 70%, #1b8f8a 100%);
+  --tp-font-display: var(--font-tp-display), Georgia, serif;
+  --tp-font-title: var(--font-tp-display), Georgia, serif;
+  --tp-vehicle-transform: rotate(45deg);
+  /* --tp-pattern: dùng luôn của .trips-root (đường đồng mức bản đồ) */
+}
+
+/* 🚗 Phượt xe — nhựa đường, vạch kẻ vàng, chữ đứng kiểu biển báo */
+.tp-theme-road {
+  --tp-ink: #22252b;
+  --tp-sun: #facc15;
+  --tp-bg: #f2f0eb;
+  --color-accent: #c2410c;
+  --color-accent-soft: #fde5d6;
+  --color-border: #ddd7cb;
+  --color-card-soft: #ece8e0;
+  --tp-band: repeating-linear-gradient(90deg, transparent 0 22px, rgb(250 204 21 / 0.55) 22px 40px) bottom / 100% 3px no-repeat,
+    linear-gradient(120deg, #22252b 0%, #3a3f47 100%);
+  --tp-font-display: var(--font-tp-road), 'Arial Narrow', sans-serif;
+  --tp-font-title: var(--font-tp-road), 'Arial Narrow', sans-serif;
+  /* Emoji 🚗 quay đầu sang trái → lật ngang cho chạy về phía đích */
+  --tp-vehicle-transform: scaleX(-1);
+  --tp-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='460' height='460' viewBox='0 0 460 460'%3E%3Cg fill='none' opacity='.5'%3E%3Cpath d='M-30 330C90 230 190 420 490 250' stroke='%23d9d3c7' stroke-width='18'/%3E%3Cpath d='M-30 330C90 230 190 420 490 250' stroke='%23f2f0eb' stroke-width='2' stroke-dasharray='12 14'/%3E%3Cpath d='M-30 90C120 160 260 -10 490 110' stroke='%23e2ddd2' stroke-width='10'/%3E%3C/g%3E%3C/svg%3E");
+}
+.tp-theme-road .tp-title,
+.tp-theme-road .tp-display {
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+.tp-theme-road .tp-route-track {
+  top: calc(50% - 5px);
+  height: 10px;
+  border: 0;
+  border-radius: 6px;
+  background:
+    repeating-linear-gradient(90deg, #facc15 0 10px, transparent 10px 20px) center / 100% 2px no-repeat,
+    #2f333a;
+}
+.tp-theme-road .tp-route-fill {
+  display: none;
+}
+
+/* 🥾 Trekking — rừng xanh, lối mòn chấm, chữ viết tay kiểu sổ nhật ký */
+.tp-theme-trek {
+  --tp-ink: #1f3a2b;
+  --tp-sun: #d9a441;
+  --tp-bg: #f1efe4;
+  --color-accent: #2f6b3f;
+  --color-accent-soft: #dcebd9;
+  --color-border: #d8d6c3;
+  --color-card-soft: #e9e7d8;
+  --tp-band: linear-gradient(120deg, #1f3a2b 0%, #2f6b3f 65%, #5b8a3c 100%);
+  --tp-font-display: var(--font-tp-hand), 'Comic Sans MS', cursive;
+  --tp-font-title: var(--font-tp-hand), 'Comic Sans MS', cursive;
+  --tp-vehicle-transform: none;
+  --tp-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cg fill='none' stroke='%23cfd5bf' stroke-width='1' opacity='.7'%3E%3Cpath d='M-20 120c70-50 130 20 200-20s120-40 260 10'/%3E%3Cpath d='M-20 150c80-45 130 25 210-15s110-35 250 10'/%3E%3Cpath d='M-20 300c70 30 140-40 220 0s130 40 240-10'/%3E%3C/g%3E%3Cg fill='%23d3dcc6' opacity='.8'%3E%3Cpath d='M60 210l14 26h-28z'/%3E%3Cpath d='M78 220l11 20H67z'/%3E%3Cpath d='M330 60l14 26h-28z'/%3E%3Cpath d='M300 360l12 22h-24z'/%3E%3C/g%3E%3C/svg%3E");
+}
+.tp-theme-trek .tp-title {
+  font-size: 1.15em;
+}
+.tp-theme-trek .tp-route-track {
+  border-top: 3px dotted #b8a77e;
+}
+.tp-theme-trek .tp-route-fill {
+  border-top: 3px dotted var(--color-accent);
+}
+
+/* 🏖️ Biển — xanh ngọc, san hô, sóng; tên chuyến chữ script, số chữ tròn */
+.tp-theme-beach {
+  --tp-ink: #0b4f6c;
+  --tp-sun: #fb923c;
+  --tp-bg: #fdf6ec;
+  --color-accent: #0891b2;
+  --color-accent-soft: #d5f1f7;
+  --color-border: #ecdcc4;
+  --color-card-soft: #f6ebdb;
+  --tp-band: linear-gradient(120deg, #0b4f6c 0%, #0891b2 60%, #2dd4bf 100%);
+  --tp-font-display: var(--font-tp-round), system-ui, sans-serif;
+  --tp-font-title: var(--font-tp-script), cursive;
+  --tp-vehicle-transform: none;
+  --tp-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='120' viewBox='0 0 200 120'%3E%3Cg fill='none' stroke='%23cfe7ea' stroke-width='2' opacity='.8'%3E%3Cpath d='M0 30q25-16 50 0t50 0 50 0 50 0'/%3E%3Cpath d='M-50 90q25-16 50 0t50 0 50 0 50 0 50 0'/%3E%3C/g%3E%3C/svg%3E");
+}
+.tp-theme-beach .tp-title {
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+.tp-theme-beach .tp-route-track {
+  top: calc(50% - 4px);
+  height: 8px;
+  border: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4q6-5 12 0t12 0' fill='none' stroke='%23cbb89c' stroke-width='1.6'/%3E%3C/svg%3E") repeat-x center;
+}
+.tp-theme-beach .tp-route-fill {
+  top: calc(50% - 4px);
+  height: 8px;
+  border: 0;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4q6-5 12 0t12 0' fill='none' stroke='%230891b2' stroke-width='2'/%3E%3C/svg%3E") repeat-x left center;
+}
+
+/* ── Hero trang danh sách: tranh phong cảnh hoàng hôn (components/trips/HeroScene.tsx) ────────────────
+   Trời màu đào nhạt → kem ở chân trời; cảnh nằm bên phải, mờ dần về bên trái để chữ màu mực đọc rõ. */
+.tp-hero {
+  background: linear-gradient(180deg, #ffe2c7 0%, #ffeedd 45%, #fbf4ea 100%);
+  box-shadow:
+    0 1px 0 rgb(19 49 74 / 0.04),
+    0 18px 40px -28px rgb(120 70 30 / 0.45);
+}
+.tp-hero-scene {
+  opacity: 0.55;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 30%, #000 70%);
+  mask-image: linear-gradient(to bottom, transparent 30%, #000 70%);
+}
+@media (min-width: 768px) {
+  .tp-hero-scene {
+    opacity: 1;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 26%);
+  }
+}
+.tp-scene-plane {
+  animation: tp-drift 6s ease-in-out infinite;
+}
+.tp-scene-boat {
+  animation: tp-bob 3.2s ease-in-out infinite;
+}
+@keyframes tp-drift {
+  50% {
+    transform: translate(10px, -5px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tp-scene-plane,
+  .tp-scene-boat {
+    animation: none;
+  }
+}
+
+/* Loading: 4 phương tiện (✈️ 🚗 🥾 ⛵) ngồi trên quỹ đạo như vòng đu quay — quỹ đạo quay, từng chiếc quay ngược
+   lại cùng tốc độ nên luôn đứng thẳng, không bị lộn ngược khi xuống dưới */
+.tp-loader-seat {
+  position: absolute;
+  font-size: 20px;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+}
+.tp-loader-seat--1 {
+  top: 0;
+  left: 50%;
+}
+.tp-loader-seat--2 {
+  top: 50%;
+  left: 100%;
+}
+.tp-loader-seat--3 {
+  top: 100%;
+  left: 50%;
+}
+.tp-loader-seat--4 {
+  top: 50%;
+  left: 0;
+}
+.tp-loader-ride {
+  display: inline-block;
+  animation: tp-spin 2.2s linear infinite reverse;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tp-loader-ride {
+    animation: none;
+  }
+}
