@@ -28,7 +28,7 @@ import {
 import { EntrySheet, emptyEntry } from './EntrySheet'
 import { FundSheet } from './FundSheet'
 import { MemberSheet } from './MemberSheet'
-import { themeOf } from '@/lib/trips/themes'
+import { fundTheme } from '@/lib/trips/themes'
 import { Avatar, BusyLabel, dateLabels, ticketCode, ticketTag, TripRoute } from './ui'
 
 type Tab = 'entries' | 'members' | 'settle'
@@ -76,7 +76,7 @@ export function TripDetail({ id }: { id: string }) {
   const editEntry = (e: FundEntry) => setEntryDraft({ entry: { ...e }, isNew: false })
   const pct = target > 0 ? Math.min(100, (s.collected / target) * 100) : 0
   const treasurer = members.find((m) => m.id === fund.treasurerId)
-  const theme = themeOf(fund.theme)
+  const theme = fundTheme(fund)
 
   return (
     <div className={`tp-theme-${theme.key} tp-themed w-full px-4 pb-28 pt-5 md:px-8`}>
@@ -346,7 +346,7 @@ function dayTitle(fund: Fund, date: string) {
 }
 
 function EntriesTab({ fund, members, entries, onEdit }: { fund: Fund; members: FundMember[]; entries: FundEntry[]; onEdit: (e: FundEntry) => void }) {
-  const theme = themeOf(fund.theme)
+  const theme = fundTheme(fund)
   const saveEntries = useTrips((s) => s.saveEntries)
   const today = todayISO()
   const planned = entries.filter((e) => !e.done).sort((a, b) => a.date.localeCompare(b.date))
@@ -438,7 +438,7 @@ function EntriesTab({ fund, members, entries, onEdit }: { fund: Fund; members: F
 }
 
 function MembersTab({ fund, members, entries }: { fund: Fund; members: FundMember[]; entries: FundEntry[] }) {
-  const theme = themeOf(fund.theme)
+  const theme = fundTheme(fund)
   const addMember = useTrips((s) => s.addMember)
   const balances = useMemo(() => memberBalances(members, entries), [members, entries])
   const [newName, setNewName] = useState('')
@@ -575,7 +575,7 @@ function MembersTab({ fund, members, entries }: { fund: Fund; members: FundMembe
 }
 
 function SettleTab({ fund, members, entries, balance }: { fund: Fund; members: FundMember[]; entries: FundEntry[]; balance: number }) {
-  const theme = themeOf(fund.theme)
+  const theme = fundTheme(fund)
   const saveEntries = useTrips((s) => s.saveEntries)
   const [busy, setBusy] = useState<number | null>(null) // chỉ số chặng đang ghi "đã chuyển"
   const transfers = useMemo(() => settle(memberBalances(members, entries), balance), [members, entries, balance])

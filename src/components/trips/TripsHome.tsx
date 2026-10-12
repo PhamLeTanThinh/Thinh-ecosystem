@@ -7,9 +7,15 @@ import { announceNavigation } from '@/components/loading/NavigationWatcher'
 import { confirmDeleteFund, useTrips, type FundInput } from '@/lib/trips/store'
 import { effectiveTarget, formatDate, formatVND, isLeft, summarize, todayISO, type Fund, type FundEntry, type FundMember } from '@/lib/trips/types'
 import { emptyFund, FundSheet } from './FundSheet'
-import { themeOf, TRIP_THEMES } from '@/lib/trips/themes'
+import { FUND_THEME, fundTheme, TRIP_THEMES } from '@/lib/trips/themes'
 import { HeroScene } from './HeroScene'
 import { Avatar, dateLabels, Spinner, ticketCode, ticketTag, TripRoute } from './ui'
+
+// Nút tạo nhanh: mỗi theme chuyến đi + 1 nút quỹ góp mua đồ (giao diện mặc định, không chọn theme)
+const QUICK_STARTS = [
+  ...TRIP_THEMES.map((theme) => ({ theme, make: () => emptyFund(theme.key) })),
+  { theme: FUND_THEME, make: () => ({ ...emptyFund(), kind: 'fund' as const, icon: FUND_THEME.emoji }) },
+]
 
 export function dateRange(fund: Fund) {
   if (fund.startDate && fund.endDate) return `${formatDate(fund.startDate)} → ${formatDate(fund.endDate)}`
@@ -69,11 +75,11 @@ export function TripsHome() {
           {/* Tạo nhanh theo kiểu đi — mở form với theme chọn sẵn */}
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <span className="tp-label mr-1">Đi kiểu gì?</span>
-            {TRIP_THEMES.map((t) => (
+            {QUICK_STARTS.map(({ theme: t, make }) => (
               <button
                 key={t.key}
                 type="button"
-                onClick={() => setCreating(emptyFund(t.key))}
+                onClick={() => setCreating(make())}
                 className="flex items-center gap-1.5 rounded-pill border border-white/80 bg-white/70 py-1.5 pl-2 pr-3 text-xs font-semibold shadow-sm backdrop-blur transition hover:bg-white active:scale-95"
               >
                 <span className="h-2 w-2 rounded-full" style={{ background: t.swatch[1] }} />
@@ -100,12 +106,12 @@ export function TripsHome() {
           <p className="text-5xl">🧳</p>
           <p className="tp-display mt-3 text-2xl font-bold text-(--tp-ink)">Chưa có chuyến nào</p>
           <p className="mx-auto mt-1 max-w-md text-sm text-muted">Chọn kiểu đi để bắt đầu — mỗi kiểu có giao diện riêng, đổi lại lúc nào cũng được.</p>
-          <div className="mx-auto mt-6 grid max-w-4xl grid-cols-2 gap-4 lg:grid-cols-4">
-            {TRIP_THEMES.map((t) => (
+          <div className="mx-auto mt-6 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+            {QUICK_STARTS.map(({ theme: t, make }) => (
               <button
                 key={t.key}
                 type="button"
-                onClick={() => setCreating(emptyFund(t.key))}
+                onClick={() => setCreating(make())}
                 className={`tp-theme-${t.key} tp-ticket group overflow-hidden text-left transition hover:-translate-y-1 hover:shadow-xl`}
               >
                 <span className="tp-ticket-band flex items-center justify-between px-4 py-2">
@@ -191,7 +197,7 @@ function FundGrid({ funds, byFund, members }: { funds: Fund[]; byFund: Map<strin
         const target = effectiveTarget(f, fundMembers)
         const pct = target > 0 ? (s.collected / target) * 100 : 0
         const [l1, l2] = dateLabels(f)
-        const theme = themeOf(f.theme)
+        const theme = fundTheme(f)
         const deleting = deletingId === f.id
         return (
           // Nút xoá là anh em của Link (không lồng bên trong): NavigationWatcher bắt click ở pha capture trên

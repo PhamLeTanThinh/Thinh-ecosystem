@@ -4,7 +4,7 @@
 export type TripThemeKey = 'flight' | 'road' | 'trek' | 'beach'
 
 export interface TripTheme {
-  key: TripThemeKey
+  key: TripThemeKey | 'fund' // 'fund' = giao diện mặc định của quỹ góp (FUND_THEME), không có trong ô chọn
   name: string
   emoji: string
   blurb: string
@@ -25,7 +25,8 @@ export interface TripTheme {
   emptyLog: string // icon lịch trình trống
 }
 
-export const TRIP_THEMES: TripTheme[] = [
+// key thu hẹp về TripThemeKey: chỉ các theme chọn được cho chuyến đi
+export const TRIP_THEMES: (TripTheme & { key: TripThemeKey })[] = [
   {
     key: 'flight',
     name: 'Bay',
@@ -120,4 +121,33 @@ export function isTripTheme(v: unknown): v is TripThemeKey {
 
 export function themeOf(key: string | null | undefined): TripTheme {
   return TRIP_THEMES.find((t) => t.key === key) ?? TRIP_THEMES[0]
+}
+
+// Quỹ góp (mua đồ, quà...) và loại "Khác" không chọn theme — luôn dùng 1 giao diện mặc định trung tính (CSS
+// .tp-theme-fund): tiền xu 🪙 gom dần tới món quà 🎁, gọi là "thành viên", không dùng từ ngữ du lịch.
+export const FUND_THEME: TripTheme = {
+  key: 'fund',
+  name: 'Quỹ chung',
+  emoji: '🎁',
+  blurb: 'Góp tiền mua đồ, mua quà',
+  swatch: ['#272b4f', '#5b50d6', '#f5b83d'],
+  tag: 'Group fund',
+  vehicle: '🪙',
+  destination: '🎁',
+  dateLabels: ['Bắt đầu gom', 'Hạn chót'],
+  people: 'Thành viên',
+  person: 'Thành viên',
+  addPeople: 'Thêm thành viên (nhiều tên cách nhau dấu phẩy)',
+  leftGroup: 'Đã rời quỹ',
+  log: '📒 Sổ thu chi',
+  upcoming: '⏳ Sắp tới',
+  leg: 'Lượt',
+  stamp: 'DONE',
+  settled: 'Không ai nợ ai — quỹ đã quyết toán xong.',
+  emptyLog: '📒',
+}
+
+// Giao diện thực tế của 1 quỹ: chuyến đi theo theme đã chọn, còn lại dùng FUND_THEME (theme lưu trong DB bị bỏ qua)
+export function fundTheme(fund: { kind: string; theme: string }): TripTheme {
+  return fund.kind === 'trip' ? themeOf(fund.theme) : FUND_THEME
 }

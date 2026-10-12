@@ -442,6 +442,34 @@
   background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='8' viewBox='0 0 24 8'%3E%3Cpath d='M0 4q6-5 12 0t12 0' fill='none' stroke='%230891b2' stroke-width='2'/%3E%3C/svg%3E") repeat-x left center;
 }
 
+/* 🎁 Quỹ góp (mua đồ, quà...) & "Khác" — không chọn theme, luôn dùng giao diện này (FUND_THEME): chàm + vàng,
+   chữ không chân gọn gàng, nền chấm bi nhẹ, tiến độ là dãy xu gom dần tới món quà */
+.tp-theme-fund {
+  --tp-ink: #272b4f;
+  --tp-sun: #f5b83d;
+  --tp-bg: #f5f3ee;
+  --color-accent: #5b50d6;
+  --color-accent-soft: #e6e3fb;
+  --color-border: #e1ddd3;
+  --color-card-soft: #eeebe4;
+  --tp-band: linear-gradient(120deg, #272b4f 0%, #4b44b8 70%, #6d5fe0 100%);
+  --tp-font-display: var(--font-tp-body), system-ui, sans-serif;
+  --tp-font-title: var(--font-tp-body), system-ui, sans-serif;
+  --tp-vehicle-transform: none;
+  --tp-pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22'%3E%3Ccircle cx='11' cy='11' r='1.3' fill='%23ddd7ca'/%3E%3C/svg%3E");
+}
+.tp-theme-fund .tp-title,
+.tp-theme-fund .tp-display {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.tp-theme-fund .tp-route-track {
+  border-top: 3px dotted #d8d1bf;
+}
+.tp-theme-fund .tp-route-fill {
+  border-top: 3px solid var(--tp-sun);
+}
+
 /* ── Hero trang danh sách: tranh phong cảnh hoàng hôn (components/trips/HeroScene.tsx) ────────────────
    Trời màu đào nhạt → kem ở chân trời; cảnh nằm bên phải, mờ dần về bên trái để chữ màu mực đọc rõ. */
 .tp-hero {

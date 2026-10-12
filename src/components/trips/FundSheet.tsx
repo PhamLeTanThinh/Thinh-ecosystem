@@ -7,10 +7,15 @@ import { SheetHeader } from '@/components/money/SheetHeader'
 import { confirmDeleteFund, useTrips, type FundInput } from '@/lib/trips/store'
 import { FUND_KINDS, isLeft, kindOf, type Fund } from '@/lib/trips/types'
 import { DatePicker } from './DatePicker'
-import { DEFAULT_THEME, TRIP_THEMES, themeOf, type TripThemeKey } from '@/lib/trips/themes'
+import { DEFAULT_THEME, fundTheme, TRIP_THEMES, themeOf, type TripThemeKey } from '@/lib/trips/themes'
 import { BusyLabel } from './ui'
 
 // theme: mở form với theme chọn sẵn (nút tạo nhanh ở trang danh sách) — icon mặc định lấy theo theme
+// Icon mặc định: chuyến đi theo theme, quỹ góp / khác theo loại quỹ
+function defaultIcon(d: Pick<FundInput, 'kind' | 'theme'>) {
+  return d.kind === 'trip' ? themeOf(d.theme).emoji : kindOf(d.kind).icon
+}
+
 export function emptyFund(theme: TripThemeKey = DEFAULT_THEME): FundInput {
   return {
     id: nanoid(),
@@ -125,8 +130,8 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
   const headcount = isNew ? names.length : members.length
 
   return (
-    // Bọc theo theme đang chọn → cả form đổi màu / font ngay khi chọn theme (xem trước)
-    <div className={`tp-theme-${draft.theme}`}>
+    // Bọc theo giao diện đang chọn → cả form đổi màu / font ngay khi chọn theme (xem trước); quỹ góp dùng giao diện mặc định
+    <div className={`tp-theme-${fundTheme(draft).key}`}>
       <SheetHeader
         title={isNew ? 'Tạo mới' : 'Sửa thông tin'}
         onCancel={onClose}
@@ -148,7 +153,8 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
               onClick={() =>
                 patch({
                   kind: k.key,
-                  icon: draft.icon === kindOf(draft.kind).icon ? k.icon : draft.icon,
+                  // Icon đang là icon mặc định → đổi theo loại mới; icon tự chọn thì giữ
+                  icon: draft.icon === defaultIcon(draft) ? defaultIcon({ ...draft, kind: k.key }) : draft.icon,
                 })
               }
               className={`flex-1 rounded-pill border px-2 py-2 text-xs font-semibold ${
@@ -160,39 +166,42 @@ function FundForm({ fund, isNew, onClose, onSaved, onDeleted }: FundSheetProps &
           ))}
         </div>
 
-        <div>
-          <p className="text-sm text-muted">Theme</p>
-          <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {TRIP_THEMES.map((t) => {
-              const on = draft.theme === t.key
-              return (
-                <button
-                  key={t.key}
-                  type="button"
-                  aria-pressed={on}
-                  // Icon đang là icon mặc định của theme cũ → đổi theo theme mới; icon tự chọn thì giữ
-                  onClick={() => patch({ theme: t.key, icon: draft.icon === themeOf(draft.theme).emoji ? t.emoji : draft.icon })}
-                  className={`tp-theme-${t.key} overflow-hidden rounded-2xl border-2 text-left transition ${
-                    on ? 'border-accent shadow-md' : 'border-border hover:border-accent/50'
-                  }`}
-                >
-                  <span className="tp-ticket-band flex items-center justify-between px-2.5 py-1.5">
-                    <span className="text-lg">{t.emoji}</span>
-                    <span className="flex gap-1">
-                      {t.swatch.map((c) => (
-                        <span key={c} className="h-2.5 w-2.5 rounded-full ring-1 ring-white/60" style={{ background: c }} />
-                      ))}
+        {/* Theme chỉ dành cho chuyến đi — quỹ góp mua đồ / khác luôn dùng 1 giao diện mặc định */}
+        {isTrip && (
+          <div>
+            <p className="text-sm text-muted">Theme</p>
+            <div className="mt-2 grid grid-cols-2 gap-2 sm:grid-cols-4">
+              {TRIP_THEMES.map((t) => {
+                const on = draft.theme === t.key
+                return (
+                  <button
+                    key={t.key}
+                    type="button"
+                    aria-pressed={on}
+                    // Icon đang là icon mặc định của theme cũ → đổi theo theme mới; icon tự chọn thì giữ
+                    onClick={() => patch({ theme: t.key, icon: draft.icon === defaultIcon(draft) ? t.emoji : draft.icon })}
+                    className={`tp-theme-${t.key} overflow-hidden rounded-2xl border-2 text-left transition ${
+                      on ? 'border-accent shadow-md' : 'border-border hover:border-accent/50'
+                    }`}
+                  >
+                    <span className="tp-ticket-band flex items-center justify-between px-2.5 py-1.5">
+                      <span className="text-lg">{t.emoji}</span>
+                      <span className="flex gap-1">
+                        {t.swatch.map((c) => (
+                          <span key={c} className="h-2.5 w-2.5 rounded-full ring-1 ring-white/60" style={{ background: c }} />
+                        ))}
+                      </span>
                     </span>
-                  </span>
-                  <span className="block bg-card px-2.5 py-2">
-                    <span className="tp-title block truncate text-base font-bold text-(--tp-ink)">{t.name}</span>
-                    <span className="block truncate text-[11px] text-muted">{t.blurb}</span>
-                  </span>
-                </button>
-              )
-            })}
+                    <span className="block bg-card px-2.5 py-2">
+                      <span className="tp-title block truncate text-base font-bold text-(--tp-ink)">{t.name}</span>
+                      <span className="block truncate text-[11px] text-muted">{t.blurb}</span>
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
-        </div>
+        )}
 
         <div className="flex items-center gap-3">
           <input
