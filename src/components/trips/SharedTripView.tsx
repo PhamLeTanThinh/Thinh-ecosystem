@@ -11,6 +11,7 @@ import {
   kindOf,
   memberBalances,
   openingEntryId,
+  roundMemberView,
   roundSummaries,
   sortRounds,
   summarize,
@@ -19,6 +20,8 @@ import {
   type FundMember,
   type FundRound,
 } from '@/lib/trips/types'
+import { BottomSheet } from '@/components/money/BottomSheet'
+import { SheetHeader } from '@/components/money/SheetHeader'
 import { SpendingTab } from './SpendingTab'
 import { DuesTab, SettleTab } from './TripDetail'
 import { Avatar, dateLabels, ticketCode, ticketTag, TripRoute } from './ui'
@@ -44,6 +47,7 @@ export function SharedTripView({ slug }: { slug: string }) {
   const [error, setError] = useState('')
   const [loadedAt, setLoadedAt] = useState<Date | null>(null)
   const [roundSel, setRoundSel] = useState<string | null>(null) // null = đợt mới nhất, 'all' = gộp mọi đợt
+  const [detailOpen, setDetailOpen] = useState(false) // popup chi tiết đóng góp
 
   // Tải (và tải lại khi bấm "Cập nhật"): state chỉ set trong callback của promise
   const load = useCallback(() => {
@@ -222,27 +226,41 @@ export function SharedTripView({ slug }: { slug: string }) {
         </div>
       )}
 
-      {/* Đóng góp */}
-      <Section title={usesRounds ? '📋 Tình hình đóng góp' : `👥 ${theme.people} & đóng góp`}>
-        {usesRounds ? (
-          <DuesTab
-            members={members}
-            entries={entries}
-            rounds={rounds}
-            round={round ?? latest}
-            fund={fund}
-            cash={summarize(entries).balance}
-            readOnly
-          />
-        ) : (
-          <TripContributions members={members} entries={entries} rounds={rounds} />
-        )}
-      </Section>
-
-      {/* Chi tiêu */}
+      {/* Chi tiêu — phần người xem quan tâm nhất nên đặt trên cùng */}
       <Section title="💸 Chi tiêu">
         <SpendingTab fund={fund} members={members} entries={viewEntries} scopeLabel={scopeLabel} remaining={balance} />
       </Section>
+
+      {/* Đóng góp — thẻ tóm tắt gọn, chi tiết mở trong popup */}
+      <Section title={usesRounds ? '📋 Tình hình đóng góp' : `👥 ${theme.people} & đóng góp`}>
+        {usesRounds ? (
+          <DuesCompact members={members} entries={entries} rounds={rounds} round={round ?? latest} onOpen={() => setDetailOpen(true)} />
+        ) : (
+          <TripCompact members={members} entries={entries} rounds={rounds} onOpen={() => setDetailOpen(true)} />
+        )}
+      </Section>
+      <BottomSheet open={detailOpen} onClose={() => setDetailOpen(false)} responsive>
+        <SheetHeader
+          title={usesRounds ? `Chi tiết đóng góp · ${(round ?? latest)?.name ?? ''}` : 'Chi tiết đóng góp'}
+          onCancel={() => setDetailOpen(false)}
+          cancelLabel="Đóng"
+        />
+        <div className="px-4 pb-6">
+          {usesRounds ? (
+            <DuesTab
+              members={members}
+              entries={entries}
+              rounds={rounds}
+              round={round ?? latest}
+              fund={fund}
+              cash={summarize(entries).balance}
+              readOnly
+            />
+          ) : (
+            <TripContributions members={members} entries={entries} rounds={rounds} />
+          )}
+        </div>
+      </BottomSheet>
 
       {/* Chia tiền — chỉ chuyến đi */}
       {!usesRounds && (
@@ -308,5 +326,147 @@ function TripContributions({ members, entries, rounds }: { members: FundMember[]
         </div>
       ))}
     </div>
+  )
+}
+
+// Thẻ tóm tắt đóng góp của 1 đợt (quỹ góp): đã đóng X/Y, còn thiếu bao nhiêu, ai còn thiếu (chip), ai đã đủ (avatar)
+function DuesCompact({
+  members,
+  entries,
+  rounds,
+  round,
+  onOpen,
+}: {
+  members: FundMember[]
+  entries: FundEntry[]
+  rounds: FundRound[]
+  round: FundRound | null
+  onOpen: () => void
+}) {
+  if (!round) return <p className="mt-4 text-sm text-muted">Chưa có đợt nào.</p>
+  const per = round.perMemberTarget
+  const rows = roundMemberView(round, rounds, members, entries)
+    .filter((b) => b.inRound)
+    .map((b) => {
+      const need = per > 0 ? Math.max(0, per - b.carryIn) : 0
+      const remaining = per > 0 ? Math.max(0, need - b.contributed) : 0
+      const done = per > 0 ? remaining === 0 : b.contributed > 0
+      return { b, remaining, done }
+    })
+  const byName = (a: (typeof rows)[number], b: (typeof rows)[number]) => a.b.member.name.localeCompare(b.b.member.name, 'vi', { sensitivity: 'base' })
+  const owing = rows.filter((r) => !r.done).sort((a, b) => b.remaining - a.remaining || byName(a, b))
+  const paid = rows.filter((r) => r.done).sort(byName)
+  const missing = owing.reduce((n, r) => n + r.remaining, 0)
+  const pct = rows.length ? (paid.length / rows.length) * 100 : 0
+
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="tp-ticket group mt-4 block w-full p-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <div className="flex flex-wrap items-end justify-between gap-2">
+        <div>
+          <p className="tp-label">Đã đóng</p>
+          <p className="tp-display text-2xl font-bold text-(--tp-ink)">
+            {paid.length}/{rows.length} <span className="text-base font-semibold text-muted">người</span>
+          </p>
+        </div>
+        {per > 0 && (
+          <div className="text-right">
+            <p className="tp-label">Còn thiếu</p>
+            <p className={`tp-display text-2xl font-bold ${missing > 0 ? 'text-danger' : 'text-accent'}`}>
+              {missing > 0 ? formatVND(missing) : 'Đủ rồi ✓'}
+            </p>
+          </div>
+        )}
+      </div>
+      <div className="mt-3 h-2 overflow-hidden rounded-full bg-card-soft">
+        <div className="h-full rounded-full bg-accent" style={{ width: `${pct}%` }} />
+      </div>
+
+      {owing.length > 0 && (
+        <div className="mt-4">
+          <p className="mb-2 text-xs font-semibold text-danger">❌ Chưa đóng đủ ({owing.length})</p>
+          <div className="flex flex-wrap gap-1.5">
+            {owing.slice(0, 8).map((r) => (
+              <span
+                key={r.b.member.id}
+                className="inline-flex items-center gap-1.5 rounded-pill bg-danger-soft py-1 pl-1 pr-2.5 text-xs font-medium text-danger"
+              >
+                <Avatar id={r.b.member.id} name={r.b.member.name} size={20} />
+                {r.b.member.name}
+                {per > 0 && <span className="font-semibold">· {formatVND(r.remaining)}</span>}
+              </span>
+            ))}
+            {owing.length > 8 && (
+              <span className="rounded-pill bg-card-soft px-2.5 py-1 text-xs font-semibold text-muted">+{owing.length - 8} người</span>
+            )}
+          </div>
+        </div>
+      )}
+      {paid.length > 0 && (
+        <div className="mt-4 flex items-center gap-3">
+          <span className="flex -space-x-2">
+            {paid.slice(0, 10).map((r) => (
+              <Avatar key={r.b.member.id} id={r.b.member.id} name={r.b.member.name} size={26} />
+            ))}
+          </span>
+          <span className="text-xs font-semibold text-accent">
+            ✅ {paid.length} người đã đóng{paid.length > 10 ? ` (+${paid.length - 10})` : ''}
+          </span>
+        </div>
+      )}
+      <span className="mt-4 flex items-center justify-center gap-1 rounded-pill bg-card-soft py-2.5 text-sm font-semibold text-accent transition group-hover:bg-accent-soft">
+        Xem chi tiết đóng góp →
+      </span>
+    </button>
+  )
+}
+
+// Thẻ tóm tắt cho chuyến đi: ai còn thiếu / ai được nhận lại
+function TripCompact({ members, entries, rounds, onOpen }: { members: FundMember[]; entries: FundEntry[]; rounds: FundRound[]; onOpen: () => void }) {
+  const rows = memberBalances(members, entries, rounds)
+  const owing = rows.filter((b) => b.net < -0.5).sort((a, b) => a.net - b.net)
+  const receiving = rows.filter((b) => b.net > 0.5)
+  const contributed = rows.reduce((n, b) => n + b.contributed, 0)
+  return (
+    <button
+      type="button"
+      onClick={onOpen}
+      className="tp-ticket group mt-4 block w-full p-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      <div className="grid grid-cols-3 gap-2 text-sm">
+        <div className="rounded-xl bg-card-soft px-3 py-2">
+          <p className="tp-label truncate">Thành viên</p>
+          <p className="font-semibold">{rows.length}</p>
+        </div>
+        <div className="rounded-xl bg-card-soft px-3 py-2">
+          <p className="tp-label truncate">Đã góp</p>
+          <p className="truncate font-semibold text-income">{formatVND(contributed)}</p>
+        </div>
+        <div className="rounded-xl bg-card-soft px-3 py-2">
+          <p className="tp-label truncate">Còn thiếu</p>
+          <p className="font-semibold text-danger">{owing.length} người</p>
+        </div>
+      </div>
+      {owing.length > 0 && (
+        <div className="mt-4 flex flex-wrap gap-1.5">
+          {owing.slice(0, 8).map((b) => (
+            <span
+              key={b.member.id}
+              className="inline-flex items-center gap-1.5 rounded-pill bg-danger-soft py-1 pl-1 pr-2.5 text-xs font-medium text-danger"
+            >
+              <Avatar id={b.member.id} name={b.member.name} size={20} />
+              {b.member.name} · {formatVND(-b.net)}
+            </span>
+          ))}
+        </div>
+      )}
+      {receiving.length > 0 && <p className="mt-3 text-xs font-semibold text-income">↩ {receiving.length} người được nhận lại tiền</p>}
+      <span className="mt-4 flex items-center justify-center gap-1 rounded-pill bg-card-soft py-2.5 text-sm font-semibold text-accent transition group-hover:bg-accent-soft">
+        Xem chi tiết đóng góp →
+      </span>
+    </button>
   )
 }

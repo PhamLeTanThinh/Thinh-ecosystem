@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
-import { categoryOf, formatDate, formatVND, type EntryPhoto, type Fund, type FundEntry, type FundMember } from '@/lib/trips/types'
+import { useState } from 'react'
+import { categoryOf, formatDate, formatVND, type Fund, type FundEntry, type FundMember } from '@/lib/trips/types'
+import { PhotoViewer } from './PhotoViewer'
 import { Avatar } from './ui'
 
 // Quỹ góp: tổng hợp + chi tiết chi tiêu của đợt đang xem (hoặc mọi đợt). Phân theo nhóm là 1 chuỗi số liệu (độ lớn
@@ -23,7 +23,7 @@ export function SpendingTab({
   onEdit?: (e: FundEntry) => void // không truyền = chỉ xem (trang chia sẻ)
 }) {
   const [copied, setCopied] = useState(false)
-  const [viewer, setViewer] = useState<{ photos: EntryPhoto[]; i: number } | null>(null)
+  const [viewer, setViewer] = useState<{ entry: FundEntry; i: number } | null>(null)
   const spent = entries
     .filter((e) => e.type === 'out' && e.done)
     .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt))
@@ -197,7 +197,7 @@ export function SpendingTab({
                         <button
                           key={p.key}
                           type="button"
-                          onClick={() => setViewer({ photos: e.attachments, i })}
+                          onClick={() => setViewer({ entry: e, i })}
                           aria-label={`Xem ảnh chứng từ ${i + 1}`}
                           className="overflow-hidden rounded-lg"
                         >
@@ -208,7 +208,7 @@ export function SpendingTab({
                       {e.attachments.length > 4 && (
                         <button
                           type="button"
-                          onClick={() => setViewer({ photos: e.attachments, i: 4 })}
+                          onClick={() => setViewer({ entry: e, i: 4 })}
                           className="flex h-12 w-12 items-center justify-center rounded-lg bg-card-soft text-xs font-semibold text-muted"
                         >
                           +{e.attachments.length - 4}
@@ -222,7 +222,7 @@ export function SpendingTab({
           })}
         </div>
         <p className="mt-3 px-1 text-xs text-muted">{onEdit ? 'Bấm 1 khoản để sửa, bấm ảnh để xem lớn.' : 'Bấm ảnh chứng từ để xem lớn.'}</p>
-        {viewer && <PhotoViewer photos={viewer.photos} start={viewer.i} onClose={() => setViewer(null)} />}
+        {viewer && <PhotoViewer fund={fund} entry={viewer.entry} members={members} start={viewer.i} onClose={() => setViewer(null)} />}
       </section>
     </div>
   )
@@ -234,63 +234,5 @@ function Tile({ label, value, tone = '' }: { label: string; value: string; tone?
       <p className="tp-label truncate">{label}</p>
       <p className={`truncate font-semibold ${tone}`}>{value}</p>
     </div>
-  )
-}
-
-// Xem lớn ảnh chứng từ: ← → chuyển ảnh, Esc / bấm nền đóng
-function PhotoViewer({ photos, start, onClose }: { photos: EntryPhoto[]; start: number; onClose: () => void }) {
-  const [i, setI] = useState(start)
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose()
-      if (e.key === 'ArrowRight') setI((x) => (x + 1) % photos.length)
-      if (e.key === 'ArrowLeft') setI((x) => (x - 1 + photos.length) % photos.length)
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [photos.length, onClose])
-  return createPortal(
-    <div className="fixed inset-0 z-90 flex items-center justify-center bg-black/90 p-4" onClick={onClose} role="dialog" aria-modal="true">
-      {/* eslint-disable-next-line @next/next/no-img-element -- ảnh R2 domain động */}
-      <img src={photos[i].url} alt="" className="max-h-full max-w-full rounded-lg object-contain" onClick={(e) => e.stopPropagation()} />
-      <button
-        type="button"
-        aria-label="Đóng"
-        onClick={onClose}
-        className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white hover:bg-white/25"
-      >
-        ✕
-      </button>
-      {photos.length > 1 && (
-        <>
-          <button
-            type="button"
-            aria-label="Ảnh trước"
-            onClick={(e) => {
-              e.stopPropagation()
-              setI((x) => (x - 1 + photos.length) % photos.length)
-            }}
-            className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-xl text-white hover:bg-white/25"
-          >
-            ‹
-          </button>
-          <button
-            type="button"
-            aria-label="Ảnh sau"
-            onClick={(e) => {
-              e.stopPropagation()
-              setI((x) => (x + 1) % photos.length)
-            }}
-            className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-xl text-white hover:bg-white/25"
-          >
-            ›
-          </button>
-          <p className="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-pill bg-white/15 px-3 py-1 text-sm text-white">
-            {i + 1} / {photos.length}
-          </p>
-        </>
-      )}
-    </div>,
-    document.body,
   )
 }
