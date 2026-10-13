@@ -35,22 +35,26 @@ import { EntrySheet, emptyEntry } from './EntrySheet'
 import { FundSheet } from './FundSheet'
 import { MemberSheet } from './MemberSheet'
 import { newRoundDraft, RoundSheet } from './RoundSheet'
+import { SpendingTab } from './SpendingTab'
+import { ShareSheet } from './ShareSheet'
 import { fundTheme } from '@/lib/trips/themes'
 import { Avatar, BusyLabel, dateLabels, ticketCode, ticketTag, TripRoute } from './ui'
 
-type Tab = 'entries' | 'members' | 'settle' | 'dues'
+type Tab = 'entries' | 'members' | 'settle' | 'dues' | 'spending'
 
-const TABS: { key: Tab; label: string; icon: string }[] = [
+// short: nhãn ngắn cho mobile (thanh viên thuốc chia đều, 4 tab phải vừa 1 hàng)
+const TABS: { key: Tab; label: string; icon: string; short?: string }[] = [
   { key: 'entries', label: 'Khoản thu chi', icon: '📒' },
   { key: 'members', label: 'Thành viên', icon: '👥' },
   { key: 'settle', label: 'Chia tiền', icon: '🔁' },
 ]
 
 // Quỹ góp mua đồ không chia tiền trả về → tab thứ 3 là kiểm tra ai chưa đóng
-const FUND_TABS: { key: Tab; label: string; icon: string }[] = [
-  { key: 'entries', label: 'Khoản thu chi', icon: '📒' },
+const FUND_TABS: { key: Tab; label: string; icon: string; short?: string }[] = [
+  { key: 'entries', label: 'Khoản thu chi', icon: '📒', short: 'Thu chi' },
   { key: 'members', label: 'Thành viên', icon: '👥' },
-  { key: 'dues', label: 'Ai chưa đóng', icon: '📋' },
+  { key: 'dues', label: 'Ai chưa đóng', icon: '📋', short: 'Chưa đóng' },
+  { key: 'spending', label: 'Chi tiêu', icon: '💸' },
 ]
 
 export function TripDetail({ id }: { id: string }) {
@@ -66,6 +70,7 @@ export function TripDetail({ id }: { id: string }) {
   // Đợt đang xem (quỹ dùng nhiều đợt): null = đợt mới nhất, 'all' = gộp mọi đợt
   const [roundSel, setRoundSel] = useState<string | null>(null)
   const [roundDraft, setRoundDraft] = useState<{ round: RoundInput; isNew: boolean } | null>(null)
+  const [sharing, setSharing] = useState(false)
 
   useEffect(() => {
     load()
@@ -141,6 +146,7 @@ export function TripDetail({ id }: { id: string }) {
             (duesRound.perMemberTarget > 0 ? Math.max(0, duesRound.perMemberTarget - b.carryIn) - b.contributed > 0.5 : b.contributed <= 0),
         ).length
       : 0,
+    spending: viewEntries.filter((e) => e.type === 'out' && e.done).length,
     settle: usesRounds ? 0 : settle(memberBalances(members, entries, rounds), summarize(entries).balance).length,
   }
 
@@ -151,6 +157,15 @@ export function TripDetail({ id }: { id: string }) {
           ← Hành trình
         </Link>
         <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={() => setSharing(true)}
+            className={`rounded-pill border px-3 py-1 text-sm font-medium ${
+              fund.shareSlug ? 'border-accent bg-accent-soft text-accent' : 'border-border bg-card text-accent hover:border-accent'
+            }`}
+          >
+            🔗 {fund.shareSlug ? 'Đang chia sẻ' : 'Chia sẻ'}
+          </button>
           <button
             type="button"
             onClick={() => setEditingFund({ ...fund })}
@@ -252,7 +267,9 @@ export function TripDetail({ id }: { id: string }) {
               {!round && <Stat label="Dự chi" value={s.pendingOut} />}
             </div>
             {s.spent > s.spentFromFund && (
-              <p className="text-xs text-muted">Trong đó {formatVND(s.spent - s.spentFromFund)} do thành viên ứng tiền túi — xem tab Chia tiền.</p>
+              <p className="text-xs text-muted">
+                Trong đó {formatVND(s.spent - s.spentFromFund)} do thành viên ứng tiền túi — xem tab {usesRounds ? 'Chi tiêu' : 'Chia tiền'}.
+              </p>
             )}
             <span className="tp-barcode w-full" aria-hidden="true" />
           </div>
@@ -293,7 +310,8 @@ export function TripDetail({ id }: { id: string }) {
               <span className="hidden md:inline" aria-hidden="true">
                 {t.icon}
               </span>
-              {t.label}
+              <span className="md:hidden">{t.short ?? t.label}</span>
+              <span className="hidden md:inline">{t.label}</span>
               {count > 0 && (
                 <span
                   className={`hidden rounded-pill px-2 py-0.5 text-[11px] font-semibold md:inline ${
@@ -323,6 +341,16 @@ export function TripDetail({ id }: { id: string }) {
       {tab === 'members' && <MembersTab fund={fund} members={members} entries={entries} rounds={rounds} round={round} />}
       {tab === 'settle' && !usesRounds && (
         <SettleTab fund={fund} members={members} entries={entries} rounds={rounds} balance={summarize(entries).balance} />
+      )}
+      {tab === 'spending' && usesRounds && (
+        <SpendingTab
+          fund={fund}
+          members={members}
+          entries={viewEntries}
+          scopeLabel={round ? round.name : 'tất cả đợt'}
+          remaining={balance}
+          onEdit={editEntry}
+        />
       )}
       {tab === 'dues' && usesRounds && (
         <DuesTab
@@ -368,6 +396,7 @@ export function TripDetail({ id }: { id: string }) {
         participantIds={draftRound?.memberIds ?? null}
         defaultInAmount={entryDraft ? perMemberFor(entryDraft.entry.roundId) : 0}
       />
+      <ShareSheet fund={fund} open={sharing} onClose={() => setSharing(false)} />
       <RoundSheet
         fund={fund}
         round={roundDraft?.round ?? null}
@@ -903,7 +932,7 @@ function MembersTab({
 }
 
 // Quỹ góp mua đồ: không chia tiền trả về — tab này kiểm tra ai trong đợt đã đóng / còn thiếu bao nhiêu
-function DuesTab({
+export function DuesTab({
   members,
   entries,
   rounds,
@@ -911,14 +940,16 @@ function DuesTab({
   onRecord,
   fund,
   cash,
+  readOnly = false,
 }: {
   members: FundMember[]
   entries: FundEntry[]
   rounds: FundRound[]
   round: FundRound | null
-  onRecord: (memberId: string) => void // mở form Thu cho người này (đợt chưa đặt mức góp)
+  onRecord?: (memberId: string) => void // mở form Thu cho người này (đợt chưa đặt mức góp)
   fund: Fund
   cash: number // tiền quỹ đang có (đưa vào tin nhắn copy)
+  readOnly?: boolean // trang xem qua link chia sẻ: ẩn nút ghi "đã đóng"
 }) {
   const saveEntries = useTrips((s) => s.saveEntries)
   const [busy, setBusy] = useState<string | null>(null) // người đang ghi "đã đóng"
@@ -1018,7 +1049,7 @@ function DuesTab({
   // Ghi đã đóng: có khoản hẹn → đánh dấu đã thu; chưa có → tạo khoản thu đúng số còn thiếu; đợt chưa đặt mức → mở form
   async function record(r: (typeof rows)[number]) {
     if (!round) return
-    if (!r.pending.length && r.remaining <= 0) return onRecord(r.b.member.id)
+    if (!r.pending.length && r.remaining <= 0) return onRecord?.(r.b.member.id)
     setBusy(r.b.member.id)
     try {
       if (r.pending.length) {
@@ -1119,7 +1150,7 @@ function DuesTab({
                       </p>
                     )}
                   </div>
-                  {r.status !== 'done' && (
+                  {r.status !== 'done' && !readOnly && (
                     <button
                       type="button"
                       disabled={busy !== null}
@@ -1137,26 +1168,30 @@ function DuesTab({
           </div>
         </section>
       ))}
-      <p className="mt-3 px-1 text-xs text-muted">
-        Bấm &ldquo;✓&rdquo; để ghi nhanh 1 khoản thu đúng số còn thiếu (hoặc đánh dấu khoản đã hẹn là đã thu). Muốn ghi số khác thì dùng nút
-        &ldquo;Thu tiền&rdquo; bên dưới.
-      </p>
+      {!readOnly && (
+        <p className="mt-3 px-1 text-xs text-muted">
+          Bấm &ldquo;✓&rdquo; để ghi nhanh 1 khoản thu đúng số còn thiếu (hoặc đánh dấu khoản đã hẹn là đã thu). Muốn ghi số khác thì dùng nút
+          &ldquo;Thu tiền&rdquo; bên dưới.
+        </p>
+      )}
     </div>
   )
 }
 
-function SettleTab({
+export function SettleTab({
   fund,
   members,
   entries,
   rounds,
   balance,
+  readOnly = false,
 }: {
   fund: Fund
   members: FundMember[]
   entries: FundEntry[]
   rounds: FundRound[]
   balance: number
+  readOnly?: boolean // trang xem qua link chia sẻ: ẩn nút "Đã chuyển"
 }) {
   const theme = fundTheme(fund)
   const saveEntries = useTrips((s) => s.saveEntries)
@@ -1238,16 +1273,18 @@ function SettleTab({
                 <span className="tp-label">
                   {theme.leg} {String(i + 1).padStart(2, '0')}
                 </span>
-                <button
-                  type="button"
-                  disabled={busy !== null}
-                  onClick={() => markPaid(t, i)}
-                  className="rounded-pill bg-accent px-3 py-1.5 text-xs font-semibold text-white transition active:scale-95 disabled:opacity-60"
-                >
-                  <BusyLabel busy={busy === i} label="Đang ghi…">
-                    ✓ Đã chuyển
-                  </BusyLabel>
-                </button>
+                {!readOnly && (
+                  <button
+                    type="button"
+                    disabled={busy !== null}
+                    onClick={() => markPaid(t, i)}
+                    className="rounded-pill bg-accent px-3 py-1.5 text-xs font-semibold text-white transition active:scale-95 disabled:opacity-60"
+                  >
+                    <BusyLabel busy={busy === i} label="Đang ghi…">
+                      ✓ Đã chuyển
+                    </BusyLabel>
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -33,6 +33,8 @@ interface TripsState {
   createFund: (fund: FundInput, members: { id: string; name: string }[], roundName?: string) => Promise<Fund>
   updateFund: (fund: Partial<FundInput> & { id: string }) => Promise<Fund>
   deleteFund: (id: string) => Promise<void>
+  // Link chia sẻ chỉ-xem: enable (giữ link cũ nếu đã có) / regenerate (link cũ hết hiệu lực) / disable
+  setShare: (fundId: string, action: 'enable' | 'disable' | 'regenerate') => Promise<Fund>
   addMember: (member: MemberInput) => Promise<void>
   updateMember: (member: Partial<FundMember> & { id: string }) => Promise<void>
   deleteMember: (id: string) => Promise<void>
@@ -76,6 +78,12 @@ export const useTrips = create<TripsState>((set, get) => ({
 
   updateFund: async (fund) => {
     const saved = await api<Fund>('/api/trips', { method: 'PATCH', body: JSON.stringify(fund) })
+    set((s) => ({ funds: replace(s.funds ?? [], saved) }))
+    return saved
+  },
+
+  setShare: async (fundId, action) => {
+    const saved = await api<Fund>('/api/trips/share', { method: 'PATCH', body: JSON.stringify({ fundId, action }) })
     set((s) => ({ funds: replace(s.funds ?? [], saved) }))
     return saved
   },
