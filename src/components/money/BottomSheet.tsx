@@ -52,11 +52,13 @@ export function BottomSheet({ open, onClose, children, responsive = false, close
         <div aria-hidden="true" className="absolute inset-0 bg-black/60" />
       )}
       <div
-        // Ẩn thanh cuộn (vẫn cuộn được bằng chuột / vuốt) — thanh cuộn mặc định phá góc bo của sheet
+        // Ẩn thanh cuộn (vẫn cuộn được bằng chuột / vuốt) — thanh cuộn mặc định phá góc bo của sheet.
+        // Chiều cao theo dvh (phần màn hình nhìn thấy thật): trên iPhone 92vh tính cả vùng bị thanh địa chỉ / thanh công cụ che
+        // nên mép trên của sheet (thanh có nút Lưu) bị đẩy ra ngoài màn hình
         role="dialog"
         aria-modal="true"
-        className={`relative z-10 max-h-[92vh] w-full max-w-120 overflow-x-hidden overflow-y-auto overscroll-contain rounded-t-card [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-card pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out ${
-          responsive ? 'md:max-h-[86vh] md:max-w-140 md:rounded-card md:pb-0 md:shadow-2xl' : ''
+        className={`relative z-10 max-h-[92vh] supports-[height:100dvh]:max-h-[92dvh] w-full max-w-120 overflow-x-hidden overflow-y-auto overscroll-contain rounded-t-card [scrollbar-width:none] [&::-webkit-scrollbar]:hidden bg-card pb-[env(safe-area-inset-bottom)] transition-transform duration-300 ease-out ${
+          responsive ? 'md:max-h-[86vh] md:supports-[height:100dvh]:max-h-[86dvh] md:max-w-140 md:rounded-card md:pb-0 md:shadow-2xl' : ''
         } ${
           visible
             ? `translate-y-0 ${responsive ? 'md:scale-100' : ''}`

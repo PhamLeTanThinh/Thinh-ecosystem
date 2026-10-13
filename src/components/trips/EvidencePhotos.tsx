@@ -15,13 +15,20 @@ interface Props {
   freshKeys: React.MutableRefObject<Set<string>>
 }
 
-export const discardPhoto = (key: string) => fetch('/api/trips/photo?key=' + encodeURIComponent(key), { method: 'DELETE', headers: { [BACKGROUND_HEADER]: '1' } }).catch(() => {})
+export const discardPhoto = (key: string) =>
+  fetch('/api/trips/photo?key=' + encodeURIComponent(key), { method: 'DELETE', headers: { [BACKGROUND_HEADER]: '1' } }).catch(() => {})
 
 // Ảnh chứng từ của khoản chi (hoá đơn, bill...): chọn nhiều ảnh 1 lúc (nén trên trình duyệt rồi tải lên R2), lưới ảnh
 // thu nhỏ có nút ✕ gỡ, bấm ảnh để xem lớn (← → chuyển ảnh, Esc đóng).
 export function EvidencePhotos({ photos, onChange, onError, freshKeys }: Props) {
   const [uploading, setUploading] = useState(0)
   const [viewing, setViewing] = useState<number | null>(null)
+  // Lỗi hiện ngay dưới lưới ảnh (ngoài banner đầu form — đầu form có thể đang cuộn khuất trên mobile)
+  const [localError, setLocalError] = useState('')
+  const fail = (msg: string) => {
+    setLocalError(msg)
+    onError?.(msg)
+  }
   const inputRef = useRef<HTMLInputElement>(null)
   // Tải nhiều ảnh nối tiếp → luôn cộng vào danh sách mới nhất, không bị ghi đè bởi closure cũ
   const photosRef = useRef(photos)
@@ -32,7 +39,8 @@ export function EvidencePhotos({ photos, onChange, onError, freshKeys }: Props) 
   async function addFiles(files: FileList) {
     const room = MAX_ENTRY_PHOTOS - photosRef.current.length
     const list = Array.from(files).slice(0, Math.max(0, room))
-    if (files.length > list.length) onError?.(`Tối đa ${MAX_ENTRY_PHOTOS} ảnh mỗi khoản`)
+    setLocalError('')
+    if (files.length > list.length) fail(`Tối đa ${MAX_ENTRY_PHOTOS} ảnh mỗi khoản`)
     setUploading((n) => n + list.length)
     for (const file of list) {
       try {
@@ -47,7 +55,7 @@ export function EvidencePhotos({ photos, onChange, onError, freshKeys }: Props) 
         photosRef.current = [...photosRef.current, { key: data.key, url: data.url }]
         onChange(photosRef.current)
       } catch (e) {
-        onError?.((e as Error).message)
+        fail((e as Error).message)
       } finally {
         setUploading((n) => n - 1)
       }
@@ -121,12 +129,17 @@ export function EvidencePhotos({ photos, onChange, onError, freshKeys }: Props) 
         type="file"
         accept="image/*"
         multiple
-        hidden
+        // Ẩn bằng sr-only thay vì hidden (display:none): một số bản iOS không bắn onChange cho input file bị display:none
+        className="sr-only"
+        tabIndex={-1}
+        aria-hidden="true"
         onChange={(e) => {
           if (e.target.files?.length) addFiles(e.target.files)
           e.target.value = '' // chọn lại đúng file đó vẫn kích hoạt onChange
         }}
       />
+
+      {localError && <p className="mt-2 text-xs font-semibold text-danger">⚠️ {localError}</p>}
 
       {viewing !== null &&
         photos[viewing] &&

@@ -40,17 +40,17 @@ import { Avatar, BusyLabel, dateLabels, ticketCode, ticketTag, TripRoute } from 
 
 type Tab = 'entries' | 'members' | 'settle' | 'dues'
 
-const TABS: { key: Tab; label: string }[] = [
-  { key: 'entries', label: 'Khoản thu chi' },
-  { key: 'members', label: 'Thành viên' },
-  { key: 'settle', label: 'Chia tiền' },
+const TABS: { key: Tab; label: string; icon: string }[] = [
+  { key: 'entries', label: 'Khoản thu chi', icon: '📒' },
+  { key: 'members', label: 'Thành viên', icon: '👥' },
+  { key: 'settle', label: 'Chia tiền', icon: '🔁' },
 ]
 
 // Quỹ góp mua đồ không chia tiền trả về → tab thứ 3 là kiểm tra ai chưa đóng
-const FUND_TABS: { key: Tab; label: string }[] = [
-  { key: 'entries', label: 'Khoản thu chi' },
-  { key: 'members', label: 'Thành viên' },
-  { key: 'dues', label: 'Ai chưa đóng' },
+const FUND_TABS: { key: Tab; label: string; icon: string }[] = [
+  { key: 'entries', label: 'Khoản thu chi', icon: '📒' },
+  { key: 'members', label: 'Thành viên', icon: '👥' },
+  { key: 'dues', label: 'Ai chưa đóng', icon: '📋' },
 ]
 
 export function TripDetail({ id }: { id: string }) {
@@ -130,6 +130,19 @@ export function TripDetail({ id }: { id: string }) {
   const treasurer = members.find((m) => m.id === fund.treasurerId)
   const theme = fundTheme(fund)
   const openNewRound = () => setRoundDraft({ round: newRoundDraft(fund, rounds), isNew: true })
+  const duesRound = round ?? latest
+  const tabCounts: Record<Tab, number> = {
+    entries: viewEntries.length,
+    members: participants.length,
+    dues: duesRound
+      ? roundMemberView(duesRound, rounds, members, entries).filter(
+          (b) =>
+            b.inRound &&
+            (duesRound.perMemberTarget > 0 ? Math.max(0, duesRound.perMemberTarget - b.carryIn) - b.contributed > 0.5 : b.contributed <= 0),
+        ).length
+      : 0,
+    settle: usesRounds ? 0 : settle(memberBalances(members, entries, rounds), summarize(entries).balance).length,
+  }
 
   return (
     <div className={`tp-theme-${theme.key} tp-themed w-full px-4 pb-28 pt-5 md:px-8`}>
@@ -256,19 +269,43 @@ export function TripDetail({ id }: { id: string }) {
         />
       )}
 
-      <nav className="sticky top-2 z-30 mt-4 flex gap-1 rounded-pill border border-border bg-card/90 p-1 shadow-sm backdrop-blur">
-        {(usesRounds ? FUND_TABS : TABS).map((t) => (
-          <button
-            key={t.key}
-            type="button"
-            onClick={() => setTab(t.key)}
-            className={`flex-1 rounded-pill py-2 text-sm font-medium transition ${
-              tab === t.key ? 'bg-(--tp-ink) text-white shadow' : 'text-muted hover:text-text'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
+      {/* Mobile: thanh viên thuốc chia đều (segmented). Desktop (md+): tab gạch chân dồn trái, có icon + số đếm */}
+      <nav
+        role="tablist"
+        className="sticky top-2 z-30 mt-4 flex gap-1 rounded-pill border border-border bg-card/90 p-1 shadow-sm backdrop-blur md:top-0 md:mt-6 md:justify-start md:gap-8 md:rounded-none md:border-0 md:border-b md:bg-(--tp-bg)/90 md:p-0 md:px-1 md:shadow-none"
+      >
+        {(usesRounds ? FUND_TABS : TABS).map((t) => {
+          const on = tab === t.key
+          const count = tabCounts[t.key]
+          return (
+            <button
+              key={t.key}
+              type="button"
+              role="tab"
+              aria-selected={on}
+              onClick={() => setTab(t.key)}
+              className={`flex-1 rounded-pill py-2 text-sm font-medium transition md:-mb-px md:flex md:flex-none md:items-center md:gap-2 md:rounded-none md:border-b-2 md:bg-transparent md:px-0.5 md:py-3 md:text-[15px] md:shadow-none ${
+                on
+                  ? 'bg-(--tp-ink) text-white shadow md:border-(--tp-ink) md:font-semibold md:text-(--tp-ink)'
+                  : 'text-muted hover:text-text md:border-transparent md:hover:border-border'
+              }`}
+            >
+              <span className="hidden md:inline" aria-hidden="true">
+                {t.icon}
+              </span>
+              {t.label}
+              {count > 0 && (
+                <span
+                  className={`hidden rounded-pill px-2 py-0.5 text-[11px] font-semibold md:inline ${
+                    t.key === 'dues' ? 'bg-danger-soft text-danger' : on ? 'bg-(--tp-ink) text-white' : 'bg-card-soft text-muted'
+                  }`}
+                >
+                  {count}
+                </span>
+              )}
+            </button>
+          )
+        })}
       </nav>
 
       {tab === 'entries' && (
@@ -293,6 +330,8 @@ export function TripDetail({ id }: { id: string }) {
           entries={entries}
           rounds={rounds}
           round={round ?? latest}
+          fund={fund}
+          cash={summarize(entries).balance}
           onRecord={(memberId) => {
             const r = round ?? latest
             setEntryDraft({ entry: { ...emptyEntry(fund.id, 'in', r?.id ?? null), amount: perMemberFor(r?.id ?? null), memberId }, isNew: true })
@@ -870,15 +909,20 @@ function DuesTab({
   rounds,
   round,
   onRecord,
+  fund,
+  cash,
 }: {
   members: FundMember[]
   entries: FundEntry[]
   rounds: FundRound[]
   round: FundRound | null
   onRecord: (memberId: string) => void // mở form Thu cho người này (đợt chưa đặt mức góp)
+  fund: Fund
+  cash: number // tiền quỹ đang có (đưa vào tin nhắn copy)
 }) {
   const saveEntries = useTrips((s) => s.saveEntries)
   const [busy, setBusy] = useState<string | null>(null) // người đang ghi "đã đóng"
+  const [copied, setCopied] = useState(false)
   const today = todayISO()
 
   if (!round)
@@ -904,11 +948,72 @@ function DuesTab({
         per > 0 ? (remaining === 0 ? 'done' : paid > 0 ? 'partial' : 'unpaid') : paid > 0 ? 'done' : 'unpaid'
       return { b, need, paid, remaining, pending, status }
     })
-    .sort((x, y) => ['unpaid', 'partial', 'done'].indexOf(x.status) - ['unpaid', 'partial', 'done'].indexOf(y.status) || y.remaining - x.remaining)
+    // Chưa đủ trước: còn thiếu nhiều → ít. Đã đủ sau: đã đóng nhiều → ít. Cùng số tiền thì theo tên A→Z (tiếng Việt)
+    .sort(
+      (x, y) =>
+        (x.status === 'done' ? 1 : 0) - (y.status === 'done' ? 1 : 0) ||
+        (x.status === 'done' ? y.paid - x.paid : y.remaining - x.remaining) ||
+        x.b.member.name.localeCompare(y.b.member.name, 'vi', { sensitivity: 'base' }),
+    )
+
+  // Gom những người cùng số tiền còn thiếu thành 1 nhóm (thứ tự nhóm giữ theo thứ tự đã sắp xếp ở trên)
+  const groups: { key: string; title: string; done: boolean; rows: typeof rows }[] = []
+  for (const r of rows) {
+    const done = r.status === 'done'
+    const key = done ? `done-${Math.round(r.paid)}` : per > 0 ? `due-${Math.round(r.remaining)}` : 'unpaid'
+    const last = groups.at(-1)
+    if (last?.key === key) last.rows.push(r)
+    else
+      groups.push({
+        key,
+        done,
+        rows: [r],
+        title: done ? `Đã đóng ${formatVND(r.paid)} ✓` : per > 0 ? `Còn thiếu ${formatVND(r.remaining)}` : 'Chưa đóng',
+      })
+  }
 
   const doneCount = rows.filter((r) => r.status === 'done').length
   const missing = rows.reduce((n, r) => n + r.remaining, 0)
   const pct = rows.length ? (doneCount / rows.length) * 100 : 0
+
+  // Tin nhắn tình hình đóng quỹ để dán vào nhóm chat — văn bản thuần (Zalo / Messenger không hiểu markdown)
+  function reportText() {
+    if (!round) return ''
+    const lines = [`${fund.icon} ${fund.name} — ${round.name}`]
+    const meta = [per > 0 && `Mỗi người góp ${formatVND(per)}`, round.endDate && `hạn ${formatDate(round.endDate)}`].filter(Boolean)
+    if (meta.length) lines.push(meta.join(' · '))
+    lines.push(`Đã đóng ${doneCount}/${rows.length} người${per > 0 ? (missing > 0 ? ` · còn thiếu ${formatVND(missing)}` : ' · đủ rồi ✓') : ''}`)
+    lines.push(`Quỹ hiện có: ${formatVND(cash)}`)
+    for (const g of groups) {
+      lines.push('', `${g.done ? '✅' : '❌'} ${g.title.replace(/ ✓$/, '')} (${g.rows.length} người):`)
+      if (g.done) lines.push(g.rows.map((r) => r.b.member.name).join(', '))
+      else
+        for (const r of g.rows) {
+          const hen = r.pending.length ? ` (hẹn ${formatDate(r.pending[0].date)}${r.pending[0].date < today ? ' — quá hạn' : ''})` : ''
+          lines.push(`- ${r.b.member.name}${hen}`)
+        }
+    }
+    return lines.join('\n')
+  }
+
+  async function copyReport() {
+    const text = reportText()
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      // Trang mở qua http (IP mạng LAN) không có Clipboard API → dùng cách cũ
+      const ta = document.createElement('textarea')
+      ta.value = text
+      ta.style.position = 'fixed'
+      ta.style.opacity = '0'
+      document.body.appendChild(ta)
+      ta.select()
+      document.execCommand('copy')
+      ta.remove()
+    }
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   // Ghi đã đóng: có khoản hẹn → đánh dấu đã thu; chưa có → tạo khoản thu đúng số còn thiếu; đợt chưa đặt mức → mở form
   async function record(r: (typeof rows)[number]) {
@@ -966,54 +1071,72 @@ function DuesTab({
           <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${pct}%` }} />
         </div>
         {per > 0 && <p className="mt-2 text-xs text-muted">Mỗi người góp {formatVND(per)} — đã trừ / cộng phần dư, thiếu mang sang từ đợt trước.</p>}
+        <button
+          type="button"
+          onClick={copyReport}
+          className={`mt-3 flex w-full items-center justify-center gap-2 rounded-pill border py-2.5 text-sm font-semibold transition active:scale-[0.98] sm:w-auto sm:px-5 ${
+            copied ? 'border-accent bg-accent text-white' : 'border-accent/40 bg-accent-soft text-accent hover:border-accent'
+          }`}
+        >
+          {copied ? '✓ Đã copy — dán vào nhóm chat' : '📋 Copy tình hình để gửi nhóm'}
+        </button>
       </div>
 
-      <div className="tp-ticket mt-4 overflow-hidden">
-        {rows.map((r) => {
-          const m = r.b.member
-          const overdue = r.pending.some((e) => e.date < today)
-          const badge =
-            r.status === 'done'
-              ? { text: 'Đã đóng ✓', cls: 'bg-accent-soft text-accent' }
-              : r.status === 'partial'
-                ? { text: 'Đóng thiếu', cls: 'bg-[#fdf0d5] text-[#a16207]' }
-                : { text: 'Chưa đóng', cls: 'bg-danger-soft text-danger' }
-          return (
-            <div key={m.id} className="flex items-center gap-3 border-b border-dashed border-border px-4 py-3 last:border-b-0">
-              <Avatar id={m.id} name={m.name} size={40} />
-              <div className="min-w-0 flex-1">
-                <p className="flex flex-wrap items-center gap-2">
-                  <span className="truncate font-semibold">{m.name}</span>
-                  <span className={`rounded-pill px-2 py-0.5 text-[11px] font-semibold ${badge.cls}`}>{badge.text}</span>
-                </p>
-                <p className="truncate text-xs text-muted">
-                  Đã đóng {formatVND(r.paid)}
-                  {per > 0 && r.remaining > 0 && <span className="font-semibold text-danger"> · còn thiếu {formatVND(r.remaining)}</span>}
-                  {per > 0 && r.b.carryIn !== 0 && ` · ${r.b.carryIn > 0 ? 'dư' : 'thiếu'} mang sang ${formatVND(Math.abs(r.b.carryIn))}`}
-                </p>
-                {r.pending.length > 0 && (
-                  <p className={`truncate text-xs ${overdue ? 'font-semibold text-danger' : 'text-muted'}`}>
-                    ⏳ Hẹn đóng {formatVND(r.pending.reduce((n, e) => n + e.amount, 0))} · {overdue ? 'quá hạn ' : 'hạn '}
-                    {formatDate(r.pending[0].date)}
-                  </p>
-                )}
-              </div>
-              {r.status !== 'done' && (
-                <button
-                  type="button"
-                  disabled={busy !== null}
-                  onClick={() => record(r)}
-                  className="shrink-0 rounded-pill bg-accent px-3 py-1.5 text-xs font-semibold text-white transition active:scale-95 disabled:opacity-60"
-                >
-                  <BusyLabel busy={busy === m.id} label="Đang ghi…">
-                    ✓ {r.pending.length ? 'Đã thu' : r.remaining > 0 ? `Đã đóng ${formatVND(r.remaining)}` : 'Ghi đã đóng'}
-                  </BusyLabel>
-                </button>
-              )}
-            </div>
-          )
-        })}
-      </div>
+      {groups.map((g) => (
+        <section key={g.key} className="mt-5">
+          <h3 className="mb-2 flex items-center gap-2 px-1">
+            <span className={`text-sm font-bold ${g.done ? 'text-accent' : 'text-danger'}`}>{g.title}</span>
+            <span className="rounded-pill bg-card-soft px-2 py-0.5 text-[11px] font-semibold text-muted">{g.rows.length} người</span>
+            <span className="h-px flex-1 border-t border-dashed border-border" />
+          </h3>
+          <div className="tp-ticket overflow-hidden">
+            {g.rows.map((r) => {
+              const m = r.b.member
+              const overdue = r.pending.some((e) => e.date < today)
+              const badge =
+                r.status === 'done'
+                  ? { text: 'Đã đóng ✓', cls: 'bg-accent-soft text-accent' }
+                  : r.status === 'partial'
+                    ? { text: 'Đóng thiếu', cls: 'bg-[#fdf0d5] text-[#a16207]' }
+                    : { text: 'Chưa đóng', cls: 'bg-danger-soft text-danger' }
+              return (
+                <div key={m.id} className="flex items-center gap-3 border-b border-dashed border-border px-4 py-3 last:border-b-0">
+                  <Avatar id={m.id} name={m.name} size={40} />
+                  <div className="min-w-0 flex-1">
+                    <p className="flex flex-wrap items-center gap-2">
+                      <span className="truncate font-semibold">{m.name}</span>
+                      <span className={`rounded-pill px-2 py-0.5 text-[11px] font-semibold ${badge.cls}`}>{badge.text}</span>
+                    </p>
+                    <p className="truncate text-xs text-muted">
+                      Đã đóng {formatVND(r.paid)}
+                      {per > 0 && r.remaining > 0 && <span className="font-semibold text-danger"> · còn thiếu {formatVND(r.remaining)}</span>}
+                      {per > 0 && r.b.carryIn !== 0 && ` · ${r.b.carryIn > 0 ? 'dư' : 'thiếu'} mang sang ${formatVND(Math.abs(r.b.carryIn))}`}
+                    </p>
+                    {r.pending.length > 0 && (
+                      <p className={`truncate text-xs ${overdue ? 'font-semibold text-danger' : 'text-muted'}`}>
+                        ⏳ Hẹn đóng {formatVND(r.pending.reduce((n, e) => n + e.amount, 0))} · {overdue ? 'quá hạn ' : 'hạn '}
+                        {formatDate(r.pending[0].date)}
+                      </p>
+                    )}
+                  </div>
+                  {r.status !== 'done' && (
+                    <button
+                      type="button"
+                      disabled={busy !== null}
+                      onClick={() => record(r)}
+                      className="shrink-0 rounded-pill bg-accent px-3 py-1.5 text-xs font-semibold text-white transition active:scale-95 disabled:opacity-60"
+                    >
+                      <BusyLabel busy={busy === m.id} label="Đang ghi…">
+                        ✓ {r.pending.length ? 'Đã thu' : r.remaining > 0 ? `Đã đóng ${formatVND(r.remaining)}` : 'Ghi đã đóng'}
+                      </BusyLabel>
+                    </button>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        </section>
+      ))}
       <p className="mt-3 px-1 text-xs text-muted">
         Bấm &ldquo;✓&rdquo; để ghi nhanh 1 khoản thu đúng số còn thiếu (hoặc đánh dấu khoản đã hẹn là đã thu). Muốn ghi số khác thì dùng nút
         &ldquo;Thu tiền&rdquo; bên dưới.
