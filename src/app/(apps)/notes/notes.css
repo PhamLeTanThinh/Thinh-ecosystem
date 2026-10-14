@@ -1606,7 +1606,7 @@
 .nt-vocab-list {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.3fr) auto;
-  align-items: start;
+  align-items: stretch; /* term and meaning cells share the row height, so their borders line up */
 }
 
 .nt-vocab-row {
@@ -1702,4 +1702,10 @@
 .nt-vocab-row.done .nt-vocab-meaning {
   color: var(--color-nt-ink-soft);
   text-decoration: line-through;
+}
+
+/* Checkbox and × stay pinned to the row's first line even though the text cells stretch. */
+.nt-vocab-row .nt-note-done-toggle,
+.nt-vocab-row .nt-note-block-delete {
+  align-self: start;
 }

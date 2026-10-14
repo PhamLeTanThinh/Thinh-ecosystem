@@ -144,7 +144,14 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   // but the outer frame would keep that same fixed height if we always applied it, leaving a gap
   // exactly the size of the now-hidden toolbar — a real bug we hit. Ignore note.height while not
   // editing so the frame shrinks to fit what's actually shown (no toolbar), with no leftover gap.
-  const height = liveSize?.height ?? (editing ? note.height ?? undefined : undefined)
+  const editHeight = editing ? note.height ?? undefined : undefined
+  // Only rich-text notes scroll inside a fixed frame (.nt-note-body). Timeline/vocab bodies don't
+  // scroll, so a fixed height made each newly added row spill out below the frame, pushing the add
+  // form further down on every Enter — for those, the resized height is just a floor and the frame
+  // grows with its rows.
+  const growsWithContent = note.kind !== 'note'
+  const height = liveSize?.height ?? (growsWithContent ? undefined : editHeight)
+  const minHeight = liveSize ? undefined : growsWithContent ? editHeight : undefined
 
   // Items with no time show as a plain todo-list entry (checkbox + text only); items with a time
   // show in schedule form (vertical timeline, sorted by time) — a single 'timeline' note can mix
@@ -164,6 +171,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         top: y,
         width,
         height,
+        minHeight,
         borderLeftColor: note.color ? COLOR_HEX[note.color] : 'transparent',
         // A note being edited must always float ABOVE every other note overlapping it — by default
         // notes stack in array/DOM order (later-created notes on top), so a focused note could
