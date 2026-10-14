@@ -96,7 +96,7 @@ interface NotesState {
   updateTimeBlockText: (noteId: string, blockId: string, text: string) => void
 
   addVocab: (noteId: string, term: string, meaning: string) => void
-  updateVocab: (noteId: string, entryId: string, patch: Partial<Pick<VocabEntry, 'term' | 'meaning'>>) => void
+  updateVocab: (noteId: string, entryId: string, patch: Partial<Pick<VocabEntry, 'term' | 'meaning' | 'done'>>) => void
   deleteVocab: (noteId: string, entryId: string) => void
 
   addDailyTodo: (text: string) => void

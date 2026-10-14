@@ -13,6 +13,7 @@ export interface VocabEntry {
   id: string
   term: string // foreign-language word/phrase, shown bold
   meaning: string // Vietnamese meaning
+  done?: boolean // ticked off (e.g. learned) — optional so rows saved before the checkbox existed still load
 }
 
 // A single item in a 'timeline' note. `startTime` empty = shows as a plain todo-list item (just a

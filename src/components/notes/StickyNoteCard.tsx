@@ -241,7 +241,15 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
           {note.vocab.length > 0 && (
             <div className="nt-vocab-list">
               {note.vocab.map((v) => (
-                <div key={v.id} className="nt-vocab-row">
+                <div key={v.id} className={`nt-vocab-row${v.done ? ' done' : ''}`}>
+                  <button
+                    type="button"
+                    className="nt-note-done-toggle"
+                    aria-label={v.done ? 'Mark as not done' : 'Mark as done'}
+                    onClick={(e) => { e.stopPropagation(); updateVocab(note.id, v.id, { done: !v.done }) }}
+                  >
+                    {v.done && '✓'}
+                  </button>
                   <TimeBlockText
                     className="nt-vocab-term"
                     text={v.term}

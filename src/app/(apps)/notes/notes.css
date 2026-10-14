@@ -821,7 +821,8 @@
 }
 
 .nt-note-block.done .nt-note-done-toggle,
-.nt-note-todo.done .nt-note-done-toggle {
+.nt-note-todo.done .nt-note-done-toggle,
+.nt-vocab-row.done .nt-note-done-toggle {
   background: #34b37a;
   border-color: #34b37a;
 }
@@ -1604,7 +1605,7 @@
    Vietnamese meaning. Rows use display: contents so every row shares the same column widths. */
 .nt-vocab-list {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) auto;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.3fr) auto;
   align-items: start;
 }
 
@@ -1689,4 +1690,16 @@
 .nt-note-todo .nt-note-block-delete,
 .nt-note-block .nt-note-block-delete {
   line-height: 18px;
+}
+
+/* Vocab row checkbox — sits in its own first grid column, centered on the row's first line
+   (cells are 4px padded with a 1.45 × 12px ≈ 17px line → (17 - 14) / 2 + 4 ≈ 6px). */
+.nt-vocab-row .nt-note-done-toggle {
+  margin: 6px 4px 0 0;
+}
+
+.nt-vocab-row.done .nt-vocab-term,
+.nt-vocab-row.done .nt-vocab-meaning {
+  color: var(--color-nt-ink-soft);
+  text-decoration: line-through;
 }
