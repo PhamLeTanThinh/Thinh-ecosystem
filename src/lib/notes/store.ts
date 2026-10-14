@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { create } from 'zustand'
 import { storage } from './storage'
 import { fromISODate, toISODate } from './date'
-import type { DailyTodo, NoteKind, StickyNote, TimeBlock } from './types'
+import { isOverallNote, type DailyTodo, type NoteKind, type NoteTopic, type StickyNote, type TimeBlock } from './types'
 
 // Rich text fires onUpdate on every keystroke — if we PUT to the server on every change, requests
 // can resolve out of order (an older request with shorter content lands later, overwriting freshly
@@ -48,6 +48,10 @@ function saveDailyTodos(todos: DailyTodo[]) {
   storage.saveDailyTodos(todos).catch(console.error)
 }
 
+function saveTopics(topics: NoteTopic[]) {
+  storage.saveTopics(topics).catch(console.error)
+}
+
 // Two more auto-created notes alongside the Daily one, each ensured once per qualifying day: an
 // empty WORK todo on weekdays (Mon-Fri) and an empty Personal note every day. Unlike Daily, these
 // have no configurable template — they're always just empty, ready for the user to fill in that day.
@@ -64,7 +68,7 @@ function hasTag(notes: StickyNote[], date: string, tag: string) {
 // fill-it-or-lose-it placeholder like the other two. Only applies to PAST days — never touches
 // today's (still in progress) or a future day's note.
 function isStaleEmptyAutoNote(n: StickyNote, todayISO: string): boolean {
-  if (n.date >= todayISO) return false
+  if (isOverallNote(n) || n.date >= todayISO) return false
   if (n.tags.includes(WORK_TAG) || n.tags.includes(PERSONAL_TAG)) return n.timeBlocks.length === 0
   return false
 }
@@ -76,7 +80,9 @@ interface NotesState {
 
   hydrate: () => Promise<void>
 
-  addNote: (date: string, x: number, y: number, kind?: NoteKind) => StickyNote
+  topics: NoteTopic[]
+
+  addNote: (date: string, x: number, y: number, kind?: NoteKind, topicId?: string | null) => StickyNote
   updateNote: (
     id: string,
     patch: Partial<Pick<StickyNote, 'header' | 'content' | 'color' | 'tags' | 'x' | 'y' | 'width' | 'height'>>,
@@ -97,6 +103,11 @@ interface NotesState {
   syncWorkNote: (date: string) => void
   syncPersonalNote: (date: string) => void
 
+  addTopic: (title: string) => NoteTopic
+  renameTopic: (id: string, title: string) => void
+  claimUncategorized: (title: string) => NoteTopic
+  deleteTopic: (id: string) => void
+
   flushSave: () => void
 }
 
@@ -104,20 +115,25 @@ export const useNotesStore = create<NotesState>((set, get) => ({
   hydrated: false,
   notes: [],
   dailyTodos: [],
+  topics: [],
 
   hydrate: async () => {
     if (get().hydrated) return
-    const [loadedNotes, dailyTodos] = await Promise.all([storage.getNotes(), storage.getDailyTodos()])
+    const [loadedNotes, dailyTodos, topics] = await Promise.all([
+      storage.getNotes(),
+      storage.getDailyTodos(),
+      storage.getTopics(),
+    ])
     // Sweep once per app load: drop any past-day WORK/Personal note nobody filled in. Runs here
     // (not tied to whichever date the user happens to be viewing) so it catches every stale note
     // regardless of which day the board opens on.
     const today = toISODate(new Date())
     const notes = loadedNotes.filter((n) => !isStaleEmptyAutoNote(n, today))
-    set({ hydrated: true, notes, dailyTodos })
+    set({ hydrated: true, notes, dailyTodos, topics })
     if (notes.length !== loadedNotes.length) scheduleSave(notes)
   },
 
-  addNote: (date, x, y, kind = 'note') => {
+  addNote: (date, x, y, kind = 'note', topicId = null) => {
     const note: StickyNote = {
       id: nanoid(),
       date,
@@ -131,6 +147,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: null,
       tags: [],
       timeBlocks: [],
+      topicId,
       createdAt: new Date().toISOString(),
     }
     const notes = [...get().notes, note]
@@ -274,6 +291,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: 'mint',
       tags: [DAILY_TAG],
       timeBlocks: dailyTodos.map(blockFromTemplate),
+      topicId: null,
       createdAt: new Date().toISOString(),
     }
     const next = [...notes, note]
@@ -301,6 +319,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: 'sky',
       tags: [WORK_TAG],
       timeBlocks: [],
+      topicId: null,
       createdAt: new Date().toISOString(),
     }
     const next = [...notes, note]
@@ -325,11 +344,46 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: 'pink',
       tags: [PERSONAL_TAG],
       timeBlocks: [],
+      topicId: null,
       createdAt: new Date().toISOString(),
     }
     const next = [...notes, note]
     set({ notes: next })
     scheduleSave(next)
+  },
+
+  addTopic: (title) => {
+    const topic: NoteTopic = { id: nanoid(), title, createdAt: new Date().toISOString() }
+    const topics = [...get().topics, topic]
+    set({ topics })
+    saveTopics(topics)
+    return topic
+  },
+
+  renameTopic: (id, title) => {
+    const topics = get().topics.map((t) => (t.id === id ? { ...t, title } : t))
+    set({ topics })
+    saveTopics(topics)
+  },
+
+  // "Renaming" Uncategorized = turning it into a real topic: create the topic and move every Overall
+  // note that has no topic onto it.
+  claimUncategorized: (title) => {
+    const topic = get().addTopic(title)
+    const notes = get().notes.map((n) => (isOverallNote(n) && !n.topicId ? { ...n, topicId: topic.id } : n))
+    set({ notes })
+    scheduleSave(notes)
+    return topic
+  },
+
+  // A topic IS its board — deleting it also deletes every note on it (the UI confirms first).
+  deleteTopic: (id) => {
+    const topics = get().topics.filter((t) => t.id !== id)
+    set({ topics })
+    saveTopics(topics)
+    const notes = get().notes.filter((n) => n.topicId !== id)
+    set({ notes })
+    scheduleSave(notes)
   },
 
   flushSave,

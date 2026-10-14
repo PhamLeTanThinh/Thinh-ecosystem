@@ -1,4 +1,4 @@
-import type { StickyNote } from './types'
+import { isOverallNote, type StickyNote } from './types'
 import { formatDayShortLabel, fromISODate, getSeason, weekOfMonth } from './date'
 
 export interface TreeNode {
@@ -34,6 +34,7 @@ const LEVEL_COLOR = {
 export function buildDateTree(notes: StickyNote[], todayISO: string): TreeNode[] {
   const dayMap = new Map<string, string[]>()
   for (const n of notes) {
+    if (isOverallNote(n)) continue // not tied to a day — lives in the separate Overall view
     if (!dayMap.has(n.date)) dayMap.set(n.date, [])
     dayMap.get(n.date)!.push(n.id)
   }

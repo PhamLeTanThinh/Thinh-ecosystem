@@ -3,7 +3,7 @@
 import { useMemo, useState } from 'react'
 import { getAncestorKeys, type TreeNode } from '@/lib/notes/dateTree'
 import { fromISODate } from '@/lib/notes/date'
-import type { StickyNote } from '@/lib/notes/types'
+import { isOverallNote, type StickyNote } from '@/lib/notes/types'
 
 function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
@@ -126,7 +126,7 @@ export function NotesSidebar({ tree, notes, currentDate, onSelectDay, onSelectNo
                   tagNotes.map((n) => (
                     <button key={n.id} type="button" className="nt-tree-note" onClick={() => onSelectNote(n.date, n.id)}>
                       <span className="nt-tree-note-snippet">{stripHtml(n.content) || 'Empty note'}</span>
-                      <span className="nt-tree-note-date">{shortDate(n.date)}</span>
+                      <span className="nt-tree-note-date">{isOverallNote(n) ? 'Overall' : shortDate(n.date)}</span>
                     </button>
                   ))}
               </div>

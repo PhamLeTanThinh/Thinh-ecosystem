@@ -7,8 +7,10 @@ import { NotesSidebar } from '@/components/notes/NotesSidebar'
 import { TimelinePanel } from '@/components/notes/TimelinePanel'
 import { CalendarView } from '@/components/notes/CalendarView'
 import { DailyTodoPanel } from '@/components/notes/DailyTodoPanel'
+import { TopicsSidebar } from '@/components/notes/TopicsSidebar'
 import { useNotesConfirm } from '@/components/notes/ConfirmDialog'
 import { buildDateTree } from '@/lib/notes/dateTree'
+import { OVERALL_DATE, isOverallNote } from '@/lib/notes/types'
 import { addDays, formatDayLabel, formatDayShortLabel, fromISODate, toISODate } from '@/lib/notes/date'
 
 export default function NotesPage() {
@@ -16,6 +18,7 @@ export default function NotesPage() {
   const deleteNotes = useNotesStore((s) => s.deleteNotes)
   const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
   const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
+  const topics = useNotesStore((s) => s.topics)
   const hydrated = useNotesStore((s) => s.hydrated)
   const syncDailyNote = useNotesStore((s) => s.syncDailyNote)
   const syncWorkNote = useNotesStore((s) => s.syncWorkNote)
@@ -31,7 +34,11 @@ export default function NotesPage() {
   const [zoom, setZoom] = useState(1)
   const [focusNoteId, setFocusNoteId] = useState<string | null>(null)
   // 'calendar' = month/week calendar for tracking unfinished items across multiple days (see CalendarView.tsx).
-  const [view, setView] = useState<'board' | 'calendar'>('board')
+  // 'overall' = one board for notes not tied to any day (date = OVERALL_DATE) — only filtered by tag.
+  const [view, setView] = useState<'board' | 'calendar' | 'overall'>('board')
+  const isOverall = view === 'overall'
+  // Which "space" the board shows — the Overall view reuses the same board, just keyed to the sentinel date.
+  const boardDate = isOverall ? OVERALL_DATE : currentDate
   const dateInputRef = useRef<HTMLInputElement>(null)
 
   // Opening the app on today's date ensures 3 auto-created notes exist: Daily (from the Daily todo
@@ -45,7 +52,32 @@ export default function NotesPage() {
     syncPersonalNote(todayISO)
   }, [hydrated, currentDate, todayISO, syncDailyNote, syncWorkNote, syncPersonalNote])
 
-  const notesForDay = useMemo(() => notes.filter((n) => n.date === currentDate), [notes, currentDate])
+  // Overall view: each user topic is its own board (TopicsSidebar.tsx). '' key = Uncategorized
+  // (Overall notes without a topic, e.g. created before topics existed).
+  const overallCounts = useMemo(() => {
+    const map = new Map<string, number>()
+    for (const n of notes) {
+      if (!isOverallNote(n)) continue
+      const key = n.topicId ?? ''
+      map.set(key, (map.get(key) ?? 0) + 1)
+    }
+    return map
+  }, [notes])
+  // undefined = nothing picked yet → fall back to the first topic. Also falls back when the picked
+  // topic was deleted, or "Uncategorized" was picked but no longer has any notes.
+  const [topicChoice, setTopicChoice] = useState<string | null | undefined>(undefined)
+  const activeTopicId =
+    topicChoice && topics.some((t) => t.id === topicChoice)
+      ? topicChoice
+      : topicChoice === null && overallCounts.has('')
+        ? null
+        : (topics[0]?.id ?? null)
+
+  const notesForDay = useMemo(
+    () =>
+      notes.filter((n) => n.date === boardDate && (!isOverall || (n.topicId ?? null) === activeTopicId)),
+    [notes, boardDate, isOverall, activeTopicId],
+  )
 
   // Whenever a new note is added to the day being viewed (from the kind-picker popover on the
   // canvas — see NotesBoard.tsx), auto-open the list panel on the right.
@@ -100,8 +132,13 @@ export default function NotesPage() {
   // board, and tells NotesBoard to scroll to the note's position (free-form coordinates, which may
   // be outside the visible area).
   function handleSelectNote(date: string, noteId: string) {
-    setView('board')
-    setCurrentDate(date)
+    if (date === OVERALL_DATE) {
+      setView('overall')
+      setTopicChoice(notes.find((n) => n.id === noteId)?.topicId ?? null)
+    } else {
+      setView('board')
+      setCurrentDate(date)
+    }
     setActiveTag(null)
     setEditingId(noteId)
     setFocusNoteId(noteId)
@@ -126,6 +163,19 @@ export default function NotesPage() {
           </button>
           <button type="button" className={view === 'calendar' ? 'active' : ''} onClick={() => setView('calendar')}>
             Calendar
+          </button>
+          <button
+            type="button"
+            className={isOverall ? 'active' : ''}
+            onClick={() => {
+              setView('overall')
+              setEditingId(null)
+              // Timeline and Daily todo are per-day panels — meaningless on the Overall board.
+              setTimelineOpen(false)
+              setDailyOpen(false)
+            }}
+          >
+            Overall
           </button>
         </div>
 
@@ -165,7 +215,7 @@ export default function NotesPage() {
           />
         </div>
 
-        {view === 'board' && allTags.length > 0 && (
+        {(view === 'board' || isOverall) && allTags.length > 0 && (
           <div className="nt-tag-filter">
             <button type="button" className={effectiveActiveTag === null ? 'active' : ''} onClick={() => setActiveTag(null)}>
               All
@@ -183,7 +233,7 @@ export default function NotesPage() {
           </div>
         )}
 
-        <div className="nt-zoom-controls" hidden={view !== 'board'}>
+        <div className="nt-zoom-controls" hidden={view === 'calendar'}>
           <button type="button" aria-label="Zoom out" onClick={() => setZoom((z) => clampZoom(z - ZOOM_STEP))}>
             −
           </button>
@@ -253,7 +303,7 @@ export default function NotesPage() {
       ) : (
         <div className="nt-body">
           <NotesBoard
-            date={currentDate}
+            date={boardDate}
             notes={boardNotes}
             editingId={editingId}
             zoom={zoom}
@@ -261,9 +311,21 @@ export default function NotesPage() {
             onStartEdit={setEditingId}
             onStopEdit={() => setEditingId(null)}
             focusNoteId={focusNoteId}
+            topicId={isOverall ? activeTopicId : null}
           />
 
-          {sidebarOpen && (
+          {isOverall && (
+            <TopicsSidebar
+              activeTopicId={activeTopicId}
+              counts={overallCounts}
+              onSelectTopic={(id) => {
+                setTopicChoice(id)
+                setEditingId(null)
+              }}
+            />
+          )}
+
+          {!isOverall && sidebarOpen && (
             <NotesSidebar
               tree={dateTree}
               notes={notes}

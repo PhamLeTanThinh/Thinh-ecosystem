@@ -322,6 +322,16 @@ export const stickyNotes = pgTable('sticky_notes', {
   color: varchar('color', { length: 10 }), // optional accent: 'yellow' | 'pink' | 'mint' | 'sky' | 'lavender' | null
   tags: text('tags').array().default([]).notNull(), // free-form tags set by the user, no enforced taxonomy
   timeBlocks: jsonb('time_blocks').default([]).notNull(), // TimeBlock[] — consecutive time entries in the note (see lib/notes/types.ts)
+  topicId: text('topic_id'), // only for Overall notes (date = 'overall') — which note_topics board it sits on; null = Uncategorized
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+})
+
+// User-defined topics for the Overall view of /notes — each topic is its own board of notes not
+// tied to any day (sticky_notes.topic_id). Array order in the UI = sortOrder.
+export const noteTopics = pgTable('note_topics', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

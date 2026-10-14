@@ -1579,3 +1579,23 @@
 .nt-confirm-ok:hover {
   background: #b91c1c;
 }
+
+/* Inline rename of a topic in the Overall view's Topics column (TopicsSidebar.tsx). */
+.nt-topic-rename {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12.5px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--color-nt-border);
+  background: var(--color-nt-surface);
+  color: var(--color-nt-ink);
+}
+
+.nt-tree-edit:hover {
+  color: var(--color-nt-ink);
+}
+
+.nt-tree-day.active .nt-tree-delete {
+  color: #fff;
+}

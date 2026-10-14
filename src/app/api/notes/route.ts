@@ -19,6 +19,7 @@ export async function GET() {
     color: (r.color as StickyNote['color']) ?? null,
     tags: r.tags,
     timeBlocks: (r.timeBlocks as TimeBlock[] | null) ?? [],
+    topicId: r.topicId ?? null,
     createdAt: r.createdAt.toISOString(),
   }))
   return NextResponse.json(notes)
@@ -52,6 +53,7 @@ export async function PUT(req: NextRequest) {
           color: n.color,
           tags: n.tags,
           timeBlocks: n.timeBlocks,
+          topicId: n.topicId ?? null,
           createdAt: new Date(n.createdAt),
         })
         .onConflictDoUpdate({
@@ -68,6 +70,7 @@ export async function PUT(req: NextRequest) {
             color: n.color,
             tags: n.tags,
             timeBlocks: n.timeBlocks,
+            topicId: n.topicId ?? null,
           },
         })
     }

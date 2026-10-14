@@ -27,10 +27,12 @@ interface Props {
   // id of the note to scroll to as soon as the board renders (e.g. clicking a note from the "by
   // tag" list in the sidebar) — a one-shot signal, not a persistent display state.
   focusNoteId?: string | null
+  // Overall view only — the topic board new notes get attached to (null = Uncategorized / a day board).
+  topicId?: string | null
 }
 
 // Full-screen canvas for a single day — each day is its own "space", new notes get attached to `date`.
-export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStartEdit, onStopEdit, focusNoteId }: Props) {
+export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStartEdit, onStopEdit, focusNoteId, topicId = null }: Props) {
   const addNote = useNotesStore((s) => s.addNote)
   const outerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLDivElement>(null)
@@ -147,7 +149,7 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   // note actually gets created.
   function handleChooseKind(kind: 'note' | 'timeline') {
     if (!chooserAt) return
-    const note = addNote(date, chooserAt.x, chooserAt.y, kind)
+    const note = addNote(date, chooserAt.x, chooserAt.y, kind, topicId)
     setChooserAt(null)
     onStartEdit(note.id)
   }

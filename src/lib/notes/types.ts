@@ -29,9 +29,18 @@ export interface DailyTodo {
   createdAt: string
 }
 
+// Sentinel `date` for the "Overall" space — notes that don't belong to any particular day (only
+// filtered by tag, never by date). Stored in the same `date` column, so it must be skipped anywhere
+// that parses `date` as a real day (date tree, calendar, ...).
+export const OVERALL_DATE = 'overall'
+
+export function isOverallNote(n: { date: string }): boolean {
+  return n.date === OVERALL_DATE
+}
+
 export interface StickyNote {
   id: string
-  date: string // 'YYYY-MM-DD' — which day "space" this note belongs to
+  date: string // 'YYYY-MM-DD' — which day "space" this note belongs to, or OVERALL_DATE
   x: number
   y: number
   width: number | null
@@ -42,5 +51,13 @@ export interface StickyNote {
   color: NoteColor | null
   tags: string[]
   timeBlocks: TimeBlock[] // only used when kind === 'timeline'
+  topicId: string | null // only for Overall notes — the NoteTopic board it sits on; null = Uncategorized
+  createdAt: string
+}
+
+// A user-defined topic in the Overall view — each one is its own board of notes (see StickyNote.topicId).
+export interface NoteTopic {
+  id: string
+  title: string
   createdAt: string
 }
