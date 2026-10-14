@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNotesStore } from '@/lib/notes/store'
-import type { StickyNote } from '@/lib/notes/types'
+import { OVERALL_DATE, type NoteKind, type StickyNote } from '@/lib/notes/types'
 import { StickyNoteCard } from './StickyNoteCard'
 
 const NOTE_WIDTH = 260
@@ -147,7 +147,7 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
 
   // The user finished picking a kind ("Note" or "Timeline") from the popover — this is when the
   // note actually gets created.
-  function handleChooseKind(kind: 'note' | 'timeline') {
+  function handleChooseKind(kind: NoteKind) {
     if (!chooserAt) return
     const note = addNote(date, chooserAt.x, chooserAt.y, kind, topicId)
     setChooserAt(null)
@@ -220,6 +220,12 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
             <button type="button" onClick={() => handleChooseKind('timeline')}>
               🕐 Timeline
             </button>
+            {/* Vocab lists aren't tied to a day, so they're only offered on the Overall board. */}
+            {date === OVERALL_DATE && (
+              <button type="button" onClick={() => handleChooseKind('vocab')}>
+                📖 Vocab
+              </button>
+            )}
           </div>
         )}
       </div>

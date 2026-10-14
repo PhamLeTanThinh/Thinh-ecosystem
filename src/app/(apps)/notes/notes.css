@@ -788,7 +788,7 @@
 /* An untimed item — just a checkbox + text, no time column/vertical rail like .nt-note-block. */
 .nt-note-todo {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
 }
 
@@ -805,7 +805,7 @@
 
 .nt-note-block {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 5px;
 }
 
@@ -1598,4 +1598,95 @@
 
 .nt-tree-day.active .nt-tree-delete {
   color: #fff;
+}
+
+/* Body of a 'vocab'-kind note (Overall board only) — two aligned columns: foreign term (bold) |
+   Vietnamese meaning. Rows use display: contents so every row shares the same column widths. */
+.nt-vocab-list {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) auto;
+  align-items: start;
+}
+
+.nt-vocab-row {
+  display: contents;
+}
+
+.nt-vocab-term,
+.nt-vocab-meaning {
+  font-size: 12px;
+  line-height: 1.45;
+  padding: 4px 6px;
+  word-break: break-word;
+  border-bottom: 1px solid var(--color-nt-border);
+}
+
+.nt-vocab-term {
+  font-weight: 700;
+  color: var(--color-nt-ink);
+  border-right: 1px solid var(--color-nt-border);
+}
+
+.nt-vocab-meaning {
+  color: var(--color-nt-ink);
+}
+
+.nt-vocab-row .nt-note-block-delete {
+  padding: 5px 2px 0 4px;
+}
+
+.nt-vocab-row:hover .nt-note-block-delete {
+  opacity: 1;
+}
+
+.nt-vocab-add {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  background: var(--color-nt-bg);
+}
+
+.nt-vocab-add input {
+  flex: 1 1 0;
+  min-width: 0;
+  font-size: 11.5px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--color-nt-border);
+  color: var(--color-nt-ink);
+}
+
+.nt-vocab-add input:first-child {
+  font-weight: 700;
+}
+
+.nt-vocab-add button {
+  flex: none;
+  width: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 4px;
+  background: var(--color-nt-ink);
+  color: #fff;
+}
+
+/* Multi-line todo/schedule items: rows align to the top (not center), so the checkbox, time and ×
+   sit on the item's FIRST line instead of floating mid-paragraph. Every piece shares one fixed
+   line box (18px); the 14px checkbox gets (18 - 14) / 2 = 2px of top margin to center on it. */
+.nt-note-todo-text,
+.nt-note-block-text,
+.nt-note-block-time {
+  line-height: 18px;
+}
+
+.nt-note-todo .nt-note-done-toggle,
+.nt-note-block .nt-note-done-toggle {
+  margin-top: 2px;
+}
+
+.nt-note-todo .nt-note-block-delete,
+.nt-note-block .nt-note-block-delete {
+  line-height: 18px;
 }

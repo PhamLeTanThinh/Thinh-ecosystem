@@ -34,6 +34,9 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const toggleTimeBlockDone = useNotesStore((s) => s.toggleTimeBlockDone)
   const deleteTimeBlock = useNotesStore((s) => s.deleteTimeBlock)
   const updateTimeBlockText = useNotesStore((s) => s.updateTimeBlockText)
+  const addVocab = useNotesStore((s) => s.addVocab)
+  const updateVocab = useNotesStore((s) => s.updateVocab)
+  const deleteVocab = useNotesStore((s) => s.deleteVocab)
   const confirm = useNotesConfirm()
   const [tagDraft, setTagDraft] = useState('')
   const rootRef = useRef<HTMLDivElement>(null)
@@ -233,7 +236,41 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         </div>
       )}
 
-      {note.kind === 'timeline' ? (
+      {note.kind === 'vocab' ? (
+        <div className="nt-note-blocks">
+          {note.vocab.length > 0 && (
+            <div className="nt-vocab-list">
+              {note.vocab.map((v) => (
+                <div key={v.id} className="nt-vocab-row">
+                  <TimeBlockText
+                    className="nt-vocab-term"
+                    text={v.term}
+                    editable={editing}
+                    onSave={(term) => updateVocab(note.id, v.id, { term })}
+                  />
+                  <TimeBlockText
+                    className="nt-vocab-meaning"
+                    text={v.meaning}
+                    editable={editing}
+                    allowEmpty
+                    onSave={(meaning) => updateVocab(note.id, v.id, { meaning })}
+                  />
+                  <button
+                    type="button"
+                    aria-label="Delete word"
+                    className="nt-note-block-delete"
+                    onClick={(e) => { e.stopPropagation(); deleteVocab(note.id, v.id) }}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {editing && <VocabAddForm noteId={note.id} onAdd={addVocab} />}
+        </div>
+      ) : note.kind === 'timeline' ? (
         <div className="nt-note-blocks">
           {todoItems.length > 0 && (
             <div className="nt-note-todos">
@@ -429,6 +466,63 @@ function TimeBlockAddForm({
   )
 }
 
+// Add-row form of a 'vocab' note: foreign term + Vietnamese meaning. Enter in the term field jumps to
+// the meaning; Enter in the meaning adds the row and puts the caret back in the term field, so a
+// whole list can be typed without touching the mouse. Same focus caveats as TimeBlockAddForm (no
+// `disabled` on the submit button).
+function VocabAddForm({
+  noteId,
+  onAdd,
+}: {
+  noteId: string
+  onAdd: (noteId: string, term: string, meaning: string) => void
+}) {
+  const [term, setTerm] = useState('')
+  const [meaning, setMeaning] = useState('')
+  const termRef = useRef<HTMLInputElement>(null)
+  const meaningRef = useRef<HTMLInputElement>(null)
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    if (!term.trim()) {
+      termRef.current?.focus()
+      return
+    }
+    onAdd(noteId, term.trim(), meaning.trim())
+    setTerm('')
+    setMeaning('')
+    termRef.current?.focus()
+  }
+
+  return (
+    <form className="nt-vocab-add" onSubmit={handleSubmit}>
+      <input
+        ref={termRef}
+        type="text"
+        value={term}
+        onChange={(e) => setTerm(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && term.trim() && !meaning.trim()) {
+            e.preventDefault()
+            meaningRef.current?.focus()
+          }
+        }}
+        placeholder="Word..."
+        aria-label="Foreign word"
+      />
+      <input
+        ref={meaningRef}
+        type="text"
+        value={meaning}
+        onChange={(e) => setMeaning(e.target.value)}
+        placeholder="Nghĩa..."
+        aria-label="Vietnamese meaning"
+      />
+      <button type="submit">+</button>
+    </form>
+  )
+}
+
 // An existing item's text — plain read-only text outside edit mode, an inline-editable field while
 // editing (click-to-rename, same pattern as DailyTodoText in DailyTodoPanel.tsx). A <textarea>
 // rather than an <input> on purpose: an <input> can't wrap, so a long item that wrapped across
@@ -444,11 +538,13 @@ function TimeBlockText({
   className,
   text,
   editable,
+  allowEmpty = false,
   onSave,
 }: {
   className: string
   text: string
   editable: boolean
+  allowEmpty?: boolean // true = clearing the field saves '' instead of reverting (e.g. a vocab meaning)
   onSave: (text: string) => void
 }) {
   const [value, setValue] = useState(text)
@@ -465,7 +561,7 @@ function TimeBlockText({
 
   function commit() {
     const next = value.trim()
-    if (!next) setValue(text)
+    if (!next && !allowEmpty) setValue(text)
     else if (next !== text) onSave(next)
   }
 

@@ -5,7 +5,15 @@ export const NOTE_COLORS: NoteColor[] = ['yellow', 'pink', 'mint', 'sky', 'laven
 // 'note' = a regular rich-text note (default). 'timeline' = a different kind of "note" entirely —
 // its body isn't rich text but a list of timeBlocks — chosen at creation time (see NotesBoard.tsx),
 // can't be switched afterwards.
-export type NoteKind = 'note' | 'timeline'
+// 'vocab' = a two-column word list (foreign term | Vietnamese meaning), only offered on the Overall board.
+export type NoteKind = 'note' | 'timeline' | 'vocab'
+
+// A single row in a 'vocab' note — both sides typed by the user.
+export interface VocabEntry {
+  id: string
+  term: string // foreign-language word/phrase, shown bold
+  meaning: string // Vietnamese meaning
+}
 
 // A single item in a 'timeline' note. `startTime` empty = shows as a plain todo-list item (just a
 // checkbox + text); with a time = shows as a schedule entry (vertical timeline, sorted by time). A
@@ -51,6 +59,7 @@ export interface StickyNote {
   color: NoteColor | null
   tags: string[]
   timeBlocks: TimeBlock[] // only used when kind === 'timeline'
+  vocab: VocabEntry[] // only used when kind === 'vocab'
   topicId: string | null // only for Overall notes — the NoteTopic board it sits on; null = Uncategorized
   createdAt: string
 }

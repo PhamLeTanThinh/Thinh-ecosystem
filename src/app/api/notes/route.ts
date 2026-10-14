@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { notInArray } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { stickyNotes } from '@/db/schema'
-import type { StickyNote, TimeBlock } from '@/lib/notes/types'
+import type { StickyNote, TimeBlock, VocabEntry } from '@/lib/notes/types'
 
 export async function GET() {
   const rows = await db.select().from(stickyNotes)
@@ -19,6 +19,7 @@ export async function GET() {
     color: (r.color as StickyNote['color']) ?? null,
     tags: r.tags,
     timeBlocks: (r.timeBlocks as TimeBlock[] | null) ?? [],
+    vocab: (r.vocab as VocabEntry[] | null) ?? [],
     topicId: r.topicId ?? null,
     createdAt: r.createdAt.toISOString(),
   }))
@@ -53,6 +54,7 @@ export async function PUT(req: NextRequest) {
           color: n.color,
           tags: n.tags,
           timeBlocks: n.timeBlocks,
+          vocab: n.vocab ?? [],
           topicId: n.topicId ?? null,
           createdAt: new Date(n.createdAt),
         })
@@ -70,6 +72,7 @@ export async function PUT(req: NextRequest) {
             color: n.color,
             tags: n.tags,
             timeBlocks: n.timeBlocks,
+            vocab: n.vocab ?? [],
             topicId: n.topicId ?? null,
           },
         })

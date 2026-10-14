@@ -9,6 +9,13 @@ function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
 }
 
+// Short preview of a note for the "by tag" list — rich text for regular notes, the header or first
+// few words for a vocab list.
+function noteSnippet(n: StickyNote): string {
+  if (n.kind === 'vocab') return n.header || n.vocab.slice(0, 3).map((v) => v.term).join(', ') || 'Empty vocab list'
+  return stripHtml(n.content) || 'Empty note'
+}
+
 function shortDate(iso: string): string {
   const d = fromISODate(iso)
   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
@@ -125,7 +132,7 @@ export function NotesSidebar({ tree, notes, currentDate, onSelectDay, onSelectNo
                 {isOpen &&
                   tagNotes.map((n) => (
                     <button key={n.id} type="button" className="nt-tree-note" onClick={() => onSelectNote(n.date, n.id)}>
-                      <span className="nt-tree-note-snippet">{stripHtml(n.content) || 'Empty note'}</span>
+                      <span className="nt-tree-note-snippet">{noteSnippet(n)}</span>
                       <span className="nt-tree-note-date">{isOverallNote(n) ? 'Overall' : shortDate(n.date)}</span>
                     </button>
                   ))}

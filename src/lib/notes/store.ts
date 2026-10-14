@@ -2,7 +2,7 @@ import { nanoid } from 'nanoid'
 import { create } from 'zustand'
 import { storage } from './storage'
 import { fromISODate, toISODate } from './date'
-import { isOverallNote, type DailyTodo, type NoteKind, type NoteTopic, type StickyNote, type TimeBlock } from './types'
+import { isOverallNote, type DailyTodo, type NoteKind, type NoteTopic, type StickyNote, type TimeBlock, type VocabEntry } from './types'
 
 // Rich text fires onUpdate on every keystroke — if we PUT to the server on every change, requests
 // can resolve out of order (an older request with shorter content lands later, overwriting freshly
@@ -95,6 +95,10 @@ interface NotesState {
   deleteTimeBlock: (noteId: string, blockId: string) => void
   updateTimeBlockText: (noteId: string, blockId: string, text: string) => void
 
+  addVocab: (noteId: string, term: string, meaning: string) => void
+  updateVocab: (noteId: string, entryId: string, patch: Partial<Pick<VocabEntry, 'term' | 'meaning'>>) => void
+  deleteVocab: (noteId: string, entryId: string) => void
+
   addDailyTodo: (text: string) => void
   updateDailyTodo: (id: string, text: string) => void
   deleteDailyTodo: (id: string) => void
@@ -147,6 +151,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: null,
       tags: [],
       timeBlocks: [],
+      vocab: [],
       topicId,
       createdAt: new Date().toISOString(),
     }
@@ -206,6 +211,27 @@ export const useNotesStore = create<NotesState>((set, get) => ({
         ? { ...n, timeBlocks: n.timeBlocks.map((b) => (b.id === blockId ? { ...b, text } : b)) }
         : n,
     )
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  addVocab: (noteId, term, meaning) => {
+    const entry: VocabEntry = { id: nanoid(), term, meaning }
+    const notes = get().notes.map((n) => (n.id === noteId ? { ...n, vocab: [...(n.vocab ?? []), entry] } : n))
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  updateVocab: (noteId, entryId, patch) => {
+    const notes = get().notes.map((n) =>
+      n.id === noteId ? { ...n, vocab: n.vocab.map((v) => (v.id === entryId ? { ...v, ...patch } : v)) } : n,
+    )
+    set({ notes })
+    scheduleSave(notes)
+  },
+
+  deleteVocab: (noteId, entryId) => {
+    const notes = get().notes.map((n) => (n.id === noteId ? { ...n, vocab: n.vocab.filter((v) => v.id !== entryId) } : n))
     set({ notes })
     scheduleSave(notes)
   },
@@ -291,6 +317,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: 'mint',
       tags: [DAILY_TAG],
       timeBlocks: dailyTodos.map(blockFromTemplate),
+      vocab: [],
       topicId: null,
       createdAt: new Date().toISOString(),
     }
@@ -319,6 +346,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: 'sky',
       tags: [WORK_TAG],
       timeBlocks: [],
+      vocab: [],
       topicId: null,
       createdAt: new Date().toISOString(),
     }
@@ -344,6 +372,7 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       color: 'pink',
       tags: [PERSONAL_TAG],
       timeBlocks: [],
+      vocab: [],
       topicId: null,
       createdAt: new Date().toISOString(),
     }
