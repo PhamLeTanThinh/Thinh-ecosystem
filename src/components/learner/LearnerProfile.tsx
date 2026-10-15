@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useRef, useState } from 'react'
 import { ActionDialog } from '@/components/mascot/ActionDialog'
 import { HAPPY_VIDEO, MascotBubble, MascotCat, MascotDialog, MascotEm, MascotName, MascotSub, QUESTION_VIDEO } from '@/components/mascot/MascotDialog'
+import { normalizeUsername } from '@/lib/learner/identity'
 import './learner-profile.css'
 
 // displayName = tên có dấu như người dùng gõ (vd "YẾNN"); null với hồ sơ cũ → hiển thị bằng id.
@@ -80,6 +81,8 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
   const [createdId, setCreatedId] = useState('')
   const [keptProgress, setKeptProgress] = useState(false)
   const [confirmLeave, setConfirmLeave] = useState(false)
+  // Same folding the server does (lib/learner/identity.ts) — shows "Yến" → "yen" before submitting.
+  const previewId = name.trim() ? normalizeUsername(name) : null
 
   async function submit() {
     const username = name.trim()
@@ -181,13 +184,30 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
                 setName(e.target.value)
                 setError(null)
               }}
-              placeholder="vd: Thịnh, mai_2004…"
+              // Enter while a Vietnamese IME (Telex/VNI) is still composing a syllable would submit a
+              // half-typed name — let the IME finish first.
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && e.nativeEvent.isComposing) e.preventDefault()
+              }}
+              lang="vi"
+              autoComplete="off"
+              autoCapitalize="words"
+              spellCheck={false}
+              placeholder="vd: Thịnh, Yến, mai_2004…"
               maxLength={24}
             />
             {error ? (
               <p className="md-hint md-hint-error">{error}</p>
             ) : (
-              <p className="md-hint">Từ 3 ký tự, bắt đầu bằng chữ cái; gồm chữ, số, gạch ngang hoặc gạch dưới.</p>
+              <p className="md-hint">
+                Từ 3 ký tự, bắt đầu bằng chữ cái; gõ tiếng Việt có dấu thoải mái.
+                {previewId && previewId !== name.trim().toLowerCase() && (
+                  <>
+                    {' '}
+                    Mã hồ sơ: <b>{previewId}</b> — lần sau gõ có dấu hay không dấu đều vào được.
+                  </>
+                )}
+              </p>
             )}
             <button type="submit" className="md-btn" disabled={busy || !name.trim()}>
               {busy ? 'Đang xử lý…' : mode === 'create' ? 'Tạo hồ sơ' : mode === 'claim' ? 'Đặt tên' : 'Vào hồ sơ'}

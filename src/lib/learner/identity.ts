@@ -40,13 +40,30 @@ export function clearLearnerCookie(res: NextResponse) {
 // khoảng trắng → gạch ngang, bỏ ký tự lạ; phải từ 3 ký tự và bắt đầu bằng chữ cái. Dùng cho cả tạo mới
 // lẫn đăng nhập lại, nên "Yến", "yen" và "YẾN" là 1 tên. Tên có dấu như người dùng gõ được giữ riêng ở
 // learnerProfiles.displayName (xem toDisplayName).
+//
+// Bỏ dấu bằng BẢNG tra chữ tiếng Việt, KHÔNG dùng String.prototype.normalize('NFD'): trong route API
+// (có nạp DB/thư viện) normalize không tách được chữ 2 dấu như "ế" — "Yến" ra "yn" → báo thiếu ký tự —
+// dù Node thuần vẫn tách đúng. Bảng tra thì chạy giống nhau ở mọi môi trường. \p{M} vẫn giữ để gỡ dấu
+// dạng tổ hợp (chữ + ký tự dấu rời) mà vài bàn phím gõ ra.
+const VI_BASE: Record<string, string> = {}
+for (const [base, chars] of Object.entries({
+  a: 'àáạảãâầấậẩẫăằắặẳẵ',
+  e: 'èéẹẻẽêềếệểễ',
+  i: 'ìíịỉĩ',
+  o: 'òóọỏõôồốộổỗơờớợởỡ',
+  u: 'ùúụủũưừứựửữ',
+  y: 'ỳýỵỷỹ',
+  d: 'đ',
+})) {
+  for (const ch of chars) VI_BASE[ch] = base
+}
+
+function foldVietnamese(s: string): string {
+  return s.replace(/[^\x00-\x7f]/g, (ch) => VI_BASE[ch] ?? ch).replace(/\p{M}/gu, '')
+}
+
 export function normalizeUsername(input: string): string | null {
-  const cleaned = input
-    .trim()
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/\p{M}/gu, '')
-    .replace(/đ/g, 'd')
+  const cleaned = foldVietnamese(input.trim().toLowerCase())
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9_-]/g, '')
     .slice(0, 24)
@@ -55,7 +72,7 @@ export function normalizeUsername(input: string): string | null {
 
 // Tên hiển thị = đúng như người dùng gõ (giữ dấu, giữ hoa/thường), chỉ gọn khoảng trắng.
 export function toDisplayName(input: string): string {
-  return input.trim().replace(/\s+/g, ' ').normalize('NFC').slice(0, 32)
+  return input.trim().replace(/\s+/g, ' ').slice(0, 32)
 }
 
 export const USERNAME_RULE_MESSAGE = 'Tên phải từ 3 ký tự, bắt đầu bằng chữ cái, chỉ gồm chữ (có dấu cũng được)/số/gạch ngang/gạch dưới'
