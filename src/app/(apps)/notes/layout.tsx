@@ -1,12 +1,18 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import localFont from 'next/font/local'
 import { NotesHydrator } from '@/components/notes/NotesHydrator'
 import { NotesConfirmProvider } from '@/components/notes/ConfirmDialog'
 import './notes.css'
 
-const bodyFont = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
+// Tự host (src/fonts, tải bằng scripts/download-google-fonts.mjs) thay vì next/font/google — xem ghi chú ở app/layout.tsx.
+const notesInter = localFont({
+  src: [
+    { path: '../../../fonts/inter/inter-400.woff', weight: '400', style: 'normal' },
+    { path: '../../../fonts/inter/inter-500.woff', weight: '500', style: 'normal' },
+    { path: '../../../fonts/inter/inter-600.woff', weight: '600', style: 'normal' },
+    { path: '../../../fonts/inter/inter-700.woff', weight: '700', style: 'normal' },
+    { path: '../../../fonts/inter/inter-800.woff', weight: '800', style: 'normal' },
+  ],
   variable: '--font-nt-body',
   display: 'swap',
 })
@@ -18,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function NotesLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className={`${bodyFont.variable} notes-root`}>
+    <div className={`${notesInter.variable} notes-root`}>
       <NotesHydrator />
       <NotesConfirmProvider>{children}</NotesConfirmProvider>
     </div>

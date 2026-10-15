@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { Caveat, Cormorant_Garamond, DM_Sans, DM_Mono } from 'next/font/google'
 import localFont from 'next/font/local'
 import './globals.css'
 
@@ -21,34 +20,52 @@ const tiktok = localFont({
   display: 'swap',
 })
 
-const cormorant = Cormorant_Garamond({
-  subsets: ['latin'],
-  weight: ['300', '400'],
-  style: ['normal', 'italic'],
+// Every other face is self-hosted too (src/fonts/*, fetched once by scripts/download-google-fonts.mjs):
+// next/font/google made Turbopack fail production builds now and then ("next/font/google queries have
+// exactly one entry"), depending on what Google's CSS API returned at build time. Local files = no network
+// at build, no flaky deploys.
+// next/font/local names the font-family after the VARIABLE it's assigned to, so every localFont() const in
+// the site needs a unique name (app prefix + font, e.g. tripsBeVietnamPro) — two apps both declaring
+// `bodyFont` would get the same family name and their @font-face rules would override each other on
+// client-side navigation.
+const cormorant = localFont({
+  src: [
+    { path: '../fonts/cormorant-garamond/cormorant-garamond-300.woff', weight: '300', style: 'normal' },
+    { path: '../fonts/cormorant-garamond/cormorant-garamond-300-italic.woff', weight: '300', style: 'italic' },
+    { path: '../fonts/cormorant-garamond/cormorant-garamond-400.woff', weight: '400', style: 'normal' },
+    { path: '../fonts/cormorant-garamond/cormorant-garamond-400-italic.woff', weight: '400', style: 'italic' },
+  ],
   variable: '--font-cormorant',
   display: 'swap',
 })
 
 // Handwritten face for the portfolio's Mindset quote. Not preloaded so the
 // other apps sharing this root layout don't fetch it up front.
-const caveat = Caveat({
-  subsets: ['latin'],
-  weight: ['400', '500'],
+const caveat = localFont({
+  src: [
+    { path: '../fonts/caveat/caveat-400.woff', weight: '400', style: 'normal' },
+    { path: '../fonts/caveat/caveat-500.woff', weight: '500', style: 'normal' },
+  ],
   variable: '--font-caveat',
   display: 'swap',
   preload: false,
 })
 
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  weight: ['300', '400', '500'],
+const dmSans = localFont({
+  src: [
+    { path: '../fonts/dm-sans/dm-sans-300.woff', weight: '300', style: 'normal' },
+    { path: '../fonts/dm-sans/dm-sans-400.woff', weight: '400', style: 'normal' },
+    { path: '../fonts/dm-sans/dm-sans-500.woff', weight: '500', style: 'normal' },
+  ],
   variable: '--font-dm-sans',
   display: 'swap',
 })
 
-const dmMono = DM_Mono({
-  subsets: ['latin'],
-  weight: ['300', '400'],
+const dmMono = localFont({
+  src: [
+    { path: '../fonts/dm-mono/dm-mono-300.woff', weight: '300', style: 'normal' },
+    { path: '../fonts/dm-mono/dm-mono-400.woff', weight: '400', style: 'normal' },
+  ],
   variable: '--font-dm-mono',
   display: 'swap',
 })
