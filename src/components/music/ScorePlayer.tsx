@@ -22,6 +22,15 @@ interface Props {
 
 type Status = 'loading' | 'ready' | 'error'
 
+// Ảnh chụp trạng thái con trỏ OSMD (thẻ <img>) tại 1 bước — chính những gì cursor.update() gán.
+interface CursorPos {
+  top: string
+  left: string
+  width: number
+  height: number
+  src: string
+}
+
 const OSMD_UNIT_PX = 10 // 1 đơn vị toạ độ nội bộ OSMD = 10px ở Zoom = 1
 const MIN_ZOOM = 0.5
 // Chiều cao phần đàn (nốt rơi + phím) ở chế độ toàn màn hình — kéo thanh chia để đổi, nhớ lại giữa các lần mở.
@@ -115,6 +124,8 @@ export function ScorePlayer({ slug, title, musicxml, defaultBpm = DEFAULT_BPM }:
   // vào nốt để tua timeline) mà không phải import tĩnh cả gói OSMD ở đầu file (gói này đụng DOM/canvas
   // ngay lúc module chạy, import tĩnh sẽ vỡ SSR — xem cách setup() cũng dynamic import bên dưới).
   const PointF2DRef = useRef<typeof PointF2D | null>(null)
+  // Vị trí con trỏ ở từng bước của schedule (cùng index) — xem cacheCursorPositions()
+  const cursorPosRef = useRef<CursorPos[]>([])
 
   const bpmRef = useRef(bpm)
   bpmRef.current = bpm
@@ -122,7 +133,7 @@ export function ScorePlayer({ slug, title, musicxml, defaultBpm = DEFAULT_BPM }:
   // Trạng thái phát nhạc — cố tình để ngoài React state vì đổi mỗi ~50ms, không cần re-render theo.
   const playRef = useRef({
     nextIdx: 0,
-    cursorIdx: 0, // con trỏ OSMD đang đứng ở bước nào của schedule (khớp 1-1 với số lần cursor.next())
+    cursorIdx: 0, // con trỏ đang hiển thị ở bước nào của schedule (index vào cursorPosRef)
     offsetWhole: 0, // vị trí đã phát tới, tính theo nốt tròn, tại thời điểm wallStart
     wallStart: 0, // performance.now() lúc bắt đầu tính offsetWhole
     intervalId: 0 as ReturnType<typeof setInterval> | 0,
@@ -190,6 +201,7 @@ export function ScorePlayer({ slug, title, musicxml, defaultBpm = DEFAULT_BPM }:
 
         osmd.cursor.show() // con trỏ đang ở đầu bài (buildPlaybackSchedule đã reset) — hiện ra giờ mới đúng chỗ
         updateCursorHeight(osmd)
+        cacheCursorPositions(osmd)
         setStatus('ready')
       } catch (err) {
         console.error('[ScorePlayer] Không đọc được bản nhạc:', err)
@@ -361,6 +373,7 @@ export function ScorePlayer({ slug, title, musicxml, defaultBpm = DEFAULT_BPM }:
     p.cursorIdx = 0
     osmd.cursor.show()
     updateCursorHeight(osmd)
+    cacheCursorPositions(osmd) // vẽ lại → toạ độ mọi bước đổi theo zoom/khổ mới
     moveCursorTo(idx)
   }
 
@@ -422,19 +435,52 @@ export function ScorePlayer({ slug, title, musicxml, defaultBpm = DEFAULT_BPM }:
     }
   }, [status])
 
-  // Đưa con trỏ OSMD tới đúng bước `idx` của schedule (con trỏ phải đứng TẠI nốt đang vang, không phải
-  // nốt kế tiếp). Đi tiếp thì chỉ next() phần còn thiếu; lùi lại thì reset() rồi next() lại từ đầu.
+  // Ghi sẵn vị trí/kích thước con trỏ OSMD tại TỪNG bước của schedule — chạy con trỏ qua cả bài đúng 1 lần
+  // sau mỗi lần vẽ bản nhạc (setup, relayout). Nhờ vậy moveCursorTo() chỉ việc gán lại style đã lưu, O(1):
+  // trước đây lùi 1 nốt (phím ←) phải reset() rồi next() lại từ đầu bài — vài trăm lần cursor.update(), mỗi
+  // lần OSMD còn vẽ lại ảnh con trỏ bằng canvas → bấm ← giữa/cuối bài bị khựng rõ rệt. Không dùng
+  // cursor.previous() vì lịch phát đã trải các đoạn lặp (repeat), previous() không lùi đúng qua bước nhảy lặp.
+  // Con trỏ phải đang hiện (show()) — update() của OSMD bỏ qua mọi thứ khi con trỏ ẩn.
+  function cacheCursorPositions(osmd: OpenSheetMusicDisplay) {
+    const el = osmd.cursor.cursorElement
+    const steps = scheduleRef.current.length
+    const out: CursorPos[] = []
+    osmd.cursor.reset()
+    for (let i = 0; i < steps; i++) {
+      out.push({ top: el.style.top, left: el.style.left, width: el.width, height: el.height, src: el.src })
+      osmd.cursor.next()
+    }
+    osmd.cursor.reset()
+    cursorPosRef.current = out
+    playRef.current.cursorIdx = 0
+  }
+
+  // Đưa con trỏ tới đúng bước `idx` của schedule (con trỏ phải đứng TẠI nốt đang vang, không phải nốt kế
+  // tiếp) bằng vị trí đã ghi sẵn (cacheCursorPositions) — tiến hay lùi bao xa cũng tốn như nhau. Iterator
+  // nội bộ của OSMD không đi theo (vẫn ở đầu bài) — không chỗ nào khác đọc nó, relayout() ghi lại vị trí từ đầu.
   function moveCursorTo(idx: number) {
     const osmd = osmdRef.current
     const p = playRef.current
     if (!osmd) return
-    if (idx < p.cursorIdx) {
-      osmd.cursor.reset()
-      p.cursorIdx = 0
-    }
-    while (p.cursorIdx < idx) {
-      osmd.cursor.next()
-      p.cursorIdx++
+    const pos = cursorPosRef.current[idx]
+    const el = osmd.cursor.cursorElement
+    if (pos && el) {
+      el.style.top = pos.top
+      el.style.left = pos.left
+      el.width = pos.width
+      el.height = pos.height
+      if (el.src !== pos.src) el.src = pos.src
+      p.cursorIdx = idx
+    } else {
+      // Chưa có bảng vị trí (không nên xảy ra) — đi bằng next() như cũ.
+      if (idx < p.cursorIdx) {
+        osmd.cursor.reset()
+        p.cursorIdx = 0
+      }
+      while (p.cursorIdx < idx) {
+        osmd.cursor.next()
+        p.cursorIdx++
+      }
     }
     followCursor()
   }
@@ -524,10 +570,8 @@ export function ScorePlayer({ slug, title, musicxml, defaultBpm = DEFAULT_BPM }:
   function resetToStart() {
     const p = playRef.current
     p.nextIdx = 0
-    p.cursorIdx = 0
     p.offsetWhole = 0
-    osmdRef.current?.cursor.reset()
-    followCursor()
+    moveCursorTo(0)
     setProgress(0)
     setElapsedWhole(0)
   }
