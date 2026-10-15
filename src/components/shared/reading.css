@@ -124,3 +124,76 @@
     font-size: 15.5px;
   }
 }
+
+/* Nhóm nút ẩn/hiện ở đầu bài đọc (pinyin + bản dịch) */
+.rd-toggles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.rd-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Pinyin dưới đoạn chữ Hán (bài đọc tiếng Trung) — cùng xuống dòng với đoạn gốc; là nút: bấm để ẩn lại */
+.rd-py {
+  display: block;
+  margin: 2px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+  font: inherit;
+  white-space: pre-line;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--color-muted);
+  cursor: pointer;
+}
+
+/* Hàng nút "Bấm để xem pinyin" · "Bấm để xem nghĩa" của từng đoạn */
+.rd-reveals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+/* Từ vựng có nghĩa: rê chuột / chạm vào để hiện tooltip (pinyin + nghĩa) ngay phía trên từ */
+.rd-has-gloss {
+  position: relative;
+  cursor: help;
+  outline: none;
+}
+
+.rd-has-gloss::after {
+  content: attr(data-gloss);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  z-index: 20;
+  width: max-content;
+  max-width: 240px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #1c2333;
+  color: #fff;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.5;
+  white-space: pre-line;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(20, 28, 45, 0.25);
+  transform: translate(-50%, 4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+.rd-has-gloss:hover::after,
+.rd-has-gloss:focus::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}

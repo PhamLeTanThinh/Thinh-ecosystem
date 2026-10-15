@@ -15,6 +15,8 @@ import { SegmentedControl } from '@/components/chinese/SegmentedControl'
 import type { ExampleDetail } from '@/lib/chinese/exampleDetail'
 import { SPEAKING_PRACTICE, type SpeakingPracticeSet } from '@/lib/chinese/speakingPractice'
 import { DIALOGUES } from '@/lib/chinese/dialogues'
+import { CHINESE_READINGS, chineseGloss } from '@/lib/chinese/readings'
+import { ReadingSection } from '@/components/shared/ReadingSection'
 import { DialogueSection } from '@/components/shared/DialogueSection'
 import { VocabStudy, groupByTopic, type StudyWord } from '@/components/shared/vocab/VocabStudy'
 import { parsePos } from '@/components/shared/vocab/pos'
@@ -596,6 +598,10 @@ function LessonContent({
   const speaking = SPEAKING_PRACTICE[lesson]
   const dialogues = DIALOGUES[lesson]
   const hasSpeaking = !!speaking || !!dialogues
+  // Bài đọc cuối bài — 1 câu chuyện dùng lại TOÀN BỘ từ vựng của bài (lib/chinese/readings.ts)
+  const reading = CHINESE_READINGS[lesson]
+  // Rê chuột vào từ được tô trong bài đọc → hiện pinyin + nghĩa (tra từ thẻ từ vựng của bài)
+  const readingGloss = useMemo(() => chineseGloss(vocabCards), [vocabCards])
 
   const studyWords = useMemo(() => vocabCards.map(toStudyWord), [vocabCards])
   const [typingOpen, setTypingOpen] = useState(false)
@@ -632,12 +638,15 @@ function LessonContent({
         children: speaking.items.map((it, i) => ({ id: `cn-speaking-${i}`, label: `${i + 1}. ${it.question}` })),
       })
     }
+    if (reading) {
+      nodes.push({ id: 'cn-section-reading', label: '📖 Bài đọc', section: 'reading', children: [{ id: 'cn-reading', label: reading.title }] })
+    }
     return nodes
-  }, [vocabCards.length, studyWords, grammarCards, dialogues, speaking])
+  }, [vocabCards.length, studyWords, grammarCards, dialogues, speaking, reading])
 
   // Vào từ Cẩm nang (?g=<cardId>) thì mở sẵn tab Ngữ pháp trên mobile để thẻ đích hiện ra.
-  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking'>(focusCardId ? 'grammar' : 'vocab')
-  const effectiveMobileTab = mobileTab === 'speaking' && !hasSpeaking ? 'vocab' : mobileTab
+  const [mobileTab, setMobileTab] = useState<'vocab' | 'grammar' | 'speaking' | 'reading'>(focusCardId ? 'grammar' : 'vocab')
+  const effectiveMobileTab = (mobileTab === 'speaking' && !hasSpeaking) || (mobileTab === 'reading' && !reading) ? 'vocab' : mobileTab
 
   // Cuộn tới thẻ ?g= sau khi thẻ đã render (thẻ lấy từ store nên có thể chưa có ở lần render đầu) — chỉ 1 lần.
   const focusedOnce = useRef(false)
@@ -695,6 +704,15 @@ function LessonContent({
             🗣️ Luyện nói
           </button>
         )}
+        {reading && (
+          <button
+            type="button"
+            className={`cn-mobile-tab${effectiveMobileTab === 'reading' ? ' active' : ''}`}
+            onClick={() => setMobileTab('reading')}
+          >
+            📖 Bài đọc
+          </button>
+        )}
       </div>
 
       <div className="cn-doc-body">
@@ -723,6 +741,12 @@ function LessonContent({
             <div className={`cn-mobile-section${effectiveMobileTab === 'speaking' ? ' active' : ''}`}>
               {dialogues && <DialogueSection dialogues={dialogues} />}
               {speaking && <SpeakingPracticeSection data={speaking} />}
+            </div>
+          )}
+
+          {reading && (
+            <div className={`cn-mobile-section${effectiveMobileTab === 'reading' ? ' active' : ''}`}>
+              <ReadingSection reading={reading} lang={ZH_LANG} prefix="cn" gloss={readingGloss} />
             </div>
           )}
         </div>

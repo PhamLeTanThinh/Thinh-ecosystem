@@ -29,7 +29,7 @@ import { HANGUL_LESSONS } from '@/lib/korean/hangul'
 import { HANDBOOK_CATEGORIES } from '@/lib/korean/handbook'
 import { SpeakButton } from '@/components/shared/SpeakButton'
 import { ReadingSection } from '@/components/shared/ReadingSection'
-import { KOREAN_READINGS } from '@/lib/korean/readings'
+import { KOREAN_READINGS, koreanGloss } from '@/lib/korean/readings'
 import { KOREAN_LOADING } from '@/lib/loading/apps'
 import { createLoadingTracker } from '@/lib/loading/tracker'
 import type { KoreanCard, KoreanCardKind, KoreanProgress } from '@/lib/korean/types'
@@ -452,6 +452,8 @@ function LessonContent({
   const hasSpeaking = !!speaking || !!dialogues
   // Bài đọc cuối bài — dùng lại toàn bộ từ vựng của bài (lib/korean/readings.ts)
   const reading = KOREAN_READINGS[lesson]
+  // Rê chuột vào từ được tô trong bài đọc → hiện nghĩa (tra từ thẻ từ vựng của bài, khớp cả từ đã chia đuôi)
+  const readingGloss = useMemo(() => koreanGloss(vocabCards), [vocabCards])
 
   const studyWords = useMemo(() => vocabCards.map(toStudyWord), [vocabCards])
   const [typingOpen, setTypingOpen] = useState(false)
@@ -520,7 +522,7 @@ function LessonContent({
           {LESSON_TITLES_VI[lesson] && <p className="kr-page-title-vi">{LESSON_TITLES_VI[lesson]}</p>}
         </div>
         <div className="kr-content-header-actions">
-          {/* Luyện gõ — chỉ hiện trên desktop (≥1024px, xem typing.css) */}
+          {/* Luyện gõ — desktop gõ bằng bàn phím thật, điện thoại chạm bàn phím ảo (xem typing.css) */}
           <button type="button" className="kr-btn-outline kr-typing-btn" onClick={() => setTypingOpen(true)}>
             ⌨️ Luyện gõ
           </button>
@@ -599,7 +601,7 @@ function LessonContent({
 
           {reading && (
             <div className={`kr-mobile-section${effectiveMobileTab === 'reading' ? ' active' : ''}`}>
-              <ReadingSection reading={reading} lang={KO_LANG} prefix="kr" />
+              <ReadingSection reading={reading} lang={KO_LANG} prefix="kr" gloss={readingGloss} />
             </div>
           )}
         </div>
