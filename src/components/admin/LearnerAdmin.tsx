@@ -14,6 +14,8 @@ const DAY = 24 * 60 * 60 * 1000
 
 const pct = (a: number, b: number) => (b > 0 ? Math.round((a / b) * 100) : 0)
 const hasActivity = (l: LearnerSummary) => l.chinese.reviewed + l.korean.reviewed + l.certs.questions + l.certs.attempts > 0
+// Tên hiển thị (có dấu) nếu có, không thì mã hồ sơ.
+const nameOf = (l: LearnerSummary) => l.displayName || l.id
 const totalCards = (l: LearnerSummary) => l.chinese.reviewed + l.korean.reviewed
 
 // Tab "Hồ sơ học" của trang /admin — hồ sơ dùng chung cho Chinese + Korean + Certs (xem lib/learner/identity.ts).
@@ -75,7 +77,7 @@ export function LearnerAdmin() {
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase()
     const list = (learners ?? []).filter((l) => {
-      if (q && !l.id.toLowerCase().includes(q)) return false
+      if (q && !l.id.toLowerCase().includes(q) && !(l.displayName ?? '').toLowerCase().includes(q)) return false
       if (filter === 'active') return isActive(l)
       if (filter === 'idle') return hasActivity(l) && !isActive(l)
       if (filter === 'empty') return !hasActivity(l)
@@ -97,14 +99,14 @@ export function LearnerAdmin() {
     return runAction({
       bubble: (
         <>
-          Ông chủ muốn đổi tên hồ sơ <MascotEm>{l.id}</MascotEm> thành gì nè?
+          Ông chủ muốn đổi tên hồ sơ <MascotEm>{nameOf(l)}</MascotEm> thành gì nè?
         </>
       ),
       sub: 'Tiến độ học (tiếng Trung, tiếng Hàn và luyện đề Certs) sẽ đi theo tên mới nha 🐾',
       confirmLabel: 'Đổi tên nè',
       input: {
         placeholder: 'Tên mới (chữ thường, số, - hoặc _)',
-        initial: l.registered ? l.id : '',
+        initial: l.registered ? nameOf(l) : '',
         maxLength: 24,
         hint: 'Từ 3 ký tự, bắt đầu bằng chữ cái; gồm chữ, số, gạch ngang hoặc gạch dưới.',
       },
@@ -121,7 +123,7 @@ export function LearnerAdmin() {
           ok: true,
           bubble: (
             <>
-              Đã đổi tên rồi nè! <MascotEm>{l.id}</MascotEm> giờ là <MascotEm>{data.id ?? username}</MascotEm> 🎉
+              Đã đổi tên rồi nè! <MascotEm>{nameOf(l)}</MascotEm> giờ là <MascotEm>{data.displayName || data.id || username}</MascotEm> 🎉
             </>
           ),
           sub: 'Tiến độ học đã đi theo tên mới rồi nha 🐾',
@@ -134,7 +136,7 @@ export function LearnerAdmin() {
     return runAction({
       bubble: (
         <>
-          Xoá hẳn hồ sơ <MascotEm>{l.id}</MascotEm> hả ông chủ?
+          Xoá hẳn hồ sơ <MascotEm>{nameOf(l)}</MascotEm> hả ông chủ?
         </>
       ),
       sub: (
@@ -154,7 +156,7 @@ export function LearnerAdmin() {
           ok: true,
           bubble: (
             <>
-              Đã xoá hồ sơ <MascotEm>{l.id}</MascotEm> rồi nha
+              Đã xoá hồ sơ <MascotEm>{nameOf(l)}</MascotEm> rồi nha
             </>
           ),
         }
@@ -247,10 +249,11 @@ export function LearnerAdmin() {
                   <td>
                     <div className="lad-who">
                       <div className="lad-avatar lad-avatar-sm" style={{ background: avatarColor(l.id) }} aria-hidden="true">
-                        {l.registered ? l.id.charAt(0).toUpperCase() : '?'}
+                        {l.registered ? nameOf(l).charAt(0).toUpperCase() : '?'}
                       </div>
                       <div>
-                        <div className="adm-cell-main">{l.id}</div>
+                        <div className="adm-cell-main">{nameOf(l)}</div>
+                        {l.displayName && l.displayName !== l.id && <div className="adm-cell-sub">{l.id}</div>}
                         <div className="adm-cell-sub">Tạo {l.createdAt ? formatAdminDate(l.createdAt).slice(0, 11) : '—'}</div>
                         {!l.registered && <span className="adm-pill adm-pill-warning">{l.id === 'legacy' ? 'Dữ liệu cũ' : 'Chưa đặt tên'}</span>}
                       </div>
@@ -363,14 +366,15 @@ function DetailModal({
   }, [onClose])
   return (
     <div className="lad-backdrop" onClick={onClose}>
-      <div className="lad-modal" role="dialog" aria-modal="true" aria-label={`Chi tiết hồ sơ ${l.id}`} onClick={(e) => e.stopPropagation()}>
+      <div className="lad-modal" role="dialog" aria-modal="true" aria-label={`Chi tiết hồ sơ ${nameOf(l)}`} onClick={(e) => e.stopPropagation()}>
         <header className="lad-head">
           <div className="lad-avatar" style={{ background: avatarColor(l.id) }} aria-hidden="true">
-            {l.registered ? l.id.charAt(0).toUpperCase() : '?'}
+            {l.registered ? nameOf(l).charAt(0).toUpperCase() : '?'}
           </div>
           <div className="lad-id">
             <div className="lad-name">
-              {l.id}
+              {nameOf(l)}
+              {l.displayName && l.displayName !== l.id && <code className="adm-cell-sub">{l.id}</code>}
               <StatusPill l={l} active={active} />
               {!l.registered && <span className="adm-pill adm-pill-warning">{l.id === 'legacy' ? 'Dữ liệu cũ' : 'Chưa đặt tên'}</span>}
             </div>

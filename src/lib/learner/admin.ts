@@ -51,6 +51,8 @@ export interface LearnerSummary {
   id: string
   // false = hồ sơ CŨ có dữ liệu nhưng chưa có tên trong sổ đăng ký (mã tự sinh từ bản trước, hoặc 'legacy').
   registered: boolean
+  // Tên có dấu như người dùng gõ (vd "YẾNN") — null với hồ sơ cũ, hiển thị bằng id.
+  displayName: string | null
   createdAt: string | null
   lastActiveAt: string | null
   chinese: AppStats
@@ -69,6 +71,7 @@ const emptyApp = (): AppStats => ({ reviewed: 0, learned: 0, wrongNow: 0, correc
 const emptySummary = (id: string): LearnerSummary => ({
   id,
   registered: false,
+  displayName: null,
   createdAt: null,
   lastActiveAt: null,
   chinese: emptyApp(),
@@ -150,6 +153,7 @@ export async function listLearners(): Promise<{ learners: LearnerSummary[]; tota
     const s = get(p.id)
     s.registered = true
     s.createdAt = p.createdAt.toISOString()
+    s.displayName = p.displayName ?? null
   }
   for (const [rows, key] of [
     [cProg, 'chinese'],
@@ -216,16 +220,20 @@ export type RenameResult = 'ok' | 'taken' | 'not-found'
 
 // Đổi tên 1 hồ sơ bất kỳ (kể cả hồ sơ cũ chưa có tên — đăng ký luôn tên mới). Tên cũ của hồ sơ đã đăng ký
 // được giải phóng. Người đang dùng tên cũ trên trình duyệt sẽ được hỏi lại tên ở lần vào kế tiếp (xem whoami).
-export async function renameLearner(oldId: string, newId: string): Promise<RenameResult> {
-  if (oldId === newId) return 'ok'
+export async function renameLearner(oldId: string, newId: string, displayName: string): Promise<RenameResult> {
+  // Cùng mã sau khi bỏ dấu (vd "ynn" → "Ýnn"): chỉ sửa tên hiển thị, không chuyển dữ liệu.
+  if (oldId === newId) {
+    if (await isRegistered(oldId)) await db.update(learnerProfiles).set({ displayName }).where(eq(learnerProfiles.id, oldId))
+    return 'ok'
+  }
   const registered = await isRegistered(oldId)
   if (!registered && !(await hasLearnerData(oldId))) return 'not-found'
   if (await isLearnerIdTaken(newId)) return 'taken'
 
   try {
     await db.transaction(async (tx) => {
-      if (registered) await tx.update(learnerProfiles).set({ id: newId }).where(eq(learnerProfiles.id, oldId))
-      else await tx.insert(learnerProfiles).values({ id: newId })
+      if (registered) await tx.update(learnerProfiles).set({ id: newId, displayName }).where(eq(learnerProfiles.id, oldId))
+      else await tx.insert(learnerProfiles).values({ id: newId, displayName })
       await moveLearnerData(tx, oldId, newId)
     })
   } catch (err) {

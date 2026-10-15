@@ -5,7 +5,8 @@ import { ActionDialog } from '@/components/mascot/ActionDialog'
 import { HAPPY_VIDEO, MascotBubble, MascotCat, MascotDialog, MascotEm, MascotName, MascotSub, QUESTION_VIDEO } from '@/components/mascot/MascotDialog'
 import './learner-profile.css'
 
-type Me = { id: string | null; registered: boolean }
+// displayName = tên có dấu như người dùng gõ (vd "YẾNN"); null với hồ sơ cũ → hiển thị bằng id.
+type Me = { id: string | null; registered: boolean; displayName?: string | null }
 // claim = hồ sơ CŨ đã có cookie + dữ liệu nhưng chưa có tên (mã tự sinh từ bản trước, hoặc 'legacy').
 type GateMode = 'create' | 'login' | 'claim' | 'done'
 
@@ -51,10 +52,10 @@ export function LearnerGate() {
 export function LearnerProfile() {
   const me = useMe()
   if (!me?.id || !me.registered) return null
-  return <ProfileMenu id={me.id} />
+  return <ProfileMenu id={me.displayName || me.id} />
 }
 
-async function postJson(url: string, body?: unknown): Promise<{ ok: boolean; data: { error?: string; id?: string } }> {
+async function postJson(url: string, body?: unknown): Promise<{ ok: boolean; data: { error?: string; id?: string; displayName?: string | null } }> {
   try {
     const res = await fetch(url, {
       method: 'POST',
@@ -97,7 +98,7 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
       return
     }
     setKeptProgress(mode === 'claim')
-    setCreatedId(data.id ?? username)
+    setCreatedId(data.displayName || data.id || username)
     setMode('done')
   }
 
@@ -180,7 +181,7 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
                 setName(e.target.value)
                 setError(null)
               }}
-              placeholder="vd: thinh, mai_2004…"
+              placeholder="vd: Thịnh, mai_2004…"
               maxLength={24}
             />
             {error ? (

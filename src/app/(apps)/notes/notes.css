@@ -1709,3 +1709,58 @@
 .nt-vocab-row .nt-note-block-delete {
   align-self: start;
 }
+
+/* Header row of a vocab note — one hide/show toggle per column (Word | Nghĩa). */
+.nt-vocab-col-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  padding: 3px 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: left;
+  color: var(--color-nt-ink-soft);
+  border-bottom: 1.5px solid var(--color-nt-border);
+  cursor: pointer;
+}
+
+.nt-vocab-col-toggle:hover {
+  color: var(--color-nt-ink);
+  background: var(--color-nt-bg);
+}
+
+.nt-vocab-col-toggle span {
+  font-size: 11px;
+  opacity: 0.6;
+}
+
+.nt-vocab-col-toggle.hidden-col {
+  color: var(--color-nt-ink);
+}
+
+.nt-vocab-col-toggle.hidden-col span {
+  opacity: 1;
+}
+
+/* A cell in a hidden column — same box as the visible cell (so rows keep their height), text
+   blurred until clicked. */
+.nt-vocab-masked {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.nt-vocab-masked span {
+  filter: blur(5px);
+  user-select: none;
+  transition: filter 0.12s ease;
+}
+
+.nt-vocab-masked:hover span {
+  filter: blur(3.5px);
+}

@@ -7,6 +7,16 @@ export async function isRegistered(id: string): Promise<boolean> {
   return !!row
 }
 
+// Tên hiển thị (có dấu) của hồ sơ đã đăng ký — null nếu chưa đăng ký hoặc hồ sơ cũ chưa có tên hiển thị.
+export async function getDisplayName(id: string): Promise<string | null> {
+  const [row] = await db
+    .select({ displayName: learnerProfiles.displayName })
+    .from(learnerProfiles)
+    .where(eq(learnerProfiles.id, id))
+    .limit(1)
+  return row?.displayName ?? null
+}
+
 // Tên đã có dữ liệu học ở 1 trong 6 bảng — bắt các tên có dữ liệu THẬT nhưng chưa nằm trong sổ
 // learnerProfiles (vd 'legacy', hoặc hồ sơ từ trước khi có sổ đăng ký). Chỉ là bước lọc nhanh; chốt
 // chặn chống trùng tên thật sự là ràng buộc UNIQUE của learnerProfiles.id.

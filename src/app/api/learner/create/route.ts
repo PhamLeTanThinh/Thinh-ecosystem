@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { learnerProfiles } from '@/db/schema'
-import { USERNAME_RULE_MESSAGE, normalizeUsername, setLearnerCookie } from '@/lib/learner/identity'
+import { USERNAME_RULE_MESSAGE, normalizeUsername, setLearnerCookie, toDisplayName } from '@/lib/learner/identity'
 import { isLearnerIdTaken } from '@/lib/learner/registry'
 
 const TAKEN_MESSAGE = 'Tên này đã có người dùng, hãy chọn tên khác'
@@ -17,10 +17,10 @@ export async function POST(req: NextRequest) {
   if (await isLearnerIdTaken(id)) return NextResponse.json({ error: TAKEN_MESSAGE }, { status: 409 })
 
   // INSERT ràng buộc UNIQUE = atomic: 2 người tạo cùng 1 tên gần như cùng lúc thì chỉ 1 người thành công.
-  const [claim] = await db.insert(learnerProfiles).values({ id }).onConflictDoNothing().returning()
+  const [claim] = await db.insert(learnerProfiles).values({ id, displayName: toDisplayName(body.username) }).onConflictDoNothing().returning()
   if (!claim) return NextResponse.json({ error: TAKEN_MESSAGE }, { status: 409 })
 
-  const res = NextResponse.json({ ok: true, id })
+  const res = NextResponse.json({ ok: true, id, displayName: claim.displayName })
   setLearnerCookie(res, id)
   return res
 }

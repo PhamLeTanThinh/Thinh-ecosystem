@@ -39,6 +39,19 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   const deleteVocab = useNotesStore((s) => s.deleteVocab)
   const confirm = useNotesConfirm()
   const [tagDraft, setTagDraft] = useState('')
+  // Vocab self-test: hide a whole column (word or meaning), then click a single masked cell to peek
+  // at it. View-only state — not saved, so every visit starts with both columns showing.
+  const [vocabHidden, setVocabHidden] = useState({ term: false, meaning: false })
+  const [revealed, setRevealed] = useState<Set<string>>(new Set())
+
+  function toggleVocabColumn(col: 'term' | 'meaning') {
+    setVocabHidden((prev) => ({ ...prev, [col]: !prev[col] }))
+    setRevealed(new Set()) // re-hiding a column masks every cell again, even ones peeked at before
+  }
+
+  function reveal(key: string) {
+    setRevealed((prev) => new Set(prev).add(key))
+  }
   const rootRef = useRef<HTMLDivElement>(null)
 
   // "Live" position/size while dragging/resizing — only written to the store on release, to avoid
@@ -248,6 +261,12 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         <div className="nt-note-blocks">
           {note.vocab.length > 0 && (
             <div className="nt-vocab-list">
+              <div className="nt-vocab-row nt-vocab-head">
+                <span />
+                <VocabColumnToggle label="Word" hidden={vocabHidden.term} onToggle={() => toggleVocabColumn('term')} />
+                <VocabColumnToggle label="Nghĩa" hidden={vocabHidden.meaning} onToggle={() => toggleVocabColumn('meaning')} />
+                <span />
+              </div>
               {note.vocab.map((v) => (
                 <div key={v.id} className={`nt-vocab-row${v.done ? ' done' : ''}`}>
                   <button
@@ -258,19 +277,27 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                   >
                     {v.done && '✓'}
                   </button>
-                  <TimeBlockText
-                    className="nt-vocab-term"
-                    text={v.term}
-                    editable={editing}
-                    onSave={(term) => updateVocab(note.id, v.id, { term })}
-                  />
-                  <TimeBlockText
-                    className="nt-vocab-meaning"
-                    text={v.meaning}
-                    editable={editing}
-                    allowEmpty
-                    onSave={(meaning) => updateVocab(note.id, v.id, { meaning })}
-                  />
+                  {vocabHidden.term && !revealed.has(`${v.id}:term`) ? (
+                    <VocabMaskedCell className="nt-vocab-term" text={v.term} onReveal={() => reveal(`${v.id}:term`)} />
+                  ) : (
+                    <TimeBlockText
+                      className="nt-vocab-term"
+                      text={v.term}
+                      editable={editing}
+                      onSave={(term) => updateVocab(note.id, v.id, { term })}
+                    />
+                  )}
+                  {vocabHidden.meaning && !revealed.has(`${v.id}:meaning`) ? (
+                    <VocabMaskedCell className="nt-vocab-meaning" text={v.meaning} onReveal={() => reveal(`${v.id}:meaning`)} />
+                  ) : (
+                    <TimeBlockText
+                      className="nt-vocab-meaning"
+                      text={v.meaning}
+                      editable={editing}
+                      allowEmpty
+                      onSave={(meaning) => updateVocab(note.id, v.id, { meaning })}
+                    />
+                  )}
                   <button
                     type="button"
                     aria-label="Delete word"
@@ -479,6 +506,46 @@ function TimeBlockAddForm({
         <button type="submit">+</button>
       </div>
     </form>
+  )
+}
+
+// Column header of a vocab note — the label plus an eye toggle that hides/shows the whole column.
+// stopPropagation so toggling doesn't also open the note's edit mode.
+function VocabColumnToggle({ label, hidden, onToggle }: { label: string; hidden: boolean; onToggle: () => void }) {
+  return (
+    <button
+      type="button"
+      className={`nt-vocab-col-toggle${hidden ? ' hidden-col' : ''}`}
+      aria-pressed={hidden}
+      aria-label={hidden ? `Show ${label}` : `Hide ${label}`}
+      title={hidden ? `Show ${label}` : `Hide ${label}`}
+      onClick={(e) => {
+        e.stopPropagation()
+        onToggle()
+      }}
+    >
+      {label}
+      <span aria-hidden>{hidden ? '🙈' : '👁'}</span>
+    </button>
+  )
+}
+
+// A cell whose column is hidden — the text stays in place (so the row keeps its height) but is
+// blurred; clicking it reveals just that one cell.
+function VocabMaskedCell({ className, text, onReveal }: { className: string; text: string; onReveal: () => void }) {
+  return (
+    <button
+      type="button"
+      className={`${className} nt-vocab-masked`}
+      aria-label="Click to reveal"
+      title="Click to reveal"
+      onClick={(e) => {
+        e.stopPropagation()
+        onReveal()
+      }}
+    >
+      <span aria-hidden>{text || '—'}</span>
+    </button>
   )
 }
 

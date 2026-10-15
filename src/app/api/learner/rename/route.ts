@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { learnerProfiles } from '@/db/schema'
 import { moveLearnerData } from '@/lib/learner/admin'
-import { USERNAME_RULE_MESSAGE, getLearnerId, normalizeUsername, setLearnerCookie } from '@/lib/learner/identity'
+import { USERNAME_RULE_MESSAGE, getLearnerId, normalizeUsername, setLearnerCookie, toDisplayName } from '@/lib/learner/identity'
 import { isLearnerIdTaken, isRegistered } from '@/lib/learner/registry'
 
 const NAME_TAKEN = 'NAME_TAKEN'
@@ -29,7 +29,7 @@ export async function POST(req: NextRequest) {
 
   try {
     await db.transaction(async (tx) => {
-      const [claim] = await tx.insert(learnerProfiles).values({ id: newId }).onConflictDoNothing().returning()
+      const [claim] = await tx.insert(learnerProfiles).values({ id: newId, displayName: toDisplayName(body.username) }).onConflictDoNothing().returning()
       if (!claim) throw new Error(NAME_TAKEN)
       if (newId === oldId) return
 

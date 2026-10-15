@@ -84,6 +84,9 @@ export const chineseSettings = pgTable('chinese_settings', {
 // tạo trùng tên cùng lúc (race condition) mà không cần khoá thêm ở tầng ứng dụng.
 export const learnerProfiles = pgTable('learner_profiles', {
   id: text('id').primaryKey(),
+  // Tên đúng như người dùng gõ (có dấu, hoa/thường, vd "YẾNN") — `id` là bản đã bỏ dấu ("yenn") dùng
+  // để khớp khi đăng nhập. null = hồ sơ tạo trước khi có cột này → hiển thị bằng id.
+  displayName: text('display_name'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 

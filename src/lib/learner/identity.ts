@@ -35,16 +35,27 @@ export function clearLearnerCookie(res: NextResponse) {
   res.cookies.set(LEARNER_COOKIE, '', { path: '/', maxAge: 0 })
 }
 
-// Chuẩn hoá tên người dùng gõ vào: viết thường, khoảng trắng → gạch ngang, bỏ ký tự lạ; phải từ 3 ký
-// tự và bắt đầu bằng chữ cái. Dùng cho cả tạo mới lẫn đăng nhập lại, nên "Thinh" và "thinh" là 1 tên.
+// Chuẩn hoá tên người dùng gõ vào thành MÃ hồ sơ (id, nằm trong cookie/URL nên giữ ASCII): viết
+// thường, BỎ DẤU tiếng Việt (ế → e, đ → d — trước đây chữ có dấu bị xoá hẳn nên "YẾNN" thành "ynn"),
+// khoảng trắng → gạch ngang, bỏ ký tự lạ; phải từ 3 ký tự và bắt đầu bằng chữ cái. Dùng cho cả tạo mới
+// lẫn đăng nhập lại, nên "Yến", "yen" và "YẾN" là 1 tên. Tên có dấu như người dùng gõ được giữ riêng ở
+// learnerProfiles.displayName (xem toDisplayName).
 export function normalizeUsername(input: string): string | null {
   const cleaned = input
     .trim()
     .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .replace(/đ/g, 'd')
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9_-]/g, '')
     .slice(0, 24)
   return cleaned.length >= 3 && /^[a-z]/.test(cleaned) ? cleaned : null
 }
 
-export const USERNAME_RULE_MESSAGE = 'Tên phải từ 3 ký tự, bắt đầu bằng chữ cái, chỉ gồm chữ/số/gạch ngang/gạch dưới'
+// Tên hiển thị = đúng như người dùng gõ (giữ dấu, giữ hoa/thường), chỉ gọn khoảng trắng.
+export function toDisplayName(input: string): string {
+  return input.trim().replace(/\s+/g, ' ').normalize('NFC').slice(0, 32)
+}
+
+export const USERNAME_RULE_MESSAGE = 'Tên phải từ 3 ký tự, bắt đầu bằng chữ cái, chỉ gồm chữ (có dấu cũng được)/số/gạch ngang/gạch dưới'
