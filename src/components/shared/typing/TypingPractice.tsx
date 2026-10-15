@@ -1,13 +1,13 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 import { speak } from '@/lib/shared/speech'
 import { accuracy, type TypingEngine, type TypingItem as Item, type TypingPools } from './engine'
 import { WordParts } from '@/components/shared/vocab/WordParts'
 import './typing.css'
 
-// Luyện gõ cho 1 bài (chỉ desktop — nút mở bị ẩn dưới 1024px), dùng chung cho Korean và Chinese; phần riêng của từng
+// Luyện gõ cho 1 bài (desktop gõ bằng bàn phím thật; điện thoại gõ bằng cách chạm bàn phím ảo), dùng chung cho Korean và Chinese; phần riêng của từng
 // ngôn ngữ (bộ gõ, bàn phím ảo, giọng đọc) nằm trong `engine`, danh sách mục do wrapper của từng app dựng sẵn (`pools`).
 // Nguồn: từ vựng / câu luyện nói / câu hội thoại. Mỗi mục có đồng hồ riêng; gõ đúng hết thì tự chấm, Enter để nộp sớm.
 // Chấm xong: đúng/sai + % chính xác + thời gian, tự phát âm.
@@ -54,6 +54,20 @@ function shuffled<T>(arr: T[]): T[] {
 
 const fmt = (ms: number) => `${(ms / 1000).toFixed(1)}s`
 
+// true trên thiết bị cảm ứng (điện thoại / máy tính bảng) — theo dõi luôn media query (vd xoay máy, gắn bàn phím)
+const COARSE = '(pointer: coarse)'
+function useCoarsePointer(): boolean {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia(COARSE)
+      mq.addEventListener('change', cb)
+      return () => mq.removeEventListener('change', cb)
+    },
+    () => window.matchMedia(COARSE).matches,
+    () => false,
+  )
+}
+
 export function TypingPractice({
   lessonLabel,
   engine,
@@ -76,7 +90,11 @@ export function TypingPractice({
   const [startAt, setStartAt] = useState(0)
   const [now, setNow] = useState(0)
   const [pressed, setPressed] = useState<string | null>(null)
+  const [shiftOn, setShiftOn] = useState(false) // Shift của bàn phím ảo (chạm), không dùng cho bàn phím thật
   const rootRef = useRef<HTMLDivElement>(null)
+  // Điện thoại/máy tính bảng: không có bàn phím thật → luôn hiện bàn phím ảo và gõ bằng cách chạm vào nó (không bật
+  // bàn phím của hệ điều hành — bộ gõ Hàn/pinyin của máy tự ghép chữ nên không chấm được từng phím).
+  const touch = useCoarsePointer()
 
   useEffect(() => rootRef.current?.focus(), [phase])
 
@@ -151,6 +169,27 @@ export function TypingPractice({
     setNow(performance.now())
   }
 
+  // 3 thao tác gõ dùng chung cho bàn phím thật (onKeyDown) và bàn phím ảo chạm trên điện thoại (VirtualKeyboard).
+  function pressEnter() {
+    if (result) next()
+    else if (tokens.length > 0) finish(tokens) // chưa gõ gì thì Enter không tính là nộp (tránh lỡ tay)
+  }
+
+  function pressBackspace() {
+    if (!result) setTokens((t) => t.slice(0, -1))
+  }
+
+  // true = phím này là phím gõ (đã nhận token)
+  function pressKey(k: { code: string; key: string; shiftKey: boolean }): boolean {
+    const tk = engine.keyToToken(k)
+    if (!tk) return false
+    if (result) return true
+    const nextTokens = [...tokens, tk]
+    setTokens(nextTokens)
+    if (item && engine.compose(nextTokens) === item.target) finish(nextTokens) // gõ đúng hết → tự chấm
+    return true
+  }
+
   function onKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Escape') {
       e.preventDefault()
@@ -160,29 +199,31 @@ export function TypingPractice({
     if (phase !== 'typing') return
     if (e.ctrlKey || e.metaKey || e.altKey) return
     setPressed(e.code)
-    if (result) {
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        next()
-      }
-      return
-    }
     if (e.key === 'Enter') {
       e.preventDefault()
-      if (tokens.length > 0) finish(tokens) // chưa gõ gì thì Enter không tính là nộp (tránh lỡ tay)
+      pressEnter()
       return
     }
     if (e.key === 'Backspace') {
       e.preventDefault()
-      setTokens((t) => t.slice(0, -1))
+      pressBackspace()
       return
     }
-    const tk = engine.keyToToken(e)
-    if (!tk) return
-    e.preventDefault()
-    const nextTokens = [...tokens, tk]
-    setTokens(nextTokens)
-    if (item && engine.compose(nextTokens) === item.target) finish(nextTokens) // gõ đúng hết → tự chấm
+    if (pressKey(e)) e.preventDefault()
+  }
+
+  // Chạm 1 phím trên bàn phím ảo (điện thoại/máy tính bảng không có bàn phím thật). Shift kiểu "chạm 1 lần": bật Shift
+  // rồi chạm ㅂ → ㅃ, Shift tự tắt sau phím kế tiếp như bàn phím điện thoại.
+  function tapKey(code: string) {
+    setPressed(code)
+    if (code === 'ShiftLeft') {
+      setShiftOn((v) => !v)
+      return
+    }
+    if (code === 'Enter') pressEnter()
+    else if (code === 'Backspace') pressBackspace()
+    else pressKey({ code, key: code === 'Space' ? ' ' : '', shiftKey: shiftOn })
+    setShiftOn(false)
   }
 
   // Tô sáng phím vừa nhấn trên bàn phím ảo
@@ -226,7 +267,7 @@ export function TypingPractice({
         </div>
 
         {phase === 'setup' && (
-          <Setup engine={engine} settings={settings} update={update} counts={{ vocab: pools.vocab.length, unlearned: pools.vocabUnlearned.length, speaking: pools.speaking.length, dialogue: pools.dialogue.length }} poolSize={pool.length} onStart={() => start(pool)} />
+          <Setup engine={engine} touch={touch} settings={settings} update={update} counts={{ vocab: pools.vocab.length, unlearned: pools.vocabUnlearned.length, speaking: pools.speaking.length, dialogue: pools.dialogue.length }} poolSize={pool.length} onStart={() => start(pool)} />
         )}
 
         {phase === 'typing' && item && (
@@ -342,11 +383,26 @@ export function TypingPractice({
               </div>
             ) : (
               <p className="kt-hint">
-                Gõ đúng hết sẽ tự chấm · <kbd>Enter</kbd> nộp sớm · <kbd>Backspace</kbd> xoá 1 phím · <kbd>Esc</kbd> đóng
+                {touch ? (
+                  <>Chạm phím bên dưới để gõ · gõ đúng hết sẽ tự chấm · <kbd>Enter</kbd> nộp sớm · <kbd>⌫</kbd> xoá 1 phím</>
+                ) : (
+                  <>
+                    Gõ đúng hết sẽ tự chấm · <kbd>Enter</kbd> nộp sớm · <kbd>Backspace</kbd> xoá 1 phím · <kbd>Esc</kbd> đóng
+                  </>
+                )}
               </p>
             )}
 
-            {settings.keyboard && <VirtualKeyboard engine={engine} next={settings.keyHint ? nextToken : undefined} offTrack={settings.keyHint && !onTrack && !result} pressed={pressed} />}
+            {(settings.keyboard || touch) && (
+              <VirtualKeyboard
+                engine={engine}
+                next={settings.keyHint ? nextToken : undefined}
+                offTrack={settings.keyHint && !onTrack && !result}
+                pressed={pressed}
+                shiftOn={shiftOn}
+                onTap={tapKey}
+              />
+            )}
           </div>
         )}
 
@@ -386,6 +442,7 @@ function Chars({ text, target, onTrack, done, typedOnly }: { text: string; targe
 
 function Setup({
   engine,
+  touch,
   settings,
   update,
   counts,
@@ -393,6 +450,7 @@ function Setup({
   onStart,
 }: {
   engine: TypingEngine
+  touch: boolean // màn cảm ứng: bàn phím ảo là cách gõ duy nhất nên luôn bật
   settings: Settings
   update: (p: Partial<Settings>) => void
   counts: { vocab: number; unlearned: number; speaking: number; dialogue: number }
@@ -459,10 +517,16 @@ function Setup({
       <div className="kt-field kt-field-options">
         <span className="kt-field-label">Tuỳ chọn</span>
         <div className="kt-toggles">
-          <Toggle checked={settings.keyboard} onChange={(v) => update({ keyboard: v })} title="Hiện bàn phím ảo" desc={`${engine.keyboardName} bên dưới ô gõ`} />
           <Toggle
-            checked={settings.keyboard && settings.keyHint}
-            disabled={!settings.keyboard}
+            checked={settings.keyboard || touch}
+            disabled={touch}
+            onChange={(v) => update({ keyboard: v })}
+            title="Hiện bàn phím ảo"
+            desc={touch ? `${engine.keyboardName} — chạm vào phím để gõ (luôn bật trên điện thoại)` : `${engine.keyboardName} bên dưới ô gõ`}
+          />
+          <Toggle
+            checked={(settings.keyboard || touch) && settings.keyHint}
+            disabled={!settings.keyboard && !touch}
             onChange={(v) => update({ keyHint: v })}
             title="Gợi ý phím tiếp theo"
             desc="Tô sáng phím cần nhấn trên bàn phím ảo"
@@ -495,28 +559,85 @@ function Toggle({ checked, onChange, title, desc, disabled, sub }: { checked: bo
   )
 }
 
-function VirtualKeyboard({ engine, next, offTrack, pressed }: { engine: TypingEngine; next?: string; offTrack: boolean; pressed: string | null }) {
+// Bàn phím ảo — vừa để nhìn (gợi ý phím tiếp theo) vừa để GÕ bằng cách chạm/bấm chuột (điện thoại không có bàn phím
+// thật). Phím là <button> nhưng xử lý ở pointerdown + preventDefault: phản hồi ngay khi chạm (không chờ click), không
+// cướp focus khỏi popup nên bàn phím thật vẫn gõ tiếp được.
+function VirtualKeyboard({
+  engine,
+  next,
+  offTrack,
+  pressed,
+  shiftOn,
+  onTap,
+}: {
+  engine: TypingEngine
+  next?: string
+  offTrack: boolean
+  pressed: string | null
+  shiftOn: boolean
+  onTap: (code: string) => void
+}) {
   const hint = next ? engine.keyFor(next) : undefined
   const hintCode = hint?.code ?? (next === ' ' ? 'Space' : undefined)
   const keyCls = (code: string) => `kt-key${code === hintCode ? ' next' : ''}${code === pressed ? ' pressed' : ''}`
+  const tap = (code: string) => (e: React.PointerEvent) => {
+    if (e.button !== 0) return
+    e.preventDefault()
+    onTap(code)
+  }
   return (
-    <div className="kt-kb" aria-hidden="true">
+    <div className="kt-kb">
       {engine.keyRows.map((row, ri) => (
         <div key={ri} className={`kt-kb-row kt-kb-row-${ri}`}>
-          {ri === 2 && <span className={`kt-key kt-key-wide${hint?.shift ? ' next' : ''}${pressed === 'ShiftLeft' ? ' pressed' : ''}`}>Shift</span>}
-          {row.map(([code, base, shifted]) => (
-            <span key={code} className={keyCls(code)}>
-              <span className="kt-key-jamo">{hint?.shift && code === hintCode ? shifted : base}</span>
-              {shifted !== base && <span className="kt-key-shift">{shifted}</span>}
-              {base.toUpperCase() !== code.slice(3) && <span className="kt-key-latin">{code.slice(3)}</span>}
-            </span>
-          ))}
-          {ri === 0 && <span className={`kt-key kt-key-wide${offTrack ? ' warn' : ''}${pressed === 'Backspace' ? ' pressed' : ''}`}>⌫</span>}
-          {ri === 1 && <span className={`kt-key kt-key-wide${pressed === 'Enter' ? ' pressed' : ''}`}>Enter</span>}
+          {ri === 2 && (
+            <button
+              type="button"
+              tabIndex={-1}
+              aria-label="Shift"
+              aria-pressed={shiftOn}
+              className={`kt-key kt-key-wide${hint?.shift && !shiftOn ? ' next' : ''}${shiftOn ? ' on' : ''}${pressed === 'ShiftLeft' ? ' pressed' : ''}`}
+              onPointerDown={tap('ShiftLeft')}
+            >
+              ⇧
+            </button>
+          )}
+          {row.map(([code, base, shifted]) => {
+            const label = shiftOn || (hint?.shift && code === hintCode) ? shifted : base
+            return (
+              <button key={code} type="button" tabIndex={-1} aria-label={label} className={keyCls(code)} onPointerDown={tap(code)}>
+                <span className="kt-key-jamo">{label}</span>
+                {shifted !== base && <span className="kt-key-shift">{shifted}</span>}
+                {base.toUpperCase() !== code.slice(3) && <span className="kt-key-latin">{code.slice(3)}</span>}
+              </button>
+            )
+          })}
+          {ri === 0 && (
+            <button
+              type="button"
+              tabIndex={-1}
+              aria-label="Xoá"
+              className={`kt-key kt-key-wide${offTrack ? ' warn' : ''}${pressed === 'Backspace' ? ' pressed' : ''}`}
+              onPointerDown={tap('Backspace')}
+            >
+              ⌫
+            </button>
+          )}
+          {ri === 1 && (
+            <button type="button" tabIndex={-1} className={`kt-key kt-key-wide${pressed === 'Enter' ? ' pressed' : ''}`} onPointerDown={tap('Enter')}>
+              Enter
+            </button>
+          )}
         </div>
       ))}
       <div className="kt-kb-row">
-        <span className={`kt-key kt-key-space${hintCode === 'Space' ? ' next' : ''}${pressed === 'Space' ? ' pressed' : ''}`}>Space</span>
+        <button
+          type="button"
+          tabIndex={-1}
+          className={`kt-key kt-key-space${hintCode === 'Space' ? ' next' : ''}${pressed === 'Space' ? ' pressed' : ''}`}
+          onPointerDown={tap('Space')}
+        >
+          Space
+        </button>
       </div>
       {next && !hint && next !== ' ' && <p className="kt-kb-note">Phím tiếp theo: {next}</p>}
       {offTrack && <p className="kt-kb-note warn">Gõ lệch rồi — nhấn ⌫ để sửa</p>}

@@ -779,6 +779,7 @@
   display: flex;
   gap: 8px;
   flex-shrink: 0;
+  flex-wrap: wrap; /* điện thoại: 3 nút (Luyện gõ · Ôn tập · Kiểm tra) xuống dòng thay vì tràn ngang */
 }
 
 /* ── Stat tiles ───────────────────────────────────────────────────────────────────────── */

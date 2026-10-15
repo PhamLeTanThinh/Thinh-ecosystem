@@ -1,5 +1,5 @@
 /* Luyện gõ Korean / Chinese (TypingPractice.tsx) — modal toàn màn hình, render bằng portal ra <body> nên tự khai bảng màu
-   của app Korean/Chinese (không phụ thuộc biến của trang). Chỉ dùng trên desktop: nút mở .kr-typing-btn / .cn-typing-btn ẩn dưới 1024px. */
+   của app Korean/Chinese (không phụ thuộc biến của trang). Desktop gõ bằng bàn phím thật; điện thoại chạm vào bàn phím ảo (.kt-kb). */
 .kt-backdrop {
   --kt-brand: #1f4fd6;
   --kt-brand-soft: #e3ebff;
@@ -916,17 +916,10 @@
   }
 }
 
-/* Nút mở trên đầu trang bài học — chỉ desktop */
+/* Nút mở trên đầu trang bài học — hiện ở mọi cỡ màn hình (điện thoại gõ bằng bàn phím ảo) */
 .kr-typing-btn,
 .cn-typing-btn {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .kr-typing-btn,
-  .cn-typing-btn {
-    display: inline-flex;
-  }
+  display: inline-flex;
 }
 
 
@@ -937,4 +930,114 @@
 
 .kt-parts .wp-part {
   background: #fff;
+}
+
+/* ── Bàn phím ảo bấm được (chạm trên điện thoại, chuột trên desktop) ── */
+.kt-key {
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: manipulation; /* không chờ double-tap zoom → chạm là gõ ngay */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kt-key:active {
+  transform: translateY(2px);
+  background: #dfe5f2;
+}
+
+/* Shift đang bật (chạm 1 lần) */
+.kt-key.on {
+  border-color: var(--kt-brand);
+  background: var(--kt-brand);
+  color: #fff;
+}
+
+/* ── Điện thoại: popup tràn màn hình, bàn phím ảo trải hết chiều ngang và phím co giãn đều như bàn phím điện thoại ── */
+@media (max-width: 760px) {
+  .kt-backdrop {
+    padding: 0;
+  }
+
+  .kt-modal {
+    height: 100dvh;
+    border-radius: 0;
+    padding: 12px 10px calc(10px + env(safe-area-inset-bottom));
+    gap: 10px;
+  }
+
+  .kt-progress {
+    font-size: 18px;
+  }
+
+  .kt-stage {
+    gap: 10px;
+  }
+
+  .kt-hint {
+    font-size: 12px;
+    text-align: center;
+  }
+
+  .kt-kb {
+    width: 100%;
+    padding: 6px 4px;
+    gap: 8px;
+    border-radius: 12px;
+  }
+
+  .kt-kb-row {
+    width: 100%;
+    gap: 4px;
+    justify-content: center;
+  }
+
+  .kt-kb-row-1,
+  .kt-kb-row-2 {
+    margin-left: 0;
+  }
+
+  /* Hàng 2 có 9 phím: thụt 2 bên nửa phím như bàn phím điện thoại */
+  .kt-kb-row-1 {
+    padding: 0 4%;
+  }
+
+  .kt-key {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    height: 46px;
+    padding: 0;
+    border-radius: 7px;
+    font-size: 12px;
+  }
+
+  .kt-key-jamo {
+    font-size: 18px;
+  }
+
+  .kt-key-wide {
+    flex: 1.5 1 0;
+    width: auto;
+  }
+
+  .kt-key-space {
+    flex: 0 1 70%;
+    width: auto;
+  }
+
+  .kt-key-shift {
+    top: 1px;
+    right: 3px;
+    font-size: 9px;
+  }
+
+  .kt-key-latin {
+    display: none; /* phím quá hẹp — bỏ chữ Latin nhỏ ở góc */
+  }
+
+  .kt-image img {
+    height: clamp(72px, 14vh, 140px);
+  }
 }
