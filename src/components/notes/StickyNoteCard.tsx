@@ -9,6 +9,16 @@ import { useNotesConfirm } from './ConfirmDialog'
 const NOTE_WIDTH_DEFAULT = 260
 const MIN_WIDTH = 180
 const MIN_HEIGHT = 90
+// Tỉ lệ mặc định cột Word / (Word + Nghĩa) — trước đây cố định 1fr : 1.3fr
+const VOCAB_SPLIT_DEFAULT = 1 / 2.3
+const VOCAB_SPLIT_MIN = 0.15
+const VOCAB_SPLIT_MAX = 0.85
+const RESIZE_EDGES: [string, -1 | 0 | 1, -1 | 0 | 1][] = [
+  ['left', -1, 0],
+  ['right', 1, 0],
+  ['top', 0, -1],
+  ['bottom', 0, 1],
+]
 
 const COLOR_HEX: Record<NoteColor, string> = {
   yellow: '#E8B324',
@@ -25,9 +35,12 @@ interface Props {
   onStartEdit: () => void
   onStopEdit: () => void
   onHeightChange: (id: string, height: number) => void
+  // Toạ độ nhỏ nhất được kéo tới (mép trái/trên canvas) — âm khi board có khoảng đệm do zoom (NotesBoard: effOffX/Y)
+  minX?: number
+  minY?: number
 }
 
-export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, onHeightChange }: Props) {
+export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, onHeightChange, minX = 0, minY = 0 }: Props) {
   const updateNote = useNotesStore((s) => s.updateNote)
   const deleteNote = useNotesStore((s) => s.deleteNote)
   const addTimeBlock = useNotesStore((s) => s.addTimeBlock)
@@ -59,11 +72,25 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   // latest value can be read on pointerup without hitting a stale closure or a nested setState
   // side-effect.
   const [livePos, setLivePos] = useState<{ x: number; y: number } | null>(null)
-  const [liveSize, setLiveSize] = useState<{ width: number; height: number } | null>(null)
+  const [liveSize, setLiveSize] = useState<{ width?: number; height?: number } | null>(null)
   const livePosRef = useRef<{ x: number; y: number } | null>(null)
-  const liveSizeRef = useRef<{ width: number; height: number } | null>(null)
+  const liveSizeRef = useRef<{ width?: number; height?: number } | null>(null)
   const dragRef = useRef<{ startX: number; startY: number; noteX: number; noteY: number } | null>(null)
-  const resizeRef = useRef<{ startX: number; startY: number; width: number; height: number } | null>(null)
+  // dirX/dirY: cạnh đang kéo — 1 = phải/dưới, -1 = trái/trên (kéo cạnh này thì note dời vị trí theo), 0 = không đổi chiều đó
+  // Kéo thanh chia giữa cột Word | Nghĩa: liveSplit chỉ sống trong lúc kéo, nhả chuột mới lưu note.vocabSplit
+  const [liveSplit, setLiveSplit] = useState<number | null>(null)
+  const liveSplitRef = useRef<number | null>(null)
+  const splitDragRef = useRef<{ left: number; total: number } | null>(null)
+  const resizeRef = useRef<{
+    startX: number
+    startY: number
+    width: number
+    height: number
+    noteX: number
+    noteY: number
+    dirX: -1 | 0 | 1
+    dirY: -1 | 0 | 1
+  } | null>(null)
 
   // The parent band needs to know the note's real height (rich text can span many lines) so it can
   // grow accordingly, avoiding a note overlapping the next week's band.
@@ -100,7 +127,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     if (!dragRef.current) return
     const dx = (e.clientX - dragRef.current.startX) / zoom
     const dy = (e.clientY - dragRef.current.startY) / zoom
-    const next = { x: Math.max(0, dragRef.current.noteX + dx), y: Math.max(0, dragRef.current.noteY + dy) }
+    const next = { x: Math.max(minX, dragRef.current.noteX + dx), y: Math.max(minY, dragRef.current.noteY + dy) }
     livePosRef.current = next
     setLivePos(next)
   }
@@ -115,28 +142,44 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     if (pos) updateNote(note.id, { x: pos.x, y: pos.y })
   }
 
-  function handleResizePointerDown(e: React.PointerEvent<HTMLDivElement>) {
+  function handleResizePointerDown(e: React.PointerEvent<HTMLDivElement>, dirX: -1 | 0 | 1, dirY: -1 | 0 | 1) {
     e.stopPropagation()
     e.preventDefault()
     e.currentTarget.setPointerCapture(e.pointerId)
     resizeRef.current = {
       startX: e.clientX,
       startY: e.clientY,
-      width: note.width ?? rootRef.current?.offsetWidth ?? NOTE_WIDTH_DEFAULT,
-      height: note.height ?? rootRef.current?.offsetHeight ?? MIN_HEIGHT,
+      width: rootRef.current?.offsetWidth ?? note.width ?? NOTE_WIDTH_DEFAULT,
+      height: rootRef.current?.offsetHeight ?? note.height ?? MIN_HEIGHT,
+      noteX: note.x,
+      noteY: note.y,
+      dirX,
+      dirY,
     }
   }
 
   function handleResizePointerMove(e: React.PointerEvent<HTMLDivElement>) {
-    if (!resizeRef.current) return
-    const dx = (e.clientX - resizeRef.current.startX) / zoom
-    const dy = (e.clientY - resizeRef.current.startY) / zoom
-    const next = {
-      width: Math.max(MIN_WIDTH, resizeRef.current.width + dx),
-      height: Math.max(MIN_HEIGHT, resizeRef.current.height + dy),
+    const r = resizeRef.current
+    if (!r) return
+    const dx = (e.clientX - r.startX) / zoom
+    const dy = (e.clientY - r.startY) / zoom
+    const size: { width?: number; height?: number } = {}
+    let pos: { x: number; y: number } | null = null
+    if (r.dirX !== 0) {
+      // Kéo cạnh trái: mép phải đứng yên, mép trái chạy theo chuột (không vượt quá minX)
+      const maxWidth = r.dirX < 0 ? r.noteX + r.width - minX : Infinity
+      size.width = Math.min(maxWidth, Math.max(MIN_WIDTH, r.width + dx * r.dirX))
+      if (r.dirX < 0) pos = { x: r.noteX + r.width - size.width, y: r.noteY }
     }
-    liveSizeRef.current = next
-    setLiveSize(next)
+    if (r.dirY !== 0) {
+      const maxHeight = r.dirY < 0 ? r.noteY + r.height - minY : Infinity
+      size.height = Math.min(maxHeight, Math.max(MIN_HEIGHT, r.height + dy * r.dirY))
+      if (r.dirY < 0) pos = { x: pos?.x ?? r.noteX, y: r.noteY + r.height - size.height }
+    }
+    liveSizeRef.current = size
+    setLiveSize(size)
+    livePosRef.current = pos
+    setLivePos(pos)
   }
 
   function handleResizePointerUp(e: React.PointerEvent<HTMLDivElement>) {
@@ -144,10 +187,45 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     resizeRef.current = null
     e.currentTarget.releasePointerCapture(e.pointerId)
     const size = liveSizeRef.current
+    const pos = livePosRef.current
     liveSizeRef.current = null
+    livePosRef.current = null
     setLiveSize(null)
-    if (size) updateNote(note.id, { width: size.width, height: size.height })
+    setLivePos(null)
+    if (size || pos) updateNote(note.id, { ...size, ...pos })
   }
+
+  function handleSplitPointerDown(e: React.PointerEvent<HTMLDivElement>) {
+    e.stopPropagation()
+    e.preventDefault()
+    const head = e.currentTarget.parentElement?.querySelector('.nt-vocab-head')
+    const termCell = head?.children[1]?.getBoundingClientRect()
+    const meaningCell = head?.children[2]?.getBoundingClientRect()
+    if (!termCell || !meaningCell) return
+    e.currentTarget.setPointerCapture(e.pointerId)
+    // Đo bằng px màn hình nên đã tính sẵn zoom của board — tỉ lệ không phụ thuộc zoom
+    splitDragRef.current = { left: termCell.left, total: meaningCell.right - termCell.left }
+  }
+
+  function handleSplitPointerMove(e: React.PointerEvent<HTMLDivElement>) {
+    const d = splitDragRef.current
+    if (!d || d.total <= 0) return
+    const ratio = Math.min(VOCAB_SPLIT_MAX, Math.max(VOCAB_SPLIT_MIN, (e.clientX - d.left) / d.total))
+    liveSplitRef.current = ratio
+    setLiveSplit(ratio)
+  }
+
+  function handleSplitPointerUp(e: React.PointerEvent<HTMLDivElement>) {
+    if (!splitDragRef.current) return
+    splitDragRef.current = null
+    e.currentTarget.releasePointerCapture(e.pointerId)
+    const ratio = liveSplitRef.current
+    liveSplitRef.current = null
+    setLiveSplit(null)
+    if (ratio != null) updateNote(note.id, { vocabSplit: ratio })
+  }
+
+  const vocabSplit = liveSplit ?? note.vocabSplit ?? VOCAB_SPLIT_DEFAULT
 
   const x = livePos?.x ?? note.x
   const y = livePos?.y ?? note.y
@@ -164,7 +242,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   // grows with its rows.
   const growsWithContent = note.kind !== 'note'
   const height = liveSize?.height ?? (growsWithContent ? undefined : editHeight)
-  const minHeight = liveSize ? undefined : growsWithContent ? editHeight : undefined
+  const minHeight = liveSize?.height != null ? undefined : growsWithContent ? editHeight : undefined
 
   // Items with no time show as a plain todo-list entry (checkbox + text only); items with a time
   // show in schedule form (vertical timeline, sorted by time) — a single 'timeline' note can mix
@@ -266,7 +344,27 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
       {note.kind === 'vocab' ? (
         <div className="nt-note-blocks">
           {note.vocab.length > 0 && (
-            <div className="nt-vocab-list">
+            <div
+              className={`nt-vocab-list${liveSplit != null ? ' splitting' : ''}`}
+              style={{ gridTemplateColumns: `auto minmax(0, ${vocabSplit}fr) minmax(0, ${1 - vocabSplit}fr) auto` }}
+            >
+              {/* Thanh chia giữa 2 cột (nằm ở mép trái cột Nghĩa, cao suốt danh sách) — kéo ngang để đổi bề rộng.
+                 Double-click để về tỉ lệ mặc định. */}
+              <div
+                className="nt-vocab-splitter"
+                role="separator"
+                aria-orientation="vertical"
+                aria-label="Kéo để đổi bề rộng cột Word / Nghĩa"
+                title="Kéo để đổi bề rộng cột · double-click: mặc định"
+                onPointerDown={handleSplitPointerDown}
+                onPointerMove={handleSplitPointerMove}
+                onPointerUp={handleSplitPointerUp}
+                onClick={(e) => e.stopPropagation()}
+                onDoubleClick={(e) => {
+                  e.stopPropagation()
+                  updateNote(note.id, { vocabSplit: null })
+                }}
+              />
               <div className="nt-vocab-row nt-vocab-head">
                 <span />
                 <VocabColumnToggle label="Word" hidden={vocabHidden.term} onToggle={() => toggleVocabColumn('term')} />
@@ -434,11 +532,24 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         </div>
       )}
 
+      {/* Kéo viền để đổi kích thước (như cửa sổ): 4 cạnh + góc dưới-phải. Viền trái/trên dời luôn vị trí note.
+         Viền trên/dưới chỉ có khi đang sửa — ngoài lúc sửa note.height không áp dụng (xem editHeight) nên kéo dọc vô nghĩa. */}
+      {RESIZE_EDGES.filter(([, , dirY]) => dirY === 0 || editing).map(([cls, dirX, dirY]) => (
+        <div
+          key={cls}
+          className={`nt-note-resize-edge ${cls}`}
+          onPointerDown={(e) => handleResizePointerDown(e, dirX, dirY)}
+          onPointerMove={handleResizePointerMove}
+          onPointerUp={handleResizePointerUp}
+          onClick={(e) => e.stopPropagation()}
+        />
+      ))}
       <div
         className="nt-note-resize-handle"
-        onPointerDown={handleResizePointerDown}
+        onPointerDown={(e) => handleResizePointerDown(e, 1, 1)}
         onPointerMove={handleResizePointerMove}
         onPointerUp={handleResizePointerUp}
+        onClick={(e) => e.stopPropagation()}
       />
     </div>
   )

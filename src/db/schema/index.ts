@@ -319,6 +319,7 @@ export const stickyNotes = pgTable('sticky_notes', {
   y: real('y').notNull(),
   width: real('width'), // null = auto (default); set when the user manually resizes
   height: real('height'), // null = auto based on content; set when the user manually resizes
+  vocabSplit: real('vocab_split'), // vocab note: tỉ lệ bề rộng cột Word / (Word + Nghĩa); null = mặc định
   kind: varchar('kind', { length: 10 }).default('note').notNull(), // 'note' | 'timeline' — chosen at creation time, see lib/notes/types.ts
   header: text('header').default('').notNull(), // optional short title shown at the top of the note — editable on any note, see lib/notes/types.ts
   content: text('content').notNull(), // rich text HTML (TipTap) — only used when kind = 'note'

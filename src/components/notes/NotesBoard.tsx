@@ -53,6 +53,11 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   // chuột đứng yên cần CUỘN ÂM (trình duyệt không cho) → dồn phần âm đó thành khoảng đệm đẩy các note vào trong.
   // Lưu thành state (chốt lúc hoạt ảnh zoom dừng) để render React khớp đúng khung hình cuối của hoạt ảnh.
   const [view, setView] = useState({ offX: 0, offY: 0, minW: 0, minH: 0 })
+  // Note có thể nằm ở toạ độ ÂM (kéo vào vùng đệm bên trái/trên) → khoảng đệm hiệu lực luôn đủ chứa chúng.
+  const minNoteX = notes.reduce((min, n) => Math.min(min, n.x), 0)
+  const minNoteY = notes.reduce((min, n) => Math.min(min, n.y), 0)
+  const effOffX = Math.max(view.offX, -minNoteX)
+  const effOffY = Math.max(view.offY, -minNoteY)
   // Actual measured height of each note (via ResizeObserver) — needed so the canvas can grow to fit
   // rich-text content (which can span many lines) when a note sits near the bottom of the screen.
   const [heights, setHeights] = useState<Record<string, number>>({})
@@ -151,10 +156,11 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     if (e.target !== canvasRef.current) return
     e.preventDefault()
     const rect = canvasRef.current.getBoundingClientRect()
-    // Toạ độ trong "thế giới" note = toạ độ canvas trừ khoảng đệm (view.offX/offY)
-    const worldWidth = rect.width / zoom - view.offX
-    const x = Math.max(4, Math.min((e.clientX - rect.left) / zoom - view.offX, worldWidth - NOTE_WIDTH - 4))
-    const y = Math.max(4, (e.clientY - rect.top) / zoom - view.offY)
+    // Toạ độ trong "thế giới" note = toạ độ canvas trừ khoảng đệm (effOffX/effOffY) — có thể âm khi bấm vào vùng
+    // đệm bên trái/trên; chặn trong phạm vi canvas.
+    const worldWidth = rect.width / zoom - effOffX
+    const x = Math.max(4 - effOffX, Math.min((e.clientX - rect.left) / zoom - effOffX, worldWidth - NOTE_WIDTH - 4))
+    const y = Math.max(4 - effOffY, (e.clientY - rect.top) / zoom - effOffY)
     setChooserAt({ x, y })
   }
 
@@ -190,7 +196,7 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   const rafRef = useRef(0)
   const anchorRef = useRef<{ canvasX: number; canvasY: number; viewX: number; viewY: number } | null>(null)
   const onZoomChangeRef = useRef(onZoomChange)
-  const contentSizeRef = useRef({ width: 0, height: 0 })
+  const contentSizeRef = useRef({ width: 0, height: 0, minX: 0, minY: 0 })
   const sizerRef = useRef<HTMLDivElement>(null)
   const worldRef = useRef<HTMLDivElement>(null)
   const offRef = useRef({ x: 0, y: 0 }) // khoảng đệm ĐANG HIỂN THỊ (đơn vị canvas) — như view.offX/offY nhưng cả giữa hoạt ảnh
@@ -201,7 +207,7 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     if (!rafRef.current) {
       zoomRef.current = zoom
       targetZoomRef.current = zoom
-      offRef.current = { x: view.offX, y: view.offY }
+      offRef.current = { x: effOffX, y: effOffY }
     }
   })
   useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
@@ -220,13 +226,15 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
       const world = worldRef.current
       const a = anchorRef.current
       if (!canvas || !sizer || !world || !a) return
-      const { width: cw, height: ch } = contentSizeRef.current
+      const { width: cw, height: ch, minX, minY } = contentSizeRef.current
       const needX = a.canvasX * z - a.viewX
       const needY = a.canvasY * z - a.viewY
-      const offX = needX < 0 ? -needX / z : 0
-      const offY = needY < 0 ? -needY / z : 0
-      const scrollX = Math.max(0, needX)
-      const scrollY = Math.max(0, needY)
+      // Khoảng đệm cũng không được nhỏ hơn phần các note đang lấn sang toạ độ âm (đã kéo vào vùng đệm) — nếu
+      // không, zoom vào lại thì các note đó bị cắt mất bên ngoài mép trái/trên.
+      const offX = Math.max(needX < 0 ? -needX / z : 0, -minX)
+      const offY = Math.max(needY < 0 ? -needY / z : 0, -minY)
+      const scrollX = needX + offX * z
+      const scrollY = needY + offY * z
       const minW = (scrollX + outer.clientWidth) / z
       const minH = (scrollY + outer.clientHeight) / z
       const w = Math.max(outer.clientWidth / z, cw + offX, minW)
@@ -307,10 +315,10 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   // dead zone that can't be clicked — but it can still grow WIDER/TALLER based on actual content
   // (contentWidth/contentHeight) to pan/scroll to a note outside the initially visible area.
   // + khoảng đệm / kích thước tối thiểu do zoom quanh con trỏ để lại (view, xem paint()).
-  const canvasWidth = Math.max(outerSize.width > 0 ? outerSize.width / zoom : 0, contentWidth + view.offX, view.minW) || undefined
-  const canvasHeight = Math.max(outerSize.height > 0 ? outerSize.height / zoom : 0, contentHeight + view.offY, view.minH)
+  const canvasWidth = Math.max(outerSize.width > 0 ? outerSize.width / zoom : 0, contentWidth + effOffX, view.minW) || undefined
+  const canvasHeight = Math.max(outerSize.height > 0 ? outerSize.height / zoom : 0, contentHeight + effOffY, view.minH)
   useLayoutEffect(() => {
-    contentSizeRef.current = { width: contentWidth, height: contentHeight }
+    contentSizeRef.current = { width: contentWidth, height: contentHeight, minX: minNoteX, minY: minNoteY }
   })
 
   return (
@@ -336,9 +344,9 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
           onContextMenu={handleCanvasContextMenu}
         >
           {notes.length === 0 && <p className="nt-board-empty">Right-click anywhere to add a note or timeline</p>}
-          {/* "Thế giới" các note — dịch vào trong theo khoảng đệm view.offX/offY (zoom quanh con trỏ khi thu nhỏ).
+          {/* "Thế giới" các note — dịch vào trong theo khoảng đệm effOffX/effOffY (zoom quanh con trỏ khi thu nhỏ).
               Kích thước 0 nên bấm vào chỗ trống vẫn trúng canvas (pan / chuột phải tạo note) như cũ. */}
-          <div ref={worldRef} className="nt-board-world" style={{ left: view.offX, top: view.offY }}>
+          <div ref={worldRef} className="nt-board-world" style={{ left: effOffX, top: effOffY }}>
             {notes.map((note) => (
               <StickyNoteCard
                 key={note.id}
@@ -348,6 +356,8 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
                 onStartEdit={() => onStartEdit(note.id)}
                 onStopEdit={onStopEdit}
                 onHeightChange={handleHeightChange}
+                minX={-effOffX}
+                minY={-effOffY}
               />
             ))}
 

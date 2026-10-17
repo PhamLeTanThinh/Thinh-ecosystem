@@ -726,8 +726,38 @@
   opacity: 0.5;
 }
 
+/* Viền kéo đổi kích thước — dải mỏng trùm lên mép note (StickyNoteCard: RESIZE_EDGES) */
+.nt-note-resize-edge {
+  position: absolute;
+  z-index: 2;
+  touch-action: none;
+}
+
+.nt-note-resize-edge.left,
+.nt-note-resize-edge.right {
+  top: 0;
+  bottom: 0;
+  width: 7px;
+  cursor: ew-resize;
+}
+
+.nt-note-resize-edge.left { left: -3px; }
+.nt-note-resize-edge.right { right: -3px; }
+
+.nt-note-resize-edge.top,
+.nt-note-resize-edge.bottom {
+  left: 0;
+  right: 0;
+  height: 7px;
+  cursor: ns-resize;
+}
+
+.nt-note-resize-edge.top { top: -3px; }
+.nt-note-resize-edge.bottom { bottom: -3px; }
+
 .nt-note-resize-handle {
   position: absolute;
+  z-index: 3;
   right: 0;
   bottom: 0;
   width: 15px;
@@ -1605,13 +1635,51 @@
 /* Body of a 'vocab'-kind note (Overall board only) — two aligned columns: foreign term (bold) |
    Vietnamese meaning. Rows use display: contents so every row shares the same column widths. */
 .nt-vocab-list {
+  position: relative; /* khung chứa cho .nt-vocab-splitter */
   display: grid;
+  /* tỉ lệ 2 cột giữa được ghi đè inline theo note.vocabSplit (StickyNoteCard) */
   grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.3fr) auto;
   align-items: stretch; /* term and meaning cells share the row height, so their borders line up */
 }
 
 .nt-vocab-row {
   display: contents;
+}
+
+/* Thanh kéo chia cột Word | Nghĩa — đặt vào cột 3 (Nghĩa) và trùm từ đầu tới cuối danh sách, lệch sang trái
+   để nằm đè lên đường kẻ giữa 2 cột. Phần tử absolute trong grid không tạo hàng mới. */
+.nt-vocab-splitter {
+  position: absolute;
+  grid-column: 3 / 4;
+  top: 0;
+  bottom: 0;
+  left: -5px;
+  width: 10px;
+  z-index: 1;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.nt-vocab-splitter::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 4px;
+  width: 2px;
+  border-radius: 1px;
+  background: transparent;
+  transition: background 0.12s ease;
+}
+
+.nt-vocab-splitter:hover::after,
+.nt-vocab-list.splitting .nt-vocab-splitter::after {
+  background: var(--color-nt-accent);
+}
+
+.nt-vocab-list.splitting {
+  cursor: col-resize;
+  user-select: none;
 }
 
 .nt-vocab-term,

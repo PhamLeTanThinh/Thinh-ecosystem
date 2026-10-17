@@ -85,7 +85,7 @@ interface NotesState {
   addNote: (date: string, x: number, y: number, kind?: NoteKind, topicId?: string | null) => StickyNote
   updateNote: (
     id: string,
-    patch: Partial<Pick<StickyNote, 'header' | 'content' | 'color' | 'tags' | 'x' | 'y' | 'width' | 'height'>>,
+    patch: Partial<Pick<StickyNote, 'header' | 'content' | 'color' | 'tags' | 'x' | 'y' | 'width' | 'height' | 'vocabSplit'>>,
   ) => void
   deleteNote: (id: string) => void
   deleteNotes: (ids: string[]) => void

@@ -54,6 +54,7 @@ export interface StickyNote {
   y: number
   width: number | null
   height: number | null
+  vocabSplit?: number | null // vocab note: tỉ lệ cột Word trên (Word + Nghĩa), kéo thanh chia giữa 2 cột; null = mặc định
   kind: NoteKind
   header: string // optional short title shown at the top of the note; '' = no header shown. Editable on any note; the 3 auto-created notes (Daily/WORK/Personal) just start with one pre-filled.
   content: string // rich text HTML — only used when kind === 'note'
