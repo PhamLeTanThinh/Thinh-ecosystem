@@ -680,10 +680,18 @@ function VocabAddForm({
   const [term, setTerm] = useState('')
   const [meaning, setMeaning] = useState('')
   const termRef = useRef<HTMLInputElement>(null)
-  const meaningRef = useRef<HTMLInputElement>(null)
+  const meaningRef = useRef<HTMLTextAreaElement>(null)
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
+  // Ô nghĩa là textarea tự giãn theo số dòng (Shift+Enter xuống hàng)
+  useEffect(() => {
+    const el = meaningRef.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }, [meaning])
+
+  function handleSubmit(e?: React.FormEvent) {
+    e?.preventDefault()
     if (!term.trim()) {
       termRef.current?.focus()
       return
@@ -710,11 +718,18 @@ function VocabAddForm({
         placeholder="Word..."
         aria-label="Foreign word"
       />
-      <input
+      <textarea
         ref={meaningRef}
-        type="text"
+        rows={1}
         value={meaning}
         onChange={(e) => setMeaning(e.target.value)}
+        onKeyDown={(e) => {
+          // Enter = thêm từ (như submit form); Shift+Enter = xuống hàng trong nghĩa
+          if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
+            e.preventDefault()
+            handleSubmit()
+          }
+        }}
         placeholder="Nghĩa..."
         aria-label="Vietnamese meaning"
       />
@@ -783,9 +798,9 @@ function TimeBlockText({
       onBlur={commit}
       onClick={(e) => e.stopPropagation()}
       onKeyDown={(e) => {
-        // Enter commits rather than inserting a line break — items created via TimeBlockAddForm are
-        // always single-line, so editing one stays single-line too.
-        if (e.key === 'Enter') {
+        // Enter = lưu (blur); Shift+Enter = xuống hàng như bình thường (vd nghĩa nhiều dòng của 1 từ).
+        // Bỏ qua Enter lúc bộ gõ (IME) còn đang ghép chữ.
+        if (e.key === 'Enter' && !e.shiftKey && !e.nativeEvent.isComposing) {
           e.preventDefault()
           e.currentTarget.blur()
         }
