@@ -194,7 +194,13 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
         zIndex: editing ? 1 : undefined,
       }}
       onClick={() => !editing && onStartEdit()}
-      onFocus={onStartEdit}
+      // Chỉ vào chế độ sửa khi focus vào Ô GÕ CHỮ. Focus vào nút (checkbox, ô nghĩa đang che, ×, tiêu đề cột) xảy ra
+      // ngay lúc nhấn chuột xuống: nếu lúc đó vào chế độ sửa, thanh màu + ô header chèn lên đầu note đẩy cả nội dung
+      // xuống → nhả chuột ra thì nút đã trôi khỏi chỗ bấm, click bị mất → phải bấm lần 2. Nút giờ ăn ngay lần đầu
+      // (và tự lo việc của nó); bấm vào chỗ trống trong note vẫn mở chế độ sửa qua onClick ở trên.
+      onFocus={(e) => {
+        if (e.target.matches('input, textarea, [contenteditable="true"]')) onStartEdit()
+      }}
       onBlur={handleRootBlur}
     >
       <div
@@ -323,7 +329,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                     type="button"
                     className="nt-note-done-toggle"
                     aria-label={b.done ? 'Mark as not done' : 'Mark as done'}
-                    onClick={() => toggleTimeBlockDone(note.id, b.id)}
+                    onClick={(e) => { e.stopPropagation(); toggleTimeBlockDone(note.id, b.id) }}
                   >
                     {b.done && '✓'}
                   </button>
@@ -359,7 +365,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
                     type="button"
                     className="nt-note-done-toggle"
                     aria-label={b.done ? 'Mark as not done' : 'Mark as done'}
-                    onClick={() => toggleTimeBlockDone(note.id, b.id)}
+                    onClick={(e) => { e.stopPropagation(); toggleTimeBlockDone(note.id, b.id) }}
                   >
                     {b.done && '✓'}
                   </button>
@@ -632,6 +638,12 @@ function TimeBlockText({
 }) {
   const [value, setValue] = useState(text)
   const ref = useRef<HTMLTextAreaElement>(null)
+  // Nội dung đổi từ chỗ khác (vd đổi tên mục Daily todo) → cập nhật lại ô ngay trong lúc render, không dùng effect.
+  const [syncedText, setSyncedText] = useState(text)
+  if (text !== syncedText) {
+    setSyncedText(text)
+    setValue(text)
+  }
 
   useEffect(() => {
     const el = ref.current
@@ -640,8 +652,9 @@ function TimeBlockText({
     el.style.height = `${el.scrollHeight}px`
   }, [value, editable])
 
-  if (!editable) return <span className={className}>{text}</span>
-
+  // LUÔN là <textarea> (chỉ đọc khi note chưa ở chế độ sửa) chứ không đổi qua lại với <span>: bấm 1 lần vào chữ
+  // là focus đúng ô này → note vào chế độ sửa (onFocus ở thẻ gốc) → ô hết readOnly mà vẫn giữ focus + con trỏ đúng
+  // chỗ vừa bấm. Trước đây bấm lần 1 chỉ để note vào chế độ sửa (span → textarea, mất chỗ bấm), lần 2 mới gõ được.
   function commit() {
     const next = value.trim()
     if (!next && !allowEmpty) setValue(text)
@@ -653,6 +666,7 @@ function TimeBlockText({
       ref={ref}
       rows={1}
       className={`${className} nt-note-block-text-input`}
+      readOnly={!editable}
       value={value}
       onChange={(e) => setValue(e.target.value)}
       onBlur={commit}

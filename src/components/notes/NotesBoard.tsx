@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useNotesStore } from '@/lib/notes/store'
 import { OVERALL_DATE, type NoteKind, type StickyNote } from '@/lib/notes/types'
 import { StickyNoteCard } from './StickyNoteCard'
@@ -48,6 +48,11 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   // target canvasRef exactly.
   const mouseDownTargetRef = useRef<EventTarget | null>(null)
   const [outerSize, setOuterSize] = useState({ width: 0, height: 0 })
+  // Khoảng đệm trái/trên của "thế giới" note (offX/offY, đơn vị canvas) + kích thước canvas tối thiểu (minW/minH)
+  // — do zoom quanh con trỏ sinh ra (xem paint() bên dưới): thu nhỏ khi nội dung đã nhỏ hơn khung thì giữ điểm dưới
+  // chuột đứng yên cần CUỘN ÂM (trình duyệt không cho) → dồn phần âm đó thành khoảng đệm đẩy các note vào trong.
+  // Lưu thành state (chốt lúc hoạt ảnh zoom dừng) để render React khớp đúng khung hình cuối của hoạt ảnh.
+  const [view, setView] = useState({ offX: 0, offY: 0, minW: 0, minH: 0 })
   // Actual measured height of each note (via ResizeObserver) — needed so the canvas can grow to fit
   // rich-text content (which can span many lines) when a note sits near the bottom of the screen.
   const [heights, setHeights] = useState<Record<string, number>>({})
@@ -93,6 +98,13 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     if (e.button !== 0) return // only the left button pans/clicks — right-click is reserved for opening the kind-picker (see handleCanvasContextMenu)
     mouseDownTargetRef.current = e.target
     if (e.target !== canvasRef.current || !outerRef.current) return // only pan when starting from empty space, not while dragging a child note
+    // Nhấn-rồi-kéo cũng là thao tác BÔI ĐEN CHỮ mặc định của trình duyệt → kéo canvas qua note nào là chữ note đó
+    // bị bôi đen. Chặn mặc định ngay từ lúc nhấn + xoá vùng chọn cũ. Chặn mặc định thì ô chữ đang focus không tự
+    // mất focus như trước nữa → blur tay, để note đang sửa vẫn thoát chế độ sửa khi bấm ra chỗ trống (handleRootBlur).
+    e.preventDefault()
+    window.getSelection()?.removeAllRanges()
+    const active = document.activeElement
+    if (active instanceof HTMLElement && canvasRef.current.contains(active)) active.blur()
     canvasRef.current.setPointerCapture(e.pointerId)
     panRef.current = {
       startX: e.clientX,
@@ -139,9 +151,10 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     if (e.target !== canvasRef.current) return
     e.preventDefault()
     const rect = canvasRef.current.getBoundingClientRect()
-    const canvasWidth = rect.width / zoom
-    const x = Math.max(4, Math.min((e.clientX - rect.left) / zoom, canvasWidth - NOTE_WIDTH - 4))
-    const y = Math.max(4, (e.clientY - rect.top) / zoom)
+    // Toạ độ trong "thế giới" note = toạ độ canvas trừ khoảng đệm (view.offX/offY)
+    const worldWidth = rect.width / zoom - view.offX
+    const x = Math.max(4, Math.min((e.clientX - rect.left) / zoom - view.offX, worldWidth - NOTE_WIDTH - 4))
+    const y = Math.max(4, (e.clientY - rect.top) / zoom - view.offY)
     setChooserAt({ x, y })
   }
 
@@ -162,11 +175,123 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
     setChooserAt(null)
   }, [editingId])
 
-  function handleWheel(e: React.WheelEvent<HTMLDivElement>) {
-    if (!e.ctrlKey && !e.metaKey) return
-    e.preventDefault()
-    onZoomChange(clampZoom(zoom - e.deltaY * 0.001))
-  }
+  // Ctrl/⌘ + lăn chuột (và pinch 2 ngón trên touchpad — trình duyệt báo nó là wheel kèm ctrlKey) trong board
+  // chỉ zoom board, KHÔNG zoom cả trang. Phải là listener gốc { passive: false }: onWheel của React gắn ở chế
+  // độ passive nên preventDefault() bị bỏ qua — board zoom mà trình duyệt cũng zoom theo.
+  //
+  // Zoom MƯỢT quanh con trỏ (kiểu Figma/Miro):
+  // - mỗi sự kiện wheel nhân mức zoom đích với exp(-deltaY·k) — đều tay ở mọi mức zoom, pinch nhỏ thì zoom tinh;
+  // - mức zoom hiển thị trượt dần về đích bằng requestAnimationFrame;
+  // - trong lúc trượt KHÔNG đổi state React (đổi mỗi khung hình là render lại mọi note → giật): ghi thẳng
+  //   transform / kích thước canvas + khối đệm / vị trí cuộn lên DOM, xong mới báo onZoomChange() 1 lần;
+  // - điểm canvas dưới chuột (anchor) giữ nguyên chỗ suốt quá trình.
+  const zoomRef = useRef(zoom) // mức zoom ĐANG HIỂN THỊ (kể cả giữa hoạt ảnh)
+  const targetZoomRef = useRef(zoom)
+  const rafRef = useRef(0)
+  const anchorRef = useRef<{ canvasX: number; canvasY: number; viewX: number; viewY: number } | null>(null)
+  const onZoomChangeRef = useRef(onZoomChange)
+  const contentSizeRef = useRef({ width: 0, height: 0 })
+  const sizerRef = useRef<HTMLDivElement>(null)
+  const worldRef = useRef<HTMLDivElement>(null)
+  const offRef = useRef({ x: 0, y: 0 }) // khoảng đệm ĐANG HIỂN THỊ (đơn vị canvas) — như view.offX/offY nhưng cả giữa hoạt ảnh
+  const lastPaintRef = useRef({ offX: 0, offY: 0, minW: 0, minH: 0 })
+  useLayoutEffect(() => {
+    onZoomChangeRef.current = onZoomChange
+    // Không có hoạt ảnh → đồng bộ lại theo state (zoom đổi từ nút −/+/⟲, khoảng đệm đã chốt)
+    if (!rafRef.current) {
+      zoomRef.current = zoom
+      targetZoomRef.current = zoom
+      offRef.current = { x: view.offX, y: view.offY }
+    }
+  })
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
+
+  useEffect(() => {
+    const outer = outerRef.current
+    if (!outer) return
+
+    // Ghi 1 mức zoom thẳng lên DOM, giữ điểm neo (toạ độ "thế giới" dưới chuột) đứng yên trên màn hình.
+    // Màn hình = (P + off)·z − scroll. Muốn = viewX → (scroll − off·z) = P·z − viewX =: need. need ≥ 0 thì cuộn tới
+    // đó, khoảng đệm 0; need < 0 (thu nhỏ khi nội dung đã nhỏ hơn khung — phải "cuộn âm") thì cuộn 0 và đẩy các
+    // note vào trong một khoảng đệm off = −need / z. Canvas đủ lớn để cuộn được tới đó (minW/minH).
+    const paint = (z: number) => {
+      const canvas = canvasRef.current
+      const sizer = sizerRef.current
+      const world = worldRef.current
+      const a = anchorRef.current
+      if (!canvas || !sizer || !world || !a) return
+      const { width: cw, height: ch } = contentSizeRef.current
+      const needX = a.canvasX * z - a.viewX
+      const needY = a.canvasY * z - a.viewY
+      const offX = needX < 0 ? -needX / z : 0
+      const offY = needY < 0 ? -needY / z : 0
+      const scrollX = Math.max(0, needX)
+      const scrollY = Math.max(0, needY)
+      const minW = (scrollX + outer.clientWidth) / z
+      const minH = (scrollY + outer.clientHeight) / z
+      const w = Math.max(outer.clientWidth / z, cw + offX, minW)
+      const h = Math.max(outer.clientHeight / z, ch + offY, minH)
+      canvas.style.transform = `scale(${z})`
+      canvas.style.width = `${w}px`
+      canvas.style.height = `${h}px`
+      sizer.style.width = `${w * z}px`
+      sizer.style.height = `${h * z}px`
+      world.style.left = `${offX}px`
+      world.style.top = `${offY}px`
+      outer.scrollLeft = scrollX
+      outer.scrollTop = scrollY
+      offRef.current = { x: offX, y: offY }
+      lastPaintRef.current = { offX, offY, minW, minH }
+    }
+
+    let last = 0
+    const step = (t: number) => {
+      const dt = last ? Math.min(64, t - last) : 16.7
+      last = t
+      const target = targetZoomRef.current
+      const cur = zoomRef.current
+      // ~22% quãng còn lại mỗi khung 60Hz, quy đổi theo thời gian thật để màn 120Hz cũng trượt cùng tốc độ
+      let next = cur + (target - cur) * (1 - Math.pow(1 - 0.22, dt / 16.7))
+      const done = Math.abs(target - next) < 0.0015
+      if (done) next = target
+      zoomRef.current = next
+      paint(next)
+      if (done) {
+        rafRef.current = 0
+        last = 0
+        anchorRef.current = null
+        // Chốt khoảng đệm + kích thước tối thiểu của khung hình cuối vào state cùng lúc với zoom (cùng 1 lượt
+        // render) — render React ra đúng y như DOM đang hiển thị, không nhảy.
+        setView(lastPaintRef.current)
+        onZoomChangeRef.current(target)
+      } else {
+        rafRef.current = requestAnimationFrame(step)
+      }
+    }
+
+    const onWheel = (e: WheelEvent) => {
+      if (!e.ctrlKey && !e.metaKey) return
+      e.preventDefault()
+      const target = clampZoom(targetZoomRef.current * Math.exp(-e.deltaY * 0.002))
+      if (target === targetZoomRef.current && !rafRef.current) return
+      // Neo theo mức zoom ĐANG HIỂN THỊ — lăn tiếp giữa chừng hoạt ảnh vẫn neo đúng chỗ dưới chuột.
+      const cur = zoomRef.current
+      const rect = outer.getBoundingClientRect()
+      const viewX = e.clientX - rect.left
+      const viewY = e.clientY - rect.top
+      // Toạ độ "thế giới" (đã trừ khoảng đệm) của điểm dưới chuột
+      anchorRef.current = {
+        canvasX: (outer.scrollLeft + viewX) / cur - offRef.current.x,
+        canvasY: (outer.scrollTop + viewY) / cur - offRef.current.y,
+        viewX,
+        viewY,
+      }
+      targetZoomRef.current = target
+      if (!rafRef.current) rafRef.current = requestAnimationFrame(step)
+    }
+    outer.addEventListener('wheel', onWheel, { passive: false })
+    return () => outer.removeEventListener('wheel', onWheel)
+  }, [])
 
   const contentHeight = notes.reduce(
     (max, n) => Math.max(max, n.y + (heights[n.id] ?? NOTE_HEIGHT_ESTIMATE) + BOARD_BOTTOM_GAP),
@@ -181,53 +306,73 @@ export function NotesBoard({ date, notes, editingId, zoom, onZoomChange, onStart
   // it still fully covers the outer container — so "click anywhere on screen" always works, with no
   // dead zone that can't be clicked — but it can still grow WIDER/TALLER based on actual content
   // (contentWidth/contentHeight) to pan/scroll to a note outside the initially visible area.
-  const canvasWidth = Math.max(outerSize.width > 0 ? outerSize.width / zoom : 0, contentWidth) || undefined
-  const canvasHeight = Math.max(outerSize.height > 0 ? outerSize.height / zoom : 0, contentHeight)
+  // + khoảng đệm / kích thước tối thiểu do zoom quanh con trỏ để lại (view, xem paint()).
+  const canvasWidth = Math.max(outerSize.width > 0 ? outerSize.width / zoom : 0, contentWidth + view.offX, view.minW) || undefined
+  const canvasHeight = Math.max(outerSize.height > 0 ? outerSize.height / zoom : 0, contentHeight + view.offY, view.minH)
+  useLayoutEffect(() => {
+    contentSizeRef.current = { width: contentWidth, height: contentHeight }
+  })
 
   return (
-    <div ref={outerRef} className="nt-board-outer" onWheel={handleWheel}>
+    <div ref={outerRef} className="nt-board-outer">
+      {/* transform: scale() không đổi kích thước bố cục → nếu để canvas tự quyết vùng cuộn thì zoom nhỏ dư chỗ
+          trống, zoom to lại cắt mất phần tràn. Khối đệm này mang đúng kích thước SAU khi zoom để thanh cuộn
+          (cả ngang lẫn dọc) luôn khớp với thứ đang thấy; canvas nằm tuyệt đối bên trong và chỉ việc phóng to/thu nhỏ. */}
       <div
-        ref={canvasRef}
-        className={`nt-board-canvas${isPanning ? ' panning' : ''}`}
-        style={{ width: canvasWidth, height: canvasHeight || undefined, transform: `scale(${zoom})`, transformOrigin: '0 0' }}
-        onPointerDown={handleCanvasPointerDown}
-        onPointerMove={handleCanvasPointerMove}
-        onPointerUp={handleCanvasPointerUp}
-        onContextMenu={handleCanvasContextMenu}
+        ref={sizerRef}
+        className="nt-board-sizer"
+        style={{
+          width: canvasWidth ? canvasWidth * zoom : undefined,
+          height: canvasHeight ? canvasHeight * zoom : undefined,
+        }}
       >
-        {notes.length === 0 && <p className="nt-board-empty">Right-click anywhere to add a note or timeline</p>}
-        {notes.map((note) => (
-          <StickyNoteCard
-            key={note.id}
-            note={note}
-            editing={editingId === note.id}
-            zoom={zoom}
-            onStartEdit={() => onStartEdit(note.id)}
-            onStopEdit={onStopEdit}
-            onHeightChange={handleHeightChange}
-          />
-        ))}
+        <div
+          ref={canvasRef}
+          className={`nt-board-canvas${isPanning ? ' panning' : ''}`}
+          style={{ width: canvasWidth, height: canvasHeight || undefined, transform: `scale(${zoom})`, transformOrigin: '0 0' }}
+          onPointerDown={handleCanvasPointerDown}
+          onPointerMove={handleCanvasPointerMove}
+          onPointerUp={handleCanvasPointerUp}
+          onContextMenu={handleCanvasContextMenu}
+        >
+          {notes.length === 0 && <p className="nt-board-empty">Right-click anywhere to add a note or timeline</p>}
+          {/* "Thế giới" các note — dịch vào trong theo khoảng đệm view.offX/offY (zoom quanh con trỏ khi thu nhỏ).
+              Kích thước 0 nên bấm vào chỗ trống vẫn trúng canvas (pan / chuột phải tạo note) như cũ. */}
+          <div ref={worldRef} className="nt-board-world" style={{ left: view.offX, top: view.offY }}>
+            {notes.map((note) => (
+              <StickyNoteCard
+                key={note.id}
+                note={note}
+                editing={editingId === note.id}
+                zoom={zoom}
+                onStartEdit={() => onStartEdit(note.id)}
+                onStopEdit={onStopEdit}
+                onHeightChange={handleHeightChange}
+              />
+            ))}
 
-        {chooserAt && (
-          <div
-            className="nt-kind-chooser"
-            style={{ left: chooserAt.x, top: chooserAt.y }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button type="button" onClick={() => handleChooseKind('note')}>
-              📝 Note
-            </button>
-            <button type="button" onClick={() => handleChooseKind('timeline')}>
-              🕐 Timeline
-            </button>
-            {/* Vocab lists aren't tied to a day, so they're only offered on the Overall board. */}
-            {date === OVERALL_DATE && (
-              <button type="button" onClick={() => handleChooseKind('vocab')}>
-                📖 Vocab
-              </button>
+            {chooserAt && (
+              <div
+                className="nt-kind-chooser"
+                style={{ left: chooserAt.x, top: chooserAt.y }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button type="button" onClick={() => handleChooseKind('note')}>
+                  📝 Note
+                </button>
+                <button type="button" onClick={() => handleChooseKind('timeline')}>
+                  🕐 Timeline
+                </button>
+                {/* Vocab lists aren't tied to a day, so they're only offered on the Overall board. */}
+                {date === OVERALL_DATE && (
+                  <button type="button" onClick={() => handleChooseKind('vocab')}>
+                    📖 Vocab
+                  </button>
+                )}
+              </div>
             )}
           </div>
-        )}
+        </div>
       </div>
     </div>
   )
