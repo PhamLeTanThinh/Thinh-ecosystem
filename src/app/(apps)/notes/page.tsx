@@ -29,6 +29,8 @@ export default function NotesPage() {
   const [editingId, setEditingId] = useState<string | null>(null)
   const [activeTag, setActiveTag] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  // Cột Topics bên phải của Overall — thu gọn được để board rộng hơn
+  const [topicsOpen, setTopicsOpen] = useState(true)
   const [timelineOpen, setTimelineOpen] = useState(false)
   const [dailyOpen, setDailyOpen] = useState(false)
   const [zoom, setZoom] = useState(1)
@@ -72,6 +74,9 @@ export default function NotesPage() {
       : topicChoice === null && overallCounts.has('')
         ? null
         : (topics[0]?.id ?? null)
+  // Hiện trên nút "Topics" khi cột đã thu gọn — vẫn biết đang ở chủ đề nào
+  const activeTopicName =
+    topics.find((t) => t.id === activeTopicId)?.title ?? (activeTopicId === null && overallCounts.has('') ? 'Uncategorized' : '')
 
   const notesForDay = useMemo(
     () =>
@@ -276,6 +281,12 @@ export default function NotesPage() {
           </button>
         )}
 
+        {isOverall && !topicsOpen && (
+          <button type="button" className="nt-sidebar-toggle" title="Mở danh sách chủ đề" onClick={() => setTopicsOpen(true)}>
+            Topics{activeTopicName ? ` · ${activeTopicName}` : ''}
+          </button>
+        )}
+
         {view === 'board' && !sidebarOpen && (
           <button
             type="button"
@@ -314,8 +325,9 @@ export default function NotesPage() {
             topicId={isOverall ? activeTopicId : null}
           />
 
-          {isOverall && (
+          {isOverall && topicsOpen && (
             <TopicsSidebar
+              onClose={() => setTopicsOpen(false)}
               activeTopicId={activeTopicId}
               counts={overallCounts}
               onSelectTopic={(id) => {

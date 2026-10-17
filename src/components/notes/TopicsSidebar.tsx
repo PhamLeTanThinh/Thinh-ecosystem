@@ -12,11 +12,13 @@ interface Props {
   // Notes per topic id ('' key = Uncategorized, i.e. Overall notes with no topic).
   counts: Map<string, number>;
   onSelectTopic: (id: string | null) => void;
+  // Thu gọn cột (mở lại bằng nút "Topics" trên thanh trên cùng — page.tsx)
+  onClose: () => void;
 }
 
 // Right column of the Overall view — the user's own topics, each one a separate board (see
 // StickyNote.topicId). Click to open, double-click to rename.
-export function TopicsSidebar({ activeTopicId, counts, onSelectTopic }: Props) {
+export function TopicsSidebar({ activeTopicId, counts, onSelectTopic, onClose }: Props) {
   const topics = useNotesStore((s) => s.topics);
   const addTopic = useNotesStore((s) => s.addTopic);
   const renameTopic = useNotesStore((s) => s.renameTopic);
@@ -49,6 +51,9 @@ export function TopicsSidebar({ activeTopicId, counts, onSelectTopic }: Props) {
     <aside className="nt-sidebar">
       <div className="nt-sidebar-header">
         <span>Topics</span>
+        <button type="button" aria-label="Thu gọn danh sách chủ đề" title="Thu gọn" onClick={onClose}>
+          ×
+        </button>
       </div>
 
       <form className="nt-timeline-add" onSubmit={handleSubmit}>
