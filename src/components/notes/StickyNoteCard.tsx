@@ -765,6 +765,19 @@ function VocabAddForm({
 // treat it as "click empty note area" — harmless here since the note is already editing, but
 // stopping it is what lets a click land in the field and place the caret instead of only ever
 // focusing it at the start/end.
+// Cho ô cao vừa đủ chữ bằng MIN-height chứ không phải height cố định: trong lưới vocab, ô ngắn hơn phải được
+// giãn (align-items: stretch) cho bằng ô cao nhất cùng hàng thì đường kẻ dưới/giữa 2 cột mới liền nhau — height
+// cố định chặn việc giãn đó (ô Word thấp hơn ô Nghĩa → kẻ bị đứt/lệch). Đo ở height 0 để chiều cao đang được
+// giãn của hàng không làm sai số đo.
+function fitTextarea(el: HTMLTextAreaElement) {
+  el.style.minHeight = '0'
+  el.style.height = '0'
+  const border = el.offsetHeight - el.clientHeight
+  const need = el.scrollHeight + border
+  el.style.height = ''
+  el.style.minHeight = `${need}px`
+}
+
 function TimeBlockText({
   className,
   text,
@@ -788,10 +801,7 @@ function TimeBlockText({
   }
 
   useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    el.style.height = 'auto'
-    el.style.height = `${el.scrollHeight}px`
+    if (ref.current) fitTextarea(ref.current)
   }, [value, editable])
 
   // Kéo note rộng/hẹp lại (hoặc kéo thanh chia cột) → chữ xuống dòng khác đi → tính lại chiều cao, không thì ô giữ
@@ -804,8 +814,7 @@ function TimeBlockText({
     const ro = new ResizeObserver(() => {
       if (el.clientWidth === lastWidth) return
       lastWidth = el.clientWidth
-      el.style.height = 'auto'
-      el.style.height = `${el.scrollHeight}px`
+      fitTextarea(el)
     })
     ro.observe(el)
     return () => ro.disconnect()
