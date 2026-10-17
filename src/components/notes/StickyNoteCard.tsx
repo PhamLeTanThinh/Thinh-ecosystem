@@ -88,6 +88,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     height: number
     noteX: number
     noteY: number
+    minHeight: number
     dirX: -1 | 0 | 1
     dirY: -1 | 0 | 1
   } | null>(null)
@@ -146,6 +147,18 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     e.stopPropagation()
     e.preventDefault()
     e.currentTarget.setPointerCapture(e.pointerId)
+    // Note vocab/timeline không cuộn bên trong: không cho kéo thấp hơn chiều cao nội dung (đo bằng cách tạm bỏ
+    // height/minHeight). Note rich text thì nội dung cuộn trong khung nên chỉ cần MIN_HEIGHT.
+    let minHeight = MIN_HEIGHT
+    const el = rootRef.current
+    if (el && note.kind !== 'note') {
+      const { height, minHeight: prevMin } = el.style
+      el.style.height = 'auto'
+      el.style.minHeight = '0'
+      minHeight = Math.max(MIN_HEIGHT, el.offsetHeight)
+      el.style.height = height
+      el.style.minHeight = prevMin
+    }
     resizeRef.current = {
       startX: e.clientX,
       startY: e.clientY,
@@ -153,6 +166,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
       height: rootRef.current?.offsetHeight ?? note.height ?? MIN_HEIGHT,
       noteX: note.x,
       noteY: note.y,
+      minHeight,
       dirX,
       dirY,
     }
@@ -173,7 +187,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     }
     if (r.dirY !== 0) {
       const maxHeight = r.dirY < 0 ? r.noteY + r.height - minY : Infinity
-      size.height = Math.min(maxHeight, Math.max(MIN_HEIGHT, r.height + dy * r.dirY))
+      size.height = Math.min(maxHeight, Math.max(r.minHeight, r.height + dy * r.dirY))
       if (r.dirY < 0) pos = { x: pos?.x ?? r.noteX, y: r.noteY + r.height - size.height }
     }
     liveSizeRef.current = size
@@ -241,8 +255,10 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   // form further down on every Enter — for those, the resized height is just a floor and the frame
   // grows with its rows.
   const growsWithContent = note.kind !== 'note'
-  const height = liveSize?.height ?? (growsWithContent ? undefined : editHeight)
-  const minHeight = liveSize?.height != null ? undefined : growsWithContent ? editHeight : undefined
+  // Với note tự giãn, chiều cao đang kéo cũng chỉ là mức sàn (minHeight) → khung không bao giờ thấp hơn nội dung
+  // (trước đây là height cố định nên kéo nhỏ được hơn nội dung, các hàng tràn ra ngoài khung).
+  const height = growsWithContent ? undefined : liveSize?.height ?? editHeight
+  const minHeight = growsWithContent ? liveSize?.height ?? editHeight : undefined
 
   // Items with no time show as a plain todo-list entry (checkbox + text only); items with a time
   // show in schedule form (vertical timeline, sorted by time) — a single 'timeline' note can mix
