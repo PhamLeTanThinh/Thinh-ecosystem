@@ -794,6 +794,23 @@ function TimeBlockText({
     el.style.height = `${el.scrollHeight}px`
   }, [value, editable])
 
+  // Kéo note rộng/hẹp lại (hoặc kéo thanh chia cột) → chữ xuống dòng khác đi → tính lại chiều cao, không thì ô giữ
+  // nguyên chiều cao cũ và để lại khoảng trống thừa. Chỉ phản ứng khi BỀ RỘNG đổi (đổi height ở đây cũng kích hoạt
+  // observer).
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    let lastWidth = el.clientWidth
+    const ro = new ResizeObserver(() => {
+      if (el.clientWidth === lastWidth) return
+      lastWidth = el.clientWidth
+      el.style.height = 'auto'
+      el.style.height = `${el.scrollHeight}px`
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
   // LUÔN là <textarea> (chỉ đọc khi note chưa ở chế độ sửa) chứ không đổi qua lại với <span>: bấm 1 lần vào chữ
   // là focus đúng ô này → note vào chế độ sửa (onFocus ở thẻ gốc) → ô hết readOnly mà vẫn giữ focus + con trỏ đúng
   // chỗ vừa bấm. Trước đây bấm lần 1 chỉ để note vào chế độ sửa (span → textarea, mất chỗ bấm), lần 2 mới gõ được.
