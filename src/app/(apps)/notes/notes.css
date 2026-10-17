@@ -655,6 +655,12 @@
   padding: 4px 10px 6px;
   box-shadow: 0 1px 3px rgba(24, 24, 27, 0.07);
   cursor: text;
+  /* left/top: note bị đẩy ra khi note bên cạnh được kéo to (pushAwayOverlaps) trượt tới chỗ mới */
+  transition: box-shadow 0.15s ease, border-color 0.15s ease, left 0.2s ease, top 0.2s ease;
+}
+
+/* Note đang được kéo/đổi kích thước bám theo chuột ngay, không trễ */
+.nt-note.nt-note-live {
   transition: box-shadow 0.15s ease, border-color 0.15s ease;
 }
 

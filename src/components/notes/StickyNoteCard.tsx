@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useNotesStore } from '@/lib/notes/store'
 import { NOTE_COLORS, type NoteColor, type StickyNote } from '@/lib/notes/types'
 import { NoteEditor } from './NoteEditor'
@@ -19,6 +19,93 @@ const RESIZE_EDGES: [string, -1 | 0 | 1, -1 | 0 | 1][] = [
   ['top', 0, -1],
   ['bottom', 0, 1],
 ]
+
+// Khoảng cách chừa lại giữa note vừa kéo to và note bị đẩy ra
+const PUSH_GAP = 12
+
+type Rect = { x: number; y: number; w: number; h: number }
+
+function rectsOverlap(a: Rect, b: Rect) {
+  return a.x < b.x + b.w && b.x < a.x + a.w && a.y < b.y + b.h && b.y < a.y + a.h
+}
+
+// Kéo to 1 note mà đè lên note bên cạnh → đẩy note đó ra. Hướng đẩy theo VỊ TRÍ của note kia so với note đẩy
+// TRƯỚC khi đổi kích thước: nằm dưới → đẩy xuống, nằm bên phải → đẩy sang phải, (trái/trên tương tự). Không xác
+// định được (vốn đã chồng nhau) thì đẩy theo hướng đang kéo, chọn hướng dời ít nhất. Note bị đẩy mà lại đè note
+// khác thì đẩy tiếp (dây chuyền). Đo bằng offsetLeft/Top (toạ độ board, chưa nhân zoom) của các note trên cùng
+// board. Trả về vị trí mới của các note bị dời.
+// onlyNew: chỉ đẩy những note TRƯỚC ĐÓ không chồng lên note này (note vốn đã chồng sẵn thì để yên) — dùng khi note
+// tự cao ra vì nội dung.
+function pushAwayOverlaps(
+  el: HTMLElement,
+  startRect: Rect,
+  dirX: -1 | 0 | 1,
+  dirY: -1 | 0 | 1,
+  minX: number,
+  minY: number,
+  onlyNew = false,
+) {
+  const id = el.dataset.noteId
+  const rects = new Map<string, Rect>()
+  el.parentElement?.querySelectorAll<HTMLElement>(':scope > [data-note-id]').forEach((n) => {
+    // Vị trí lấy từ style (vị trí ĐÍCH) chứ không phải offsetLeft/Top: note vừa bị đẩy đang trượt (transition) thì
+    // offset là vị trí giữa chừng.
+    const x = parseFloat(n.style.left)
+    const y = parseFloat(n.style.top)
+    rects.set(n.dataset.noteId!, {
+      x: Number.isNaN(x) ? n.offsetLeft : x,
+      y: Number.isNaN(y) ? n.offsetTop : y,
+      w: n.offsetWidth,
+      h: n.offsetHeight,
+    })
+  })
+  if (!id || !rects.has(id)) return []
+  // Vị trí ban đầu của mọi note (note vừa kéo: khung lúc bắt đầu kéo) — để biết note nào nằm phía nào
+  const before = new Map(rects)
+  before.set(id, startRect)
+  // Kéo ngang (dirY = 0) vẫn đổi chiều cao: note tự giãn bị kéo hẹp → chữ xuống dòng nhiều hơn → note cao ra và đè
+  // note bên dưới. Nên lúc đó vẫn cho đẩy xuống dưới.
+  const pushY = dirY !== 0 ? dirY : 1
+  const moved = new Set<string>()
+  const queue = [id]
+  for (let guard = 0; queue.length && guard < 500; guard++) {
+    const srcId = queue.shift()!
+    const src = rects.get(srcId)!
+    const was = before.get(srcId)!
+    for (const [otherId, o] of rects) {
+      if (otherId === id || otherId === srcId || !rectsOverlap(src, o)) continue
+      const right = { x: src.x + src.w + PUSH_GAP, y: o.y }
+      const left = { x: src.x - PUSH_GAP - o.w, y: o.y }
+      const down = { x: o.x, y: src.y + src.h + PUSH_GAP }
+      const up = { x: o.x, y: src.y - PUSH_GAP - o.h }
+      const ob = before.get(otherId)!
+      if (onlyNew && srcId === id && rectsOverlap(startRect, ob)) continue
+      let best: { x: number; y: number } | undefined
+      if (ob.y >= was.y + was.h) best = down
+      else if (ob.y + ob.h <= was.y) best = up
+      else if (ob.x >= was.x + was.w) best = right
+      else if (ob.x + ob.w <= was.x) best = left
+      else {
+        // Chỉ đẩy note nằm PHÍA TRƯỚC theo hướng đẩy (vd đẩy sang phải: mép trái note kia ≥ mép trái note đẩy) —
+        // không thì 2 note cùng bị đẩy sẽ đẩy qua đẩy lại nhau mãi (nhảy cóc), toạ độ vọt ra rất xa.
+        const options: { x: number; y: number; dist: number }[] = []
+        if (dirX === 1 && o.x >= src.x) options.push({ ...right, dist: right.x - o.x })
+        if (dirX === -1 && o.x + o.w <= src.x + src.w) options.push({ ...left, dist: o.x - left.x })
+        if (pushY === 1 && o.y >= src.y) options.push({ ...down, dist: down.y - o.y })
+        if (pushY === -1 && o.y + o.h <= src.y + src.h) options.push({ ...up, dist: o.y - up.y })
+        best = options.sort((a, b) => a.dist - b.dist)[0]
+      }
+      if (!best) continue
+      // Không đẩy ra ngoài mép trái/trên của board
+      const next = { ...o, x: Math.max(minX, best.x), y: Math.max(minY, best.y) }
+      if (next.x === o.x && next.y === o.y) continue
+      rects.set(otherId, next)
+      moved.add(otherId)
+      queue.push(otherId)
+    }
+  }
+  return [...moved].map((m) => ({ id: m, x: rects.get(m)!.x, y: rects.get(m)!.y }))
+}
 
 const COLOR_HEX: Record<NoteColor, string> = {
   yellow: '#E8B324',
@@ -95,10 +182,32 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
 
   // The parent band needs to know the note's real height (rich text can span many lines) so it can
   // grow accordingly, avoiding a note overlapping the next week's band.
+  //
+  // Đồng thời: note đang sửa mà CAO RA vì nội dung (gõ đoạn dài, thêm từ/dòng) → đẩy note bên dưới bị đè xuống
+  // (pushAwayOverlaps, như lúc kéo viền). Tính cả phần cao thêm khi vừa vào chế độ sửa (thanh màu + ô header hiện
+  // ra) vì lúc đó note cũng đè thật. Không tính lúc đang kéo viền/kéo note (thả chuột tự xử lý); note vốn đã chồng
+  // sẵn từ trước thì để yên (onlyNew).
+  const prevHeightRef = useRef<number | null>(null)
+  const growCtxRef = useRef({ editing, minX, minY })
+  useLayoutEffect(() => {
+    growCtxRef.current = { editing, minX, minY }
+  })
+
   useEffect(() => {
     const el = rootRef.current
     if (!el) return
-    const report = () => onHeightChange(note.id, el.offsetHeight)
+    const report = () => {
+      const h = el.offsetHeight
+      onHeightChange(note.id, h)
+      const prev = prevHeightRef.current
+      prevHeightRef.current = h
+      const ctx = growCtxRef.current
+      if (prev == null || h <= prev || !ctx.editing || resizeRef.current || dragRef.current) return
+      const startRect = { x: parseFloat(el.style.left) || 0, y: parseFloat(el.style.top) || 0, w: el.offsetWidth, h: prev }
+      const pushed = pushAwayOverlaps(el, startRect, 0, 1, ctx.minX, ctx.minY, true)
+      const { updateNote } = useNotesStore.getState()
+      for (const p of pushed) updateNote(p.id, { x: p.x, y: p.y })
+    }
     report()
     const ro = new ResizeObserver(report)
     ro.observe(el)
@@ -197,16 +306,20 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
   }
 
   function handleResizePointerUp(e: React.PointerEvent<HTMLDivElement>) {
-    if (!resizeRef.current) return
+    const r = resizeRef.current
+    if (!r) return
     resizeRef.current = null
     e.currentTarget.releasePointerCapture(e.pointerId)
     const size = liveSizeRef.current
     const pos = livePosRef.current
+    // Đo khung lúc này (vẫn đang hiển thị kích thước kéo) TRƯỚC khi xoá live state
+    const pushed = rootRef.current ? pushAwayOverlaps(rootRef.current, { x: r.noteX, y: r.noteY, w: r.width, h: r.height }, r.dirX, r.dirY, minX, minY) : []
     liveSizeRef.current = null
     livePosRef.current = null
     setLiveSize(null)
     setLivePos(null)
     if (size || pos) updateNote(note.id, { ...size, ...pos })
+    for (const p of pushed) updateNote(p.id, { x: p.x, y: p.y })
   }
 
   function handleSplitPointerDown(e: React.PointerEvent<HTMLDivElement>) {
@@ -272,7 +385,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     <div
       ref={rootRef}
       data-note-id={note.id}
-      className="nt-note"
+      className={`nt-note${livePos || liveSize ? ' nt-note-live' : ''}`}
       style={{
         left: x,
         top: y,
