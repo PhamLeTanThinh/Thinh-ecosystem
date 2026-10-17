@@ -44,6 +44,8 @@ function pushAwayOverlaps(
   minX: number,
   minY: number,
   onlyNew = false,
+  // Coi các note này như đang ở vị trí này (thay cho vị trí đang hiển thị) — dùng khi trả note về chỗ cũ
+  overrides?: Map<string, { x: number; y: number }>,
 ) {
   const id = el.dataset.noteId
   const rects = new Map<string, Rect>()
@@ -60,6 +62,10 @@ function pushAwayOverlaps(
     })
   })
   if (!id || !rects.has(id)) return []
+  overrides?.forEach((pos, oid) => {
+    const r = rects.get(oid)
+    if (r) rects.set(oid, { ...r, ...pos })
+  })
   // Vị trí ban đầu của mọi note (note vừa kéo: khung lúc bắt đầu kéo) — để biết note nào nằm phía nào
   const before = new Map(rects)
   before.set(id, startRect)
@@ -193,6 +199,44 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     growCtxRef.current = { editing, minX, minY }
   })
 
+  // Note bị đẩy trong lúc sửa chỉ bị đẩy TẠM: thoát sửa (thanh màu/header/form thêm biến mất, note co lại) thì trả
+  // chúng về chỗ cũ — nếu nội dung thật sự dài ra thì chỉ lùi về sát mép dưới mới của note. start = khung note lúc
+  // bắt đầu sửa; moved = vị trí gốc + vị trí đã đẩy tới của từng note bị đẩy.
+  const editSessionRef = useRef<{
+    start: Rect
+    moved: Map<string, { orig: { x: number; y: number }; to: { x: number; y: number } }>
+  } | null>(null)
+  useLayoutEffect(() => {
+    const el = rootRef.current
+    if (!el) return
+    if (editing) {
+      // prevHeightRef vẫn là chiều cao TRƯỚC khi thanh màu/header hiện ra (ResizeObserver chưa chạy)
+      editSessionRef.current = {
+        start: { x: parseFloat(el.style.left) || 0, y: parseFloat(el.style.top) || 0, w: el.offsetWidth, h: prevHeightRef.current ?? el.offsetHeight },
+        moved: new Map(),
+      }
+      return
+    }
+    const session = editSessionRef.current
+    editSessionRef.current = null
+    if (!session?.moved.size) return
+    const { notes, updateNote } = useNotesStore.getState()
+    // Chỉ trả về những note vẫn nằm đúng chỗ mình đẩy tới (người dùng đã tự kéo đi chỗ khác thì thôi)
+    const overrides = new Map<string, { x: number; y: number }>()
+    for (const [id, m] of session.moved) {
+      const n = notes.find((x) => x.id === id)
+      if (n && n.x === m.to.x && n.y === m.to.y) overrides.set(id, m.orig)
+    }
+    if (!overrides.size) return
+    const { minX: mx, minY: my } = growCtxRef.current
+    const pushed = new Map(pushAwayOverlaps(el, session.start, 0, 1, mx, my, true, overrides).map((p) => [p.id, p]))
+    for (const [id, orig] of overrides) {
+      const p = pushed.get(id)
+      updateNote(id, p ? { x: p.x, y: p.y } : orig)
+    }
+    for (const p of pushed.values()) if (!overrides.has(p.id)) updateNote(p.id, { x: p.x, y: p.y })
+  }, [editing])
+
   useEffect(() => {
     const el = rootRef.current
     if (!el) return
@@ -205,8 +249,15 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
       if (prev == null || h <= prev || !ctx.editing || resizeRef.current || dragRef.current) return
       const startRect = { x: parseFloat(el.style.left) || 0, y: parseFloat(el.style.top) || 0, w: el.offsetWidth, h: prev }
       const pushed = pushAwayOverlaps(el, startRect, 0, 1, ctx.minX, ctx.minY, true)
-      const { updateNote } = useNotesStore.getState()
-      for (const p of pushed) updateNote(p.id, { x: p.x, y: p.y })
+      const { notes, updateNote } = useNotesStore.getState()
+      const session = editSessionRef.current
+      for (const p of pushed) {
+        if (session) {
+          const prevPos = session.moved.get(p.id)?.orig ?? notes.find((n) => n.id === p.id)
+          if (prevPos) session.moved.set(p.id, { orig: { x: prevPos.x, y: prevPos.y }, to: { x: p.x, y: p.y } })
+        }
+        updateNote(p.id, { x: p.x, y: p.y })
+      }
     }
     report()
     const ro = new ResizeObserver(report)
