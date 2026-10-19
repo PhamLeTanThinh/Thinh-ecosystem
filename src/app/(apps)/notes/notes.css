@@ -1714,6 +1714,32 @@
   cursor: default;
 }
 
+/* Topic đang mở có màu: nền pastel (inline), chữ giữ màu chữ thường, điểm nhấn là viền trái dày hơn
+   + số đếm thành viên thuốc màu gốc chữ trắng */
+.nt-tree-day.active.nt-topic-active-light {
+  border-left-width: 5px;
+}
+
+.nt-tree-day.active.nt-topic-active-light .nt-tree-day-btn,
+.nt-tree-day.active.nt-topic-active-light .nt-tree-delete,
+.nt-tree-day.active.nt-topic-active-light .nt-topic-folder-icon {
+  color: var(--color-nt-ink);
+}
+
+.nt-tree-day.active.nt-topic-active-light .nt-tree-day-btn {
+  font-weight: 600;
+}
+
+.nt-tree-day.active.nt-topic-active-light .nt-tree-count {
+  min-width: 20px;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--nt-topic-accent);
+  color: #fff;
+  font-weight: 600;
+  text-align: center;
+}
+
 .nt-topic-folder .nt-tree-day-btn {
   font-weight: 600;
 }

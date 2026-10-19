@@ -265,12 +265,28 @@ export function TopicsSidebar({ activeTopicId, counts, onSelectTopic, onClose }:
           isFolder ? "nt-topic-folder" : "",
           parent ? "nt-topic-sub" : "",
           isActive ? "active" : "",
+          // Nền pastel sáng → chữ trắng khó đọc, đổi sang chữ tối
+          isActive && color ? "nt-topic-active-light" : "",
           dragId === t.id ? "nt-topic-dragging" : "",
           hint ? `nt-topic-drop-${hint}` : "",
         ]
           .filter(Boolean)
           .join(" ")}
-        style={color ? { borderLeftColor: NOTE_COLOR_HEX[color] } : undefined}
+        // Hàng đang mở tô nền bằng bản pastel của chính màu topic (chưa có màu thì giữ nền đen mặc định)
+        style={
+          color
+            ? {
+                borderLeftColor: NOTE_COLOR_HEX[color],
+                ...(isActive
+                  ? {
+                      backgroundColor: `color-mix(in srgb, ${NOTE_COLOR_HEX[color]} 28%, var(--color-nt-surface))`,
+                      // Màu gốc cho điểm nhấn (số đếm dạng viên thuốc) — chữ vẫn giữ màu chữ thường
+                      "--nt-topic-accent": NOTE_COLOR_HEX[color],
+                    }
+                  : {}),
+              } as React.CSSProperties
+            : undefined
+        }
         draggable={renamingId !== t.id}
         onDragStart={(e) => {
           e.dataTransfer.effectAllowed = "move";
