@@ -2,11 +2,18 @@ import { NextRequest, NextResponse } from 'next/server'
 import { asc, notInArray } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { noteTopics } from '@/db/schema'
-import type { NoteTopic } from '@/lib/notes/types'
+import type { NoteColor, NoteTopic } from '@/lib/notes/types'
 
 export async function GET() {
   const rows = await db.select().from(noteTopics).orderBy(asc(noteTopics.sortOrder))
-  const topics: NoteTopic[] = rows.map((r) => ({ id: r.id, title: r.title, createdAt: r.createdAt.toISOString() }))
+  const topics: NoteTopic[] = rows.map((r) => ({
+    id: r.id,
+    title: r.title,
+    kind: r.kind === 'folder' ? 'folder' : 'topic',
+    parentId: r.parentId ?? null,
+    color: (r.color as NoteColor | null) ?? null,
+    createdAt: r.createdAt.toISOString(),
+  }))
   return NextResponse.json(topics)
 }
 
@@ -25,8 +32,19 @@ export async function PUT(req: NextRequest) {
     for (const [i, t] of topics.entries()) {
       await tx
         .insert(noteTopics)
-        .values({ id: t.id, title: t.title, sortOrder: i, createdAt: new Date(t.createdAt) })
-        .onConflictDoUpdate({ target: noteTopics.id, set: { title: t.title, sortOrder: i } })
+        .values({
+          id: t.id,
+          title: t.title,
+          kind: t.kind ?? 'topic',
+          parentId: t.parentId ?? null,
+          color: t.color ?? null,
+          sortOrder: i,
+          createdAt: new Date(t.createdAt),
+        })
+        .onConflictDoUpdate({
+          target: noteTopics.id,
+          set: { title: t.title, kind: t.kind ?? 'topic', parentId: t.parentId ?? null, color: t.color ?? null, sortOrder: i },
+        })
     }
   })
 

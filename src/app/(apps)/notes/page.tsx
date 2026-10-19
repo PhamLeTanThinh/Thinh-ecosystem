@@ -68,12 +68,14 @@ export default function NotesPage() {
   // undefined = nothing picked yet → fall back to the first topic. Also falls back when the picked
   // topic was deleted, or "Uncategorized" was picked but no longer has any notes.
   const [topicChoice, setTopicChoice] = useState<string | null | undefined>(undefined)
+  // Folder chỉ để gom topic, không phải board → không bao giờ là topic đang mở
+  const boardTopics = topics.filter((t) => t.kind !== 'folder')
   const activeTopicId =
-    topicChoice && topics.some((t) => t.id === topicChoice)
+    topicChoice && boardTopics.some((t) => t.id === topicChoice)
       ? topicChoice
       : topicChoice === null && overallCounts.has('')
         ? null
-        : (topics[0]?.id ?? null)
+        : (boardTopics[0]?.id ?? null)
   // Hiện trên nút "Topics" khi cột đã thu gọn — vẫn biết đang ở chủ đề nào
   const activeTopicName =
     topics.find((t) => t.id === activeTopicId)?.title ?? (activeTopicId === null && overallCounts.has('') ? 'Uncategorized' : '')

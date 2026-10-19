@@ -336,6 +336,9 @@ export const stickyNotes = pgTable('sticky_notes', {
 export const noteTopics = pgTable('note_topics', {
   id: text('id').primaryKey(),
   title: text('title').notNull(),
+  kind: varchar('kind', { length: 10 }).default('topic').notNull(), // 'topic' (a board) | 'folder' (only groups topics)
+  parentId: text('parent_id'), // null = top-level; otherwise the folder it sits in (max 2 levels, see lib/notes/types.ts)
+  color: varchar('color', { length: 10 }), // optional accent, same values as sticky_notes.color
   sortOrder: integer('sort_order').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

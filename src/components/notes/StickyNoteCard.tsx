@@ -2,7 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useNotesStore } from '@/lib/notes/store'
-import { NOTE_COLORS, type NoteColor, type StickyNote } from '@/lib/notes/types'
+import { NOTE_COLOR_HEX as COLOR_HEX, NOTE_COLORS, type StickyNote } from '@/lib/notes/types'
 import { NoteEditor } from './NoteEditor'
 import { useNotesConfirm } from './ConfirmDialog'
 
@@ -111,14 +111,6 @@ function pushAwayOverlaps(
     }
   }
   return [...moved].map((m) => ({ id: m, x: rects.get(m)!.x, y: rects.get(m)!.y }))
-}
-
-const COLOR_HEX: Record<NoteColor, string> = {
-  yellow: '#E8B324',
-  pink: '#E0648A',
-  mint: '#2FAE82',
-  sky: '#3E8FE0',
-  lavender: '#8B6FE0',
 }
 
 interface Props {
@@ -264,6 +256,15 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     ro.observe(el)
     return () => ro.disconnect()
   }, [note.id, onHeightChange])
+
+  // Note timeline/todo/vocab không có ô gõ chữ nào tự focus khi vào chế độ sửa (khác note thường có NoteEditor),
+  // nên bấm ra ngoài không sinh blur → handleRootBlur không chạy → thanh điều khiển cứ nằm đó. Nếu lúc vào sửa
+  // focus chưa nằm trong note thì focus chính thẻ gốc (tabIndex=-1) để bấm ra ngoài vẫn thoát sửa như bình thường.
+  useEffect(() => {
+    const el = rootRef.current
+    if (!editing || !el || el.contains(document.activeElement)) return
+    el.focus({ preventScroll: true })
+  }, [editing])
 
   function handleRootBlur(e: React.FocusEvent<HTMLDivElement>) {
     if (e.currentTarget.contains(e.relatedTarget as Node | null)) return
@@ -436,6 +437,7 @@ export function StickyNoteCard({ note, editing, zoom, onStartEdit, onStopEdit, o
     <div
       ref={rootRef}
       data-note-id={note.id}
+      tabIndex={-1}
       className={`nt-note${livePos || liveSize ? ' nt-note-live' : ''}`}
       style={{
         left: x,

@@ -2,7 +2,24 @@ import { nanoid } from 'nanoid'
 import { create } from 'zustand'
 import { storage } from './storage'
 import { fromISODate, toISODate } from './date'
-import { isOverallNote, type DailyTodo, type NoteKind, type NoteTopic, type StickyNote, type TimeBlock, type VocabEntry } from './types'
+import { isOverallNote, type DailyTodo, type NoteColor, type NoteKind, type NoteTopic, type NoteTopicKind,type StickyNote, type TimeBlock, type VocabEntry } from './types'
+
+// Where a dragged topic/folder lands relative to the row it's dropped on: above/below it (same
+// level as that row), or inside it (folders only) as its last topic.
+export type TopicDropPos = 'before' | 'after' | 'inside'
+
+// Can `id` be dropped on `targetId` at `pos` without breaking the 2-level limit? Only folders take
+// things inside them; a folder (or a topic that still has sub-topics) stays at the top level.
+export function canMoveTopic(topics: NoteTopic[], id: string, targetId: string, pos: TopicDropPos): boolean {
+  if (id === targetId) return false
+  const moving = topics.find((t) => t.id === id)
+  const target = topics.find((t) => t.id === targetId)
+  if (!moving || !target) return false
+  if (pos === 'inside' && target.kind !== 'folder') return false
+  const newParent = pos === 'inside' ? target.id : target.parentId
+  if (!newParent) return true
+  return newParent !== id && moving.kind !== 'folder' && !topics.some((t) => t.parentId === id)
+}
 
 // Rich text fires onUpdate on every keystroke — if we PUT to the server on every change, requests
 // can resolve out of order (an older request with shorter content lands later, overwriting freshly
@@ -63,14 +80,32 @@ function hasTag(notes: StickyNote[], date: string, tag: string) {
 }
 
 // Once a WORK/Personal day is over with nothing added to it, the empty placeholder note is no
-// longer useful — auto-remove it so old empty notes don't pile up. Daily is exempt (kept as-is even
-// empty) since its whole point is a per-day checklist the user ticks off over time, not a
-// fill-it-or-lose-it placeholder like the other two. Only applies to PAST days — never touches
-// today's (still in progress) or a future day's note.
-function isStaleEmptyAutoNote(n: StickyNote, todayISO: string): boolean {
+// longer useful — auto-remove it so old empty notes don't pile up. Same for a Daily note left
+// exactly as syncDailyNote created it (see isUntouchedDailyNote). Only applies to PAST days — never
+// touches today's (still in progress) or a future day's note.
+function isStaleEmptyAutoNote(n: StickyNote, todayISO: string, dailyTodos: DailyTodo[]): boolean {
   if (isOverallNote(n) || n.date >= todayISO) return false
   if (n.tags.includes(WORK_TAG) || n.tags.includes(PERSONAL_TAG)) return n.timeBlocks.length === 0
+  if (isDailyNote(n, n.date)) return isUntouchedDailyNote(n, dailyTodos)
   return false
+}
+
+// A Daily note nobody acted on that day: every item is still an unticked, untimed copy of a
+// template with the template's text, nothing added, and the header/tags/content not edited.
+// Moving or resizing the note doesn't count as acting on it. An item whose template has since been
+// deleted can't be compared, so its text alone doesn't keep the note.
+function isUntouchedDailyNote(n: StickyNote, dailyTodos: DailyTodo[]): boolean {
+  if (n.header !== 'Daily' || n.content || n.vocab.length) return false
+  if (n.tags.length !== 1 || n.tags[0] !== DAILY_TAG) return false
+  const templateText = new Map(dailyTodos.map((t) => [t.id, t.text]))
+  return n.timeBlocks.every(
+    (b) =>
+      b.dailyTodoId &&
+      !b.done &&
+      !b.startTime &&
+      !b.endTime &&
+      (!templateText.has(b.dailyTodoId) || templateText.get(b.dailyTodoId) === b.text),
+  )
 }
 
 interface NotesState {
@@ -107,8 +142,11 @@ interface NotesState {
   syncWorkNote: (date: string) => void
   syncPersonalNote: (date: string) => void
 
-  addTopic: (title: string) => NoteTopic
+  addTopic: (title: string, kind?: NoteTopicKind, parentId?: string | null) => NoteTopic
+  setTopicParent: (id: string, parentId: string | null) => void
   renameTopic: (id: string, title: string) => void
+  setTopicColor: (id: string, color: NoteColor | null) => void
+  moveTopic: (id: string, targetId: string, pos: TopicDropPos) => void
   claimUncategorized: (title: string) => NoteTopic
   deleteTopic: (id: string) => void
 
@@ -128,11 +166,11 @@ export const useNotesStore = create<NotesState>((set, get) => ({
       storage.getDailyTodos(),
       storage.getTopics(),
     ])
-    // Sweep once per app load: drop any past-day WORK/Personal note nobody filled in. Runs here
+    // Sweep once per app load: drop any past-day WORK/Personal/Daily note nobody acted on. Runs here
     // (not tied to whichever date the user happens to be viewing) so it catches every stale note
     // regardless of which day the board opens on.
     const today = toISODate(new Date())
-    const notes = loadedNotes.filter((n) => !isStaleEmptyAutoNote(n, today))
+    const notes = loadedNotes.filter((n) => !isStaleEmptyAutoNote(n, today, dailyTodos))
     set({ hydrated: true, notes, dailyTodos, topics })
     if (notes.length !== loadedNotes.length) scheduleSave(notes)
   },
@@ -381,8 +419,8 @@ export const useNotesStore = create<NotesState>((set, get) => ({
     scheduleSave(next)
   },
 
-  addTopic: (title) => {
-    const topic: NoteTopic = { id: nanoid(), title, createdAt: new Date().toISOString() }
+  addTopic: (title, kind = 'topic', parentId = null) => {
+    const topic: NoteTopic = { id: nanoid(), title, kind, parentId, color: null, createdAt: new Date().toISOString() }
     const topics = [...get().topics, topic]
     set({ topics })
     saveTopics(topics)
@@ -391,6 +429,44 @@ export const useNotesStore = create<NotesState>((set, get) => ({
 
   renameTopic: (id, title) => {
     const topics = get().topics.map((t) => (t.id === id ? { ...t, title } : t))
+    set({ topics })
+    saveTopics(topics)
+  },
+
+  setTopicColor: (id, color) => {
+    const topics = get().topics.map((t) => (t.id === id ? { ...t, color } : t))
+    set({ topics })
+    saveTopics(topics)
+  },
+
+  // "Move to folder" from the right-click menu: put the topic last in that folder (or last at the
+  // top level for parentId = null). Same 2-level rules as dragging.
+  setTopicParent: (id, parentId) => {
+    const all = get().topics
+    const moving = all.find((t) => t.id === id)
+    if (!moving || moving.parentId === parentId) return
+    if (parentId && !canMoveTopic(all, id, parentId, 'inside')) return
+    const topics = [...all.filter((t) => t.id !== id), { ...moving, parentId }]
+    set({ topics })
+    saveTopics(topics)
+  },
+
+  // The list is stored flat; the sidebar shows top-level topics in array order with each one's
+  // sub-topics (also in array order) under it — so moving = re-parent + reposition in the array.
+  moveTopic: (id, targetId, pos) => {
+    const all = get().topics
+    if (!canMoveTopic(all, id, targetId, pos)) return
+    const moving = all.find((t) => t.id === id)!
+    const target = all.find((t) => t.id === targetId)!
+    const rest = all.filter((t) => t.id !== id)
+    const moved = { ...moving, parentId: pos === 'inside' ? target.id : target.parentId }
+    const topics =
+      pos === 'inside'
+        ? [...rest, moved]
+        : (() => {
+            const i = rest.findIndex((t) => t.id === targetId) + (pos === 'after' ? 1 : 0)
+            return [...rest.slice(0, i), moved, ...rest.slice(i)]
+          })()
     set({ topics })
     saveTopics(topics)
   },
@@ -405,12 +481,23 @@ export const useNotesStore = create<NotesState>((set, get) => ({
     return topic
   },
 
-  // A topic IS its board — deleting it also deletes every note on it (the UI confirms first).
+  // A topic IS its board — deleting it also deletes every note on it, and its sub-topics with their
+  // notes (the UI confirms first). Deleting a folder only removes the folder: its topics move back
+  // to the top level, nothing else is lost.
   deleteTopic: (id) => {
-    const topics = get().topics.filter((t) => t.id !== id)
+    if (get().topics.find((t) => t.id === id)?.kind === 'folder') {
+      const topics = get()
+        .topics.filter((t) => t.id !== id)
+        .map((t) => (t.parentId === id ? { ...t, parentId: null } : t))
+      set({ topics })
+      saveTopics(topics)
+      return
+    }
+    const gone = new Set([id, ...get().topics.filter((t) => t.parentId === id).map((t) => t.id)])
+    const topics = get().topics.filter((t) => !gone.has(t.id))
     set({ topics })
     saveTopics(topics)
-    const notes = get().notes.filter((n) => n.topicId !== id)
+    const notes = get().notes.filter((n) => !n.topicId || !gone.has(n.topicId))
     set({ notes })
     scheduleSave(notes)
   },

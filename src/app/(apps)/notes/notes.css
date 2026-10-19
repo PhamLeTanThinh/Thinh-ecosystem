@@ -657,6 +657,8 @@
   cursor: text;
   /* left/top: note bị đẩy ra khi note bên cạnh được kéo to (pushAwayOverlaps) trượt tới chỗ mới */
   transition: box-shadow 0.15s ease, border-color 0.15s ease, left 0.2s ease, top 0.2s ease;
+  /* tabIndex=-1 để giữ focus khi đang sửa (xem StickyNoteCard) — không cần viền focus của trình duyệt */
+  outline: none;
 }
 
 /* Note đang được kéo/đổi kích thước bám theo chuột ngay, không trễ */
@@ -1636,6 +1638,172 @@
 
 .nt-tree-day.active .nt-tree-delete {
   color: #fff;
+}
+
+/* Topics column: 2 levels (TopicsSidebar.tsx). Viền trái = màu của topic (sub-topic chưa chọn màu
+   thì lấy màu nhóm cha), đặt inline. */
+.nt-topic-row {
+  position: relative;
+  gap: 4px;
+  cursor: grab;
+}
+
+.nt-topic-row .nt-tree-toggle {
+  padding: 0;
+}
+
+.nt-topic-sub {
+  margin-left: 18px;
+}
+
+.nt-topic-dragging {
+  opacity: 0.4;
+}
+
+/* Vạch chỉ chỗ thả khi kéo: trước / sau hàng, hoặc khung quanh hàng khi thả vào làm sub-topic */
+.nt-topic-drop-before::before,
+.nt-topic-drop-after::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-nt-ink);
+  pointer-events: none;
+}
+
+.nt-topic-drop-before::before {
+  top: -2px;
+}
+
+.nt-topic-drop-after::after {
+  bottom: -2px;
+}
+
+.nt-topic-drop-inside {
+  box-shadow: inset 0 0 0 2px var(--color-nt-ink);
+}
+
+.nt-topic-color-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+/* Chấm màu: viền rỗng khi chưa có màu, tô đặc khi đã chọn */
+.nt-topic-color-btn {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  margin: 0 3px;
+  border-radius: 50%;
+  border: 1px solid var(--color-nt-ink-soft);
+}
+
+.nt-topic-color-pop {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: -6px;
+  z-index: 20;
+  display: flex;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid var(--color-nt-border);
+  background: var(--color-nt-surface);
+  box-shadow: 0 4px 12px rgba(24, 24, 27, 0.12);
+  cursor: default;
+}
+
+.nt-topic-folder .nt-tree-day-btn {
+  font-weight: 600;
+}
+
+.nt-topic-folder-icon {
+  flex-shrink: 0;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-tree-day.active .nt-topic-folder-icon {
+  color: #fff;
+}
+
+/* Menu chuột phải của cột Topics */
+.nt-ctx-menu {
+  position: fixed;
+  z-index: 50;
+  min-width: 150px;
+  padding: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--color-nt-border);
+  background: var(--color-nt-surface);
+  box-shadow: 0 6px 18px rgba(24, 24, 27, 0.14);
+}
+
+.nt-ctx-menu button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 12.5px;
+  color: var(--color-nt-ink);
+  text-align: left;
+}
+
+.nt-ctx-menu button:hover,
+.nt-ctx-menu button:focus-visible {
+  background: var(--color-nt-bg);
+}
+
+.nt-ctx-menu button:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: none;
+}
+
+.nt-ctx-label {
+  padding: 6px 10px 3px;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-nt-ink-soft);
+}
+
+/* Hàng chấm màu trong menu — ghi đè kiểu nút dòng của .nt-ctx-menu button */
+.nt-ctx-swatches {
+  display: flex;
+  gap: 6px;
+  padding: 3px 10px 6px;
+}
+
+.nt-ctx-menu .nt-ctx-swatches button {
+  width: 14px;
+  height: 14px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.nt-ctx-sep {
+  height: 1px;
+  margin: 4px 2px;
+  background: var(--color-nt-border);
+}
+
+.nt-ctx-menu .nt-ctx-danger,
+.nt-ctx-menu .nt-ctx-danger .nt-ctx-plus {
+  color: #dc2626;
+}
+
+.nt-ctx-plus {
+  width: 14px;
+  text-align: center;
+  color: var(--color-nt-ink-soft);
+}
+
+.nt-topic-color-none {
+  background: linear-gradient(135deg, transparent 45%, #dc2626 45%, #dc2626 55%, transparent 55%);
 }
 
 /* Body of a 'vocab'-kind note (Overall board only) — two aligned columns: foreign term (bold) |

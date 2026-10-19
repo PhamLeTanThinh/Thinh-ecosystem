@@ -2,6 +2,14 @@ export type NoteColor = 'yellow' | 'pink' | 'mint' | 'sky' | 'lavender'
 
 export const NOTE_COLORS: NoteColor[] = ['yellow', 'pink', 'mint', 'sky', 'lavender']
 
+export const NOTE_COLOR_HEX: Record<NoteColor, string> = {
+  yellow: '#E8B324',
+  pink: '#E0648A',
+  mint: '#2FAE82',
+  sky: '#3E8FE0',
+  lavender: '#8B6FE0',
+}
+
 // 'note' = a regular rich-text note (default). 'timeline' = a different kind of "note" entirely —
 // its body isn't rich text but a list of timeBlocks — chosen at creation time (see NotesBoard.tsx),
 // can't be switched afterwards.
@@ -67,8 +75,18 @@ export interface StickyNote {
 }
 
 // A user-defined topic in the Overall view — each one is its own board of notes (see StickyNote.topicId).
+// 'topic' = a board of notes. 'folder' = just groups topics in the Topics column (created from its
+// right-click menu), never a board itself and never holds notes directly.
+export type NoteTopicKind = 'topic' | 'folder'
+
+// At most 2 levels deep: a top-level folder (e.g. IELTS, Korean) holds topics; nothing nests inside
+// a topic placed in a folder. (Older data may still have a topic directly under another topic — it's
+// shown the same way.)
 export interface NoteTopic {
   id: string
   title: string
+  kind: NoteTopicKind
+  parentId: string | null // null = top-level; otherwise the folder it sits in
+  color: NoteColor | null // accent shown in the Topics column; a sub-topic without one uses its parent's
   createdAt: string
 }
