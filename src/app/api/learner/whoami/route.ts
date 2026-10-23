@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getLearnerId } from '@/lib/learner/identity'
 import { getDisplayName, hasLearnerData, isRegistered } from '@/lib/learner/registry'
+import { logLearnerVisit, toLearnerApp } from '@/lib/learner/visits'
 
 // `registered` = tên này đã được nhận qua sổ đăng ký chưa. false với hồ sơ cũ (mã tự sinh/'legacy' từ
 // trước khi có popup hỏi tên) → UI cho phép đặt tên để giữ tiến độ, xem /api/learner/rename.
+//
+// ?app=chinese|korean|certs: client gọi đúng 1 lần mỗi lần mở app (components/learner/LearnerProfile.tsx)
+// → ghi 1 lượt vào app đó cho hồ sơ đang dùng.
 export async function GET(req: NextRequest) {
   const id = getLearnerId(req)
   if (!id) return NextResponse.json({ id: null, registered: false })
@@ -12,6 +16,8 @@ export async function GET(req: NextRequest) {
   // cũng không còn dữ liệu nào để "nhận" → coi như chưa có hồ sơ để hiện popup tạo mới, thay vì popup đặt tên
   // cho 1 hồ sơ rỗng. Hồ sơ cũ CÓ dữ liệu thì vẫn trả về để được đặt tên và giữ tiến độ.
   if (!registered && !(await hasLearnerData(id))) return NextResponse.json({ id: null, registered: false })
+  const app = toLearnerApp(req.nextUrl.searchParams.get('app'))
+  if (app) await logLearnerVisit(req, id, app)
   const displayName = registered ? await getDisplayName(id) : null
   return NextResponse.json({ id, registered, displayName })
 }

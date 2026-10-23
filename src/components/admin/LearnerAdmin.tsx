@@ -6,6 +6,7 @@ import { ago, avatarColor, formatAdminDate } from '@/components/admin/format'
 import { Pager, usePagination } from '@/components/admin/Pagination'
 import { MascotEm } from '@/components/mascot/MascotDialog'
 import type { AppStats, CertStats, LearnerSummary, LearnerTotals } from '@/lib/learner/admin'
+import type { LearnerApp } from '@/lib/learner/visits'
 
 type Filter = 'all' | 'active' | 'idle' | 'empty'
 type Sort = 'recent' | 'name' | 'created' | 'cards'
@@ -227,6 +228,7 @@ export function LearnerAdmin() {
                 <th>Hồ sơ</th>
                 <th>Trạng thái</th>
                 <th>Hoạt động gần nhất</th>
+                <th>Lượt vào</th>
                 <th>中文</th>
                 <th>한국어</th>
                 <th>Certs</th>
@@ -236,12 +238,12 @@ export function LearnerAdmin() {
             <tbody>
               {learners === null && (
                 <tr className="adm-empty-row">
-                  <td colSpan={7}>Đang tải…</td>
+                  <td colSpan={8}>Đang tải…</td>
                 </tr>
               )}
               {learners && shown.length === 0 && (
                 <tr className="adm-empty-row">
-                  <td colSpan={7}>{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</td>
+                  <td colSpan={8}>{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</td>
                 </tr>
               )}
               {learnerPage.items.map((l) => (
@@ -264,6 +266,9 @@ export function LearnerAdmin() {
                   </td>
                   <td data-label="Hoạt động gần nhất" className="adm-cell-sub" title={l.lastActiveAt ? formatAdminDate(l.lastActiveAt) : undefined}>
                     {l.lastActiveAt ? ago(l.lastActiveAt) : 'Chưa có'}
+                  </td>
+                  <td data-label="Lượt vào">
+                    <VisitsCell l={l} />
                   </td>
                   <td data-label="中文">
                     <AppCell s={l.chinese} total={totals.chineseCards} />
@@ -318,6 +323,27 @@ export function LearnerAdmin() {
           }}
         />
       )}
+    </div>
+  )
+}
+
+const APP_LABELS: [LearnerApp, string][] = [
+  ['chinese', '中文'],
+  ['korean', '한국어'],
+  ['certs', 'Certs'],
+]
+
+// Số lần mở từng app (chỉ liệt kê app đã từng vào) — rê chuột xem lần vào gần nhất.
+function VisitsCell({ l }: { l: LearnerSummary }) {
+  const used = APP_LABELS.filter(([app]) => l.visits[app].count > 0)
+  if (used.length === 0) return <span className="adm-cell-sub">—</span>
+  return (
+    <div className="lad-cell">
+      {used.map(([app, label]) => (
+        <div key={app} title={l.visits[app].lastAt ? `Lần cuối: ${formatAdminDate(l.visits[app].lastAt)}` : undefined}>
+          <b>{l.visits[app].count}</b> <span className="adm-cell-sub">{label}</span>
+        </div>
+      ))}
     </div>
   )
 }
@@ -382,6 +408,15 @@ function DetailModal({
               <span>Tạo {l.createdAt ? formatAdminDate(l.createdAt) : '—'}</span>
               <span>
                 Hoạt động gần nhất: <b>{l.lastActiveAt ? `${ago(l.lastActiveAt)} · ${formatAdminDate(l.lastActiveAt)}` : 'chưa có'}</b>
+              </span>
+              <span>
+                Lượt vào:{' '}
+                {APP_LABELS.map(([app, label]) => (
+                  <b key={app} title={l.visits[app].lastAt ? `Lần cuối: ${formatAdminDate(l.visits[app].lastAt)}` : 'Chưa vào'}>
+                    {label} {l.visits[app].count}
+                    {app !== 'certs' && ' · '}
+                  </b>
+                ))}
               </span>
             </div>
           </div>

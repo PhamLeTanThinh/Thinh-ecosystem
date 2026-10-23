@@ -90,6 +90,20 @@ export const appSettings = pgTable('app_settings', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
+// Mỗi lần 1 hồ sơ học mở app Chinese / Korean / Certs (1 dòng mỗi lần tải trang của app đó) — để /admin
+// biết ai vào app nào, bao nhiêu lần. Ghi ở /api/learner/whoami (xem lib/learner/visits.ts).
+export const learnerVisits = pgTable(
+  'learner_visits',
+  {
+    id: text('id').primaryKey(),
+    learnerId: text('learner_id').notNull(),
+    app: varchar('app', { length: 10 }).notNull(), // 'chinese' | 'korean' | 'certs'
+    userAgent: text('user_agent').default('').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => [index('learner_visits_learner_idx').on(t.learnerId)],
+)
+
 export const learnerProfiles = pgTable('learner_profiles', {
   id: text('id').primaryKey(),
   // Tên đúng như người dùng gõ (có dấu, hoa/thường, vd "YẾNN") — `id` là bản đã bỏ dấu ("yenn") dùng
@@ -432,8 +446,7 @@ export const certAccessRequests = pgTable('cert_access_requests', {
 // 1 dòng = 1 lần load trang /certs thành công (owner hoặc viewer) — cùng thiết kế với ieltsAccessLogs.
 export const certAccessLogs = pgTable('cert_access_logs', {
   id: text('id').primaryKey(),
-  email: text('email'), // lowercase; null khi vào bằng hồ sơ học (chế độ 'profile', xem lib/certs/settings.ts)
-  learnerId: text('learner_id'), // hồ sơ học đã vào — chỉ ghi ở chế độ 'profile'
+  email: text('email').notNull(), // lowercase; 'owner' nếu chưa bật chia sẻ thì không ghi (xem access.ts)
   userAgent: text('user_agent').default('').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

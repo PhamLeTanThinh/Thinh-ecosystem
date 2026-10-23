@@ -1,7 +1,8 @@
 import { and, count, eq, isNotNull, isNull, max, ne, sql, sum } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles } from '@/db/schema'
+import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles, learnerVisits } from '@/db/schema'
 import { hasLearnerData, isLearnerIdTaken, isRegistered } from '@/lib/learner/registry'
+import { LEARNER_APPS, type LearnerApp } from '@/lib/learner/visits'
 
 // Quản lý hồ sơ học (Chinese + Korean dùng chung 1 hồ sơ) cho trang /admin — xem lib/learner/identity.ts.
 
@@ -21,6 +22,7 @@ export async function moveLearnerData(tx: Tx, oldId: string, newId: string) {
   await tx.update(koreanCards).set({ learnerId: newId }).where(eq(koreanCards.learnerId, oldId))
   await tx.update(certProgress).set({ learnerId: newId }).where(eq(certProgress.learnerId, oldId))
   await tx.update(certAttempts).set({ learnerId: newId }).where(eq(certAttempts.learnerId, oldId))
+  await tx.update(learnerVisits).set({ learnerId: newId }).where(eq(learnerVisits.learnerId, oldId))
 }
 
 // Thống kê học 1 app (Chinese / Korean): reviewed = số thẻ đã có tiến độ; learned / wrongNow = số thẻ lần gần nhất
@@ -47,6 +49,12 @@ export interface CertStats {
   lastAt: string | null
 }
 
+// Số lần mở từng app (learner_visits) và lần mở gần nhất.
+export interface AppVisits {
+  count: number
+  lastAt: string | null
+}
+
 export interface LearnerSummary {
   id: string
   // false = hồ sơ CŨ có dữ liệu nhưng chưa có tên trong sổ đăng ký (mã tự sinh từ bản trước, hoặc 'legacy').
@@ -58,6 +66,7 @@ export interface LearnerSummary {
   chinese: AppStats
   korean: AppStats
   certs: CertStats
+  visits: Record<LearnerApp, AppVisits>
 }
 
 // Tổng số thẻ gốc (dùng chung) của mỗi app — để tính % đã thuộc của từng hồ sơ.
@@ -77,12 +86,13 @@ const emptySummary = (id: string): LearnerSummary => ({
   chinese: emptyApp(),
   korean: emptyApp(),
   certs: { questions: 0, correct: 0, wrong: 0, attempts: 0, avgScore: null, certs: [], lastAt: null },
+  visits: { chinese: { count: 0, lastAt: null }, korean: { count: 0, lastAt: null }, certs: { count: 0, lastAt: null } },
 })
 
 // Gộp mọi hồ sơ: những tên đã đăng ký (kể cả chưa học gì) + những mã chỉ xuất hiện trong bảng dữ liệu. Mới
 // hoạt động gần nhất lên đầu; hồ sơ chưa học gì xếp theo ngày tạo.
 export async function listLearners(): Promise<{ learners: LearnerSummary[]; totals: LearnerTotals }> {
-  const [profiles, cProg, kProg, cDecks, cSettings, kSettings, cCards, kCards, certProg, certAtt, cTotal, kTotal] = await Promise.all([
+  const [profiles, cProg, kProg, cDecks, cSettings, kSettings, cCards, kCards, certProg, certAtt, cTotal, kTotal, visits] = await Promise.all([
     db.select().from(learnerProfiles),
     db
       .select({
@@ -137,6 +147,10 @@ export async function listLearners(): Promise<{ learners: LearnerSummary[]; tota
     // bài 0 ("Chưa phân loại") là thẻ cũ trùng với các bài thật — không tính vào tổng
     db.select({ n: count() }).from(chineseCards).where(and(isNull(chineseCards.learnerId), ne(chineseCards.lesson, 0))),
     db.select({ n: count() }).from(koreanCards).where(isNull(koreanCards.learnerId)),
+    db
+      .select({ id: learnerVisits.learnerId, app: learnerVisits.app, n: count(), last: max(learnerVisits.createdAt) })
+      .from(learnerVisits)
+      .groupBy(learnerVisits.learnerId, learnerVisits.app),
   ])
 
   const byId = new Map<string, LearnerSummary>()
@@ -184,6 +198,12 @@ export async function listLearners(): Promise<{ learners: LearnerSummary[]; tota
     if (r.last && (!s.certs.lastAt || r.last.toISOString() > s.certs.lastAt)) s.certs.lastAt = r.last.toISOString()
     touch(s, r.last)
   }
+  for (const r of visits) {
+    if (!LEARNER_APPS.includes(r.app as LearnerApp)) continue
+    const s = get(r.id)
+    s.visits[r.app as LearnerApp] = { count: r.n, lastAt: r.last?.toISOString() ?? null }
+    touch(s, r.last)
+  }
   for (const r of cDecks) get(r.id).chinese.decks = r.n
   for (const r of cSettings) get(r.id)
   for (const r of kSettings) get(r.id)
@@ -212,6 +232,7 @@ export async function deleteLearner(id: string): Promise<void> {
     await tx.delete(koreanCards).where(eq(koreanCards.learnerId, id))
     await tx.delete(certProgress).where(eq(certProgress.learnerId, id))
     await tx.delete(certAttempts).where(eq(certAttempts.learnerId, id))
+    await tx.delete(learnerVisits).where(eq(learnerVisits.learnerId, id))
     await tx.delete(learnerProfiles).where(eq(learnerProfiles.id, id))
   })
 }

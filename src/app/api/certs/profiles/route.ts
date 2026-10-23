@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import { count, desc, isNotNull, max, sql, sum } from 'drizzle-orm'
+import { count, desc, eq, max, sql, sum } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { certAccessLogs, certAttempts, certProgress, learnerProfiles } from '@/db/schema'
+import { certAttempts, certProgress, learnerProfiles, learnerVisits } from '@/db/schema'
 import { requireOwnerApi } from '@/lib/certs/access'
 import type { CertsProfileStat } from '@/lib/certs/profiles'
 import { detectBrowser } from '@/lib/ielts/userAgent'
@@ -14,10 +14,10 @@ export async function GET() {
 
   const [logs, progress, attempts, profiles] = await Promise.all([
     db
-      .select({ id: certAccessLogs.learnerId, userAgent: certAccessLogs.userAgent, createdAt: certAccessLogs.createdAt })
-      .from(certAccessLogs)
-      .where(isNotNull(certAccessLogs.learnerId))
-      .orderBy(desc(certAccessLogs.createdAt)),
+      .select({ id: learnerVisits.learnerId, userAgent: learnerVisits.userAgent, createdAt: learnerVisits.createdAt })
+      .from(learnerVisits)
+      .where(eq(learnerVisits.app, 'certs'))
+      .orderBy(desc(learnerVisits.createdAt)),
     db
       .select({
         id: certProgress.learnerId,
@@ -55,7 +55,7 @@ export async function GET() {
 
   // logs đã xếp mới nhất trước → dòng đầu tiên của mỗi hồ sơ là lần vào gần nhất.
   for (const l of logs) {
-    const s = get(l.id!)
+    const s = get(l.id)
     if (s.visits === 0) {
       s.lastSeenAt = l.createdAt.toISOString()
       s.lastBrowser = detectBrowser(l.userAgent)

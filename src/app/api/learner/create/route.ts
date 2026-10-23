@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { learnerProfiles } from '@/db/schema'
 import { USERNAME_RULE_MESSAGE, normalizeUsername, setLearnerCookie, toDisplayName } from '@/lib/learner/identity'
 import { isLearnerIdTaken } from '@/lib/learner/registry'
+import { logLearnerVisit, toLearnerApp } from '@/lib/learner/visits'
 
 const TAKEN_MESSAGE = 'Tên này đã có người dùng, hãy chọn tên khác'
 
@@ -19,6 +20,10 @@ export async function POST(req: NextRequest) {
   // INSERT ràng buộc UNIQUE = atomic: 2 người tạo cùng 1 tên gần như cùng lúc thì chỉ 1 người thành công.
   const [claim] = await db.insert(learnerProfiles).values({ id, displayName: toDisplayName(body.username) }).onConflictDoNothing().returning()
   if (!claim) return NextResponse.json({ error: TAKEN_MESSAGE }, { status: 409 })
+
+  // Lần mở app này chưa được tính ở whoami (lúc đó chưa có hồ sơ) — tính luôn ở đây.
+  const app = toLearnerApp(body?.app)
+  if (app) await logLearnerVisit(req, id, app)
 
   const res = NextResponse.json({ ok: true, id, displayName: claim.displayName })
   setLearnerCookie(res, id)

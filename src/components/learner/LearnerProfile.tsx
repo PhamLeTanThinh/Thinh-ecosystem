@@ -18,18 +18,30 @@ type GateMode = 'create' | 'login' | 'claim' | 'done'
 //
 // Gồm 2 phần: <LearnerGate /> đặt ở layout (popup chặn màn hình, chạy được ở MỌI trang con của app) và
 // <LearnerProfile /> đặt ở topbar (nút hiện tên + menu). Cả hai dùng chung 1 lần gọi whoami.
-let mePromise: Promise<Me> | null = null
+//
+// whoami gọi 1 lần cho MỖI app trong 1 lần tải trang (cache theo app, không phải 1 lần cho cả trang) và kèm
+// ?app= — server dựa vào đó ghi 1 lượt vào app (xem lib/learner/visits.ts). Chuyển sang app khác bằng link
+// (không tải lại trang) vẫn được tính là vào app mới.
+const mePromises = new Map<string, Promise<Me>>()
+
+function currentApp(): string {
+  const first = window.location.pathname.split('/')[1] ?? ''
+  return ['chinese', 'korean', 'certs'].includes(first) ? first : ''
+}
 
 function loadMe(): Promise<Me> {
-  if (!mePromise) {
-    mePromise = fetch('/api/learner/whoami')
+  const app = currentApp()
+  let p = mePromises.get(app)
+  if (!p) {
+    p = fetch(`/api/learner/whoami${app ? `?app=${app}` : ''}`)
       .then((r) => r.json() as Promise<Me>)
       .catch((err) => {
-        mePromise = null
+        mePromises.delete(app)
         throw err
       })
+    mePromises.set(app, p)
   }
-  return mePromise
+  return p
 }
 
 function useMe(): Me | undefined {
@@ -90,7 +102,7 @@ function ProfileGate({ initialMode }: { initialMode: GateMode }) {
     setBusy(true)
     setError(null)
     const url = mode === 'create' ? '/api/learner/create' : mode === 'claim' ? '/api/learner/rename' : '/api/learner/login'
-    const { ok, data } = await postJson(url, { username })
+    const { ok, data } = await postJson(url, { username, app: currentApp() })
     setBusy(false)
     if (!ok) {
       setError(data.error ?? 'Có lỗi xảy ra, thử lại sau.')
