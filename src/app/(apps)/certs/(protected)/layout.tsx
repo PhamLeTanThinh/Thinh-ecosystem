@@ -1,4 +1,5 @@
-import { headers } from 'next/headers'
+import { cookies, headers } from 'next/headers'
+import { LEARNER_COOKIE } from '@/lib/learner/identity'
 import { nanoid } from 'nanoid'
 import { CertsAccessGate } from '@/components/certs/AccessGate'
 import { CertsAccessProvider } from '@/components/certs/AccessContext'
@@ -28,10 +29,13 @@ export default async function CertsProtectedLayout({ children }: { children: Rea
 
   // Chỉ ghi log khi đã thật sự bật chia sẻ (có email) — bỏ qua lúc chạy local chưa đăng nhập. await thay vì
   // fire-and-forget vì trên serverless (Vercel) hàm có thể bị đóng trước khi promise chưa await xong kịp chạy.
-  if (access.email) {
+  // Chế độ "chỉ cần hồ sơ": ghi theo hồ sơ học (cookie) để /admin theo dõi được. Lần đầu vào chưa có hồ sơ
+  // (popup đang hỏi tên) thì chưa ghi — từ lượt tải kế tiếp mới có.
+  const learnerId = access.mode === 'learner' ? (await cookies()).get(LEARNER_COOKIE)?.value || null : null
+  if (access.email || learnerId) {
     try {
       const userAgent = (await headers()).get('user-agent') ?? ''
-      await db.insert(certAccessLogs).values({ id: nanoid(), email: access.email.toLowerCase(), userAgent })
+      await db.insert(certAccessLogs).values({ id: nanoid(), email: access.email?.toLowerCase() ?? null, learnerId, userAgent })
     } catch (err) {
       console.error('[certs access log]', err)
     }

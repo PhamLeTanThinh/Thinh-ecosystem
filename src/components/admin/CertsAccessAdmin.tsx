@@ -5,6 +5,7 @@ import { useAdminAction, type ActionResult } from '@/components/admin/AdminDialo
 import { formatAdminDate } from '@/components/admin/format'
 import { Pager, usePagination } from '@/components/admin/Pagination'
 import { MascotEm } from '@/components/mascot/MascotDialog'
+import type { CertsProfileStat } from '@/lib/certs/profiles'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -295,132 +296,217 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
         </p>
       </div>
 
-      <div className="adm-panel">
-        <h2 className="adm-panel-title">Mời người xem qua email</h2>
-        <div className="adm-inline-form">
-          <input
-            className="adm-input"
-            type="email"
-            placeholder="Email người được mời"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && inviteEmail()}
-          />
-          <button type="button" className="adm-btn adm-btn-primary" onClick={inviteEmail} disabled={!email.trim()}>
-            + Mời qua email
-          </button>
-        </div>
-        <p className="adm-note">Họ sẽ nhận 1 email chứa link đăng nhập ngay sau khi bạn bấm mời.</p>
+      {accessMode === 'profile' ? (
+        <CertsProfilesPanel />
+      ) : (
+        <>
+          <div className="adm-panel">
+            <h2 className="adm-panel-title">Mời người xem qua email</h2>
+            <div className="adm-inline-form">
+              <input
+                className="adm-input"
+                type="email"
+                placeholder="Email người được mời"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && inviteEmail()}
+              />
+              <button type="button" className="adm-btn adm-btn-primary" onClick={inviteEmail} disabled={!email.trim()}>
+                + Mời qua email
+              </button>
+            </div>
+            <p className="adm-note">Họ sẽ nhận 1 email chứa link đăng nhập ngay sau khi bạn bấm mời.</p>
+          </div>
+
+          {requests.length > 0 && (
+            <div className="adm-panel">
+              <div className="adm-toolbar">
+                <h2 className="adm-panel-title">
+                  Đang chờ duyệt <span className="adm-count">{requests.length}</span>
+                </h2>
+              </div>
+              <div className="adm-table-wrap">
+                <table className="adm-table">
+                  <thead>
+                    <tr>
+                      <th>Email</th>
+                      <th>Xin quyền lúc</th>
+                      <th className="adm-col-actions">Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {requests.map((r) => (
+                      <tr key={r.email}>
+                        <td className="adm-cell-main">{r.email}</td>
+                        <td>{formatAdminDate(r.requestedAt)}</td>
+                        <td className="adm-col-actions">
+                          <div className="adm-actions">
+                            <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => decideRequest(r.email, 'approve')}>
+                              Duyệt
+                            </button>
+                            <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => decideRequest(r.email, 'reject')}>
+                              Từ chối
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          <div className="adm-panel">
+            <div className="adm-toolbar">
+              <h2 className="adm-panel-title">
+                Người được mời <span className="adm-count">{invites.length}</span>
+              </h2>
+            </div>
+
+            {loading && <p className="adm-note">Đang tải…</p>}
+            {loadError && <p className="adm-note adm-error">{loadError}</p>}
+
+            {!loading && !loadError && (
+              <div className="adm-table-wrap">
+                <table className="adm-table">
+                  <thead>
+                    <tr>
+                      <th>Email</th>
+                      <th>Trạng thái</th>
+                      <th>Mời lúc</th>
+                      <th>Lượt vào</th>
+                      <th>Lần cuối</th>
+                      <th>Trình duyệt</th>
+                      <th className="adm-col-actions">Hành động</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invites.length === 0 && (
+                      <tr className="adm-empty-row">
+                        <td colSpan={7}>Chưa mời ai.</td>
+                      </tr>
+                    )}
+                    {invitePage.items.map((v) => {
+                      const stat = statFor(v.email)
+                      return (
+                        <tr key={v.email} className={stat ? undefined : 'adm-row-warning'}>
+                          <td className="adm-cell-main">{v.email}</td>
+                          <td>
+                            <span className={`adm-pill ${v.revokedAt ? 'adm-pill-neutral' : stat ? 'adm-pill-success' : 'adm-pill-warning'}`}>
+                              {v.revokedAt ? 'Đã thu hồi' : stat ? 'Đang hoạt động' : 'Chưa đăng nhập'}
+                            </span>
+                          </td>
+                          <td>{formatAdminDate(v.invitedAt)}</td>
+                          <td>{stat ? stat.count : '–'}</td>
+                          <td>{stat ? formatAdminDate(stat.lastSeenAt) : '–'}</td>
+                          <td>{stat ? stat.lastBrowser : '–'}</td>
+                          <td className="adm-col-actions">
+                            <div className="adm-actions">
+                              <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
+                                {v.revokedAt ? 'Cấp lại' : 'Thu hồi'}
+                              </button>
+                              <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => removeInvite(v.email)}>
+                                Xoá
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+                <Pager p={invitePage} unit="người" />
+              </div>
+            )}
+
+            {ownerEmail && statFor(ownerEmail) && (
+              <p className="adm-note">
+                Bạn (chủ trang) đã vào {statFor(ownerEmail)!.count} lần · gần nhất {formatAdminDate(statFor(ownerEmail)!.lastSeenAt)} · {statFor(ownerEmail)!.lastBrowser}
+              </p>
+            )}
+          </div>
+        </>
+      )}
+    </>
+  )
+}
+
+// Chế độ "chỉ cần hồ sơ": theo dõi người học theo hồ sơ (tên) thay vì email — lượt vào Certs + tiến độ luyện đề.
+// Đổi tên / xoá hồ sơ vẫn làm ở tab "Hồ sơ học".
+function CertsProfilesPanel() {
+  const [rows, setRows] = useState<CertsProfileStat[] | null>(null)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const page = usePagination(rows ?? [], 10)
+
+  useEffect(() => {
+    fetch('/api/certs/profiles')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`profiles: HTTP ${r.status}`))))
+      .then((data) => setRows(Array.isArray(data) ? data : []))
+      .catch((err) => {
+        console.error('[admin] tải hồ sơ học Certs thất bại:', err)
+        setLoadError('Không tải được danh sách hồ sơ, thử tải lại trang nhé.')
+      })
+  }, [])
+
+  return (
+    <div className="adm-panel">
+      <div className="adm-toolbar">
+        <h2 className="adm-panel-title">
+          Hồ sơ học Certs <span className="adm-count">{rows?.length ?? 0}</span>
+        </h2>
       </div>
 
-      {requests.length > 0 && (
-        <div className="adm-panel">
-          <div className="adm-toolbar">
-            <h2 className="adm-panel-title">
-              Đang chờ duyệt <span className="adm-count">{requests.length}</span>
-            </h2>
-          </div>
-          <div className="adm-table-wrap">
-            <table className="adm-table">
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Xin quyền lúc</th>
-                  <th className="adm-col-actions">Hành động</th>
+      {!rows && !loadError && <p className="adm-note">Đang tải…</p>}
+      {loadError && <p className="adm-note adm-error">{loadError}</p>}
+
+      {rows && (
+        <div className="adm-table-wrap">
+          <table className="adm-table">
+            <thead>
+              <tr>
+                <th>Hồ sơ</th>
+                <th>Lượt vào</th>
+                <th>Lần cuối vào</th>
+                <th>Trình duyệt</th>
+                <th>Câu đã làm</th>
+                <th>Tỉ lệ đúng</th>
+                <th>Lượt thi</th>
+                <th>Chứng chỉ</th>
+                <th>Học gần nhất</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.length === 0 && (
+                <tr className="adm-empty-row">
+                  <td colSpan={9}>Chưa có hồ sơ nào vào Certs.</td>
                 </tr>
-              </thead>
-              <tbody>
-                {requests.map((r) => (
-                  <tr key={r.email}>
-                    <td className="adm-cell-main">{r.email}</td>
-                    <td>{formatAdminDate(r.requestedAt)}</td>
-                    <td className="adm-col-actions">
-                      <div className="adm-actions">
-                        <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => decideRequest(r.email, 'approve')}>
-                          Duyệt
-                        </button>
-                        <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => decideRequest(r.email, 'reject')}>
-                          Từ chối
-                        </button>
-                      </div>
+              )}
+              {page.items.map((p) => {
+                const answered = p.correct + p.wrong
+                return (
+                  <tr key={p.id}>
+                    <td className="adm-cell-main">
+                      {p.displayName || p.id}
+                      {p.displayName && p.displayName !== p.id && <span className="adm-note"> · {p.id}</span>}
                     </td>
+                    <td>{p.visits || '–'}</td>
+                    <td>{p.lastSeenAt ? formatAdminDate(p.lastSeenAt) : '–'}</td>
+                    <td>{p.lastBrowser ?? '–'}</td>
+                    <td>{p.questions || '–'}</td>
+                    <td>{answered ? `${Math.round((p.correct / answered) * 100)}%` : '–'}</td>
+                    <td>{p.attempts ? `${p.attempts}${p.avgScore != null ? ` · TB ${p.avgScore}%` : ''}` : '–'}</td>
+                    <td>{p.certs.length ? p.certs.join(', ').toUpperCase() : '–'}</td>
+                    <td>{p.lastStudyAt ? formatAdminDate(p.lastStudyAt) : '–'}</td>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                )
+              })}
+            </tbody>
+          </table>
+          <Pager p={page} unit="hồ sơ" />
         </div>
       )}
-
-      <div className="adm-panel">
-        <div className="adm-toolbar">
-          <h2 className="adm-panel-title">
-            Người được mời <span className="adm-count">{invites.length}</span>
-          </h2>
-        </div>
-
-        {loading && <p className="adm-note">Đang tải…</p>}
-        {loadError && <p className="adm-note adm-error">{loadError}</p>}
-
-        {!loading && !loadError && (
-          <div className="adm-table-wrap">
-            <table className="adm-table">
-              <thead>
-                <tr>
-                  <th>Email</th>
-                  <th>Trạng thái</th>
-                  <th>Mời lúc</th>
-                  <th>Lượt vào</th>
-                  <th>Lần cuối</th>
-                  <th>Trình duyệt</th>
-                  <th className="adm-col-actions">Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                {invites.length === 0 && (
-                  <tr className="adm-empty-row">
-                    <td colSpan={7}>Chưa mời ai.</td>
-                  </tr>
-                )}
-                {invitePage.items.map((v) => {
-                  const stat = statFor(v.email)
-                  return (
-                    <tr key={v.email} className={stat ? undefined : 'adm-row-warning'}>
-                      <td className="adm-cell-main">{v.email}</td>
-                      <td>
-                        <span className={`adm-pill ${v.revokedAt ? 'adm-pill-neutral' : stat ? 'adm-pill-success' : 'adm-pill-warning'}`}>
-                          {v.revokedAt ? 'Đã thu hồi' : stat ? 'Đang hoạt động' : 'Chưa đăng nhập'}
-                        </span>
-                      </td>
-                      <td>{formatAdminDate(v.invitedAt)}</td>
-                      <td>{stat ? stat.count : '–'}</td>
-                      <td>{stat ? formatAdminDate(stat.lastSeenAt) : '–'}</td>
-                      <td>{stat ? stat.lastBrowser : '–'}</td>
-                      <td className="adm-col-actions">
-                        <div className="adm-actions">
-                          <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
-                            {v.revokedAt ? 'Cấp lại' : 'Thu hồi'}
-                          </button>
-                          <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => removeInvite(v.email)}>
-                            Xoá
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-            <Pager p={invitePage} unit="người" />
-          </div>
-        )}
-
-        {ownerEmail && statFor(ownerEmail) && (
-          <p className="adm-note">
-            Bạn (chủ trang) đã vào {statFor(ownerEmail)!.count} lần · gần nhất {formatAdminDate(statFor(ownerEmail)!.lastSeenAt)} · {statFor(ownerEmail)!.lastBrowser}
-          </p>
-        )}
-      </div>
-    </>
+      <p className="adm-note">Lượt vào chỉ được đếm từ lúc bật chế độ hồ sơ; tiến độ luyện đề thì tính cả trước đó.</p>
+    </div>
   )
 }

@@ -432,7 +432,8 @@ export const certAccessRequests = pgTable('cert_access_requests', {
 // 1 dòng = 1 lần load trang /certs thành công (owner hoặc viewer) — cùng thiết kế với ieltsAccessLogs.
 export const certAccessLogs = pgTable('cert_access_logs', {
   id: text('id').primaryKey(),
-  email: text('email').notNull(), // lowercase; 'owner' nếu chưa bật chia sẻ thì không ghi (xem access.ts)
+  email: text('email'), // lowercase; null khi vào bằng hồ sơ học (chế độ 'profile', xem lib/certs/settings.ts)
+  learnerId: text('learner_id'), // hồ sơ học đã vào — chỉ ghi ở chế độ 'profile'
   userAgent: text('user_agent').default('').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })

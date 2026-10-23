@@ -15,6 +15,7 @@ export async function GET() {
 
   const byEmail = new Map<string, { email: string; count: number; lastSeenAt: string; lastBrowser: string }>()
   for (const row of rows) {
+    if (!row.email) continue // lượt vào bằng hồ sơ học — xem /api/certs/profiles
     const existing = byEmail.get(row.email)
     if (existing) {
       existing.count += 1
