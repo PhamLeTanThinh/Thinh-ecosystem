@@ -6,8 +6,9 @@ import { useCertsAccess } from './AccessContext'
 // (IELTS_OWNER_EMAIL có giá trị), song song với .ih-role-badge trong IeltsShell.tsx. Đặt ở layout
 // (protected) thay vì lặp lại trong từng trang vì các trang Certs không dùng chung 1 khung header.
 export function CertsRoleBadge() {
-  const { isOwner, email, sharingEnabled } = useCertsAccess()
-  if (!sharingEnabled) return null
+  const { isOwner, email, sharingEnabled, profileOnly } = useCertsAccess()
+  // Vào bằng hồ sơ học thì không có phiên email để đăng xuất — tên hồ sơ đã hiện ở nút LearnerProfile.
+  if (!sharingEnabled || profileOnly) return null
   return (
     <div className="certs-role-badge">
       <span className={`certs-role-chip${isOwner ? ' owner' : ''}`}>{isOwner ? '👑 Chủ trang' : `👁️ Đang xem${email ? `: ${email}` : ''}`}</span>

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { CertQuiz, type CertQuestion } from '@/components/certs/CertQuiz'
-import { LearnerGate, LearnerProfile } from '@/components/learner/LearnerProfile'
+import { LearnerProfile } from '@/components/learner/LearnerProfile'
 import { assertCertsAccess } from '@/lib/certs/access'
 import { findAnswerGroup } from '@/lib/certs/ccaf-answer-groups'
 import data from '@/lib/certs/ccaf-questions.json'
@@ -64,7 +64,6 @@ export default async function CcafPage({ searchParams }: { searchParams: Promise
         initialQuestion={initialQuestion}
       />
       </div>
-      <LearnerGate />
     </div>
   )
 }

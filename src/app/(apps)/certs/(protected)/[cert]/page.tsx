@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { CertQuiz } from '@/components/certs/CertQuiz'
-import { LearnerGate, LearnerProfile } from '@/components/learner/LearnerProfile'
+import { LearnerProfile } from '@/components/learner/LearnerProfile'
 import { assertCertsAccess } from '@/lib/certs/access'
 import { CERT_CATALOG, findCert } from '@/lib/certs/catalog'
 import { topicsByQuestionIn } from '@/lib/certs/theory'
@@ -87,7 +87,6 @@ export default async function CertPage({
           contexts={cert.contexts}
         />
       </div>
-      <LearnerGate />
     </div>
   )
 }

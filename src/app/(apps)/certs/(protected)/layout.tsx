@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid'
 import { CertsAccessGate } from '@/components/certs/AccessGate'
 import { CertsAccessProvider } from '@/components/certs/AccessContext'
 import { CertsRoleBadge } from '@/components/certs/RoleBadge'
+import { LearnerGate } from '@/components/learner/LearnerProfile'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { getCertsAccess } from '@/lib/certs/access'
 import { db } from '@/lib/db'
@@ -37,9 +38,16 @@ export default async function CertsProtectedLayout({ children }: { children: Rea
   }
 
   return (
-    <CertsAccessProvider isOwner={access.mode === 'owner'} email={access.email} sharingEnabled={Boolean(process.env.IELTS_OWNER_EMAIL)}>
+    <CertsAccessProvider
+      isOwner={access.mode === 'owner'}
+      email={access.email}
+      sharingEnabled={Boolean(process.env.IELTS_OWNER_EMAIL)}
+      profileOnly={access.mode === 'learner'}
+    >
       <CertsRoleBadge />
       {children}
+      {/* Popup hỏi tên hồ sơ học (tiến độ luyện đề gắn theo hồ sơ). Ở chế độ "chỉ cần hồ sơ" đây là cửa vào duy nhất. */}
+      <LearnerGate />
     </CertsAccessProvider>
   )
 }

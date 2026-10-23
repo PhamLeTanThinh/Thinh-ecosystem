@@ -5,6 +5,7 @@ import { NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { certInvites } from '@/db/schema'
 import { SESSION_COOKIE, verifySessionToken } from '@/lib/ielts/session'
+import { getCertsAccessMode } from '@/lib/certs/settings'
 
 // Quyền vào Certs Hub — cùng cơ chế đăng nhập (magic link + session cookie, xem lib/ielts/session.ts) và cùng
 // 1 "chủ trang" (IELTS_OWNER_EMAIL — dùng chung biến với IELTS/Admin, đây là chủ của cả hệ thống chứ không
@@ -18,7 +19,13 @@ async function getSessionEmail(): Promise<string | null> {
   return verifySessionToken(token)?.email ?? null
 }
 
-export type CertsAccess = { mode: 'owner'; email: string | null } | { mode: 'viewer'; email: string } | { mode: 'denied' }
+// 'learner' = chế độ "chỉ cần hồ sơ học" đang bật (lib/certs/settings.ts): vào được mà không cần email,
+// tiến độ gắn theo cookie hồ sơ học chứ không theo email.
+export type CertsAccess =
+  | { mode: 'owner'; email: string | null }
+  | { mode: 'viewer'; email: string }
+  | { mode: 'learner'; email: null }
+  | { mode: 'denied' }
 
 // Chưa đặt IELTS_OWNER_EMAIL = chưa bật chia sẻ ra ngoài cho cả hệ thống — mọi request đều coi là chủ, giữ
 // đúng hành vi cũ (dùng local, không cần đăng nhập gì), y như IELTS.
@@ -27,8 +34,9 @@ export async function getCertsAccess(): Promise<CertsAccess> {
   if (!ownerEmail) return { mode: 'owner', email: null }
 
   const email = await getSessionEmail()
+  if (email && email.toLowerCase() === ownerEmail.toLowerCase()) return { mode: 'owner', email }
+  if ((await getCertsAccessMode()) === 'profile') return { mode: 'learner', email: null }
   if (!email) return { mode: 'denied' }
-  if (email.toLowerCase() === ownerEmail.toLowerCase()) return { mode: 'owner', email }
 
   const [invite] = await db.select().from(certInvites).where(eq(certInvites.email, email.toLowerCase()))
   if (invite && !invite.revokedAt) return { mode: 'viewer', email }

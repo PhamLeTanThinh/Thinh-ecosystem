@@ -38,8 +38,14 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
+  // null = đang tải — công tắc khoá lại tới khi biết chế độ hiện tại.
+  const [accessMode, setAccessMode] = useState<'verified' | 'profile' | null>(null)
 
   useEffect(() => {
+    fetch('/api/certs/settings')
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`settings: HTTP ${r.status}`))))
+      .then((data) => setAccessMode(data.accessMode === 'profile' ? 'profile' : 'verified'))
+      .catch((err) => console.error('[admin] tải cách vào Certs thất bại:', err))
     fetch('/api/certs/invites')
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`invites: HTTP ${r.status}`))))
       .then((data) => setInvites(Array.isArray(data) ? data : []))
@@ -238,8 +244,57 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
     })
   }
 
+  function toggleAccessMode() {
+    if (!accessMode) return
+    const next = accessMode === 'verified' ? 'profile' : 'verified'
+    const toProfile = next === 'profile'
+    return runAction({
+      bubble: toProfile ? 'Mở Certs Hub cho ai cũng vào học được hả ông chủ?' : 'Bật lại xác thực email cho Certs Hub hả ông chủ?',
+      sub: toProfile
+        ? 'Không cần email hay chờ duyệt nữa, mỗi người chỉ cần đặt tên hồ sơ học là vào được nha 🐾'
+        : 'Chỉ người được mời mới vào được. Ai đang vào bằng hồ sơ học sẽ bị hỏi email ở lần tải kế tiếp đó nha 🐾',
+      confirmLabel: toProfile ? 'Mở luôn' : 'Bật lại nè',
+      danger: toProfile,
+      run: async () => {
+        const res = await fetch('/api/certs/settings', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ accessMode: next }),
+        })
+        if (!res.ok) return { ok: false, error: 'Chưa đổi được rồi, ông chủ thử lại sau chút nha' }
+        setAccessMode(next)
+        return { ok: true, bubble: toProfile ? 'Đã mở Certs Hub, chỉ cần tạo hồ sơ là học được rồi nè! 🎉' : 'Đã bật lại xác thực email rồi nha' }
+      },
+    })
+  }
+
   return (
     <>
+      <div className="adm-panel">
+        <div className="adm-toolbar">
+          <h2 className="adm-panel-title">Cách vào Certs Hub</h2>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={accessMode === 'profile'}
+            aria-label="Chỉ cần tạo hồ sơ học, không cần xác thực email"
+            className="adm-switch"
+            disabled={!accessMode}
+            onClick={toggleAccessMode}
+          >
+            <span className="adm-switch-track" aria-hidden="true">
+              <span className="adm-switch-thumb" />
+            </span>
+            <span className="adm-switch-label">{accessMode === 'profile' ? 'Chỉ cần hồ sơ học' : 'Xác thực email'}</span>
+          </button>
+        </div>
+        <p className="adm-note">
+          {accessMode === 'profile'
+            ? 'Ai có link cũng vào được: chỉ cần đặt tên hồ sơ học (như Chinese/Korean), không cần email hay chờ duyệt. Danh sách mời bên dưới tạm không có tác dụng.'
+            : 'Người xem phải đăng nhập bằng link gửi qua email và nằm trong danh sách được mời/duyệt.'}
+        </p>
+      </div>
+
       <div className="adm-panel">
         <h2 className="adm-panel-title">Mời người xem qua email</h2>
         <div className="adm-inline-form">

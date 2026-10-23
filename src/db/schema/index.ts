@@ -82,6 +82,14 @@ export const chineseSettings = pgTable('chinese_settings', {
 // (chưa học gì cả), nên chỉ dò "tên đã có dữ liệu chưa" ở các bảng đó là không đủ — người khác có thể
 // "cướp" đúng cái tên rỗng đó. Ràng buộc UNIQUE trên id còn giúp việc "nhận tên" atomic, tránh 2 người
 // tạo trùng tên cùng lúc (race condition) mà không cần khoá thêm ở tầng ứng dụng.
+// Cài đặt toàn hệ thống do chủ trang bật/tắt ở /admin — mỗi dòng 1 key. Hiện có: 'certs_access_mode'
+// (xem lib/certs/settings.ts).
+export const appSettings = pgTable('app_settings', {
+  key: text('key').primaryKey(),
+  value: text('value').notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
 export const learnerProfiles = pgTable('learner_profiles', {
   id: text('id').primaryKey(),
   // Tên đúng như người dùng gõ (có dấu, hoa/thường, vd "YẾNN") — `id` là bản đã bỏ dấu ("yenn") dùng
