@@ -7,7 +7,8 @@ import type { CertsProfileStat } from '@/lib/certs/profiles'
 import { detectBrowser } from '@/lib/ielts/userAgent'
 
 // Theo dõi người học Certs theo HỒ SƠ HỌC (chế độ 'profile', xem lib/certs/settings.ts) — song song với
-// /api/certs/access-logs (theo email). Gồm mọi hồ sơ đã vào Certs hoặc đã có tiến độ/lượt thi Certs.
+// /api/certs/access-logs (theo email). Gồm mọi hồ sơ đã tạo + hồ sơ cũ chưa đặt tên nhưng có tiến độ Certs.
+// Hồ sơ hoạt động Certs gần nhất lên đầu, chưa từng vào Certs xuống cuối.
 export async function GET() {
   const forbidden = await requireOwnerApi()
   if (forbidden) return forbidden
@@ -52,6 +53,9 @@ export async function GET() {
     return s
   }
   const later = (a: string | null, b: Date | null) => (b && (!a || b.toISOString() > a) ? b.toISOString() : a)
+
+  // Mọi hồ sơ đã tạo (kể cả chưa từng vào Certs) — để chủ trang mở cert trước cho họ ở bảng quyền xem.
+  for (const p of profiles) get(p.id)
 
   // logs đã xếp mới nhất trước → dòng đầu tiên của mỗi hồ sơ là lần vào gần nhất.
   for (const l of logs) {

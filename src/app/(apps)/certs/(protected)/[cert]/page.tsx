@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { CertQuiz } from '@/components/certs/CertQuiz'
 import { LearnerProfile } from '@/components/learner/LearnerProfile'
-import { assertCertsAccess } from '@/lib/certs/access'
+import { assertCertVisible } from '@/lib/certs/visibility'
 import { CERT_CATALOG, findCert } from '@/lib/certs/catalog'
 import { topicsByQuestionIn } from '@/lib/certs/theory'
 
@@ -25,7 +25,7 @@ export default async function CertPage({
   params: Promise<{ cert: string }>
   searchParams: Promise<{ topic?: string | string[]; answer?: string | string[]; q?: string | string[] }>
 }) {
-  await assertCertsAccess()
+  await assertCertVisible((await params).cert)
   const cert = findCert((await params).cert)
   if (!cert) notFound()
   const query = await searchParams

@@ -90,6 +90,15 @@ export const appSettings = pgTable('app_settings', {
   updatedAt: timestamp('updated_at').defaultNow().notNull(),
 })
 
+// Cert nào được mở THÊM cho từng người xem Certs Hub (ngoài danh sách mặc định cho mọi người, lưu ở
+// app_settings 'certs_default_visible'). subject = 'email:<email>' (chế độ xác thực email) hoặc
+// 'learner:<id hồ sơ học>' (chế độ chỉ cần hồ sơ). Xem lib/certs/visibility.ts.
+export const certGrants = pgTable('cert_grants', {
+  subject: text('subject').primaryKey(),
+  certs: text('certs').array().default([]).notNull(), // id cert: 'ccaf', 'ai-103', ...
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+})
+
 // Mỗi lần 1 hồ sơ học mở app Chinese / Korean / Certs (1 dòng mỗi lần tải trang của app đó) — để /admin
 // biết ai vào app nào, bao nhiêu lần. Ghi ở /api/learner/whoami (xem lib/learner/visits.ts).
 export const learnerVisits = pgTable(

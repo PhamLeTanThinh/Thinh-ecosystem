@@ -1,10 +1,12 @@
 import type { CSSProperties } from 'react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
-import { assertCertsAccess } from '@/lib/certs/access'
+import { getCertsAccess } from '@/lib/certs/access'
 import { CERT_CATALOG } from '@/lib/certs/catalog'
 import questions from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS } from '@/lib/certs/ccaf-theory'
+import { getVisibleCertIds } from '@/lib/certs/visibility'
 
 // Màu nhấn lần lượt cho các cert trong catalog (sau CCAF) — lấy từ bảng Midnight Velvet của certs.css cho đồng bộ.
 const CATALOG_ACCENTS = ['#1f2a5c', '#2f6b57', '#4a143b', '#9a7433', '#3b5bdb']
@@ -12,6 +14,7 @@ const CATALOG_ACCENTS = ['#1f2a5c', '#2f6b57', '#4a143b', '#9a7433', '#3b5bdb']
 // Mỗi chứng chỉ 1 card, các chế độ học là các nút bên trong. Cert mới thì thêm vào lib/certs/catalog.ts.
 const CERTS = [
   {
+    id: 'ccaf',
     title: 'CCAF',
     accent: '#b4532a',
     subtitle: 'Claude Certified Architect — Foundations',
@@ -23,6 +26,7 @@ const CERTS = [
     ],
   },
   ...CERT_CATALOG.map((c, i) => ({
+    id: c.id,
     title: c.code,
     accent: CATALOG_ACCENTS[i % CATALOG_ACCENTS.length],
     subtitle: `Microsoft ${c.code} — ${c.title}`,
@@ -38,7 +42,11 @@ const CERTS = [
 ]
 
 export default async function CertsPage() {
-  await assertCertsAccess()
+  const access = await getCertsAccess()
+  if (access.mode === 'denied') redirect('/certs/login')
+  // Chỉ hiện cert người này được xem — chủ trang chỉnh ở tab Certs của /admin (lib/certs/visibility.ts).
+  const visible = await getVisibleCertIds(access)
+  const certs = visible === 'all' ? CERTS : CERTS.filter((c) => visible.has(c.id))
   return (
     <div className="w-full px-6 py-8 md:px-10">
       <AppBreadcrumb app="/certs" className="mb-6" />
@@ -47,7 +55,8 @@ export default async function CertsPage() {
       <p className="mt-1 text-sm text-muted">Tổng hợp đề thi các chứng chỉ.</p>
 
       <div className="ct-grid mt-8">
-        {CERTS.map((cert, i) => (
+        {certs.length === 0 && <p className="text-sm text-muted">Chưa có chứng chỉ nào được mở cho bạn.</p>}
+        {certs.map((cert, i) => (
           <div key={cert.title} className="ct-card" style={{ '--acc': cert.accent, '--i': i } as CSSProperties}>
             <span className="ct-card-glyph" aria-hidden>
               {cert.title}

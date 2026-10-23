@@ -1,6 +1,6 @@
 import { and, count, eq, isNotNull, isNull, max, ne, sql, sum } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles, learnerVisits } from '@/db/schema'
+import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles, learnerVisits, certGrants } from '@/db/schema'
 import { hasLearnerData, isLearnerIdTaken, isRegistered } from '@/lib/learner/registry'
 import { LEARNER_APPS, type LearnerApp } from '@/lib/learner/visits'
 
@@ -23,6 +23,8 @@ export async function moveLearnerData(tx: Tx, oldId: string, newId: string) {
   await tx.update(certProgress).set({ learnerId: newId }).where(eq(certProgress.learnerId, oldId))
   await tx.update(certAttempts).set({ learnerId: newId }).where(eq(certAttempts.learnerId, oldId))
   await tx.update(learnerVisits).set({ learnerId: newId }).where(eq(learnerVisits.learnerId, oldId))
+  // Quyền xem cert riêng của hồ sơ (lib/certs/visibility.ts) đi theo tên mới.
+  await tx.update(certGrants).set({ subject: `learner:${newId}` }).where(eq(certGrants.subject, `learner:${oldId}`))
 }
 
 // Thống kê học 1 app (Chinese / Korean): reviewed = số thẻ đã có tiến độ; learned / wrongNow = số thẻ lần gần nhất
@@ -233,6 +235,7 @@ export async function deleteLearner(id: string): Promise<void> {
     await tx.delete(certProgress).where(eq(certProgress.learnerId, id))
     await tx.delete(certAttempts).where(eq(certAttempts.learnerId, id))
     await tx.delete(learnerVisits).where(eq(learnerVisits.learnerId, id))
+    await tx.delete(certGrants).where(eq(certGrants.subject, `learner:${id}`))
     await tx.delete(learnerProfiles).where(eq(learnerProfiles.id, id))
   })
 }

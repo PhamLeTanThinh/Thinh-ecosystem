@@ -1,12 +1,12 @@
 import Link from 'next/link'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
-import { assertCertsAccess } from '@/lib/certs/access'
+import { assertCertVisible } from '@/lib/certs/visibility'
 import { CCAF_ANSWER_GROUPS } from '@/lib/certs/ccaf-answer-groups'
 
 export const metadata = { title: 'CCAF — Theo đáp án giống nhau' }
 
 export default async function CcafAnswersPage() {
-  await assertCertsAccess()
+  await assertCertVisible('ccaf')
   const grouped = CCAF_ANSWER_GROUPS.reduce((n, g) => n + g.questionIds.length, 0)
   return (
     <div className="mx-auto w-[80%] min-w-0 py-8 max-lg:w-full max-lg:px-6">

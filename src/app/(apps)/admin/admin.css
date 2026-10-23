@@ -175,6 +175,27 @@
   color: var(--color-adm-danger);
 }
 
+/* ── Bảng quyền xem cert (người × cert, CertsGrantsPanel.tsx) ──────── */
+.adm-grant-cell {
+  text-align: center;
+  width: 84px;
+}
+
+.adm-grant-cell input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--color-adm-accent);
+  cursor: pointer;
+}
+
+.adm-grant-cell input:disabled {
+  cursor: default;
+}
+
+.adm-grants-default td {
+  background: var(--color-adm-accent-soft);
+}
+
 /* ── Công tắc bật/tắt (role="switch") ─────────────────────────────── */
 .adm-switch {
   display: inline-flex;

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useAdminAction, type ActionResult } from '@/components/admin/AdminDialog'
+import { CertsGrantsPanel } from '@/components/admin/CertsGrantsPanel'
 import { formatAdminDate } from '@/components/admin/format'
 import { Pager, usePagination } from '@/components/admin/Pagination'
 import { MascotEm } from '@/components/mascot/MascotDialog'
@@ -296,6 +297,8 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
         </p>
       </div>
 
+      {accessMode && <CertsGrantsPanel mode={accessMode} invites={invites} />}
+
       {accessMode === 'profile' ? (
         <CertsProfilesPanel />
       ) : (
@@ -479,7 +482,7 @@ function CertsProfilesPanel() {
             <tbody>
               {rows.length === 0 && (
                 <tr className="adm-empty-row">
-                  <td colSpan={9}>Chưa có hồ sơ nào vào Certs.</td>
+                  <td colSpan={9}>Chưa có hồ sơ học nào.</td>
                 </tr>
               )}
               {page.items.map((p) => {

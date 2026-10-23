@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
-import { assertCertsAccess } from '@/lib/certs/access'
+import { assertCertVisible } from '@/lib/certs/visibility'
 import { CERT_CATALOG, findCert } from '@/lib/certs/catalog'
 
 export function generateStaticParams() {
@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ cert: str
 }
 
 export default async function CertAnswersPage({ params }: { params: Promise<{ cert: string }> }) {
-  await assertCertsAccess()
+  await assertCertVisible((await params).cert)
   const cert = findCert((await params).cert)
   if (!cert?.answerGroups) notFound()
   const groups = cert.answerGroups

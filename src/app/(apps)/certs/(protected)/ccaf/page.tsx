@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { CertQuiz, type CertQuestion } from '@/components/certs/CertQuiz'
 import { LearnerProfile } from '@/components/learner/LearnerProfile'
-import { assertCertsAccess } from '@/lib/certs/access'
+import { assertCertVisible } from '@/lib/certs/visibility'
 import { findAnswerGroup } from '@/lib/certs/ccaf-answer-groups'
 import data from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS, topicsByQuestion } from '@/lib/certs/ccaf-theory'
@@ -14,7 +14,7 @@ export const metadata = { title: 'CCAF — Luyện đề' }
 const theoryByQuestion = topicsByQuestion()
 
 export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[]; answer?: string | string[]; q?: string | string[] }> }) {
-  await assertCertsAccess()
+  await assertCertVisible('ccaf')
   const params = await searchParams
   const topicParam = params.topic
   const topic = CCAF_TOPICS.find((t) => t.id === (Array.isArray(topicParam) ? topicParam[0] : topicParam))

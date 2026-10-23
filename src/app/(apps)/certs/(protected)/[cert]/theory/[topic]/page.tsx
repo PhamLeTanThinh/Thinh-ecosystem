@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AppBreadcrumb } from '@/components/study/Breadcrumb'
 import { slugify, TheoryBlocks } from '@/components/certs/TheoryRich'
-import { assertCertsAccess } from '@/lib/certs/access'
+import { assertCertVisible } from '@/lib/certs/visibility'
 import { CERT_CATALOG, findCert } from '@/lib/certs/catalog'
 import { findTopicIn } from '@/lib/certs/theory'
 
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ cert: str
 }
 
 export default async function CertTopicPage({ params }: { params: Promise<{ cert: string; topic: string }> }) {
-  await assertCertsAccess()
+  await assertCertVisible((await params).cert)
   const found = await load(params)
   if (!found) notFound()
   const { cert, topic, domain, prev, next } = found
