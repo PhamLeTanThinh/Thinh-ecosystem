@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ cert: str
 }
 
 export default async function CertTipsPage({ params }: { params: Promise<{ cert: string }> }) {
-  await assertCertVisible((await params).cert)
+  await assertCertVisible((await params).cert, 'tips')
   const cert = findCert((await params).cert)
   if (!cert || !cert.questions.some((q) => q.tip)) notFound()
   const base = `/certs/${cert.id}`

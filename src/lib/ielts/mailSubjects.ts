@@ -2,11 +2,14 @@
 // nhập chạy trên trình duyệt (AccessGate, AdminGate) dùng chung 1 hằng số mà không kéo thư viện gửi mail vào
 // bundle của trình duyệt. Popup nhắc NGUYÊN VĂN tiêu đề này để người dùng tìm đúng thư, nên phải luôn khớp.
 // 'ielts' = link vào IELTS Hub, 'admin' = link vào trang quản trị của chủ (api/admin/request-link),
-// 'certs' = link vào Certs Hub (components/certs/AccessGate.tsx) — cùng cơ chế gửi thư, khác đích đến.
-export type MagicLinkKind = 'ielts' | 'admin' | 'certs'
+// 'certs' = link vào Certs Hub (components/certs/AccessGate.tsx), 'pm'/'it' = link vào Project Manager / IT Hub
+// (components/hub/HubAccessGate.tsx) — cùng cơ chế gửi thư, khác đích đến.
+export type MagicLinkKind = 'ielts' | 'admin' | 'certs' | 'pm' | 'it'
 
 export const MAGIC_LINK_SUBJECT: Record<MagicLinkKind, string> = {
   ielts: 'Link đăng nhập IELTS Knowledge Hub',
   admin: 'Link đăng nhập trang Admin',
   certs: 'Link đăng nhập Certs Hub',
+  pm: 'Link đăng nhập Project Manager',
+  it: 'Link đăng nhập IT Hub',
 }

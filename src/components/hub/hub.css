@@ -1,0 +1,47 @@
+/* Badge vai trò + màn "cần đăng nhập" của Project Manager / IT Hub — song song với .certs-role-badge /
+   .certs-access-denied (certs.css). Dùng token màu chung của pm.css / it.css. */
+.hub-role-badge {
+  position: fixed;
+  top: 16px;
+  right: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hub-role-chip {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-card);
+  color: var(--color-muted);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+}
+
+.hub-role-chip.owner {
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  border-color: color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+.hub-role-logout {
+  font-size: 12px;
+  color: var(--color-muted);
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.hub-role-logout:hover {
+  color: var(--color-text);
+}
+
+.hub-access-denied {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}

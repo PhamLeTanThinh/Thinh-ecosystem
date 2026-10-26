@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ topic: st
 }
 
 export default async function CcafTopicPage({ params }: { params: Promise<{ topic: string }> }) {
-  await assertCertVisible('ccaf')
+  await assertCertVisible('ccaf', 'theory')
   const found = findTopic((await params).topic)
   if (!found) notFound()
   const { topic, domain, prev, next } = found

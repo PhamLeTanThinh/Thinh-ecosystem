@@ -326,3 +326,127 @@
     transform: none;
   }
 }
+
+/* ── Cert đang khoá (chưa được mở cho người xem) — vẫn hiện card, nhạt màu hơn, kèm nút xin quyền
+   (components/certs/UnlockRequestButton.tsx). ── */
+.ct-card--locked {
+  background: linear-gradient(160deg, color-mix(in srgb, var(--acc) 5%, #fff) 0%, #fff 55%);
+}
+
+.ct-card--locked .ct-card-desc,
+.ct-card--locked .ct-card-tags {
+  opacity: 0.7;
+}
+
+.ct-lock-badge {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0;
+  vertical-align: middle;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.ct-locked-actions {
+  position: relative;
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.ct-unlock-btn {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ct-unlock-btn:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.ct-locked-note {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  color: var(--color-muted);
+  background: color-mix(in srgb, var(--acc) 6%, #fff);
+  border: 1px dashed color-mix(in srgb, var(--acc) 30%, var(--color-border));
+}
+
+.ct-locked-error {
+  color: #b42318;
+  border-color: #f4b4ad;
+  background: #fff4f2;
+}
+
+/* Ô hỏi họ tên trước khi gửi yêu cầu mở cert. */
+.ct-unlock-form {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border-radius: 16px;
+  background: #fff;
+  border: 1px solid color-mix(in srgb, var(--acc) 30%, var(--color-border));
+}
+
+.ct-unlock-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.ct-unlock-input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--color-text);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  outline: none;
+}
+
+.ct-unlock-input:focus {
+  border-color: var(--acc);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--acc) 18%, transparent);
+}
+
+.ct-unlock-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ct-unlock-cancel,
+.ct-unlock-submit {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ct-unlock-cancel {
+  color: var(--color-muted);
+  background: transparent;
+  border: 1px solid var(--color-border);
+}
+
+.ct-unlock-submit {
+  color: #fff;
+  background: linear-gradient(145deg, var(--acc), color-mix(in srgb, var(--acc) 70%, #000));
+  border: 0;
+}
+
+.ct-unlock-submit:disabled,
+.ct-unlock-cancel:disabled {
+  cursor: default;
+  opacity: 0.6;
+}

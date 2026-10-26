@@ -6,7 +6,7 @@ import { CCAF_DOMAINS } from '@/lib/certs/ccaf-theory'
 export const metadata = { title: 'CCAF — Lý thuyết' }
 
 export default async function CcafTheoryPage() {
-  await assertCertVisible('ccaf')
+  await assertCertVisible('ccaf', 'theory')
   const topicCount = CCAF_DOMAINS.reduce((n, d) => n + d.topics.length, 0)
   return (
     <div className="mx-auto w-[80%] min-w-0 py-8 max-lg:w-full max-lg:px-6">

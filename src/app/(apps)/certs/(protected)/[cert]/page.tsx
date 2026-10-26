@@ -25,7 +25,7 @@ export default async function CertPage({
   params: Promise<{ cert: string }>
   searchParams: Promise<{ topic?: string | string[]; answer?: string | string[]; q?: string | string[] }>
 }) {
-  await assertCertVisible((await params).cert)
+  await assertCertVisible((await params).cert, 'practice')
   const cert = findCert((await params).cert)
   if (!cert) notFound()
   const query = await searchParams

@@ -1,11 +1,10 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useAdminAction } from '@/components/admin/AdminDialog'
 import { ago, avatarColor, formatAdminDate } from '@/components/admin/format'
 import { Pager, usePagination } from '@/components/admin/Pagination'
-import { MascotEm } from '@/components/mascot/MascotDialog'
-import type { AppStats, CertStats, LearnerSummary, LearnerTotals } from '@/lib/learner/admin'
+import { useLearnerActions } from '@/components/admin/useLearnerActions'
+import type { AppStats, LearnerSummary, LearnerTotals } from '@/lib/learner/admin'
 import type { LearnerApp } from '@/lib/learner/visits'
 
 type Filter = 'all' | 'active' | 'idle' | 'empty'
@@ -14,18 +13,22 @@ type Sort = 'recent' | 'name' | 'created' | 'cards'
 const DAY = 24 * 60 * 60 * 1000
 
 const pct = (a: number, b: number) => (b > 0 ? Math.round((a / b) * 100) : 0)
-const hasActivity = (l: LearnerSummary) => l.chinese.reviewed + l.korean.reviewed + l.certs.questions + l.certs.attempts > 0
+const hasActivity = (l: LearnerSummary) => l.chinese.reviewed + l.korean.reviewed > 0
+// Hoạt động gần nhất CHỈ tính Trung + Hàn (ôn thẻ, mở app). l.lastActiveAt của API gồm cả Certs — vẫn cần ở đó cho cron
+// dọn hồ sơ không hoạt động (lib/admin/inactive.ts), nhưng Certs đã có bảng riêng ở tab "Người xem Certs".
+const lastActiveOf = (l: LearnerSummary) =>
+  [l.chinese.lastAt, l.korean.lastAt, l.visits.chinese.lastAt, l.visits.korean.lastAt].filter((d): d is string => !!d).sort().pop() ?? null
 // Tên hiển thị (có dấu) nếu có, không thì mã hồ sơ.
 const nameOf = (l: LearnerSummary) => l.displayName || l.id
 const totalCards = (l: LearnerSummary) => l.chinese.reviewed + l.korean.reviewed
 
-// Tab "Hồ sơ học" của trang /admin — hồ sơ dùng chung cho Chinese + Korean + Certs (xem lib/learner/identity.ts).
-// Bên ngoài là bảng danh sách (cùng kiểu tab Người xem IELTS): trạng thái, ngày tạo, hoạt động gần nhất, tóm tắt
-// tiến độ mỗi app. Bấm 1 dòng / "Chi tiết" → popup đủ 3 khối tiến độ (中文, 한국어, Certs): % đã thuộc, độ chính xác,
+// Tab "Hồ sơ học · 中文 · 한국어" của trang /admin — hồ sơ dùng chung cho Chinese + Korean + Certs (xem
+// lib/learner/identity.ts), nhưng tab này chỉ hiện tiến độ Trung + Hàn; tiến độ Certs của hồ sơ nằm ở tab "Người xem
+// Certs" (CertsAccessAdmin.tsx). Bên ngoài là bảng danh sách: trạng thái, ngày tạo, hoạt động gần nhất, tóm tắt
+// tiến độ mỗi app. Bấm 1 dòng / "Chi tiết" → popup 2 khối tiến độ (中文, 한국어): % đã thuộc, độ chính xác,
 // thẻ đang sai, lần học gần nhất, bộ từ… Phía trên là số liệu tổng + lọc / sắp xếp.
-// Đổi tên / xoá đi qua popup mèo hỏi–xong của AdminDialog (API /api/admin/learners, requireAdminApi).
+// Đổi tên / xoá: useLearnerActions (dùng chung với bảng Hồ sơ học Certs ở tab Certs).
 export function LearnerAdmin() {
-  const runAction = useAdminAction()
   const [learners, setLearners] = useState<LearnerSummary[] | null>(null)
   const [totals, setTotals] = useState<LearnerTotals>({ chineseCards: 0, koreanCards: 0 })
   const [loadError, setLoadError] = useState<string | null>(null)
@@ -60,7 +63,13 @@ export function LearnerAdmin() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setNow(Date.now())
   }, [learners])
-  const isActive = useCallback((l: LearnerSummary) => !!l.lastActiveAt && now - new Date(l.lastActiveAt).getTime() < 7 * DAY, [now])
+  const isActive = useCallback(
+    (l: LearnerSummary) => {
+      const last = lastActiveOf(l)
+      return !!last && now - new Date(last).getTime() < 7 * DAY
+    },
+    [now],
+  )
 
   const summary = useMemo(() => {
     const list = learners ?? []
@@ -69,9 +78,11 @@ export function LearnerAdmin() {
       registered: list.filter((l) => l.registered).length,
       active: list.filter(isActive).length,
       empty: list.filter((l) => !hasActivity(l)).length,
+      // Đếm bằng đúng điều kiện của bộ lọc — KHÔNG lấy total - active - empty: mở app (learner_visits) cũng tính là hoạt động
+      // gần đây, nên 1 hồ sơ mới vào mà chưa học gì nằm ở CẢ 'active' lẫn 'empty', phép trừ ra số âm.
+      idle: list.filter((l) => hasActivity(l) && !isActive(l)).length,
       zh: list.reduce((s, l) => s + l.chinese.reviewed, 0),
       ko: list.reduce((s, l) => s + l.korean.reviewed, 0),
-      certs: list.reduce((s, l) => s + l.certs.attempts, 0),
     }
   }, [learners, isActive])
 
@@ -85,7 +96,7 @@ export function LearnerAdmin() {
       return true
     })
     const by: Record<Sort, (a: LearnerSummary, b: LearnerSummary) => number> = {
-      recent: () => 0, // API đã xếp sẵn theo hoạt động gần nhất
+      recent: (a, b) => (lastActiveOf(b) ?? b.createdAt ?? '').localeCompare(lastActiveOf(a) ?? a.createdAt ?? ''),
       name: (a, b) => a.id.localeCompare(b.id),
       created: (a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? ''),
       cards: (a, b) => totalCards(b) - totalCards(a),
@@ -96,79 +107,15 @@ export function LearnerAdmin() {
 
   const detailOf = detail ? (learners ?? []).find((x) => x.id === detail) : undefined
 
-  function rename(l: LearnerSummary) {
-    return runAction({
-      bubble: (
-        <>
-          Ông chủ muốn đổi tên hồ sơ <MascotEm>{nameOf(l)}</MascotEm> thành gì nè?
-        </>
-      ),
-      sub: 'Tiến độ học (tiếng Trung, tiếng Hàn và luyện đề Certs) sẽ đi theo tên mới nha 🐾',
-      confirmLabel: 'Đổi tên nè',
-      input: {
-        placeholder: 'Tên mới (chữ thường, số, - hoặc _)',
-        initial: l.registered ? nameOf(l) : '',
-        maxLength: 24,
-        hint: 'Từ 3 ký tự, bắt đầu bằng chữ cái; gồm chữ, số, gạch ngang hoặc gạch dưới.',
-      },
-      run: async (username) => {
-        const res = await fetch(`/api/admin/learners/${encodeURIComponent(l.id)}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ username }),
-        })
-        const data = await res.json().catch(() => ({}))
-        if (!res.ok) return { ok: false, error: data.error ?? 'Chưa đổi được rồi, ông chủ thử lại sau chút nha' }
-        await load()
-        return {
-          ok: true,
-          bubble: (
-            <>
-              Đã đổi tên rồi nè! <MascotEm>{nameOf(l)}</MascotEm> giờ là <MascotEm>{data.displayName || data.id || username}</MascotEm> 🎉
-            </>
-          ),
-          sub: 'Tiến độ học đã đi theo tên mới rồi nha 🐾',
-        }
-      },
-    })
-  }
-
-  function remove(l: LearnerSummary) {
-    return runAction({
-      bubble: (
-        <>
-          Xoá hẳn hồ sơ <MascotEm>{nameOf(l)}</MascotEm> hả ông chủ?
-        </>
-      ),
-      sub: (
-        <>
-          Toàn bộ tiến độ, cài đặt, bộ từ và lịch sử luyện đề (tiếng Trung, tiếng Hàn, Certs) sẽ mất luôn, không khôi phục được đâu nha! Thẻ từ vựng dùng chung thì
-          vẫn còn.
-          {l.id === 'legacy' && ' Đây là dữ liệu học cũ của ông chủ đó, nghĩ kỹ nha!'}
-        </>
-      ),
-      confirmLabel: 'Xoá luôn',
-      danger: true,
-      run: async () => {
-        const res = await fetch(`/api/admin/learners/${encodeURIComponent(l.id)}`, { method: 'DELETE' })
-        if (!res.ok) return { ok: false, error: 'Chưa xoá được rồi, ông chủ thử lại sau chút nha' }
-        setLearners((v) => (v ? v.filter((x) => x.id !== l.id) : v))
-        return {
-          ok: true,
-          bubble: (
-            <>
-              Đã xoá hồ sơ <MascotEm>{nameOf(l)}</MascotEm> rồi nha
-            </>
-          ),
-        }
-      },
-    })
-  }
+  const { rename, remove } = useLearnerActions({
+    onRenamed: load,
+    onRemoved: (id) => setLearners((v) => (v ? v.filter((x) => x.id !== id) : v)),
+  })
 
   const FILTERS: [Filter, string, number][] = [
     ['all', 'Tất cả', summary.total],
     ['active', 'Hoạt động 7 ngày', summary.active],
-    ['idle', 'Lâu không học', summary.total - summary.active - summary.empty],
+    ['idle', 'Lâu không học', summary.idle],
     ['empty', 'Chưa học gì', summary.empty],
   ]
 
@@ -184,7 +131,7 @@ export function LearnerAdmin() {
         </button>
       </div>
       <p className="adm-note">
-        Hồ sơ dùng chung cho app Tiếng Trung, Tiếng Hàn và luyện đề Certs. Đổi tên thì tiến độ đi theo tên mới; xoá thì mất toàn bộ tiến độ của hồ sơ đó.
+        Tiến độ Tiếng Trung và Tiếng Hàn. Hồ sơ cũng dùng cho luyện đề Certs (xem ở tab Người xem Certs) — đổi tên thì tiến độ cả 3 app đi theo tên mới; xoá thì mất toàn bộ.
       </p>
 
       {loadError && <p className="adm-note adm-error">{loadError}</p>}
@@ -196,7 +143,6 @@ export function LearnerAdmin() {
             <Stat label="Hoạt động 7 ngày" value={summary.active} sub={`${pct(summary.active, summary.total)}% hồ sơ`} tone="success" />
             <Stat label="Thẻ đã ôn · 中文" value={summary.zh} sub={`trên ${totals.chineseCards.toLocaleString('vi-VN')} thẻ`} />
             <Stat label="Thẻ đã ôn · 한국어" value={summary.ko} sub={`trên ${totals.koreanCards.toLocaleString('vi-VN')} thẻ`} />
-            <Stat label="Lượt luyện Certs" value={summary.certs} sub="đã lưu điểm" />
           </div>
 
           <div className="lad-filters">
@@ -231,19 +177,18 @@ export function LearnerAdmin() {
                 <th>Lượt vào</th>
                 <th>中文</th>
                 <th>한국어</th>
-                <th>Certs</th>
                 <th className="adm-col-actions">Hành động</th>
               </tr>
             </thead>
             <tbody>
               {learners === null && (
                 <tr className="adm-empty-row">
-                  <td colSpan={8}>Đang tải…</td>
+                  <td colSpan={7}>Đang tải…</td>
                 </tr>
               )}
               {learners && shown.length === 0 && (
                 <tr className="adm-empty-row">
-                  <td colSpan={8}>{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</td>
+                  <td colSpan={7}>{learners.length === 0 ? 'Chưa có hồ sơ nào.' : 'Không có hồ sơ nào khớp.'}</td>
                 </tr>
               )}
               {learnerPage.items.map((l) => (
@@ -264,8 +209,8 @@ export function LearnerAdmin() {
                   <td data-label="Trạng thái">
                     <StatusPill l={l} active={isActive(l)} />
                   </td>
-                  <td data-label="Hoạt động gần nhất" className="adm-cell-sub" title={l.lastActiveAt ? formatAdminDate(l.lastActiveAt) : undefined}>
-                    {l.lastActiveAt ? ago(l.lastActiveAt) : 'Chưa có'}
+                  <td data-label="Hoạt động gần nhất" className="adm-cell-sub" title={lastActiveOf(l) ? formatAdminDate(lastActiveOf(l)!) : undefined}>
+                    {lastActiveOf(l) ? ago(lastActiveOf(l)) : 'Chưa có'}
                   </td>
                   <td data-label="Lượt vào">
                     <VisitsCell l={l} />
@@ -275,15 +220,6 @@ export function LearnerAdmin() {
                   </td>
                   <td data-label="한국어">
                     <AppCell s={l.korean} total={totals.koreanCards} />
-                  </td>
-                  <td data-label="Certs">
-                    {l.certs.questions + l.certs.attempts > 0 ? (
-                      <div className="lad-cell">
-                        <b>{l.certs.avgScore ?? '—'}%</b> <span className="adm-cell-sub">TB · {l.certs.attempts} lượt</span>
-                      </div>
-                    ) : (
-                      <span className="adm-cell-sub">—</span>
-                    )}
                   </td>
                   <td className="adm-col-actions" onClick={(e) => e.stopPropagation()}>
                     <div className="adm-actions">
@@ -330,10 +266,9 @@ export function LearnerAdmin() {
 const APP_LABELS: [LearnerApp, string][] = [
   ['chinese', '中文'],
   ['korean', '한국어'],
-  ['certs', 'Certs'],
 ]
 
-// Số lần mở từng app (chỉ liệt kê app đã từng vào) — rê chuột xem lần vào gần nhất.
+// Số lần MỞ từng app (không phải số cert/bộ đề xem được — chỉ liệt kê app đã từng vào) — rê chuột xem lần vào gần nhất.
 function VisitsCell({ l }: { l: LearnerSummary }) {
   const used = APP_LABELS.filter(([app]) => l.visits[app].count > 0)
   if (used.length === 0) return <span className="adm-cell-sub">—</span>
@@ -341,7 +276,7 @@ function VisitsCell({ l }: { l: LearnerSummary }) {
     <div className="lad-cell">
       {used.map(([app, label]) => (
         <div key={app} title={l.visits[app].lastAt ? `Lần cuối: ${formatAdminDate(l.visits[app].lastAt)}` : undefined}>
-          <b>{l.visits[app].count}</b> <span className="adm-cell-sub">{label}</span>
+          <b>{l.visits[app].count}</b> <span className="adm-cell-sub">lần vào {label}</span>
         </div>
       ))}
     </div>
@@ -369,7 +304,7 @@ function AppCell({ s, total }: { s: AppStats; total: number }) {
   )
 }
 
-// Popup chi tiết 1 hồ sơ: thông tin chung + 3 khối tiến độ (中文, 한국어, Certs) + đổi tên / xoá
+// Popup chi tiết 1 hồ sơ: thông tin chung + 2 khối tiến độ (中文, 한국어) + đổi tên / xoá
 function DetailModal({
   l,
   active,
@@ -407,14 +342,14 @@ function DetailModal({
             <div className="lad-dates">
               <span>Tạo {l.createdAt ? formatAdminDate(l.createdAt) : '—'}</span>
               <span>
-                Hoạt động gần nhất: <b>{l.lastActiveAt ? `${ago(l.lastActiveAt)} · ${formatAdminDate(l.lastActiveAt)}` : 'chưa có'}</b>
+                Hoạt động gần nhất: <b>{lastActiveOf(l) ? `${ago(lastActiveOf(l))} · ${formatAdminDate(lastActiveOf(l)!)}` : 'chưa có'}</b>
               </span>
               <span>
                 Lượt vào:{' '}
                 {APP_LABELS.map(([app, label]) => (
                   <b key={app} title={l.visits[app].lastAt ? `Lần cuối: ${formatAdminDate(l.visits[app].lastAt)}` : 'Chưa vào'}>
                     {label} {l.visits[app].count}
-                    {app !== 'certs' && ' · '}
+                    {app !== 'korean' && ' · '}
                   </b>
                 ))}
               </span>
@@ -427,7 +362,6 @@ function DetailModal({
         <div className="lad-apps">
           <AppBlock title="中文 · Tiếng Trung" s={l.chinese} total={totals.chineseCards} />
           <AppBlock title="한국어 · Tiếng Hàn" s={l.korean} total={totals.koreanCards} />
-          <CertBlock s={l.certs} />
         </div>
         <footer className="lad-foot">
           <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={onRename}>
@@ -504,49 +438,3 @@ function AppBlock({ title, s, total }: { title: string; s: AppStats; total: numb
   )
 }
 
-function CertBlock({ s }: { s: CertStats }) {
-  const answers = s.correct + s.wrong
-  const has = s.questions + s.attempts > 0
-  return (
-    <section className={`lad-app${has ? '' : ' none'}`}>
-      <h4>Certs · Luyện đề</h4>
-      {!has ? (
-        <p className="lad-none">Chưa luyện đề nào</p>
-      ) : (
-        <>
-          <div className="lad-bar">
-            <span className="ok" style={{ width: `${s.avgScore ?? pct(s.correct, answers)}%` }} />
-          </div>
-          <p className="lad-big">
-            Điểm TB <b>{s.avgScore ?? '—'}%</b> <span className="lad-muted">qua {s.attempts} lượt</span>
-          </p>
-          <ul className="lad-kv">
-            <li>
-              <span>Câu đã làm</span>
-              <b>{s.questions}</b>
-            </li>
-            <li>
-              <span>Chính xác</span>
-              <b>
-                {pct(s.correct, answers)}% <small>(✓{s.correct} ✕{s.wrong})</small>
-              </b>
-            </li>
-            <li>
-              <span>Gần nhất</span>
-              <b title={s.lastAt ? formatAdminDate(s.lastAt) : undefined}>{ago(s.lastAt)}</b>
-            </li>
-          </ul>
-          {s.certs.length > 0 && (
-            <p className="lad-tags">
-              {s.certs.map((c) => (
-                <span key={c} className="adm-pill adm-pill-accent">
-                  {c.toUpperCase()}
-                </span>
-              ))}
-            </p>
-          )}
-        </>
-      )}
-    </section>
-  )
-}

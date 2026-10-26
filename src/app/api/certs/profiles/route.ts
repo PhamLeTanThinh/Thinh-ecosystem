@@ -5,6 +5,7 @@ import { certAttempts, certProgress, learnerProfiles, learnerVisits } from '@/db
 import { requireOwnerApi } from '@/lib/certs/access'
 import type { CertsProfileStat } from '@/lib/certs/profiles'
 import { detectBrowser } from '@/lib/ielts/userAgent'
+import { getCertViewStats } from '@/lib/certs/views'
 
 // Theo dõi người học Certs theo HỒ SƠ HỌC (chế độ 'profile', xem lib/certs/settings.ts) — song song với
 // /api/certs/access-logs (theo email). Gồm mọi hồ sơ đã tạo + hồ sơ cũ chưa đặt tên nhưng có tiến độ Certs.
@@ -13,7 +14,7 @@ export async function GET() {
   const forbidden = await requireOwnerApi()
   if (forbidden) return forbidden
 
-  const [logs, progress, attempts, profiles] = await Promise.all([
+  const [logs, progress, attempts, profiles, viewStats] = await Promise.all([
     db
       .select({ id: learnerVisits.learnerId, userAgent: learnerVisits.userAgent, createdAt: learnerVisits.createdAt })
       .from(learnerVisits)
@@ -40,6 +41,7 @@ export async function GET() {
       .from(certAttempts)
       .groupBy(certAttempts.learnerId),
     db.select({ id: learnerProfiles.id, displayName: learnerProfiles.displayName }).from(learnerProfiles),
+    getCertViewStats(),
   ])
 
   const names = new Map(profiles.map((p) => [p.id, p.displayName]))
@@ -47,7 +49,7 @@ export async function GET() {
   const get = (id: string) => {
     let s = byId.get(id)
     if (!s) {
-      s = { id, displayName: names.get(id) ?? null, visits: 0, lastSeenAt: null, lastBrowser: null, questions: 0, correct: 0, wrong: 0, attempts: 0, avgScore: null, certs: [], lastStudyAt: null }
+      s = { id, displayName: names.get(id) ?? null, registered: names.has(id), visits: 0, lastSeenAt: null, lastBrowser: null, questions: 0, correct: 0, wrong: 0, attempts: 0, avgScore: null, certs: [], lastStudyAt: null, certViews: [] }
       byId.set(id, s)
     }
     return s
@@ -79,6 +81,10 @@ export async function GET() {
     s.attempts = r.n
     s.avgScore = r.avg == null || Number.isNaN(r.avg) ? null : Math.round(r.avg * 100)
     s.lastStudyAt = later(s.lastStudyAt, r.last)
+  }
+
+  for (const [subject, views] of viewStats) {
+    if (subject.startsWith('learner:')) get(subject.slice('learner:'.length)).certViews = views
   }
 
   const recent = (s: CertsProfileStat) => [s.lastSeenAt, s.lastStudyAt].filter(Boolean).sort().pop() ?? ''

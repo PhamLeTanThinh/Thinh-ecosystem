@@ -32,7 +32,7 @@
 }
 
 .adm-root {
-  max-width: 1440px; /* rộng gần hết màn hình — bảng nhiều cột không phải cuộn ngang */
+  /* Trải hết bề ngang màn hình (trừ sidebar) — bảng nhiều cột như Hồ sơ học Certs có chỗ, ít phải cuộn ngang. */
   margin: 0 auto;
   padding: 20px 20px 72px;
 }
@@ -85,37 +85,114 @@
   flex: none;
 }
 
-/* ── Tabs (kiểu underline, chuẩn dashboard) ───────────────────────── */
-.adm-tabs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--color-adm-border);
+/* ── Sidebar chọn mảng quản lý (thay cho hàng tab ngang) ──────────────────
+   Màn rộng: cột trái dính theo khi cuộn. Màn hẹp: thành 1 hàng cuộn ngang phía trên nội dung. */
+.adm-layout {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
 }
 
-.adm-tab {
-  position: relative;
-  top: 1px;
-  padding: 9px 4px;
-  margin-right: 22px;
-  border: 0;
-  border-bottom: 2px solid transparent;
-  background: transparent;
-  font-size: 13.5px;
+.adm-main {
+  min-width: 0;
+}
+
+.adm-side {
+  position: sticky;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 14px 10px;
+  background: var(--color-adm-surface);
+  border: 1px solid var(--color-adm-border);
+  border-radius: 14px;
+}
+
+.adm-side-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.adm-side-title {
+  margin: 0 0 4px;
+  padding: 0 10px;
+  font-size: 11px;
   font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-adm-ink-soft);
+}
+
+.adm-side-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-align: left;
   color: var(--color-adm-ink-soft);
   cursor: pointer;
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
-.adm-tab:hover {
+.adm-side-item:hover {
+  background: var(--color-adm-surface-soft);
   color: var(--color-adm-ink);
 }
 
-.adm-tab[aria-selected='true'] {
+.adm-side-item[aria-selected='true'] {
+  background: var(--color-adm-accent-soft);
   color: var(--color-adm-accent);
-  border-bottom-color: var(--color-adm-accent);
+  font-weight: 600;
+}
+
+.adm-side-item:focus-visible {
+  outline: 2px solid var(--color-adm-accent);
+  outline-offset: 1px;
+}
+
+.adm-side-icon {
+  width: 20px;
+  text-align: center;
+  flex: none;
+}
+
+@media (max-width: 860px) {
+  .adm-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .adm-side {
+    position: static;
+    flex-direction: row;
+    gap: 4px;
+    padding: 6px;
+    overflow-x: auto;
+  }
+
+  .adm-side-group {
+    flex-direction: row;
+    gap: 4px;
+  }
+
+  .adm-side-title {
+    display: none;
+  }
+
+  .adm-side-item {
+    width: auto;
+    white-space: nowrap;
+  }
 }
 
 /* ── Panel (khung trắng bọc mỗi tab) ──────────────────────────────── */
@@ -405,6 +482,16 @@
   overflow-wrap: anywhere;
 }
 
+/* Bảng nhiều cột (vd Hồ sơ học Certs, 11 cột): giữ bề rộng tối thiểu để cuộn ngang thay vì bóp cột chữ thành từng
+   mẩu; cột tên người/hồ sơ không bao giờ hẹp hơn 170px. */
+.adm-table-wide {
+  min-width: 1150px;
+}
+
+.adm-table .adm-col-who {
+  min-width: 170px;
+}
+
 .adm-cell-sub {
   margin-top: 2px;
   font-size: 12.5px;
@@ -675,7 +762,7 @@
 
 .lad-apps {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .lad-app {

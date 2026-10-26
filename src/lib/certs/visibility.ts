@@ -6,6 +6,8 @@ import { appSettings, certGrants } from '@/db/schema'
 import { getCertsAccess, type CertsAccess } from '@/lib/certs/access'
 import { CERT_CATALOG } from '@/lib/certs/catalog'
 import { LEARNER_COOKIE } from '@/lib/learner/identity'
+import { logCertView } from '@/lib/certs/views'
+import type { CertSection } from '@/lib/certs/viewTypes'
 
 // Ai được xem cert nào — chủ trang chỉnh ở tab Certs của /admin:
 // - Chủ trang luôn thấy hết.
@@ -81,9 +83,11 @@ export async function canSeeCert(access: CertsAccess, certId: string): Promise<b
 }
 
 // Dùng ở đầu mọi PAGE của 1 cert (thay cho assertCertsAccess) — chưa đăng nhập thì về /certs/login, đăng nhập
-// rồi mà không được xem cert này thì 404 như thể trang không tồn tại.
-export async function assertCertVisible(certId: string): Promise<void> {
+// rồi mà không được xem cert này thì 404 như thể trang không tồn tại. section = phần của cert đang mở, để ghi lượt xem
+// (lib/certs/views.ts) cho /admin biết người xem mở cert nào, phần nào.
+export async function assertCertVisible(certId: string, section: CertSection): Promise<void> {
   const access = await getCertsAccess()
   if (access.mode === 'denied') redirect('/certs/login')
   if (!(await canSeeCert(access, certId))) notFound()
+  await logCertView(access, certId, section)
 }

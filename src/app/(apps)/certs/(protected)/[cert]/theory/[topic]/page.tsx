@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ cert: str
 }
 
 export default async function CertTopicPage({ params }: { params: Promise<{ cert: string; topic: string }> }) {
-  await assertCertVisible((await params).cert)
+  await assertCertVisible((await params).cert, 'theory')
   const found = await load(params)
   if (!found) notFound()
   const { cert, topic, domain, prev, next } = found

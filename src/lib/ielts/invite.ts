@@ -3,6 +3,7 @@ import { count, eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
 import { ieltsAccessRequests, ieltsInvites, ieltsMagicTokens } from '@/db/schema'
 import { sendAccessRequestNotice, sendMagicLinkEmail } from '@/lib/ielts/mailer'
+import type { MagicLinkKind } from '@/lib/ielts/mailSubjects'
 
 const MAGIC_TOKEN_TTL_MS = 1000 * 60 * 30 // 30 phút
 // Trần số yêu cầu đang chờ — ai cũng gọi được request-link nên cần chặn kẻ spam email ngẫu nhiên
@@ -14,18 +15,18 @@ export function appOrigin(reqUrl: string): string {
 }
 
 // next = trang đích sau khi bấm link (chỉ nhận các đường dẫn trong whitelist ở api/ielts/verify): '/admin' cho
-// link đăng nhập trang quản trị của chủ, '/certs' cho Certs Hub (lib/certs/invite.ts), bỏ trống = vào /ielts như
-// bình thường. Cả 3 đích đều đi qua đúng 1 route xác thực (api/ielts/verify) và 1 cookie phiên (session.ts) —
-// Certs và Admin "mượn" hạ tầng đăng nhập của IELTS thay vì tự dựng lại, chỉ khác bảng invites/access_requests
-// nào được tra sau khi đã biết email trong phiên (xem lib/certs/access.ts, lib/admin/access.ts).
+// link đăng nhập trang quản trị của chủ, '/certs' cho Certs Hub (lib/certs/invite.ts), '/pm' / '/it' cho Project Manager /
+// IT Hub (lib/hub/invite.ts), bỏ trống = vào /ielts như bình thường. Mọi đích đều đi qua đúng 1 route xác thực (api/ielts/verify) và 1 cookie phiên (session.ts) —
+// Các app khác "mượn" hạ tầng đăng nhập của IELTS thay vì tự dựng lại, chỉ khác bảng invites/access_requests
+// nào được tra sau khi đã biết email trong phiên (xem lib/certs/access.ts, lib/hub/access.ts, lib/admin/access.ts).
 // Trả { sent, link }: sent = thư đã được nhà cung cấp nhận (xem mailer.ts), false khi gửi thất bại/chưa cấu hình gửi
 // mail; link = đường dẫn đăng nhập, để trang admin đưa cho chủ tự gửi tay khi thư không đi được.
-export async function sendLoginLink(email: string, origin: string, next?: '/admin' | '/certs'): Promise<{ sent: boolean; link: string }> {
+export async function sendLoginLink(email: string, origin: string, next?: '/admin' | '/certs' | '/pm' | '/it'): Promise<{ sent: boolean; link: string }> {
   const token = nanoid(32)
   await db.insert(ieltsMagicTokens).values({ token, email, expiresAt: new Date(Date.now() + MAGIC_TOKEN_TTL_MS) })
   const nextParam = next ? `&next=${encodeURIComponent(next)}` : ''
   const link = `${origin}/api/ielts/verify?token=${token}${nextParam}`
-  const kind = next === '/admin' ? 'admin' : next === '/certs' ? 'certs' : 'ielts'
+  const kind: MagicLinkKind = next ? (next.slice(1) as MagicLinkKind) : 'ielts'
   const sent = await sendMagicLinkEmail(email, link, kind)
   return { sent, link }
 }

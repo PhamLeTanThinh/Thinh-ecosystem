@@ -460,6 +460,75 @@ export const certAccessLogs = pgTable('cert_access_logs', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 })
 
+// 1 dòng = 1 lần người xem (không tính chủ trang) mở 1 trang của 1 cert — để /admin biết ai xem cert nào, phần nào.
+// subject cùng quy ước với certGrants: 'email:<email>' (chế độ xác thực email) hoặc 'learner:<id>' (chế độ chỉ cần
+// hồ sơ). Ghi ở assertCertVisible (lib/certs/views.ts) vì mọi trang cert đều đi qua đó.
+export const certViews = pgTable(
+  'cert_views',
+  {
+    id: text('id').primaryKey(),
+    subject: text('subject').notNull(),
+    certId: varchar('cert_id', { length: 20 }).notNull(),
+    section: varchar('section', { length: 10 }).notNull(), // 'practice' | 'theory' | 'tips' | 'answers'
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => [index('cert_views_subject_idx').on(t.subject)],
+)
+
+// Người xem bấm "Xin quyền xem" ở 1 cert đang khoá trên trang /certs → 1 dòng ở đây chờ chủ duyệt (tab Certs của
+// /admin). Duyệt = thêm cert vào certGrants của subject rồi xoá dòng này. Từ chối = đổi status sang 'rejected' và giữ
+// dòng lại để họ không xin lại được cert đó (chống spam). subject cùng quy ước với certGrants.
+export const certUnlockRequests = pgTable(
+  'cert_unlock_requests',
+  {
+    subject: text('subject').notNull(),
+    certId: varchar('cert_id', { length: 20 }).notNull(),
+    fullName: text('full_name').default('').notNull(), // họ tên đầy đủ người xin tự nhập lúc xin quyền
+    status: varchar('status', { length: 10 }).default('pending').notNull(), // 'pending' | 'rejected'
+    requestedAt: timestamp('requested_at').defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.subject, t.certId] })],
+)
+
+// Quyền vào các app "chỉ đọc" khác (Project Manager, IT Hub — danh sách app ở lib/hub/apps.ts) — cùng cơ chế
+// đăng nhập email + cùng chủ trang với IELTS/Certs, nhưng gộp chung 3 bảng, phân biệt app bằng cột `app` thay vì
+// mỗi app 3 bảng riêng. Danh sách người được mời vẫn tách theo từng app: được mời xem PM không tự xem được IT.
+export const hubInvites = pgTable(
+  'hub_invites',
+  {
+    app: varchar('app', { length: 10 }).notNull(), // 'pm' | 'it'
+    email: text('email').notNull(), // lowercase
+    invitedAt: timestamp('invited_at').defaultNow().notNull(),
+    revokedAt: timestamp('revoked_at'), // null = còn hiệu lực; có giá trị = đã bị thu hồi quyền xem
+  },
+  (t) => [primaryKey({ columns: [t.app, t.email] })],
+)
+
+// Người lạ vào /<app>/login nhập email khi chưa được mời — cùng vòng đời với ieltsAccessRequests.
+export const hubAccessRequests = pgTable(
+  'hub_access_requests',
+  {
+    app: varchar('app', { length: 10 }).notNull(),
+    email: text('email').notNull(), // lowercase
+    status: varchar('status', { length: 10 }).default('pending').notNull(), // 'pending' | 'rejected'
+    requestedAt: timestamp('requested_at').defaultNow().notNull(),
+  },
+  (t) => [primaryKey({ columns: [t.app, t.email] })],
+)
+
+// 1 dòng = 1 lần load trang của app thành công (owner hoặc viewer) — cùng thiết kế với ieltsAccessLogs.
+export const hubAccessLogs = pgTable(
+  'hub_access_logs',
+  {
+    id: text('id').primaryKey(),
+    app: varchar('app', { length: 10 }).notNull(),
+    email: text('email').notNull(), // lowercase
+    userAgent: text('user_agent').default('').notNull(),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => [index('hub_access_logs_app_email_idx').on(t.app, t.email)],
+)
+
 // Từ vựng — danh sách có cấu trúc, khác document tự do của các trang kỹ năng.
 export const ieltsVocab = pgTable('ielts_vocab', {
   id: text('id').primaryKey(),

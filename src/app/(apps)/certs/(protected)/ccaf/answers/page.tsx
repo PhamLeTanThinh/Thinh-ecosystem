@@ -6,7 +6,7 @@ import { CCAF_ANSWER_GROUPS } from '@/lib/certs/ccaf-answer-groups'
 export const metadata = { title: 'CCAF — Theo đáp án giống nhau' }
 
 export default async function CcafAnswersPage() {
-  await assertCertVisible('ccaf')
+  await assertCertVisible('ccaf', 'answers')
   const grouped = CCAF_ANSWER_GROUPS.reduce((n, g) => n + g.questionIds.length, 0)
   return (
     <div className="mx-auto w-[80%] min-w-0 py-8 max-lg:w-full max-lg:px-6">

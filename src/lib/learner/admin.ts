@@ -1,8 +1,10 @@
 import { and, count, eq, isNotNull, isNull, max, ne, sql, sum } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles, learnerVisits, certGrants } from '@/db/schema'
+import { certAttempts, certProgress, chineseCards, chineseDecks, chineseProgress, chineseSettings, koreanCards, koreanProgress, koreanSettings, learnerProfiles, learnerVisits, certGrants, certViews, certUnlockRequests } from '@/db/schema'
 import { hasLearnerData, isLearnerIdTaken, isRegistered } from '@/lib/learner/registry'
 import { LEARNER_APPS, type LearnerApp } from '@/lib/learner/visits'
+import { getCertViewStats } from '@/lib/certs/views'
+import type { CertViewStat } from '@/lib/certs/viewTypes'
 
 // Quản lý hồ sơ học (Chinese + Korean dùng chung 1 hồ sơ) cho trang /admin — xem lib/learner/identity.ts.
 
@@ -25,6 +27,8 @@ export async function moveLearnerData(tx: Tx, oldId: string, newId: string) {
   await tx.update(learnerVisits).set({ learnerId: newId }).where(eq(learnerVisits.learnerId, oldId))
   // Quyền xem cert riêng của hồ sơ (lib/certs/visibility.ts) đi theo tên mới.
   await tx.update(certGrants).set({ subject: `learner:${newId}` }).where(eq(certGrants.subject, `learner:${oldId}`))
+  await tx.update(certViews).set({ subject: `learner:${newId}` }).where(eq(certViews.subject, `learner:${oldId}`))
+  await tx.update(certUnlockRequests).set({ subject: `learner:${newId}` }).where(eq(certUnlockRequests.subject, `learner:${oldId}`))
 }
 
 // Thống kê học 1 app (Chinese / Korean): reviewed = số thẻ đã có tiến độ; learned / wrongNow = số thẻ lần gần nhất
@@ -69,6 +73,7 @@ export interface LearnerSummary {
   korean: AppStats
   certs: CertStats
   visits: Record<LearnerApp, AppVisits>
+  certViews: CertViewStat[] // cert nào đã mở, mỗi cert bao nhiêu lần (lib/certs/views.ts)
 }
 
 // Tổng số thẻ gốc (dùng chung) của mỗi app — để tính % đã thuộc của từng hồ sơ.
@@ -89,12 +94,13 @@ const emptySummary = (id: string): LearnerSummary => ({
   korean: emptyApp(),
   certs: { questions: 0, correct: 0, wrong: 0, attempts: 0, avgScore: null, certs: [], lastAt: null },
   visits: { chinese: { count: 0, lastAt: null }, korean: { count: 0, lastAt: null }, certs: { count: 0, lastAt: null } },
+  certViews: [],
 })
 
 // Gộp mọi hồ sơ: những tên đã đăng ký (kể cả chưa học gì) + những mã chỉ xuất hiện trong bảng dữ liệu. Mới
 // hoạt động gần nhất lên đầu; hồ sơ chưa học gì xếp theo ngày tạo.
 export async function listLearners(): Promise<{ learners: LearnerSummary[]; totals: LearnerTotals }> {
-  const [profiles, cProg, kProg, cDecks, cSettings, kSettings, cCards, kCards, certProg, certAtt, cTotal, kTotal, visits] = await Promise.all([
+  const [profiles, cProg, kProg, cDecks, cSettings, kSettings, cCards, kCards, certProg, certAtt, cTotal, kTotal, visits, certViewStats] = await Promise.all([
     db.select().from(learnerProfiles),
     db
       .select({
@@ -153,6 +159,7 @@ export async function listLearners(): Promise<{ learners: LearnerSummary[]; tota
       .select({ id: learnerVisits.learnerId, app: learnerVisits.app, n: count(), last: max(learnerVisits.createdAt) })
       .from(learnerVisits)
       .groupBy(learnerVisits.learnerId, learnerVisits.app),
+    getCertViewStats(),
   ])
 
   const byId = new Map<string, LearnerSummary>()
@@ -206,6 +213,12 @@ export async function listLearners(): Promise<{ learners: LearnerSummary[]; tota
     s.visits[r.app as LearnerApp] = { count: r.n, lastAt: r.last?.toISOString() ?? null }
     touch(s, r.last)
   }
+  for (const [subject, views] of certViewStats) {
+    if (!subject.startsWith('learner:')) continue
+    const s = get(subject.slice('learner:'.length))
+    s.certViews = views
+    for (const v of views) touch(s, v.lastAt ? new Date(v.lastAt) : null)
+  }
   for (const r of cDecks) get(r.id).chinese.decks = r.n
   for (const r of cSettings) get(r.id)
   for (const r of kSettings) get(r.id)
@@ -236,6 +249,8 @@ export async function deleteLearner(id: string): Promise<void> {
     await tx.delete(certAttempts).where(eq(certAttempts.learnerId, id))
     await tx.delete(learnerVisits).where(eq(learnerVisits.learnerId, id))
     await tx.delete(certGrants).where(eq(certGrants.subject, `learner:${id}`))
+    await tx.delete(certViews).where(eq(certViews.subject, `learner:${id}`))
+    await tx.delete(certUnlockRequests).where(eq(certUnlockRequests.subject, `learner:${id}`))
     await tx.delete(learnerProfiles).where(eq(learnerProfiles.id, id))
   })
 }

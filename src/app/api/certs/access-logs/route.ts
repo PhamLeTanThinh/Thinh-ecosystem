@@ -4,6 +4,9 @@ import { db } from '@/lib/db'
 import { certAccessLogs } from '@/db/schema'
 import { requireOwnerApi } from '@/lib/certs/access'
 import { detectBrowser } from '@/lib/ielts/userAgent'
+import { emailSubject } from '@/lib/certs/visibility'
+import { getCertViewStats } from '@/lib/certs/views'
+import type { CertViewStat } from '@/lib/certs/viewTypes'
 
 // Gom theo email — song song với GET /api/ielts/access-logs. Số lượng log của 1 app cá nhân nhỏ nên gom
 // bằng JS cho đơn giản, không cần GROUP BY SQL.
@@ -11,9 +14,10 @@ export async function GET() {
   const forbidden = await requireOwnerApi()
   if (forbidden) return forbidden
 
-  const rows = await db.select().from(certAccessLogs).orderBy(desc(certAccessLogs.createdAt))
+  const [rows, viewStats] = await Promise.all([db.select().from(certAccessLogs).orderBy(desc(certAccessLogs.createdAt)), getCertViewStats()])
 
-  const byEmail = new Map<string, { email: string; count: number; lastSeenAt: string; lastBrowser: string }>()
+  // certViews = cert nào người này đã mở (lib/certs/views.ts) — lượt vào ở trên chỉ đếm lần mở app Certs.
+  const byEmail = new Map<string, { email: string; count: number; lastSeenAt: string; lastBrowser: string; certViews: CertViewStat[] }>()
   for (const row of rows) {
     const existing = byEmail.get(row.email)
     if (existing) {
@@ -24,6 +28,7 @@ export async function GET() {
         count: 1,
         lastSeenAt: row.createdAt.toISOString(),
         lastBrowser: detectBrowser(row.userAgent),
+        certViews: viewStats.get(emailSubject(row.email)) ?? [],
       })
     }
   }

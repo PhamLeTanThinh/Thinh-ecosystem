@@ -1,11 +1,15 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAdminAction, type ActionResult } from '@/components/admin/AdminDialog'
 import { CertsGrantsPanel } from '@/components/admin/CertsGrantsPanel'
+import { CertUnlockRequestsPanel } from '@/components/admin/CertUnlockRequestsPanel'
+import { useLearnerActions } from '@/components/admin/useLearnerActions'
 import { formatAdminDate } from '@/components/admin/format'
 import { Pager, usePagination } from '@/components/admin/Pagination'
 import { MascotEm } from '@/components/mascot/MascotDialog'
+import { CertViewsList } from '@/components/admin/CertViews'
+import type { CertViewStat } from '@/lib/certs/viewTypes'
 import type { CertsProfileStat } from '@/lib/certs/profiles'
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -26,6 +30,7 @@ interface AccessStat {
   count: number
   lastSeenAt: string
   lastBrowser: string
+  certViews: CertViewStat[]
 }
 
 
@@ -42,6 +47,8 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
   const [loadError, setLoadError] = useState<string | null>(null)
   // null = đang tải — công tắc khoá lại tới khi biết chế độ hiện tại.
   const [accessMode, setAccessMode] = useState<'verified' | 'profile' | null>(null)
+  // Tăng lên mỗi lần duyệt 1 yêu cầu mở cert → dựng lại bảng quyền xem để tải quyền mới.
+  const [grantsVersion, setGrantsVersion] = useState(0)
 
   useEffect(() => {
     fetch('/api/certs/settings')
@@ -297,11 +304,11 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
         </p>
       </div>
 
-      {accessMode && <CertsGrantsPanel mode={accessMode} invites={invites} />}
+      <CertUnlockRequestsPanel onChanged={() => setGrantsVersion((v) => v + 1)} />
 
-      {accessMode === 'profile' ? (
-        <CertsProfilesPanel />
-      ) : (
+      {accessMode && <CertsGrantsPanel key={grantsVersion} mode={accessMode} invites={invites} />}
+
+      {accessMode === 'verified' && (
         <>
           <div className="adm-panel">
             <h2 className="adm-panel-title">Mời người xem qua email</h2>
@@ -381,13 +388,14 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
                       <th>Lượt vào</th>
                       <th>Lần cuối</th>
                       <th>Trình duyệt</th>
+                      <th>Cert đã xem</th>
                       <th className="adm-col-actions">Hành động</th>
                     </tr>
                   </thead>
                   <tbody>
                     {invites.length === 0 && (
                       <tr className="adm-empty-row">
-                        <td colSpan={7}>Chưa mời ai.</td>
+                        <td colSpan={8}>Chưa mời ai.</td>
                       </tr>
                     )}
                     {invitePage.items.map((v) => {
@@ -404,6 +412,9 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
                           <td>{stat ? stat.count : '–'}</td>
                           <td>{stat ? formatAdminDate(stat.lastSeenAt) : '–'}</td>
                           <td>{stat ? stat.lastBrowser : '–'}</td>
+                          <td>
+                            <CertViewsList views={stat?.certViews ?? []} />
+                          </td>
                           <td className="adm-col-actions">
                             <div className="adm-actions">
                               <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => toggleRevoke(v.email, !v.revokedAt)}>
@@ -431,33 +442,67 @@ export function CertsAccessAdmin({ ownerEmail }: { ownerEmail: string | null }) 
           </div>
         </>
       )}
+
+      {/* Tiến độ Certs theo hồ sơ học hiện ở CẢ 2 chế độ: luyện đề luôn lưu theo hồ sơ (kể cả người vào bằng email), và
+          tab "Hồ sơ học · 中文 · 한국어" không còn hiện phần Certs nữa. */}
+      {accessMode && <CertsProfilesPanel onChanged={() => setGrantsVersion((v) => v + 1)} />}
     </>
   )
 }
 
-// Chế độ "chỉ cần hồ sơ": theo dõi người học theo hồ sơ (tên) thay vì email — lượt vào Certs + tiến độ luyện đề.
-// Đổi tên / xoá hồ sơ vẫn làm ở tab "Hồ sơ học".
-function CertsProfilesPanel() {
+// Theo dõi người học Certs theo hồ sơ học (tên) — lượt vào Certs, cert đã xem, tiến độ luyện đề — kèm đổi tên / xoá
+// hồ sơ (useLearnerActions, dùng chung với tab 中文 · 한국어). onChanged: đổi tên / xoá xong thì bảng quyền xem cert
+// (hàng theo hồ sơ) cũng phải tải lại.
+function CertsProfilesPanel({ onChanged }: { onChanged: () => void }) {
   const [rows, setRows] = useState<CertsProfileStat[] | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
-  const page = usePagination(rows ?? [], 10)
+  // API trả MỌI hồ sơ (dùng chung với Trung/Hàn); mặc định chỉ hiện ai đã từng dùng Certs.
+  const [showAll, setShowAll] = useState(false)
+  const usedCerts = (p: CertsProfileStat) => p.visits + p.questions + p.attempts + p.certViews.length > 0
+  // Học gần nhất lên đầu; chưa học thì xuống dưới, xếp theo lần vào Certs gần nhất.
+  const shown = (rows ?? [])
+    .filter((p) => showAll || usedCerts(p))
+    .sort((a, b) => (b.lastStudyAt ?? '').localeCompare(a.lastStudyAt ?? '') || (b.lastSeenAt ?? '').localeCompare(a.lastSeenAt ?? ''))
+  const page = usePagination(shown, 10, String(showAll))
+
+  const load = useCallback(
+    () =>
+      fetch('/api/certs/profiles')
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`profiles: HTTP ${r.status}`))))
+        .then((data) => setRows(Array.isArray(data) ? data : []))
+        .catch((err) => {
+          console.error('[admin] tải hồ sơ học Certs thất bại:', err)
+          setLoadError('Không tải được danh sách hồ sơ, thử tải lại trang nhé.')
+        }),
+    [],
+  )
 
   useEffect(() => {
-    fetch('/api/certs/profiles')
-      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`profiles: HTTP ${r.status}`))))
-      .then((data) => setRows(Array.isArray(data) ? data : []))
-      .catch((err) => {
-        console.error('[admin] tải hồ sơ học Certs thất bại:', err)
-        setLoadError('Không tải được danh sách hồ sơ, thử tải lại trang nhé.')
-      })
-  }, [])
+    load()
+  }, [load])
+
+  const { rename, remove } = useLearnerActions({
+    onRenamed: async () => {
+      await load()
+      onChanged()
+    },
+    onRemoved: (id) => {
+      setRows((v) => (v ? v.filter((x) => x.id !== id) : v))
+      onChanged()
+    },
+  })
 
   return (
     <div className="adm-panel">
       <div className="adm-toolbar">
         <h2 className="adm-panel-title">
-          Hồ sơ học Certs <span className="adm-count">{rows?.length ?? 0}</span>
+          Hồ sơ học Certs <span className="adm-count">{shown.length}</span>
         </h2>
+        {rows && (
+          <label className="adm-note">
+            <input type="checkbox" checked={showAll} onChange={(e) => setShowAll(e.target.checked)} /> Hiện cả hồ sơ chưa vào Certs ({rows.filter((p) => !usedCerts(p)).length})
+          </label>
+        )}
       </div>
 
       {!rows && !loadError && <p className="adm-note">Đang tải…</p>}
@@ -465,10 +510,10 @@ function CertsProfilesPanel() {
 
       {rows && (
         <div className="adm-table-wrap">
-          <table className="adm-table">
+          <table className="adm-table adm-table-wide">
             <thead>
               <tr>
-                <th>Hồ sơ</th>
+                <th className="adm-col-who">Hồ sơ</th>
                 <th>Lượt vào</th>
                 <th>Lần cuối vào</th>
                 <th>Trình duyệt</th>
@@ -476,22 +521,24 @@ function CertsProfilesPanel() {
                 <th>Tỉ lệ đúng</th>
                 <th>Lượt thi</th>
                 <th>Chứng chỉ</th>
+                <th>Cert đã xem</th>
                 <th>Học gần nhất</th>
+                <th className="adm-col-actions">Hành động</th>
               </tr>
             </thead>
             <tbody>
-              {rows.length === 0 && (
+              {shown.length === 0 && (
                 <tr className="adm-empty-row">
-                  <td colSpan={9}>Chưa có hồ sơ học nào.</td>
+                  <td colSpan={11}>Chưa có hồ sơ học nào.</td>
                 </tr>
               )}
               {page.items.map((p) => {
                 const answered = p.correct + p.wrong
                 return (
                   <tr key={p.id}>
-                    <td className="adm-cell-main">
-                      {p.displayName || p.id}
-                      {p.displayName && p.displayName !== p.id && <span className="adm-note"> · {p.id}</span>}
+                    <td className="adm-col-who">
+                      <div className="adm-cell-main">{p.displayName || p.id}</div>
+                      {p.displayName && p.displayName !== p.id && <div className="adm-cell-sub">{p.id}</div>}
                     </td>
                     <td>{p.visits || '–'}</td>
                     <td>{p.lastSeenAt ? formatAdminDate(p.lastSeenAt) : '–'}</td>
@@ -500,7 +547,20 @@ function CertsProfilesPanel() {
                     <td>{answered ? `${Math.round((p.correct / answered) * 100)}%` : '–'}</td>
                     <td>{p.attempts ? `${p.attempts}${p.avgScore != null ? ` · TB ${p.avgScore}%` : ''}` : '–'}</td>
                     <td>{p.certs.length ? p.certs.join(', ').toUpperCase() : '–'}</td>
+                    <td>
+                      <CertViewsList views={p.certViews} />
+                    </td>
                     <td>{p.lastStudyAt ? formatAdminDate(p.lastStudyAt) : '–'}</td>
+                    <td className="adm-col-actions">
+                      <div className="adm-actions">
+                        <button type="button" className="adm-btn adm-btn-outline adm-btn-sm" onClick={() => rename(p)}>
+                          Đổi tên
+                        </button>
+                        <button type="button" className="adm-btn adm-btn-outline adm-danger adm-btn-sm" onClick={() => remove(p)}>
+                          Xoá
+                        </button>
+                      </div>
+                    </td>
                   </tr>
                 )
               })}
@@ -509,7 +569,7 @@ function CertsProfilesPanel() {
           <Pager p={page} unit="hồ sơ" />
         </div>
       )}
-      <p className="adm-note">Lượt vào chỉ được đếm từ lúc bật chế độ hồ sơ; tiến độ luyện đề thì tính cả trước đó.</p>
+      <p className="adm-note">Lượt vào và cert đã xem chỉ được đếm từ khi có tính năng theo dõi; tiến độ luyện đề thì tính cả trước đó. Đổi tên / xoá hồ sơ ở đây tác động cả tiến độ Tiếng Trung, Tiếng Hàn của hồ sơ đó.</p>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { PRIVATE_PREFIXES } from './src/lib/security/crawl'
 
 // URL public của bucket R2 — không phải bí mật nên có giá trị mặc định (bản build trên Vercel vẫn chuyển hướng đúng
 // kể cả khi chưa khai báo biến). Danh sách thư mục phải khớp R2_DIRS trong scripts/sync-public-to-r2.mjs.
@@ -20,6 +21,16 @@ const nextConfig: NextConfig = {
       // dẫn /…; trình duyệt được chuyển thẳng sang R2 (không qua function, không tốn băng thông Vercel).
       ...R2_DIRS.map((dir) => ({ source: `/${dir}/:path*`, destination: `${R2_PUBLIC_URL}/${dir}/:path*`, permanent: true })),
     ]
+  },
+  // Lớp 2 chống crawl (xem src/lib/security/crawl.ts): mọi trang app + API báo cho bot không index, không lưu bản sao,
+  // không dùng nội dung / hình ảnh để huấn luyện AI (noai, noimageai).
+  async headers() {
+    return PRIVATE_PREFIXES.flatMap((prefix) =>
+      [prefix, `${prefix}/:path*`].map((source) => ({
+        source,
+        headers: [{ key: 'X-Robots-Tag', value: 'noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai' }],
+      })),
+    )
   },
   images: {
     // Cho phép load ảnh từ R2 public URL sau này

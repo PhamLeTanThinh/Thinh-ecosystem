@@ -10,7 +10,7 @@ const questions = data as unknown as CertQuestion[]
 export const metadata = { title: 'CCAF — Ôn mẹo nhanh' }
 
 export default async function CcafTipsPage() {
-  await assertCertVisible('ccaf')
+  await assertCertVisible('ccaf', 'tips')
   return (
     <div className="mx-auto w-[80%] min-w-0 py-8 max-lg:w-full max-lg:px-6">
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">

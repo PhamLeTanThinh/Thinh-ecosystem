@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
 
   const report = dry ? await findInactive() : await purgeInactive()
   if (!dry) {
-    console.log(`[cleanup-inactive] xoá ${report.ielts.length} IELTS, ${report.certs.length} Certs, ${report.learners.length} hồ sơ học`, report)
+    console.log(`[cleanup-inactive] xoá ${report.ielts.length} IELTS, ${report.certs.length} Certs, ${report.hub.length} PM/IT, ${report.learners.length} hồ sơ học`, report)
   }
   return NextResponse.json({ dry, ...report })
 }

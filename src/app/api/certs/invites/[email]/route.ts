@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { eq } from 'drizzle-orm'
 import { db } from '@/lib/db'
-import { certGrants, certInvites } from '@/db/schema'
+import { certGrants, certInvites, certUnlockRequests, certViews } from '@/db/schema'
 import { requireOwnerApi } from '@/lib/certs/access'
 import { emailSubject } from '@/lib/certs/visibility'
 
@@ -28,5 +28,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
   await db.delete(certInvites).where(eq(certInvites.email, normalized))
   // Quyền xem cert riêng của email này (lib/certs/visibility.ts) cũng bỏ theo.
   await db.delete(certGrants).where(eq(certGrants.subject, emailSubject(normalized)))
+  await db.delete(certViews).where(eq(certViews.subject, emailSubject(normalized)))
+  await db.delete(certUnlockRequests).where(eq(certUnlockRequests.subject, emailSubject(normalized)))
   return NextResponse.json({ ok: true })
 }

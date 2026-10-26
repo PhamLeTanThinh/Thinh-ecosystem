@@ -7,6 +7,9 @@ import { CERT_CATALOG } from '@/lib/certs/catalog'
 import questions from '@/lib/certs/ccaf-questions.json'
 import { CCAF_TOPICS } from '@/lib/certs/ccaf-theory'
 import { getVisibleCertIds } from '@/lib/certs/visibility'
+import { getCertSubject } from '@/lib/certs/subject'
+import { getUnlockStatuses } from '@/lib/certs/unlock'
+import { UnlockRequestButton } from '@/components/certs/UnlockRequestButton'
 
 // Màu nhấn lần lượt cho các cert trong catalog (sau CCAF) — lấy từ bảng Midnight Velvet của certs.css cho đồng bộ.
 const CATALOG_ACCENTS = ['#1f2a5c', '#2f6b57', '#4a143b', '#9a7433', '#3b5bdb']
@@ -44,9 +47,13 @@ const CERTS = [
 export default async function CertsPage() {
   const access = await getCertsAccess()
   if (access.mode === 'denied') redirect('/certs/login')
-  // Chỉ hiện cert người này được xem — chủ trang chỉnh ở tab Certs của /admin (lib/certs/visibility.ts).
+  // Hiện MỌI cert; cert chưa được mở (lib/certs/visibility.ts) thì khoá, kèm nút xin quyền (lib/certs/unlock.ts).
+  // Cert được mở xếp trước. Vào thẳng link của cert bị khoá vẫn 404 (assertCertVisible).
   const visible = await getVisibleCertIds(access)
-  const certs = visible === 'all' ? CERTS : CERTS.filter((c) => visible.has(c.id))
+  const subject = await getCertSubject(access)
+  const statuses = subject ? await getUnlockStatuses(subject) : {}
+  const isOpen = (id: string) => visible === 'all' || visible.has(id)
+  const certs = [...CERTS.filter((c) => isOpen(c.id)), ...CERTS.filter((c) => !isOpen(c.id))]
   return (
     <div className="w-full px-6 py-8 md:px-10">
       <AppBreadcrumb app="/certs" className="mb-6" />
@@ -55,14 +62,16 @@ export default async function CertsPage() {
       <p className="mt-1 text-sm text-muted">Tổng hợp đề thi các chứng chỉ.</p>
 
       <div className="ct-grid mt-8">
-        {certs.length === 0 && <p className="text-sm text-muted">Chưa có chứng chỉ nào được mở cho bạn.</p>}
         {certs.map((cert, i) => (
-          <div key={cert.title} className="ct-card" style={{ '--acc': cert.accent, '--i': i } as CSSProperties}>
+          <div key={cert.title} className={`ct-card${isOpen(cert.id) ? '' : ' ct-card--locked'}`} style={{ '--acc': cert.accent, '--i': i } as CSSProperties}>
             <span className="ct-card-glyph" aria-hidden>
               {cert.title}
             </span>
 
-            <span className="ct-card-code">{cert.title}</span>
+            <span className="ct-card-code">
+              {cert.title}
+              {!isOpen(cert.id) && <span className="ct-lock-badge">🔒 Cần xin quyền</span>}
+            </span>
             <h2 className="ct-card-title">{cert.subtitle}</h2>
             <p className="ct-card-desc">{cert.description}</p>
 
@@ -74,18 +83,22 @@ export default async function CertsPage() {
               ))}
             </div>
 
-            <div className={`ct-card-actions${cert.actions.length > 1 ? ' ct-card-actions--2' : ''}`}>
-              {cert.actions.map((a) => (
-                <Link key={a.href} href={a.href} className={`ct-action${a.primary ? ' ct-action--primary' : ''}`}>
-                  <span className="ct-action-icon">{a.icon}</span>
-                  <span className="ct-action-label">{a.label}</span>
-                  <span className="ct-action-meta">{a.meta}</span>
-                  <span className="ct-action-go">
-                    Vào học <span aria-hidden>→</span>
-                  </span>
-                </Link>
-              ))}
-            </div>
+            {!isOpen(cert.id) ? (
+              <UnlockRequestButton certId={cert.id} code={cert.title} initial={statuses[cert.id] ?? null} />
+            ) : (
+              <div className={`ct-card-actions${cert.actions.length > 1 ? ' ct-card-actions--2' : ''}`}>
+                {cert.actions.map((a) => (
+                  <Link key={a.href} href={a.href} className={`ct-action${a.primary ? ' ct-action--primary' : ''}`}>
+                    <span className="ct-action-icon">{a.icon}</span>
+                    <span className="ct-action-label">{a.label}</span>
+                    <span className="ct-action-meta">{a.meta}</span>
+                    <span className="ct-action-go">
+                      Vào học <span aria-hidden>→</span>
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>

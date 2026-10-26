@@ -117,7 +117,7 @@ function renderMail(l: MailLayout): string {
 const em = (s: string) => `<span style="color:${FUR};font-weight:700;">${s}</span>`
 
 // Nội dung riêng theo từng đích đến (kind) — cùng khung renderMail, chỉ đổi lời thoại của Diên và tên app.
-// 'ielts'/'certs' xưng hô "anh chị" (người xem), 'admin' xưng hô "ông chủ" (chủ trang).
+// 'ielts'/'certs'/'pm'/'it' xưng hô "anh chị" (người xem), 'admin' xưng hô "ông chủ" (chủ trang).
 const MAGIC_LINK_COPY: Record<MagicLinkKind, { preheader: string; bubbleHtml: string; bodyHtml: string; ctaLabel: string; footerHtml: string }> = {
   ielts: {
     preheader: 'Bấm vào link để vào IELTS Hub — link có hiệu lực trong 30 phút nha!',
@@ -131,6 +131,20 @@ const MAGIC_LINK_COPY: Record<MagicLinkKind, { preheader: string; bubbleHtml: st
     bubbleHtml: `Xin chào, em là ${em('Diên')}!<br>Link đăng nhập Certs Hub đây nè!`,
     bodyHtml: 'Anh chị bấm nút bên dưới để vào <strong>Certs Hub</strong> nha. Vào xong em nhớ anh chị 30 ngày, mỗi lần ghé lại em gia hạn thêm, nên lần sau cứ vào thẳng trang là được!',
     ctaLabel: 'Vào Certs Hub nè',
+    footerHtml: 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì anh chị xin link mới nhé.<br>Nếu anh chị không yêu cầu email này thì cứ bỏ qua, em không giận đâu 🐾',
+  },
+  pm: {
+    preheader: 'Bấm vào link để vào Project Manager — link có hiệu lực trong 30 phút nha!',
+    bubbleHtml: `Xin chào, em là ${em('Diên')}!<br>Link đăng nhập Project Manager đây nè!`,
+    bodyHtml: 'Anh chị bấm nút bên dưới để vào <strong>Project Manager</strong> nha. Vào xong em nhớ anh chị 30 ngày, mỗi lần ghé lại em gia hạn thêm, nên lần sau cứ vào thẳng trang là được!',
+    ctaLabel: 'Vào Project Manager nè',
+    footerHtml: 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì anh chị xin link mới nhé.<br>Nếu anh chị không yêu cầu email này thì cứ bỏ qua, em không giận đâu 🐾',
+  },
+  it: {
+    preheader: 'Bấm vào link để vào IT Hub — link có hiệu lực trong 30 phút nha!',
+    bubbleHtml: `Xin chào, em là ${em('Diên')}!<br>Link đăng nhập IT Hub đây nè!`,
+    bodyHtml: 'Anh chị bấm nút bên dưới để vào <strong>IT Hub</strong> nha. Vào xong em nhớ anh chị 30 ngày, mỗi lần ghé lại em gia hạn thêm, nên lần sau cứ vào thẳng trang là được!',
+    ctaLabel: 'Vào IT Hub nè',
     footerHtml: 'Link có hiệu lực trong <strong>30 phút</strong>, hết hạn thì anh chị xin link mới nhé.<br>Nếu anh chị không yêu cầu email này thì cứ bỏ qua, em không giận đâu 🐾',
   },
   admin: {
@@ -276,6 +290,20 @@ export async function sendCertsAccessRequestNotice(to: string, requesterEmail: s
     html: renderAccessRequestHtml(requesterEmail, adminUrl, 'Certs Hub', mascot !== null),
     mascot,
     offlineNote: `${requesterEmail} xin quyền truy cập Certs, duyệt tại: ${adminUrl}`,
+  })
+}
+
+// Bản dùng chung cho các app của lib/hub (Project Manager, IT Hub — lib/hub/invite.ts): appLabel vừa là tên app
+// trong thư vừa nằm trong tiêu đề để chủ phân biệt yêu cầu của app nào.
+export async function sendAppAccessRequestNotice(to: string, requesterEmail: string, adminUrl: string, appLabel: string): Promise<boolean> {
+  const mascot = await loadMascotAttachment(new URL(adminUrl).origin)
+  return deliver({
+    kind: `báo yêu cầu truy cập ${appLabel}`,
+    to,
+    subject: `Có người xin quyền truy cập ${appLabel}`,
+    html: renderAccessRequestHtml(requesterEmail, adminUrl, appLabel, mascot !== null),
+    mascot,
+    offlineNote: `${requesterEmail} xin quyền truy cập ${appLabel}, duyệt tại: ${adminUrl}`,
   })
 }
 

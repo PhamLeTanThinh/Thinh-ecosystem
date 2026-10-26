@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ cert: str
 }
 
 export default async function CertAnswersPage({ params }: { params: Promise<{ cert: string }> }) {
-  await assertCertVisible((await params).cert)
+  await assertCertVisible((await params).cert, 'answers')
   const cert = findCert((await params).cert)
   if (!cert?.answerGroups) notFound()
   const groups = cert.answerGroups

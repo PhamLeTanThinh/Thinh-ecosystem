@@ -14,7 +14,7 @@ export const metadata = { title: 'CCAF — Luyện đề' }
 const theoryByQuestion = topicsByQuestion()
 
 export default async function CcafPage({ searchParams }: { searchParams: Promise<{ topic?: string | string[]; answer?: string | string[]; q?: string | string[] }> }) {
-  await assertCertVisible('ccaf')
+  await assertCertVisible('ccaf', 'practice')
   const params = await searchParams
   const topicParam = params.topic
   const topic = CCAF_TOPICS.find((t) => t.id === (Array.isArray(topicParam) ? topicParam[0] : topicParam))
