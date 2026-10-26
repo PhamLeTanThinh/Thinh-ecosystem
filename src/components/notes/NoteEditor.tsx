@@ -10,6 +10,7 @@ import Highlight from '@tiptap/extension-highlight'
 import TextAlign from '@tiptap/extension-text-align'
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
+import { TableKit } from '@tiptap/extension-table'
 import { NoteToolbar } from './NoteToolbar'
 
 // A pasted image larger than this threshold gets downscaled (aspect ratio kept, JPEG-compressed)
@@ -71,6 +72,9 @@ const editorExtensions = [
   Highlight.configure({ multicolor: true }),
   TextAlign.configure({ types: ['heading', 'paragraph'] }),
   Placeholder.configure({ placeholder: 'Write something…' }),
+  // Without a table schema, ProseMirror flattens pasted <table> HTML into one run of text.
+  // renderWrapper keeps the .tableWrapper div in read mode too, so wide tables scroll inside the note.
+  TableKit.configure({ table: { resizable: true, renderWrapper: true } }),
   Image.configure({
     allowBase64: true,
     resize: { enabled: true, directions: ['bottom-right'], minWidth: 60, minHeight: 60, alwaysPreserveAspectRatio: true },

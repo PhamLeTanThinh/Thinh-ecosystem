@@ -1113,6 +1113,68 @@
   transform: translate(50%, 50%);
 }
 
+.nt-editor-content .tableWrapper {
+  overflow-x: auto;
+  margin: 4px 0;
+}
+
+.nt-editor-content table {
+  border-collapse: collapse;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+}
+
+.nt-editor-content th,
+.nt-editor-content td {
+  position: relative;
+  border: 1px solid var(--color-nt-border);
+  padding: 4px 8px;
+  vertical-align: top;
+  min-width: 40px;
+}
+
+.nt-editor-content th {
+  font-weight: 700;
+  background: var(--color-nt-bg);
+}
+
+.nt-editor-content th p,
+.nt-editor-content td p {
+  margin: 0;
+}
+
+.nt-editor-content code {
+  font-size: 0.9em;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background: var(--color-nt-bg);
+  border: 1px solid var(--color-nt-border);
+}
+
+.nt-editor-content .selectedCell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--color-nt-accent);
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+.nt-editor-content .column-resize-handle {
+  position: absolute;
+  top: 0;
+  right: -2px;
+  bottom: 0;
+  width: 4px;
+  background: var(--color-nt-accent);
+  pointer-events: none;
+}
+
+.nt-editor-content.resize-cursor {
+  cursor: col-resize;
+}
+
 .nt-editor-content p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   color: var(--color-nt-ink-soft);
