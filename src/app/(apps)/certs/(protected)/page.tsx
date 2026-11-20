@@ -32,7 +32,7 @@ const CERTS = [
     id: c.id,
     title: c.code,
     accent: CATALOG_ACCENTS[i % CATALOG_ACCENTS.length],
-    subtitle: `Microsoft ${c.code} — ${c.title}`,
+    subtitle: `${c.vendor ?? 'Microsoft'} ${c.code} — ${c.title}`,
     description: c.description,
     tags: [...c.tags, c.questions.some((q) => q.vn.question) ? 'Song ngữ' : 'Giải thích tiếng Việt'],
     actions: [

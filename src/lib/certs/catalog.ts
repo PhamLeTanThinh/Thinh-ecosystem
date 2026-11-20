@@ -3,9 +3,12 @@ import ab100 from './questions/ab-100.json'
 import ab731 from './questions/ab-731.json'
 import ai103 from './questions/ai-103.json'
 import ai200 from './questions/ai-200.json'
+import ccarp from './questions/ccar-p.json'
 import { AI200_ANSWER_GROUPS } from './ai-200/answer-groups'
 import ai200Contexts from './ai-200/contexts.json'
 import { AI200_DOMAINS } from './ai-200/theory'
+import { CCARP_ANSWER_GROUPS } from './ccar-p/answer-groups'
+import { CCARP_DOMAINS } from './ccar-p/theory'
 import type { AnswerGroup } from './ccaf-answer-groups'
 import type { TheoryDomain } from './ccaf-theory/types'
 
@@ -16,6 +19,8 @@ import type { TheoryDomain } from './ccaf-theory/types'
 export interface CertInfo {
   id: string
   code: string
+  // Hãng cấp chứng chỉ, hiện ở phụ đề card /certs và badge trang luyện đề. Mặc định Microsoft.
+  vendor?: 'Microsoft' | 'Anthropic'
   title: string
   description: string
   tags: string[]
@@ -63,6 +68,18 @@ export const CERT_CATALOG: CertInfo[] = [
     description: 'Chiến lược chuyển đổi AI, Responsible AI và quản trị, Microsoft 365 Copilot, Copilot Studio, Microsoft Foundry, chi phí và cấp phép.',
     tags: ['Chiến lược AI', 'Responsible AI', 'Copilot'],
     questions: ab731 as unknown as CertQuestion[],
+  },
+  {
+    // Đề gốc: study-certificate (scripts/raw_ccarp_data.json, crawl từ examcademy.com) — 126 câu, dịch tiếng Việt.
+    id: 'ccar-p',
+    code: 'CCAR-P',
+    vendor: 'Anthropic',
+    title: 'Claude Certified Architect — Professional',
+    description: 'Chứng chỉ chuyên sâu cho kiến trúc sư triển khai Claude trong doanh nghiệp: thiết kế giải pháp, prompting & context engineering, tích hợp, đánh giá & tối ưu, quản trị an toàn & rủi ro, Claude Code cho team, truyền đạt với stakeholder và quản lý vòng đời.',
+    tags: ['7 domain', 'Governance', 'Claude Code'],
+    questions: ccarp as unknown as CertQuestion[],
+    theory: CCARP_DOMAINS,
+    answerGroups: CCARP_ANSWER_GROUPS,
   },
 ]
 

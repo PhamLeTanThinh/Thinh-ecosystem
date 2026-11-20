@@ -49,7 +49,7 @@ export default async function CertPage({
         <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/10 blur-2xl" />
         <div className="relative flex flex-wrap items-center justify-between gap-4">
           <div className="max-w-2xl">
-            <span className="rounded-pill border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold">Microsoft Certified</span>
+            <span className="rounded-pill border border-gold/30 bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-gold">{cert.vendor ?? 'Microsoft'} Certified</span>
             <h1 className="mt-2 text-2xl font-extrabold leading-tight">{cert.code} — {cert.title}</h1>
             <p className="mt-1 text-sm text-muted">{cert.description}</p>
           </div>
